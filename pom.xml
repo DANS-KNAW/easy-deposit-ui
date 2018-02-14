@@ -154,7 +154,6 @@
                         <jsx>SLASHSTAR_STYLE</jsx>
                         <ts>SLASHSTAR_STYLE</ts>
                         <tsx>SLASHSTAR_STYLE</tsx>
-
                     </mapping>
                 </configuration>
                 <executions>
