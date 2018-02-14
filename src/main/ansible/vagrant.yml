@@ -1,0 +1,22 @@
+- hosts: "test"
+  become: yes
+  tasks:
+
+  - name: Install Apache HTTP Server
+    yum:
+      name: httpd
+
+  - name: Configure the target app for the doc root
+    replace:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: ^DocumentRoot.*$
+      replace: 'DocumentRoot "/var/www/html/easy-deposit-ui"'
+
+  - name: Install RPM
+    shell: yum install -y /vagrant/target/rpm/easy-deposit-ui/RPMS/noarch/*.rpm
+    ignore_errors: yes
+
+  - name: Start web server
+    service:
+      name: httpd
+      state: started
