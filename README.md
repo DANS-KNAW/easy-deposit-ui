@@ -12,7 +12,6 @@ BUILDING FROM SOURCE
 * Maven 3.3.3 or higher
 * NodeJS 8.9.4 or higher
 * NPM 5.6.0 or higher
-* Webpack (`npm install -g webpack`)
 
 **Download the project:**
 
