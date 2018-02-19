@@ -16,6 +16,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const config = require('./config.json');
 
 module.exports = {
     entry: [
@@ -61,6 +62,9 @@ module.exports = {
         new webpack.EnvironmentPlugin([
             'NODE_ENV',
         ]),
+        new webpack.DefinePlugin({
+            __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost)
+        }),
         // insert the bundled JavaScript into this file
         new HtmlWebpackPlugin({
             template: './src/main/html/index.html',
