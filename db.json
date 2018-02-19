@@ -1,0 +1,12 @@
+{
+  "hello": [
+    {
+      "id": "foo",
+      "content": "abc"
+    },
+    {
+      "id": "bar",
+      "content": "def"
+    }
+  ]
+}
