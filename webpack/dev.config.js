@@ -26,6 +26,7 @@ module.exports = merge(baseConfig, {
     // https://github.com/Dans-labs/dariah/blob/master/client/webpack.dev.js#L63-L73
     devServer: {
         inline: true,
+        host: '000.000.00.00',
         port: 8080,
         hot: true,
     },
