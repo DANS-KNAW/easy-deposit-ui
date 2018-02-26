@@ -41,6 +41,15 @@
         <dans-build-resources.version>2.4.0</dans-build-resources.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>DANS</id>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <url>http://maven.dans.knaw.nl/</url>
+        </repository>
+    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>DANS</id>
