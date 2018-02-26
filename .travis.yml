@@ -1,12 +1,16 @@
 language: node_js
 node_js:
   - "8"
+cache:
+  directories:
+    - "node_modules"
+    - "$HOME/.m2/repository"
+    - "$HOME/apache-maven-3.5.0"
 
 # Maven integration: https://gist.github.com/ppatierno/a50396b19c83554fe5f43a71c12c70c6
 before_install:
-  - wget https://archive.apache.org/dist/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.zip
-  - unzip -qq apache-maven-3.5.0-bin.zip
-  - export M2_HOME=$PWD/apache-maven-3.5.0
+  - export M2_HOME=$HOME/apache-maven-3.5.0
+  - if [ ! -d $M2_HOME/bin ]; then curl https://archive.apache.org/dist/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz | tar zxf - -C $HOME; fi
   - export PATH=$M2_HOME/bin:$PATH
 
 install:
