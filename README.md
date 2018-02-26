@@ -1,6 +1,8 @@
 easy-deposit-ui
 ===============
 
+[![Build Status](https://travis-ci.org/DANS-KNAW/easy-deposit-ui.svg?branch=master)](https://travis-ci.org/DANS-KNAW/easy-deposit-ui)
+
 Self-deposit user web-interface.
 
 
