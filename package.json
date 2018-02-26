@@ -4,7 +4,7 @@
   "description": "Self-deposit user web-interface",
   "main": "src/main/typescript/client.tsx",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --hot --config webpack/dev.config.js",
+    "start": "NODE_ENV=development webpack-dev-server --hot --open --config webpack/dev.config.js",
     "build": "NODE_ENV=production webpack --config webpack/prod.config.js",
     "mockserver": "json-server --watch db.json --port 3004"
   },
