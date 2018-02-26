@@ -50,15 +50,6 @@
             <url>http://maven.dans.knaw.nl/</url>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>DANS</id>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <url>http://maven.dans.knaw.nl/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <build>
         <plugins>
@@ -168,6 +159,11 @@
                         <exclude>src/main/ansible/ansible.cfg</exclude>
                         <exclude>**/*.txt</exclude>
                     </excludes>
+                    <includes>
+                        <include>src/</include>
+                        <include>webpack/</include>
+                        <include>pom.xml</include>
+                    </includes>
                     <mapping>
                         <js>SLASHSTAR_STYLE</js>
                         <jsx>SLASHSTAR_STYLE</jsx>
