@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - "8"
 
+# Maven integration: https://gist.github.com/ppatierno/a50396b19c83554fe5f43a71c12c70c6
 before_install:
   - wget https://archive.apache.org/dist/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.zip
   - unzip -qq apache-maven-3.5.0-bin.zip
