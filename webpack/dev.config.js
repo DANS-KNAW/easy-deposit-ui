@@ -26,7 +26,8 @@ module.exports = merge(baseConfig, {
     // https://github.com/Dans-labs/dariah/blob/master/client/webpack.dev.js#L63-L73
     devServer: {
         inline: true,
-        port: 8080,
+        host: '000.000.00.00',
+        port: 3000,
         hot: true,
     },
 
@@ -34,7 +35,6 @@ module.exports = merge(baseConfig, {
         rules: [
             {
                 test: /\.css$/,
-                exclude: /node_modules/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [

@@ -31,7 +31,6 @@ module.exports = merge(baseConfig, {
         rules: [
             {
                 test: /\.css$/,
-                exclude: /node_modules/,
                 use: ExtractTextPlugin.extract([
                     {
                         loader: 'css-loader',
