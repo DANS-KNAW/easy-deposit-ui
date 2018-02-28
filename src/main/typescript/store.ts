@@ -16,6 +16,7 @@
 import {applyMiddleware, createStore} from 'redux'
 import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
+import promiseMiddleware from 'redux-promise-middleware'
 import reducers from './reducers/index'
 
 // import {Action} from 'redux'
@@ -31,11 +32,11 @@ const newStore = () => {
         const composeEnhancers = composeWithDevTools({ predicate })
         return createStore(
             reducers,
-            composeEnhancers(applyMiddleware(thunkMiddleware, createLogger({ predicate }))),
+            composeEnhancers(applyMiddleware(thunkMiddleware, promiseMiddleware(), createLogger({ predicate }))),
         )
     }
     else
-        return createStore(reducers, applyMiddleware(thunkMiddleware))
+        return createStore(reducers, applyMiddleware(thunkMiddleware, promiseMiddleware()))
 }
 
 export default newStore()
