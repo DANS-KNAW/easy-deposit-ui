@@ -20,6 +20,8 @@ import store from "./store"
 import {BrowserRouter, Switch, Route} from "react-router-dom"
 
 import Header from "./components/header/Header"
+import HomePage from "./components/home/HomePage"
+import NotFoundPage from "./components/NotFoundPage"
 import "../resources/css/styling"
 
 ReactDOM.render(
@@ -29,6 +31,8 @@ ReactDOM.render(
                 <Header/>
                 <main role="main" className="container">
                     <Switch>
+                        <Route path="/" component={HomePage} exact/>
+                        <Route component={NotFoundPage}/>
                     </Switch>
                 </main>
             </>
