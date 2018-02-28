@@ -1,14 +1,38 @@
+@import "main.css";
 @import "footer.css";
 
-html {
-    position: relative;
-    min-height: 100%;
-}
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    background: #e6e6e6;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
-main.container {
-    padding: 60px 15px 0;
+#app {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    background: white;
+}
+
+@media (max-width: 767px) {
+    #app {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #app {
+        width: 95%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    #app {
+        width: 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+    #app {
+        width: 1200px;
+    }
 }
