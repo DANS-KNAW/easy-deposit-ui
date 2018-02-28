@@ -19,12 +19,14 @@ import {Provider} from "react-redux"
 import store from "./store"
 import {BrowserRouter, Switch, Route} from "react-router-dom"
 
+import Header from "./components/header/Header"
 import "../resources/css/styling"
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <>
+                <Header/>
                 <main role="main" className="container">
                     <Switch>
                     </Switch>
