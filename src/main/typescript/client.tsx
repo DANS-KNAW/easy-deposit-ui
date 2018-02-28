@@ -22,6 +22,8 @@ import {BrowserRouter, Switch, Route} from "react-router-dom"
 import Header from "./components/header/Header"
 import HomePage from "./components/home/HomePage"
 import NotFoundPage from "./components/NotFoundPage"
+import Footer from "./components/Footer"
+
 import "../resources/css/styling"
 
 ReactDOM.render(
@@ -35,6 +37,7 @@ ReactDOM.render(
                         <Route component={NotFoundPage}/>
                     </Switch>
                 </main>
+                <Footer/>
             </>
         </BrowserRouter>
     </Provider>,
