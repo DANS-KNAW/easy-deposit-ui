@@ -22,7 +22,7 @@ const logo_easy = require("../../../resources/img/header/logo_easy.png")
 // Logo of EASY
 const BrandLogo = () => (
     <Link className="navbar-brand" to="/">
-        <img src={logo_dans} width="100" /*height="30"*/ alt="DANS logo"/>
+        <img src={logo_dans} alt="DANS logo"/>
     </Link>
 )
 
@@ -67,7 +67,7 @@ const Header = () => (
             <Hamburger/>
             <Navigation/>
         </nav>
-        /* TODO not sure if we want to keep this `hr`, but it's useful for developing */
+        {/* TODO not sure if we want to keep this `hr`, but it's useful for developing */}
         <hr/>
     </header>
 )
