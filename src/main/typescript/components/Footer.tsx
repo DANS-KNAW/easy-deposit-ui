@@ -15,11 +15,11 @@
  */
 import * as React from 'react'
 
-const dsa = require("../../resources/img/footer/logo-DSA.jpg")
-const knaw = require("../../resources/img/footer/logo-KNAW.jpg")
-const nestor = require("../../resources/img/footer/logo-NESTOR.jpg")
-const nwo = require("../../resources/img/footer/logo-NWO.jpg")
-const wds = require("../../resources/img/footer/logo-WDS.jpg")
+const dsa = require("../../resources/img/footer/logo_DSA.png")
+const knaw = require("../../resources/img/footer/logo_KNAW.png")
+const nestor = require("../../resources/img/footer/logo_NESTOR.png")
+const nwo = require("../../resources/img/footer/logo_NWO.png")
+const wds = require("../../resources/img/footer/logo_WDS.png")
 
 const Footer = () => (
     <footer className="footer no-print container-fluid">
@@ -103,10 +103,10 @@ const Footer = () => (
                     <p>DANS is an institute of KNAW and NWO</p>
                     <p>
                         <a href="http://www.knaw.nl/en" target="_blank">
-                            <img width="55px" src={knaw}/>
+                            <img src={knaw}/>
                         </a>
                         <a href="http://www.nwo.nl/en" target="_blank">
-                            <img width="55px" src={nwo}/>
+                            <img src={nwo}/>
                         </a>
                     </p>
                     <p className="driven-by-data">Driven by data</p>

@@ -16,12 +16,13 @@
 import * as React from 'react'
 import {Link, NavLink, NavLinkProps} from "react-router-dom"
 
-const logo = require("../../../resources/img/header/dans-logo.jpg")
+const logo_dans = require("../../../resources/img/header/logo_dans.png")
+const logo_easy = require("../../../resources/img/header/logo_easy.png")
 
 // Logo of EASY
 const BrandLogo = () => (
     <Link className="navbar-brand" to="/">
-        <img src={logo} width="100" /*height="30"*/ alt="DANS logo"/>
+        <img src={logo_dans} width="100" /*height="30"*/ alt="DANS logo"/>
     </Link>
 )
 
