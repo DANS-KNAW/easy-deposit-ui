@@ -21,6 +21,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = merge(baseConfig, {
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'eval-source-map',
+    output: {
+        publicPath: "/"
+    },
 
     // TODO devServer with proxies
     // https://github.com/Dans-labs/dariah/blob/master/client/webpack.dev.js#L63-L73
@@ -29,6 +32,7 @@ module.exports = merge(baseConfig, {
         host: '000.000.00.00',
         port: 3000,
         hot: true,
+        historyApiFallback: true
     },
 
     module: {

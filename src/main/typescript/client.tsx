@@ -17,9 +17,20 @@ import * as React from 'react'
 import * as ReactDOM from "react-dom"
 import {Provider} from "react-redux"
 import store from "./store"
-import App from "./components/App"
+import {BrowserRouter, Switch, Route} from "react-router-dom"
+
+import "../resources/css/styling"
 
 ReactDOM.render(
-    <Provider store={store}><App/></Provider>,
-    document.getElementById('app')
+    <Provider store={store}>
+        <BrowserRouter>
+            <>
+                <main role="main" className="container">
+                    <Switch>
+                    </Switch>
+                </main>
+            </>
+        </BrowserRouter>
+    </Provider>,
+    document.getElementById('app'),
 )
