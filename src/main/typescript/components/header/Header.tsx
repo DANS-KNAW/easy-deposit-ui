@@ -46,11 +46,13 @@ const Navigation = () => (
 
 const Header = () => (
     <header>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light">
             <BrandLogo/>
             <Hamburger/>
             <Navigation/>
         </nav>
+        /* TODO not sure if we want to keep this `hr`, but it's useful for developing */
+        <hr/>
     </header>
 )
 
