@@ -15,6 +15,8 @@
  */
 import * as React from 'react'
 import {Link, NavLink, NavLinkProps} from "react-router-dom"
+import {Component} from "react"
+import {SFC} from "react"
 
 const logo_dans = require("../../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../../resources/img/header/logo_easy.png")
@@ -51,11 +53,10 @@ const NavItem = ({to, children, ...rest}: NavLinkProps) => (
     </li>
 )
 
-const Navigation = () => (
+const Navigation: SFC = ({children}) => (
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-            <NavItem to="/" exact>Home</NavItem>
-            <NavItem to="/abc">Link</NavItem>
+            {children}
         </ul>
     </div>
 )
@@ -65,7 +66,10 @@ const Header = () => (
         <nav className="navbar navbar-expand-lg navbar-light">
             <BrandLogo/>
             <Hamburger/>
-            <Navigation/>
+            <Navigation>
+                <NavItem to="/" exact>Home</NavItem>
+                <NavItem to="/abc">Link</NavItem>
+            </Navigation>
         </nav>
         {/* TODO not sure if we want to keep this `hr`, but it's useful for developing */}
         <hr/>
