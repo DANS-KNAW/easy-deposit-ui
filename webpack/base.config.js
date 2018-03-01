@@ -63,7 +63,8 @@ module.exports = {
             'NODE_ENV',
         ]),
         new webpack.DefinePlugin({
-            __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost)
+            __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost),
+            __VERSION__: JSON.stringify(process.env.npm_package_version),
         }),
         // insert the bundled JavaScript into this file
         new HtmlWebpackPlugin({

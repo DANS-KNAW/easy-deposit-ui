@@ -14,5 +14,7 @@
  * limitations under the License.
  */
 declare const __API__: string
+declare const __VERSION__: string
 
 export const baseURL = __API__
+export const projectVersion = __VERSION__
