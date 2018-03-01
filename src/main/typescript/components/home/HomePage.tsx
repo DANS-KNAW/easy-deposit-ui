@@ -15,22 +15,24 @@
  */
 import * as React from 'react'
 import {Component} from 'react'
+import { Link } from "react-router-dom"
 
 interface HomePageProps {
 
 }
 
-interface HomePageState {
-
-}
-
-class HomePage extends Component<HomePageProps, HomePageState> {
+class HomePage extends Component<HomePageProps> {
     constructor(props: HomePageProps) {
         super(props)
     }
 
     render() {
-        return <h1>Home Page</h1>
+        return (
+            <>
+                <h1>Home Page</h1>
+                <Link className="btn btn-dark" to="/deposit-overview">Deposit your data</Link>
+            </>
+        )
     }
 }
 

@@ -21,6 +21,9 @@ import {BrowserRouter, Switch, Route} from "react-router-dom"
 
 import Header from "./components/header/Header"
 import HomePage from "./components/home/HomePage"
+import LoginPage from "./components/login/LoginPage"
+import DepositOverviewPage from "./components/overview/DepositOverviewPage"
+import PrivateRoute from "./components/PrivateRoute"
 import NotFoundPage from "./components/NotFoundPage"
 import Footer from "./components/Footer"
 
@@ -34,6 +37,8 @@ ReactDOM.render(
                 <main role="main" className="container">
                     <Switch>
                         <Route path="/" component={HomePage} exact/>
+                        <Route path="/login" component={LoginPage} exact/>
+                        <PrivateRoute path="/deposit-overview" redirectTo="/login" component={DepositOverviewPage} exact/>
                         <Route component={NotFoundPage}/>
                     </Switch>
                 </main>
