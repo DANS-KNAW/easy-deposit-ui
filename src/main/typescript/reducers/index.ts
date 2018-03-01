@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import {combineReducers} from "redux"
+import { authenticationReducer } from "./authenticationReducer"
 
 export default combineReducers({
-    // TODO add all reducers here
+    user: authenticationReducer,
 })
