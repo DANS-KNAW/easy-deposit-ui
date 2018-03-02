@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {UserDetails, empty as emptyUser} from "./UserDetails"
+import { UserDetails, empty as emptyUser } from "./UserDetails"
 
 export interface AppState {
     user: UserDetails
 }
 
 export const empty = {
-    user: emptyUser
+    user: emptyUser,
 }

@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from 'react'
-import {projectVersion} from "../lib/config"
+import * as React from "react"
+import { projectVersion } from "../lib/config"
 
 const dsa = require("../../resources/img/footer/logo_DSA.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
@@ -40,7 +40,7 @@ const Footer = () => (
                     <li>
                         <a title="View how to contact"
                            href="http://dans.knaw.nl/en/contact"
-                           target="_blank">More  ›››</a>
+                           target="_blank">More ›››</a>
                     </li>
                 </ul>
             </div>

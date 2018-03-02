@@ -29,7 +29,7 @@ interface NavBarButton {
     dataTarget: string
 }
 
-const NavBarButton = ({dataTarget}: NavBarButton) => (
+const NavBarButton = ({ dataTarget }: NavBarButton) => (
     <button className="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -41,14 +41,14 @@ const NavBarButton = ({dataTarget}: NavBarButton) => (
     </button>
 )
 
-const NavBarLink = ({to, title, children, className, ...rest}: NavLinkProps) => (
+const NavBarLink = ({ to, title, children, className, ...rest }: NavLinkProps) => (
     <Link {...rest}
-             className={`nav-link ${className || ""}`}
-             to={to}
-             title={title}>{children}</Link>
+          className={`nav-link ${className || ""}`}
+          to={to}
+          title={title}>{children}</Link>
 )
 
-const NavBar: SFC = ({children}) => (
+const NavBar: SFC = ({ children }) => (
     <nav className="navbar navbar-expand-lg navbar-light admin-nav" role="navigation">
         <a className="navbar-brand" href="#"/> {/* this one is here to move the button to the right */}
         <NavBarButton dataTarget="navbarSupportedContent"/>

@@ -4,5 +4,5 @@ export interface UserDetails {
 }
 
 export const empty = {
-    isAuthenticated: false
+    isAuthenticated: false,
 }
