@@ -44,7 +44,7 @@ const Footer = () => (
                     </li>
                 </ul>
             </div>
-            <div className="col-6 col-sm-2 col-md-2 col-lg-2">
+            <div className="col-6 col-sm-3 col-md-2 col-lg-2">
                 <ul className="social">
                     <li>
                         <a href="http://dans.knaw.nl/en/@@dans_mailchimp_subscribe" target="_blank">
