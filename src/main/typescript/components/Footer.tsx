@@ -23,22 +23,28 @@ const nwo = require("../../resources/img/footer/logo_NWO.png")
 const wds = require("../../resources/img/footer/logo_WDS.png")
 
 const Footer = () => (
-    <footer className="footer no-print container-fluid">
+    <footer className="no-print container-fluid">
         <div className="row">
-            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-6">
+            <div className="col-12 col-sm-12 col-md-3 col-lg-2">
                 <div className="h1">Contact</div>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-6 col-sm-3 col-md-3 col-lg-2">
                 <ul className="contact">
                     <li>Anna van Saksenlaan 51</li>
                     <li>2593 HW Den Haag</li>
-                    <li><a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a></li>
-                    <li><a className="external more"
-                           title="View how to contact"
+                    <li>
+                        <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>
+                    </li>
+                    <li>
+                        <a title="View how to contact"
                            href="http://dans.knaw.nl/en/contact"
-                           target="_blank">More</a></li>
+                           target="_blank">More  ›››</a>
+                    </li>
                 </ul>
             </div>
-            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                <div className="h1">&nbsp;</div>
+            <div className="col-6 col-sm-2 col-md-2 col-lg-2">
                 <ul className="social">
                     <li>
                         <a href="http://dans.knaw.nl/en/@@dans_mailchimp_subscribe" target="_blank">
@@ -52,7 +58,7 @@ const Footer = () => (
                     </li>
                     <li>
                         <a target="_blank" href="https://www.youtube.com/user/DANSDataArchiving">
-                            <i className="fab fa-youtube" aria-hidden="true"/> YouTube
+                            <i className="fab fa-youtube-square" aria-hidden="true"/> YouTube
                         </a>
                     </li>
                     <li>
@@ -62,8 +68,7 @@ const Footer = () => (
                     </li>
                 </ul>
             </div>
-            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                <div className="h1">&nbsp;</div>
+            <div className="col-12 col-sm-3 col-md-2 col-lg-2">
                 <ul>
                     <li>
                         <a title="View the disclaimer"
@@ -86,7 +91,7 @@ const Footer = () => (
                     </li>
                 </ul>
             </div>
-            <div className="col-lg-3 col-md-4 col-sm-4 col-sm-offset-0 col-xs-12 ">
+            <div className="col-12 col-sm-4 col-md-4 col-lg-3">
                 <div className="easy-Certificering-link">
                     <a href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/Certificering"
                        target="_blank"
@@ -99,15 +104,15 @@ const Footer = () => (
                     </a>
                 </div>
             </div>
-            <div className="col-lg-3 ">
+            <div className="col-lg-3">
                 <div className="overdans">
                     <p>DANS is an institute of KNAW and NWO</p>
                     <p>
                         <a href="http://www.knaw.nl/en" target="_blank">
-                            <img src={knaw}/>
+                            <img height="55px" src={knaw}/>
                         </a>
                         <a href="http://www.nwo.nl/en" target="_blank">
-                            <img src={nwo}/>
+                            <img height="55px" src={nwo}/>
                         </a>
                     </p>
                     <p className="driven-by-data">Driven by data</p>
@@ -116,7 +121,7 @@ const Footer = () => (
         </div>
 
         <div className="row">
-            <div className="col-lg-12">
+            <div className="col-12">
                 <div className="version">
                     <span>
                         <div>Version: <span>{projectVersion}</span></div>

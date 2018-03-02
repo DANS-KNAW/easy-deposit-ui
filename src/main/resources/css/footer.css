@@ -23,11 +23,6 @@ footer {
     padding-bottom: 20px;
 }
 
-footer .row:nth-child(2n) {
-    position: relative;
-    top: -30px;
-}
-
 footer a {
     color: inherit;
 }
@@ -56,23 +51,9 @@ footer .h1 {
     letter-spacing: normal;
 }
 
-footer .more:after {
-    content: "  ›››";
-}
-
-footer .social {
-    margin-top: 1em;
-}
-
 footer .overdans {
     text-align: right;
-}
-
-@media (max-width: 767px) {
-    footer .overdans {
-        text-align: left;
-        padding-top: 30px;
-    }
+    margin-top: -28px;
 }
 
 footer .overdans .driven-by-data {
@@ -95,4 +76,20 @@ footer .easy-Certificering-link {
 
 footer .easy-Certificering-link a:hover {
     text-decoration: none;
+}
+
+@media (max-width: 767px) {
+    footer .overdans,
+    footer .easy-Certificering-link,
+    footer .version {
+        text-align: left;
+        padding-top: 30px;
+    }
+}
+
+/* we need this one because we had to move the "DANS is an institute of KNAW and NWO" up by 30px*/
+@media (min-width: 768px) and (max-width: 991px) {
+    footer .overdans {
+        margin-top: 0;
+    }
 }
