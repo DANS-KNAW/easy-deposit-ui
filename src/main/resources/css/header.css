@@ -1,0 +1,16 @@
+#header-logos {
+    align-items: flex-end;
+}
+
+@media (max-width: 1440px) {
+    #easy-logo {
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) {
+    #easy-logo {
+        text-align: right;
+    }
+}
+

@@ -19,7 +19,7 @@ import {Provider} from "react-redux"
 import store from "./store"
 import {BrowserRouter, Switch, Route} from "react-router-dom"
 
-import Header from "./components/header/Header"
+import Header2 from "./components/header/Header2"
 import HomePage from "./components/home/HomePage"
 import LoginPage from "./components/login/LoginPage"
 import DepositOverviewPage from "./components/overview/DepositOverviewPage"
@@ -33,7 +33,7 @@ ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <>
-                <Header/>
+                <Header2/>
                 <main role="main" className="container">
                     <Switch>
                         <Route path="/" component={HomePage} exact/>
