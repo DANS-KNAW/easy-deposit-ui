@@ -25,7 +25,7 @@ BUILDING FROM SOURCE
 **Running dev server:**
 
 * `npm start`
-* go to [http://localhost:8080] in your favorite browser
+* go to [http://localhost:3000] in your favorite browser
 
 **Building for production:**
 
