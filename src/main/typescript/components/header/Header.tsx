@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ImgHTMLAttributes, SFC } from "react"
-import { Link, NavLink, NavLinkProps } from "react-router-dom"
+import { Link, NavLinkProps } from "react-router-dom"
 
 const logo_dans = require("../../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../../resources/img/header/logo_easy.png")
@@ -38,11 +38,10 @@ const NavBarButton = ({dataTarget}: NavBarButton) => (
 )
 
 const NavBarLink = ({to, title, children, className, ...rest}: NavLinkProps) => (
-    <NavLink {...rest}
+    <Link {...rest}
              className={`nav-link ${className || ""}`}
-             activeClassName="active"
              to={to}
-             title={title}>{children}</NavLink>
+             title={title}>{children}</Link>
 )
 
 const NavBar: SFC = ({children}) => (
