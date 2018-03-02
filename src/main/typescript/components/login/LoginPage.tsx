@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Component } from "react"
-import { Dispatch, ReduxAction } from "../../lib/redux"
+import { ReduxAction } from "../../lib/redux"
 import { connect } from "react-redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
@@ -35,8 +35,4 @@ const mapStateToProps = (state: AppState) => ({
     authenticated: state.user.isAuthenticated,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    authenticate: () => dispatch(authenticate()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps, { authenticate })(LoginPage)

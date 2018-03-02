@@ -8,6 +8,7 @@ export const authenticate: () => ReduxAction<Promise<void>> = () => ({
     payload: new Promise(vs => setTimeout(vs, 1000))
 })
 
+// TODO not sure if signout also requires a server call...
 export const signout: () => Action = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
 })
