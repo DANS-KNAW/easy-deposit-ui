@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ImgHTMLAttributes, SFC } from "react"
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, NavLinkProps } from "react-router-dom"
 
 const logo_dans = require("../../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../../resources/img/header/logo_easy.png")
@@ -37,6 +37,14 @@ const NavBarButton = ({dataTarget}: NavBarButton) => (
     </button>
 )
 
+const NavBarLink = ({to, title, children, className, ...rest}: NavLinkProps) => (
+    <NavLink {...rest}
+             className={`nav-link ${className || ""}`}
+             activeClassName="active"
+             to={to}
+             title={title}>{children}</NavLink>
+)
+
 const NavBar: SFC = ({children}) => (
     <nav className="navbar navbar-expand-lg navbar-light admin-nav" role="navigation">
         <a className="navbar-brand" href="#"/> {/* this one is here to move the button to the right */}
@@ -54,23 +62,12 @@ const NavBar: SFC = ({children}) => (
 const Header2 = () => (
     <>
         <NavBar>
-            <NavLink className="nav-link"
-                     activeClassName="active"
-                     to="/"
-                     title="Home">Home</NavLink>
-            <NavLink className="nav-link"
-                     activeClassName="active"
-                     to="register"
-                     title="Register to get access to EASY">Register</NavLink>
-            <NavLink className="nav-link"
-                     activeClassName="active"
-                     to="login"
-                     title="Login to EASY">Login</NavLink>
-            {/* person name */}
-            {/*<Link to="myDatasets">My Datasets</Link>*/}
-            {/*<Link to="myRequests" className="requests">My Requests</Link>*/}
-            {/*<Link to="settings" className="sprite settings" title="My personal settings">My Settings</Link>*/}
-            {/*<Link to="logout" className="logoff" title="Log out">Log out</Link>*/}
+            <NavBarLink to="/" title="Home">Home</NavBarLink>
+            <NavBarLink to="/register" title="Register to get access to EASY">Register</NavBarLink>
+            <NavBarLink to="/login" title="Login to EASY">Login</NavBarLink>
+            <span className="nav-link navbar-text">[displayName]</span>
+            <NavBarLink to="/deposit-overview">My Datasets</NavBarLink>
+            <NavBarLink to="#" className="logoff" title="Log out">Log out</NavBarLink>
         </NavBar>
 
         <LogosHeaders>
