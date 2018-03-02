@@ -18,7 +18,7 @@ const BrandLogo = ({ className, id, src, alt, ...rest }: ImgHTMLAttributes<HTMLI
 )
 
 const LogosHeaders: SFC = ({ children }) => (
-    <header className="no-print container-fluid">
+    <header className="container-fluid">
         <div className="row" id="header-logos">
             {children}
         </div>

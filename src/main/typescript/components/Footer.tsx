@@ -23,7 +23,7 @@ const nwo = require("../../resources/img/footer/logo_NWO.png")
 const wds = require("../../resources/img/footer/logo_WDS.png")
 
 const Footer = () => (
-    <footer className="no-print container-fluid">
+    <footer className="container-fluid">
         <div className="row">
             <div className="col-12 col-sm-12 col-md-3 col-lg-2">
                 <div className="h1">Contact</div>
