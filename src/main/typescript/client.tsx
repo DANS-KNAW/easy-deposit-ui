@@ -19,7 +19,7 @@ import { Provider } from "react-redux"
 import store from "./store"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 
-import Header from "./components/header/Header"
+import Header from "./components/Header"
 import HomePage from "./components/home/HomePage"
 import LoginPage from "./components/login/LoginPage"
 import DepositFormPage from "./components/form/DepositFormPage"

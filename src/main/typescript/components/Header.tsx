@@ -1,13 +1,13 @@
 import * as React from "react"
 import { ImgHTMLAttributes, SFC } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
-import { AppState } from "../../model/AppState"
+import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
 import { Action } from "redux"
-import { signout } from "../../actions/authenticationActions"
+import { signout } from "../actions/authenticationActions"
 
-const logo_dans = require("../../../resources/img/header/logo_dans.png")
-const logo_easy = require("../../../resources/img/header/logo_easy.png")
+const logo_dans = require("../../resources/img/header/logo_dans.png")
+const logo_easy = require("../../resources/img/header/logo_easy.png")
 
 const BrandLogo = ({ className, id, src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => (
     <div className={className} id={id}>
