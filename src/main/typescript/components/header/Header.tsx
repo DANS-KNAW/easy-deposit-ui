@@ -1,6 +1,10 @@
 import * as React from "react"
 import { ImgHTMLAttributes, SFC } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
+import { AppState } from "../../model/AppState"
+import { connect } from "react-redux"
+import { Action } from "redux"
+import { signout } from "../../actions/authenticationActions"
 
 const logo_dans = require("../../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../../resources/img/header/logo_easy.png")
@@ -58,15 +62,26 @@ const NavBar: SFC = ({children}) => (
     </nav>
 )
 
-const Header2 = () => (
-    <>
+interface HeaderProps {
+    isLoggedIn: boolean
+    loginName: string
+    signout: () => Action
+}
+
+const Header = ({ isLoggedIn, loginName, signout }: HeaderProps) => {
+    const loginNavBar = isLoggedIn
+        ? [
+            <span key="loginName" className="navbar-text">{loginName}</span>,
+            <NavBarLink key="my datasets" to="/deposit-overview">My Datasets</NavBarLink>,
+            <Link onClick={signout} className="nav-link logoff" key="log out" to="/" title="Log out">Log out</Link>,
+        ]
+        : [<NavBarLink key="login" to="/login" title="Login to EASY">Login</NavBarLink>]
+
+    return <>
         <NavBar>
             <NavBarLink to="/" title="Home">Home</NavBarLink>
             <NavBarLink to="/register" title="Register to get access to EASY">Register</NavBarLink>
-            <NavBarLink to="/login" title="Login to EASY">Login</NavBarLink>
-            <span className="nav-link navbar-text">[displayName]</span>
-            <NavBarLink to="/deposit-overview">My Datasets</NavBarLink>
-            <NavBarLink to="#" className="logoff" title="Log out">Log out</NavBarLink>
+            {...loginNavBar}
         </NavBar>
 
         <LogosHeaders>
@@ -81,6 +96,11 @@ const Header2 = () => (
                        alt="EASY"/>
         </LogosHeaders>
     </>
-)
+}
 
-export default Header2
+const mapStateToProps = (state: AppState) => ({
+    isLoggedIn: state.user.isAuthenticated,
+    loginName: "[displayName]",
+})
+
+export default connect(mapStateToProps, { signout })(Header)

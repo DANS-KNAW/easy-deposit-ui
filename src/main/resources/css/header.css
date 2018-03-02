@@ -26,3 +26,8 @@
         font-size: 1em;
     }
 }
+
+.navbar-text {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
