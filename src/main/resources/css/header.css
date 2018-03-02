@@ -14,3 +14,16 @@
     }
 }
 
+.admin-nav {
+    font-size: 0.87em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+@media (max-width: 992px) {
+    .admin-nav {
+        font-size: 1em;
+    }
+}
+

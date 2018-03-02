@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Component } from "react"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 const logo_dans = require("../../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../../resources/img/header/logo_easy.png")
@@ -21,25 +21,22 @@ class Header2 extends Component<Header2Props, Header2State> {
     render() {
         return (
             <>
-                <p>here comes the nav-bar</p>
+                {/*<p>here comes the nav-bar</p>*/}
 
-                {/*<nav className="navbar navbar-expand-lg admin-nav" role="navigation">
+                {/* admin-nav is defined by me*/}
+                <nav className="navbar navbar-expand-lg navbar-light admin-nav" role="navigation">
+                    <a className="navbar-brand" href="#"/> {/* this one is here to move the button to the right; TODO can we get rid of it? */}
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"/>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ml-auto">
-                            <li className="nav-item"><Link to="/">Home</Link></li>
-                            <li className="nav-item"><Link to="register" title="Register to get access to EASY">Register</Link></li>
-                            <li className="nav-item"><Link to="login" title="Login to EASY">Login</Link></li>
-                            <li className="nav-item navbar-text">[displayName]</li>
-                            <li className="nav-item"><Link to="myDatasets">My Datasets</Link></li>
-                            <li className="nav-item"><Link to="myRequests" className="requests">My Requests</Link></li>
-                            <li className="nav-item"><Link to="settings" className="sprite settings" title="My personal settings">My Settings</Link></li>
-                            <li className="nav-item"><Link to="logout" className="logoff" title="Log out">Log out</Link></li>
+                            <li className="nav-item"><NavLink className="nav-link" activeClassName="active" to="/" title="Home">Home</NavLink></li>
+                            <li className="nav-item"><NavLink className="nav-link" activeClassName="active" to="register" title="Register to get access to EASY">Register</NavLink></li>
+                            <li className="nav-item"><NavLink className="nav-link" activeClassName="active" to="login" title="Login to EASY">Login</NavLink></li>
                         </ul>
                     </div>
-                </nav>*/}
+                </nav>
 
                 <header className="no-print container-fluid">
                     <div className="row" id="header-logos">

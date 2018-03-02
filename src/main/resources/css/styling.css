@@ -20,6 +20,7 @@
 body {
     background: #e6e6e6;
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
 }
 
 #app {
