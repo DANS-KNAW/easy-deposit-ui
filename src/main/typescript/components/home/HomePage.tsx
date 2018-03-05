@@ -13,11 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
+import * as React from "react"
+import { Component } from "react"
+import { Link } from "react-router-dom"
 
-export type Dispatch = ReduxDispatch<AppState>
+interface HomePageProps {
 
-export interface ReduxAction<T> extends Action {
-    payload: T
 }
+
+class HomePage extends Component<HomePageProps> {
+    constructor(props: HomePageProps) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <>
+                <h1>Home Page</h1>
+                <Link className="btn btn-dark" to="/deposit-overview">Deposit your data</Link>
+            </>
+        )
+    }
+}
+
+export default HomePage

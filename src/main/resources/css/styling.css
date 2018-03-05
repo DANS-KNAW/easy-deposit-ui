@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
+@import "header.css";
+@import "main.css";
+@import "footer.css";
 
-export type Dispatch = ReduxDispatch<AppState>
+body {
+    background: #e6e6e6;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
+}
 
-export interface ReduxAction<T> extends Action {
-    payload: T
+#app {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    background: white;
+}
+
+@media (max-width: 767px) {
+    #app {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #app {
+        width: 95%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    #app {
+        width: 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+    #app {
+        width: 1200px;
+    }
 }

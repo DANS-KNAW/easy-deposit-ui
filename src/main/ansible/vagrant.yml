@@ -29,7 +29,7 @@
       replace: 'DocumentRoot "/var/www/html/easy-deposit-ui"'
 
   - name: Install RPM
-    shell: yum install -y /vagrant/target/rpm/easy-deposit-ui/RPMS/noarch/*.rpm
+    shell: yum install -y /vagrant/target/rpm/dans.knaw.nl-easy-deposit-ui/RPMS/noarch/*.rpm
     ignore_errors: yes
 
   - name: Start web server

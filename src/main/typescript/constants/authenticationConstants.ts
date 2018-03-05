@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
-
-export type Dispatch = ReduxDispatch<AppState>
-
-export interface ReduxAction<T> extends Action {
-    payload: T
+export enum AuthenticationConstants {
+    AUTH_LOGIN = "AUTH_LOGIN",
+    AUTH_LOGIN_PENDING = "AUTH_LOGIN_PENDING",
+    AUTH_LOGIN_FULFILLED = "AUTH_LOGIN_FULFILLED",
+    AUTH_LOGIN_REJECTED = "AUTH_LOGIN_REJECTED",
+    AUTH_LOGOUT = "AUTH_LOGOUT"
 }

@@ -13,11 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
+import * as React from "react"
+import { Component } from "react"
 
-export type Dispatch = ReduxDispatch<AppState>
+interface DepositFormPageProps {
 
-export interface ReduxAction<T> extends Action {
-    payload: T
 }
+
+interface DepositFormPageState {
+
+}
+
+class DepositFormPage extends Component<DepositFormPageProps, DepositFormPageState> {
+    constructor(props: DepositFormPageProps) {
+        super(props)
+    }
+
+    render() {
+        return <h1>Deposit Form Page</h1>
+    }
+}
+
+export default DepositFormPage

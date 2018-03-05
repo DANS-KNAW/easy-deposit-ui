@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
+export interface UserDetails {
+    isAuthenticated: boolean
+    // TODO more properties
+}
 
-export type Dispatch = ReduxDispatch<AppState>
-
-export interface ReduxAction<T> extends Action {
-    payload: T
+export const empty = {
+    isAuthenticated: false,
 }

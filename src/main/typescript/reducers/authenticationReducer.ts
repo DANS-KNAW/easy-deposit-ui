@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
+import { UserDetails, empty } from "../model/UserDetails"
+import { Reducer } from "redux"
+import { AuthenticationConstants } from "../constants/authenticationConstants"
 
-export type Dispatch = ReduxDispatch<AppState>
-
-export interface ReduxAction<T> extends Action {
-    payload: T
+export const authenticationReducer: Reducer<UserDetails> = (state = empty, action) => {
+    switch (action.type) {
+        // TODO handle pending and rejected variants here as well!
+        case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
+            return { ...state, isAuthenticated: true }
+        }
+        case AuthenticationConstants.AUTH_LOGOUT: {
+            return { ...state, isAuthenticated: false }
+        }
+        default:
+            return state
+    }
 }

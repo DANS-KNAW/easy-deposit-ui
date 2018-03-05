@@ -13,11 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AppState } from "../model/AppState"
-import { Action, Dispatch as ReduxDispatch } from "redux"
+import { AuthenticationConstants } from "../constants/authenticationConstants"
+import { Action } from "redux"
+import { ReduxAction } from "../lib/redux"
 
-export type Dispatch = ReduxDispatch<AppState>
+export const authenticate: () => ReduxAction<Promise<void>> = () => ({
+    type: AuthenticationConstants.AUTH_LOGIN,
+    // temporary do a fake timeout to simulate server I/O
+    payload: new Promise(vs => setTimeout(vs, 1000)),
+})
 
-export interface ReduxAction<T> extends Action {
-    payload: T
-}
+// TODO not sure if signout also requires a server call...
+export const signout: () => Action = () => ({
+    type: AuthenticationConstants.AUTH_LOGOUT,
+})

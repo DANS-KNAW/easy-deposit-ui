@@ -13,25 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from 'react'
-import {Component} from 'react'
+import * as React from "react"
+import { Component } from "react"
+import { Link } from "react-router-dom"
 
-interface AppProps {
-
-}
-
-interface AppState {
+interface DepositOverviewPageProps {
 
 }
 
-class App extends Component<AppProps, AppState> {
-    constructor(props: AppProps) {
+interface DepositOverviewPageState {
+
+}
+
+class DepositOverviewPage extends Component<DepositOverviewPageProps, DepositOverviewPageState> {
+    constructor(props: DepositOverviewPageProps) {
         super(props)
     }
 
     render() {
-        return <h1>Hello World</h1>
+        return (
+            <>
+                <h1>Deposit Overview Page</h1>
+                <Link className="btn btn-dark" to="/deposit-form">New deposit</Link>
+            </>
+        )
     }
 }
 
-export default App
+export default DepositOverviewPage
