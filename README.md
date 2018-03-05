@@ -52,5 +52,5 @@ Running on a test VM
 
 The project will be available in the browser at [http://192.168.33.32/] (or a url matching this ip address as specified in `/etc/hosts`)
 
-[http://localhost:8080]: http://localhost:8080
+[http://localhost:3000]: http://localhost:3000
 [http://192.168.33.32/]: http://192.168.33.32/
