@@ -15,6 +15,8 @@
  */
 declare const __API__: string
 declare const __VERSION__: string
+declare const __BUILD_DATE__: string
 
 export const baseURL = __API__
 export const projectVersion = __VERSION__
+export const buildDate = __BUILD_DATE__

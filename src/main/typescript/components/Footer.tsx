@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { projectVersion } from "../lib/config"
+import { buildDate, projectVersion } from "../lib/config"
 
 const dsa = require("../../resources/img/footer/logo_DSA.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
@@ -125,8 +125,7 @@ const Footer = () => (
                 <div className="version">
                     <span>
                         <div>Version: <span>{projectVersion}</span></div>
-                        {/* TODO add build date parameters to configuration? */}
-                        <div>Build date: <span>UNKNOWN</span></div>
+                        <div>Build date: <span>{buildDate}</span></div>
                     </span>
                 </div>
             </div>

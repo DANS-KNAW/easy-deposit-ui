@@ -18,6 +18,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = require('./config.json');
 
+function getDateAndTime() {
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = `0${currentDate.getMonth() + 1}`.slice(-2);
+    const day = `0${currentDate.getDate()}`.slice(-2);
+
+    const hours = currentDate.getHours();
+    const minutes = `0${currentDate.getMinutes()}`.slice(-2);
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
 module.exports = {
     entry: [
         'react-hot-loader/patch',
@@ -65,6 +78,7 @@ module.exports = {
         new webpack.DefinePlugin({
             __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost),
             __VERSION__: JSON.stringify(process.env.npm_package_version),
+            __BUILD_DATE__: JSON.stringify(getDateAndTime()),
         }),
         // insert the bundled JavaScript into this file
         new HtmlWebpackPlugin({
