@@ -17,6 +17,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = require('./config.json');
+const dateFormat = require('dateformat');
 
 module.exports = {
     entry: [
@@ -65,6 +66,7 @@ module.exports = {
         new webpack.DefinePlugin({
             __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost),
             __VERSION__: JSON.stringify(process.env.npm_package_version),
+            __BUILD_DATE__: JSON.stringify(dateFormat(new Date(), "yyyy-mm-dd HH:MM")),
         }),
         // insert the bundled JavaScript into this file
         new HtmlWebpackPlugin({
