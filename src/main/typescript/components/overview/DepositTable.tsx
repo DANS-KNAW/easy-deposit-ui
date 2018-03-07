@@ -52,7 +52,7 @@ const Table = ({ deposits, deletingStates, deleteDeposit }: TableProps) => (
             <DepositRow key={deposit.id}
                         deposit={deposit}
                         deleting={deletingStates[deposit.id]}
-                        deleteDeposit={() => deleteDeposit(deposit.id)}/>
+                        deleteDeposit={() => deleteDeposit(deposit.id)}/>,
         )}</tbody>
     </table>
 )
