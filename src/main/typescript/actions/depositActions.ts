@@ -13,11 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
-import { depositReducer } from "./depositReducer"
+import { ReduxAction } from "../lib/redux"
+import { DepositConstants } from "../constants/depositConstants"
+import axios from "axios"
+import { deposits } from "../constants/urlConstants"
+import { Deposit } from "../model/Deposit"
 
-export default combineReducers({
-    user: authenticationReducer,
-    deposits: depositReducer,
+export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
+    type: DepositConstants.FETCH_DEPOSITS,
+    payload: doFetch(),
 })
+
+const doFetch = async () => {
+    try {
+        const response = await axios.get(deposits)
+        return response.data
+    }
+    catch (e) {
+        throw e
+    }
+}
