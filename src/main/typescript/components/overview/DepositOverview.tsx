@@ -3,13 +3,15 @@ import { Component } from "react"
 import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
 import { Deposit, Deposits } from "../../model/Deposits"
-import { fetchDeposits } from "../../actions/depositActions"
+import { cleanDeposits, fetchDeposits } from "../../actions/depositActions"
 import { ReduxAction } from "../../lib/redux"
 import Table from "./DepositTable"
+import { Action } from "redux"
 
 interface DepositOverviewProps {
     deposits: Deposits
     fetchDeposits: () => ReduxAction<Promise<Deposit[]>>
+    cleanDeposits: () => Action
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {
@@ -19,6 +21,10 @@ class DepositOverview extends Component<DepositOverviewProps> {
 
     componentDidMount() {
         this.props.fetchDeposits()
+    }
+
+    componentWillUnmount() {
+        this.props.cleanDeposits()
     }
 
     render() {
@@ -44,4 +50,4 @@ const mapStateToProps = (state: AppState) => ({
     deposits: state.deposits,
 })
 
-export default connect(mapStateToProps, { fetchDeposits })(DepositOverview)
+export default connect(mapStateToProps, { fetchDeposits, cleanDeposits })(DepositOverview)

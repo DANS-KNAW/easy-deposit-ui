@@ -18,6 +18,7 @@ import { DepositConstants } from "../constants/depositConstants"
 import axios from "axios"
 import { listDeposits } from "../constants/urlConstants"
 import { Deposit } from "../model/Deposits"
+import { Action } from "redux"
 
 export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
     type: DepositConstants.FETCH_DEPOSITS,
@@ -30,3 +31,7 @@ const doFetch = async () => {
     const response = await axios.get(listDeposits)
     return response.data
 }
+
+export const cleanDeposits: () => Action = () => ({
+    type: DepositConstants.CLEAN_DEPOSITS
+})

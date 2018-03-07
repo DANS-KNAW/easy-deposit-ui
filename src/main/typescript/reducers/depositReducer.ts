@@ -14,6 +14,9 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
         case DepositConstants.FETCH_DEPOSITS_FULFILLED: {
             return {...state, loading: false, loaded: true, deposits: action.payload}
         }
+        case DepositConstants.CLEAN_DEPOSITS: {
+            return empty
+        }
         default:
             return state
     }
