@@ -1,3 +1,3 @@
 import { baseURL } from "../lib/config"
 
-export const deposits = `${baseURL}/deposits`
+export const listDeposits = `${baseURL}/deposit`
