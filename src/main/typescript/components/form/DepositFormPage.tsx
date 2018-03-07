@@ -15,8 +15,14 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { DatasetId } from "../../model/Deposits"
+import { RouteComponentProps } from "react-router"
 
-interface DepositFormPageProps {
+interface RouterParams {
+    datasetId: DatasetId
+}
+
+interface MyDepositFormPageProps {
 
 }
 
@@ -24,13 +30,20 @@ interface DepositFormPageState {
 
 }
 
+type DepositFormPageProps = MyDepositFormPageProps & RouteComponentProps<RouterParams>
+
 class DepositFormPage extends Component<DepositFormPageProps, DepositFormPageState> {
     constructor(props: DepositFormPageProps) {
         super(props)
     }
 
     render() {
-        return <h1>Deposit Form Page</h1>
+        return (
+            <>
+                <h1>Deposit Form Page</h1>
+                <p>content of dataset {this.props.match.params.datasetId}</p>
+            </>
+        )
     }
 }
 
