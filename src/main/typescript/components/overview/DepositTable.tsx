@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Deposit } from "../../model/Deposits"
+import { Deposit, DepositState } from "../../model/Deposits"
 
 const TableHead = () => (
     <tr>
@@ -16,15 +16,26 @@ interface DepositRowProps {
     deleteDeposit: () => void
 }
 
-const DepositRow = ({ deposit, deleteDeposit }: DepositRowProps) => (
-    <tr>
-        <th scope="row">{deposit.title}</th>
-        <td>{deposit.date}</td>
-        <td>{deposit.state}</td>
-        <td>{deposit.state_description}</td>
-        <td><button onClick={deleteDeposit}>Delete</button></td>
-    </tr>
-)
+const DepositRow = ({ deposit, deleteDeposit }: DepositRowProps) => {
+    const deleteButton = deposit.state === DepositState.DRAFT || deposit.state === DepositState.REJECTED
+        ? <button key="delete" onClick={deleteDeposit}>Delete</button>
+        : undefined
+    // TODO add more action buttons here
+
+    const actions = [
+        deleteButton,
+    ].filter(value => value !== undefined)
+
+    return (
+        <tr>
+            <th scope="row">{deposit.title}</th>
+            <td>{deposit.date}</td>
+            <td>{deposit.state}</td>
+            <td>{deposit.state_description}</td>
+            <td>{actions}</td>
+        </tr>
+    )
+}
 
 interface TableProps {
     deposits: Deposit[]
