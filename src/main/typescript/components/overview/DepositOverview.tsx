@@ -1,0 +1,47 @@
+import * as React from "react"
+import { Component } from "react"
+import { connect } from "react-redux"
+import { AppState } from "../../model/AppState"
+import { Deposit, Deposits } from "../../model/Deposits"
+import { fetchDeposits } from "../../actions/depositActions"
+import { ReduxAction } from "../../lib/redux"
+import Table from "./DepositTable"
+
+interface DepositOverviewProps {
+    deposits: Deposits
+    fetchDeposits: () => ReduxAction<Promise<Deposit[]>>
+}
+
+class DepositOverview extends Component<DepositOverviewProps> {
+    constructor(props: DepositOverviewProps) {
+        super(props)
+    }
+
+    componentDidMount() {
+        this.props.fetchDeposits()
+    }
+
+    render() {
+        const { deposits: { loading, loaded, deposits, error } } = this.props
+
+        const init = loading && <p>loading data...</p>
+        const err = error &&
+            <p style={{ color: "red" }}>An error occured: {error}. Cannot load data from the server. Please report this incident
+                at <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>.</p>
+        const data = loaded && <Table deposits={deposits}/>
+
+        return (
+            <>
+                {init}
+                {err}
+                {data}
+            </>
+        )
+    }
+}
+
+const mapStateToProps = (state: AppState) => ({
+    deposits: state.deposits,
+})
+
+export default connect(mapStateToProps, { fetchDeposits })(DepositOverview)

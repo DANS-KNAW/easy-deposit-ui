@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { UserDetails, empty as emptyUser } from "./UserDetails"
-import { Deposit } from "./Deposit"
+import { empty as emptyUser, UserDetails } from "./UserDetails"
+import { empty as emptyDeposits, Deposits } from "./Deposits"
 
 export interface AppState {
     user: UserDetails
-    deposits: Deposit[]
+    deposits: Deposits
 }
 
 export const empty: AppState = {
     user: emptyUser,
-    deposits: []
+    deposits: emptyDeposits
 }

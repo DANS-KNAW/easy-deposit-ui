@@ -1,20 +1,18 @@
-import { Deposit } from "../model/Deposit"
+import { Deposits, empty } from "../model/Deposits"
 import { Reducer } from "redux"
 import { DepositConstants } from "../constants/depositConstants"
 
-export const depositReducer: Reducer<Deposit[]> = (state = [], action) => {
+export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
     switch (action.type) {
         case DepositConstants.FETCH_DEPOSITS_PENDING: {
-            console.log("fetching deposits pending")
-            return state
+            return {...state, loading: true}
         }
         case DepositConstants.FETCH_DEPOSITS_REJECTED: {
-            console.log("fetching deposits rejected")
-            return state
+            const { response: {status, statusText} } = action.payload
+            return {...state, loading: false, error: `${status} - ${statusText}`}
         }
         case DepositConstants.FETCH_DEPOSITS_FULFILLED: {
-            console.log("fetching deposits fulfilled")
-            return action.payload
+            return {...state, loading: false, loaded: true, deposits: action.payload}
         }
         default:
             return state
