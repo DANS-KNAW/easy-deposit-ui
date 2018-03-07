@@ -16,7 +16,7 @@
 import { ReduxAction } from "../lib/redux"
 import { DepositConstants } from "../constants/depositConstants"
 import axios from "axios"
-import { listDeposits } from "../constants/urlConstants"
+import { listDepositsURL } from "../constants/urlConstants"
 import { Deposit } from "../model/Deposits"
 import { Action } from "redux"
 
@@ -28,7 +28,7 @@ export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
 const doFetch = async () => {
     // TODO temporary do a fake timeout to simulate server I/O
     await new Promise(resolve => setTimeout(resolve, 1000))
-    const response = await axios.get(listDeposits)
+    const response = await axios.get(listDepositsURL)
     return response.data
 }
 

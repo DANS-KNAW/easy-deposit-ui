@@ -13,15 +13,21 @@ export interface Deposit {
     date: Date
 }
 
-export interface Deposits {
+export interface LoadingState {
     loading: boolean
     loaded: boolean
+    loadingError?: string
+}
+
+export interface Deposits {
+    loading: LoadingState
     deposits: Deposit[]
-    error?: string
 }
 
 export const empty: Deposits = {
-    loading: false,
-    loaded: false,
+    loading: {
+        loading: false,
+        loaded: false
+    },
     deposits: [],
 }
