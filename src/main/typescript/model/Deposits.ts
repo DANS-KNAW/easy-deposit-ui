@@ -27,6 +27,8 @@ export interface DeleteState {
     deleteError?: string
 }
 
+export type DeletingStates = {[id: string]: DeleteState}
+
 export const emptyDelete: DeleteState = ({
     deleting: false,
     deleted: false
@@ -34,7 +36,7 @@ export const emptyDelete: DeleteState = ({
 
 export interface Deposits {
     loading: LoadingState
-    deleting: {[id: string]: DeleteState}
+    deleting: DeletingStates
     deposits: Deposit[]
 }
 

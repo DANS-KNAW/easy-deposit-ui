@@ -29,13 +29,13 @@ class DepositOverview extends Component<DepositOverviewProps> {
     }
 
     render() {
-        const { deposits: { loading: {loading, loaded, loadingError}, deposits } } = this.props
+        const { deposits: { loading: {loading, loaded, loadingError}, deleting, deposits } } = this.props
 
         const init = loading && <p>loading data...</p>
         const err = loadingError &&
             <p style={{ color: "red" }}>An error occured: {loadingError}. Cannot load data from the server. Please report this incident
                 at <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>.</p>
-        const data = loaded && <Table deposits={deposits} deleteDeposit={this.props.deleteDeposit}/>
+        const data = loaded && <Table deposits={deposits} deleteDeposit={this.props.deleteDeposit} deletingStates={deleting}/>
 
         return (
             <>
