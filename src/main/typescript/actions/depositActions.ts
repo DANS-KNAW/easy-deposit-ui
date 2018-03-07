@@ -17,7 +17,7 @@ import { ReduxAction } from "../lib/redux"
 import { DepositConstants } from "../constants/depositConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL } from "../constants/urlConstants"
-import { Deposit } from "../model/Deposits"
+import { DatasetId, Deposit } from "../model/Deposits"
 import { Action } from "redux"
 
 export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
@@ -36,13 +36,13 @@ export const cleanDeposits: () => Action = () => ({
     type: DepositConstants.CLEAN_DEPOSITS
 })
 
-export const deleteDeposit: (id: string) => ReduxAction<Promise<void>> = id => ({
+export const deleteDeposit: (id: DatasetId) => ReduxAction<Promise<void>> = id => ({
     type: DepositConstants.DELETE_DEPOSIT,
     payload: doDelete(id),
     meta: { id: id }
 })
 
-const doDelete: (id: string) => Promise<void> = async id => {
+const doDelete: (id: DatasetId) => Promise<void> = async id => {
     // TODO temporary do a fake timeout to simulate server I/O
     await new Promise(resolve => setTimeout(resolve, 1000))
     await axios.delete(deleteDepositURL(id))

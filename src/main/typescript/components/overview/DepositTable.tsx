@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Deposit, DepositState } from "../../model/Deposits"
+import { DatasetId, Deposit, DepositState } from "../../model/Deposits"
 
 const TableHead = () => (
     <tr>
@@ -39,7 +39,7 @@ const DepositRow = ({ deposit, deleteDeposit }: DepositRowProps) => {
 
 interface TableProps {
     deposits: Deposit[]
-    deleteDeposit: (id: string) => void
+    deleteDeposit: (id: DatasetId) => void
 }
 
 const Table = ({ deposits, deleteDeposit }: TableProps) => (

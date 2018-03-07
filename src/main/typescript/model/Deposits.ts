@@ -1,3 +1,5 @@
+export type DatasetId = string
+
 export enum DepositState {
     DRAFT = "DRAFT",
     REJECTED = "REJECTED",
@@ -6,7 +8,7 @@ export enum DepositState {
 }
 
 export interface Deposit {
-    id: string
+    id: DatasetId
     title: string
     state: DepositState
     state_description: string
@@ -25,7 +27,7 @@ export interface DeleteState {
     deleteError?: string
 }
 
-export const emptyDelete: (id: string) => DeleteState = id => ({
+export const emptyDelete: DeleteState = ({
     deleting: false,
     deleted: false
 })

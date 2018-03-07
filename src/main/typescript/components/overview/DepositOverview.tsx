@@ -2,7 +2,7 @@ import * as React from "react"
 import { Component } from "react"
 import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
-import { Deposit, Deposits } from "../../model/Deposits"
+import { DatasetId, Deposit, Deposits } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositActions"
 import { ReduxAction } from "../../lib/redux"
 import Table from "./DepositTable"
@@ -12,7 +12,7 @@ interface DepositOverviewProps {
     deposits: Deposits
     fetchDeposits: () => ReduxAction<Promise<Deposit[]>>
     cleanDeposits: () => Action
-    deleteDeposit: (id: string) => ReduxAction<Promise<void>>
+    deleteDeposit: (id: DatasetId) => ReduxAction<Promise<void>>
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {

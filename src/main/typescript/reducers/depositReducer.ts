@@ -22,7 +22,7 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
             const deletingProp = state.deleting[id]
             const newDeletingProp = deletingProp
                 ? {...deletingProp, deleting: true }
-                : {...emptyDelete(id), deleting: true }
+                : {...emptyDelete, deleting: true }
             return {...state, deleting: {...state.deleting, [id]: newDeletingProp}}
         }
         case DepositConstants.DELETE_DEPOSIT_REJECTED: {
@@ -32,7 +32,7 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
             const deletingProp = state.deleting[id]
             const newDeletingProp = deletingProp
                 ? {...deletingProp, deleting: false, error: error}
-                : {...emptyDelete(id), error: error}
+                : {...emptyDelete, error: error}
 
             return {...state, deleting: {...state.deleting, [id]: newDeletingProp}}
         }
@@ -42,7 +42,7 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
             const deletingProp = state.deleting[id]
             const newDeletingProp = deletingProp
                 ? {...deletingProp, deleting: false, deleted: true }
-                : {...emptyDelete(id), deleting: false, deleted: true }
+                : {...emptyDelete, deleting: false, deleted: true }
 
             const newDeposits = state.deposits.filter(deposit => deposit.id !== id)
 
