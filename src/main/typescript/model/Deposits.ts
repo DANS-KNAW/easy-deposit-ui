@@ -19,8 +19,20 @@ export interface LoadingState {
     loadingError?: string
 }
 
+export interface DeleteState {
+    deleting: boolean
+    deleted: boolean
+    deleteError?: string
+}
+
+export const emptyDelete: (id: string) => DeleteState = id => ({
+    deleting: false,
+    deleted: false
+})
+
 export interface Deposits {
     loading: LoadingState
+    deleting: {[id: string]: DeleteState}
     deposits: Deposit[]
 }
 
@@ -29,5 +41,6 @@ export const empty: Deposits = {
         loading: false,
         loaded: false
     },
+    deleting: {},
     deposits: [],
 }

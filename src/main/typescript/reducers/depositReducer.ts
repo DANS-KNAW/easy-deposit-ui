@@ -1,4 +1,4 @@
-import { Deposits, empty } from "../model/Deposits"
+import { Deposits, empty, emptyDelete } from "../model/Deposits"
 import { Reducer } from "redux"
 import { DepositConstants } from "../constants/depositConstants"
 
@@ -16,6 +16,37 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
         }
         case DepositConstants.CLEAN_DEPOSITS: {
             return empty
+        }
+        case DepositConstants.DELETE_DEPOSIT_PENDING: {
+            const { meta: {id}} = action
+            const deletingProp = state.deleting[id]
+            const newDeletingProp = deletingProp
+                ? {...deletingProp, deleting: true }
+                : {...emptyDelete(id), deleting: true }
+            return {...state, deleting: {...state.deleting, [id]: newDeletingProp}}
+        }
+        case DepositConstants.DELETE_DEPOSIT_REJECTED: {
+            const { meta: {id}, payload: {response: {status, statusText}}} = action
+            const error = `${status} - ${statusText}`
+
+            const deletingProp = state.deleting[id]
+            const newDeletingProp = deletingProp
+                ? {...deletingProp, deleting: false, error: error}
+                : {...emptyDelete(id), error: error}
+
+            return {...state, deleting: {...state.deleting, [id]: newDeletingProp}}
+        }
+        case DepositConstants.DELETE_DEPOSIT_FULFILLED: {
+            const { meta: {id}} = action
+
+            const deletingProp = state.deleting[id]
+            const newDeletingProp = deletingProp
+                ? {...deletingProp, deleting: false, deleted: true }
+                : {...emptyDelete(id), deleting: false, deleted: true }
+
+            const newDeposits = state.deposits.filter(deposit => deposit.id !== id)
+
+            return {...state, deleting: {...state.deleting, [id]: newDeletingProp}, deposits: newDeposits}
         }
         default:
             return state
