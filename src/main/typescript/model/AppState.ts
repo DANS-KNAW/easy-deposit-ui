@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 import { UserDetails, empty as emptyUser } from "./UserDetails"
+import { Deposit } from "./Deposit"
 
 export interface AppState {
     user: UserDetails
+    deposits: Deposit[]
 }
 
-export const empty = {
+export const empty: AppState = {
     user: emptyUser,
+    deposits: []
 }
