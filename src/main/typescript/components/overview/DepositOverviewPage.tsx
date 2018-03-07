@@ -16,6 +16,7 @@
 import * as React from "react"
 import { Component } from "react"
 import { Link } from "react-router-dom"
+import OverviewTable from "./OverviewTable"
 
 interface DepositOverviewPageProps {
 
@@ -35,6 +36,7 @@ class DepositOverviewPage extends Component<DepositOverviewPageProps, DepositOve
             <>
                 <h1>Deposit Overview Page</h1>
                 <Link className="btn btn-dark" to="/deposit-form">New deposit</Link>
+                <OverviewTable/>
             </>
         )
     }
