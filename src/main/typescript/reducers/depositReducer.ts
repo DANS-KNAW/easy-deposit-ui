@@ -23,8 +23,12 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
             return { ...state, loading: { ...state.loading, loading: true } }
         }
         case DepositConstants.FETCH_DEPOSITS_REJECTED: {
-            const { response: { status, statusText } } = action.payload
-            return { ...state, loading: { ...state.loading, loading: false, error: `${status} - ${statusText}` } }
+            const response = action.payload.response
+            const errorMessage = response
+                ? `${response.status} - ${response.statusText}`
+                : action.payload.message
+
+            return { ...state, loading: { ...state.loading, loading: false, loadingError: errorMessage } }
         }
         case DepositConstants.FETCH_DEPOSITS_FULFILLED: {
             return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: action.payload }
