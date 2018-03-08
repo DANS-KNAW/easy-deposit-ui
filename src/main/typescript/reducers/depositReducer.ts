@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Deposits, empty, emptyDelete } from "../model/Deposits"
+import { Deposit, Deposits, empty, emptyDelete, toDepositState } from "../model/Deposits"
 import { Reducer } from "redux"
 import { DepositConstants } from "../constants/depositConstants"
 
@@ -31,7 +31,27 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
             return { ...state, loading: { ...state.loading, loading: false, loadingError: errorMessage } }
         }
         case DepositConstants.FETCH_DEPOSITS_FULFILLED: {
-            return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: action.payload }
+            try {
+                const deposits: Deposit[] = action.payload.map((input: any) => {
+                    try {
+                        return ({
+                            id: input.id,
+                            title: input.title,
+                            state: toDepositState(input.state),
+                            stateDescription: input.state_description,
+                            date: new Date(input.date)
+                        })
+                    }
+                    catch (e) {
+                        throw `Error in deposit ${input.id}: ${e}`
+                    }
+                })
+
+                return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: deposits }
+            }
+            catch (errorMessage) {
+                return { ...state, loading: { ...state.loading, loading: false, loadingError: errorMessage } }
+            }
         }
         case DepositConstants.CLEAN_DEPOSITS: {
             return empty

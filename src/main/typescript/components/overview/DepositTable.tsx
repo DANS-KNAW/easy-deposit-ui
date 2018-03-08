@@ -55,7 +55,7 @@ const DepositRow = ({ deposit, deleting, deleteDeposit }: DepositRowProps) => {
             <td scope="row">{title}</td>
             <td>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
             <td>{deposit.state}</td>
-            <td>{deposit.state_description}</td>
+            <td>{deposit.stateDescription}</td>
             <td>{actions}</td>
         </tr>
     )

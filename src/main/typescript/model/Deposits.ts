@@ -33,7 +33,7 @@ export interface Deposit {
     id: DatasetId
     title: string
     state: DepositState
-    state_description: string
+    stateDescription: string
     date: Date
 }
 
