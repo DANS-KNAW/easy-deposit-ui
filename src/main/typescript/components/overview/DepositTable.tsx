@@ -15,8 +15,8 @@
  */
 import * as React from "react"
 import { DatasetId, DeleteState, DeletingStates, Deposit, DepositState } from "../../model/Deposits"
-import { Component } from "react"
 import { Link } from "react-router-dom"
+import * as dateFormat from "dateformat"
 
 const TableHead = () => (
     <tr>
@@ -53,7 +53,7 @@ const DepositRow = ({ deposit, deleting, deleteDeposit }: DepositRowProps) => {
     return (
         <tr>
             <td scope="row">{title}</td>
-            <td>{deposit.date}</td>
+            <td>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
             <td>{deposit.state}</td>
             <td>{deposit.state_description}</td>
             <td>{actions}</td>
