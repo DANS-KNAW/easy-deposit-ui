@@ -22,6 +22,13 @@ export enum DepositState {
     ARCHIVED = "ARCHIVED",
 }
 
+export function toDepositState(value: string): DepositState {
+    const res = Object.values(DepositState).find(v => v === value)
+    if (res)
+        return res
+    else throw `no such value: '${value}'`
+}
+
 export interface Deposit {
     id: DatasetId
     title: string
