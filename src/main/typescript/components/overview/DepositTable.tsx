@@ -14,69 +14,26 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { DatasetId, DeleteState, DeletingStates, Deposit, DepositState } from "../../model/Deposits"
-import { Link } from "react-router-dom"
-import * as dateFormat from "dateformat"
+import { DatasetId, DeletingStates, Deposit } from "../../model/Deposits"
+import DepositTableHead from "./DepositTableHead"
+import DepositTableRow from "./DepositTableRow"
 
-const TableHead = () => (
-    <tr>
-        <th scope="col">Dataset</th>
-        <th scope="col">Date</th>
-        <th scope="col">State</th>
-        <th scope="col">Notes</th>
-        <th scope="col">Action</th>
-    </tr>
-)
-
-interface DepositRowProps {
-    deposit: Deposit
-    deleting?: DeleteState
-    deleteDeposit: () => void
-}
-
-const isEditable = (deposit: Deposit) => deposit.state === DepositState.DRAFT || deposit.state === DepositState.REJECTED
-
-const DepositRow = ({ deposit, deleting, deleteDeposit }: DepositRowProps) => {
-    const title = isEditable(deposit)
-        ? <Link to={`/deposit-form?datasetId=${deposit.id}`}>{deposit.title}</Link>
-        : deposit.title
-
-    const deleteButton = isEditable(deposit)
-        ? <button key="delete" disabled={deleting ? deleting.deleting : false} onClick={deleteDeposit}>Delete</button>
-        : undefined
-    // TODO add more action buttons here
-
-    const actions = [
-        deleteButton,
-    ].filter(value => value !== undefined)
-
-    return (
-        <tr>
-            <td scope="row">{title}</td>
-            <td>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
-            <td>{deposit.state}</td>
-            <td>{deposit.stateDescription}</td>
-            <td>{actions}</td>
-        </tr>
-    )
-}
-
-interface TableProps {
+interface DepositTableProps {
     deposits: Deposit[]
     deletingStates: DeletingStates
     deleteDeposit: (id: DatasetId) => void
 }
 
-const Table = ({ deposits, deletingStates, deleteDeposit }: TableProps) => (
+const DepositTable = ({ deposits, deletingStates, deleteDeposit }: DepositTableProps) => (
     <table className="table table-hover">
-        <thead><TableHead/></thead>
+        <thead><DepositTableHead/></thead>
         <tbody>{deposits.map(deposit =>
-            <DepositRow key={deposit.id}
-                        deposit={deposit}
-                        deleting={deletingStates[deposit.id]}
-                        deleteDeposit={() => deleteDeposit(deposit.id)}/>,
+            <DepositTableRow key={deposit.id}
+                             deposit={deposit}
+                             deleting={deletingStates[deposit.id]}
+                             deleteDeposit={() => deleteDeposit(deposit.id)}/>,
         )}</tbody>
     </table>
 )
 
-export default Table
+export default DepositTable
