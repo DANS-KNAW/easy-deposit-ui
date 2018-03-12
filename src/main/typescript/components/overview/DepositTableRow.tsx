@@ -25,7 +25,7 @@ interface DepositTableRowProps {
 }
 
 const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
-    function isEditable({state}: Deposit): boolean {
+    function isEditable({ state }: Deposit): boolean {
         return state === DepositState.DRAFT || state === DepositState.REJECTED
     }
 
@@ -39,7 +39,8 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowPr
     // TODO add more action buttons here
 
     const deleteErr = deleting && deleting.deleteError
-        ? <p key="delete_error" style={{ color: "red" }}>An error occured: {deleting.deleteError}. Cannot delete this deposit.</p>
+        ? <p key="delete_error" style={{ color: "red" }}>An error occured: {deleting.deleteError}. Cannot delete this
+            deposit.</p>
         : undefined
 
     const actions = [

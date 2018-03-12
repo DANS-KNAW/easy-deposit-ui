@@ -39,7 +39,7 @@ class DepositFormPage extends Component<DepositFormPageProps, DepositFormPageSta
     }
 
     render() {
-        const {datasetId} = queryString.parse(this.props.location.search)
+        const { datasetId } = queryString.parse(this.props.location.search)
 
         return (
             <>

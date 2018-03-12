@@ -22,7 +22,7 @@ export const authenticate: () => ReduxAction<Promise<void>> = () => ({
     // TODO temporary do a fake timeout to simulate server I/O
     async payload() {
         await new Promise(vs => setTimeout(vs, 1000))
-    }
+    },
 })
 
 // TODO not sure if signout also requires a server call...

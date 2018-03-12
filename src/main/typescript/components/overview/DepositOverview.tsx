@@ -45,7 +45,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
     }
 
     private renderTable() {
-        const {deposits: {deposits, deleting}, deleteDeposit} = this.props
+        const { deposits: { deposits, deleting }, deleteDeposit } = this.props
 
         return <table className="table table-hover">
             <DepositTableHead/>

@@ -23,5 +23,5 @@ export interface AppState {
 
 export const empty: AppState = {
     user: emptyUser,
-    deposits: emptyDeposits
+    deposits: emptyDeposits,
 }
