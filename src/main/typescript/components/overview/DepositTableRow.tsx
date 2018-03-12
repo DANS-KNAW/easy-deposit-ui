@@ -34,7 +34,7 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowPr
         : deposit.title
 
     const deleteButton = isEditable(deposit)
-        ? <button key="delete" disabled={deleting ? deleting.deleting : false} onClick={deleteDeposit}>Delete</button>
+        ? <button key="delete" disabled={deleting && deleting.deleting} onClick={deleteDeposit}>Delete</button>
         : undefined
     // TODO add more action buttons here
 
