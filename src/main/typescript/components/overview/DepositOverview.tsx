@@ -62,14 +62,14 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { deposits: { loading: { loading, loaded, loadingError } } } = this.props
 
         const init = loading && <p>loading data...</p>
-        const err = loadingError &&
+        const loadingErr = loadingError &&
             <p style={{ color: "red" }}>An error occured: {loadingError}. Cannot load data from the server.</p>
         const data = loaded && this.renderTable()
 
         return (
             <>
                 {init}
-                {err}
+                {loadingErr}
                 {data}
             </>
         )

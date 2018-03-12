@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Deposit, Deposits, empty, emptyDelete, toDepositState } from "../model/Deposits"
+import { DeleteState, Deposit, Deposits, empty, emptyDelete } from "../model/Deposits"
 import { Reducer } from "redux"
 import { DepositConstants } from "../constants/depositConstants"
 
@@ -33,33 +33,34 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
         }
         case DepositConstants.DELETE_DEPOSIT_PENDING: {
             const { meta: { id } } = action
-            const deletingProp = state.deleting[id]
-            const newDeletingProp = deletingProp
-                ? { ...deletingProp, deleting: true }
+
+            const deleteState: DeleteState = state.deleting[id]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: true }
                 : { ...emptyDelete, deleting: true }
-            return { ...state, deleting: { ...state.deleting, [id]: newDeletingProp } }
+            return { ...state, deleting: { ...state.deleting, [id]: newDeleteState } }
         }
         case DepositConstants.DELETE_DEPOSIT_FAILED: {
             const { meta: { id }, payload: errorMessage } = action
 
-            const deletingProp = state.deleting[id]
-            const newDeletingProp = deletingProp
-                ? { ...deletingProp, deleting: false, error: errorMessage }
-                : { ...emptyDelete, error: errorMessage }
+            const deleteState: DeleteState = state.deleting[id]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: false, deleteError: errorMessage }
+                : { ...emptyDelete, deleteError: errorMessage }
 
-            return { ...state, deleting: { ...state.deleting, [id]: newDeletingProp } }
+            return { ...state, deleting: { ...state.deleting, [id]: newDeleteState } }
         }
         case DepositConstants.DELETE_DEPOSIT_FULFILLED: {
             const { meta: { id } } = action
 
-            const deletingProp = state.deleting[id]
-            const newDeletingProp = deletingProp
-                ? { ...deletingProp, deleting: false, deleted: true }
+            const deleteState: DeleteState = state.deleting[id]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: false, deleted: true }
                 : { ...emptyDelete, deleting: false, deleted: true }
 
-            const newDeposits = state.deposits.filter(deposit => deposit.id !== id)
+            const newDeposits: Deposit[] = state.deposits.filter(deposit => deposit.id !== id)
 
-            return { ...state, deleting: { ...state.deleting, [id]: newDeletingProp }, deposits: newDeposits }
+            return { ...state, deleting: { ...state.deleting, [id]: newDeleteState }, deposits: newDeposits }
         }
         default:
             return state
