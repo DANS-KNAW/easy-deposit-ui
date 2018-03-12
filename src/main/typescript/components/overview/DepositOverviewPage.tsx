@@ -18,28 +18,12 @@ import { Component } from "react"
 import { Link } from "react-router-dom"
 import DepositOverview from "./DepositOverview"
 
-interface DepositOverviewPageProps {
-
-}
-
-interface DepositOverviewPageState {
-
-}
-
-class DepositOverviewPage extends Component<DepositOverviewPageProps, DepositOverviewPageState> {
-    constructor(props: DepositOverviewPageProps) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <>
-                <h1>Deposit Overview Page</h1>
-                <Link className="btn btn-dark" to="/deposit-form">New deposit</Link>
-                <DepositOverview/>
-            </>
-        )
-    }
-}
+const DepositOverviewPage = () => (
+    <>
+        <h1>Deposit Overview Page</h1>
+        <Link className="btn btn-dark" to="/deposit-form">New deposit</Link>
+        <DepositOverview/>
+    </>
+)
 
 export default DepositOverviewPage
