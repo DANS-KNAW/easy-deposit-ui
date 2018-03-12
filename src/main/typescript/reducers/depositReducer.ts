@@ -33,18 +33,19 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
         case DepositConstants.FETCH_DEPOSITS_FULFILLED: {
             try {
                 const deposits: Deposit[] = action.payload.map((input: any) => {
-                    try {
+                    const state = toDepositState(input.state)
+                    if (state) {
                         return ({
                             id: input.id,
                             title: input.title,
-                            state: toDepositState(input.state),
+                            state: state,
                             stateDescription: input.state_description,
                             date: new Date(input.date)
                         })
                     }
-                    catch (e) {
-                        throw `Error in deposit ${input.id}: ${e}`
-                    }
+                    else
+                        // fail fast when an illegal deposit state is detected
+                        throw `Error in deposit ${input.id}: no such value: '${input.state}'`
                 })
 
                 return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: deposits }

@@ -22,11 +22,14 @@ export enum DepositState {
     ARCHIVED = "ARCHIVED",
 }
 
+/**
+ * Transforms a string to a DepositState if the string matches one of its values. Otherwise it returns undefined.
+ *
+ * @param {string} value the value to be matched on
+ * @returns {DepositState} the value represented by the input string
+ */
 export function toDepositState(value: string): DepositState {
-    const res = Object.values(DepositState).find(v => v === value)
-    if (res)
-        return res
-    else throw `no such value: '${value}'`
+    return Object.values(DepositState).find(v => v === value)
 }
 
 export interface Deposit {
