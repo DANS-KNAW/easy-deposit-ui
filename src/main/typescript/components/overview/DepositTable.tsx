@@ -38,7 +38,7 @@ const isEditable = (deposit: Deposit) => deposit.state === DepositState.DRAFT ||
 
 const DepositRow = ({ deposit, deleting, deleteDeposit }: DepositRowProps) => {
     const title = isEditable(deposit)
-        ? <Link to={`/deposit-form/${deposit.id}`}>{deposit.title}</Link>
+        ? <Link to={`/deposit-form?datasetId=${deposit.id}`}>{deposit.title}</Link>
         : deposit.title
 
     const deleteButton = isEditable(deposit)

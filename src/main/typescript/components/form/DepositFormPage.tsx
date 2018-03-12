@@ -17,6 +17,7 @@ import * as React from "react"
 import { Component } from "react"
 import { DatasetId } from "../../model/Deposits"
 import { RouteComponentProps } from "react-router"
+import * as queryString from "query-string"
 
 interface RouterParams {
     datasetId: DatasetId
@@ -38,10 +39,12 @@ class DepositFormPage extends Component<DepositFormPageProps, DepositFormPageSta
     }
 
     render() {
+        const {datasetId} = queryString.parse(this.props.location.search)
+
         return (
             <>
                 <h1>Deposit Form Page</h1>
-                <p>content of dataset {this.props.match.params.datasetId}</p>
+                <p>content of dataset {datasetId}</p>
             </>
         )
     }

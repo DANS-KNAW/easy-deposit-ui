@@ -47,10 +47,6 @@ ReactDOM.render(
                                       redirectTo="/login"
                                       component={DepositFormPage}
                                       exact/>
-                        <PrivateRoute path="/deposit-form/:datasetId"
-                                      redirectTo="/login"
-                                      component={DepositFormPage}
-                                      exact/>
                         <PrivateRoute path="/deposit-overview"
                                       redirectTo="/login"
                                       component={DepositOverviewPage}
