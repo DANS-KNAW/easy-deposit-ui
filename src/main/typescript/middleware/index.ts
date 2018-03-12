@@ -1,3 +1,7 @@
 import { depositMiddleware } from "./depositMiddleware"
+import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
 
-export default [...depositMiddleware]
+export default [
+    ...depositMiddleware,
+    ...rejectedRequestMiddleware,
+]

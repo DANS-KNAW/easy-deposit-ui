@@ -1,7 +1,7 @@
 import { Middleware } from "redux"
 import { DepositConstants } from "../constants/depositConstants"
 import { Deposit, toDepositState } from "../model/Deposits"
-import { deleteDepositFailed, fetchDepositsFailed, fetchDepositsSuccess } from "../actions/depositActions"
+import { fetchDepositsFailed, fetchDepositsSucceeded } from "../actions/depositActions"
 import { createMiddleware } from "../lib/redux"
 
 const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, action) => {
@@ -26,7 +26,7 @@ const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, ac
                     throw `Error in deposit ${input.id}: no such value: '${input.state}'`
             })
 
-            dispatch(fetchDepositsSuccess(deposits))
+            dispatch(fetchDepositsSucceeded(deposits))
         }
         catch (errorMessage) {
             dispatch(fetchDepositsFailed(errorMessage))
@@ -34,30 +34,4 @@ const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, ac
     }
 })
 
-const depositFetchRejected: Middleware = createMiddleware(({dispatch}, next, action) => {
-    next(action)
-
-    if (action.type === DepositConstants.FETCH_DEPOSITS_REJECTED) {
-        const response = action.payload.response
-        const errorMessage = response
-            ? `${response.status} - ${response.statusText}`
-            : action.payload.message
-
-        dispatch(fetchDepositsFailed(errorMessage))
-    }
-})
-
-const depositDeleteRejected: Middleware = createMiddleware(({dispatch}, next, action) => {
-    next(action)
-
-    if (action.type === DepositConstants.DELETE_DEPOSIT_REJECTED) {
-        const response = action.payload.response
-        const errorMessage = response
-            ? `${response.status} - ${response.statusText}`
-            : action.payload.message
-
-        dispatch(deleteDepositFailed(action.meta.id, errorMessage))
-    }
-})
-
-export const depositMiddleware = [depositFetchConverter, depositFetchRejected, depositDeleteRejected]
+export const depositMiddleware = [depositFetchConverter]

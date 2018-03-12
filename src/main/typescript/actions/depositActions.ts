@@ -30,7 +30,7 @@ export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
     },
 })
 
-export const fetchDepositsSuccess: (deposits: Deposit[]) => ReduxAction<Deposit[]> = deposits => ({
+export const fetchDepositsSucceeded: (deposits: Deposit[]) => ReduxAction<Deposit[]> = deposits => ({
     type: DepositConstants.FETCH_DEPOSITS_SUCCESS,
     payload: deposits,
 })
@@ -54,7 +54,7 @@ export const deleteDeposit: (id: DatasetId) => ReduxAction<Promise<void>> = id =
     meta: { id: id },
 })
 
-export const deleteDepositFailed: (id: DatasetId, errorMessage: string) => ReduxAction<string> = (id, errorMessage) => ({
+export const deleteDepositFailed: (id: DatasetId) => (errorMessage: string) => ReduxAction<string> = id => errorMessage => ({
     type: DepositConstants.DELETE_DEPOSIT_FAILED,
     payload: errorMessage,
     meta: { id: id },
