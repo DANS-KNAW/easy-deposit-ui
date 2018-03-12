@@ -20,8 +20,9 @@ import { AppState } from "../../model/AppState"
 import { DatasetId, Deposit, Deposits } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositActions"
 import { ReduxAction } from "../../lib/redux"
-import DepositTable from "./DepositTable"
 import { Action } from "redux"
+import DepositTableHead from "./DepositTableHead"
+import DepositTableRow from "./DepositTableRow"
 
 interface DepositOverviewProps {
     deposits: Deposits
@@ -43,15 +44,27 @@ class DepositOverview extends Component<DepositOverviewProps> {
         this.props.cleanDeposits()
     }
 
+    private renderTable() {
+        const {deposits: {deposits, deleting}, deleteDeposit} = this.props
+
+        return <table className="table table-hover">
+            <DepositTableHead/>
+            <tbody>{deposits.map(deposit =>
+                <DepositTableRow key={deposit.id}
+                                 deposit={deposit}
+                                 deleting={deleting[deposit.id]}
+                                 deleteDeposit={() => deleteDeposit(deposit.id)}/>,
+            )}</tbody>
+        </table>
+    }
+
     render() {
-        const { deposits: { loading: { loading, loaded, loadingError }, deleting, deposits } } = this.props
+        const { deposits: { loading: { loading, loaded, loadingError } } } = this.props
 
         const init = loading && <p>loading data...</p>
         const err = loadingError &&
             <p style={{ color: "red" }}>An error occured: {loadingError}. Cannot load data from the server.</p>
-        const data = loaded && <DepositTable deposits={deposits}
-                                             deletingStates={deleting}
-                                             deleteDeposit={this.props.deleteDeposit}/>
+        const data = loaded && this.renderTable()
 
         return (
             <>

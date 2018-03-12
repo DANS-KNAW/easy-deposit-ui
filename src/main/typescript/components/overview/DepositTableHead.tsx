@@ -16,6 +16,7 @@
 import * as React from "react"
 
 const DepositTableHead = () => (
+    <thead>
     <tr>
         <th scope="col">Dataset</th>
         <th scope="col">Date</th>
@@ -23,6 +24,7 @@ const DepositTableHead = () => (
         <th scope="col">Notes</th>
         <th scope="col">Action</th>
     </tr>
+    </thead>
 )
 
 export default DepositTableHead

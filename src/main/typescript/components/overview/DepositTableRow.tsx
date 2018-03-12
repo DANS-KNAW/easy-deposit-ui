@@ -24,9 +24,11 @@ interface DepositTableRowProps {
     deleteDeposit: () => void
 }
 
-const isEditable = (deposit: Deposit) => deposit.state === DepositState.DRAFT || deposit.state === DepositState.REJECTED
-
 const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
+    function isEditable({state}: Deposit): boolean {
+        return state === DepositState.DRAFT || state === DepositState.REJECTED
+    }
+
     const title = isEditable(deposit)
         ? <Link to={`/deposit-form?datasetId=${deposit.id}`}>{deposit.title}</Link>
         : deposit.title
