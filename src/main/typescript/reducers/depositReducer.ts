@@ -22,37 +22,11 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
         case DepositConstants.FETCH_DEPOSITS_PENDING: {
             return { ...state, loading: { ...state.loading, loading: true } }
         }
-        case DepositConstants.FETCH_DEPOSITS_REJECTED: {
-            const response = action.payload.response
-            const errorMessage = response
-                ? `${response.status} - ${response.statusText}`
-                : action.payload.message
-
-            return { ...state, loading: { ...state.loading, loading: false, loadingError: errorMessage } }
+        case DepositConstants.FETCH_DEPOSITS_FAILED: {
+            return { ...state, loading: { ...state.loading, loading: false, loadingError: action.payload } }
         }
-        case DepositConstants.FETCH_DEPOSITS_FULFILLED: {
-            try {
-                const deposits: Deposit[] = action.payload.map((input: any) => {
-                    const state = toDepositState(input.state)
-                    if (state) {
-                        return ({
-                            id: input.id,
-                            title: input.title,
-                            state: state,
-                            stateDescription: input.state_description,
-                            date: new Date(input.date)
-                        })
-                    }
-                    else
-                        // fail fast when an illegal deposit state is detected
-                        throw `Error in deposit ${input.id}: no such value: '${input.state}'`
-                })
-
-                return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: deposits }
-            }
-            catch (errorMessage) {
-                return { ...state, loading: { ...state.loading, loading: false, loadingError: errorMessage } }
-            }
+        case DepositConstants.FETCH_DEPOSITS_SUCCESS: {
+            return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: action.payload }
         }
         case DepositConstants.CLEAN_DEPOSITS: {
             return empty
@@ -65,14 +39,13 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
                 : { ...emptyDelete, deleting: true }
             return { ...state, deleting: { ...state.deleting, [id]: newDeletingProp } }
         }
-        case DepositConstants.DELETE_DEPOSIT_REJECTED: {
-            const { meta: { id }, payload: { response: { status, statusText } } } = action
-            const error = `${status} - ${statusText}`
+        case DepositConstants.DELETE_DEPOSIT_FAILED: {
+            const { meta: { id }, payload: errorMessage } = action
 
             const deletingProp = state.deleting[id]
             const newDeletingProp = deletingProp
-                ? { ...deletingProp, deleting: false, error: error }
-                : { ...emptyDelete, error: error }
+                ? { ...deletingProp, deleting: false, error: errorMessage }
+                : { ...emptyDelete, error: errorMessage }
 
             return { ...state, deleting: { ...state.deleting, [id]: newDeletingProp } }
         }
