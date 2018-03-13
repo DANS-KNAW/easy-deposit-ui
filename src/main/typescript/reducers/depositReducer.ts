@@ -26,7 +26,7 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
             return { ...state, loading: { ...state.loading, loading: false, loadingError: action.payload } }
         }
         case DepositConstants.FETCH_DEPOSITS_SUCCESS: {
-            return { ...state, loading: { ...state.loading, loading: false, loaded: true }, deposits: action.payload }
+            return { ...state, loading: { loading: false, loaded: true }, deposits: action.payload }
         }
         case DepositConstants.CLEAN_DEPOSITS: {
             return empty
@@ -53,11 +53,8 @@ export const depositReducer: Reducer<Deposits> = (state = empty, action) => {
         case DepositConstants.DELETE_DEPOSIT_FULFILLED: {
             const { meta: { id } } = action
 
-            const deleteState: DeleteState = state.deleting[id]
-            const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: false, deleted: true }
-                : { ...emptyDelete, deleting: false, deleted: true }
-
+            // just create a new delete object; discard any error if it was there
+            const newDeleteState: DeleteState = { deleting: false, deleted: true }
             const newDeposits: Deposit[] = state.deposits.filter(deposit => deposit.id !== id)
 
             return { ...state, deleting: { ...state.deleting, [id]: newDeleteState }, deposits: newDeposits }
