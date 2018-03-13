@@ -88,9 +88,9 @@ class DepositOverview extends Component<DepositOverviewProps> {
                 const { deleteError } = deleting[depositId]
 
                 if (deleteError) {
-                    const dId = Object.keys(deposits).find(dId => dId === depositId)
-                    const errorText = dId
-                        ? `Cannot delete deposit '${deposits[dId].title}'. An error occurred: ${deleteError}.`
+                    const deposit = deposits[depositId]
+                    const errorText = deposit
+                        ? `Cannot delete deposit '${deposit.title}'. An error occurred: ${deleteError}.`
                         : `Cannot delete a deposit. An error occurred: ${deleteError}.`
 
                     return (
