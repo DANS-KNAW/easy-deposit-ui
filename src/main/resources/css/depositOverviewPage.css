@@ -16,12 +16,16 @@
     color: #919191;
 }
 
+.not_editable_table_row #enter_dataset {
+    visibility: hidden;
+}
+
 tbody tr:last-child {
     border-bottom: 1px solid #dee2e6;
 }
 
 @media (max-width: 767px) {
-    thead, #actions_cell {
+    thead {
         display: none;
     }
 
@@ -44,7 +48,4 @@ tbody tr:last-child {
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-    #actions_cell {
-        display: unset;
-    }
 }

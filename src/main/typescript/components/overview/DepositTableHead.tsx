@@ -19,11 +19,11 @@ const DepositTableHead = () => (
     <thead>
     <tr className="row">
         {/* these column sizes need to match with the sizes in DepositTableRow */}
-        <th className="col-12 col-sm-11 col-md-3" scope="col">Dataset</th>
-        <th className="col-12 col-sm-11 col-md-2" scope="col">Date</th>
-        <th className="col-12 col-sm-11 col-md-2" scope="col">State</th>
-        <th className="col-12 col-sm-11 col-md-4" scope="col">Notes</th>
-        <th className="col-12 col-sm-1  col-md-1" scope="col" id="actions_cell"/>
+        <th className="col-10 col-sm-11 col-md-3" scope="col">Dataset</th>
+        <th className="col-12 col-sm-12 col-md-2" scope="col">Date</th>
+        <th className="col-12 col-sm-12 col-md-2" scope="col">State</th>
+        <th className="col-12 col-sm-12 col-md-4" scope="col">Notes</th>
+        <th className="col-2  col-sm-1  col-md-1" scope="col" id="actions_cell"/>
     </tr>
     </thead>
 )

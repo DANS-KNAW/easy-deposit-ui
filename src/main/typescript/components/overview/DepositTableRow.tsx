@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import * as dateFormat from "dateformat"
-import { DepositId, DeleteState, Deposit, DepositState } from "../../model/Deposits"
+import { DeleteState, Deposit, DepositId, DepositState } from "../../model/Deposits"
 import { Link } from "react-router-dom"
 
 function isEditable({ state }: Deposit): boolean {
@@ -32,16 +32,11 @@ interface DepositTableRowProps {
 const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
     const editable = isEditable(deposit)
 
+    const Enterable = () => <><i className="fas fa-sign-in-alt" id="enter_dataset"/> {deposit.title}</>
+
     const title = editable
-        ? <Link to={`/deposit-form?datasetId=${depositId}`}>
-            <i className="fas fa-sign-in-alt"
-               id="enter_dataset"/> {deposit.title}
-        </Link>
-        : <span>
-            <i className="fas fa-sign-in-alt"
-               id="enter_dataset"
-               style={{ visibility: "hidden" }}/> {deposit.title}
-        </span>
+        ? <Link to={`/deposit-form?datasetId=${depositId}`}><Enterable/></Link>
+        : <Enterable/>
 
     const deleteButton = editable &&
         <button key="delete"
@@ -51,11 +46,6 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
                 onClick={deleteDeposit}>
             <i className="fas fa-trash-alt"/>
         </button>
-    // TODO add more action buttons here
-
-    const actions = [
-        deleteButton,
-    ]
 
     return (
         <tr className={[
@@ -63,11 +53,11 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
             editable ? "" : "not_editable_table_row",
         ].join(" ")}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
-            <td className="col col-12 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
-            <td className="col col-12 col-sm-11 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
-            <td className="col col-12 col-sm-11 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
-            <td className="col col-12 col-sm-11 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
-            <td className="col col-12 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">{actions}</td>
+            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
+            <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
+            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
+            <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
+            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">{deleteButton}</td>
         </tr>
     )
 }
