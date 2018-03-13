@@ -15,22 +15,23 @@
  */
 import * as React from "react"
 import * as dateFormat from "dateformat"
-import { DeleteState, Deposit, DepositState } from "../../model/Deposits"
+import { DepositId, DeleteState, Deposit, DepositState } from "../../model/Deposits"
 import { Link } from "react-router-dom"
 
 interface DepositTableRowProps {
+    depositId: DepositId
     deposit: Deposit
     deleting?: DeleteState
     deleteDeposit: () => void
 }
 
-const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
+const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
     function isEditable({ state }: Deposit): boolean {
         return state === DepositState.DRAFT || state === DepositState.REJECTED
     }
 
     const title = isEditable(deposit)
-        ? <Link to={`/deposit-form?datasetId=${deposit.id}`}>{deposit.title}</Link>
+        ? <Link to={`/deposit-form?datasetId=${depositId}`}>{deposit.title}</Link>
         : deposit.title
 
     const deleteButton = isEditable(deposit) &&

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import { baseURL } from "../lib/config"
-import { DatasetId } from "../model/Deposits"
+import { DepositId } from "../model/Deposits"
 
 const createURL = (path: string) => `${baseURL}/${path}`
 
 export const listDepositsURL = createURL("deposit")
-export const deleteDepositURL = (id: DatasetId) => createURL(`deposit/${id}`)
+export const deleteDepositURL = (id: DepositId) => createURL(`deposit/${id}`)

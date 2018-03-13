@@ -17,10 +17,10 @@ import { ReduxAction } from "../lib/redux"
 import { DepositConstants } from "../constants/depositConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL } from "../constants/apiConstants"
-import { DatasetId, Deposit } from "../model/Deposits"
+import { DepositId, Deposit, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 
-export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
+export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
     type: DepositConstants.FETCH_DEPOSITS,
     async payload() {
         // TODO temporary do a fake timeout to simulate server I/O
@@ -30,7 +30,7 @@ export const fetchDeposits: () => ReduxAction<Promise<Deposit[]>> = () => ({
     },
 })
 
-export const fetchDepositsSucceeded: (deposits: Deposit[]) => ReduxAction<Deposit[]> = deposits => ({
+export const fetchDepositsSucceeded: (deposits: Deposits) => ReduxAction<Deposits> = deposits => ({
     type: DepositConstants.FETCH_DEPOSITS_SUCCESS,
     payload: deposits,
 })
@@ -44,18 +44,18 @@ export const cleanDeposits: () => Action = () => ({
     type: DepositConstants.CLEAN_DEPOSITS,
 })
 
-export const deleteDeposit: (id: DatasetId) => ReduxAction<Promise<void>> = id => ({
+export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>> = depositId => ({
     type: DepositConstants.DELETE_DEPOSIT,
     async payload() {
         // TODO temporary do a fake timeout to simulate server I/O
         await new Promise(resolve => setTimeout(resolve, 1000))
-        await axios.delete(deleteDepositURL(id))
+        await axios.delete(deleteDepositURL(depositId))
     },
-    meta: { id: id },
+    meta: { depositId: depositId },
 })
 
-export const deleteDepositFailed: (id: DatasetId) => (errorMessage: string) => ReduxAction<string> = id => errorMessage => ({
+export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: string) => ReduxAction<string> = depositId => errorMessage => ({
     type: DepositConstants.DELETE_DEPOSIT_FAILED,
     payload: errorMessage,
-    meta: { id: id },
+    meta: { depositId: depositId },
 })

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type DatasetId = string
+export type DepositId = string
 
 export enum DepositState {
     DRAFT = "DRAFT",
@@ -32,8 +32,9 @@ export function toDepositState(value: string): DepositState {
     return Object.values(DepositState).find(v => v === value)
 }
 
+export type Deposits = {[depositId: string]: Deposit}
+
 export interface Deposit {
-    id: DatasetId
     title: string
     state: DepositState
     stateDescription: string
@@ -52,24 +53,24 @@ export interface DeleteState {
     deleteError?: string
 }
 
-export type DeletingStates = {[id: string]: DeleteState}
+export type DeletingStates = {[depositId: string]: DeleteState}
 
 export const emptyDelete: DeleteState = ({
     deleting: false,
     deleted: false
 })
 
-export interface Deposits {
+export interface DepositOverviewState {
     loading: LoadingState
     deleting: DeletingStates
-    deposits: Deposit[]
+    deposits: Deposits
 }
 
-export const empty: Deposits = {
+export const empty: DepositOverviewState = {
     loading: {
         loading: false,
         loaded: false
     },
     deleting: {},
-    deposits: [],
+    deposits: {},
 }

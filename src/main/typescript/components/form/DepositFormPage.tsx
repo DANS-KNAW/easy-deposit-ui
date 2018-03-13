@@ -15,12 +15,12 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { DatasetId } from "../../model/Deposits"
+import { DepositId } from "../../model/Deposits"
 import { RouteComponentProps } from "react-router"
 import * as queryString from "query-string"
 
 interface RouterParams {
-    datasetId: DatasetId
+    datasetId: DepositId
 }
 
 interface MyDepositFormPageProps {

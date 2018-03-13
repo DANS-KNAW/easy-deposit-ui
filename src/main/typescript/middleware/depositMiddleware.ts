@@ -15,7 +15,7 @@
  */
 import { Middleware } from "redux"
 import { DepositConstants } from "../constants/depositConstants"
-import { Deposit, toDepositState } from "../model/Deposits"
+import { Deposit, Deposits, toDepositState } from "../model/Deposits"
 import { fetchDepositsFailed, fetchDepositsSucceeded } from "../actions/depositActions"
 import { createMiddleware } from "../lib/redux"
 
@@ -24,11 +24,11 @@ const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, ac
 
     if (action.type === DepositConstants.FETCH_DEPOSITS_FULFILLED) {
         try {
-            const deposits: Deposit[] = action.payload.map((input: any) => {
+            const deposits: Deposits = action.payload.map((input: any) => {
                 const state = toDepositState(input.state)
                 if (state) {
                     return ({
-                        id: input.id,
+                        depositId: input.id,
                         title: input.title,
                         state: state,
                         stateDescription: input.state_description,
@@ -39,7 +39,15 @@ const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, ac
                     // fail fast when an illegal deposit state is detected
                     // error message is caught below
                     throw `Error in deposit ${input.id}: no such value: '${input.state}'`
-            })
+            }).reduce((obj: Deposits, item: Deposit & {depositId: string}) => {
+                obj[item.depositId] = ({
+                    title: item.title,
+                    state: item.state,
+                    stateDescription: item.stateDescription,
+                    date: item.date
+                })
+                return obj
+            }, {})
 
             dispatch(fetchDepositsSucceeded(deposits))
         }

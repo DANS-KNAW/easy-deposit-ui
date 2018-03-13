@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 import { empty as emptyUser, UserDetails } from "./UserDetails"
-import { empty as emptyDeposits, Deposits } from "./Deposits"
+import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
 
 export interface AppState {
     user: UserDetails
-    deposits: Deposits
+    deposits: DepositOverviewState
 }
 
 export const empty: AppState = {

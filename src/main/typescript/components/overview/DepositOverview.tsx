@@ -17,7 +17,7 @@ import * as React from "react"
 import { Component } from "react"
 import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
-import { DatasetId, Deposit, Deposits } from "../../model/Deposits"
+import { DepositId, DepositOverviewState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositActions"
 import { ReduxAction } from "../../lib/redux"
 import { Action } from "redux"
@@ -25,10 +25,10 @@ import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 
 interface DepositOverviewProps {
-    deposits: Deposits
-    fetchDeposits: () => ReduxAction<Promise<Deposit[]>>
+    deposits: DepositOverviewState
+    fetchDeposits: () => ReduxAction<Promise<any>>
     cleanDeposits: () => Action
-    deleteDeposit: (id: DatasetId) => ReduxAction<Promise<void>>
+    deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {
@@ -67,7 +67,8 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { deposits: { loading: { loadingError } } } = this.props
 
         return loadingError &&
-            <div className="alert alert-danger"
+            <div key="loadingError"
+                 className="alert alert-danger"
                  role="alert">
                 An error occurred: {loadingError}. Cannot load data from the server.
                 {/* reset certain style elements from .close in the button below using the style attribute */}
@@ -81,20 +82,20 @@ class DepositOverview extends Component<DepositOverviewProps> {
     }
 
     private renderDeleteError() {
-        const { deposits: { deleting } } = this.props
+        const { deposits: { deleting, deposits } } = this.props
 
         return Object.keys(deleting)
-            .map(id => {
-                const { deleteError } = deleting[id]
+            .map(depositId => {
+                const { deleteError } = deleting[depositId]
 
                 if (deleteError) {
-                    const deposit = this.props.deposits.deposits.find(deposit => deposit.id === id)
-                    const errorText = deposit
-                        ? `Cannot delete deposit '${deposit.title}'. An error occurred: ${deleteError}.`
+                    const dId = Object.keys(deposits).find(dId => dId === depositId)
+                    const errorText = dId
+                        ? `Cannot delete deposit '${deposits[dId].title}'. An error occurred: ${deleteError}.`
                         : `Cannot delete a deposit. An error occurred: ${deleteError}.`
 
                     return (
-                        <div key={id}
+                        <div key={depositId}
                              className="alert alert-warning alert-dismissible fade show"
                              role="alert">
                             {errorText}
@@ -115,11 +116,12 @@ class DepositOverview extends Component<DepositOverviewProps> {
 
         return <table className="table table-hover">
             <DepositTableHead/>
-            <tbody>{deposits.map(deposit =>
-                <DepositTableRow key={deposit.id}
-                                 deposit={deposit}
-                                 deleting={deleting[deposit.id]}
-                                 deleteDeposit={() => deleteDeposit(deposit.id)}/>,
+            <tbody>{Object.keys(deposits).map(depositId =>
+                <DepositTableRow key={depositId}
+                                 depositId={depositId}
+                                 deposit={deposits[depositId]}
+                                 deleting={deleting[depositId]}
+                                 deleteDeposit={() => deleteDeposit(depositId)}/>,
             )}</tbody>
         </table>
     }
