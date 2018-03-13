@@ -15,6 +15,7 @@
  */
 import * as React from "react"
 import { buildDate, projectVersion } from "../lib/config"
+import "../../resources/css/footer"
 
 const dsa = require("../../resources/img/footer/logo_DSA.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
