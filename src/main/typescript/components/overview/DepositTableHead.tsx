@@ -17,12 +17,13 @@ import * as React from "react"
 
 const DepositTableHead = () => (
     <thead>
-    <tr>
-        <th scope="col">Dataset</th>
-        <th scope="col">Date</th>
-        <th scope="col">State</th>
-        <th scope="col">Notes</th>
-        <th scope="col" id="actions_cell">Action</th>
+    <tr className="row">
+        {/* these column sizes need to match with the sizes in DepositTableRow */}
+        <th className="col-12 col-sm-11 col-md-3" scope="col">Dataset</th>
+        <th className="col-12 col-sm-11 col-md-2" scope="col">Date</th>
+        <th className="col-12 col-sm-11 col-md-2" scope="col">State</th>
+        <th className="col-12 col-sm-11 col-md-4" scope="col">Notes</th>
+        <th className="col-12 col-sm-1  col-md-1" scope="col" id="actions_cell"/>
     </tr>
     </thead>
 )

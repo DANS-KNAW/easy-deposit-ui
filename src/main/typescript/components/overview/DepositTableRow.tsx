@@ -18,6 +18,10 @@ import * as dateFormat from "dateformat"
 import { DepositId, DeleteState, Deposit, DepositState } from "../../model/Deposits"
 import { Link } from "react-router-dom"
 
+function isEditable({ state }: Deposit): boolean {
+    return state === DepositState.DRAFT || state === DepositState.REJECTED
+}
+
 interface DepositTableRowProps {
     depositId: DepositId
     deposit: Deposit
@@ -26,18 +30,23 @@ interface DepositTableRowProps {
 }
 
 const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
-    function isEditable({ state }: Deposit): boolean {
-        return state === DepositState.DRAFT || state === DepositState.REJECTED
-    }
+    const editable = isEditable(deposit)
 
-    const title = isEditable(deposit)
-        ? <Link to={`/deposit-form?datasetId=${depositId}`}>{deposit.title}</Link>
-        : deposit.title
+    const title = editable
+        ? <Link to={`/deposit-form?datasetId=${depositId}`}>
+            <i className="fas fa-sign-in-alt"
+               id="enter_dataset"/> {deposit.title}
+        </Link>
+        : <span>
+            <i className="fas fa-sign-in-alt"
+               id="enter_dataset"
+               style={{ visibility: "hidden" }}/> {deposit.title}
+        </span>
 
-    const deleteButton = isEditable(deposit) &&
+    const deleteButton = editable &&
         <button key="delete"
                 className="close icon"
-                style={{float: "unset"}}
+                style={{ float: "unset" }}
                 disabled={deleting && deleting.deleting}
                 onClick={deleteDeposit}>
             <i className="fas fa-trash-alt"/>
@@ -49,12 +58,16 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
     ]
 
     return (
-        <tr>
-            <td scope="row">{title}</td>
-            <td>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
-            <td>{deposit.state}</td>
-            <td>{deposit.stateDescription}</td>
-            <td id="actions_cell">{actions}</td>
+        <tr className={[
+            "row",
+            editable ? "" : "not_editable_table_row",
+        ].join(" ")}>
+            {/* these column sizes need to match with the sizes in DepositTableHead */}
+            <td className="col col-12 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
+            <td className="col col-12 col-sm-11 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
+            <td className="col col-12 col-sm-11 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
+            <td className="col col-12 col-sm-11 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
+            <td className="col col-12 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">{actions}</td>
         </tr>
     )
 }

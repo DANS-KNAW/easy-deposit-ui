@@ -1,6 +1,6 @@
 .btn {
-    /*          bottom */
-    margin: 0 0 10px;
+    /*      top    bottom */
+    margin: 10px 0 20px;
 }
 
 .icon {
@@ -10,4 +10,41 @@
 
 #actions_cell {
     text-align: center;
+}
+
+.not_editable_table_row {
+    color: #919191;
+}
+
+tbody tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
+@media (max-width: 767px) {
+    thead, #actions_cell {
+        display: none;
+    }
+
+    .table td,
+    .table th {
+        border: 0;
+        padding-top: unset;
+        padding-bottom: unset;
+    }
+
+    .table tr {
+        border-top: 1px solid #dee2e6;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #enter_dataset {
+        display: none;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    #actions_cell {
+        display: unset;
+    }
 }

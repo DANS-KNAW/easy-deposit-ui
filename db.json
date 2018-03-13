@@ -2,9 +2,9 @@
   "deposit": [
     {
       "id": "93674123-1699-49c5-af91-ed31db19adc9",
-      "title": "Current Dataset",
+      "title": "Current Dataset with a very very very very very very very very very very long title",
       "state": "DRAFT",
-      "state_description": "",
+      "state_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies arcu nec erat rhoncus, non interdum risus mattis. ",
       "date": "2018-01-20T10:40:52Z"
     },
     {
