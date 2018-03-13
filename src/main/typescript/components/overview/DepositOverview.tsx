@@ -73,8 +73,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
                 An error occurred: {loadingError}. Cannot load data from the server.
                 {/* reset certain style elements from .close in the button below using the style attribute */}
                 <button type="button"
-                        className="close"
-                        style={{ fontSize: "1rem", lineHeight: "0" }}
+                        className="close icon"
                         onClick={this.props.fetchDeposits}>
                     <i className="fas fa-sync-alt"/>
                 </button>

@@ -1,0 +1,13 @@
+.btn {
+    /*          bottom */
+    margin: 0 0 10px;
+}
+
+.icon {
+    font-size: 1rem;
+    line-height: 0;
+}
+
+#actions_cell {
+    text-align: center;
+}

@@ -16,6 +16,7 @@
 import * as React from "react"
 import { Link } from "react-router-dom"
 import DepositOverview from "./DepositOverview"
+import "../../../resources/css/depositOverviewPage"
 
 const DepositOverviewPage = () => (
     <>

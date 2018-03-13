@@ -22,7 +22,7 @@ const DepositTableHead = () => (
         <th scope="col">Date</th>
         <th scope="col">State</th>
         <th scope="col">Notes</th>
-        <th scope="col">Action</th>
+        <th scope="col" id="actions_cell">Action</th>
     </tr>
     </thead>
 )

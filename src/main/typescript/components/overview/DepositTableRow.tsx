@@ -35,7 +35,13 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
         : deposit.title
 
     const deleteButton = isEditable(deposit) &&
-        <button key="delete" disabled={deleting && deleting.deleting} onClick={deleteDeposit}>Delete</button>
+        <button key="delete"
+                className="close icon"
+                style={{float: "unset"}}
+                disabled={deleting && deleting.deleting}
+                onClick={deleteDeposit}>
+            <i className="fas fa-trash-alt"/>
+        </button>
     // TODO add more action buttons here
 
     const actions = [
@@ -48,7 +54,7 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
             <td>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
             <td>{deposit.state}</td>
             <td>{deposit.stateDescription}</td>
-            <td>{actions}</td>
+            <td id="actions_cell">{actions}</td>
         </tr>
     )
 }
