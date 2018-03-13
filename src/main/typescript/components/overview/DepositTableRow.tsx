@@ -38,11 +38,6 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowPr
         : undefined
     // TODO add more action buttons here
 
-    const deleteErr = deleting && deleting.deleteError
-        ? <p key="delete_error" style={{ color: "red" }}>An error occured: {deleting.deleteError}. Cannot delete this
-            deposit.</p>
-        : undefined
-
     const actions = [
         deleteButton,
         deleteErr,

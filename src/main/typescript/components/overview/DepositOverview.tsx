@@ -44,6 +44,72 @@ class DepositOverview extends Component<DepositOverviewProps> {
         this.props.cleanDeposits()
     }
 
+    render() {
+        const { deposits: { loading: { loading, loaded } } } = this.props
+
+        return (
+            <>
+                {this.renderAlerts()}
+                {loading && <p>loading data...</p>}
+                {loaded && this.renderTable()}
+            </>
+        )
+    }
+
+    private renderAlerts() {
+        return [
+            this.renderLoadingError(),
+            this.renderDeleteError(),
+        ]
+    }
+
+    private renderLoadingError() {
+        const { deposits: { loading: { loadingError } } } = this.props
+
+        return loadingError &&
+            <div className="alert alert-danger"
+                 role="alert">
+                An error occurred: {loadingError}. Cannot load data from the server.
+                {/* reset certain style elements from .close in the button below using the style attribute */}
+                <button type="button"
+                        className="close"
+                        style={{ fontSize: "1rem", lineHeight: "0" }}
+                        onClick={this.props.fetchDeposits}>
+                    <i className="fas fa-sync-alt"/>
+                </button>
+            </div>
+    }
+
+    private renderDeleteError() {
+        const { deposits: { deleting } } = this.props
+
+        return Object.keys(deleting)
+            .map(id => {
+                const { deleteError } = deleting[id]
+
+                if (deleteError) {
+                    const deposit = this.props.deposits.deposits.find(deposit => deposit.id === id)
+                    const errorText = deposit
+                        ? `Cannot delete deposit '${deposit.title}'. An error occurred: ${deleteError}.`
+                        : `Cannot delete a deposit. An error occurred: ${deleteError}.`
+
+                    return (
+                        <div key={id}
+                             className="alert alert-warning alert-dismissible fade show"
+                             role="alert">
+                            {errorText}
+                            <button type="button"
+                                    className="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    )
+                }
+            })
+    }
+
     private renderTable() {
         const { deposits: { deposits, deleting }, deleteDeposit } = this.props
 
@@ -56,23 +122,6 @@ class DepositOverview extends Component<DepositOverviewProps> {
                                  deleteDeposit={() => deleteDeposit(deposit.id)}/>,
             )}</tbody>
         </table>
-    }
-
-    render() {
-        const { deposits: { loading: { loading, loaded, loadingError } } } = this.props
-
-        const init = loading && <p>loading data...</p>
-        const loadingErr = loadingError &&
-            <p style={{ color: "red" }}>An error occured: {loadingError}. Cannot load data from the server.</p>
-        const data = loaded && this.renderTable()
-
-        return (
-            <>
-                {init}
-                {loadingErr}
-                {data}
-            </>
-        )
     }
 }
 
