@@ -33,15 +33,13 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit }: DepositTableRowPr
         ? <Link to={`/deposit-form?datasetId=${deposit.id}`}>{deposit.title}</Link>
         : deposit.title
 
-    const deleteButton = isEditable(deposit)
-        ? <button key="delete" disabled={deleting && deleting.deleting} onClick={deleteDeposit}>Delete</button>
-        : undefined
+    const deleteButton = isEditable(deposit) &&
+        <button key="delete" disabled={deleting && deleting.deleting} onClick={deleteDeposit}>Delete</button>
     // TODO add more action buttons here
 
     const actions = [
         deleteButton,
-        deleteErr,
-    ].filter(value => value !== undefined)
+    ]
 
     return (
         <tr>
