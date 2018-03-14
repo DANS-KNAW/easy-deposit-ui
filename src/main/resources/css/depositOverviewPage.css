@@ -66,5 +66,7 @@ tbody tr:last-child {
     }
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
+/* reset the color for '.alert-dismissible .close' when it has a '.icon' */
+.alert-dismissible .close.icon {
+    color: initial;
 }

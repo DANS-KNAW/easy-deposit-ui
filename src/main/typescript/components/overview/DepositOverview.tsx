@@ -67,20 +67,16 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { deposits: { loading: { loadingError } } } = this.props
 
         return loadingError &&
-            <div className="container">
-                <div key="loadingError"
-                     className="alert alert-danger row"
-                     role="alert">
-                <span className="col col-11">
-                    An error occurred: {loadingError}. Cannot load data from the server.
-                </span>
-                    {/* reset certain style elements from .close in the button below using the style attribute */}
-                    <button type="button"
-                            className="close icon col col-1"
-                            onClick={this.props.fetchDeposits}>
-                        <i className="fas fa-sync-alt"/>
-                    </button>
-                </div>
+            <div key="loadingError"
+                 className="alert alert-danger alert-dismissible"
+                 role="alert">
+                An error occurred: {loadingError}. Cannot load data from the server.
+                {/* reset certain style elements from .close in the button below using the style attribute */}
+                <button type="button"
+                        className="close icon"
+                        onClick={this.props.fetchDeposits}>
+                    <i className="fas fa-sync-alt"/>
+                </button>
             </div>
     }
 
