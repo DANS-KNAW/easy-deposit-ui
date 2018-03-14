@@ -20,6 +20,7 @@ import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
 import { Action } from "redux"
 import { signout } from "../actions/authenticationActions"
+import "../../resources/css/header"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")

@@ -13,10 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import "header.css";
-@import "main.css";
-@import "footer.css";
-
 body {
     background: #e6e6e6;
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
@@ -52,4 +48,18 @@ body {
     #app {
         width: 1200px;
     }
+}
+
+main.container {
+    /*       top  side bottom*/
+    padding: 10px 15px 60px;
+    font-size: 14px;
+}
+
+main h1 {
+    font-size: 25px;
+}
+
+main a {
+    color: black;
 }

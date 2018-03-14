@@ -1,0 +1,72 @@
+/**
+ * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.btn {
+    /*      top    bottom */
+    margin: 10px 0 20px;
+}
+
+.icon {
+    font-size: 1rem;
+    line-height: 0;
+}
+
+.close:disabled, .close.disabled {
+    opacity: .25;
+}
+
+#actions_cell {
+    text-align: center;
+}
+
+.not_editable_table_row {
+    color: #919191;
+}
+
+.not_editable_table_row #enter_dataset {
+    visibility: hidden;
+}
+
+tbody tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
+@media (max-width: 767px) {
+    thead {
+        display: none;
+    }
+
+    .table td,
+    .table th {
+        border: 0;
+        padding-top: unset;
+        padding-bottom: unset;
+    }
+
+    .table tr {
+        border-top: 1px solid #dee2e6;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #enter_dataset {
+        display: none;
+    }
+}
+
+/* reset the color for '.alert-dismissible .close' when it has a '.icon' */
+.alert-dismissible .close.icon {
+    color: initial;
+}

@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { empty as emptyUser, UserDetails } from "./UserDetails"
-import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+import { depositMiddleware } from "./depositMiddleware"
+import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
 
-export interface AppState {
-    user: UserDetails
-    deposits: DepositOverviewState
-}
-
-export const empty: AppState = {
-    user: emptyUser,
-    deposits: emptyDeposits,
-}
+export default [
+    ...depositMiddleware,
+    ...rejectedRequestMiddleware,
+]

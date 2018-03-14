@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { empty as emptyUser, UserDetails } from "./UserDetails"
-import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+import * as React from "react"
 
-export interface AppState {
-    user: UserDetails
-    deposits: DepositOverviewState
-}
+const DepositTableHead = () => (
+    <thead>
+    <tr className="row">
+        {/* these column sizes need to match with the sizes in DepositTableRow */}
+        <th className="col-10 col-sm-11 col-md-3" scope="col">Dataset</th>
+        <th className="col-12 col-sm-12 col-md-2" scope="col">Date</th>
+        <th className="col-12 col-sm-12 col-md-2" scope="col">State</th>
+        <th className="col-12 col-sm-12 col-md-4" scope="col">Notes</th>
+        <th className="col-2  col-sm-1  col-md-1" scope="col" id="actions_cell"/>
+    </tr>
+    </thead>
+)
 
-export const empty: AppState = {
-    user: emptyUser,
-    deposits: emptyDeposits,
-}
+export default DepositTableHead

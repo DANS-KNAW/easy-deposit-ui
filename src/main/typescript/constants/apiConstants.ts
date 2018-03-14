@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-main.container {
-    padding: 60px 15px;
-}
+import { baseURL } from "../lib/config"
+import { DepositId } from "../model/Deposits"
+
+const createURL = (path: string) => `${baseURL}/${path}`
+
+export const listDepositsURL = createURL("deposit")
+export const deleteDepositURL = (id: DepositId) => createURL(`deposit/${id}`)

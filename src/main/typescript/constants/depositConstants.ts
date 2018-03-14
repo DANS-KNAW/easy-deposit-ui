@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { empty as emptyUser, UserDetails } from "./UserDetails"
-import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+export enum DepositConstants {
+    FETCH_DEPOSITS = "FETCH_DEPOSITS",
+    FETCH_DEPOSITS_PENDING = "FETCH_DEPOSITS_PENDING",
+    FETCH_DEPOSITS_FULFILLED = "FETCH_DEPOSITS_FULFILLED",
+    FETCH_DEPOSITS_REJECTED = "FETCH_DEPOSITS_REJECTED",
+    FETCH_DEPOSITS_SUCCESS = "FETCH_DEPOSITS_SUCCESS",
+    FETCH_DEPOSITS_FAILED = "FETCH_DEPOSITS_FAILED",
 
-export interface AppState {
-    user: UserDetails
-    deposits: DepositOverviewState
-}
+    CLEAN_DEPOSITS = "CLEAN_DEPOSITS",
 
-export const empty: AppState = {
-    user: emptyUser,
-    deposits: emptyDeposits,
+    DELETE_DEPOSIT = "DELETE_DEPOSIT",
+    DELETE_DEPOSIT_PENDING = "DELETE_DEPOSIT_PENDING",
+    DELETE_DEPOSIT_FULFILLED = "DELETE_DEPOSIT_FULFILLED",
+    DELETE_DEPOSIT_REJECTED = "DELETE_DEPOSIT_REJECTED",
+    DELETE_DEPOSIT_FAILED = "DELETE_DEPOSIT_FAILED",
 }
