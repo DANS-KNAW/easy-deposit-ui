@@ -37,7 +37,7 @@ const newStore = () => {
         )
     }
     else
-        return createStore(reducers, applyMiddleware(thunkMiddleware, promiseMiddleware()))
+        return createStore(reducers, applyMiddleware(...customMiddleware, thunkMiddleware, promiseMiddleware()))
 }
 
 export default newStore()

@@ -64,7 +64,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
     }
 
     private renderLoadingError() {
-        const { deposits: { loading: { loadingError } } } = this.props
+        const { fetchDeposits, deposits: { loading: { loadingError } } } = this.props
 
         return loadingError &&
             <div key="loadingError"
@@ -74,7 +74,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
                 {/* reset certain style elements from .close in the button below using the style attribute */}
                 <button type="button"
                         className="close icon"
-                        onClick={this.props.fetchDeposits}>
+                        onClick={fetchDeposits}>
                     <i className="fas fa-sync-alt"/>
                 </button>
             </div>

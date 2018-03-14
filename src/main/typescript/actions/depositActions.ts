@@ -17,7 +17,7 @@ import { ReduxAction } from "../lib/redux"
 import { DepositConstants } from "../constants/depositConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL } from "../constants/apiConstants"
-import { DepositId, Deposit, Deposits } from "../model/Deposits"
+import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 
 export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
