@@ -38,13 +38,16 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
         ? <Link to={`/deposit-form?datasetId=${depositId}`}><Enterable/></Link>
         : <Enterable/>
 
+    const isDeleting = deleting && deleting.deleting
     const deleteButton = editable &&
         <button key="delete"
                 className="close icon"
                 style={{ float: "unset" }}
-                disabled={deleting && deleting.deleting}
+                disabled={isDeleting}
                 onClick={deleteDeposit}>
-            <i className="fas fa-trash-alt"/>
+            { isDeleting
+                ? <i className="fas fa-sync-alt fa-spin"/>
+                : <i className="fas fa-trash-alt"/>}
         </button>
 
     return (

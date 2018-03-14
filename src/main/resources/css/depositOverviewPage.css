@@ -23,6 +23,10 @@
     line-height: 0;
 }
 
+.close:disabled, .close.disabled {
+    opacity: .25;
+}
+
 #actions_cell {
     text-align: center;
 }
