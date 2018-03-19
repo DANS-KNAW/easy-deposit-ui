@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { buildDate, projectVersion } from "../lib/config"
+import { baseURL, buildDate, projectVersion } from "../lib/config"
 import "../../resources/css/footer"
 
 const dsa = require("../../resources/img/footer/logo_DSA.png")
@@ -127,6 +127,7 @@ const Footer = () => (
                     <span>
                         <div>Version: <span>{projectVersion}</span></div>
                         <div>Build date: <span>{buildDate}</span></div>
+                        {(process.env.NODE_ENV === "development") && <div>API base url: <span>{baseURL}</span></div>}
                     </span>
                 </div>
             </div>
