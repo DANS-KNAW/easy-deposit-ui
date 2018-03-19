@@ -2,7 +2,10 @@ import * as express from 'express';
 import { Request, Response } from "express"
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import { createDeposit, deleteDeposit, getData, getDeposit, getState, setState } from "./db"
+import {
+    createDeposit, deleteDeposit, getData, getDeposit, getMetadata, getState, hasMetadata, setMetadata,
+    setState,
+} from "./db"
 
 const app = express();
 app.use(bodyParser.json());
@@ -43,13 +46,38 @@ app.delete('/deposit/:id', (req: Request, res: Response) => {
 
 app.get('/deposit/:id/metadata', (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/metadata`)
-    // TODO to be implemented
-    console.log("  ???")
+    if (hasMetadata(req.params.id)) {
+        const result = getMetadata(req.params.id)
+        if (result) {
+            res.status(200)
+            res.json(result)
+            console.log("  200")
+        }
+        else {
+            res.status(410)
+            res.send("Gone. The metadata is no longer available, because the deposit has been fully processed.")
+            console.log("  410")
+        }
+    }
+    else {
+        res.status(404)
+        res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
+        console.log("  404")
+    }
 })
 app.put('/deposit/:id/metadata', (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/metadata`)
-    // TODO to be implemented
-    console.log("  ???")
+    if (hasMetadata(req.params.id)) {
+        setMetadata(req.params.id, req.body)
+        res.status(204)
+        res.send("Dataset metadata written successfully.")
+        console.log("  204")
+    }
+    else {
+        res.status(404)
+        res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
+        console.log("  404")
+    }
 })
 
 app.get('/deposit/:id/state', (req: Request, res: Response) => {
