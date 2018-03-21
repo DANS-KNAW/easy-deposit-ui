@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 import { ReduxAction } from "../lib/redux"
-import { DepositConstants } from "../constants/depositConstants"
+import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL } from "../constants/apiConstants"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 
 export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
-    type: DepositConstants.FETCH_DEPOSITS,
+    type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
         // TODO temporary do a fake timeout to simulate server I/O
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -31,21 +31,21 @@ export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
 })
 
 export const fetchDepositsSucceeded: (deposits: Deposits) => ReduxAction<Deposits> = deposits => ({
-    type: DepositConstants.FETCH_DEPOSITS_SUCCESS,
+    type: DepositOverviewConstants.FETCH_DEPOSITS_SUCCESS,
     payload: deposits,
 })
 
 export const fetchDepositsFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositConstants.FETCH_DEPOSITS_FAILED,
+    type: DepositOverviewConstants.FETCH_DEPOSITS_FAILED,
     payload: errorMessage,
 })
 
 export const cleanDeposits: () => Action = () => ({
-    type: DepositConstants.CLEAN_DEPOSITS,
+    type: DepositOverviewConstants.CLEAN_DEPOSITS,
 })
 
 export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>> = depositId => ({
-    type: DepositConstants.DELETE_DEPOSIT,
+    type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
         // TODO temporary do a fake timeout to simulate server I/O
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -55,7 +55,7 @@ export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
 })
 
 export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: string) => ReduxAction<string> = depositId => errorMessage => ({
-    type: DepositConstants.DELETE_DEPOSIT_FAILED,
+    type: DepositOverviewConstants.DELETE_DEPOSIT_FAILED,
     payload: errorMessage,
     meta: { depositId: depositId },
 })
