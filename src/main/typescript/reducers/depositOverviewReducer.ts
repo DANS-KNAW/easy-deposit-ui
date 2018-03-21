@@ -16,23 +16,23 @@
 import { DeleteState, DepositOverviewState, Deposits, empty, emptyDelete } from "../model/Deposits"
 import { Reducer } from "redux"
 import immutable from "object-path-immutable"
-import { DepositConstants } from "../constants/depositConstants"
+import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 
-export const depositReducer: Reducer<DepositOverviewState> = (state = empty, action) => {
+export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = empty, action) => {
     switch (action.type) {
-        case DepositConstants.FETCH_DEPOSITS_PENDING: {
+        case DepositOverviewConstants.FETCH_DEPOSITS_PENDING: {
             return { ...state, loading: { ...state.loading, loading: true, loadingError: undefined } }
         }
-        case DepositConstants.FETCH_DEPOSITS_FAILED: {
+        case DepositOverviewConstants.FETCH_DEPOSITS_FAILED: {
             return { ...state, loading: { ...state.loading, loading: false, loadingError: action.payload } }
         }
-        case DepositConstants.FETCH_DEPOSITS_SUCCESS: {
+        case DepositOverviewConstants.FETCH_DEPOSITS_SUCCESS: {
             return { ...state, loading: { loading: false, loaded: true }, deposits: action.payload }
         }
-        case DepositConstants.CLEAN_DEPOSITS: {
+        case DepositOverviewConstants.CLEAN_DEPOSITS: {
             return empty
         }
-        case DepositConstants.DELETE_DEPOSIT_PENDING: {
+        case DepositOverviewConstants.DELETE_DEPOSIT_PENDING: {
             const { meta: { depositId } } = action
 
             const deleteState: DeleteState = state.deleting[depositId]
@@ -41,7 +41,7 @@ export const depositReducer: Reducer<DepositOverviewState> = (state = empty, act
                 : { ...emptyDelete, deleting: true }
             return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState } }
         }
-        case DepositConstants.DELETE_DEPOSIT_FAILED: {
+        case DepositOverviewConstants.DELETE_DEPOSIT_FAILED: {
             const { meta: { depositId }, payload: errorMessage } = action
 
             const deleteState: DeleteState = state.deleting[depositId]
@@ -51,7 +51,7 @@ export const depositReducer: Reducer<DepositOverviewState> = (state = empty, act
 
             return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState } }
         }
-        case DepositConstants.DELETE_DEPOSIT_FULFILLED: {
+        case DepositOverviewConstants.DELETE_DEPOSIT_FULFILLED: {
             const { meta: { depositId } } = action
 
             // just create a new delete object; discard any error if it was there

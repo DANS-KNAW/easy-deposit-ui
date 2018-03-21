@@ -15,9 +15,9 @@
  */
 import { combineReducers } from "redux"
 import { authenticationReducer } from "./authenticationReducer"
-import { depositReducer } from "./depositReducer"
+import { depositOverviewReducer } from "./depositOverviewReducer"
 
 export default combineReducers({
     user: authenticationReducer,
-    deposits: depositReducer,
+    deposits: depositOverviewReducer,
 })
