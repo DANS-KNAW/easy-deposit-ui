@@ -21,6 +21,7 @@
   },
   "include": [
     "./src/main/typescript/**/*",
+    "./src/test/typescript/**/*",
     "./src/main/css/*",
     "./src/main/img/*",
     "./node_modules/object-path-immutable/*"
