@@ -13,12 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as express from 'express';
+import * as express from "express"
 import { Request, Response } from "express"
-import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
+import * as bodyParser from "body-parser"
+import * as cors from "cors"
 import {
-    createDeposit, deleteDeposit, getData, getDeposit, getMetadata, getState, hasMetadata, setMetadata,
+    createDeposit,
+    deleteDeposit,
+    getDeposit,
+    getMetadata,
+    getState,
+    hasMetadata,
+    listDeposits,
+    setMetadata,
     setState,
 } from "./db"
 
@@ -29,7 +36,7 @@ app.use(cors())
 app.get('/deposit', (req: Request, res: Response) => {
     console.log("GET /deposit")
     res.status(200)
-    res.json(getData().deposit)
+    res.json(listDeposits())
     console.log("  200")
 })
 app.post('/deposit', (req: Request, res: Response) => {

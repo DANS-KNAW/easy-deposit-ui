@@ -14,43 +14,61 @@
  * limitations under the License.
  */
 import * as uuid from "uuid/v4"
-import { Deposit, depositData, State } from "./deposit"
-import { Metadata, metadataData, newMetadata } from "./metadata"
+import immutable from "object-path-immutable"
+import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
+import { allfields, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 
-export interface Data {
-    deposit: Deposit[]
-    metadata: { [id: string]: Metadata | undefined }
+interface DataPerDraft {
+    deposit: Deposit
+    metadata?: Metadata
 }
+
+export type Data = { [id: string]: DataPerDraft }
 
 let data: Data = {
-    deposit: depositData,
-    metadata: metadataData,
+    "93674123-1699-49c5-af91-ed31db19adc9": {
+        deposit: depositData1,
+        metadata: allfields,
+    },
+    "1d946f5b-e53b-4f71-b1f3-7481475d07db": {
+        deposit: depositData2,
+        metadata: mandatoryOnly,
+    },
+    "a145a1be-5463-4b10-a621-a9e511ff7f20": {
+        deposit: depositData3,
+    },
+    "5befec97-1e57-4210-b7b6-57a604aaef47": {
+        deposit: depositData4,
+    },
 }
 
-export const getData: () => Data = () => data
+export const listDeposits: () => (Deposit & { id: string })[] = () => {
+    return Object.keys(data).map(id => ({ id, ...data[id].deposit }))
+}
 
-export const getDeposit: (id: string) => Deposit | undefined = id => {
-    return data.deposit.find(deposit => deposit.id === id)
+export const getDeposit: (id: string) => Deposit & { id: string } | undefined = id => {
+    return data[id]
+        ? { id: id, ...data[id].deposit }
+        : undefined
 }
 
 const newDeposit: () => Deposit = () => ({
-    id: uuid(),
     title: "New Deposit",
     state: "DRAFT",
     state_description: "",
     date: new Date().toISOString(),
 })
-export const createDeposit: () => Deposit = () => {
+export const createDeposit: () => Deposit & { id: string } = () => {
+    const id = uuid()
     const deposit = newDeposit()
     const metadata = newMetadata()
-    data = { ...data, deposit: [...data.deposit, deposit], metadata: { ...data.metadata, [deposit.id]: metadata } }
-    return deposit
+    data = { ...data, [id]: { deposit, metadata } }
+    return { id, ...deposit }
 }
 
 export const deleteDeposit: (id: string) => boolean = id => {
-    const exists = data.deposit.find(deposit => deposit.id === id) !== undefined
-    if (exists) {
-        data = { ...data, deposit: data.deposit.filter(deposit => deposit.id !== id) }
+    if (data[id]) {
+        data = immutable.del(data, id)
         return true
     }
     else {
@@ -59,30 +77,39 @@ export const deleteDeposit: (id: string) => boolean = id => {
 }
 
 export const getState: (id: string) => State | undefined = id => {
-    const deposit = data.deposit.find(deposit => deposit.id === id)
-    return deposit
-        ? { state: deposit.state, state_description: deposit.state_description }
+    return data[id]
+        ? { state: data[id].deposit.state, state_description: data[id].deposit.state_description }
         : undefined
 }
 
 export const setState: (id: string, state: State) => boolean = (id, state) => {
-    const deposit = data.deposit.find(deposit => deposit.id === id)
-    if (deposit) {
-        const newDeposit = { ...deposit, state: state.state, state_description: state.state_description }
-        data = { ...data, deposit: data.deposit.map(dep => dep === deposit ? newDeposit : dep) }
+    if (data[id]) {
+        data = { ...data,
+            [id]: {
+                ...data[id],
+                deposit: { ...data[id].deposit, state: state.state, state_description: state.state_description },
+            },
+        }
         return true
     }
     else return false
 }
 
 export const hasMetadata: (id: string) => boolean = id => {
-    return !!Object.keys(data.metadata).find(key => key === id)
+    return data[id]
+        ? data[id].metadata !== undefined
+        : false
 }
 
 export const getMetadata: (id: string) => Metadata | undefined = id => {
-    return data.metadata[id]
+    return data[id]
+        ? data[id].metadata
+        : undefined
 }
 
 export const setMetadata: (id: string, metadata: Metadata) => void = (id, metadata) => {
-    data = { ...data, metadata: { ...data.metadata, [id]: metadata } }
+    if (data[id]) {
+        data = { ...data, [id]: { ...data[id], metadata } }
+    }
+    else return false
 }

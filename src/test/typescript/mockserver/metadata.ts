@@ -39,7 +39,7 @@ export interface Metadata {
     // license and access
     rightsHolders?: string[]
     publishers?: string[]
-    accessRights: string // TODO when 'restricted group' also has a dropdown list next to it
+    accessRights: AccessRight // TODO when 'restricted group' also has a dropdown list next to it
     license: string
     dateAvailable?: string
 
@@ -68,7 +68,7 @@ export interface Metadata {
     messageForDataManager?: string
 
     // Privacy sensitive data
-    privacySensitiveDataPresent: boolean
+    privacySensitiveDataPresent: PrivacySensitiveDataValue
 
     // Deposit License
     acceptLicenseAgreement: boolean
@@ -109,14 +109,32 @@ interface Relation {
     title: string
 }
 
-const allfields: Metadata = {
+enum PrivacySensitiveDataValue {
+    YES = "yes",
+    NO = "no",
+    UNSPECIFIED = "unspecified"
+}
+
+interface AccessRight {
+    category: AccessRightValue
+    group?: string
+}
+
+enum AccessRightValue {
+    OPEN = "open",
+    OPEN_FOR_REGISTERED_USERS = "open_for_registered_users",
+    RESTRICTED_GROUP = "restricted_group",
+    RESTRICTED_REQUEST = "restricted_request",
+    OTHER_ACCESS = "other_access",
+}
+
+export const allfields: Metadata = {
     doi: "doi:10.17632/DANS.6wg5xccnjd.1",
-    languageOfDescription: "Nederlandsch",
+    languageOfDescription: "Nederlands",
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
     descriptions: [
-        "description1",
-        "description2",
+        "description",
     ],
     creators: [
         {
@@ -127,15 +145,15 @@ const allfields: Metadata = {
             ids: [
                 {
                     scheme: "S1",
-                    value: "123456"
+                    value: "123456",
                 },
                 {
                     scheme: "S2",
-                    value: "abcdef"
-                }
+                    value: "abcdef",
+                },
             ],
             role: "worker",
-            organization: "KNAW"
+            organization: "KNAW",
         },
         {
             titles: "",
@@ -226,7 +244,9 @@ const allfields: Metadata = {
         "pub1",
         "pub2",
     ],
-    accessRights: "OPEN_ACCESS",
+    accessRights: {
+        category: AccessRightValue.OPEN_FOR_REGISTERED_USERS,
+    },
     license: "CC-0",
     dateAvailable: "2018-03-14",
     typesDCMI: [
@@ -293,23 +313,23 @@ const allfields: Metadata = {
     spatialCoverageIso3166: [
         {
             scheme: "sC1",
-            value: "foo"
+            value: "foo",
         },
         {
             scheme: "sC2",
-            value: "bar"
-        }
+            value: "bar",
+        },
     ],
     spatialCoverages: [
         "spatial-coverage1",
         "spatial-coverage2",
     ],
     messageForDataManager: "Hello, how are you doing?",
-    privacySensitiveDataPresent: false,
-    acceptLicenseAgreement: true
+    privacySensitiveDataPresent: PrivacySensitiveDataValue.NO,
+    acceptLicenseAgreement: true,
 }
 
-const mandatoryOnly: Metadata = {
+export const mandatoryOnly: Metadata = {
     doi: "doi:10.17632/DANS.6wg5xccnjd.2",
     languageOfDescription: "English",
     titles: [
@@ -330,11 +350,14 @@ const mandatoryOnly: Metadata = {
         "audience1",
         "audience2",
     ],
-    accessRights: "OPEN_ACCESS",
+    accessRights: {
+        category: AccessRightValue.RESTRICTED_GROUP,
+        group: "archaeology",
+    },
     license: "CC-BY-NC-SA",
     extraClarinMetadataPresent: true,
-    privacySensitiveDataPresent: true,
-    acceptLicenseAgreement: true
+    privacySensitiveDataPresent: PrivacySensitiveDataValue.YES,
+    acceptLicenseAgreement: true,
 }
 
 export const newMetadata: () => Metadata = () => ({
@@ -345,16 +368,11 @@ export const newMetadata: () => Metadata = () => ({
     creators: [],
     dateCreated: dateformat(new Date(), "yyy-mm-dd"),
     audiences: [],
-    accessRights: "",
+    accessRights: {
+        category: AccessRightValue.OPEN,
+    },
     license: "",
     extraClarinMetadataPresent: false,
-    privacySensitiveDataPresent: false,
-    acceptLicenseAgreement: false
+    privacySensitiveDataPresent: PrivacySensitiveDataValue.UNSPECIFIED,
+    acceptLicenseAgreement: false,
 })
-
-export const metadataData: { [id: string]: Metadata | undefined } = {
-    "93674123-1699-49c5-af91-ed31db19adc9": allfields,
-    "1d946f5b-e53b-4f71-b1f3-7481475d07db": mandatoryOnly,
-    "a145a1be-5463-4b10-a621-a9e511ff7f20": undefined,
-    "5befec97-1e57-4210-b7b6-57a604aaef47": undefined,
-}

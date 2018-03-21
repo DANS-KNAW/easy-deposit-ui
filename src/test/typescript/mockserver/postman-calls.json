@@ -1,0 +1,204 @@
+{
+	"info": {
+		"name": "easy-deposit-ui",
+		"_postman_id": "4c58f479-c576-107a-f095-741631bae59d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list deposits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "create new deposit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "details of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "delete deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get state of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"state"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "set state of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"state\": \"SUBMITTED\",\n    \"state_description\": \"Go, go, go, ingest this dataset!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"state"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "get metadata of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/metadata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"metadata"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "set metadata of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"doi\": \"doi:10.17632/DANS.6wg5xccnjd.2\",\n    \"languageOfDescription\": \"English\",\n    \"titles\": [\n    \t\"title1\"\n\t],\n    \"descriptions\": [\n        \"description1\",\n        \"description2\"\n    ],\n    \"creators\": [\n        {\n            \"initials\": \"A.S.\",\n            \"surname\": \"Terix\"\n        }\n    ],\n    \"dateCreated\": \"2018-03-19\",\n    \"audiences\": [\n        \"audience1\",\n        \"audience2\"\n    ],\n    \"accessRights\": {\n        \"category\": \"restricted_group\",\n        \"group\": \"archaeology\"\n    },\n    \"license\": \"CC-BY-NC-SA\",\n    \"extraClarinMetadataPresent\": true,\n    \"privacySensitiveDataPresent\": \"yes\",\n    \"acceptLicenseAgreement\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/metadata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"metadata"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
