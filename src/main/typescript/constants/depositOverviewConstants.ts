@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum DepositConstants {
+export enum DepositOverviewConstants {
     FETCH_DEPOSITS = "FETCH_DEPOSITS",
     FETCH_DEPOSITS_PENDING = "FETCH_DEPOSITS_PENDING",
     FETCH_DEPOSITS_FULFILLED = "FETCH_DEPOSITS_FULFILLED",

@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 import { Middleware } from "redux"
-import { DepositConstants } from "../constants/depositConstants"
+import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import { Deposit, Deposits, toDepositState } from "../model/Deposits"
-import { fetchDepositsFailed, fetchDepositsSucceeded } from "../actions/depositActions"
+import { fetchDepositsFailed, fetchDepositsSucceeded } from "../actions/depositOverviewActions"
 import { createMiddleware } from "../lib/redux"
 
 const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, action) => {
     next(action)
 
-    if (action.type === DepositConstants.FETCH_DEPOSITS_FULFILLED) {
-        console.log(action.payload)
+    if (action.type === DepositOverviewConstants.FETCH_DEPOSITS_FULFILLED) {
         try {
             const deposits: Deposits = action.payload.map((input: any) => {
                 const state = toDepositState(input.state)
