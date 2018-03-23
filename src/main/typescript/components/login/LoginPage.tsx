@@ -25,6 +25,7 @@ import { UserDetails } from "../../model/UserDetails";
 interface LoginPageProps {
     authenticate: (username: string, password: string) => ReduxAction<Promise<UserDetails>>
     authenticated: boolean
+    errorMessage: Error
 }
 
 interface LoginPageState {
@@ -45,7 +46,7 @@ class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>, Log
 
 
     render() {
-        const { authenticated, location } = this.props
+        const { authenticated, errorMessage, location } = this.props
         const { from } = location.state || { from: { pathname: "/" } }
 
         return authenticated === true
@@ -57,12 +58,14 @@ class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>, Log
                 <label>Password</label>
                 <input type="password" name="password" onChange={e => this.setState({loginPassword: e.currentTarget.value})} value={this.state.loginPassword} />
                 <input type="submit" value="Login"/>
+                <div>{(errorMessage) ? errorMessage.message: ""}</div>
             </form>
     }
 }
 
 const mapStateToProps = (state: AppState) => ({
     authenticated: state.user.isAuthenticated,
+    errorMessage: state.user.authenticationError,
 })
 
 export default connect(mapStateToProps, { authenticate })(LoginPage)

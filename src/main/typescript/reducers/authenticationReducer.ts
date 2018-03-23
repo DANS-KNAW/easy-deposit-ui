@@ -16,13 +16,15 @@
 import { UserDetails, empty } from "../model/UserDetails"
 import { Reducer } from "redux"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
-import {DepositConstants} from "../constants/depositConstants";
 
 export const authenticationReducer: Reducer<UserDetails> = (state = empty, action) => {
     switch (action.type) {
         // TODO handle pending and rejected variants here as well!
         case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
             return { ...state, isAuthenticated: true, userName: action.payload.username }
+        }
+        case AuthenticationConstants.AUTH_LOGIN_REJECTED: {
+            return { ...state, isAuthenticated: false, authenticationError: action.payload }
         }
         case AuthenticationConstants.AUTH_LOGIN_FAILED: {
             return { ...state, isAuthenticated: false, authenticationError: action.payload }
