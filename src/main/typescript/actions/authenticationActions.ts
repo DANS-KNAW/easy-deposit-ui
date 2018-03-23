@@ -16,16 +16,21 @@
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import { Action } from "redux"
 import { ReduxAction } from "../lib/redux"
+import axios from "axios";
+import {UserDetails} from "../model/UserDetails";
 
-export const authenticate: () => ReduxAction<Promise<void>> = () => ({
+export const authenticate: (userName: string, password: string) => ReduxAction<Promise<UserDetails>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
     // TODO temporary do a fake timeout to simulate server I/O
     async payload() {
-        await new Promise(vs => setTimeout(vs, 1000))
+        await new Promise(vs => {
+         setTimeout(vs, 1000)}
+         )
+        return ({isAuthenticated: true, userName: userName})
     },
 })
 
-// TODO not sure if signout also requires a server call...
+// TODO signout also requires a server call...
 export const signout: () => Action = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
 })

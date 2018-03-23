@@ -118,7 +118,7 @@ const Header = ({ isLoggedIn, loginName, signout }: HeaderProps) => {
 
 const mapStateToProps = (state: AppState) => ({
     isLoggedIn: state.user.isAuthenticated,
-    loginName: "[displayName]",
+    loginName: state.user.userName,
 })
 
 export default connect(mapStateToProps, { signout })(Header)

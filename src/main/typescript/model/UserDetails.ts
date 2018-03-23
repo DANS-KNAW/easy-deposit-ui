@@ -15,9 +15,11 @@
  */
 export interface UserDetails {
     isAuthenticated: boolean
+    userName: string
     // TODO more properties
 }
 
 export const empty = {
     isAuthenticated: false,
+    userName: ""
 }

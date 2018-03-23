@@ -21,10 +21,10 @@ export const authenticationReducer: Reducer<UserDetails> = (state = empty, actio
     switch (action.type) {
         // TODO handle pending and rejected variants here as well!
         case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
-            return { ...state, isAuthenticated: true }
+            return { ...state, isAuthenticated: true, userName: action.payload.userName }
         }
         case AuthenticationConstants.AUTH_LOGOUT: {
-            return { ...state, isAuthenticated: false }
+            return { ...state, isAuthenticated: false, userName: "" }
         }
         default:
             return state

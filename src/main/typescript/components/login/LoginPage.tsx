@@ -14,24 +14,35 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import {ChangeEvent, Component, FormEvent} from "react"
 import { ReduxAction } from "../../lib/redux"
 import { connect } from "react-redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
 import { AppState } from "../../model/AppState"
+import {UserDetails} from "../../model/UserDetails";
 
 interface LoginPageProps {
-    authenticate: () => ReduxAction<Promise<void>>
+    authenticate: (username: string, password: string) => ReduxAction<Promise<UserDetails>>
     authenticated: boolean
 }
 
-class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>> {
+interface LoginPageState {
+    loginName: string
+    loginPassword: string
+}
+
+class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>, LoginPageState> {
     constructor(props: LoginPageProps & RouteComponentProps<any>) {
         super(props)
+        this.state = { loginName: "", loginPassword: ""}
     }
 
-    login = () => this.props.authenticate()
+    handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        this.props.authenticate(this.state.loginName, this.state.loginPassword)
+    }
+
 
     render() {
         const { authenticated, location } = this.props
@@ -39,10 +50,14 @@ class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>> {
 
         return authenticated === true
             ? <Redirect to={from}/>
-            : <div>
+            : <form onSubmit={this.handleSubmit}>
                 <p>You must log in to view this page at {from.pathname}</p>
-                <button onClick={this.login}>Log in</button>
-            </div>
+                <label>Username</label>
+                <input type="text" name="username" onChange={e => this.setState({loginName: e.currentTarget.value})} value={this.state.loginName} /><br />
+                <label>Password</label>
+                <input type="password" name="password" onChange={e => this.setState({loginPassword: e.currentTarget.value})} value={this.state.loginPassword} />
+                <input type="submit" value="Login"/>
+            </form>
     }
 }
 
