@@ -28,5 +28,10 @@
       "state_description": "easy-dataset:id",
       "date": "2017-08-09T10:10:22Z"
     }
-  ]
+  ],
+  "login": {
+    "username": "user001"
+
+  },
+  "logout": {}
 }

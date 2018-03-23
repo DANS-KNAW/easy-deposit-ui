@@ -23,6 +23,7 @@ const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, ac
     next(action)
 
     if (action.type === DepositConstants.FETCH_DEPOSITS_FULFILLED) {
+        console.log(action.payload)
         try {
             const deposits: Deposits = action.payload.map((input: any) => {
                 const state = toDepositState(input.state)

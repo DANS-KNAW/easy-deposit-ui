@@ -16,10 +16,12 @@
 export interface UserDetails {
     isAuthenticated: boolean
     userName: string
+    authenticationError: string
     // TODO more properties
 }
 
 export const empty = {
     isAuthenticated: false,
-    userName: ""
+    userName: "",
+    authenticationError: ""
 }

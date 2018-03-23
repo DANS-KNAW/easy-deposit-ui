@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 import * as React from "react"
-import {ChangeEvent, Component, FormEvent} from "react"
+import { Component, FormEvent } from "react"
 import { ReduxAction } from "../../lib/redux"
 import { connect } from "react-redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
 import { AppState } from "../../model/AppState"
-import {UserDetails} from "../../model/UserDetails";
+import { UserDetails } from "../../model/UserDetails";
 
 interface LoginPageProps {
     authenticate: (username: string, password: string) => ReduxAction<Promise<UserDetails>>

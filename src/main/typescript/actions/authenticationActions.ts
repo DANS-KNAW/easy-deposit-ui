@@ -17,16 +17,25 @@ import { AuthenticationConstants } from "../constants/authenticationConstants"
 import { Action } from "redux"
 import { ReduxAction } from "../lib/redux"
 import axios from "axios";
-import {UserDetails} from "../model/UserDetails";
+import {loginURL} from "../constants/apiConstants";
 
-export const authenticate: (userName: string, password: string) => ReduxAction<Promise<UserDetails>> = (userName, password) => ({
+export const authenticate: (userName: string, password: string) => ReduxAction<Promise<any>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
-    // TODO temporary do a fake timeout to simulate server I/O
     async payload() {
         await new Promise(vs => {
          setTimeout(vs, 1000)}
          )
-        return ({isAuthenticated: true, userName: userName})
+
+        // TODO temporary do a GET login instead of a POST, with timeout to simulate server I/O
+        const response = await axios({
+            method: 'get',
+            url: loginURL,
+            auth: {
+                username: userName,
+                password: password
+            }
+        });
+         return response.data
     },
 })
 
