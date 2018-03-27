@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
 import { depositOverviewReducer } from "./depositOverviewReducer"
+import { userReducer } from "./userReducer";
 
 export default combineReducers({
-    user: authenticationReducer,
+    user: userReducer,
     deposits: depositOverviewReducer,
 })

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as express from "express"
-import { Request, Response } from "express"
+import {Request, Response} from "express"
 import * as bodyParser from "body-parser"
 import * as cors from "cors"
 import {
@@ -23,6 +23,7 @@ import {
     getDeposit,
     getMetadata,
     getState,
+    getUser,
     hasMetadata,
     listDeposits,
     setMetadata,
@@ -151,6 +152,19 @@ app.put('/deposit/:id/state', (req: Request, res: Response) => {
         res.send("Bad request. State document is malformed.")
         console.log("  400")
     }
+})
+app.get('/user', (req: Request, res: Response) => {
+    console.log(`GET /user`)
+    res.status(200)
+    res.json(getUser())
+    console.log("  200, " + getUser().username)
+})
+
+app.post('/login', (req: Request, res: Response) => {
+    console.log(`POST /login`)
+    res.status(200)
+    res.send("JWT")
+    console.log("  200")
 })
 
 app.listen(3004, () => console.log("Running on localhost:3004"))

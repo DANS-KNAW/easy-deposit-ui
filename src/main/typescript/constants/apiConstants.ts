@@ -23,3 +23,5 @@ export const deleteDepositURL = (id: DepositId) => createURL(`deposit/${id}`)
 
 export const loginURL  = createURL("login")
 export const logoutURL  = createURL("logout")
+
+export const userURL = createURL("user")

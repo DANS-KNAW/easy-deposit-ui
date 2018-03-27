@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { ImgHTMLAttributes, SFC } from "react"
-import { Link, NavLinkProps } from "react-router-dom"
-import { AppState } from "../model/AppState"
-import { connect } from "react-redux"
-import { Action } from "redux"
-import { signout } from "../actions/authenticationActions"
+import {Component, ImgHTMLAttributes, SFC} from "react"
+import {Link, NavLinkProps} from "react-router-dom"
+import {AppState} from "../model/AppState"
+import {connect} from "react-redux"
+import {Action} from "redux"
+import {getUser, signout} from "../actions/userActions"
 import "../../resources/css/header"
+import {ReduxAction} from "../lib/redux";
+import {UserDetails} from "../model/UserDetails";
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -82,43 +84,59 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
     signout: () => Action
+    getUser: () => ReduxAction<Promise<UserDetails>>
 }
 
-const Header = ({ isLoggedIn, loginName, signout }: HeaderProps) => {
-    const loginNavBar = isLoggedIn
-        ? [
-            <span key="loginName" className="navbar-text">{loginName}</span>,
-            <NavBarLink key="my datasets" to="/deposit-overview">My Datasets</NavBarLink>,
-            <Link onClick={signout} className="nav-link logoff" key="log out" to="/" title="Log out">Log out</Link>,
-        ]
-        : [<NavBarLink key="login" to="/login" title="Login to EASY">Login</NavBarLink>]
+class Header extends Component<HeaderProps> {
+    componentDidMount() {
+        const { isLoggedIn, loginName, getUser } = this.props
+        console.log("componentDidMount: logged in: %s, username: %s => %s" , isLoggedIn, loginName, isLoggedIn && loginName == undefined);
+        if(isLoggedIn && !loginName){ this.props.getUser }
 
-    return <>
-        <NavBar>
-            <NavBarLink to="/" title="Home">Home</NavBarLink>
-            <NavBarLink to="/register" title="Register to get access to EASY">Register</NavBarLink>
-            {...loginNavBar}
-        </NavBar>
+    }
+    render() {
+        const { isLoggedIn, loginName, signout, getUser } = this.props
+        console.log("render: logged in: %s, username: %s => %s" , isLoggedIn, loginName, isLoggedIn && loginName == undefined);
+        if(isLoggedIn && loginName == undefined){
+            console.log("before calling GET /user")
+            getUser()
+            console.log("after calling GET /user")
+        }
+        const loginNavBar = isLoggedIn
+            ? [
+                <span key="loginName" className="navbar-text">{loginName}</span>,
+                <NavBarLink key="my datasets" to="/deposit-overview">My Datasets</NavBarLink>,
+                <Link onClick={signout} className="nav-link logoff" key="log out" to="/" title="Log out">Log out</Link>,
+            ]
+            : [<NavBarLink key="login" to="/login" title="Login to EASY">Login</NavBarLink>]
 
-        <LogosHeaders>
-            <BrandLogo className="col-6 col-md-3 col-lg-2"
-                       id="dans-logo"
-                       src={logo_dans}
-                       alt="DANS - Data Archiving and Networked Services"/>
-            <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
-                       id="easy-logo"
-                       height="25px"
-                       src={logo_easy}
-                       alt="EASY"/>
-        </LogosHeaders>
-        {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
-        <hr/>
-    </>
+        return <>
+            <NavBar>
+                <NavBarLink to="/" title="Home">Home</NavBarLink>
+                <NavBarLink to="/register" title="Register to get access to EASY">Register</NavBarLink>
+                {...loginNavBar}
+            </NavBar>
+
+            <LogosHeaders>
+                <BrandLogo className="col-6 col-md-3 col-lg-2"
+                           id="dans-logo"
+                           src={logo_dans}
+                           alt="DANS - Data Archiving and Networked Services"/>
+                <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
+                           id="easy-logo"
+                           height="25px"
+                           src={logo_easy}
+                           alt="EASY"/>
+            </LogosHeaders>
+            {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
+            <hr/>
+        </>
+    }
 }
 
 const mapStateToProps = (state: AppState) => ({
     isLoggedIn: state.user.isAuthenticated,
-    loginName: state.user.userName,
+    loginName: state.user.userName||undefined
 })
 
-export default connect(mapStateToProps, { signout })(Header)
+export default connect(mapStateToProps, { signout, getUser })(Header)
