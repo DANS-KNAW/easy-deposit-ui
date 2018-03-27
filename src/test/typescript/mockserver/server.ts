@@ -157,7 +157,7 @@ app.get('/user', (req: Request, res: Response) => {
     console.log(`GET /user`)
     res.status(200)
     res.json(getUser())
-    console.log("  200, " + getUser().username)
+    console.log("  200, ")
 })
 
 app.post('/login', (req: Request, res: Response) => {

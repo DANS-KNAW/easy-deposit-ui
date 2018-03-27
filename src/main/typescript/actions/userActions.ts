@@ -35,11 +35,9 @@ export const signout: () => Action = () => ({
 export const getUser: () => ReduxAction<Promise<any>>  = () => ({
     type: UserConstants.USER,
     async payload() {
-        console.log("in getUser")
         // TODO temporary do a fake timeout to simulate server I/O
         await new Promise(resolve => setTimeout(resolve, 1000))
         const response = await axios.get(userURL)
-        console.log("responsedata: " +response.data);
         return response.data
     },
 })

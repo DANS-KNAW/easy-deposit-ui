@@ -27,7 +27,6 @@ const userFetchConverter: Middleware = createMiddleware(({dispatch}, next, actio
 
     if (action.type === UserConstants.USER_FULFILLED) {
         try {
-            console.log("in userFetchConverter, payload is %s", action.payload )
 
             const user: UserDetails = {
                 userName: action.payload.username,
