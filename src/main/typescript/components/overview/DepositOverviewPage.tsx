@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Link } from "react-router-dom"
 import DepositOverview from "./DepositOverview"
+import { RouteComponentProps } from "react-router"
+import NewDepositButton from "./NewDepositButton"
 import "../../../resources/css/depositOverviewPage"
 
-const DepositOverviewPage = () => (
+type DepositOverviewPageProps = RouteComponentProps<any>
+
+const DepositOverviewPage = ({history}: DepositOverviewPageProps) => (
     <>
         <h1>Deposit Overview Page</h1>
-        <Link className="btn btn-dark" to="/deposit-form">New deposit</Link>
+        <NewDepositButton history={history}>New deposit</NewDepositButton>
         <DepositOverview/>
     </>
 )

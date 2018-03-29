@@ -35,7 +35,7 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
     const Enterable = () => <><i className="fas fa-sign-in-alt" id="enter_dataset"/> {deposit.title}</>
 
     const title = editable
-        ? <Link to={`/deposit-form?datasetId=${depositId}`}><Enterable/></Link>
+        ? <Link to={`/deposit-form/${depositId}`}><Enterable/></Link>
         : <Enterable/>
 
     const isDeleting = deleting && deleting.deleting

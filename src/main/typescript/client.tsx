@@ -43,10 +43,9 @@ ReactDOM.render(
                         <Route path="/login"
                                component={LoginPage}
                                exact/>
-                        <PrivateRoute path="/deposit-form"
+                        <PrivateRoute path="/deposit-form/:depositId" // this name matches the property in DepositFormPage.txt/RouterParams
                                       redirectTo="/login"
-                                      component={DepositFormPage}
-                                      exact/>
+                                      component={DepositFormPage}/>
                         <PrivateRoute path="/deposit-overview"
                                       redirectTo="/login"
                                       component={DepositOverviewPage}
