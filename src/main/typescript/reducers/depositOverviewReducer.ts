@@ -66,8 +66,8 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
         case DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED: {
             return { ...state, creatingNew: { creating: false } }
         }
-        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_REJECTED: {
-            return { ...state, creatingNew: { creating: false, createError: action.payload.message } }
+        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED: {
+            return { ...state, creatingNew: { creating: false, createError: action.payload } }
         }
         default:
             return state

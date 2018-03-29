@@ -69,3 +69,8 @@ export const createNewDeposit: (pushHistory: (id: string) => void) => Action = p
     },
     meta: { pushHistory: pushHistory },
 })
+
+export const createNewDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED,
+    payload: errorMessage,
+})
