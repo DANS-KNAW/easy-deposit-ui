@@ -26,11 +26,8 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
         case UserConstants.USER_FAILED: {
             return {...state, isAuthenticated: false}
         }
-        case UserConstants.USER_PENDING: {
-            return {...state, userName: "loading ..."}
-        }
         case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
-            return { ...state, isAuthenticated: true }
+            return { ...state, isAuthenticated: true, userName: undefined }
         }
         case AuthenticationConstants.AUTH_LOGIN_REJECTED: {
             return { ...state, isAuthenticated: false, authenticationError: action.payload }
@@ -39,7 +36,7 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
             return { ...state, isAuthenticated: false, authenticationError: action.payload }
         }
         case AuthenticationConstants.AUTH_LOGOUT: {
-            return { ...state, isAuthenticated: false, userName: "" }
+            return { ...state, isAuthenticated: false, userName: undefined }
         }
         default:
             return state

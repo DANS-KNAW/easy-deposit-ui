@@ -88,13 +88,16 @@ interface HeaderProps {
 }
 
 class Header extends Component<HeaderProps> {
-    render() {
-        const { isLoggedIn, loginName, signout, getUser } = this.props
-        console.log("render: logged in: %s, username: %s => %s" , isLoggedIn, loginName, isLoggedIn && loginName == undefined);
-        if(isLoggedIn && loginName == undefined){
+
+    componentWillUpdate(){
+        const { isLoggedIn, loginName, getUser } = this.props
+        console.log("componentWillUpdate: logged in: %s, username: %s => %s" , isLoggedIn, loginName, isLoggedIn && loginName == undefined);
+        if(loginName == undefined){
             getUser()
         }
-
+    }
+    render() {
+        const { isLoggedIn, loginName, signout } = this.props
         const loginNavBar = isLoggedIn
             ? [
                 <span key="loginName" className="navbar-text">{loginName}</span>,
