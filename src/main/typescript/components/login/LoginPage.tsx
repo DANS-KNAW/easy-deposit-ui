@@ -38,7 +38,7 @@ class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>> {
         const { authenticated, location } = this.props
         const { from } = location.state || { from: { pathname: homeRoute } }
 
-        return authenticated === true
+        return authenticated
             ? <Redirect to={from}/>
             : <div>
                 <p>You must log in to view this page at {from.pathname}</p>
