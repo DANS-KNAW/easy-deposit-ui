@@ -21,13 +21,14 @@ import { connect } from "react-redux"
 import { Action } from "redux"
 import { signout } from "../actions/authenticationActions"
 import "../../resources/css/header"
+import { depositOverviewRoute, homeRoute, loginRoute, registerRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
 
 const BrandLogo = ({ className, id, src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => (
     <div className={className} id={id}>
-        <Link to="/">
+        <Link to={homeRoute}>
             <img {...rest} src={src} alt={alt}/>
         </Link>
     </div>
@@ -88,15 +89,15 @@ const Header = ({ isLoggedIn, loginName, signout }: HeaderProps) => {
     const loginNavBar = isLoggedIn
         ? [
             <span key="loginName" className="navbar-text">{loginName}</span>,
-            <NavBarLink key="my datasets" to="/deposit-overview">My Datasets</NavBarLink>,
-            <Link onClick={signout} className="nav-link logoff" key="log out" to="/" title="Log out">Log out</Link>,
+            <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
+            <Link onClick={signout} className="nav-link logoff" key="log out" to={homeRoute} title="Log out">Log out</Link>,
         ]
-        : [<NavBarLink key="login" to="/login" title="Login to EASY">Login</NavBarLink>]
+        : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Login</NavBarLink>]
 
     return <>
         <NavBar>
-            <NavBarLink to="/" title="Home">Home</NavBarLink>
-            <NavBarLink to="/register" title="Register to get access to EASY">Register</NavBarLink>
+            <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
+            <NavBarLink to={registerRoute} title="Register to get access to EASY">Register</NavBarLink>
             {...loginNavBar}
         </NavBar>
 

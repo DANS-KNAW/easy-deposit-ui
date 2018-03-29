@@ -16,11 +16,11 @@
 import { baseURL } from "../lib/config"
 import { DepositId } from "../model/Deposits"
 
+// TODO rename to serverRoutes.ts
+
 const createURL = (path: string) => `${baseURL}/${path}`
 
 export const listDepositsURL = createURL("deposit")
 export const deleteDepositURL = (id: DepositId) => createURL(`deposit/${id}`)
 
 export const newDepositURL = createURL("deposit")
-
-// TODO add a routingConstants for routes on client side

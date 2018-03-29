@@ -5,6 +5,7 @@ import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 import * as H from "history"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
+import { depositFormRoute } from "../../constants/clientRoutes"
 
 interface NewDepositButtonProps {
     creatingNew: boolean
@@ -16,7 +17,7 @@ class NewDepositButton extends Component<NewDepositButtonProps> {
     createNewDeposit = () => {
         const {createNewDeposit, history} = this.props
 
-        createNewDeposit(id => history.push(`/deposit-form/${id}`))
+        createNewDeposit(id => history.push(depositFormRoute(id)))
     }
 
     render() {
