@@ -30,15 +30,8 @@ export const authenticate: (userName: string, password: string) => ReduxAction<P
         )
 
         // TODO temporary do a timeout to simulate server I/O
-        const authResponse = await axios({
-            method: 'post',
-            url: loginURL,
-            auth: {
-                username: userName,
-                password: password
-            }
-        })
-        return authResponse.data
+        const {data} = await axios.post(loginURL, {}, {auth: {username: userName, password: password}})
+        return data
     },
 })
 
