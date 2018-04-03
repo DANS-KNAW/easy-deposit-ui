@@ -91,7 +91,6 @@ class Header extends Component<HeaderProps> {
 
     componentWillUpdate(){
         const { isLoggedIn, loginName, getUser } = this.props
-        console.log("componentWillUpdate: logged in: %s, username: %s => %s" , isLoggedIn, loginName, isLoggedIn && loginName == undefined);
         if(loginName == undefined){
             getUser()
         }
