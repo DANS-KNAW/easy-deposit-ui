@@ -16,7 +16,7 @@
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import { Action, AnyAction, Middleware } from "redux"
 import { createMiddleware } from "../lib/redux"
-import { deleteDepositFailed, fetchDepositsFailed } from "../actions/depositOverviewActions"
+import { createNewDepositFailed, deleteDepositFailed, fetchDepositsFailed } from "../actions/depositOverviewActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
 
@@ -41,4 +41,6 @@ const depositFetchRejected = rejectedMiddleware(DepositOverviewConstants.FETCH_D
 
 const depositDeleteRejected = rejectedMiddleware(DepositOverviewConstants.DELETE_DEPOSIT_REJECTED)(({ meta: { depositId } }) => deleteDepositFailed(depositId))
 
-export const rejectedRequestMiddleware = [depositFetchRejected, depositDeleteRejected]
+const newDepositRejected = rejectedMiddleware(DepositOverviewConstants.CREATE_NEW_DEPOSIT_REJECTED)(() => createNewDepositFailed)
+
+export const rejectedRequestMiddleware = [depositFetchRejected, depositDeleteRejected, newDepositRejected]

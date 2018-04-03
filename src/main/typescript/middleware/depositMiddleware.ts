@@ -57,4 +57,13 @@ const depositFetchConverter: Middleware = createMiddleware(({dispatch}, next, ac
     }
 })
 
-export const depositMiddleware = [depositFetchConverter]
+const newDepositResponseConverter: Middleware = createMiddleware(({dispatch}, next, action) => {
+    next(action)
+
+    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
+        const {meta: {pushHistory}, payload: {data: {id}}} = action
+        pushHistory(id)
+    }
+})
+
+export const depositMiddleware = [depositFetchConverter, newDepositResponseConverter]

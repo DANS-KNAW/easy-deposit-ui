@@ -60,9 +60,15 @@ export const emptyDelete: DeleteState = ({
     deleted: false
 })
 
+export interface NewDepositState {
+    creating: boolean
+    createError?: string
+}
+
 export interface DepositOverviewState {
     loading: LoadingState
     deleting: DeletingStates
+    creatingNew: NewDepositState
     deposits: Deposits
 }
 
@@ -72,5 +78,8 @@ export const empty: DepositOverviewState = {
         loaded: false
     },
     deleting: {},
+    creatingNew: {
+        creating: false
+    },
     deposits: {},
 }

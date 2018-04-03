@@ -17,34 +17,29 @@ import * as React from "react"
 import { Component } from "react"
 import { DepositId } from "../../model/Deposits"
 import { RouteComponentProps } from "react-router"
-import * as queryString from "query-string"
 
 interface RouterParams {
-    datasetId: DepositId
+    depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
 }
 
 interface MyDepositFormPageProps {
 
 }
 
-interface DepositFormPageState {
-
-}
-
 type DepositFormPageProps = MyDepositFormPageProps & RouteComponentProps<RouterParams>
 
-class DepositFormPage extends Component<DepositFormPageProps, DepositFormPageState> {
+class DepositFormPage extends Component<DepositFormPageProps> {
     constructor(props: DepositFormPageProps) {
         super(props)
     }
 
     render() {
-        const { datasetId } = queryString.parse(this.props.location.search)
+        const { depositId } = this.props.match.params
 
         return (
             <>
                 <h1>Deposit Form Page</h1>
-                <p>content of dataset {datasetId}</p>
+                <p>deposit form filled with the data of {depositId}</p>
             </>
         )
     }

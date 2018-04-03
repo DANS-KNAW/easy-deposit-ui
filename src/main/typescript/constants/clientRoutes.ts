@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+import { DepositId } from "../model/Deposits"
 
-type DepositOverviewPageProps = RouteComponentProps<any>
-
-const DepositOverviewPage = ({history}: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
-
-export default DepositOverviewPage
+export const homeRoute = "/"
+export const registerRoute = "/register" // this route doesn't exist, but to be complete, I add it here as well
+export const loginRoute = "/login"
+export const depositFormRoute = (id: DepositId) => `/deposit-form/${id}`
+export const depositOverviewRoute = "/deposit-overview"

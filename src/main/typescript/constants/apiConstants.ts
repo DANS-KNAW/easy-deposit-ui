@@ -16,6 +16,8 @@
 import { baseURL } from "../lib/config"
 import { DepositId } from "../model/Deposits"
 
+// TODO rename to serverRoutes.ts
+
 const createURL = (path: string) => `${baseURL}/${path}`
 
 export const listDepositsURL = createURL("deposit")
@@ -25,3 +27,5 @@ export const loginURL  = createURL("login")
 export const logoutURL  = createURL("logout")
 
 export const userURL = createURL("user")
+
+export const newDepositURL = createURL("deposit")

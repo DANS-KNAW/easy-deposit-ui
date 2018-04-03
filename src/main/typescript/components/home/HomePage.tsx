@@ -16,6 +16,7 @@
 import * as React from "react"
 import { Component } from "react"
 import { Link } from "react-router-dom"
+import { depositOverviewRoute } from "../../constants/clientRoutes"
 
 interface HomePageProps {
 
@@ -30,7 +31,7 @@ class HomePage extends Component<HomePageProps> {
         return (
             <>
                 <h1>Home Page</h1>
-                <Link className="btn btn-dark" to="/deposit-overview">Deposit your data</Link>
+                <Link className="btn btn-dark" to={depositOverviewRoute}>Deposit your data</Link>
             </>
         )
     }

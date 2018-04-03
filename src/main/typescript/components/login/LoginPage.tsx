@@ -20,6 +20,7 @@ import {connect} from "react-redux"
 import {authenticate} from "../../actions/userActions"
 import {Redirect, RouteComponentProps} from "react-router"
 import {AppState} from "../../model/AppState"
+import { homeRoute } from "../../constants/clientRoutes"
 
 interface LoginPageProps {
     authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
@@ -46,9 +47,9 @@ class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>, Log
 
     render() {
         const {authenticated, errorMessage, location} = this.props
-        const {from} = location.state || {from: {pathname: "/"}}
+        const {from} = location.state || {from: {pathname: homeRoute}}
 
-        return authenticated === true
+        return authenticated
             ? <Redirect to={from}/>
             : <form onSubmit={this.handleSubmit}>
                 <p>You must log in to view this page at {from.pathname}</p>

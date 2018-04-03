@@ -60,6 +60,15 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
 
             return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState }, deposits: newDeposits }
         }
+        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_PENDING: {
+            return { ...state, creatingNew: { creating: true } }
+        }
+        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED: {
+            return { ...state, creatingNew: { creating: false } }
+        }
+        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED: {
+            return { ...state, creatingNew: { creating: false, createError: action.payload } }
+        }
         default:
             return state
     }
