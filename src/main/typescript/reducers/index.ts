@@ -13,11 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
+import { AnyAction, combineReducers } from "redux"
+import {reducer as formReducer} from 'redux-form'
 import { depositOverviewReducer } from "./depositOverviewReducer"
 import { userReducer } from "./userReducer";
+import {toPath} from 'lodash'
+import immutable from "object-path-immutable"
+import { FormState } from "redux-form/lib/reducer"
 
 export default combineReducers({
     user: userReducer,
     deposits: depositOverviewReducer,
+    form: formReducer.plugin({login: changeReducer, })
 })
+
+function changeReducer(state: FormState, action: AnyAction) {
+    switch (action.type) {
+        case "@@redux-form/CHANGE":
+            const fieldName = toPath(action.meta.field + ".changed")
+            const newState = immutable.set(state.fields, fieldName, true)
+
+            return {...state, fields: newState}
+    }
+    return state
+}

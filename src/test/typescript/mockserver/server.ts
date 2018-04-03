@@ -160,11 +160,32 @@ app.get('/user', (req: Request, res: Response) => {
     console.log("  200, ")
 })
 
-app.post('/login', (req: Request, res: Response) => {
+app.post('/login204', (req: Request, res: Response) => {
     console.log(`POST /login`)
-    res.status(200)
+    res.status(204)
     res.send("JWT")
-    console.log("  200")
+    console.log("  204")
+})
+
+app.post('/login401', (req: Request, res: Response) => {
+    console.log(`POST /login`)
+    res.status(401)
+    res.send("Unauthorized")
+    console.log(" 401 ")
+})
+
+app.post('/login403', (req: Request, res: Response) => {
+    console.log(`POST /login`)
+    res.status(403)
+    res.send("Forbidden")
+    console.log(" 403 ")
+})
+
+app.post('/login500', (req: Request, res: Response) => {
+    console.log(`POST /login`)
+    res.status(500)
+    res.send("Internal Server Error")
+    console.log(" 500 ")
 })
 
 app.listen(3004, () => console.log("Running on localhost:3004"))
