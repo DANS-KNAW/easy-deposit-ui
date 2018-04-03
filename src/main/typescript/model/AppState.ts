@@ -15,13 +15,16 @@
  */
 import { empty as emptyUser, UserDetails } from "./UserDetails"
 import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+import { emptyFoldableCards, FoldableCards } from "./FoldableCards"
 
 export interface AppState {
     user: UserDetails
     deposits: DepositOverviewState
+    foldableCards: FoldableCards,
 }
 
 export const empty: AppState = {
     user: emptyUser,
     deposits: emptyDeposits,
+    foldableCards: emptyFoldableCards,
 }

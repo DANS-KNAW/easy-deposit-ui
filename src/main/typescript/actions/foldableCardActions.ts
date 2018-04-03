@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { foldableCardReducer } from "./foldableCardReducer"
+import { ReduxAction } from "../lib/redux"
+import { FoldableCardConstants } from "../constants/foldableCardConstants"
 
-export default combineReducers({
-    user: authenticationReducer,
-    deposits: depositOverviewReducer,
-    foldableCards: foldableCardReducer,
+export const registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }> = (id, open) => ({
+    type: FoldableCardConstants.REGISTER_CARD,
+    payload: {id, open},
+})
+
+export const unregisterCard: (id: string) => ReduxAction<string> = id => ({
+    type: FoldableCardConstants.UNREGISTER_CARD,
+    payload: id,
+})
+
+export const toggleCard: (id: string) => ReduxAction<string> = id => ({
+    type: FoldableCardConstants.TOGGLE_CARD,
+    payload: id,
 })
