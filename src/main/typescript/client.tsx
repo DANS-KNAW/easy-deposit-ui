@@ -29,6 +29,7 @@ import NotFoundPage from "./components/NotFoundPage"
 import Footer from "./components/Footer"
 
 import "../resources/css/styling"
+import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute } from "./constants/clientRoutes"
 
 ReactDOM.render(
     <Provider store={store}>
@@ -37,18 +38,17 @@ ReactDOM.render(
                 <Header/>
                 <main role="main" className="container">
                     <Switch>
-                        <Route path="/"
+                        <Route path={homeRoute}
                                component={HomePage}
                                exact/>
-                        <Route path="/login"
+                        <Route path={loginRoute}
                                component={LoginPage}
                                exact/>
-                        <PrivateRoute path="/deposit-form"
-                                      redirectTo="/login"
-                                      component={DepositFormPage}
-                                      exact/>
-                        <PrivateRoute path="/deposit-overview"
-                                      redirectTo="/login"
+                        <PrivateRoute path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.txt/RouterParams
+                                      redirectTo={loginRoute}
+                                      component={DepositFormPage}/>
+                        <PrivateRoute path={depositOverviewRoute}
+                                      redirectTo={loginRoute}
                                       component={DepositOverviewPage}
                                       exact/>
                         <Route component={NotFoundPage}/>

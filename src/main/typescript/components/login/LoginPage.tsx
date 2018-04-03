@@ -20,6 +20,7 @@ import { connect } from "react-redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
 import { AppState } from "../../model/AppState"
+import { homeRoute } from "../../constants/clientRoutes"
 
 interface LoginPageProps {
     authenticate: () => ReduxAction<Promise<void>>
@@ -35,9 +36,9 @@ class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>> {
 
     render() {
         const { authenticated, location } = this.props
-        const { from } = location.state || { from: { pathname: "/" } }
+        const { from } = location.state || { from: { pathname: homeRoute } }
 
-        return authenticated === true
+        return authenticated
             ? <Redirect to={from}/>
             : <div>
                 <p>You must log in to view this page at {from.pathname}</p>

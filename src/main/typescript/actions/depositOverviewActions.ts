@@ -16,7 +16,7 @@
 import { ReduxAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
-import { deleteDepositURL, listDepositsURL } from "../constants/apiConstants"
+import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/apiConstants"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 
@@ -58,4 +58,19 @@ export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: strin
     type: DepositOverviewConstants.DELETE_DEPOSIT_FAILED,
     payload: errorMessage,
     meta: { depositId: depositId },
+})
+
+export const createNewDeposit: (pushHistory: (id: string) => void) => Action = pushHistory => ({
+    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
+    async payload() {
+        // TODO temporary do a fake timeout to simulate server I/O
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        return await axios.post(newDepositURL)
+    },
+    meta: { pushHistory: pushHistory },
+})
+
+export const createNewDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED,
+    payload: errorMessage,
 })

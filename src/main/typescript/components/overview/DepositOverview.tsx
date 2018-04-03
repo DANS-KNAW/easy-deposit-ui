@@ -60,6 +60,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
         return [
             this.renderLoadingError(),
             this.renderDeleteError(),
+            this.renderCreateNewError(),
         ]
     }
 
@@ -108,6 +109,17 @@ class DepositOverview extends Component<DepositOverviewProps> {
                     )
                 }
             })
+    }
+
+    private renderCreateNewError() {
+        const {deposits: {creatingNew: {createError}}} = this.props
+
+        return createError &&
+            <div key="createNewError"
+                 className="alert alert-danger"
+                 role="alert">
+                An error occurred: {createError}. Cannot create a new dataset. Please try again.
+            </div>
     }
 
     private renderTable() {
