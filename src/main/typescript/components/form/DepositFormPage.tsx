@@ -39,8 +39,8 @@ class DepositFormPage extends Component<DepositFormPageProps> {
 
         return (
             <>
-                <h1>Deposit Form Page</h1>
-                <p>deposit form filled with the data of {depositId}</p>
+                <h1>Deposit your data</h1>
+                <p><a className="anchor" href="#" target="_blank">Read the instructions (opens in new tab)</a></p>
                 <DepositForm/>
             </>
         )
