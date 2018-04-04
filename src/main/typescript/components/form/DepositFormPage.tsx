@@ -40,8 +40,12 @@ class DepositFormPage extends Component<DepositFormPageProps> {
         return (
             <>
                 <h1>Deposit your data</h1>
-                <p><a className="anchor" href="#" target="_blank">Read the instructions (opens in new tab)</a></p>
                 <DepositForm/>
+                <p>
+                    <a className="text-primary"
+                       href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
+                       target="_blank"><u>Read the instructions (opens in new tab)</u></a>
+                </p>
             </>
         )
     }

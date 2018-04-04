@@ -13,11 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.anchor {
-    color: #007bff;
-    text-decoration: underline;
-}
-
 .buttons .btn:first-child {
     margin-right: 5px;
 }
