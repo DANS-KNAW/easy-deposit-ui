@@ -19,5 +19,5 @@ export interface UserDetails {
 }
 
 export const empty = {
-    isAuthenticated: true, // for development I set isAuthenticated to true. This is not supposed to be committed.
+    isAuthenticated: false,
 }
