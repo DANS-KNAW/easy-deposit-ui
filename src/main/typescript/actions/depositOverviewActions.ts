@@ -60,12 +60,13 @@ export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: strin
     meta: { depositId: depositId },
 })
 
-export const createNewDeposit: (pushHistory: (id: string) => void) => Action = pushHistory => ({
+export const createNewDeposit: (pushHistory: (id: string) => void) => ReduxAction<Promise<any>> = pushHistory => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
         // TODO temporary do a fake timeout to simulate server I/O
         await new Promise(resolve => setTimeout(resolve, 1000))
-        return await axios.post(newDepositURL)
+        const response = await axios.post(newDepositURL)
+        return response.data
     },
     meta: { pushHistory: pushHistory },
 })

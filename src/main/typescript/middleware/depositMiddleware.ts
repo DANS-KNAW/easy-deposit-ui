@@ -61,7 +61,7 @@ const newDepositResponseConverter: Middleware = createMiddleware(({dispatch}, ne
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
-        const {meta: {pushHistory}, payload: {data: {id}}} = action
+        const {meta: {pushHistory}, payload: {id}} = action
         pushHistory(id)
     }
 })
