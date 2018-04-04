@@ -18,7 +18,11 @@ import { Component } from "react"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm"
 
-class DepositForm extends Component {
+interface DepositFormProps {
+    depositId: string
+}
+
+class DepositForm extends Component<DepositFormProps> {
     save = async () => {
         alert("saving draft")
     }
