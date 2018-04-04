@@ -16,7 +16,12 @@
 import { Middleware } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import { Deposit, Deposits, toDepositState } from "../model/Deposits"
-import { fetchDepositsFailed, fetchDepositsSucceeded } from "../actions/depositOverviewActions"
+import {
+    createNewDepositFailed,
+    createNewDepositSuccess,
+    fetchDepositsFailed,
+    fetchDepositsSucceeded,
+} from "../actions/depositOverviewActions"
 import { createMiddleware } from "../lib/redux"
 
 const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
@@ -35,10 +40,11 @@ const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, 
                         date: new Date(input.date),
                     })
                 }
-                else
-                // fail fast when an illegal deposit state is detected
-                // error message is caught below
+                else {
+                    // fail fast when an illegal deposit state is detected
+                    // error message is caught below
                     throw `Error in deposit ${input.id}: no such value: '${input.state}'`
+                }
             }).reduce((obj: Deposits, item: Deposit & { depositId: string }) => {
                 obj[item.depositId] = ({
                     title: item.title,
@@ -61,8 +67,22 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
-        const { meta: { pushHistory }, payload: { id } } = action
-        pushHistory(id)
+        const {id, title, state: state_text, state_description, date} = action.payload
+
+        const state = toDepositState(state_text)
+        if (state) {
+            const deposit: {[id: string]: Deposit} = ({[id]: {
+                title: title,
+                state: state,
+                stateDescription: state_description,
+                date: new Date(date)
+            }})
+            dispatch(createNewDepositSuccess(deposit))
+            action.meta.pushHistory(id)
+        }
+        else {
+            dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state_text}'`))
+        }
     }
 })
 
