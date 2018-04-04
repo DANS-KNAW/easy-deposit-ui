@@ -67,16 +67,18 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
-        const {id, title, state: state_text, state_description, date} = action.payload
+        const { id, title, state: state_text, state_description, date } = action.payload
 
         const state = toDepositState(state_text)
         if (state) {
-            const deposit: {[id: string]: Deposit} = ({[id]: {
-                title: title,
-                state: state,
-                stateDescription: state_description,
-                date: new Date(date)
-            }})
+            const deposit: { [id: string]: Deposit } = ({
+                [id]: {
+                    title: title,
+                    state: state,
+                    stateDescription: state_description,
+                    date: new Date(date),
+                },
+            })
             dispatch(createNewDepositSuccess(deposit))
             action.meta.pushHistory(id)
         }

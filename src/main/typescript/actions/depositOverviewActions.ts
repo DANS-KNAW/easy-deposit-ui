@@ -71,7 +71,7 @@ export const createNewDeposit: (pushHistory: (id: string) => void) => ReduxActio
     meta: { pushHistory: pushHistory },
 })
 
-export const createNewDepositSuccess: (deposit: {[id: string]: Deposit}) => ReduxAction<{[id: string]: Deposit}> = deposit => ({
+export const createNewDepositSuccess: (deposit: { [id: string]: Deposit }) => ReduxAction<{ [id: string]: Deposit }> = deposit => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS,
     payload: deposit,
 })
