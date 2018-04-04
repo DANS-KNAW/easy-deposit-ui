@@ -66,7 +66,8 @@ class FoldableCard extends Component<FoldableCardProps> {
                 <h6 className="card-header row bg-primary text-white" onClick={this.collapseCard}>
                     <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0">{title}</div>
                     {required
-                        ? <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0 font-weight-bold font-italic required">Required</div>
+                        ? <div
+                            className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0 font-weight-bold font-italic required">Required</div>
                         : <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0"/>}
                     <div className="col-1 order-2 col-md-1 order-md-3 pl-0 pr-0 arrow">
                         <i className={[

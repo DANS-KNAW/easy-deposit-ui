@@ -18,7 +18,7 @@ import { FoldableCardConstants } from "../constants/foldableCardConstants"
 
 export const registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }> = (id, open) => ({
     type: FoldableCardConstants.REGISTER_CARD,
-    payload: {id, open},
+    payload: { id, open },
 })
 
 export const unregisterCard: (id: string) => ReduxAction<string> = id => ({

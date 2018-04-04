@@ -21,16 +21,17 @@ import immutable from "object-path-immutable"
 export const foldableCardReducer: Reducer<FoldableCards> = (state = {}, action) => {
     switch (action.type) {
         case FoldableCardConstants.REGISTER_CARD: {
-            const {id, open} = action.payload
-            return {...state, [id]: {...state[id], open: open}}
+            const { id, open } = action.payload
+            return { ...state, [id]: { ...state[id], open: open } }
         }
         case FoldableCardConstants.UNREGISTER_CARD: {
             return immutable.del(state, action.payload)
         }
         case FoldableCardConstants.TOGGLE_CARD: {
             const id = action.payload
-            return {...state, [id]: {...state[id], open: !state[id].open}}
+            return { ...state, [id]: { ...state[id], open: !state[id].open } }
         }
-        default: return state
+        default:
+            return state
     }
 }

@@ -17,6 +17,6 @@ export interface FoldableCardState {
     open: boolean
 }
 
-export type FoldableCards = {[cardId: string]: FoldableCardState}
+export type FoldableCards = { [cardId: string]: FoldableCardState }
 
 export const emptyFoldableCards = {}
