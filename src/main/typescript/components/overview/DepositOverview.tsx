@@ -112,7 +112,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
     }
 
     private renderCreateNewError() {
-        const {deposits: {creatingNew: {createError}}} = this.props
+        const { deposits: { creatingNew: { createError } } } = this.props
 
         return createError &&
             <div key="createNewError"
