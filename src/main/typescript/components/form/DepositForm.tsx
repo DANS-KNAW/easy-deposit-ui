@@ -16,6 +16,16 @@
 import * as React from "react"
 import { Component } from "react"
 import Card from "./FoldableCard"
+import DepositLicenseForm from "./DepositLicenseForm"
+import PrivacySensitiveDataForm from "./PrivacySensitiveDataForm"
+import MessageForDataManagerForm from "./MessageForDataManagerForm"
+import TemporalAndSpatialCoverageForm from "./TemporalAndSpatialCoverageForm"
+import LanguageAndLiteratureSpecificMetadataForm from "./LanguageAndLiteratureSpecificMetadataForm"
+import ArchaeologySpecificMetadataForm from "./ArchaeologySpecificMetadataForm"
+import UploadTypeForm from "./UploadTypeForm"
+import LicenseAndAccessForm from "./LicenseAndAccessForm"
+import BasicInformationForm from "./BasicInformationForm"
+import DataForm from "./DataForm"
 import "../../../resources/css/depositForm"
 
 interface DepositFormProps {
@@ -36,43 +46,43 @@ class DepositForm extends Component<DepositFormProps> {
         return (
             <>
                 <Card title="Upload your data" defaultOpened>
-                    <p>Upload your data form</p>
+                    <DataForm/>
                 </Card>
 
                 <Card title="Basic information" required defaultOpened>
-                    <p>Basic information form</p>
+                    <BasicInformationForm/>
                 </Card>
 
                 <Card title="License and access" required defaultOpened>
-                    <p>License and Access form</p>
+                    <LicenseAndAccessForm/>
                 </Card>
 
                 <Card title="Upload type">
-                    <p>Upload type form</p>
+                    <UploadTypeForm/>
                 </Card>
 
                 <Card title="Archaeology specific metadata">
-                    <p>Archaeology specific metadata form</p>
+                    <ArchaeologySpecificMetadataForm/>
                 </Card>
 
                 <Card title="Language & literature specific metadata">
-                    <p>Language & literature specific metadata form</p>
+                    <LanguageAndLiteratureSpecificMetadataForm/>
                 </Card>
 
                 <Card title="Temporal and spatial coverage">
-                    <p>Temporal and spatial coverage form</p>
+                    <TemporalAndSpatialCoverageForm/>
                 </Card>
 
                 <Card title="Message for the data manager">
-                    <p>Message for the data manager form</p>
+                    <MessageForDataManagerForm/>
                 </Card>
 
                 <Card title="Privacy sensitive data" required defaultOpened>
-                    <p>Privacy sensitive data form</p>
+                    <PrivacySensitiveDataForm/>
                 </Card>
 
                 <Card title="Deposit license" required defaultOpened>
-                    <p>Deposit license form</p>
+                    <DepositLicenseForm/>
                 </Card>
 
                 <div className="buttons">
