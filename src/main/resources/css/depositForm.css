@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { foldableCardReducer } from "./foldableCardReducer"
+.buttons .btn:first-child {
+    margin-right: 5px;
+}
 
-export default combineReducers({
-    user: authenticationReducer,
-    deposits: depositOverviewReducer,
-    foldableCards: foldableCardReducer,
-})
+.buttons .btn:last-child {
+    margin-left: 5px;
+}
+
+.buttons .btn:not(:first-child):not(:last-child) {
+    margin-left: 5px;
+    margin-right: 5px;
+}

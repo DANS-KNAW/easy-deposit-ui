@@ -13,13 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { foldableCardReducer } from "./foldableCardReducer"
-
-export default combineReducers({
-    user: authenticationReducer,
-    deposits: depositOverviewReducer,
-    foldableCards: foldableCardReducer,
-})
+export enum FoldableCardConstants {
+    REGISTER_CARD = "REGISTER_CARD",
+    UNREGISTER_CARD = "UNREGISTER_CARD",
+    TOGGLE_CARD = "TOGGLE_CARD",
+}

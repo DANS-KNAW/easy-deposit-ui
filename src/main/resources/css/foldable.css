@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { foldableCardReducer } from "./foldableCardReducer"
+.card {
+    box-shadow: 2px 3px 8px 0 #d9d9d9;
+}
 
-export default combineReducers({
-    user: authenticationReducer,
-    deposits: depositOverviewReducer,
-    foldableCards: foldableCardReducer,
-})
+.card .card-header {
+    padding-left: 15px;
+}
+
+.card .card-header > .required {
+    text-align: right;
+    align-self: flex-start;
+    font-size: 0.9rem;
+}
+
+.card .card-header > .arrow {
+    text-align: right;
+    align-self: flex-end;
+}
+
+@media (max-width: 767px) {
+    .card .card-header > .required {
+        text-align: left;
+        padding-top: 2px;
+    }
+}
+
+.card.closed {
+    border-bottom: 0;
+}
+
+.card.closed > .card-header {
+    border-radius: 0.25rem;
+}

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { foldableCardReducer } from "./foldableCardReducer"
+import * as React from "react"
+import { Component } from "react"
 
-export default combineReducers({
-    user: authenticationReducer,
-    deposits: depositOverviewReducer,
-    foldableCards: foldableCardReducer,
-})
+class DepositLicenseForm extends Component {
+    render() {
+        return <p>Deposit license form</p>
+    }
+}
+
+export default DepositLicenseForm
