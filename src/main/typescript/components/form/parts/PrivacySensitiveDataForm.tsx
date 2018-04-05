@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+import { Component } from "react"
 
-type DepositOverviewPageProps = RouteComponentProps<any>
+class PrivacySensitiveDataForm extends Component {
+    render() {
+        return <p>Privacy sensitive data form</p>
+    }
+}
 
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
-
-export default DepositOverviewPage
+export default PrivacySensitiveDataForm

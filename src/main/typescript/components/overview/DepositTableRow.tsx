@@ -46,7 +46,7 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
                 style={{ float: "unset" }}
                 disabled={isDeleting}
                 onClick={deleteDeposit}>
-            { isDeleting
+            {isDeleting
                 ? <i className="fas fa-sync-alt fa-spin"/>
                 : <i className="fas fa-trash-alt"/>}
         </button>
@@ -61,7 +61,8 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
             <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
             <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
             <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
-            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">{deleteButton}</td>
+            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"
+                id="actions_cell">{deleteButton}</td>
         </tr>
     )
 }

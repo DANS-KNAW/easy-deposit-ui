@@ -17,6 +17,7 @@ import * as React from "react"
 import { Component } from "react"
 import { DepositId } from "../../model/Deposits"
 import { RouteComponentProps } from "react-router"
+import DepositForm from "./DepositForm"
 
 interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
@@ -38,8 +39,13 @@ class DepositFormPage extends Component<DepositFormPageProps> {
 
         return (
             <>
-                <h1>Deposit Form Page</h1>
-                <p>deposit form filled with the data of {depositId}</p>
+                <h1>Deposit your data</h1>
+                <p>
+                    <a className="text-primary"
+                       href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
+                       target="_blank"><u>Read the instructions (opens in new tab)</u></a>
+                </p>
+                <DepositForm depositId={depositId}/>
             </>
         )
     }

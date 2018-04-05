@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+export interface FoldableCardState {
+    open: boolean
+}
 
-type DepositOverviewPageProps = RouteComponentProps<any>
+export type FoldableCards = { [cardId: string]: FoldableCardState }
 
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
-
-export default DepositOverviewPage
+export const emptyFoldableCards = {}

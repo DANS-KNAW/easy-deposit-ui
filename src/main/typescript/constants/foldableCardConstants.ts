@@ -13,20 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
-
-type DepositOverviewPageProps = RouteComponentProps<any>
-
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
-
-export default DepositOverviewPage
+export enum FoldableCardConstants {
+    REGISTER_CARD = "REGISTER_CARD",
+    UNREGISTER_CARD = "UNREGISTER_CARD",
+    TOGGLE_CARD = "TOGGLE_CARD",
+}

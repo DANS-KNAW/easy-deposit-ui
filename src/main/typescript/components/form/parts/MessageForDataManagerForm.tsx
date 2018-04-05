@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+import { Component } from "react"
 
-type DepositOverviewPageProps = RouteComponentProps<any>
+class MessageForDataManagerForm extends Component {
+    render() {
+        return <p>Message for the data manager form</p>
+    }
+}
 
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
-
-export default DepositOverviewPage
+export default MessageForDataManagerForm
