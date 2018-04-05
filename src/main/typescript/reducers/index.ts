@@ -25,7 +25,7 @@ import { foldableCardReducer } from "./foldableCardReducer"
 export default combineReducers({
     user: userReducer,
     deposits: depositOverviewReducer,
-    form: formReducer.plugin({login: changeReducer, })
+    form: formReducer.plugin({login: changeReducer, }),
     foldableCards: foldableCardReducer,
 })
 
