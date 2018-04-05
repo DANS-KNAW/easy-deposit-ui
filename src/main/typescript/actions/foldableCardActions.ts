@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+import { ReduxAction } from "../lib/redux"
+import { FoldableCardConstants } from "../constants/foldableCardConstants"
 
-type DepositOverviewPageProps = RouteComponentProps<any>
+export const registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }> = (id, open) => ({
+    type: FoldableCardConstants.REGISTER_CARD,
+    payload: { id, open },
+})
 
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
+export const unregisterCard: (id: string) => ReduxAction<string> = id => ({
+    type: FoldableCardConstants.UNREGISTER_CARD,
+    payload: id,
+})
 
-export default DepositOverviewPage
+export const toggleCard: (id: string) => ReduxAction<string> = id => ({
+    type: FoldableCardConstants.TOGGLE_CARD,
+    payload: id,
+})

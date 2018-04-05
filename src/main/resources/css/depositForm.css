@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+.buttons .btn:first-child {
+    margin-right: 5px;
+}
 
-type DepositOverviewPageProps = RouteComponentProps<any>
+.buttons .btn:last-child {
+    margin-left: 5px;
+}
 
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
-    <>
-        <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
-
-export default DepositOverviewPage
+.buttons .btn:not(:first-child):not(:last-child) {
+    margin-left: 5px;
+    margin-right: 5px;
+}

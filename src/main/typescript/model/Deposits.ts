@@ -32,7 +32,7 @@ export function toDepositState(value: string): DepositState {
     return Object.values(DepositState).find(v => v === value)
 }
 
-export type Deposits = {[depositId: string]: Deposit}
+export type Deposits = { [depositId: string]: Deposit }
 
 export interface Deposit {
     title: string
@@ -53,11 +53,11 @@ export interface DeleteState {
     deleteError?: string
 }
 
-export type DeletingStates = {[depositId: string]: DeleteState}
+export type DeletingStates = { [depositId: string]: DeleteState }
 
 export const emptyDelete: DeleteState = ({
     deleting: false,
-    deleted: false
+    deleted: false,
 })
 
 export interface NewDepositState {
@@ -75,11 +75,11 @@ export interface DepositOverviewState {
 export const empty: DepositOverviewState = {
     loading: {
         loading: false,
-        loaded: false
+        loaded: false,
     },
     deleting: {},
     creatingNew: {
-        creating: false
+        creating: false,
     },
     deposits: {},
 }

@@ -20,11 +20,13 @@ import { userReducer } from "./userReducer";
 import {toPath} from 'lodash'
 import immutable from "object-path-immutable"
 import { FormState } from "redux-form/lib/reducer"
+import { foldableCardReducer } from "./foldableCardReducer"
 
 export default combineReducers({
     user: userReducer,
     deposits: depositOverviewReducer,
     form: formReducer.plugin({login: changeReducer, })
+    foldableCards: foldableCardReducer,
 })
 
 function changeReducer(state: FormState, action: AnyAction) {
