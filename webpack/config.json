@@ -3,6 +3,6 @@
     "apiHost": "http://localhost:3004"
   },
   "production": {
-    "apiHost": ""
+    "apiHost": "http://deasy.dans.knaw.nl/deposit-api"
   }
 }
