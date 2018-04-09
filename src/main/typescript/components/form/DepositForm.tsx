@@ -113,11 +113,15 @@ class DepositForm extends Component<DepositFormProps> {
                 </Card>
 
                 <div className="buttons">
-                    <button type="button" className="btn btn-primary mb-0"
-                            onClick={this.props.handleSubmit(this.save)}>Save draft
+                    <button type="button"
+                            className="btn btn-primary mb-0"
+                            onClick={this.props.handleSubmit(this.save)}>
+                        Save draft
                     </button>
-                    <button type="button" className="btn btn-primary mb-0"
-                            onClick={this.props.handleSubmit(this.submit)}>Submit deposit
+                    <button type="button"
+                            className="btn btn-primary mb-0"
+                            onClick={this.props.handleSubmit(this.submit)}>
+                        Submit deposit
                     </button>
                 </div>
             </form>
@@ -127,7 +131,7 @@ class DepositForm extends Component<DepositFormProps> {
 
 const depositForm = reduxForm<DepositFormData, DepositFormStoreArguments>({ form: "depositForm" })(DepositForm)
 
-const mapStateToProps: (state: AppState) => DepositFormStoreArguments = (state: AppState) => ({
+const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
 })
 
