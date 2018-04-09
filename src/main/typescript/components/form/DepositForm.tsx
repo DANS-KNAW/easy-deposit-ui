@@ -34,24 +34,30 @@ import {
 import { DepositId } from "../../model/Deposits"
 import { Dispatch } from "../../lib/redux"
 import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { AppState } from "../../model/AppState"
+import { connect } from "react-redux"
 
-interface DepositFormInputArguments {
+interface DepositFormStoreArguments {
     depositId: DepositId
 }
 
+interface DepositFormDispatchArguments {
+}
+
 type DepositFormProps =
-    DepositFormInputArguments
-    & InjectedFormProps<DepositFormData, DepositFormInputArguments>
+    DepositFormStoreArguments
+    & DepositFormDispatchArguments
+    & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
-    save = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormInputArguments) => {
+    save = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
         const { depositId } = props
         alert(`saving draft for ${depositId}:\n\n${JSON.stringify(data, null, 2)}`)
 
         dispatch(saveDraft(depositId, data))
     }
 
-    submit = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormInputArguments) => {
+    submit = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
         const { depositId } = props
         alert(`submitting deposit for ${depositId}`)
 
@@ -119,6 +125,10 @@ class DepositForm extends Component<DepositFormProps> {
     }
 }
 
-const depositForm = reduxForm<DepositFormData, DepositFormInputArguments>({ form: "depositForm" })(DepositForm)
+const depositForm = reduxForm<DepositFormData, DepositFormStoreArguments>({ form: "depositForm" })(DepositForm)
 
-export default depositForm
+const mapStateToProps: (state: AppState) => DepositFormStoreArguments = (state: AppState) => ({
+    depositId: state.depositForm.depositId,
+})
+
+export default connect(mapStateToProps)(depositForm)

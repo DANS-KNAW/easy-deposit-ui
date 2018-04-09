@@ -13,12 +13,13 @@ export interface SubmitState {
 }
 
 export interface DepositFormState {
-    depositId?: DepositId // TODO this is not really undefined...
+    depositId: DepositId
     saveDraft: SaveDraftState
     submit: SubmitState
 }
 
 export const empty: DepositFormState = {
+    depositId: "invalid", // TODO this value is not correct!!!
     saveDraft: {
         saving: false,
         saved: false,

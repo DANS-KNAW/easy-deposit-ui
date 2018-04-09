@@ -5,6 +5,11 @@ import { DepositId } from "../model/Deposits"
 import axios from "axios"
 import { saveDraftURL, submitDepositURL, submitState } from "../constants/apiConstants"
 
+export const setDepositId: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
+    type: DepositFormConstants.SET_DEPOSIT_ID,
+    payload: depositId
+})
+
 const callSaveDraft = async (depositId: DepositId, data: DepositFormData) => {
     return await axios.put(saveDraftURL(depositId), data)
 }

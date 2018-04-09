@@ -4,6 +4,9 @@ import { DepositFormConstants } from "../constants/depositFormConstants"
 
 export const depositFormReducer: Reducer<DepositFormState> = (state = empty, action) => {
     switch (action.type) {
+        case DepositFormConstants.SET_DEPOSIT_ID: {
+            return {...state, depositId: action.payload}
+        }
         case DepositFormConstants.SAVE_DRAFT_PENDING: {
             return {...state, saveDraft: {...state.saveDraft, saving: true, saveError: undefined}}
         }
