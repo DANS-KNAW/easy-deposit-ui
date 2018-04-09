@@ -41,12 +41,8 @@ interface DepositFormStoreArguments {
     depositId: DepositId
 }
 
-interface DepositFormDispatchArguments {
-}
-
 type DepositFormProps =
     DepositFormStoreArguments
-    & DepositFormDispatchArguments
     & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
@@ -65,11 +61,6 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     render() {
-        console.log(this.props)
-
-        const { depositId } = this.props
-        console.log("depositId", depositId)
-
         return (
             <form>
                 <Card title="Upload your data" defaultOpened>
