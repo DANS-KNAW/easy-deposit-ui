@@ -54,10 +54,9 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     submit = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
-        const { depositId } = props
-        alert(`submitting deposit for ${depositId}`)
+        dispatch(submitDeposit(props.depositId, data))
+    }
 
-        dispatch(submitDeposit(depositId, data))
     }
 
     render() {
@@ -126,4 +125,4 @@ const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
 })
 
-export default connect(mapStateToProps)(depositForm)
+export default connect(mapStateToProps, {fetchMetadata})(depositForm)
