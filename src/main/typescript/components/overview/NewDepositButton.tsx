@@ -17,23 +17,16 @@ import * as React from "react"
 import { Component } from "react"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
-import * as H from "history"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
-import { depositFormRoute } from "../../constants/clientRoutes"
 import { ReduxAction } from "../../lib/redux"
 
 interface NewDepositButtonProps {
     creatingNew: boolean
-    createNewDeposit: (pushHistory: (id: string) => void) => ReduxAction<Promise<any>>
-    history: H.History
+    createNewDeposit: () => ReduxAction<Promise<any>>
 }
 
 class NewDepositButton extends Component<NewDepositButtonProps> {
-    createNewDeposit = () => {
-        const { createNewDeposit, history } = this.props
-
-        createNewDeposit(id => history.push(depositFormRoute(id)))
-    }
+    createNewDeposit = () => this.props.createNewDeposit()
 
     render() {
         return (

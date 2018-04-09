@@ -23,6 +23,8 @@ import {
     fetchDepositsSucceeded,
 } from "../actions/depositOverviewActions"
 import { createMiddleware } from "../lib/redux"
+import { push } from "react-router-redux"
+import { depositFormRoute } from "../constants/clientRoutes"
 
 const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
@@ -80,7 +82,7 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
                 },
             })
             dispatch(createNewDepositSuccess(deposit))
-            action.meta.pushHistory(id)
+            dispatch(push(depositFormRoute(id)))
         }
         else {
             dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state_text}'`))

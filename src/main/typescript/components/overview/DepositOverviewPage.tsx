@@ -19,12 +19,10 @@ import { RouteComponentProps } from "react-router"
 import NewDepositButton from "./NewDepositButton"
 import "../../../resources/css/depositOverviewPage"
 
-type DepositOverviewPageProps = RouteComponentProps<any>
-
-const DepositOverviewPage = ({ history }: DepositOverviewPageProps) => (
+const DepositOverviewPage = () => (
     <>
         <h1>Deposit Overview Page</h1>
-        <NewDepositButton history={history}>New deposit</NewDepositButton>
+        <NewDepositButton>New deposit</NewDepositButton>
         <DepositOverview/>
     </>
 )
