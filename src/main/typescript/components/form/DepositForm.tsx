@@ -17,6 +17,7 @@ import * as React from "react"
 import { Component } from "react"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm"
+import { InjectedFormProps, reduxForm } from "redux-form"
 import {
     ArchaeologySpecificMetadata,
     BasicInformation,
@@ -30,22 +31,39 @@ import {
     TemporalAndSpatialCoverage,
     UploadType,
 } from "./parts"
+import { DepositId } from "../../model/Deposits"
+import { Dispatch } from "../../lib/redux"
+import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 
-interface DepositFormProps {
-    depositId: string
+interface DepositFormInputArguments {
+    depositId: DepositId
 }
 
+type DepositFormProps =
+    DepositFormInputArguments
+    & InjectedFormProps<DepositFormData, DepositFormInputArguments>
+
 class DepositForm extends Component<DepositFormProps> {
-    save = async () => {
-        alert("saving draft")
+    save = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormInputArguments) => {
+        const { depositId } = props
+        alert(`saving draft for ${depositId}:\n\n${JSON.stringify(data, null, 2)}`)
+
+        dispatch(saveDraft(depositId, data))
     }
 
-    submit = async () => {
-        await this.save()
-        alert("submitting deposit")
+    submit = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormInputArguments) => {
+        const { depositId } = props
+        alert(`submitting deposit for ${depositId}`)
+
+        dispatch(submitDeposit(depositId, data))
     }
 
     render() {
+        console.log(this.props)
+
+        const { depositId } = this.props
+        console.log("depositId", depositId)
+
         return (
             <form>
                 <Card title="Upload your data" defaultOpened>
@@ -89,12 +107,18 @@ class DepositForm extends Component<DepositFormProps> {
                 </Card>
 
                 <div className="buttons">
-                    <button type="button" className="btn btn-primary mb-0" onClick={this.save}>Save draft</button>
-                    <button type="button" className="btn btn-primary mb-0" onClick={this.submit}>Submit deposit</button>
+                    <button type="button" className="btn btn-primary mb-0"
+                            onClick={this.props.handleSubmit(this.save)}>Save draft
+                    </button>
+                    <button type="button" className="btn btn-primary mb-0"
+                            onClick={this.props.handleSubmit(this.submit)}>Submit deposit
+                    </button>
                 </div>
             </form>
         )
     }
 }
 
-export default DepositForm
+const depositForm = reduxForm<DepositFormData, DepositFormInputArguments>({ form: "depositForm" })(DepositForm)
+
+export default depositForm
