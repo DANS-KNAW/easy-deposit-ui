@@ -16,7 +16,14 @@
 import * as React from "react"
 import { Component } from "react"
 
-class MessageForDataManagerForm extends Component {
+export interface MessageForDataManagerFormData {
+    messageForDataManager?: string
+}
+
+interface MessageForDataManagerFormProps {
+}
+
+class MessageForDataManagerForm extends Component<MessageForDataManagerFormProps> {
     render() {
         return <p>Message for the data manager form</p>
     }

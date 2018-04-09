@@ -15,8 +15,20 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { AccessRight } from "../../../model/FormData"
 
-class LicenseAndAccessForm extends Component {
+export interface LicenseAndAccessFormData {
+    rightsHolders?: string[]
+    publishers?: string[]
+    accessRights: AccessRight
+    license: string
+    dateAvailable?: string
+}
+
+interface LicenseAndAccessFormProps {
+}
+
+class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
     render() {
         return <p>License and Access form</p>
     }

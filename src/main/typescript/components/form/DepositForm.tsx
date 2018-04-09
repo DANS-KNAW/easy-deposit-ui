@@ -16,17 +16,20 @@
 import * as React from "react"
 import { Component } from "react"
 import Card from "./FoldableCard"
-import DepositLicenseForm from "./parts/DepositLicenseForm"
-import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
-import MessageForDataManagerForm from "./parts/MessageForDataManagerForm"
-import TemporalAndSpatialCoverageForm from "./parts/TemporalAndSpatialCoverageForm"
-import LanguageAndLiteratureSpecificMetadataForm from "./parts/LanguageAndLiteratureSpecificMetadataForm"
-import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadataForm"
-import UploadTypeForm from "./parts/UploadTypeForm"
-import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
-import BasicInformationForm from "./parts/BasicInformationForm"
-import DataForm from "./parts/DataForm"
 import "../../../resources/css/depositForm"
+import {
+    ArchaeologySpecificMetadata,
+    BasicInformation,
+    Data,
+    DepositFormData,
+    DepositLicense,
+    LanguageAndLiteratureSpecificMetadata,
+    LicenseAndAccess,
+    MessageForDataManager,
+    PrivacySensitiveData,
+    TemporalAndSpatialCoverage,
+    UploadType,
+} from "./parts"
 
 interface DepositFormProps {
     depositId: string
@@ -44,52 +47,52 @@ class DepositForm extends Component<DepositFormProps> {
 
     render() {
         return (
-            <>
+            <form>
                 <Card title="Upload your data" defaultOpened>
-                    <DataForm/>
+                    <Data/>
                 </Card>
 
                 <Card title="Basic information" required defaultOpened>
-                    <BasicInformationForm/>
+                    <BasicInformation/>
                 </Card>
 
                 <Card title="License and access" required defaultOpened>
-                    <LicenseAndAccessForm/>
+                    <LicenseAndAccess/>
                 </Card>
 
                 <Card title="Upload type">
-                    <UploadTypeForm/>
+                    <UploadType/>
                 </Card>
 
                 <Card title="Archaeology specific metadata">
-                    <ArchaeologySpecificMetadataForm/>
+                    <ArchaeologySpecificMetadata/>
                 </Card>
 
                 <Card title="Language & literature specific metadata">
-                    <LanguageAndLiteratureSpecificMetadataForm/>
+                    <LanguageAndLiteratureSpecificMetadata/>
                 </Card>
 
                 <Card title="Temporal and spatial coverage">
-                    <TemporalAndSpatialCoverageForm/>
+                    <TemporalAndSpatialCoverage/>
                 </Card>
 
                 <Card title="Message for the data manager">
-                    <MessageForDataManagerForm/>
+                    <MessageForDataManager/>
                 </Card>
 
                 <Card title="Privacy sensitive data" required defaultOpened>
-                    <PrivacySensitiveDataForm/>
+                    <PrivacySensitiveData/>
                 </Card>
 
                 <Card title="Deposit license" required defaultOpened>
-                    <DepositLicenseForm/>
+                    <DepositLicense/>
                 </Card>
 
                 <div className="buttons">
                     <button type="button" className="btn btn-primary mb-0" onClick={this.save}>Save draft</button>
                     <button type="button" className="btn btn-primary mb-0" onClick={this.submit}>Submit deposit</button>
                 </div>
-            </>
+            </form>
         )
     }
 }

@@ -15,8 +15,20 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { Box, Point, SchemedValue } from "../../../model/FormData"
 
-class TemporalAndSpatialCoverageForm extends Component {
+export interface TemporalAndSpatialCoverageFormData {
+    temporalCoverages?: string[]
+    spatialPoint?: Point[]
+    spatialBoxes?: Box[]
+    spatialCoverageIso3166?: SchemedValue[]
+    spatialCoverages?: string[]
+}
+
+interface TemporalAndSpatialCoverageFormProps {
+}
+
+class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverageFormProps> {
     render() {
         return <p>Temporal and spatial coverage form</p>
     }
