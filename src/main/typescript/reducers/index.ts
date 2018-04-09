@@ -21,6 +21,7 @@ import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
 import {toPath} from 'lodash'
 import { depositFormReducer } from "./depositFormReducer"
+import { routerReducer } from "react-router-redux"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
@@ -37,6 +38,7 @@ export default combineReducers({
     form: formReducer.plugin({
         depositForm: changeReducer,
     }),
+    router: routerReducer,
     user: authenticationReducer,
     deposits: depositOverviewReducer,
     foldableCards: foldableCardReducer,
