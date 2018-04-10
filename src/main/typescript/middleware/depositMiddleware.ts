@@ -45,7 +45,7 @@ const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, 
                 else {
                     // fail fast when an illegal deposit state is detected
                     // error message is caught below
-                    throw `Error in deposit ${input.id}: no such value: '${input.state}'`
+                    throw `Error in deposit ${input.id}: no such deposit state: '${input.state}'`
                 }
             }).reduce((obj: Deposits, item: Deposit & { depositId: string }) => {
                 obj[item.depositId] = ({
