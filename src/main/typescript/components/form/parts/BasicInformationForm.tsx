@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { CreatorOrContributor, Relation, SchemedValue } from "../../../model/FormData"
+import { CreatorOrContributor, Relation, SchemedDate, SchemedValue } from "../../../model/FormData"
 
 export interface BasicInformationFormData {
     doi: string
@@ -25,14 +25,14 @@ export interface BasicInformationFormData {
     descriptions: string[]
     creators: CreatorOrContributor[]
     contributor?: CreatorOrContributor[]
-    dateCreated: string
+    dateCreated: Date
     audiences: string[]
     subjects?: string[]
     identifiers?: SchemedValue[]
     relations?: Relation[]
     languagesOfFilesIso639?: string[]
     languagesOfFiles?: string[]
-    datesIso8601?: SchemedValue[]
+    datesIso8601?: SchemedDate[] // TODO how are these different from the ones below?
     dates?: SchemedValue[]
     sources?: string[]
     instructionsForReuse?: string[]

@@ -22,7 +22,7 @@ export interface LicenseAndAccessFormData {
     publishers?: string[]
     accessRights: AccessRight
     license: string
-    dateAvailable?: string
+    dateAvailable?: Date
 }
 
 interface LicenseAndAccessFormProps {

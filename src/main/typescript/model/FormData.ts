@@ -1,9 +1,14 @@
-interface Schemed {
-    scheme: string
+// TODO define enums for these scheme values
+interface Schemed<Scheme = string> {
+    scheme: Scheme
 }
 
 export interface SchemedValue extends Schemed {
     value: string
+}
+
+export interface SchemedDate extends Schemed {
+    value: Date
 }
 
 export interface CreatorOrContributor {
@@ -16,10 +21,11 @@ export interface CreatorOrContributor {
     organization?: string
 }
 
+// TODO are there optionals here?
 export interface Relation {
-    qualifier: string
-    url: string
-    title: string
+    qualifier?: string
+    url?: string
+    title?: string
 }
 
 export interface AccessRight {
@@ -33,6 +39,10 @@ export enum AccessRightValue {
     RESTRICTED_GROUP = "restricted_group",
     RESTRICTED_REQUEST = "restricted_request",
     OTHER_ACCESS = "other_access",
+}
+
+export function toAccessRight(value: string): AccessRightValue | undefined {
+    return Object.values(AccessRightValue).find(v => v === value)
 }
 
 export interface Point extends Schemed {
@@ -51,4 +61,8 @@ export enum PrivacySensitiveDataValue {
     YES = "yes",
     NO = "no",
     UNSPECIFIED = "unspecified"
+}
+
+export function toPrivacySensitiveData(value: string): PrivacySensitiveDataValue | undefined {
+    return Object.values(PrivacySensitiveDataValue).find(v => v === value)
 }

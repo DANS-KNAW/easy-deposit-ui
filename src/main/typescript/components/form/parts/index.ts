@@ -11,7 +11,7 @@ import DepositLicenseForm, { DepositLicenseFormData } from "./DepositLicenseForm
 import { reduxForm } from "redux-form"
 import { DepositId } from "../../../model/Deposits"
 
-export type DepositFormData = DataFormData
+export type DepositFormMetadata =
     & BasicInformationFormData
     & LicenseAndAccessFormData
     & UploadTypeFormData
@@ -21,6 +21,8 @@ export type DepositFormData = DataFormData
     & MessageForDataManagerFormData
     & PrivacySensitiveDataFormData
     & DepositLicenseFormData
+
+export type DepositFormData = DataFormData & DepositFormMetadata
 
 export const Data = DataForm
 export const BasicInformation = BasicInformationForm
