@@ -7,6 +7,16 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.SET_DEPOSIT_ID: {
             return {...state, depositId: action.payload}
         }
+        // TODO fetch data
+        case DepositFormConstants.FETCH_METADATA_PENDING: {
+            return {...state, fetchMetadata: {...state.fetchMetadata, fetching: true, fetchError: undefined}}
+        }
+        case DepositFormConstants.FETCH_METADATA_FAILED: {
+            return {...state, fetchMetadata: {...state.fetchMetadata, fetching: false, fetched: false, fetchError: action.payload}}
+        }
+        case DepositFormConstants.FETCH_METADATA_SUCCEEDED: {
+            return {...state, initialState: {...state.initialState, metadata: action.payload}, fetchMetadata: {...state.fetchMetadata, fetching: false, fetched: true}}
+        }
         case DepositFormConstants.SAVE_DRAFT_PENDING: {
             return {...state, saveDraft: {...state.saveDraft, saving: true, saveError: undefined}}
         }

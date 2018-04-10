@@ -32,13 +32,14 @@ import {
     UploadType,
 } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { Dispatch } from "../../lib/redux"
-import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { Dispatch, ReduxAction } from "../../lib/redux"
+import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 
 interface DepositFormStoreArguments {
     depositId: DepositId
+    fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
 }
 
 type DepositFormProps =
@@ -57,6 +58,8 @@ class DepositForm extends Component<DepositFormProps> {
         dispatch(submitDeposit(props.depositId, data))
     }
 
+    componentDidMount() {
+        this.props.fetchMetadata(this.props.depositId)
     }
 
     render() {
@@ -119,10 +122,11 @@ class DepositForm extends Component<DepositFormProps> {
     }
 }
 
-const depositForm = reduxForm<DepositFormData, DepositFormStoreArguments>({ form: "depositForm" })(DepositForm)
+const depositForm = reduxForm<DepositFormData>({ form: "depositForm", enableReinitialize: true })(DepositForm)
 
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
+    initialValues: { ...state.depositForm.initialState.data, ...state.depositForm.initialState.metadata },
 })
 
-export default connect(mapStateToProps, {fetchMetadata})(depositForm)
+export default connect<{}>(mapStateToProps, { fetchMetadata })(depositForm)
