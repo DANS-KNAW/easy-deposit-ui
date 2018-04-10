@@ -28,7 +28,7 @@ export enum DepositState {
  * @param {string} value the value to be matched on
  * @returns {DepositState} the value represented by the input string
  */
-export function toDepositState(value: string): DepositState {
+export function toDepositState(value: string): DepositState | undefined {
     return Object.values(DepositState).find(v => v === value)
 }
 
