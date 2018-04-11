@@ -79,7 +79,54 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     render() {
-        const { formState: { fetchMetadata: { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } } } = this.props
+        return (
+            <>
+                {this.renderFetchMetadataError()}
+                {this.renderForm()}
+            </>
+        )
+    }
+
+    private renderFetchMetadataError() {
+        const { depositId, fetchMetadata, formState: { fetchMetadata: { fetchError } } } = this.props
+
+        return fetchError &&
+            <div key="fetchMetadataError"
+                 className="alert alert-danger alert-dismissible"
+                 role="alert">
+                An error occurred: {fetchError}. Cannot load metadata from the server.
+                <button type="button"
+                        className="close icon"
+                        onClick={() => fetchMetadata(depositId)}>
+                    <i className="fas fa-sync-alt"/>
+                </button>
+            </div>
+    }
+
+    private renderSaveDraftError() {
+        const { formState: { saveDraft: { saveError } } } = this.props
+
+        return saveError &&
+            <div key="saveDraftError"
+                 className="alert alert-danger"
+                 role="alert">
+                An error occurred: {saveError}. Cannot save the draft of this deposit. Please try again.
+            </div>
+    }
+
+    private renderSubmitError() {
+        const { formState: { submit: { submitError } } } = this.props
+
+        return submitError &&
+            <div key="submitError"
+                 className="alert alert-danger"
+                 role="alert">
+                An error occurred: {submitError}. Cannot submit this deposit. Please try again.
+            </div>
+    }
+
+    private renderForm() {
+        const { formState: { fetchMetadata: { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError }, saveDraft: {saving, saved, saveError}, submit: { submitting, submitError} } } = this.props
 
         return (
             <form>
@@ -141,6 +188,9 @@ class DepositForm extends Component<DepositFormProps> {
                         <DepositLicense/>
                     </Loaded>
                 </Card>
+
+                {this.renderSaveDraftError()}
+                {this.renderSubmitError()}
 
                 <div className="buttons">
                     <button type="button"
