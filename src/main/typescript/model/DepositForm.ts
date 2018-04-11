@@ -15,7 +15,6 @@
  */
 import { DepositId } from "./Deposits"
 import { DepositFormMetadata } from "../components/form/parts"
-import { AccessRightValue, PrivacySensitiveDataValue } from "./FormData"
 import { DataFormData } from "../components/form/parts/DataForm"
 
 export interface FetchMetadataState {
@@ -42,7 +41,7 @@ export interface SubmitState {
 }
 
 export interface DepositFormState {
-    depositId: DepositId
+    depositId?: DepositId
     fetchMetadata: FetchMetadataState
     initialState: InitialState
     saveDraft: SaveDraftState
@@ -50,26 +49,13 @@ export interface DepositFormState {
 }
 
 export const empty: DepositFormState = {
-    depositId: "invalid", // TODO this value is not correct!!!
     fetchMetadata: {
         fetching: false,
         fetched: false,
     },
     initialState: {
         data: {},
-        metadata: {
-            doi: "invalid", // TODO this value is not correct!!!
-            languageOfDescription: "invalid", // TODO this value is not correct!!!
-            titles: [],
-            descriptions: [],
-            creators: [],
-            dateCreated: new Date(),
-            audiences: [],
-            accessRights: { category: AccessRightValue.OPEN },
-            license: "invalid", // TODO this value is not correct!!!
-            extraClarinMetadataPresent: false,
-            privacySensitiveDataPresent: PrivacySensitiveDataValue.UNSPECIFIED,
-        }
+        metadata: {}
     },
     saveDraft: {
         saving: false,

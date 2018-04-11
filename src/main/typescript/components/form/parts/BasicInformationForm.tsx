@@ -18,15 +18,15 @@ import { Component } from "react"
 import { CreatorOrContributor, Relation, SchemedDate, SchemedValue } from "../../../model/FormData"
 
 export interface BasicInformationFormData {
-    doi: string
-    languageOfDescription: string
-    titles: string[]
+    doi?: string
+    languageOfDescription?: string
+    titles?: string[]
     alternativeTitles?: string[]
-    descriptions: string[]
-    creators: CreatorOrContributor[]
+    descriptions?: string[]
+    creators?: CreatorOrContributor[]
     contributor?: CreatorOrContributor[]
-    dateCreated: Date
-    audiences: string[]
+    dateCreated?: Date
+    audiences?: string[]
     subjects?: string[]
     identifiers?: SchemedValue[]
     relations?: Relation[]

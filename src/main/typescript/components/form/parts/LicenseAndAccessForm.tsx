@@ -20,8 +20,8 @@ import { AccessRight } from "../../../model/FormData"
 export interface LicenseAndAccessFormData {
     rightsHolders?: string[]
     publishers?: string[]
-    accessRights: AccessRight
-    license: string
+    accessRights?: AccessRight
+    license?: string
     dateAvailable?: Date
 }
 

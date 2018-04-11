@@ -17,7 +17,7 @@ import * as React from "react"
 import { Component } from "react"
 
 export interface LanguageAndLiteratureSpecificMetadataFormData {
-    extraClarinMetadataPresent: boolean
+    extraClarinMetadataPresent?: boolean
 }
 
 interface LanguageAndLiteratureSpecificMetadataFormProps {

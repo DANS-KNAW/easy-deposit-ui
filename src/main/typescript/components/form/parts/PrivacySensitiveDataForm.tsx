@@ -18,7 +18,7 @@ import { Component } from "react"
 import { PrivacySensitiveDataValue } from "../../../model/FormData"
 
 export interface PrivacySensitiveDataFormData {
-    privacySensitiveDataPresent: PrivacySensitiveDataValue
+    privacySensitiveDataPresent?: PrivacySensitiveDataValue
 }
 
 interface PrivacySensitiveDataFormProps {
