@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 import {UserConstants} from "../constants/userConstants";
-import { UserDetails, empty } from "../model/UserDetails"
+import { Authentication, empty } from "../model/Authentication"
 import { Reducer } from "redux"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 
-export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
+export const userReducer: Reducer<Authentication> = (state = empty, action) => {
     switch (action.type) {
         case UserConstants.USER_SUCCESS: {
             return {...state, userName: action.payload.userName}

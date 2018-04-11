@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { empty as emptyUser, UserDetails } from "./UserDetails"
+import { empty as emptyUser, Authentication } from "./Authentication"
 import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
 import { emptyFoldableCards, FoldableCards } from "./FoldableCards"
 
 export interface AppState {
-    user: UserDetails
+    user: Authentication
     deposits: DepositOverviewState
     foldableCards: FoldableCards,
 }

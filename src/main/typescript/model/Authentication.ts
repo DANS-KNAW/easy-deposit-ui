@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface UserDetails {
+export interface Authentication {
     isAuthenticated: boolean
     userName?: string
     authenticationError?: Error

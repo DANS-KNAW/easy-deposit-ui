@@ -17,10 +17,10 @@ import {Middleware} from "redux"
 import {fetchUserFailed, fetchUserSucceeded} from "../actions/userActions"
 import {createMiddleware} from "../lib/redux"
 import {UserConstants} from "../constants/userConstants";
-import {UserDetails} from "../model/UserDetails";
+import {Authentication} from "../model/Authentication";
 
 /*
-action.payload is type User, convert to UserDetails
+action.payload is type User, convert to Authentication
  */
 const userFetchConverter: Middleware = createMiddleware(({dispatch}, next, action) => {
     next(action)
@@ -28,7 +28,7 @@ const userFetchConverter: Middleware = createMiddleware(({dispatch}, next, actio
     if (action.type === UserConstants.USER_FULFILLED) {
         try {
 
-            const user: UserDetails = {
+            const user: Authentication = {
                 userName: action.payload.username,
                 isAuthenticated: true
             }

@@ -22,7 +22,7 @@ import {Action} from "redux"
 import {getUser, signout} from "../actions/userActions"
 import "../../resources/css/header"
 import {ReduxAction} from "../lib/redux";
-import {UserDetails} from "../model/UserDetails";
+import {Authentication} from "../model/Authentication";
 import { depositOverviewRoute, homeRoute, loginRoute, registerRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
@@ -85,7 +85,7 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
     signout: () => Action
-    getUser: () => ReduxAction<Promise<UserDetails>>
+    getUser: () => ReduxAction<Promise<Authentication>>
 }
 
 class Header extends Component<HeaderProps> {

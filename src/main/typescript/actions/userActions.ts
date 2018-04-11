@@ -15,7 +15,7 @@
  */
 // TODO signout also requires a server call...
 import {ReduxAction} from "../lib/redux";
-import {UserDetails} from "../model/UserDetails";
+import {Authentication} from "../model/Authentication";
 import {loginURL, userURL} from "../constants/apiConstants";
 import {AuthenticationConstants} from "../constants/authenticationConstants"
 import {UserConstants} from "../constants/userConstants"
@@ -55,7 +55,7 @@ export const fetchUserFailed: (errorMessage: string) => ReduxAction<string> = er
     payload: errorMessage
 })
 
-export const fetchUserSucceeded: (user: UserDetails) => ReduxAction<UserDetails> = user => ({
+export const fetchUserSucceeded: (user: Authentication) => ReduxAction<Authentication> = user => ({
     type: UserConstants.USER_SUCCESS,
     payload: user
 })
