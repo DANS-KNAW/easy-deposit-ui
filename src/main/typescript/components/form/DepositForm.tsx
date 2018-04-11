@@ -39,6 +39,43 @@ import { connect } from "react-redux"
 import { DepositFormState } from "../../model/DepositForm"
 import { Alert, ReloadAlert } from "../../Errors"
 
+interface FetchMetadataErrorProps {
+    fetchError?: string
+    reload: () => any
+}
+
+const FetchMetadataError = ({ fetchError, reload }: FetchMetadataErrorProps) => (
+    fetchError
+        ? <ReloadAlert key="fetchMetadataError" reload={reload()}>
+            An error occurred: {fetchError}. Cannot load metadata from the server.
+        </ReloadAlert>
+        : null
+)
+
+interface SaveDraftErrorProps {
+    saveError?: string
+}
+
+const SaveDraftError = ({ saveError }: SaveDraftErrorProps) => (
+    saveError
+        ? <Alert key="saveDraftError">
+            An error occurred: {saveError}. Cannot save the draft of this deposit. Please try again.
+        </Alert>
+        : null
+)
+
+interface SubmitErrorProps {
+    submitError?: string
+}
+
+const SubmitError = ({ submitError }: SubmitErrorProps) => (
+    submitError
+        ? <Alert key="submitError">
+            An error occurred: {submitError}. Cannot submit this deposit. Please try again.
+        </Alert>
+        : null
+)
+
 interface LoadedProps {
     loading: boolean
     loaded: boolean
@@ -64,6 +101,8 @@ interface DepositFormStoreArguments {
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
+    fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
+
     save = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
         alert(`saving draft for ${props.depositId}:\n\n${JSON.stringify(data, null, 2)}`)
 
@@ -75,17 +114,17 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     componentDidMount() {
-        this.props.fetchMetadata(this.props.depositId)
+        this.fetchMetadata()
     }
 
     render() {
         const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
-        const { saving, saved } = this.props.formState.saveDraft
-        const { submitting } = this.props.formState.submit
+        const { saving, saved, saveError } = this.props.formState.saveDraft
+        const { submitting, submitError } = this.props.formState.submit
 
         return (
             <>
-                {this.renderFetchMetadataError()}
+                <FetchMetadataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         {/* TODO wrap in Loading once we have this piece of state implemented */}
@@ -146,8 +185,8 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    {this.renderSaveDraftError()}
-                    {this.renderSubmitError()}
+                    <SaveDraftError saveError={saveError}/>
+                    <SubmitError submitError={submitError}/>
 
                     <div className="buttons">
                         <button type="button"
@@ -171,35 +210,6 @@ class DepositForm extends Component<DepositFormProps> {
                 </form>
             </>
         )
-    }
-
-    private renderFetchMetadataError() {
-        const { depositId, fetchMetadata, formState: { fetchMetadata: { fetchError } } } = this.props
-
-        return fetchError &&
-            <ReloadAlert key="fetchMetadataError" reload={() => fetchMetadata(depositId)}>
-                An error occurred: {fetchError}. Cannot load metadata from the server.
-            </ReloadAlert>
-    }
-
-    private renderSaveDraftError() {
-        const { formState: { saveDraft: { saveError } } } = this.props
-
-        return saveError &&
-            <Alert key="saveDraftError">
-                An error occurred: {saveError}. Cannot save the draft of this deposit. Please try again.
-            </Alert>
-    }
-
-    private renderSubmitError() {
-        const { formState: { submit: { submitError } } } = this.props
-
-        return submitError &&
-            <div key="submitError"
-                 className="alert alert-danger"
-                 role="alert">
-                An error occurred: {submitError}. Cannot submit this deposit. Please try again.
-            </div>
     }
 }
 
