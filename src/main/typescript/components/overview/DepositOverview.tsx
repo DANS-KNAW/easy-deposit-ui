@@ -72,7 +72,6 @@ class DepositOverview extends Component<DepositOverviewProps> {
                  className="alert alert-danger alert-dismissible"
                  role="alert">
                 An error occurred: {loadingError}. Cannot load data from the server.
-                {/* reset certain style elements from .close in the button below using the style attribute */}
                 <button type="button"
                         className="close icon"
                         onClick={fetchDeposits}>
