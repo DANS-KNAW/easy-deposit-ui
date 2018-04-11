@@ -22,8 +22,8 @@ import { Action } from "redux"
 import { getUser, signout } from "../actions/userActions"
 import "../../resources/css/header"
 import { ReduxAction } from "../lib/redux"
-import { Authentication } from "../model/Authentication"
 import { depositOverviewRoute, homeRoute, loginRoute, registerRoute } from "../constants/clientRoutes"
+import { UserDetails } from "../model/UserDetails"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -85,7 +85,7 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
     signout: () => Action
-    getUser: () => ReduxAction<Promise<Authentication>>
+    getUser: () => ReduxAction<Promise<UserDetails>>
 }
 
 class Header extends Component<HeaderProps> {
@@ -135,7 +135,7 @@ const mapStateToProps = (state: AppState) => {
     console.log(state)
     return ({
         isLoggedIn: state.authenticatedUser.isAuthenticated,
-        loginName: state.authenticatedUser.displayName || undefined,
+        loginName: state.user.displayName || undefined,
     })
 }
 

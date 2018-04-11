@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { UserConstants } from "../constants/userConstants"
+import { Authentication, empty } from "../model/Authentication"
 import { Reducer } from "redux"
-import { UserDetails, empty } from "../model/UserDetails"
+import { AuthenticationConstants } from "../constants/authenticationConstants"
 
-export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
+export const authenticationReducer: Reducer<Authentication> = (state = empty, action) => {
     switch (action.type) {
-        case UserConstants.USER_SUCCEEDED: {
-            return { ...state,
-                displayName: action.payload.displayName,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                prefix: action.payload.prefix,
-                groups: action.payload.groups,
-                username: action.payload.username,
-            }
+        case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
+            return { ...state, isAuthenticated: true, displayName: undefined }
         }
-        case UserConstants.USER_FAILED: {
-            return { ...state, displayName: "" }
+        case AuthenticationConstants.AUTH_LOGIN_REJECTED: {
+            return { ...state, isAuthenticated: false, authenticationError: action.payload }
+        }
+        case AuthenticationConstants.AUTH_LOGOUT: {
+            return { ...state, isAuthenticated: false, displayName: undefined }
         }
         default:
             return state

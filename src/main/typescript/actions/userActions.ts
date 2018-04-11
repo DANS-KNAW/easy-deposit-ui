@@ -57,6 +57,6 @@ export const fetchUserFailed: (errorMessage: string) => ReduxAction<string> = er
 })
 
 export const fetchUserSucceeded: (user: UserDetails) => ReduxAction<UserDetails> = user => ({
-    type: UserConstants.USER_SUCCESS,
+    type: UserConstants.USER_SUCCEEDED,
     payload: user
 })

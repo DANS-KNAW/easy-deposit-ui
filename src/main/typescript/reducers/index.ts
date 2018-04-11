@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 import { AnyAction, combineReducers } from "redux"
-import {reducer as formReducer} from 'redux-form'
+import { reducer as formReducer } from "redux-form"
 import { depositOverviewReducer } from "./depositOverviewReducer"
-import { userReducer } from "./userReducer";
-import {toPath} from 'lodash'
+import { authenticationReducer } from "./authenticationReducer"
+import { userReducer } from "./userReducer"
+import { toPath } from "lodash"
 import immutable from "object-path-immutable"
 import { FormState } from "redux-form/lib/reducer"
 import { foldableCardReducer } from "./foldableCardReducer"
 
 export default combineReducers({
-    authenticatedUser: userReducer,
+    authenticatedUser: authenticationReducer,
+    user: userReducer,
     deposits: depositOverviewReducer,
-    form: formReducer.plugin({login: changeReducer, }),
+    form: formReducer.plugin({ login: changeReducer }),
     foldableCards: foldableCardReducer,
 })
 
@@ -35,7 +37,7 @@ function changeReducer(state: FormState, action: AnyAction) {
             const fieldName = toPath(action.meta.field + ".changed")
             const newState = immutable.set(state.fields, fieldName, true)
 
-            return {...state, fields: newState}
+            return { ...state, fields: newState }
     }
     return state
 }
