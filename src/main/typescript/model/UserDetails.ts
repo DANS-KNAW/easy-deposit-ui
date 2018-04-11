@@ -22,3 +22,12 @@ export interface UserDetails {
     groups: string[],
     displayName: string,
 }
+
+export const empty = {
+    username: "",
+    firstName: "",
+    prefix: "",
+    lastName: "",
+    groups: [],
+    displayName: "",
+}
