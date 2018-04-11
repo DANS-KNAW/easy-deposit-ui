@@ -63,14 +63,13 @@ interface DepositFormStoreArguments {
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
-    save = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
-        const { depositId } = props
-        alert(`saving draft for ${depositId}:\n\n${JSON.stringify(data, null, 2)}`)
+    save = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
+        alert(`saving draft for ${props.depositId}:\n\n${JSON.stringify(data, null, 2)}`)
 
-        dispatch(saveDraft(depositId, data))
+        dispatch(saveDraft(props.depositId, data))
     }
 
-    submit = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
+    submit = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
         dispatch(submitDeposit(props.depositId, data))
     }
 
@@ -79,10 +78,96 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     render() {
+        const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
+        const { saving, saved } = this.props.formState.saveDraft
+        const { submitting } = this.props.formState.submit
+
         return (
             <>
                 {this.renderFetchMetadataError()}
-                {this.renderForm()}
+                <form>
+                    <Card title="Upload your data" defaultOpened>
+                        {/* TODO wrap in Loading once we have this piece of state implemented */}
+                        <Data/>
+                    </Card>
+
+                    <Card title="Basic information" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <BasicInformation/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="License and access" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <LicenseAndAccess/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Upload type">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <UploadType/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Archaeology specific metadata">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <ArchaeologySpecificMetadata/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Language & literature specific metadata">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <LanguageAndLiteratureSpecificMetadata/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Temporal and spatial coverage">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <TemporalAndSpatialCoverage/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Message for the data manager">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <MessageForDataManager/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Privacy sensitive data" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <PrivacySensitiveData/>
+                        </Loaded>
+                    </Card>
+
+                    <Card title="Deposit license" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <DepositLicense/>
+                        </Loaded>
+                    </Card>
+
+                    {this.renderSaveDraftError()}
+                    {this.renderSubmitError()}
+
+                    <div className="buttons">
+                        <button type="button"
+                                className="btn btn-primary mb-0"
+                                onClick={this.props.handleSubmit(this.save)}
+                                disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
+                            Save draft
+                        </button>
+                        <button type="button"
+                                className="btn btn-primary mb-0"
+                                onClick={this.props.handleSubmit(this.submit)}
+                                disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
+                            Submit deposit
+                        </button>
+                    </div>
+
+                    <div>
+                        {saving && <p><i>Saving draft...</i></p>}
+                        {saved && <p><i>Saved draft</i></p>}
+                    </div>
+                </form>
             </>
         )
     }
@@ -123,91 +208,6 @@ class DepositForm extends Component<DepositFormProps> {
                  role="alert">
                 An error occurred: {submitError}. Cannot submit this deposit. Please try again.
             </div>
-    }
-
-    private renderForm() {
-        const { formState: { fetchMetadata: { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError }, saveDraft: {saving, saved, saveError}, submit: { submitting, submitError} } } = this.props
-
-        return (
-            <form>
-                <Card title="Upload your data" defaultOpened>
-                    {/* TODO wrap in Loading once we have this piece of state implemented */}
-                    <Data/>
-                </Card>
-
-                <Card title="Basic information" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <BasicInformation/>
-                    </Loaded>
-                </Card>
-
-                <Card title="License and access" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <LicenseAndAccess/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Upload type">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <UploadType/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Archaeology specific metadata">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <ArchaeologySpecificMetadata/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Language & literature specific metadata">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <LanguageAndLiteratureSpecificMetadata/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Temporal and spatial coverage">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <TemporalAndSpatialCoverage/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Message for the data manager">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <MessageForDataManager/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Privacy sensitive data" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <PrivacySensitiveData/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Deposit license" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <DepositLicense/>
-                    </Loaded>
-                </Card>
-
-                {this.renderSaveDraftError()}
-                {this.renderSubmitError()}
-
-                <div className="buttons">
-                    <button type="button"
-                            className="btn btn-primary mb-0"
-                            onClick={this.props.handleSubmit(this.save)}
-                            disabled={fetchedMetadataError != undefined || saving || submitting}>
-                        Save draft
-                    </button>
-                    <button type="button"
-                            className="btn btn-primary mb-0"
-                            onClick={this.props.handleSubmit(this.submit)}
-                            disabled={fetchedMetadataError != undefined || saving || submitting}>
-                        Submit deposit
-                    </button>
-                </div>
-            </form>
-        )
     }
 }
 
