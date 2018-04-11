@@ -41,12 +41,14 @@ import { DepositFormState } from "../../model/DepositForm"
 interface LoadedProps {
     loading: boolean
     loaded: boolean
+    error?: string
 }
 
-const Loaded: SFC<LoadedProps> = ({ loading, loaded, children }) => {
+const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
             {loading && <p>loading metadata...</p>}
+            {error && <p><i>Cannot load data from the server.</i></p>}
             {loaded && children}
         </>
     )
@@ -77,7 +79,7 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     render() {
-        const { formState: { fetchMetadata: { fetching: fetchingMetadata, fetched: fetchedMetadata } } } = this.props
+        const { formState: { fetchMetadata: { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } } } = this.props
 
         return (
             <form>
@@ -87,55 +89,55 @@ class DepositForm extends Component<DepositFormProps> {
                 </Card>
 
                 <Card title="Basic information" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <BasicInformation/>
                     </Loaded>
                 </Card>
 
                 <Card title="License and access" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <LicenseAndAccess/>
                     </Loaded>
                 </Card>
 
                 <Card title="Upload type">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <UploadType/>
                     </Loaded>
                 </Card>
 
                 <Card title="Archaeology specific metadata">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <ArchaeologySpecificMetadata/>
                     </Loaded>
                 </Card>
 
                 <Card title="Language & literature specific metadata">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <LanguageAndLiteratureSpecificMetadata/>
                     </Loaded>
                 </Card>
 
                 <Card title="Temporal and spatial coverage">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <TemporalAndSpatialCoverage/>
                     </Loaded>
                 </Card>
 
                 <Card title="Message for the data manager">
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <MessageForDataManager/>
                     </Loaded>
                 </Card>
 
                 <Card title="Privacy sensitive data" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <PrivacySensitiveData/>
                     </Loaded>
                 </Card>
 
                 <Card title="Deposit license" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <DepositLicense/>
                     </Loaded>
                 </Card>
