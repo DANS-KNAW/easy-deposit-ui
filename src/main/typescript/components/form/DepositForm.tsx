@@ -37,6 +37,7 @@ import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFo
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 import { DepositFormState } from "../../model/DepositForm"
+import { Alert, ReloadAlert } from "../../Errors"
 
 interface LoadedProps {
     loading: boolean
@@ -176,27 +177,18 @@ class DepositForm extends Component<DepositFormProps> {
         const { depositId, fetchMetadata, formState: { fetchMetadata: { fetchError } } } = this.props
 
         return fetchError &&
-            <div key="fetchMetadataError"
-                 className="alert alert-danger alert-dismissible"
-                 role="alert">
+            <ReloadAlert key="fetchMetadataError" reload={() => fetchMetadata(depositId)}>
                 An error occurred: {fetchError}. Cannot load metadata from the server.
-                <button type="button"
-                        className="close icon"
-                        onClick={() => fetchMetadata(depositId)}>
-                    <i className="fas fa-sync-alt"/>
-                </button>
-            </div>
+            </ReloadAlert>
     }
 
     private renderSaveDraftError() {
         const { formState: { saveDraft: { saveError } } } = this.props
 
         return saveError &&
-            <div key="saveDraftError"
-                 className="alert alert-danger"
-                 role="alert">
+            <Alert key="saveDraftError">
                 An error occurred: {saveError}. Cannot save the draft of this deposit. Please try again.
-            </div>
+            </Alert>
     }
 
     private renderSubmitError() {
