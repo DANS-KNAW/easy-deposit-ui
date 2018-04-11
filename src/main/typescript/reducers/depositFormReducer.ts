@@ -58,6 +58,9 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                 saveDraft: { ...state.saveDraft, saving: false, saved: false, saveError: action.payload },
             }
         }
+        case DepositFormConstants.SAVE_DRAFT_RESET: {
+            return { ...state, saveDraft: { ...state.saveDraft, saved: false }}
+        }
         case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
             return {
                 ...state,

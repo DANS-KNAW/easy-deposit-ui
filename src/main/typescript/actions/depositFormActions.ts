@@ -71,6 +71,10 @@ export const saveDraftFailed: (errorMessage: string) => ReduxAction<string> = er
     payload: errorMessage,
 })
 
+export const saveDraftReset: () => Action = () => ({
+    type: DepositFormConstants.SAVE_DRAFT_RESET,
+})
+
 export const submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<Promise<void>> = (depositId, data) => ({
     type: DepositFormConstants.SUBMIT_DEPOSIT,
     async payload() {

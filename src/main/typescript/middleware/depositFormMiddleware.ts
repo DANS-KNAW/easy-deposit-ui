@@ -15,11 +15,11 @@
  */
 import { Middleware } from "redux"
 import { createMiddleware } from "../lib/redux"
-import { DepositFormConstants } from "../constants/depositFormConstants"
+import { DepositFormConstants, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import { DepositFormMetadata } from "../components/form/parts"
-import { fetchMetadataFailed, fetchMetadataSucceeded } from "../actions/depositFormActions"
+import { fetchMetadataFailed, fetchMetadataSucceeded, saveDraftReset } from "../actions/depositFormActions"
 import {
     AccessRight, Box,
     CreatorOrContributor, Point, PrivacySensitiveDataValue,
@@ -160,6 +160,14 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
     }
 })
 
+const saveTimer: Middleware = createMiddleware(({dispatch}, next, action) => {
+    next(action)
+
+    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
+        setTimeout(() => dispatch(saveDraftReset()), saveDraftResetTimeout * 1000)
+    }
+})
+
 const submitReroute: Middleware = createMiddleware(({ dispatch }, next, action) => {
     if (action.type === DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED) {
         dispatch(push(depositOverviewRoute))
@@ -170,5 +178,6 @@ const submitReroute: Middleware = createMiddleware(({ dispatch }, next, action) 
 
 export const depositFormMiddleware = [
     metadataFetchConverter,
+    saveTimer,
     submitReroute,
 ]
