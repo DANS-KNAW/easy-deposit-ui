@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, SFC } from "react"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm"
 import { InjectedFormProps, reduxForm } from "redux-form"
@@ -37,6 +37,20 @@ import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFo
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 import { DepositFormState } from "../../model/DepositForm"
+
+interface LoadedProps {
+    loading: boolean
+    loaded: boolean
+}
+
+const Loaded: SFC<LoadedProps> = ({ loading, loaded, children }) => {
+    return (
+        <>
+            {loading && <p>loading metadata...</p>}
+            {loaded && children}
+        </>
+    )
+}
 
 interface DepositFormStoreArguments {
     depositId: DepositId
@@ -63,46 +77,67 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     render() {
+        const { formState: { fetchMetadata: { fetching: fetchingMetadata, fetched: fetchedMetadata } } } = this.props
+
         return (
             <form>
                 <Card title="Upload your data" defaultOpened>
+                    {/* TODO wrap in Loading once we have this piece of state implemented */}
                     <Data/>
                 </Card>
 
                 <Card title="Basic information" required defaultOpened>
-                    <BasicInformation/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <BasicInformation/>
+                    </Loaded>
                 </Card>
 
                 <Card title="License and access" required defaultOpened>
-                    <LicenseAndAccess/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <LicenseAndAccess/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Upload type">
-                    <UploadType/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <UploadType/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Archaeology specific metadata">
-                    <ArchaeologySpecificMetadata/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <ArchaeologySpecificMetadata/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Language & literature specific metadata">
-                    <LanguageAndLiteratureSpecificMetadata/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <LanguageAndLiteratureSpecificMetadata/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Temporal and spatial coverage">
-                    <TemporalAndSpatialCoverage/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <TemporalAndSpatialCoverage/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Message for the data manager">
-                    <MessageForDataManager/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <MessageForDataManager/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Privacy sensitive data" required defaultOpened>
-                    <PrivacySensitiveData/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <PrivacySensitiveData/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Deposit license" required defaultOpened>
-                    <DepositLicense/>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata}>
+                        <DepositLicense/>
+                    </Loaded>
                 </Card>
 
                 <div className="buttons">
