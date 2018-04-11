@@ -195,12 +195,14 @@ class DepositForm extends Component<DepositFormProps> {
                 <div className="buttons">
                     <button type="button"
                             className="btn btn-primary mb-0"
-                            onClick={this.props.handleSubmit(this.save)}>
+                            onClick={this.props.handleSubmit(this.save)}
+                            disabled={fetchedMetadataError != undefined || saving || submitting}>
                         Save draft
                     </button>
                     <button type="button"
                             className="btn btn-primary mb-0"
-                            onClick={this.props.handleSubmit(this.submit)}>
+                            onClick={this.props.handleSubmit(this.submit)}
+                            disabled={fetchedMetadataError != undefined || saving || submitting}>
                         Submit deposit
                     </button>
                 </div>
