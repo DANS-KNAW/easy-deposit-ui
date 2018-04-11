@@ -21,6 +21,7 @@ import {AuthenticationConstants} from "../constants/authenticationConstants"
 import {UserConstants} from "../constants/userConstants"
 import {Action} from "redux"
 import axios from "axios";
+import { UserDetails } from "../model/UserDetails"
 
 export const authenticate: (userName: string, password: string) => ReduxAction<Promise<any>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
@@ -55,7 +56,7 @@ export const fetchUserFailed: (errorMessage: string) => ReduxAction<string> = er
     payload: errorMessage
 })
 
-export const fetchUserSucceeded: (user: Authentication) => ReduxAction<Authentication> = user => ({
+export const fetchUserSucceeded: (user: UserDetails) => ReduxAction<UserDetails> = user => ({
     type: UserConstants.USER_SUCCESS,
     payload: user
 })

@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface Authentication {
-    isAuthenticated: boolean
-    displayName?: string
-    authenticationError?: Error
-    // TODO more properties
-}
 
-export const empty = {
-    isAuthenticated: false,
-    displayName: undefined,
+export interface UserDetails {
+    username: string,
+    firstName: string,
+    prefix: string,
+    lastName: string,
+    groups: string[],
+    displayName: string,
 }

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import {Component, ImgHTMLAttributes, SFC} from "react"
-import {Link, NavLinkProps} from "react-router-dom"
-import {AppState} from "../model/AppState"
-import {connect} from "react-redux"
-import {Action} from "redux"
-import {getUser, signout} from "../actions/userActions"
+import { Component, ImgHTMLAttributes, SFC } from "react"
+import { Link, NavLinkProps } from "react-router-dom"
+import { AppState } from "../model/AppState"
+import { connect } from "react-redux"
+import { Action } from "redux"
+import { getUser, signout } from "../actions/userActions"
 import "../../resources/css/header"
-import {ReduxAction} from "../lib/redux";
-import {Authentication} from "../model/Authentication";
+import { ReduxAction } from "../lib/redux"
+import { Authentication } from "../model/Authentication"
 import { depositOverviewRoute, homeRoute, loginRoute, registerRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
@@ -90,12 +90,13 @@ interface HeaderProps {
 
 class Header extends Component<HeaderProps> {
 
-    componentWillUpdate(){
+    componentWillUpdate() {
         const { isLoggedIn, loginName, getUser } = this.props
-        if(loginName == undefined){
+        if (loginName == undefined) {
             getUser()
         }
     }
+
     render() {
         const { isLoggedIn, loginName, signout } = this.props
         const loginNavBar = isLoggedIn
@@ -105,7 +106,6 @@ class Header extends Component<HeaderProps> {
                 <Link onClick={signout} className="nav-link logoff" key="log out" to="/" title="Log out">Log out</Link>,
             ]
             : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Login</NavBarLink>]
-
 
         return <>
             <NavBar>
@@ -131,9 +131,12 @@ class Header extends Component<HeaderProps> {
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    isLoggedIn: state.user.isAuthenticated,
-    loginName: state.user.userName||undefined
-})
+const mapStateToProps = (state: AppState) => {
+    console.log(state)
+    return ({
+        isLoggedIn: state.authenticatedUser.isAuthenticated,
+        loginName: state.authenticatedUser.displayName || undefined,
+    })
+}
 
 export default connect(mapStateToProps, { signout, getUser })(Header)

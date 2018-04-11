@@ -21,19 +21,19 @@ import { AuthenticationConstants } from "../constants/authenticationConstants"
 export const userReducer: Reducer<Authentication> = (state = empty, action) => {
     switch (action.type) {
         case UserConstants.USER_SUCCESS: {
-            return {...state, userName: action.payload.userName}
+            return {...state, displayName: action.payload.displayName}
         }
         case UserConstants.USER_FAILED: {
             return {...state, isAuthenticated: false}
         }
         case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
-            return { ...state, isAuthenticated: true, userName: undefined }
+            return { ...state, isAuthenticated: true, displayName: undefined }
         }
         case AuthenticationConstants.AUTH_LOGIN_REJECTED: {
             return { ...state, isAuthenticated: false, authenticationError: action.payload }
         }
         case AuthenticationConstants.AUTH_LOGOUT: {
-            return { ...state, isAuthenticated: false, userName: undefined }
+            return { ...state, isAuthenticated: false, displayName: undefined }
         }
         default:
             return state

@@ -23,7 +23,7 @@ import { FormState } from "redux-form/lib/reducer"
 import { foldableCardReducer } from "./foldableCardReducer"
 
 export default combineReducers({
-    user: userReducer,
+    authenticatedUser: userReducer,
     deposits: depositOverviewReducer,
     form: formReducer.plugin({login: changeReducer, }),
     foldableCards: foldableCardReducer,

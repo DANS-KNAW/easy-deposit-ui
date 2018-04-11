@@ -80,8 +80,8 @@ class LoginPage extends Component<AllDemoFormProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    authenticated: state.user.isAuthenticated,
-    errorMessage: state.user.authenticationError,
+    authenticated: state.authenticatedUser.isAuthenticated,
+    errorMessage: state.authenticatedUser.authenticationError,
 })
 
 const form = reduxForm<LoginPageState>({form: 'login'})(LoginPage)
