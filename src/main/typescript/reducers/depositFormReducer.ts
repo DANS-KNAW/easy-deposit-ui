@@ -22,6 +22,9 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.REGISTER_FORM: {
             return {...state, depositId: action.payload}
         }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return empty
+        }
         // TODO fetch data
         case DepositFormConstants.FETCH_METADATA_PENDING: {
             return {...state, fetchMetadata: {...state.fetchMetadata, fetching: true, fetchError: undefined}}
