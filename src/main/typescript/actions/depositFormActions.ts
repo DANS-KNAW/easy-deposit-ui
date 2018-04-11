@@ -20,8 +20,8 @@ import { DepositId } from "../model/Deposits"
 import axios from "axios"
 import { fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/apiConstants"
 
-export const setDepositId: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
-    type: DepositFormConstants.SET_DEPOSIT_ID,
+export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
+    type: DepositFormConstants.REGISTER_FORM,
     payload: depositId,
 })
 

@@ -19,7 +19,7 @@ import { DepositFormConstants } from "../constants/depositFormConstants"
 
 export const depositFormReducer: Reducer<DepositFormState> = (state = empty, action) => {
     switch (action.type) {
-        case DepositFormConstants.SET_DEPOSIT_ID: {
+        case DepositFormConstants.REGISTER_FORM: {
             return {...state, depositId: action.payload}
         }
         // TODO fetch data

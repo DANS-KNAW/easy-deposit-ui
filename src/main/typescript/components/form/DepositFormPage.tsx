@@ -20,14 +20,14 @@ import { RouteComponentProps } from "react-router"
 import DepositForm from "./DepositForm"
 import { ReduxAction } from "../../lib/redux"
 import { connect } from "react-redux"
-import { setDepositId } from "../../actions/depositFormActions"
+import { registerForm } from "../../actions/depositFormActions"
 
 interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
 }
 
 interface MyDepositFormPageProps {
-    setDepositId: (depositId: DepositId) => ReduxAction<DepositId>
+    registerForm: (depositId: DepositId) => ReduxAction<DepositId>
 }
 
 type DepositFormPageProps = MyDepositFormPageProps & RouteComponentProps<RouterParams>
@@ -35,7 +35,7 @@ type DepositFormPageProps = MyDepositFormPageProps & RouteComponentProps<RouterP
 class DepositFormPage extends Component<DepositFormPageProps> {
     constructor(props: DepositFormPageProps) {
         super(props)
-        this.props.setDepositId(this.props.match.params.depositId)
+        this.props.registerForm(this.props.match.params.depositId)
     }
 
     render() {
@@ -53,4 +53,4 @@ class DepositFormPage extends Component<DepositFormPageProps> {
     }
 }
 
-export default connect(null, { setDepositId })(DepositFormPage)
+export default connect(null, { registerForm })(DepositFormPage)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 export enum DepositFormConstants {
-    SET_DEPOSIT_ID = "SET_DEPOSIT_ID",
+    REGISTER_FORM = "REGISTER_FORM",
 
     FETCH_METADATA = "FETCH_METADATA",
     FETCH_METADATA_PENDING = "FETCH_METADATA_PENDING",
