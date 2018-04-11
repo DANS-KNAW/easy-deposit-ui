@@ -15,6 +15,7 @@
  */
 export interface Authentication {
     isAuthenticated: boolean
+    isAuthenticating: boolean
     displayName?: string
     authenticationError?: Error
     // TODO more properties
@@ -22,5 +23,6 @@ export interface Authentication {
 
 export const empty = {
     isAuthenticated: false,
+    isAuthenticating: false,
     displayName: undefined,
 }

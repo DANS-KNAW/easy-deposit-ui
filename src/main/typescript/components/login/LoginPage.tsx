@@ -21,12 +21,12 @@ import { authenticate } from "../../actions/userActions"
 import { Redirect, RouteComponentProps } from "react-router"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
-import { Field, InjectedFormProps, reduxForm } from "redux-form"
-import { RenderInput } from "../../lib/formElements"
+import { InjectedFormProps, reduxForm } from "redux-form"
 
 interface LoginPageProps {
     authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
     authenticated: boolean
+    authenticating: boolean
     errorMessage: Error
 }
 
@@ -36,8 +36,6 @@ interface LoginPageState {
 }
 
 type AllDemoFormProps = LoginPageProps & RouteComponentProps<any> & InjectedFormProps<LoginPageState>
-const isRequired = (errorText: string) => (value?: any) => value ? undefined : errorText
-const required = isRequired("Required")
 
 class LoginPage extends Component<AllDemoFormProps> {
     constructor(props: AllDemoFormProps) {
@@ -58,22 +56,15 @@ class LoginPage extends Component<AllDemoFormProps> {
             ? <Redirect to={from}/>
             : <form onSubmit={handleSubmit(this.showResults)}>
                 <p>You must log in to view this page at {from.pathname}</p>
-                <Field name="loginName"
-                       label="Username"
-                       type="text"
-                       component={RenderInput}
-                       required
-                       validate={[required]}/>
-                <Field name="loginPassword"
-                       label="Password"
-                       type="password"
-                       component={RenderInput}
-                       required
-                       validate={[required]}/>
+                <label>Username</label>
+                <input type="text" name="loginName" required/>
+                <br/>
+                <label>Password</label>
+                <input type="password" name="loginPassword" required/>
+                <br/>
                 {this.props.error && <span>{this.props.error}<br/></span>}
 
-                <button type="submit" disabled={this.props.submitting}>Login</button>
-
+                <button type="submit" disabled={this.props.authenticating}>Login</button>
                 <div>{(errorMessage) ? errorMessage.message : ""}</div>
             </form>
     }
@@ -81,6 +72,7 @@ class LoginPage extends Component<AllDemoFormProps> {
 
 const mapStateToProps = (state: AppState) => ({
     authenticated: state.authenticatedUser.isAuthenticated,
+    authenticating: state.authenticatedUser.isAuthenticating,
     errorMessage: state.authenticatedUser.authenticationError,
 })
 

@@ -90,7 +90,7 @@ interface HeaderProps {
 
 class Header extends Component<HeaderProps> {
 
-    componentWillUpdate() {
+    componentDidUpdate() {
         const { isLoggedIn, loginName, getUser } = this.props
         if (loginName == undefined) {
             getUser()
