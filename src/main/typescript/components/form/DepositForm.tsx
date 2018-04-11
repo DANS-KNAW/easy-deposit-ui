@@ -36,9 +36,11 @@ import { Dispatch, ReduxAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
+import { DepositFormState } from "../../model/DepositForm"
 
 interface DepositFormStoreArguments {
     depositId: DepositId
+    formState: DepositFormState
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
 }
 
@@ -124,6 +126,7 @@ const depositForm = reduxForm<DepositFormData>({ form: "depositForm", enableRein
 
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
+    formState: state.depositForm,
     initialValues: { ...state.depositForm.initialState.data, ...state.depositForm.initialState.metadata },
 })
 
