@@ -41,8 +41,8 @@ export const newStore = (history: H.History) => {
                     thunkMiddleware,
                     promiseMiddleware(),
                     routerMiddleware(history),
-                    createLogger({ predicate })
-                )
+                    createLogger({ predicate }),
+                ),
             ),
         )
     }
@@ -53,7 +53,7 @@ export const newStore = (history: H.History) => {
                 ...customMiddleware,
                 thunkMiddleware,
                 routerMiddleware(history),
-                promiseMiddleware()
-            )
+                promiseMiddleware(),
+            ),
         )
 }

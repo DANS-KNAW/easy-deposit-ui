@@ -42,9 +42,7 @@ interface DepositFormStoreArguments {
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
 }
 
-type DepositFormProps =
-    DepositFormStoreArguments
-    & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
+type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
     save = async (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {

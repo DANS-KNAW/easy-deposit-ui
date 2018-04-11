@@ -19,7 +19,7 @@ import { depositOverviewReducer } from "./depositOverviewReducer"
 import { foldableCardReducer } from "./foldableCardReducer"
 import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
-import {toPath} from 'lodash'
+import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
 
@@ -29,7 +29,7 @@ function changeReducer(state: FormState, action: AnyAction) {
             const fieldName = toPath(action.meta.field + ".changed")
             const newState = immutable.set(state.fields, fieldName, true)
 
-            return {...state, fields: newState}
+            return { ...state, fields: newState }
     }
     return state
 }

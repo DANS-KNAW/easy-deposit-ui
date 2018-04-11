@@ -30,32 +30,53 @@ import {
 } from "../model/FormData"
 
 const creatorOrContributorConverter: (c: any) => CreatorOrContributor = c => {
-    const ids = c.ids && c.ids.map(schemedValueConverter)
-
     return ({
         titles: c.titles,
         initials: c.initials,
         insertions: c.insertions,
         surname: c.surname,
-        ids: ids,
+        ids: c.ids && c.ids.map(schemedValueConverter),
         role: c.role,
         organization: c.organization,
     })
 }
-const schemedValueConverter: (sv: any) => SchemedValue = sv => ({ scheme: sv.scheme, value: sv.value })
-const schemedDateConverter: (sv: any) => SchemedDate = sv => ({ scheme: sv.scheme, value: new Date(sv.value) })
-const relationConverter: (r: any) => Relation = r => ({ qualifier: r.qualifier, url: r.url, title: r.title })
+const schemedValueConverter: (sv: any) => SchemedValue = sv => ({
+    scheme: sv.scheme,
+    value: sv.value,
+})
+const schemedDateConverter: (sv: any) => SchemedDate = sv => ({
+    scheme: sv.scheme,
+    value: new Date(sv.value),
+})
+const relationConverter: (r: any) => Relation = r => ({
+    qualifier: r.qualifier,
+    url: r.url,
+    title: r.title,
+})
 const accessRightConverter: (ar: any) => AccessRight = ar => {
     const category = toAccessRight(ar.category)
     if (category) {
-        return ({ category: category, group: ar.group })
+        return ({
+            category: category,
+            group: ar.group,
+        })
     }
     else {
         throw `Error in metadata: no such access right: '${ar.category}'`
     }
 }
-const pointConverter: (p: any) => Point = p => ({ scheme: p.scheme, x: Number(p.x), y: Number(p.y) })
-const boxConverter: (b: any) => Box = b => ({ scheme: b.scheme, north: Number(b.north), east: Number(b.east), south: Number(b.south), west: Number(b.west) })
+const pointConverter: (p: any) => Point = p => ({
+    scheme: p.scheme,
+    x: Number(p.x),
+    y: Number(p.y),
+})
+const boxConverter: (b: any) => Box = b => ({
+    scheme: b.scheme,
+    north: Number(b.north),
+    east: Number(b.east),
+    south: Number(b.south),
+    west: Number(b.west),
+})
 const privacySensitiveDataConverter: (psd: any) => PrivacySensitiveDataValue = psd => {
     const res = toPrivacySensitiveData(psd)
     if (res) {
@@ -129,7 +150,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 privacySensitiveDataPresent: privacySensitiveDataConverter(input.privacySensitiveDataPresent),
 
                 // deposit license
-                acceptLicenseAgreement: input.acceptLicenseAgreement && JSON.parse(input.acceptLicenseAgreement)
+                acceptLicenseAgreement: input.acceptLicenseAgreement && JSON.parse(input.acceptLicenseAgreement),
             }
             dispatch(fetchMetadataSucceeded(data))
         }

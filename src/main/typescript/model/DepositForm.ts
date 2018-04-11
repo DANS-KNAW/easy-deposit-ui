@@ -55,7 +55,7 @@ export const empty: DepositFormState = {
     },
     initialState: {
         data: {},
-        metadata: {}
+        metadata: {},
     },
     saveDraft: {
         saving: false,
