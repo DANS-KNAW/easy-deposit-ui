@@ -16,6 +16,7 @@
 import { UserConstants } from "../constants/userConstants"
 import { Reducer } from "redux"
 import { UserDetails, empty } from "../model/UserDetails"
+import { AuthenticationConstants } from "../constants/authenticationConstants"
 
 export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
     switch (action.type) {
@@ -28,6 +29,12 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
                 groups: action.payload.groups,
                 username: action.payload.username,
             }
+        }
+        case UserConstants.USER_PENDING: {
+            return { ...state, displayName: "" }
+        }
+        case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
+            return empty
         }
         case UserConstants.USER_FAILED: {
             //TODO: handle the USER_FAILED case
