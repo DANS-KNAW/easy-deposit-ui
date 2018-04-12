@@ -93,7 +93,7 @@ class Header extends Component<HeaderProps> {
 
     componentDidUpdate() {
         const { isLoggedIn, loginName, getUser } = this.props
-        if (loginName == undefined) {
+        if (isLoggedIn && !loginName) {
             getUser()
         }
     }
@@ -133,7 +133,6 @@ class Header extends Component<HeaderProps> {
 }
 
 const mapStateToProps = (state: AppState) => {
-    console.log(state)
     return ({
         isLoggedIn: state.authenticatedUser.isAuthenticated,
         loginName: state.user.displayName || undefined,
