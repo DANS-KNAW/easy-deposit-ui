@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, TextareaHTMLAttributes } from "react"
+import { Field, WrappedFieldProps } from "redux-form"
+import "../../../../resources/css/form.css"
 
 export interface MessageForDataManagerFormData {
     messageForDataManager?: string
@@ -23,9 +25,27 @@ export interface MessageForDataManagerFormData {
 interface MessageForDataManagerFormProps {
 }
 
+const TextArea = ({input, meta, ...rest}: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>) => {
+    return <textarea {...input} {...rest}/>
+}
+
 class MessageForDataManagerForm extends Component<MessageForDataManagerFormProps> {
     render() {
-        return <p>Message for the data manager form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row ml-0 mr-0 form-group input-element">
+                    <label htmlFor="messageForDataManager"
+                           className="col-lg-3 pl-0">
+                        Message for the data manager
+                    </label>
+                    <Field name="messageForDataManager"
+                           id="messageForDataManager"
+                           className="form-control col-lg-9"
+                           rows={10}
+                           component={TextArea}/>
+                </div>
+            </div>
+        )
     }
 }
 
