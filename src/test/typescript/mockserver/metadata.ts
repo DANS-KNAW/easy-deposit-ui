@@ -39,7 +39,7 @@ export interface Metadata {
     // license and access
     rightsHolders?: string[]
     publishers?: string[]
-    accessRights: AccessRight // TODO when 'restricted group' also has a dropdown list next to it
+    accessRights: AccessRight
     license: string
     dateAvailable?: string
 

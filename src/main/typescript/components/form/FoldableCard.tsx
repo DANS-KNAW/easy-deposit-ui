@@ -31,13 +31,13 @@ interface FoldableCardStoreArguments {
     open: boolean
 }
 
-interface FoldableCardFunctionsArguments {
+interface FoldableCardDispatchArguments {
     registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }>
     unregisterCard: (id: string) => ReduxAction<string>
     toggleCard: (id: string) => ReduxAction<string>
 }
 
-type FoldableCardProps = FoldableCardInputArguments & FoldableCardStoreArguments & FoldableCardFunctionsArguments
+type FoldableCardProps = FoldableCardInputArguments & FoldableCardStoreArguments & FoldableCardDispatchArguments
 
 class FoldableCard extends Component<FoldableCardProps> {
     constructor(props: FoldableCardProps) {
@@ -92,7 +92,7 @@ const mapStateToProps = (state: AppState, props: FoldableCardInputArguments) => 
     open: state.foldableCards[props.title] ? state.foldableCards[props.title].open : props.defaultOpened || false,
 })
 
-export default connect<FoldableCardStoreArguments, FoldableCardFunctionsArguments>(mapStateToProps, {
+export default connect<FoldableCardStoreArguments, FoldableCardDispatchArguments>(mapStateToProps, {
     toggleCard,
     registerCard,
     unregisterCard,

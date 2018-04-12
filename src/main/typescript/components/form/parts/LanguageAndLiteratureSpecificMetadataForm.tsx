@@ -16,7 +16,14 @@
 import * as React from "react"
 import { Component } from "react"
 
-class LanguageAndLiteratureSpecificMetadataForm extends Component {
+export interface LanguageAndLiteratureSpecificMetadataFormData {
+    extraClarinMetadataPresent?: boolean
+}
+
+interface LanguageAndLiteratureSpecificMetadataFormProps {
+}
+
+class LanguageAndLiteratureSpecificMetadataForm extends Component<LanguageAndLiteratureSpecificMetadataFormProps> {
     render() {
         return <p>Language & literature specific metadata form</p>
     }

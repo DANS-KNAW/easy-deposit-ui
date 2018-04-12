@@ -19,25 +19,41 @@ import thunkMiddleware from "redux-thunk"
 import promiseMiddleware from "redux-promise-middleware"
 import reducers from "./reducers/index"
 import customMiddleware from "./middleware"
+import * as H from "history"
+import { routerMiddleware } from "react-router-redux"
 
 // import {Action} from 'redux'
-// import {AppState} from './model/app'
+// import {AppState} from './model/AppState'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
 
 const predicate = () => true // if you want to see all actions
 
-const newStore = () => {
+export const newStore = (history: H.History) => {
     if (process.env.NODE_ENV === "development") {
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
         const composeEnhancers = composeWithDevTools({ predicate })
         return createStore(
             reducers,
-            composeEnhancers(applyMiddleware(...customMiddleware, thunkMiddleware, promiseMiddleware(), createLogger({ predicate }))),
+            composeEnhancers(
+                applyMiddleware(
+                    ...customMiddleware,
+                    thunkMiddleware,
+                    promiseMiddleware(),
+                    routerMiddleware(history),
+                    createLogger({ predicate }),
+                ),
+            ),
         )
     }
     else
-        return createStore(reducers, applyMiddleware(...customMiddleware, thunkMiddleware, promiseMiddleware()))
+        return createStore(
+            reducers,
+            applyMiddleware(
+                ...customMiddleware,
+                thunkMiddleware,
+                routerMiddleware(history),
+                promiseMiddleware(),
+            ),
+        )
 }
-
-export default newStore()

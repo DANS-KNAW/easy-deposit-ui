@@ -15,8 +15,16 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { PrivacySensitiveDataValue } from "../../../model/FormData"
 
-class PrivacySensitiveDataForm extends Component {
+export interface PrivacySensitiveDataFormData {
+    privacySensitiveDataPresent?: PrivacySensitiveDataValue
+}
+
+interface PrivacySensitiveDataFormProps {
+}
+
+class PrivacySensitiveDataForm extends Component<PrivacySensitiveDataFormProps> {
     render() {
         return <p>Privacy sensitive data form</p>
     }

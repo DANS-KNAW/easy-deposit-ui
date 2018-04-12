@@ -16,7 +16,14 @@
 import * as React from "react"
 import { Component } from "react"
 
-class DepositLicenseForm extends Component {
+export interface DepositLicenseFormData {
+    acceptLicenseAgreement?: boolean
+}
+
+interface DepositLicenseFormProps {
+}
+
+class DepositLicenseForm extends Component<DepositLicenseFormProps> {
     render() {
         return <p>Deposit license form</p>
     }

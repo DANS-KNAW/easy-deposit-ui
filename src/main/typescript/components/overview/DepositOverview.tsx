@@ -23,6 +23,7 @@ import { ReduxAction } from "../../lib/redux"
 import { Action } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
+import { Alert, CloseableWarning, ReloadAlert } from "../../Errors"
 
 interface DepositOverviewProps {
     deposits: DepositOverviewState
@@ -68,17 +69,10 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { fetchDeposits, deposits: { loading: { loadingError } } } = this.props
 
         return loadingError &&
-            <div key="loadingError"
-                 className="alert alert-danger alert-dismissible"
-                 role="alert">
+            <ReloadAlert key="loadingError"
+                         reload={fetchDeposits}>
                 An error occurred: {loadingError}. Cannot load data from the server.
-                {/* reset certain style elements from .close in the button below using the style attribute */}
-                <button type="button"
-                        className="close icon"
-                        onClick={fetchDeposits}>
-                    <i className="fas fa-sync-alt"/>
-                </button>
-            </div>
+            </ReloadAlert>
     }
 
     private renderDeleteError() {
@@ -94,19 +88,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
                         ? `Cannot delete deposit '${deposit.title}'. An error occurred: ${deleteError}.`
                         : `Cannot delete a deposit. An error occurred: ${deleteError}.`
 
-                    return (
-                        <div key={depositId}
-                             className="alert alert-warning alert-dismissible fade show"
-                             role="alert">
-                            {errorText}
-                            <button type="button"
-                                    className="close"
-                                    data-dismiss="alert"
-                                    aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    )
+                    return <CloseableWarning>{errorText}</CloseableWarning>
                 }
             })
     }
@@ -115,11 +97,9 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { deposits: { creatingNew: { createError } } } = this.props
 
         return createError &&
-            <div key="createNewError"
-                 className="alert alert-danger"
-                 role="alert">
+            <Alert key="createNewError">
                 An error occurred: {createError}. Cannot create a new dataset. Please try again.
-            </div>
+            </Alert>
     }
 
     private renderTable() {

@@ -13,13 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { combineReducers } from "redux"
+import { AnyAction, combineReducers } from "redux"
 import { authenticationReducer } from "./authenticationReducer"
 import { depositOverviewReducer } from "./depositOverviewReducer"
 import { foldableCardReducer } from "./foldableCardReducer"
+import immutable from "object-path-immutable"
+import { FormState, reducer as formReducer } from "redux-form"
+import { toPath } from "lodash"
+import { depositFormReducer } from "./depositFormReducer"
+import { routerReducer } from "react-router-redux"
+
+function changeReducer(state: FormState, action: AnyAction) {
+    switch (action.type) {
+        case "@@redux-form/CHANGE":
+            const fieldName = toPath(action.meta.field + ".changed")
+            const newState = immutable.set(state.fields, fieldName, true)
+
+            return { ...state, fields: newState }
+    }
+    return state
+}
 
 export default combineReducers({
+    form: formReducer.plugin({
+        depositForm: changeReducer,
+    }),
+    router: routerReducer,
     user: authenticationReducer,
     deposits: depositOverviewReducer,
     foldableCards: foldableCardReducer,
+    depositForm: depositFormReducer,
 })

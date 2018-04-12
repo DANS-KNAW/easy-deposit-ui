@@ -14,84 +14,211 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, SFC } from "react"
 import Card from "./FoldableCard"
-import DepositLicenseForm from "./parts/DepositLicenseForm"
-import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
-import MessageForDataManagerForm from "./parts/MessageForDataManagerForm"
-import TemporalAndSpatialCoverageForm from "./parts/TemporalAndSpatialCoverageForm"
-import LanguageAndLiteratureSpecificMetadataForm from "./parts/LanguageAndLiteratureSpecificMetadataForm"
-import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadataForm"
-import UploadTypeForm from "./parts/UploadTypeForm"
-import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
-import BasicInformationForm from "./parts/BasicInformationForm"
-import DataForm from "./parts/DataForm"
 import "../../../resources/css/depositForm"
+import { InjectedFormProps, reduxForm } from "redux-form"
+import {
+    ArchaeologySpecificMetadata,
+    BasicInformation,
+    Data,
+    DepositFormData,
+    DepositLicense,
+    LanguageAndLiteratureSpecificMetadata,
+    LicenseAndAccess,
+    MessageForDataManager,
+    PrivacySensitiveData,
+    TemporalAndSpatialCoverage,
+    UploadType,
+} from "./parts"
+import { DepositId } from "../../model/Deposits"
+import { Dispatch, ReduxAction } from "../../lib/redux"
+import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { AppState } from "../../model/AppState"
+import { connect } from "react-redux"
+import { DepositFormState } from "../../model/DepositForm"
+import { Alert, ReloadAlert } from "../../Errors"
 
-interface DepositFormProps {
-    depositId: string
+interface FetchMetadataErrorProps {
+    fetchError?: string
+    reload: () => any
 }
 
+const FetchMetadataError = ({ fetchError, reload }: FetchMetadataErrorProps) => (
+    fetchError
+        ? <ReloadAlert key="fetchMetadataError" reload={reload()}>
+            An error occurred: {fetchError}. Cannot load metadata from the server.
+        </ReloadAlert>
+        : null
+)
+
+interface SaveDraftErrorProps {
+    saveError?: string
+}
+
+const SaveDraftError = ({ saveError }: SaveDraftErrorProps) => (
+    saveError
+        ? <Alert key="saveDraftError">
+            An error occurred: {saveError}. Cannot save the draft of this deposit. Please try again.
+        </Alert>
+        : null
+)
+
+interface SubmitErrorProps {
+    submitError?: string
+}
+
+const SubmitError = ({ submitError }: SubmitErrorProps) => (
+    submitError
+        ? <Alert key="submitError">
+            An error occurred: {submitError}. Cannot submit this deposit. Please try again.
+        </Alert>
+        : null
+)
+
+interface LoadedProps {
+    loading: boolean
+    loaded: boolean
+    error?: string
+}
+
+const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
+    return (
+        <>
+            {loading && <p>loading metadata...</p>}
+            {error && <p><i>Cannot load data from the server.</i></p>}
+            {loaded && children}
+        </>
+    )
+}
+
+interface DepositFormStoreArguments {
+    depositId: DepositId
+    formState: DepositFormState
+    fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
+}
+
+type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
+
 class DepositForm extends Component<DepositFormProps> {
-    save = async () => {
-        alert("saving draft")
+    fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
+
+    save = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
+        alert(`saving draft for ${props.depositId}:\n\n${JSON.stringify(data, null, 2)}`)
+
+        dispatch(saveDraft(props.depositId, data))
     }
 
-    submit = async () => {
-        await this.save()
-        alert("submitting deposit")
+    submit = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
+        dispatch(submitDeposit(props.depositId, data))
+    }
+
+    componentDidMount() {
+        this.fetchMetadata()
     }
 
     render() {
+        const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
+        const { saving, saved, saveError } = this.props.formState.saveDraft
+        const { submitting, submitError } = this.props.formState.submit
+
         return (
             <>
-                <Card title="Upload your data" defaultOpened>
-                    <DataForm/>
-                </Card>
+                <FetchMetadataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
+                <form>
+                    <Card title="Upload your data" defaultOpened>
+                        {/* TODO wrap in Loading once we have this piece of state implemented */}
+                        <Data/>
+                    </Card>
 
-                <Card title="Basic information" required defaultOpened>
-                    <BasicInformationForm/>
-                </Card>
+                    <Card title="Basic information" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <BasicInformation/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="License and access" required defaultOpened>
-                    <LicenseAndAccessForm/>
-                </Card>
+                    <Card title="License and access" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <LicenseAndAccess/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Upload type">
-                    <UploadTypeForm/>
-                </Card>
+                    <Card title="Upload type">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <UploadType/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Archaeology specific metadata">
-                    <ArchaeologySpecificMetadataForm/>
-                </Card>
+                    <Card title="Archaeology specific metadata">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <ArchaeologySpecificMetadata/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Language & literature specific metadata">
-                    <LanguageAndLiteratureSpecificMetadataForm/>
-                </Card>
+                    <Card title="Language & literature specific metadata">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <LanguageAndLiteratureSpecificMetadata/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Temporal and spatial coverage">
-                    <TemporalAndSpatialCoverageForm/>
-                </Card>
+                    <Card title="Temporal and spatial coverage">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <TemporalAndSpatialCoverage/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Message for the data manager">
-                    <MessageForDataManagerForm/>
-                </Card>
+                    <Card title="Message for the data manager">
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <MessageForDataManager/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Privacy sensitive data" required defaultOpened>
-                    <PrivacySensitiveDataForm/>
-                </Card>
+                    <Card title="Privacy sensitive data" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <PrivacySensitiveData/>
+                        </Loaded>
+                    </Card>
 
-                <Card title="Deposit license" required defaultOpened>
-                    <DepositLicenseForm/>
-                </Card>
+                    <Card title="Deposit license" required defaultOpened>
+                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                            <DepositLicense/>
+                        </Loaded>
+                    </Card>
 
-                <div className="buttons">
-                    <button type="button" className="btn btn-primary mb-0" onClick={this.save}>Save draft</button>
-                    <button type="button" className="btn btn-primary mb-0" onClick={this.submit}>Submit deposit</button>
-                </div>
+                    <SaveDraftError saveError={saveError}/>
+                    <SubmitError submitError={submitError}/>
+
+                    <div className="buttons">
+                        <button type="button"
+                                className="btn btn-primary mb-0"
+                                onClick={this.props.handleSubmit(this.save)}
+                                disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
+                            Save draft
+                        </button>
+                        <button type="button"
+                                className="btn btn-primary mb-0"
+                                onClick={this.props.handleSubmit(this.submit)}
+                                disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
+                            Submit deposit
+                        </button>
+                    </div>
+
+                    <div>
+                        {saving && <p><i>Saving draft...</i></p>}
+                        {saved && <p><i>Saved draft</i></p>}
+                    </div>
+                </form>
             </>
         )
     }
 }
 
-export default DepositForm
+const depositForm = reduxForm<DepositFormData>({ form: "depositForm", enableReinitialize: true })(DepositForm)
+
+const mapStateToProps = (state: AppState) => ({
+    depositId: state.depositForm.depositId,
+    formState: state.depositForm,
+    initialValues: { ...state.depositForm.initialState.data, ...state.depositForm.initialState.metadata },
+})
+
+export default connect<{}>(mapStateToProps, { fetchMetadata })(depositForm)
