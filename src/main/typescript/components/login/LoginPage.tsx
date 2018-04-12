@@ -30,12 +30,12 @@ interface LoginPageProps {
     errorMessage: Error
 }
 
-interface LoginPageState {
+interface LoginPageData {
     loginName: string
     loginPassword: string
 }
 
-type AllDemoFormProps = LoginPageProps & RouteComponentProps<any> & InjectedFormProps<LoginPageState>
+type AllDemoFormProps = LoginPageProps & RouteComponentProps<any> & InjectedFormProps<LoginPageData>
 
 class LoginPage extends Component<AllDemoFormProps> {
     constructor(props: AllDemoFormProps) {
@@ -43,9 +43,8 @@ class LoginPage extends Component<AllDemoFormProps> {
         this.state = {loginName: "", loginPassword: ""}
     }
 
-    showResults = (values: LoginPageState) => {
-        console.log(values);
-        this.props.authenticate(values.loginName, values.loginPassword)
+    callAuthenticate = (formValues: LoginPageData) => {
+        this.props.authenticate(formValues.loginName, formValues.loginPassword)
     }
 
     render() {
@@ -54,7 +53,7 @@ class LoginPage extends Component<AllDemoFormProps> {
 
         return authenticated
             ? <Redirect to={from}/>
-            : <form onSubmit={handleSubmit(this.showResults)}>
+            : <form onSubmit={handleSubmit(this.callAuthenticate)}>
                 <p>You must log in to view this page at {from.pathname}</p>
                 <label>Username</label>
                 <input type="text" name="loginName" required/>
@@ -62,10 +61,9 @@ class LoginPage extends Component<AllDemoFormProps> {
                 <label>Password</label>
                 <input type="password" name="loginPassword" required/>
                 <br/>
-                {this.props.error && <span>{this.props.error}<br/></span>}
 
                 <button type="submit" disabled={this.props.authenticating}>Login</button>
-                <div>{(errorMessage) ? errorMessage.message : ""}</div>
+                {errorMessage  && <span>{errorMessage.message}<br/></span>}
             </form>
     }
 }
@@ -76,5 +74,5 @@ const mapStateToProps = (state: AppState) => ({
     errorMessage: state.authenticatedUser.authenticationError,
 })
 
-const form = reduxForm<LoginPageState>({form: 'login'})(LoginPage)
+const form = reduxForm<LoginPageData>({form: 'login'})(LoginPage)
 export default connect<{}>(mapStateToProps, {authenticate})(form)

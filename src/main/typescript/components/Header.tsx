@@ -135,7 +135,7 @@ class Header extends Component<HeaderProps> {
 const mapStateToProps = (state: AppState) => {
     return ({
         isLoggedIn: state.authenticatedUser.isAuthenticated,
-        loginName: state.user.displayName || undefined,
+        loginName: state.user.displayName,
     })
 }
 

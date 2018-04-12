@@ -16,7 +16,7 @@
 export interface Authentication {
     isAuthenticated: boolean
     isAuthenticating: boolean
-    authenticationError?: Error
+    authenticationError?: string
 }
 
 export const empty = {
