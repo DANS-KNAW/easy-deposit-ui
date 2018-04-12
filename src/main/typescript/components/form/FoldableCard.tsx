@@ -60,10 +60,9 @@ class FoldableCard extends Component<FoldableCardProps> {
             <div className={[
                 open ? "" : "closed",
                 "card",
-                "mb-3",
-                "container",
+                "container pl-0 pr-0 ml-15 mr-15 mb-3",
             ].join(" ").trim()}>
-                <h6 className="card-header row bg-primary text-white" onClick={this.collapseCard}>
+                <h6 className="card-header row ml-0 mr-0 bg-primary text-white" onClick={this.collapseCard}>
                     <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0">{title}</div>
                     {required
                         ? <div
@@ -79,9 +78,7 @@ class FoldableCard extends Component<FoldableCardProps> {
                 </h6>
                 <div className={[
                     open ? "" : "collapse",
-                    "card-body",
-                    "pl-0",
-                    "pr-0",
+                    "card-body row ml-0 mr-0",
                 ].join(" ").trim()}>{children}</div>
             </div>
         )
