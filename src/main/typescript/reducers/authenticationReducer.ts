@@ -28,7 +28,7 @@ export const authenticationReducer: Reducer<Authentication> = (state = empty, ac
         case AuthenticationConstants.AUTH_LOGIN_REJECTED: {
             return { ...state, isAuthenticated: false, authenticationError: action.payload, isAuthenticating: false }
         }
-        case AuthenticationConstants.AUTH_LOGOUT: {
+        case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
             return { ...state, isAuthenticated: false, displayName: undefined }
         }
         default:

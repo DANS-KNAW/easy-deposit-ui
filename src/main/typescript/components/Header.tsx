@@ -84,7 +84,7 @@ const NavBar: SFC = ({ children }) => (
 interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
-    signout: () => Action
+    signout: () => ReduxAction<Promise<void>>
     getUser: () => ReduxAction<Promise<UserDetails>>
 }
 

@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Middleware} from "redux"
-import {fetchUserFailed, fetchUserSucceeded} from "../actions/userActions"
-import {createMiddleware} from "../lib/redux"
-import {UserConstants} from "../constants/userConstants";
+import { Middleware } from "redux"
+import { fetchUserFailed, fetchUserSucceeded } from "../actions/userActions"
+import { createMiddleware } from "../lib/redux"
+import { UserConstants } from "../constants/userConstants"
 import { UserDetails } from "../model/UserDetails"
 
 /*
 action.payload is type User, convert to UserDetails
  */
-const userFetchConverter: Middleware = createMiddleware(({dispatch}, next, action) => {
+const userFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
 
     if (action.type === UserConstants.USER_FULFILLED) {
@@ -34,7 +34,7 @@ const userFetchConverter: Middleware = createMiddleware(({dispatch}, next, actio
                 prefix: action.payload.prefix,
                 lastName: action.payload.lastName,
                 groups: action.payload.groups,
-                displayName: action.payload.firstName + " " + action.payload.prefix + " "+ action.payload.lastName
+                displayName: action.payload.firstName + " " + action.payload.prefix + " " + action.payload.lastName,
             }
 
             dispatch(fetchUserSucceeded(user))
