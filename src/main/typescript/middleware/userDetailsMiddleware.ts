@@ -43,6 +43,9 @@ const userFetchConverter: Middleware = createMiddleware(({ dispatch }, next, act
             dispatch(fetchUserFailed(errorMessage))
         }
     }
+    if (action.type === UserConstants.USER_REJECTED) {
+        dispatch(fetchUserFailed(action.payload.message))
+    }
 })
 
 export const userDetailsMiddleware = [userFetchConverter]

@@ -30,7 +30,8 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
             }
         }
         case UserConstants.USER_FAILED: {
-            return { ...state, displayName: "" }
+            //TODO: handle the USER_FAILED case
+            return { ...state, displayName: action.payload }
         }
         default:
             return state
