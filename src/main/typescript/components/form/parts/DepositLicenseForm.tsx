@@ -34,9 +34,9 @@ const RenderCheckbox = ({ input, meta, label }: WrappedFieldProps & { foo?: numb
         <>
             {hasError && <span className="validation-error">{meta.error}</span>}
             <div className="form-check col-12">
-                <input className="form-check-input" id="licenseCheckbox" type="checkbox"
+                <input className="form-check-input" id={input.name} type="checkbox"
                        {...input} defaultChecked={input.value}/>
-                <label className="form-check-label" htmlFor="licenseCheckbox">{label}</label>
+                <label className="form-check-label" htmlFor={input.name}>{label}</label>
             </div>
         </>
     )
