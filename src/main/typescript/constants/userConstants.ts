@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export interface UserDetails {
-    username: string,
-    firstName: string,
-    prefix: string,
-    lastName: string,
-    groups: string[],
-    displayName: string,
-}
-
-export const empty = {
-    username: "",
-    firstName: "",
-    prefix: "",
-    lastName: "",
-    groups: [],
-    displayName: "",
+export enum UserConstants {
+    USER= "USER",
+    USER_FAILED="USER_FAILED",
+    USER_SUCCEEDED = "USER_SUCCEEDED",
+    USER_PENDING = "USER_PENDING",
+    USER_FULFILLED = "USER_FULFILLED",
+    USER_REJECTED = "USER_REJECTED",
 }

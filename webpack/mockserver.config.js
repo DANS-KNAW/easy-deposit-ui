@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const fs = require('fs');
-const nodeModules = fs.readdirSync('node_modules')
-    .filter(x => ['.bin'].indexOf(x) === -1)
-    .map(mod => ({ [mod]: `commonjs ${mod}` }))
-    .reduce((prev, curr) => ({...prev, ...curr}), {});
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: './src/test/typescript/mockserver/server.ts',
@@ -49,5 +45,5 @@ module.exports = {
         ],
     },
     target: 'node',
-    externals: nodeModules
+    externals: [nodeExternals()],
 };

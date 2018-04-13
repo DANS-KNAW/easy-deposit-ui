@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 import { AnyAction, combineReducers } from "redux"
-import { authenticationReducer } from "./authenticationReducer"
 import { depositOverviewReducer } from "./depositOverviewReducer"
+import { authenticationReducer } from "./authenticationReducer"
+import { userReducer } from "./userReducer"
 import { foldableCardReducer } from "./foldableCardReducer"
 import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
@@ -35,12 +36,14 @@ function changeReducer(state: FormState, action: AnyAction) {
 }
 
 export default combineReducers({
+    authenticatedUser: authenticationReducer,
+    user: userReducer,
     form: formReducer.plugin({
         depositForm: changeReducer,
     }),
     router: routerReducer,
-    user: authenticationReducer,
     deposits: depositOverviewReducer,
     foldableCards: foldableCardReducer,
     depositForm: depositFormReducer,
 })
+

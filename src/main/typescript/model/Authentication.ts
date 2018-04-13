@@ -13,21 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export interface UserDetails {
-    username: string,
-    firstName: string,
-    prefix: string,
-    lastName: string,
-    groups: string[],
-    displayName: string,
+export interface Authentication {
+    isAuthenticated: boolean
+    isAuthenticating: boolean
+    authenticationError?: string
 }
 
 export const empty = {
-    username: "",
-    firstName: "",
-    prefix: "",
-    lastName: "",
-    groups: [],
-    displayName: "",
+    isAuthenticated: false,
+    isAuthenticating: false,
 }

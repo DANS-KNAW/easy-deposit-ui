@@ -15,10 +15,12 @@
  */
 import { depositMiddleware } from "./depositMiddleware"
 import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
+import { userDetailsMiddleware } from "./userDetailsMiddleware"
 import { depositFormMiddleware } from "./depositFormMiddleware"
 
 export default [
     ...depositMiddleware,
     ...depositFormMiddleware,
     ...rejectedRequestMiddleware,
+    ...userDetailsMiddleware,
 ]
