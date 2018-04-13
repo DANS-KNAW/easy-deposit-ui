@@ -14,20 +14,49 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import { PrivacySensitiveDataValue } from "../../../model/FormData"
+import { Field, WrappedFieldProps } from "redux-form"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
 }
 
-interface PrivacySensitiveDataFormProps {
+interface RadioChoice {
+    title: string,
+    value: string,
+    checked?: boolean
 }
 
-class PrivacySensitiveDataForm extends Component<PrivacySensitiveDataFormProps> {
-    render() {
-        return <p>Privacy sensitive data form</p>
-    }
+interface RadioProps {
+    choices: RadioChoice[]
 }
+
+const RadioChoices = ({ input, meta, choices }: WrappedFieldProps & RadioProps) => (
+    <>
+        {choices.map(({ title, value, checked }) =>
+            <div className="form-check">
+                <input className="form-check-input" id={title} type="radio" name={input.name} value={title} {...input} checked={checked || false}/>
+                <label className="form-check-label" htmlFor={title}>{value}</label>
+            </div>,
+        )}
+    </>
+)
+
+const PrivacySensitiveDataForm = () => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            <p>Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.</p>
+        </div>
+
+        <div className="row form-group input-element">
+            <Field name="privacySensitiveDataPresent"
+                   choices={[
+                       { title: "yes", value: "YES, this dataset does contain personal data (please contact DANS)" },
+                       { title: "no", value: "NO, this dataset does not contain personal data" },
+                   ]}
+                   component={RadioChoices}/>
+        </div>
+    </div>
+)
 
 export default PrivacySensitiveDataForm
