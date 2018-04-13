@@ -22,25 +22,31 @@ export interface PrivacySensitiveDataFormData {
 }
 
 interface RadioChoice {
-    title: string,
-    value: string,
-    checked?: boolean
+    title: PrivacySensitiveDataValue
+    value: string
 }
 
 interface RadioProps {
     choices: RadioChoice[]
 }
 
-const RadioChoices = ({ input, meta, choices }: WrappedFieldProps & RadioProps) => (
-    <>
-        {choices.map(({ title, value, checked }) =>
-            <div className="form-check">
-                <input className="form-check-input" id={title} type="radio" name={input.name} value={title} {...input} checked={checked || false}/>
-                <label className="form-check-label" htmlFor={title}>{value}</label>
-            </div>,
-        )}
-    </>
-)
+const RadioChoices = ({ input, meta, choices }: WrappedFieldProps & RadioProps) => {
+    return (
+        <>
+            {choices.map(({ title, value }) =>
+                <div className="form-check col-12" key={title}> {/* TODO unique key */}
+                    {/*
+                      * Note to future developers: the order of the attributes in <input> is important!
+                      * {...input} must come before value={title} and neither of them may be omitted.
+                      */}
+                    <input className="form-check-input" id={title} type="radio"
+                           {...input} value={title} defaultChecked={input.value == title}/>
+                    <label className="form-check-label" htmlFor={title}>{value}</label>
+                </div>,
+            )}
+        </>
+    )
+}
 
 const PrivacySensitiveDataForm = () => (
     <div className="container pl-0 pr-0">
@@ -51,8 +57,14 @@ const PrivacySensitiveDataForm = () => (
         <div className="row form-group input-element">
             <Field name="privacySensitiveDataPresent"
                    choices={[
-                       { title: "yes", value: "YES, this dataset does contain personal data (please contact DANS)" },
-                       { title: "no", value: "NO, this dataset does not contain personal data" },
+                       {
+                           title: PrivacySensitiveDataValue.YES,
+                           value: "YES, this dataset does contain personal data (please contact DANS)",
+                       },
+                       {
+                           title: PrivacySensitiveDataValue.NO,
+                           value: "NO, this dataset does not contain personal data",
+                       },
                    ]}
                    component={RadioChoices}/>
         </div>
