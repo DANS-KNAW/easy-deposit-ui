@@ -163,7 +163,7 @@ app.get('/user', (req: Request, res: Response) => {
 app.post('/auth/login', (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(204)
-    res.send("JWT")
+    res.send()
     console.log("  204")
 })
 

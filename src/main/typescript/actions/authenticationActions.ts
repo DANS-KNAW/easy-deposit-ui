@@ -18,7 +18,7 @@ import { loginURL, userURL, logoutURL } from "../constants/apiConstants"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import axios from "axios"
 
-export const authenticate: (userName: string, password: string) => ReduxAction<Promise<any>> = (userName, password) => ({
+export const authenticate: (userName: string, password: string) => ReduxAction<Promise<void>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
     async payload() {
         await new Promise(vs => {
@@ -27,12 +27,10 @@ export const authenticate: (userName: string, password: string) => ReduxAction<P
         )
 
         // TODO temporary do a timeout to simulate server I/O
-        const { data } = await axios.post(loginURL, {}, { auth: { username: userName, password: password } })
-        return data
+        await axios.post(loginURL, {}, { auth: { username: userName, password: password } })
     },
 })
 
-// TODO signout also requires a server call...
 export const signout: () => ReduxAction<Promise<void>> = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
