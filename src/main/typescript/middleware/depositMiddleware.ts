@@ -23,6 +23,8 @@ import {
     fetchDepositsSucceeded,
 } from "../actions/depositOverviewActions"
 import { createMiddleware } from "../lib/redux"
+import { push } from "react-router-redux"
+import { depositFormRoute } from "../constants/clientRoutes"
 
 const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
@@ -43,7 +45,7 @@ const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, 
                 else {
                     // fail fast when an illegal deposit state is detected
                     // error message is caught below
-                    throw `Error in deposit ${input.id}: no such value: '${input.state}'`
+                    throw `Error in deposit ${input.id}: no such deposit state: '${input.state}'`
                 }
             }).reduce((obj: Deposits, item: Deposit & { depositId: string }) => {
                 obj[item.depositId] = ({
@@ -80,7 +82,7 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
                 },
             })
             dispatch(createNewDepositSuccess(deposit))
-            action.meta.pushHistory(id)
+            dispatch(push(depositFormRoute(id)))
         }
         else {
             dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state_text}'`))

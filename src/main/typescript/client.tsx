@@ -16,8 +16,10 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
-import store from "./store"
-import { BrowserRouter, Switch, Route } from "react-router-dom"
+import createHistory from "history/createBrowserHistory"
+import { newStore } from "./store"
+import { Route, Switch } from "react-router-dom"
+import { ConnectedRouter } from "react-router-redux"
 
 import Header from "./components/Header"
 import HomePage from "./components/home/HomePage"
@@ -27,13 +29,15 @@ import DepositOverviewPage from "./components/overview/DepositOverviewPage"
 import PrivateRoute from "./components/PrivateRoute"
 import NotFoundPage from "./components/NotFoundPage"
 import Footer from "./components/Footer"
-
-import "../resources/css/styling"
 import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute } from "./constants/clientRoutes"
 
+import "../resources/css/styling"
+
+const history = createHistory()
+
 ReactDOM.render(
-    <Provider store={store}>
-        <BrowserRouter>
+    <Provider store={newStore(history)}>
+        <ConnectedRouter history={history}>
             <>
                 <Header/>
                 <main role="main" className="container">
@@ -56,7 +60,7 @@ ReactDOM.render(
                 </main>
                 <Footer/>
             </>
-        </BrowserRouter>
+        </ConnectedRouter>
     </Provider>,
     document.getElementById("app"),
 )

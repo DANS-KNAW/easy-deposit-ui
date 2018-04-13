@@ -15,8 +15,33 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { CreatorOrContributor, Relation, SchemedDate, SchemedValue } from "../../../model/FormData"
 
-class BasicInformationForm extends Component {
+export interface BasicInformationFormData {
+    doi?: string
+    languageOfDescription?: string
+    titles?: string[]
+    alternativeTitles?: string[]
+    descriptions?: string[]
+    creators?: CreatorOrContributor[]
+    contributor?: CreatorOrContributor[]
+    dateCreated?: Date
+    audiences?: string[]
+    subjects?: string[]
+    identifiers?: SchemedValue[]
+    relations?: Relation[]
+    languagesOfFilesIso639?: string[]
+    languagesOfFiles?: string[]
+    datesIso8601?: SchemedDate[] // TODO how are these different from the ones below?
+    dates?: SchemedValue[]
+    sources?: string[]
+    instructionsForReuse?: string[]
+}
+
+interface BasicInformationFormProps {
+}
+
+class BasicInformationForm extends Component<BasicInformationFormProps> {
     render() {
         return <p>Basic information form</p>
     }

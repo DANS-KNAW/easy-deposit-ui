@@ -16,7 +16,14 @@
 import * as React from "react"
 import { Component } from "react"
 
-class DataForm extends Component {
+export interface DataFormData {
+    // TODO not yet implemented in mock server side
+}
+
+interface DataFormProps {
+}
+
+class DataForm extends Component<DataFormProps> {
     render() {
         return <p>Upload your data form</p>
     }

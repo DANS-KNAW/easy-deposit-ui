@@ -16,7 +16,17 @@
 import * as React from "react"
 import { Component } from "react"
 
-class UploadTypeForm extends Component {
+export interface UploadTypeFormData {
+    typesDCMI?: string[]
+    types?: string[]
+    formatsMediaType?: string[]
+    formats?: string[]
+}
+
+interface UploadTypeFormProps {
+}
+
+class UploadTypeForm extends Component<UploadTypeFormProps> {
     render() {
         return <p>Upload type form</p>
     }

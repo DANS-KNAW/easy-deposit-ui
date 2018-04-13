@@ -16,7 +16,16 @@
 import * as React from "react"
 import { Component } from "react"
 
-class ArchaeologySpecificMetadataForm extends Component {
+export interface ArchaeologySpecificMetadataFormData {
+    archisNrs?: string[]
+    subjectsAbrComplex?: string[]
+    temporalCoveragesAbr?: string[]
+}
+
+interface ArchaeologySpecificMetadataFormProps {
+}
+
+class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetadataFormProps> {
     render() {
         return <p>Archaeology specific metadata form</p>
     }

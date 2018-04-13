@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 import { AnyAction, combineReducers } from "redux"
-import { reducer as formReducer } from "redux-form"
 import { depositOverviewReducer } from "./depositOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
-import { toPath } from "lodash"
-import immutable from "object-path-immutable"
-import { FormState } from "redux-form/lib/reducer"
 import { foldableCardReducer } from "./foldableCardReducer"
-
-export default combineReducers({
-    authenticatedUser: authenticationReducer,
-    user: userReducer,
-    deposits: depositOverviewReducer,
-    form: formReducer.plugin({ login: changeReducer }),
-    foldableCards: foldableCardReducer,
-})
+import immutable from "object-path-immutable"
+import { FormState, reducer as formReducer } from "redux-form"
+import { toPath } from "lodash"
+import { depositFormReducer } from "./depositFormReducer"
+import { routerReducer } from "react-router-redux"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
@@ -41,3 +34,16 @@ function changeReducer(state: FormState, action: AnyAction) {
     }
     return state
 }
+
+export default combineReducers({
+    authenticatedUser: authenticationReducer,
+    user: userReducer,
+    form: formReducer.plugin({
+        depositForm: changeReducer,
+    }),
+    router: routerReducer,
+    deposits: depositOverviewReducer,
+    foldableCards: foldableCardReducer,
+    depositForm: depositFormReducer,
+})
+

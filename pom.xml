@@ -37,6 +37,7 @@
     <properties>
         <rpm-release/><!-- Only declared here, override on the command line if you need a custom release for the RPM -->
         <dans-provider-name>dans.knaw.nl</dans-provider-name>
+        <context-root>deposit</context-root>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.test.skip>false</maven.test.skip>
         <output.directory>target/build</output.directory>
@@ -223,7 +224,7 @@
                             <group>Applications/Archiving</group>
                             <mappings>
                                 <mapping>
-                                    <directory>/var/www/html/${project.artifactId}</directory>
+                                    <directory>/var/www/html/${context-root}</directory>
                                     <sources>
                                         <source>
                                             <location>target/build</location>

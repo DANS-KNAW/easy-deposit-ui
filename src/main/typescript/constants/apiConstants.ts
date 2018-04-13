@@ -15,6 +15,7 @@
  */
 import { baseURL } from "../lib/config"
 import { DepositId } from "../model/Deposits"
+import { DepositFormData } from "../components/form/parts"
 
 // TODO rename to serverRoutes.ts
 
@@ -29,3 +30,12 @@ export const logoutURL  = createURL("auth/logout")
 export const userURL = createURL("user")
 
 export const newDepositURL = createURL("deposit")
+
+export const fetchMetadataURL = (id: DepositId) => createURL(`deposit/${id}/metadata`)
+export const saveDraftURL = (id: DepositId) => createURL(`deposit/${id}/metadata`)
+export const submitDepositURL = (id: DepositId) => createURL(`deposit/${id}/state`)
+
+export const submitState = ({
+    state: "SUBMITTED",
+    state_description: "Deposit is ready for post-submission processing"
+})
