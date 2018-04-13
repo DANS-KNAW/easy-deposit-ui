@@ -36,7 +36,6 @@ export const fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>> 
         // TODO temporary do a fake timeout to simulate server I/O
         await new Promise(resolve => setTimeout(resolve, 1000))
         const response = await axios.get(fetchMetadataURL(depositId))
-        console.log(response.data)
         return response.data
     },
 })
