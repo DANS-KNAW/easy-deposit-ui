@@ -16,6 +16,9 @@
 import * as React from "react"
 import { Component } from "react"
 import { CreatorOrContributor, Relation, SchemedDate, SchemedValue } from "../../../model/FormData"
+import { Field, WrappedFieldProps } from "redux-form"
+import { ReduxAction } from "../../../lib/redux"
+import { connect } from "react-redux"
 
 export interface BasicInformationFormData {
     doi?: string
@@ -38,13 +41,49 @@ export interface BasicInformationFormData {
     instructionsForReuse?: string[]
 }
 
+interface DoiFieldProps {
+    // fetchDoi: () => ReduxAction<Promise<any>>
+    fetchDoi: () => void
+    // fetchingDoi: boolean
+    // fetchedDoi: boolean
+    // fetchDoiError?: string
+}
+
+const DoiField = ({ input, meta, label }: WrappedFieldProps & DoiFieldProps) => {
+    console.log("input", input)
+    console.log("meta", meta)
+
+    return (
+        <>
+            <label className="col-12 col-md-3 pl-0" htmlFor={input.name}>{label}</label>
+            {input.value
+                ? <label className="col-12 col-md-9 value-label" id={input.name}>{input.value}</label>
+                : <button type="button"
+                          className="btn btn-primary mb-0 mt-0"
+                          onClick={this.fetchDoi}
+                          disabled={false /* TODO disable while requesting DOI */}>Reserve DOI</button>}
+        </>
+    )
+}
+
 interface BasicInformationFormProps {
+    // fetchDoi: () => ReduxAction<Promise<any>>
 }
 
 class BasicInformationForm extends Component<BasicInformationFormProps> {
     render() {
-        return <p>Basic information form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row form-group input-element">
+                    <Field name="doi"
+                           label="Digital Object Identifier"
+                           fetchDoi={() => console.log("TODO: implement DOI fetching")}
+                           // fetchDoi={this.props.fetchDoi}
+                           component={DoiField}/>
+                </div>
+            </div>
+        )
     }
 }
 
-export default BasicInformationForm
+export default connect(null, )(BasicInformationForm)
