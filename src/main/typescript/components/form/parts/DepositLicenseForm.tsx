@@ -21,10 +21,9 @@ export interface DepositLicenseFormData {
 }
 
 // validation rules
-const mustBeChecked = (value?: any) => {
-    console.log("mustBeChecked - value", value)
-    return value && value === true ? undefined : "Accept the license agreement before submitting this dataset"
-}
+const mustBeChecked = (value?: any) => value && value === true
+    ? undefined
+    : "Accept the license agreement before submitting this dataset"
 
 const RenderCheckbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) => {
     const changed = (meta as any).changed
