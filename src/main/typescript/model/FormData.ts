@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export interface Value<Type = string> {
+    value: Type
+}
+
 // TODO define enums for these scheme values
 interface Schemed<Scheme = string> {
     scheme: Scheme
 }
 
-export interface SchemedValue extends Schemed {
-    value: string
-}
-
-export interface SchemedDate extends Schemed {
-    value: Date
-}
+export type SchemedValue = Schemed & Value
+export type SchemedDate = Schemed & Value<Date>
 
 export interface CreatorOrContributor {
     titles?: string

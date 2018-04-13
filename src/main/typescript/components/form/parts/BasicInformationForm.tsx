@@ -15,30 +15,30 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { CreatorOrContributor, Relation, SchemedDate, SchemedValue } from "../../../model/FormData"
 import { Field, WrappedFieldProps } from "redux-form"
 import { ReduxAction } from "../../../lib/redux"
+import { CreatorOrContributor, Relation, SchemedDate, SchemedValue, Value } from "../../../model/FormData"
 import { connect } from "react-redux"
 
 export interface BasicInformationFormData {
     doi?: string
     languageOfDescription?: string
-    titles?: string[]
-    alternativeTitles?: string[]
-    descriptions?: string[]
+    titles?: Value[]
+    alternativeTitles?: Value[]
+    descriptions?: Value[]
     creators?: CreatorOrContributor[]
     contributor?: CreatorOrContributor[]
     dateCreated?: Date
-    audiences?: string[]
-    subjects?: string[]
+    audiences?: Value[]
+    subjects?: Value[]
     identifiers?: SchemedValue[]
     relations?: Relation[]
-    languagesOfFilesIso639?: string[]
-    languagesOfFiles?: string[]
+    languagesOfFilesIso639?: Value[]
+    languagesOfFiles?: Value[]
     datesIso8601?: SchemedDate[] // TODO how are these different from the ones below?
     dates?: SchemedValue[]
-    sources?: string[]
-    instructionsForReuse?: string[]
+    sources?: Value[]
+    instructionsForReuse?: Value[]
 }
 
 interface DoiFieldProps {

@@ -26,9 +26,12 @@ import {
     Relation,
     SchemedDate,
     SchemedValue,
-    toAccessRight, toPrivacySensitiveData,
+    toAccessRight, toPrivacySensitiveData, Value,
 } from "../model/FormData"
 
+const wrappedValue: (v: any) => Value = v => ({
+    value: v
+})
 const creatorOrContributorConverter: (c: any) => CreatorOrContributor = c => {
     return ({
         titles: c.titles,
@@ -98,22 +101,22 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // basic info
                 doi: input.doi,
                 languageOfDescription: input.languageOfDescription,
-                titles: input.titles,
-                alternativeTitles: input.alternativeTitles,
-                descriptions: input.descriptions,
+                titles: input.titles ? input.titles.map(wrappedValue) : [],
+                alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [],
+                descriptions: input.descriptions ? input.descriptions.map(wrappedValue) : [],
                 creators: input.creators.map(creatorOrContributorConverter),
                 contributor: input.contributor && input.contributor.map(creatorOrContributorConverter),
                 dateCreated: new Date(input.dateCreated),
-                audiences: input.audiences,
-                subjects: input.subjects,
+                audiences: input.audiences ? input.audiences.map(wrappedValue) : [],
+                subjects: input.subjects ? input.subjects.map(wrappedValue) : [],
                 identifiers: input.identifiers && input.identifiers.map(schemedValueConverter),
                 relations: input.relations && input.relations.map(relationConverter),
-                languagesOfFilesIso639: input.languagesOfFilesIso639,
-                languagesOfFiles: input.languagesOfFiles,
+                languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [],
+                languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [],
                 datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
                 dates: input.dates && input.dates.map(schemedValueConverter),
-                sources: input.sources,
-                instructionsForReuse: input.instructionsForReuse,
+                sources: input.sources ? input.sources.map(wrappedValue) : [],
+                instructionsForReuse: input.instructionsForReuse ? input.instructionsForReuse.map(wrappedValue) : [],
 
                 // license and access
                 rightsHolders: input.rightsHolders,
