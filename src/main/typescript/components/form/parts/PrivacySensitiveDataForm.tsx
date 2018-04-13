@@ -21,6 +21,9 @@ export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
 }
 
+// validation rules
+const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
+
 interface RadioChoice {
     title: PrivacySensitiveDataValue
     value: string
@@ -31,8 +34,12 @@ interface RadioProps {
 }
 
 const RadioChoices = ({ input, meta, choices }: WrappedFieldProps & RadioProps) => {
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
     return (
         <>
+            {hasError && <span className="validation-error">{meta.error}</span>}
             {choices.map(({ title, value }) =>
                 <div className="form-check col-12" key={title}> {/* TODO unique key */}
                     {/*
@@ -51,7 +58,9 @@ const RadioChoices = ({ input, meta, choices }: WrappedFieldProps & RadioProps) 
 const PrivacySensitiveDataForm = () => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
-            <p>Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.</p>
+            {/* TODO provide a proper text */}
+            <p>Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet
+                maken.</p>
         </div>
 
         <div className="row form-group input-element">
@@ -66,7 +75,8 @@ const PrivacySensitiveDataForm = () => (
                            value: "NO, this dataset does not contain personal data",
                        },
                    ]}
-                   component={RadioChoices}/>
+                   component={RadioChoices}
+                   validate={[oneSelected]}/>
         </div>
     </div>
 )

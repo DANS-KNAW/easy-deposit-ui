@@ -34,3 +34,8 @@
     border-radius: 2px;
     font-size: 14px;
 }
+
+.input-element > .validation-error {
+    /* TODO more layout */
+    color: red;
+}
