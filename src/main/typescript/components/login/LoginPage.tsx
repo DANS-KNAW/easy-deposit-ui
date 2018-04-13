@@ -40,7 +40,6 @@ type AllDemoFormProps = LoginPageProps & RouteComponentProps<any> & InjectedForm
 class LoginPage extends Component<AllDemoFormProps> {
     constructor(props: AllDemoFormProps) {
         super(props)
-        this.state = {loginName: "", loginPassword: ""}
     }
 
     callAuthenticate = (formValues: LoginPageData) => {
