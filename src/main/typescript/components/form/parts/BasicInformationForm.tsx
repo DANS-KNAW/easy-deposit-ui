@@ -81,6 +81,74 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                            // fetchDoi={this.props.fetchDoi}
                            component={DoiField}/>
                 </div>
+
+                <div className="row form-group input-element">
+                    <p>Language of description</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Title</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Alternative title</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Description</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Creator</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Contributor</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Date created</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Audience</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Subject</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Identifier</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Relation</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Language of files (ISO 639)</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Language of files</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Date (ISO 8601)</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Date</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Source</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Instructions for reuse</p>
+                </div>
             </div>
         )
     }

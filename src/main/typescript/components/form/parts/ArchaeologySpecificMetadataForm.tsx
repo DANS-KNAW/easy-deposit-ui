@@ -27,7 +27,21 @@ interface ArchaeologySpecificMetadataFormProps {
 
 class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetadataFormProps> {
     render() {
-        return <p>Archaeology specific metadata form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row form-group input-element">
+                    <p>Archis zaakidentificatie</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Subject (ABR complex)</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Temporal (ABR period)</p>
+                </div>
+            </div>
+        )
     }
 }
 

@@ -28,7 +28,25 @@ interface UploadTypeFormProps {
 
 class UploadTypeForm extends Component<UploadTypeFormProps> {
     render() {
-        return <p>Upload type form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row form-group input-element">
+                    <p>Type (DCMI resource type)</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Type</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Format (internet media type)</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Format</p>
+                </div>
+            </div>
+        )
     }
 }
 

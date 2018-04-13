@@ -30,7 +30,29 @@ interface LicenseAndAccessFormProps {
 
 class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
     render() {
-        return <p>License and Access form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row form-group input-element">
+                    <p>Rightsholder</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Publisher</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Access rights</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>License</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Date available</p>
+                </div>
+            </div>
+        )
     }
 }
 

@@ -30,7 +30,29 @@ interface TemporalAndSpatialCoverageFormProps {
 
 class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverageFormProps> {
     render() {
-        return <p>Temporal and spatial coverage form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row form-group input-element">
+                    <p>Temporal coverage</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Spatial point</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Spatial box</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Spatial coverage (ISO 3166)</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Spatial coverage</p>
+                </div>
+            </div>
+        )
     }
 }
 
