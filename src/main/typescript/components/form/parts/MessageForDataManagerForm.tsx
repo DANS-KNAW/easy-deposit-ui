@@ -25,23 +25,23 @@ export interface MessageForDataManagerFormData {
 interface MessageForDataManagerFormProps {
 }
 
-const TextArea = ({input, meta, ...rest}: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>) => {
-    return <textarea {...input} {...rest}/>
+const TextArea = ({ input, meta, label, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>) => {
+    return (
+        <>
+            <label className="col-12 col-md-3 pl-0" htmlFor="messageForDataManager">{label}</label>
+            <textarea className="form-control col-12 col-md-9" id="messageForDataManager" {...input} {...rest}/>
+        </>
+    )
 }
 
 class MessageForDataManagerForm extends Component<MessageForDataManagerFormProps> {
     render() {
         return (
             <div className="container pl-0 pr-0">
-                <div className="row ml-0 mr-0 form-group input-element">
-                    <label htmlFor="messageForDataManager"
-                           className="col-12 col-md-3 pl-0">
-                        Message for the data manager
-                    </label>
+                <div className="row form-group input-element">
                     <Field name="messageForDataManager"
-                           id="messageForDataManager"
-                           className="form-control col-12 col-md-9"
                            rows={10}
+                           label="Message for the data manager"
                            component={TextArea}/>
                 </div>
             </div>
