@@ -13,19 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AuthenticationConstants } from "../constants/authenticationConstants"
-import { Action } from "redux"
 import { ReduxAction } from "../lib/redux"
+import { loginURL, userURL, logoutURL } from "../constants/apiConstants"
+import { AuthenticationConstants } from "../constants/authenticationConstants"
+import axios from "axios"
 
-export const authenticate: () => ReduxAction<Promise<void>> = () => ({
+export const authenticate: (userName: string, password: string) => ReduxAction<Promise<void>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
-    // TODO temporary do a fake timeout to simulate server I/O
     async payload() {
-        await new Promise(vs => setTimeout(vs, 1000))
+        await new Promise(vs => {
+                setTimeout(vs, 1000)
+            },
+        )
+
+        // TODO temporary do a timeout to simulate server I/O
+        await axios.post(loginURL, {}, { auth: { username: userName, password: password } })
     },
 })
 
-// TODO not sure if signout also requires a server call...
-export const signout: () => Action = () => ({
+export const signout: () => ReduxAction<Promise<void>> = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
+    async payload() {
+        // TODO temporary do a timeout to simulate server I/O
+        await new Promise(vs => {
+                setTimeout(vs, 1000)
+            },
+        )
+        await axios.post(logoutURL)
+    }
 })
+

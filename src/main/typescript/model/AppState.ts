@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { empty as emptyUser, UserDetails } from "./UserDetails"
+import { empty as emptyAuthenticatedUser, Authentication } from "./Authentication"
 import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+import { empty as emptyUser } from "./UserDetails"
 import { emptyFoldableCards, FoldableCards } from "./FoldableCards"
+import { UserDetails } from "./UserDetails"
 import { empty as emptyDepositForm } from "./DepositForm"
 import { DepositFormState } from "./DepositForm"
 
 export interface AppState {
+    authenticatedUser: Authentication
     user: UserDetails
     deposits: DepositOverviewState
     foldableCards: FoldableCards,
@@ -27,6 +30,7 @@ export interface AppState {
 }
 
 export const empty: AppState = {
+    authenticatedUser: emptyAuthenticatedUser,
     user: emptyUser,
     deposits: emptyDeposits,
     foldableCards: emptyFoldableCards,

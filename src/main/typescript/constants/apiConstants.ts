@@ -24,6 +24,11 @@ const createURL = (path: string) => `${baseURL}/${path}`
 export const listDepositsURL = createURL("deposit")
 export const deleteDepositURL = (id: DepositId) => createURL(`deposit/${id}`)
 
+export const loginURL  = createURL("auth/login")
+export const logoutURL  = createURL("auth/logout")
+
+export const userURL = createURL("user")
+
 export const newDepositURL = createURL("deposit")
 
 export const fetchMetadataURL = (id: DepositId) => createURL(`deposit/${id}/metadata`)

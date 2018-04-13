@@ -17,6 +17,7 @@ import * as uuid from "uuid/v4"
 import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, mandatoryOnly, Metadata, newMetadata } from "./metadata"
+import { User, User001 } from "./user"
 
 interface DataPerDraft {
     deposit: Deposit
@@ -112,4 +113,8 @@ export const setMetadata: (id: string, metadata: Metadata) => void = (id, metada
         data = { ...data, [id]: { ...data[id], metadata } }
     }
     else return false
+}
+
+export const getUser: () => User = () => {
+    return User001
 }

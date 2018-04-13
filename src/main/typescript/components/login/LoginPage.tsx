@@ -21,34 +21,57 @@ import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
+import { InjectedFormProps, reduxForm, Field } from "redux-form"
 
 interface LoginPageProps {
-    authenticate: () => ReduxAction<Promise<void>>
+    authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
     authenticated: boolean
+    authenticating: boolean
+    errorMessage: Error
 }
 
-class LoginPage extends Component<LoginPageProps & RouteComponentProps<any>> {
-    constructor(props: LoginPageProps & RouteComponentProps<any>) {
+interface LoginPageData {
+    loginName: string
+    loginPassword: string
+}
+
+type AllDemoFormProps = LoginPageProps & RouteComponentProps<any> & InjectedFormProps<LoginPageData>
+
+class LoginPage extends Component<AllDemoFormProps> {
+    constructor(props: AllDemoFormProps) {
         super(props)
     }
 
-    login = () => this.props.authenticate()
+    callAuthenticate = (formValues: LoginPageData) => {
+        this.props.authenticate(formValues.loginName, formValues.loginPassword)
+    }
 
     render() {
-        const { authenticated, location } = this.props
-        const { from } = location.state || { from: { pathname: homeRoute } }
+        const {authenticated, errorMessage, location, handleSubmit} = this.props
+        const {from} = location.state || {from: {pathname: homeRoute}}
 
         return authenticated
             ? <Redirect to={from}/>
-            : <div>
+            : <form onSubmit={handleSubmit(this.callAuthenticate)}>
                 <p>You must log in to view this page at {from.pathname}</p>
-                <button onClick={this.login}>Log in</button>
-            </div>
+                <label>Username</label>
+                <Field name="loginName" type="text" component="input" required/>
+                <br/>
+                <label>Password</label>
+                <Field type="password" name="loginPassword" component="input" required/>
+                <br/>
+
+                <button type="submit" disabled={this.props.authenticating}>Login</button>
+                {errorMessage  && <span>{errorMessage.message}<br/></span>}
+            </form>
     }
 }
 
 const mapStateToProps = (state: AppState) => ({
-    authenticated: state.user.isAuthenticated,
+    authenticated: state.authenticatedUser.isAuthenticated,
+    authenticating: state.authenticatedUser.isAuthenticating,
+    errorMessage: state.authenticatedUser.authenticationError,
 })
 
-export default connect(mapStateToProps, { authenticate })(LoginPage)
+const form = reduxForm<LoginPageData>({form: 'login'})(LoginPage)
+export default connect<{}>(mapStateToProps, {authenticate})(form)
