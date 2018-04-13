@@ -160,7 +160,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
     }
 })
 
-const saveTimer: Middleware = createMiddleware(({dispatch}, next, action) => {
+const saveTimer: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
 
     if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
