@@ -35,12 +35,12 @@ class MessageForDataManagerForm extends Component<MessageForDataManagerFormProps
             <div className="container pl-0 pr-0">
                 <div className="row ml-0 mr-0 form-group input-element">
                     <label htmlFor="messageForDataManager"
-                           className="col-lg-3 pl-0">
+                           className="col-12 col-md-3 pl-0">
                         Message for the data manager
                     </label>
                     <Field name="messageForDataManager"
                            id="messageForDataManager"
-                           className="form-control col-lg-9"
+                           className="form-control col-12 col-md-9"
                            rows={10}
                            component={TextArea}/>
                 </div>
