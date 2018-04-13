@@ -21,7 +21,7 @@ import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
-import { InjectedFormProps, reduxForm } from "redux-form"
+import { InjectedFormProps, reduxForm, Field } from "redux-form"
 
 interface LoginPageProps {
     authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
@@ -56,10 +56,10 @@ class LoginPage extends Component<AllDemoFormProps> {
             : <form onSubmit={handleSubmit(this.callAuthenticate)}>
                 <p>You must log in to view this page at {from.pathname}</p>
                 <label>Username</label>
-                <input type="text" name="loginName" required/>
+                <Field name="loginName" type="text" component="input" required/>
                 <br/>
                 <label>Password</label>
-                <input type="password" name="loginPassword" required/>
+                <Field type="password" name="loginPassword" component="input" required/>
                 <br/>
 
                 <button type="submit" disabled={this.props.authenticating}>Login</button>
