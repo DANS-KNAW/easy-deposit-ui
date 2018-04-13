@@ -31,9 +31,9 @@
     color: #444;
 }
 
-.input-element > input,
-.input-element > textarea,
-.input-element > select {
+.input-element input,
+.input-element textarea,
+.input-element select {
     /*       tb  lr*/
     padding: 5px 8px;
     border: 1px solid #ddd;
