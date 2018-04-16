@@ -20,7 +20,7 @@ import { AuthenticationConstants } from "../constants/authenticationConstants"
 export const authenticationReducer: Reducer<Authentication> = (state = empty, action) => {
     switch (action.type) {
         case AuthenticationConstants.AUTH_LOGIN_FULFILLED: {
-            return { ...state, isAuthenticated: true, isAuthenticating:false }
+            return { ...state, isAuthenticated: true, isAuthenticating:false, authenticationError: "" }
         }
         case AuthenticationConstants.AUTH_LOGIN_PENDING: {
             return { ...state, isAuthenticated: false, isAuthenticating: true }
@@ -29,7 +29,7 @@ export const authenticationReducer: Reducer<Authentication> = (state = empty, ac
             return { ...state, isAuthenticated: false, authenticationError: action.payload, isAuthenticating: false }
         }
         case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
-            return { ...state, isAuthenticated: false }
+            return { ...state, isAuthenticated: false, authenticationError: "" }
         }
         default:
             return state
