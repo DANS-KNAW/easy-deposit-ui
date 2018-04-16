@@ -55,11 +55,11 @@ const DoiField = ({ input, meta, label }: WrappedFieldProps & DoiFieldProps) => 
 
     return (
         <>
-            <label className="col-12 col-md-3 pl-0" htmlFor={input.name}>{label}</label>
+            <label className="col-12 col-md-3 pl-0 title-label" htmlFor={input.name}>{label}</label>
             {input.value
                 ? <label className="col-12 col-md-9 value-label" id={input.name}>{input.value}</label>
                 : <button type="button"
-                          className="btn btn-primary mb-0 mt-0"
+                          className="btn btn-primary mb-0 mt-0 value-button"
                           onClick={this.fetchDoi}
                           disabled={false /* TODO disable while requesting DOI */}>Reserve DOI</button>}
         </>
@@ -77,8 +77,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 <div className="row form-group input-element">
                     <Field name="doi"
                            label="Digital Object Identifier"
-                           fetchDoi={() => console.log("TODO: implement DOI fetching")}
-                           // fetchDoi={this.props.fetchDoi}
+                           fetchDoi={() => console.log("TODO: implement DOI fetching")} /* TODO implement DOI fetching */
+                        // fetchDoi={this.props.fetchDoi}
                            component={DoiField}/>
                 </div>
 

@@ -19,16 +19,20 @@
     margin-bottom: 0;
 }
 
-.input-element > label:not(.value-label) {
+.input-element .title-label {
     padding-top: 5px;
     font-weight: bold;
     color: #444;
 }
 
-.input-element > label.value-label {
+.input-element .value-label {
     padding-top: 5px;
     padding-left: 0;
     color: #444;
+}
+
+.input-element .value-button {
+    font-size: 14px;
 }
 
 .input-element input,
@@ -38,10 +42,6 @@
     padding: 5px 8px;
     border: 1px solid #ddd;
     border-radius: 2px;
-    font-size: 14px;
-}
-
-.input-element > button {
     font-size: 14px;
 }
 
