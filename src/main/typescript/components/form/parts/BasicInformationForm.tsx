@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, InputHTMLAttributes } from "react"
+import { Component } from "react"
 import {
     CreatorOrContributor,
     emptyStringValue,
@@ -23,8 +23,11 @@ import {
     SchemedValue,
     Value,
 } from "../../../model/FormData"
-import { Field, FieldArray, GenericFieldArray, WrappedFieldArrayProps, WrappedFieldProps } from "redux-form"
+import { Field, WrappedFieldArrayProps } from "redux-form"
 import { connect } from "react-redux"
+import DoiField from "../../../lib/formComponents/DoiField"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 
 export interface BasicInformationFormData {
     doi?: string
@@ -55,70 +58,6 @@ interface DoiFieldProps {
     // fetchDoiError?: string
 }
 
-const DoiField = ({ input, meta, label }: WrappedFieldProps & DoiFieldProps) => {
-    console.log("input", input)
-    console.log("meta", meta)
-
-    return (
-        <>
-            <label className="col-12 col-md-3 pl-0 title-label" htmlFor={input.name}>{label}</label>
-            {input.value
-                ? <label className="col-12 col-md-9 value-label" id={input.name}>{input.value}</label>
-                : <button type="button"
-                          className="btn btn-primary mb-0 mt-0 value-button"
-                          onClick={this.fetchDoi}
-                          disabled={false /* TODO disable while requesting DOI */}>Reserve DOI</button>}
-        </>
-    )
-}
-
-const TextField = ({ input, meta, label, ...rest }: WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>) => {
-    return <input type="text" className="form-control" {...input} {...rest}/>
-}
-
-type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue>
-    & { label: string, empty: FieldValue }
-
-const RepeatableField = FieldArray as new <Data>() => GenericFieldArray<Data, { label: string, empty: Data }>
-
-function TextArray<T>(props: FieldArrayProps<T>) {
-    const { fields, empty, label } = props
-
-    return (
-        <>
-            <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
-            <div className="col-12 col-md-8 pl-0 pr-0 text-array">
-                {fields.map((name, index, fields) => {
-                    return (
-                        <div key={name} className="input-group mb-2 mr-2">
-                            <Field name={`${name}.value`}
-                                   label={label}
-                                   className="form-control"
-                                   placeholder={label}
-                                   component={TextField}/>
-                            <div className="input-group-append">
-                                <button type="button"
-                                        className="input-group-text bg-danger text-light remove-button"
-                                        onClick={() => fields.remove(index)}
-                                        disabled={fields.length <= 1}>
-                                    <i className="fas fa-minus-square"/>
-                                </button>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
-            <div className="col-12 col-md-1 mb-2 add-button">
-                <button type="button"
-                        className="input-group-text bg-success text-light"
-                        onClick={() => fields.push(empty)}>
-                    <i className="fas fa-plus-square"/>
-                </button>
-            </div>
-        </>
-    )
-}
-
 interface BasicInformationFormProps {
     // fetchDoi: () => ReduxAction<Promise<any>>
 }
@@ -130,8 +69,9 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 <div className="row form-group input-element">
                     <Field name="doi"
                            label="Digital Object Identifier"
-                           fetchDoi={() => console.log("TODO: implement DOI fetching")} /* TODO implement DOI fetching */
+                           fetchDoi={() => console.log("TODO: implement DOI fetching")} // TODO implement DOI fetching
                         // fetchDoi={this.props.fetchDoi}
+                           fetchingDoi={false} // TODO implement fetchingDoi
                            component={DoiField}/>
                 </div>
 
@@ -143,7 +83,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <RepeatableField name="titles"
                                      label="Title"
                                      empty={emptyStringValue}
-                                     component={TextArray}/>
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

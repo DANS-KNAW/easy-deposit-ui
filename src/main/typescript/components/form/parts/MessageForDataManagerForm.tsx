@@ -14,39 +14,22 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, TextareaHTMLAttributes } from "react"
-import { Field, WrappedFieldProps } from "redux-form"
-import "../../../../resources/css/form.css"
+import { Field } from "redux-form"
+import TextArea from "../../../lib/formComponents/TextArea"
 
 export interface MessageForDataManagerFormData {
     messageForDataManager?: string
 }
 
-interface MessageForDataManagerFormProps {
-}
-
-const TextArea = ({ input, meta, label, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>) => {
-    return (
-        <>
-            <label className="col-12 col-md-3 pl-0 title-label" htmlFor={input.name}>{label}</label>
-            <textarea className="form-control col-12 col-md-9" id={input.name} {...input} {...rest}/>
-        </>
-    )
-}
-
-class MessageForDataManagerForm extends Component<MessageForDataManagerFormProps> {
-    render() {
-        return (
-            <div className="container pl-0 pr-0">
-                <div className="row form-group input-element">
-                    <Field name="messageForDataManager"
-                           rows={10}
-                           label="Message for the data manager"
-                           component={TextArea}/>
-                </div>
-            </div>
-        )
-    }
-}
+const MessageForDataManagerForm = () => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            <Field name="messageForDataManager"
+                   rows={10}
+                   label="Message for the data manager"
+                   component={TextArea}/>
+        </div>
+    </div>
+)
 
 export default MessageForDataManagerForm
