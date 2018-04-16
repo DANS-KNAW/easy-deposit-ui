@@ -21,13 +21,10 @@ import axios from "axios"
 export const authenticate: (userName: string, password: string) => ReduxAction<Promise<void>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
     async payload() {
-        await new Promise(vs => {
-                setTimeout(vs, 1000)
-            },
-        )
-
-        // TODO temporary do a timeout to simulate server I/O
-        await axios.post(loginURL, {}, { auth: { username: userName, password: password } })
+        const params = new URLSearchParams()
+        params.append('login', userName)
+        params.append('password',password)
+        await axios.post(loginURL, params)
     },
 })
 
