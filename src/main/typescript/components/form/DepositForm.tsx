@@ -16,7 +16,8 @@
 import * as React from "react"
 import { Component, SFC } from "react"
 import Card from "./FoldableCard"
-import "../../../resources/css/depositForm"
+import "../../../resources/css/depositForm.css"
+import "../../../resources/css/form.css"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import {
     ArchaeologySpecificMetadata,
