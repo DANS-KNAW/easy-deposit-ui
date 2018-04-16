@@ -57,6 +57,10 @@
     font-size: 14px;
 }
 
+.input-element .form-check-input {
+    margin-top: 0.2rem; /* officially 0.3rem, but I think that's too much */
+}
+
 .input-element > .validation-error {
     /* TODO more layout */
     color: red;
