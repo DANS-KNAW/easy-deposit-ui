@@ -17,6 +17,8 @@ export interface Value<Type = string> {
     value: Type
 }
 
+export const emptyStringValue: Value = { value: "" }
+
 // TODO define enums for these scheme values
 interface Schemed<Scheme = string> {
     scheme: Scheme
