@@ -36,10 +36,10 @@
 }
 
 .card.closed > .card-header {
-    border-radius: calc(.25rem - 1px);
+    border-radius: calc(0.25rem - 1px);
 }
 
 .card .card-body {
     background-color: #fafafa;
-    border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+    border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
 }
