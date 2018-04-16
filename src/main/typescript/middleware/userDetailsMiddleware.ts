@@ -34,7 +34,7 @@ const userFetchConverter: Middleware = createMiddleware(({ dispatch }, next, act
                 prefix: action.payload.prefix,
                 lastName: action.payload.lastName,
                 groups: action.payload.groups,
-                displayName: action.payload.firstName + " " + action.payload.prefix + " " + action.payload.lastName,
+                displayName: `${action.payload.firstName} ${action.payload.prefix ? action.payload.prefix+" " : ""}${action.payload.lastName}`,
             }
 
             dispatch(fetchUserSucceeded(user))
