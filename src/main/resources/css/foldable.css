@@ -35,14 +35,11 @@
     }
 }
 
-.card.closed {
-    border-bottom: 0;
-}
-
 .card.closed > .card-header {
-    border-radius: 0.25rem;
+    border-radius: calc(.25rem - 1px);
 }
 
 .card .card-body {
     background-color: #fafafa;
+    border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
 }
