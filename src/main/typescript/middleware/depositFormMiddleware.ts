@@ -119,20 +119,20 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 instructionsForReuse: input.instructionsForReuse ? input.instructionsForReuse.join("\n\n") : [],
 
                 // license and access
-                rightsHolders: input.rightsHolders,
-                publishers: input.publishers,
+                rightsHolders: input.rightsHolders && input.rightsHolders.map(wrappedValue),
+                publishers: input.publishers && input.publishers.map(wrappedValue),
                 accessRights: accessRightConverter(input.accessRights),
                 license: input.license,
                 dateAvailable: input.dateAvailable && new Date(input.dateAvailable),
 
                 // upload type
                 typesDCMI: input.typesDCMI,
-                types: input.types,
+                types: input.types && input.types.map(wrappedValue),
                 formatsMediaType: input.formatsMediaType,
-                formats: input.formats,
+                formats: input.formats && input.formats.map(wrappedValue),
 
                 // archaeology specific metadata
-                archisNrs: input.archisNrs,
+                archisNrs: input.archisNrs && input.archisNrs.map(wrappedValue),
                 subjectsAbrComplex: input.subjectsAbrComplex,
                 temporalCoveragesAbr: input.temporalCoveragesAbr,
 
@@ -140,11 +140,11 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 extraClarinMetadataPresent: JSON.parse(input.extraClarinMetadataPresent),
 
                 // temporal and spatial coverage
-                temporalCoverages: input.temporalCoverages,
+                temporalCoverages: input.temporalCoverages && input.temporalCoverages.map(wrappedValue),
                 spatialPoint: input.spatialPoint && input.spatialPoint.map(pointConverter),
                 spatialBoxes: input.spatialBoxes && input.spatialBoxes.map(boxConverter),
                 spatialCoverageIso3166: input.spatialCoverageIso3166 && input.spatialCoverageIso3166.map(schemedValueConverter),
-                spatialCoverages: input.spatialCoverages,
+                spatialCoverages: input.spatialCoverages && input.spatialCoverages.map(wrappedValue),
 
                 // message for data manager
                 messageForDataManager: input.messageForDataManager,

@@ -15,11 +15,13 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { AccessRight } from "../../../model/FormData"
+import { AccessRight, emptyStringValue, Value } from "../../../model/FormData"
+import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 
 export interface LicenseAndAccessFormData {
-    rightsHolders?: string[]
-    publishers?: string[]
+    rightsHolders?: Value[]
+    publishers?: Value[]
     accessRights?: AccessRight
     license?: string
     dateAvailable?: Date
@@ -33,11 +35,19 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
         return (
             <div className="container pl-0 pr-0">
                 <div className="row form-group input-element">
-                    <p>Rightsholder</p>
+                    <RepeatableField name="rightsHolders"
+                                     label="Rightsholders"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Publisher</p>
+                    <RepeatableField name="publishers"
+                                     label="Publishers"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

@@ -15,12 +15,15 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { emptyStringValue, Value } from "../../../model/FormData"
+import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
-    types?: string[]
+    types?: Value[]
     formatsMediaType?: string[]
-    formats?: string[]
+    formats?: Value[]
 }
 
 interface UploadTypeFormProps {
@@ -35,7 +38,11 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Type</p>
+                    <RepeatableField name="types"
+                                     label="Types"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -43,7 +50,11 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Format</p>
+                    <RepeatableField name="formats"
+                                     label="Formats"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
             </div>
         )

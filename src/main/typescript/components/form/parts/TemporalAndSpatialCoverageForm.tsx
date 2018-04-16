@@ -15,14 +15,16 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { Box, Point, SchemedValue } from "../../../model/FormData"
+import { Box, emptyStringValue, Point, SchemedValue, Value } from "../../../model/FormData"
+import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 
 export interface TemporalAndSpatialCoverageFormData {
-    temporalCoverages?: string[]
+    temporalCoverages?: Value[]
     spatialPoint?: Point[]
     spatialBoxes?: Box[]
     spatialCoverageIso3166?: SchemedValue[]
-    spatialCoverages?: string[]
+    spatialCoverages?: Value[]
 }
 
 interface TemporalAndSpatialCoverageFormProps {
@@ -33,7 +35,11 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
         return (
             <div className="container pl-0 pr-0">
                 <div className="row form-group input-element">
-                    <p>Temporal coverage</p>
+                    <RepeatableField name="temporalCoverages"
+                                     label="Temporal coverage"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -49,7 +55,11 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Spatial coverage</p>
+                    <RepeatableField name="spatialCoverages"
+                                     label="Spatial coverage"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
             </div>
         )

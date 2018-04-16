@@ -15,9 +15,12 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { emptyStringValue, Value } from "../../../model/FormData"
+import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 
 export interface ArchaeologySpecificMetadataFormData {
-    archisNrs?: string[]
+    archisNrs?: Value[]
     subjectsAbrComplex?: string[]
     temporalCoveragesAbr?: string[]
 }
@@ -30,7 +33,11 @@ class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetad
         return (
             <div className="container pl-0 pr-0">
                 <div className="row form-group input-element">
-                    <p>Archis zaakidentificatie</p>
+                    <RepeatableField name="archisNrs"
+                                     label="Archis zaakidentificatie"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
