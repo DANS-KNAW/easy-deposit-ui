@@ -28,7 +28,7 @@ function TextFieldArray<T>({ fields, meta, label, empty, fieldName }: FieldArray
                     )
                 })}
             </div>
-            <div className="col-12 col-md-1 mb-2 add-button">
+            <div className="col-12 col-md-1 mb-2 pl-0 pr-0 add-button">
                 <button type="button"
                         className="input-group-text bg-success text-light"
                         onClick={() => fields.push(empty)}>

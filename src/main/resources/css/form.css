@@ -41,6 +41,7 @@
 .input-element .add-button > button {
     padding-top: 8px;
     padding-bottom: 7px;
+    float: right;
 }
 
 .input-element .remove-button:disabled {
