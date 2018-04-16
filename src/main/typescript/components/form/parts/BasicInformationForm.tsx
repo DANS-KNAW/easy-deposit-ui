@@ -28,6 +28,7 @@ import { connect } from "react-redux"
 import DoiField from "../../../lib/formComponents/DoiField"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import TextArea from "../../../lib/formComponents/TextArea"
 
 export interface BasicInformationFormData {
     doi?: string
@@ -46,8 +47,8 @@ export interface BasicInformationFormData {
     languagesOfFiles?: Value[]
     datesIso8601?: SchemedDate[] // TODO how are these different from the ones below?
     dates?: SchemedValue[]
-    sources?: Value[]
-    instructionsForReuse?: Value[]
+    source?: string
+    instructionsForReuse?: string
 }
 
 interface DoiFieldProps {
@@ -88,7 +89,11 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Alternative title</p>
+                    <RepeatableField name="alternativeTitles"
+                                     label="Alternative title"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -112,7 +117,11 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Subject</p>
+                    <RepeatableField name="subjects"
+                                     label="Subject"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -128,7 +137,11 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Language of files</p>
+                    <RepeatableField name="languagesOfFiles"
+                                     label="Language of files"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -140,11 +153,17 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Source</p>
+                    <Field name="source"
+                           rows={5}
+                           label="Source"
+                           component={TextArea}/>
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Instructions for reuse</p>
+                    <Field name="instructionsForReuse"
+                           rows={5}
+                           label="Instructions for reuse"
+                           component={TextArea}/>
                 </div>
             </div>
         )

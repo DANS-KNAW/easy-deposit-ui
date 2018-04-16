@@ -115,8 +115,8 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [],
                 datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
                 dates: input.dates && input.dates.map(schemedValueConverter),
-                sources: input.sources ? input.sources.map(wrappedValue) : [],
-                instructionsForReuse: input.instructionsForReuse ? input.instructionsForReuse.map(wrappedValue) : [],
+                source: input.sources ? input.sources.join("\n\n") : [],
+                instructionsForReuse: input.instructionsForReuse ? input.instructionsForReuse.join("\n\n") : [],
 
                 // license and access
                 rightsHolders: input.rightsHolders,
