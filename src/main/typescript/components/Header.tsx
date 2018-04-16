@@ -103,7 +103,7 @@ class Header extends Component<HeaderProps> {
             ? [
                 <span key="loginName" className="navbar-text">{loginName}</span>,
                 <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-                <Link onClick={signout} className="nav-link logoff" key="log out" to="/" title="Log out">Log out</Link>,
+                <Link onClick={signout} className="nav-link logoff" key="log out" to={homeRoute} title="Log out">Log out</Link>,
             ]
             : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Login</NavBarLink>]
 
