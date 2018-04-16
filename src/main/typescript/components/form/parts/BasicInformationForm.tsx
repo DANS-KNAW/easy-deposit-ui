@@ -35,7 +35,7 @@ export interface BasicInformationFormData {
     languageOfDescription?: string
     titles?: Value[]
     alternativeTitles?: Value[]
-    descriptions?: Value[]
+    description?: string
     creators?: CreatorOrContributor[]
     contributor?: CreatorOrContributor[]
     dateCreated?: Date
@@ -97,7 +97,10 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Description</p>
+                    <Field name="description"
+                           rows={5}
+                           label="Description"
+                           component={TextArea}/>
                 </div>
 
                 <div className="row form-group input-element">
