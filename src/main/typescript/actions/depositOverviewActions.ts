@@ -23,8 +23,6 @@ import { Action } from "redux"
 export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
-        // TODO temporary do a fake timeout to simulate server I/O
-        await new Promise(resolve => setTimeout(resolve, 1000))
         const response = await axios.get(listDepositsURL)
         return response.data
     },
@@ -47,8 +45,6 @@ export const cleanDeposits: () => Action = () => ({
 export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>> = depositId => ({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
-        // TODO temporary do a fake timeout to simulate server I/O
-        await new Promise(resolve => setTimeout(resolve, 1000))
         await axios.delete(deleteDepositURL(depositId))
     },
     meta: { depositId: depositId },
@@ -63,8 +59,6 @@ export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: strin
 export const createNewDeposit: () => ReduxAction<Promise<any>> = () => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
-        // TODO temporary do a fake timeout to simulate server I/O
-        await new Promise(resolve => setTimeout(resolve, 1000))
         const response = await axios.post(newDepositURL)
         return response.data
     },

@@ -31,11 +31,6 @@ export const authenticate: (userName: string, password: string) => ReduxAction<P
 export const signout: () => ReduxAction<Promise<void>> = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
-        // TODO temporary do a timeout to simulate server I/O
-        await new Promise(vs => {
-                setTimeout(vs, 1000)
-            },
-        )
         await axios.post(logoutURL)
     }
 })
