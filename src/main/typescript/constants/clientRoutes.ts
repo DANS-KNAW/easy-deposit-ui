@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 import { DepositId } from "../model/Deposits"
+import { clientRoute } from "../lib/config"
 
-export const homeRoute = "/deposit"
-export const registerRoute = `${homeRoute}/register` // this route doesn't exist, but to be complete, I add it here as well
-export const loginRoute = `${homeRoute}/login`
-export const depositFormRoute = (id: DepositId) => `${homeRoute}/deposit-form/${id}`
-export const depositOverviewRoute = `${homeRoute}/deposit-overview`
+export const homeRoute = clientRoute === "" ? "/" : clientRoute
+export const registerRoute = `${clientRoute}/register` // this route doesn't exist, but to be complete, I add it here as well
+export const loginRoute = `${clientRoute}/login`
+export const depositFormRoute = (id: DepositId) => `${clientRoute}/deposit-form/${id}`
+export const depositOverviewRoute = `${clientRoute}/deposit-overview`
+
+console.log(depositOverviewRoute)

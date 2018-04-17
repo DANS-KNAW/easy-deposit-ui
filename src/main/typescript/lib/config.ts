@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 declare const __API__: string
+declare const __CLIENT_ROUTE__: string
 declare const __VERSION__: string
 declare const __BUILD_DATE__: string
 
 export const baseURL = __API__
+export const clientRoute = __CLIENT_ROUTE__
 export const projectVersion = __VERSION__
 export const buildDate = __BUILD_DATE__
