@@ -200,9 +200,6 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 subjectsAbrComplex: input.subjectsAbrComplex,
                 temporalCoveragesAbr: input.temporalCoveragesAbr,
 
-                // language and literature specific metadata
-                extraClarinMetadataPresent: JSON.parse(input.extraClarinMetadataPresent),
-
                 // temporal and spatial coverage
                 temporalCoverages: input.temporalCoverages && input.temporalCoverages.map(wrappedValue),
                 spatialPoint: input.spatialPoint && input.spatialPoint.map(pointConverter),
@@ -271,9 +268,6 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             archisNrs: data.archisNrs && data.archisNrs.map(unwrapValue),
             subjectsAbrComplex: data.subjectsAbrComplex,
             temporalCoveragesAbr: data.temporalCoveragesAbr,
-
-            // language and literature specific metadata
-            extraClarinMetadataPresent: data.extraClarinMetadataPresent,
 
             // temporal and spatial coverage
             temporalCoverages: data.temporalCoverages && data.temporalCoverages.map(unwrapValue),

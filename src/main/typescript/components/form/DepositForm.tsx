@@ -25,7 +25,6 @@ import {
     Data,
     DepositFormData,
     DepositLicense,
-    LanguageAndLiteratureSpecificMetadata,
     LicenseAndAccess,
     MessageForDataManager,
     PrivacySensitiveData,
@@ -158,12 +157,6 @@ class DepositForm extends Component<DepositFormProps> {
                     <Card title="Archaeology specific metadata">
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <ArchaeologySpecificMetadata/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Language & literature specific metadata">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <LanguageAndLiteratureSpecificMetadata/>
                         </Loaded>
                     </Card>
 
