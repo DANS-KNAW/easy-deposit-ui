@@ -14,19 +14,67 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Field } from "redux-form"
+import SingleCheckbox from "../../../lib/formComponents/SingleCheckbox"
 
 export interface DepositLicenseFormData {
     acceptLicenseAgreement?: boolean
 }
 
-interface DepositLicenseFormProps {
-}
+// validation rules
+const mustBeChecked = (value?: any) => value && value === true
+    ? undefined
+    : "Accept the license agreement before submitting this dataset"
 
-class DepositLicenseForm extends Component<DepositLicenseFormProps> {
-    render() {
-        return <p>Deposit license form</p>
-    }
-}
+const DepositLicenseForm = () => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element mb-0">
+            <p>
+                {/* TODO fill in the correct href in the <a> */}
+                In order to deposit a dataset, you must accept and understand
+                the <a className="text-primary" href="#" target="_blank">Licence agreement</a> (PDF).
+            </p>
+        </div>
+
+        <div className="row form-group input-element mb-0">
+            <p>
+                Please note that this agreement includes that:
+            </p>
+        </div>
+
+        <div className="row form-group input-element mb-0">
+            <ul>
+                <li>You grant DANS a non-exclusive licence to store and make available to third parties the
+                    above mentioned digital dataset, in accordance with the 'access' conditions you
+                    indicated.
+                </li>
+                <li>You declare that you are the holder of rights to the dataset and/or entitled to act in
+                    the present matter with the permission of other parties that hold rights.
+                </li>
+            </ul>
+        </div>
+
+        <div className="row form-group input-element mb-0">
+            <p>
+                In case you have chosen <b>Creative Commons Zero Waiver</b>, please note additionally that this
+                agreement, in accordance with the 'access' conditions of the Creative Commons Zero Waiver,
+                includes that:
+            </p>
+        </div>
+
+        <div className="row form-group input-element mb-0">
+            <ul>
+                <li><b>You renounce all possible rights relating to the dataset.</b></li>
+            </ul>
+        </div>
+
+        <div className="row form-group input-element">
+            <Field name="acceptLicenseAgreement"
+                   label="Yes, I accept and understand the terms of the Licence agreement"
+                   component={SingleCheckbox}
+                   validate={[mustBeChecked]}/>
+        </div>
+    </div>
+)
 
 export default DepositLicenseForm

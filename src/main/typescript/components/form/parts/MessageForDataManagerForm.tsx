@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Field } from "redux-form"
+import TextArea from "../../../lib/formComponents/TextArea"
 
 export interface MessageForDataManagerFormData {
     messageForDataManager?: string
 }
 
-interface MessageForDataManagerFormProps {
-}
-
-class MessageForDataManagerForm extends Component<MessageForDataManagerFormProps> {
-    render() {
-        return <p>Message for the data manager form</p>
-    }
-}
+const MessageForDataManagerForm = () => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            <Field name="messageForDataManager"
+                   rows={10}
+                   label="Message for the data manager"
+                   component={TextArea}/>
+        </div>
+    </div>
+)
 
 export default MessageForDataManagerForm

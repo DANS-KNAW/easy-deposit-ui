@@ -16,7 +16,8 @@
 import * as React from "react"
 import { Component, SFC } from "react"
 import Card from "./FoldableCard"
-import "../../../resources/css/depositForm"
+import "../../../resources/css/depositForm.css"
+import "../../../resources/css/form.css"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import {
     ArchaeologySpecificMetadata,
@@ -32,7 +33,7 @@ import {
     UploadType,
 } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { Dispatch, ReduxAction } from "../../lib/redux"
+import { ReduxAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
@@ -95,7 +96,10 @@ const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
 interface DepositFormStoreArguments {
     depositId: DepositId
     formState: DepositFormState
+    formValues?: DepositFormData,
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
+    saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{depositId: DepositId, data: DepositFormData}>
+    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{depositId: DepositId, data: DepositFormData}>,
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -103,14 +107,16 @@ type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFor
 class DepositForm extends Component<DepositFormProps> {
     fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
 
-    save = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
-        alert(`saving draft for ${props.depositId}:\n\n${JSON.stringify(data, null, 2)}`)
+    save = () => {
+        const { depositId, formValues, saveDraft } = this.props
+        alert(`saving draft for ${depositId}:\n\n${JSON.stringify(formValues, null, 2)}`)
+        console.log(`saving draft for ${depositId}`, formValues)
 
-        dispatch(saveDraft(props.depositId, data))
+        formValues && saveDraft(depositId, formValues)
     }
 
-    submit = (data: DepositFormData, dispatch: Dispatch, props: DepositFormStoreArguments) => {
-        dispatch(submitDeposit(props.depositId, data))
+    submit = (data: DepositFormData) => {
+        this.props.submitDeposit(this.props.depositId, data)
     }
 
     componentDidMount() {
@@ -191,7 +197,7 @@ class DepositForm extends Component<DepositFormProps> {
                     <div className="buttons">
                         <button type="button"
                                 className="btn btn-primary mb-0"
-                                onClick={this.props.handleSubmit(this.save)}
+                                onClick={this.save}
                                 disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
                             Save draft
                         </button>
@@ -219,6 +225,11 @@ const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     formState: state.depositForm,
     initialValues: { ...state.depositForm.initialState.data, ...state.depositForm.initialState.metadata },
+    formValues: state.form.depositForm && state.form.depositForm.values,
 })
 
-export default connect<{}>(mapStateToProps, { fetchMetadata })(depositForm)
+export default connect<{}>(mapStateToProps, {
+    fetchMetadata,
+    saveDraft,
+    submitDeposit,
+})(depositForm)

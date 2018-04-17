@@ -19,40 +19,83 @@ import { DepositFormConstants, saveDraftResetTimeout } from "../constants/deposi
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import { DepositFormMetadata } from "../components/form/parts"
-import { fetchMetadataFailed, fetchMetadataSucceeded, saveDraftReset } from "../actions/depositFormActions"
+import {
+    fetchMetadataFailed,
+    fetchMetadataSucceeded,
+    sendSaveDraft,
+    sendSaveDraftReset, sendSubmitDeposit,
+} from "../actions/depositFormActions"
 import {
     AccessRight, Box,
     CreatorOrContributor, Point, PrivacySensitiveDataValue,
     Relation,
     SchemedDate,
     SchemedValue,
-    toAccessRight, toPrivacySensitiveData,
+    toAccessRight, toPrivacySensitiveData, Value,
 } from "../model/FormData"
 
-const creatorOrContributorConverter: (c: any) => CreatorOrContributor = c => {
-    return ({
-        titles: c.titles,
-        initials: c.initials,
-        insertions: c.insertions,
-        surname: c.surname,
-        ids: c.ids && c.ids.map(schemedValueConverter),
-        role: c.role,
-        organization: c.organization,
-    })
-}
+const wrappedValue: (v: any) => Value = v => ({
+    value: v,
+})
+
+const unwrapValue: (value: Value) => string = value => value.value
+
+const creatorOrContributorConverter: (c: any) => CreatorOrContributor = c => ({
+    titles: c.titles,
+    initials: c.initials,
+    insertions: c.insertions,
+    surname: c.surname,
+    ids: c.ids && c.ids.map(schemedValueConverter),
+    role: c.role,
+    organization: c.organization,
+})
+
+const creatorOrContributorDeconverter: (c: CreatorOrContributor) => any = c => ({
+    titles: c.titles,
+    initials: c.initials,
+    insertions: c.insertions,
+    surname: c.surname,
+    ids: c.ids && c.ids.map(schemedValueDeconverter),
+    role: c.role,
+    organization: c.organization,
+})
+
+const dateConverter: (d: any) => Date = d => new Date(d)
+
+const dateDeconverter: (d: Date) => any = d => d.toUTCString() // TODO is this one correct?
+
 const schemedValueConverter: (sv: any) => SchemedValue = sv => ({
     scheme: sv.scheme,
     value: sv.value,
 })
-const schemedDateConverter: (sv: any) => SchemedDate = sv => ({
+
+const schemedValueDeconverter: (sv: SchemedValue) => any = sv => ({
     scheme: sv.scheme,
-    value: new Date(sv.value),
+    value: sv.value,
 })
+
+const schemedDateConverter: (sd: any) => SchemedDate = sd => ({
+    scheme: sd.scheme,
+    value: dateConverter(sd.value),
+})
+
+const schemedDateDeconverter: (sd: SchemedDate) => any = sd => ({
+    scheme: sd.scheme,
+    value: dateDeconverter(sd.value),
+})
+
 const relationConverter: (r: any) => Relation = r => ({
     qualifier: r.qualifier,
     url: r.url,
     title: r.title,
 })
+
+const relationDeconverter: (r: Relation) => any = r => ({
+    qualifier: r.qualifier,
+    url: r.url,
+    title: r.title,
+})
+
 const accessRightConverter: (ar: any) => AccessRight = ar => {
     const category = toAccessRight(ar.category)
     if (category) {
@@ -65,11 +108,24 @@ const accessRightConverter: (ar: any) => AccessRight = ar => {
         throw `Error in metadata: no such access right: '${ar.category}'`
     }
 }
+
+const accessRightDeconverter: (ar: AccessRight) => any = ar => ({
+    category: ar.category.toString(),
+    group: ar.group,
+})
+
 const pointConverter: (p: any) => Point = p => ({
     scheme: p.scheme,
     x: Number(p.x),
     y: Number(p.y),
 })
+
+const pointDeconverter: (p: Point) => any = p => ({
+    scheme: p.scheme,
+    x: p.x,
+    y: p.y,
+})
+
 const boxConverter: (b: any) => Box = b => ({
     scheme: b.scheme,
     north: Number(b.north),
@@ -77,6 +133,15 @@ const boxConverter: (b: any) => Box = b => ({
     south: Number(b.south),
     west: Number(b.west),
 })
+
+const boxDeconverter: (b: Box) => any = b => ({
+    scheme: b.scheme,
+    north: b.north,
+    east: b.east,
+    south: b.south,
+    west: b.west,
+})
+
 const privacySensitiveDataConverter: (psd: any) => PrivacySensitiveDataValue = psd => {
     const res = toPrivacySensitiveData(psd)
     if (res) {
@@ -86,6 +151,8 @@ const privacySensitiveDataConverter: (psd: any) => PrivacySensitiveDataValue = p
         throw `Error in metadata: no such privacy sensitive data value: '${psd}'`
     }
 }
+
+const privacySensitiveDataDeconverter: (psd: PrivacySensitiveDataValue) => any = psd => psd.toString()
 
 const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
@@ -98,38 +165,38 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // basic info
                 doi: input.doi,
                 languageOfDescription: input.languageOfDescription,
-                titles: input.titles,
-                alternativeTitles: input.alternativeTitles,
-                descriptions: input.descriptions,
+                titles: input.titles.map(wrappedValue),
+                alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [],
+                description: input.descriptions && input.descriptions.join("\n\n"),
                 creators: input.creators.map(creatorOrContributorConverter),
-                contributor: input.contributor && input.contributor.map(creatorOrContributorConverter),
-                dateCreated: new Date(input.dateCreated),
-                audiences: input.audiences,
-                subjects: input.subjects,
+                contributors: input.contributors && input.contributors.map(creatorOrContributorConverter),
+                dateCreated: dateConverter(input.dateCreated),
+                audiences: input.audiences.map(wrappedValue),
+                subjects: input.subjects ? input.subjects.map(wrappedValue) : [],
                 identifiers: input.identifiers && input.identifiers.map(schemedValueConverter),
                 relations: input.relations && input.relations.map(relationConverter),
-                languagesOfFilesIso639: input.languagesOfFilesIso639,
-                languagesOfFiles: input.languagesOfFiles,
+                languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [],
+                languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [],
                 datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
                 dates: input.dates && input.dates.map(schemedValueConverter),
-                sources: input.sources,
-                instructionsForReuse: input.instructionsForReuse,
+                source: input.sources && input.sources.join("\n\n"),
+                instructionsForReuse: input.instructionsForReuse && input.instructionsForReuse.join("\n\n"),
 
                 // license and access
-                rightsHolders: input.rightsHolders,
-                publishers: input.publishers,
+                rightsHolders: input.rightsHolders && input.rightsHolders.map(wrappedValue),
+                publishers: input.publishers && input.publishers.map(wrappedValue),
                 accessRights: accessRightConverter(input.accessRights),
                 license: input.license,
-                dateAvailable: input.dateAvailable && new Date(input.dateAvailable),
+                dateAvailable: input.dateAvailable && dateConverter(input.dateAvailable),
 
                 // upload type
                 typesDCMI: input.typesDCMI,
-                types: input.types,
+                types: input.types && input.types.map(wrappedValue),
                 formatsMediaType: input.formatsMediaType,
-                formats: input.formats,
+                formats: input.formats && input.formats.map(wrappedValue),
 
                 // archaeology specific metadata
-                archisNrs: input.archisNrs,
+                archisNrs: input.archisNrs && input.archisNrs.map(wrappedValue),
                 subjectsAbrComplex: input.subjectsAbrComplex,
                 temporalCoveragesAbr: input.temporalCoveragesAbr,
 
@@ -137,11 +204,11 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 extraClarinMetadataPresent: JSON.parse(input.extraClarinMetadataPresent),
 
                 // temporal and spatial coverage
-                temporalCoverages: input.temporalCoverages,
+                temporalCoverages: input.temporalCoverages && input.temporalCoverages.map(wrappedValue),
                 spatialPoint: input.spatialPoint && input.spatialPoint.map(pointConverter),
                 spatialBoxes: input.spatialBoxes && input.spatialBoxes.map(boxConverter),
                 spatialCoverageIso3166: input.spatialCoverageIso3166 && input.spatialCoverageIso3166.map(schemedValueConverter),
-                spatialCoverages: input.spatialCoverages,
+                spatialCoverages: input.spatialCoverages && input.spatialCoverages.map(wrappedValue),
 
                 // message for data manager
                 messageForDataManager: input.messageForDataManager,
@@ -150,7 +217,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 privacySensitiveDataPresent: privacySensitiveDataConverter(input.privacySensitiveDataPresent),
 
                 // deposit license
-                acceptLicenseAgreement: input.acceptLicenseAgreement && JSON.parse(input.acceptLicenseAgreement),
+                acceptLicenseAgreement: JSON.parse(input.acceptLicenseAgreement),
             }
             dispatch(fetchMetadataSucceeded(data))
         }
@@ -160,16 +227,92 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
     }
 })
 
-const saveTimer: Middleware = createMiddleware(({dispatch}, next, action) => {
+const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
 
-    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
-        setTimeout(() => dispatch(saveDraftReset()), saveDraftResetTimeout * 1000)
+    if (action.type === DepositFormConstants.SAVE_DRAFT || action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
+        const data: DepositFormMetadata = action.payload.data
+
+        const output = {
+            // basic info
+            doi: data.doi,
+            languageOfDescription: data.languageOfDescription,
+            titles: data.titles ? data.titles.map(unwrapValue) : [],
+            alternativeTitles: data.alternativeTitles ? data.alternativeTitles.map(unwrapValue) : [],
+            descriptions: data.description && data.description.split("\n\n"),
+            creators: data.creators ? data.creators.map(creatorOrContributorDeconverter) : [],
+            contributors: data.contributors && data.contributors.map(creatorOrContributorDeconverter),
+            dateCreated: data.dateCreated && dateDeconverter(data.dateCreated), // TODO not sure if this is correct
+            audiences: data.audiences ? data.audiences.map(unwrapValue) : [],
+            subjects: data.subjects ? data.subjects.map(unwrapValue) : [],
+            identifiers: data.identifiers && data.identifiers.map(schemedValueDeconverter),
+            relations: data.relations && data.relations.map(relationDeconverter),
+            languagesOfFilesIso639: data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(unwrapValue) : [],
+            languagesOfFiles: data.languagesOfFiles ? data.languagesOfFiles.map(unwrapValue) : [],
+            datesIso8601: data.datesIso8601 && data.datesIso8601.map(schemedDateDeconverter),
+            dates: data.dates && data.dates.map(schemedValueDeconverter),
+            source: data.source && data.source.split("\n\n"),
+            instructionsForReuse: data.instructionsForReuse && data.instructionsForReuse.split("\n\n"),
+
+            // license and access
+            rightsHolders: data.rightsHolders && data.rightsHolders.map(unwrapValue),
+            publishers: data.publishers && data.publishers.map(unwrapValue),
+            accessRights: data.accessRights && accessRightDeconverter(data.accessRights), // TODO not sure if this is correct
+            license: data.license,
+            dateAvailable: data.dateAvailable && dateDeconverter(data.dateAvailable),
+
+            // upload type
+            typesDCMI: data.typesDCMI,
+            types: data.types && data.types.map(unwrapValue),
+            formatsMediaType: data.formatsMediaType,
+            formats: data.formats && data.formats.map(unwrapValue),
+
+            // archaeology specific metadata
+            archisNrs: data.archisNrs && data.archisNrs.map(unwrapValue),
+            subjectsAbrComplex: data.subjectsAbrComplex,
+            temporalCoveragesAbr: data.temporalCoveragesAbr,
+
+            // language and literature specific metadata
+            extraClarinMetadataPresent: data.extraClarinMetadataPresent,
+
+            // temporal and spatial coverage
+            temporalCoverages: data.temporalCoverages && data.temporalCoverages.map(unwrapValue),
+            spatialPoint: data.spatialPoint && data.spatialPoint.map(pointDeconverter),
+            spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter),
+            spatialCoverageIso3166: data.spatialCoverageIso3166 && data.spatialCoverageIso3166.map(schemedValueDeconverter),
+            spatialCoverages: data.spatialCoverages && data.spatialCoverages.map(unwrapValue),
+
+            // message for data manager
+            messageForDataManager: data.messageForDataManager,
+
+            // privacy sensitive data
+            privacySensitiveDataPresent: data.privacySensitiveDataPresent && privacySensitiveDataDeconverter(data.privacySensitiveDataPresent), // TODO not sure if this is correct
+
+            // deposit license
+            acceptLicenseAgreement: data.acceptLicenseAgreement,
+        }
+
+        switch (action.type) {
+            case DepositFormConstants.SAVE_DRAFT:
+                dispatch(sendSaveDraft(action.payload.depositId, output))
+                break
+            case DepositFormConstants.SUBMIT_DEPOSIT:
+                dispatch(sendSubmitDeposit(action.payload.depositId, output))
+                break
+        }
+    }
+})
+
+const saveTimer: Middleware = createMiddleware(({ dispatch }, next, action) => {
+    next(action)
+
+    if (action.type === DepositFormConstants.SEND_SAVE_DRAFT_FULFILLED) {
+        setTimeout(() => dispatch(sendSaveDraftReset()), saveDraftResetTimeout * 1000)
     }
 })
 
 const submitReroute: Middleware = createMiddleware(({ dispatch }, next, action) => {
-    if (action.type === DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED) {
+    if (action.type === DepositFormConstants.SEND_SUBMIT_DEPOSIT_FULFILLED) {
         dispatch(push(depositOverviewRoute))
     }
 
@@ -178,6 +321,7 @@ const submitReroute: Middleware = createMiddleware(({ dispatch }, next, action) 
 
 export const depositFormMiddleware = [
     metadataFetchConverter,
+    metadataSendConverter,
     saveTimer,
     submitReroute,
 ]

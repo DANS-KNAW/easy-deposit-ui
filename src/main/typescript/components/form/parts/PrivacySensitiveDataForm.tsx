@@ -14,20 +14,41 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import { PrivacySensitiveDataValue } from "../../../model/FormData"
+import { Field } from "redux-form"
+import RadioChoices from "../../../lib/formComponents/RadioChoices"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
 }
 
-interface PrivacySensitiveDataFormProps {
-}
+// validation rules
+const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
 
-class PrivacySensitiveDataForm extends Component<PrivacySensitiveDataFormProps> {
-    render() {
-        return <p>Privacy sensitive data form</p>
-    }
-}
+const PrivacySensitiveDataForm = () => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            {/* TODO provide a proper text */}
+            <p>Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet
+                maken.</p>
+        </div>
+
+        <div className="row form-group input-element">
+            <Field name="privacySensitiveDataPresent"
+                   choices={[
+                       {
+                           title: PrivacySensitiveDataValue.YES,
+                           value: "YES, this dataset does contain personal data (please contact DANS)",
+                       },
+                       {
+                           title: PrivacySensitiveDataValue.NO,
+                           value: "NO, this dataset does not contain personal data",
+                       },
+                   ]}
+                   component={RadioChoices}
+                   validate={[oneSelected]}/>
+        </div>
+    </div>
+)
 
 export default PrivacySensitiveDataForm

@@ -26,6 +26,10 @@ import { routerMiddleware } from "react-router-redux"
 // import {AppState} from './model/AppState'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
 
+// import {Action} from 'redux'
+// import {AppState} from './model/AppState'
+// const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
+
 const predicate = () => true // if you want to see all actions
 
 export const newStore = (history: H.History) => {

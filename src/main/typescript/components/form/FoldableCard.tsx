@@ -78,7 +78,7 @@ class FoldableCard extends Component<FoldableCardProps> {
                 </h6>
                 <div className={[
                     open ? "" : "collapse",
-                    "card-body row ml-0 mr-0",
+                    "card-body ml-0 mr-0",
                 ].join(" ").trim()}>{children}</div>
             </div>
         )

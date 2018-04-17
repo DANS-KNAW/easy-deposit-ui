@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,33 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.card {
-    box-shadow: 2px 3px 8px 0 #a9a9a9;
+import { FieldArray, GenericFieldArray, WrappedFieldArrayProps } from "redux-form"
+
+export interface CustomFieldArrayProps<FieldValue> {
+    label: string,
+    empty: FieldValue,
+    fieldName: (name: string) => string
 }
 
-.card .card-header > .required {
-    text-align: right;
-    align-self: flex-start;
-    font-size: 0.9rem;
-}
+export type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayProps<FieldValue>
 
-.card .card-header > .arrow {
-    text-align: right;
-    align-self: flex-end;
-}
-
-@media (max-width: 767px) {
-    .card .card-header > .required {
-        text-align: left;
-        padding-top: 2px;
-    }
-}
-
-.card.closed > .card-header {
-    border-radius: calc(0.25rem - 1px);
-}
-
-.card .card-body {
-    background-color: #fafafa;
-    border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
-}
+export const RepeatableField = FieldArray as new <Data>() => GenericFieldArray<Data, CustomFieldArrayProps<Data>>

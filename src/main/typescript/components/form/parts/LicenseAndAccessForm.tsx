@@ -15,11 +15,13 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { AccessRight } from "../../../model/FormData"
+import { AccessRight, emptyStringValue, Value } from "../../../model/FormData"
+import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 
 export interface LicenseAndAccessFormData {
-    rightsHolders?: string[]
-    publishers?: string[]
+    rightsHolders?: Value[]
+    publishers?: Value[]
     accessRights?: AccessRight
     license?: string
     dateAvailable?: Date
@@ -30,7 +32,37 @@ interface LicenseAndAccessFormProps {
 
 class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
     render() {
-        return <p>License and Access form</p>
+        return (
+            <div className="container pl-0 pr-0">
+                <div className="row form-group input-element">
+                    <RepeatableField name="rightsHolders"
+                                     label="Rightsholders"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
+                </div>
+
+                <div className="row form-group input-element">
+                    <RepeatableField name="publishers"
+                                     label="Publishers"
+                                     empty={emptyStringValue}
+                                     fieldName={(name: string) => `${name}.value`}
+                                     component={TextFieldArray}/>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Access rights</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>License</p>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Date available</p>
+                </div>
+            </div>
+        )
     }
 }
 

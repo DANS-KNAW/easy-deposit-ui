@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,33 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.card {
-    box-shadow: 2px 3px 8px 0 #a9a9a9;
-}
+import * as React from "react"
+import { InputHTMLAttributes } from "react"
+import { WrappedFieldProps } from "redux-form"
 
-.card .card-header > .required {
-    text-align: right;
-    align-self: flex-start;
-    font-size: 0.9rem;
-}
+const TextField = ({ input, meta, label, ...rest }: WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>) => (
+    <input type="text" className="form-control" {...input} {...rest}/>
+)
 
-.card .card-header > .arrow {
-    text-align: right;
-    align-self: flex-end;
-}
-
-@media (max-width: 767px) {
-    .card .card-header > .required {
-        text-align: left;
-        padding-top: 2px;
-    }
-}
-
-.card.closed > .card-header {
-    border-radius: calc(0.25rem - 1px);
-}
-
-.card .card-body {
-    background-color: #fafafa;
-    border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
-}
+export default TextField
