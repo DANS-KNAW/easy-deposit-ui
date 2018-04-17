@@ -165,13 +165,13 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // basic info
                 doi: input.doi,
                 languageOfDescription: input.languageOfDescription,
-                titles: input.titles.map(wrappedValue),
+                titles: input.titles ? input.titles.map(wrappedValue) : [],
                 alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [],
                 description: input.descriptions && input.descriptions.join("\n\n"),
-                creators: input.creators.map(creatorOrContributorConverter),
+                creators: input.creators ? input.creators.map(creatorOrContributorConverter) : [],
                 contributors: input.contributors && input.contributors.map(creatorOrContributorConverter),
-                dateCreated: dateConverter(input.dateCreated),
-                audiences: input.audiences.map(wrappedValue),
+                dateCreated: input.dateCreated ? dateConverter(input.dateCreated) : new Date(), // TODO not sure if this is correct
+                audiences: input.audiences ? input.audiences.map(wrappedValue) : [],
                 subjects: input.subjects ? input.subjects.map(wrappedValue) : [],
                 identifiers: input.identifiers && input.identifiers.map(schemedValueConverter),
                 relations: input.relations && input.relations.map(relationConverter),
@@ -185,12 +185,12 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // license and access
                 rightsHolders: input.rightsHolders && input.rightsHolders.map(wrappedValue),
                 publishers: input.publishers && input.publishers.map(wrappedValue),
-                accessRights: accessRightConverter(input.accessRights),
+                accessRights: input.accessRights && accessRightConverter(input.accessRights),
                 license: input.license,
                 dateAvailable: input.dateAvailable && dateConverter(input.dateAvailable),
 
                 // upload type
-                typesDCMI: input.typesDCMI,
+                typesDCMI: input.typesDCMI, // TODO with or without capitals
                 types: input.types && input.types.map(wrappedValue),
                 formatsMediaType: input.formatsMediaType,
                 formats: input.formats && input.formats.map(wrappedValue),
@@ -199,9 +199,6 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 archisNrs: input.archisNrs && input.archisNrs.map(wrappedValue),
                 subjectsAbrComplex: input.subjectsAbrComplex,
                 temporalCoveragesAbr: input.temporalCoveragesAbr,
-
-                // language and literature specific metadata
-                extraClarinMetadataPresent: JSON.parse(input.extraClarinMetadataPresent),
 
                 // temporal and spatial coverage
                 temporalCoverages: input.temporalCoverages && input.temporalCoverages.map(wrappedValue),
@@ -214,10 +211,10 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 messageForDataManager: input.messageForDataManager,
 
                 // privacy sensitive data
-                privacySensitiveDataPresent: privacySensitiveDataConverter(input.privacySensitiveDataPresent),
+                privacySensitiveDataPresent: input.privacySensitiveDataPresent ? privacySensitiveDataConverter(input.privacySensitiveDataPresent) : PrivacySensitiveDataValue.UNSPECIFIED,
 
                 // deposit license
-                acceptLicenseAgreement: JSON.parse(input.acceptLicenseAgreement),
+                acceptLicenseAgreement: input.acceptLicenseAgreement || false,
             }
             dispatch(fetchMetadataSucceeded(data))
         }
@@ -271,9 +268,6 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             archisNrs: data.archisNrs && data.archisNrs.map(unwrapValue),
             subjectsAbrComplex: data.subjectsAbrComplex,
             temporalCoveragesAbr: data.temporalCoveragesAbr,
-
-            // language and literature specific metadata
-            extraClarinMetadataPresent: data.extraClarinMetadataPresent,
 
             // temporal and spatial coverage
             temporalCoverages: data.temporalCoverages && data.temporalCoverages.map(unwrapValue),
