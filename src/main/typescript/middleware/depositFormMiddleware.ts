@@ -27,7 +27,7 @@ import {
 } from "../actions/depositFormActions"
 import {
     AccessRight, Box,
-    CreatorOrContributor, Point, PrivacySensitiveDataValue,
+    CreatorOrContributor, emptyStringValue, Point, PrivacySensitiveDataValue,
     Relation,
     SchemedDate,
     SchemedValue,
@@ -165,47 +165,47 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // basic info
                 doi: input.doi,
                 languageOfDescription: input.languageOfDescription,
-                titles: input.titles ? input.titles.map(wrappedValue) : [],
-                alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [],
+                titles: input.titles ? input.titles.map(wrappedValue) : [emptyStringValue],
+                alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [emptyStringValue],
                 description: input.descriptions && input.descriptions.join("\n\n"),
                 creators: input.creators ? input.creators.map(creatorOrContributorConverter) : [],
                 contributors: input.contributors && input.contributors.map(creatorOrContributorConverter),
                 dateCreated: input.dateCreated ? dateConverter(input.dateCreated) : new Date(), // TODO not sure if this is correct
-                audiences: input.audiences ? input.audiences.map(wrappedValue) : [],
-                subjects: input.subjects ? input.subjects.map(wrappedValue) : [],
+                audiences: input.audiences ? input.audiences.map(wrappedValue) : [emptyStringValue],
+                subjects: input.subjects ? input.subjects.map(wrappedValue) : [emptyStringValue],
                 identifiers: input.identifiers && input.identifiers.map(schemedValueConverter),
                 relations: input.relations && input.relations.map(relationConverter),
-                languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [],
-                languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [],
+                languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [emptyStringValue],
+                languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [emptyStringValue],
                 datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
                 dates: input.dates && input.dates.map(schemedValueConverter),
                 source: input.sources && input.sources.join("\n\n"),
                 instructionsForReuse: input.instructionsForReuse && input.instructionsForReuse.join("\n\n"),
 
                 // license and access
-                rightsHolders: input.rightsHolders && input.rightsHolders.map(wrappedValue),
-                publishers: input.publishers && input.publishers.map(wrappedValue),
+                rightsHolders: input.rightsHolders ? input.rightsHolders.map(wrappedValue) : [emptyStringValue],
+                publishers: input.publishers ? input.publishers.map(wrappedValue) : [emptyStringValue],
                 accessRights: input.accessRights && accessRightConverter(input.accessRights),
                 license: input.license,
                 dateAvailable: input.dateAvailable && dateConverter(input.dateAvailable),
 
                 // upload type
                 typesDCMI: input.typesDCMI, // TODO with or without capitals
-                types: input.types && input.types.map(wrappedValue),
+                types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
                 formatsMediaType: input.formatsMediaType,
-                formats: input.formats && input.formats.map(wrappedValue),
+                formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
 
                 // archaeology specific metadata
-                archisNrs: input.archisNrs && input.archisNrs.map(wrappedValue),
+                archisNrs: input.archisNrs ? input.archisNrs.map(wrappedValue) : [emptyStringValue],
                 subjectsAbrComplex: input.subjectsAbrComplex,
                 temporalCoveragesAbr: input.temporalCoveragesAbr,
 
                 // temporal and spatial coverage
-                temporalCoverages: input.temporalCoverages && input.temporalCoverages.map(wrappedValue),
+                temporalCoverages: input.temporalCoverages ? input.temporalCoverages.map(wrappedValue) : [emptyStringValue],
                 spatialPoint: input.spatialPoint && input.spatialPoint.map(pointConverter),
                 spatialBoxes: input.spatialBoxes && input.spatialBoxes.map(boxConverter),
                 spatialCoverageIso3166: input.spatialCoverageIso3166 && input.spatialCoverageIso3166.map(schemedValueConverter),
-                spatialCoverages: input.spatialCoverages && input.spatialCoverages.map(wrappedValue),
+                spatialCoverages: input.spatialCoverages ? input.spatialCoverages.map(wrappedValue) : [emptyStringValue],
 
                 // message for data manager
                 messageForDataManager: input.messageForDataManager,
