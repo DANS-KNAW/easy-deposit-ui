@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as dateformat from "dateformat"
-
 export interface Metadata {
     // basic information
-    doi: string
-    languageOfDescription: string
-    titles: string[]
+    doi?: string
+    languageOfDescription?: string
+    titles?: string[]
     alternativeTitles?: string[]
-    descriptions: string[]
-    creators: CreatorOrContributor[]
+    descriptions?: string[]
+    creators?: CreatorOrContributor[]
     contributor?: CreatorOrContributor[]
-    dateCreated: string
-    audiences: string[]
+    dateCreated?: string
+    audiences?: string[]
     subjects?: string[]
     identifiers?: SchemedValue[]
     relations?: Relation[]
@@ -39,8 +37,8 @@ export interface Metadata {
     // license and access
     rightsHolders?: string[]
     publishers?: string[]
-    accessRights: AccessRight
-    license: string
+    accessRights?: AccessRight
+    license?: string
     dateAvailable?: string
 
     // Upload types
@@ -54,9 +52,6 @@ export interface Metadata {
     subjectsAbrComplex?: string[]
     temporalCoveragesAbr?: string[]
 
-    // Language & literature specific metadata
-    extraClarinMetadataPresent: boolean
-
     // Time and Spatial coverage
     temporalCoverages?: string[]
     spatialPoint?: Point[]
@@ -68,10 +63,10 @@ export interface Metadata {
     messageForDataManager?: string
 
     // Privacy sensitive data
-    privacySensitiveDataPresent: PrivacySensitiveDataValue
+    privacySensitiveDataPresent?: PrivacySensitiveDataValue
 
     // Deposit License
-    acceptLicenseAgreement: boolean
+    acceptLicenseAgreement?: boolean
 }
 
 interface SchemedValue {
@@ -277,7 +272,6 @@ export const allfields: Metadata = {
         "ROMLA",
         "ROMLB",
     ],
-    extraClarinMetadataPresent: false,
     temporalCoverages: [
         "temp1",
         "temp2",
@@ -371,24 +365,8 @@ export const mandatoryOnly: Metadata = {
         group: "archaeology",
     },
     license: "CC-BY-NC-SA",
-    extraClarinMetadataPresent: true,
     privacySensitiveDataPresent: PrivacySensitiveDataValue.YES,
     acceptLicenseAgreement: true,
 }
 
-export const newMetadata: () => Metadata = () => ({
-    doi: "",
-    languageOfDescription: "",
-    titles: ["New Deposit"],
-    descriptions: [],
-    creators: [],
-    dateCreated: dateformat(new Date(), "yyy-mm-dd"),
-    audiences: [],
-    accessRights: {
-        category: AccessRightValue.OPEN,
-    },
-    license: "",
-    extraClarinMetadataPresent: false,
-    privacySensitiveDataPresent: PrivacySensitiveDataValue.UNSPECIFIED,
-    acceptLicenseAgreement: false,
-})
+export const newMetadata: () => Metadata = () => ({})
