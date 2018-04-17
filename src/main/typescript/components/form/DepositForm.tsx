@@ -98,8 +98,8 @@ interface DepositFormStoreArguments {
     formState: DepositFormState
     formValues?: DepositFormData,
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
-    saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<Promise<void>>
-    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<Promise<void>>,
+    saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{depositId: DepositId, data: DepositFormData}>
+    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{depositId: DepositId, data: DepositFormData}>,
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -108,7 +108,7 @@ class DepositForm extends Component<DepositFormProps> {
     fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
 
     save = () => {
-        const { depositId, formValues } = this.props
+        const { depositId, formValues, saveDraft } = this.props
         alert(`saving draft for ${depositId}:\n\n${JSON.stringify(formValues, null, 2)}`)
         console.log(`saving draft for ${depositId}`, formValues)
 

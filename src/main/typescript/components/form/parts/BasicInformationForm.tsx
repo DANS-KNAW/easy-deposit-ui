@@ -37,7 +37,7 @@ export interface BasicInformationFormData {
     alternativeTitles?: Value[]
     description?: string
     creators?: CreatorOrContributor[]
-    contributor?: CreatorOrContributor[]
+    contributors?: CreatorOrContributor[]
     dateCreated?: Date
     audiences?: Value[]
     subjects?: Value[]

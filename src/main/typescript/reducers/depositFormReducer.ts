@@ -42,36 +42,36 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                 fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: true },
             }
         }
-        case DepositFormConstants.SAVE_DRAFT_PENDING: {
+        case DepositFormConstants.SEND_SAVE_DRAFT_PENDING: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: true, saveError: undefined },
                 submit: { ...state.submit, submitError: undefined },
             }
         }
-        case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
+        case DepositFormConstants.SEND_SAVE_DRAFT_FULFILLED: {
             return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true } }
         }
-        case DepositFormConstants.SAVE_DRAFT_FAILED: {
+        case DepositFormConstants.SEND_SAVE_DRAFT_FAILED: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: false, saved: false, saveError: action.payload },
             }
         }
-        case DepositFormConstants.SAVE_DRAFT_RESET: {
+        case DepositFormConstants.SEND_SAVE_DRAFT_RESET: {
             return { ...state, saveDraft: { ...state.saveDraft, saved: false }}
         }
-        case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
+        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_PENDING: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: true, submitError: undefined },
                 saveDraft: { ...state.saveDraft, saveError: undefined },
             }
         }
-        case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
+        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_FULFILLED: {
             return { ...state, submit: { ...state.submit, submitting: false, submitted: true } }
         }
-        case DepositFormConstants.SUBMIT_DEPOSIT_FAILED: {
+        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_FAILED: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },
