@@ -33,8 +33,6 @@ export const unregisterForm: () => Action = () => ({
 export const fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
-        // TODO temporary do a fake timeout to simulate server I/O
-        await new Promise(resolve => setTimeout(resolve, 1000))
         const response = await axios.get(fetchMetadataURL(depositId))
         return response.data
     },
@@ -62,9 +60,6 @@ export const saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAc
 export const sendSaveDraft: (depositId: DepositId, dataToSend: any) => ReduxAction<Promise<void>> = (depositId, dataToSend) => ({
     type: DepositFormConstants.SEND_SAVE_DRAFT,
     async payload() {
-        // TODO temporary do a fake timeout to simulate server I/O
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
         const response = await callSaveDraft(depositId, dataToSend)
         return response.data
     },
@@ -87,11 +82,6 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormData) => Red
 export const sendSubmitDeposit: (depositId: DepositId, dataToSend: any) => ReduxAction<Promise<void>> = (depositId, dataToSend) => ({
     type: DepositFormConstants.SEND_SUBMIT_DEPOSIT,
     async payload() {
-        // TODO temporary do a fake timeout to simulate server I/O
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
-        console.log(depositId)
-
         await callSaveDraft(depositId, dataToSend)
         const response = await axios.put(submitDepositURL(depositId), submitState)
         return response.data
