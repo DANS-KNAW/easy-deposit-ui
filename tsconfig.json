@@ -22,8 +22,8 @@
   "include": [
     "./src/main/typescript/**/*",
     "./src/test/typescript/**/*",
-    "./src/main/css/*",
-    "./src/main/img/*",
+    "./src/main/resources/css/*",
+    "./src/main/resources/img/*",
     "./node_modules/object-path-immutable/*"
   ]
 }

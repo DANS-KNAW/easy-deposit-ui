@@ -27,9 +27,10 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
         modules: [
             './src/main/typescript',
+            './src/main/resources',
             'node_modules',
         ]
     },
@@ -64,7 +65,6 @@ module.exports = {
             'NODE_ENV',
         ]),
         new webpack.DefinePlugin({
-            __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost),
             __CLIENT_ROUTE__: JSON.stringify(config[process.env.NODE_ENV].clientRoute),
             __VERSION__: JSON.stringify(process.env.npm_package_version),
             __BUILD_DATE__: JSON.stringify(dateFormat(new Date(), "yyyy-mm-dd HH:MM")),

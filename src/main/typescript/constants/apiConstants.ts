@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { baseURL } from "../lib/config"
+import { apiUrl } from "../lib/config"
 import { DepositId } from "../model/Deposits"
-import { DepositFormData } from "../components/form/parts"
 
 // TODO rename to serverRoutes.ts
 
-const createURL = (path: string) => `${baseURL}/${path}`
+const createURL = (path: string) => apiUrl.endsWith('/') ? `${apiUrl}${path}` : `${apiUrl}/${path}`
 
 export const listDepositsURL = createURL("deposit")
 export const deleteDepositURL = (id: DepositId) => createURL(`deposit/${id}`)
