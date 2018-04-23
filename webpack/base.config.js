@@ -27,10 +27,9 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
         modules: [
             './src/main/typescript',
-            './src/main/resources',
             'node_modules',
         ]
     },
