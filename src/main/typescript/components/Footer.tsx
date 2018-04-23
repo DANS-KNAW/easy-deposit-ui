@@ -35,7 +35,7 @@ class Footer extends Component<{}, FooterState> {
     }
 
     async componentDidMount() {
-        const url = await apiUrl
+        const url = await apiUrl()
         this.setState({ apiUrl: url })
     }
 
