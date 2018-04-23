@@ -1,3 +1,4 @@
 {
-  "apiUrl": "http://localhost:3004"
+  "apiUrl": "http://localhost:3004",
+  "dummy": "to make sure every actual configuration parameter ends on a comma, such that Ansible has an easier job replacing lines in this JSON"
 }
