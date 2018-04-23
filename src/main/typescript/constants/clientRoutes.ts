@@ -21,5 +21,3 @@ export const registerRoute = `${contextRoot}/register` // this route doesn't exi
 export const loginRoute = `${contextRoot}/login`
 export const depositFormRoute = (id: DepositId) => `${contextRoot}/deposit-form/${id}`
 export const depositOverviewRoute = `${contextRoot}/deposit-overview`
-
-console.log(depositOverviewRoute)

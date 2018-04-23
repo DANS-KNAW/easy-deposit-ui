@@ -22,7 +22,8 @@ import { UserDetails } from "../model/UserDetails"
 export const getUser: () => ReduxAction<Promise<any>> = () => ({
     type: UserConstants.USER,
     async payload() {
-        const response = await axios.get(userURL)
+        const url = await userURL
+        const response = await axios.get(url)
         return response.data
     },
 })

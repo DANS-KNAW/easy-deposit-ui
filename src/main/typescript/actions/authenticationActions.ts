@@ -24,14 +24,16 @@ export const authenticate: (userName: string, password: string) => ReduxAction<P
         const params = new URLSearchParams()
         params.append('login', userName)
         params.append('password',password)
-        await axios.post(loginURL, params)
+        const url = await loginURL
+        await axios.post(url, params)
     },
 })
 
 export const signout: () => ReduxAction<Promise<void>> = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
-        await axios.post(logoutURL)
+        const url = await logoutURL
+        await axios.post(url)
     }
 })
 

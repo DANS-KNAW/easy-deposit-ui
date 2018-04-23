@@ -23,7 +23,8 @@ import { Action } from "redux"
 export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
-        const response = await axios.get(listDepositsURL)
+        const url = await listDepositsURL
+        const response = await axios.get(url)
         return response.data
     },
 })
@@ -45,7 +46,8 @@ export const cleanDeposits: () => Action = () => ({
 export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>> = depositId => ({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
-        await axios.delete(deleteDepositURL(depositId))
+        const url = await deleteDepositURL(depositId)
+        await axios.delete(url)
     },
     meta: { depositId: depositId },
 })
@@ -59,7 +61,8 @@ export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: strin
 export const createNewDeposit: () => ReduxAction<Promise<any>> = () => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
-        const response = await axios.post(newDepositURL)
+        const url = await newDepositURL
+        const response = await axios.post(url)
         return response.data
     },
 })

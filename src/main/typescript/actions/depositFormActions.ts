@@ -33,7 +33,8 @@ export const unregisterForm: () => Action = () => ({
 export const fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
-        const response = await axios.get(fetchMetadataURL(depositId))
+        const url = await fetchMetadataURL(depositId)
+        const response = await axios.get(url)
         return response.data
     },
 })
@@ -49,7 +50,8 @@ export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> 
 })
 
 const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
-    return await axios.put(saveDraftURL(depositId), dataToSend)
+    const url = await saveDraftURL(depositId)
+    return await axios.put(url, dataToSend)
 }
 
 export const saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }> = (depositId, data) => ({
@@ -83,7 +85,8 @@ export const sendSubmitDeposit: (depositId: DepositId, dataToSend: any) => Redux
     type: DepositFormConstants.SEND_SUBMIT_DEPOSIT,
     async payload() {
         await callSaveDraft(depositId, dataToSend)
-        const response = await axios.put(submitDepositURL(depositId), submitState)
+        const url = await submitDepositURL(depositId)
+        const response = await axios.put(url, submitState)
         return response.data
     },
 })
