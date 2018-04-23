@@ -15,13 +15,14 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { ReduxAction } from "../../lib/redux"
-import { connect } from "react-redux"
-import { authenticate } from "../../actions/authenticationActions"
 import { Redirect, RouteComponentProps } from "react-router"
+import { compose } from "redux"
+import { connect } from "react-redux"
+import { InjectedFormProps, reduxForm, Field } from "redux-form"
+import { ReduxAction } from "../../lib/redux"
+import { authenticate } from "../../actions/authenticationActions"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
-import { InjectedFormProps, reduxForm, Field } from "redux-form"
 
 interface LoginPageProps {
     authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
@@ -47,8 +48,8 @@ class LoginPage extends Component<AllDemoFormProps> {
     }
 
     render() {
-        const {authenticated, errorMessage, location, handleSubmit} = this.props
-        const {from} = location.state || {from: {pathname: homeRoute}}
+        const { authenticated, errorMessage, location, handleSubmit } = this.props
+        const { from } = location.state || { from: { pathname: homeRoute } }
 
         return authenticated
             ? <Redirect to={from}/>
@@ -62,7 +63,7 @@ class LoginPage extends Component<AllDemoFormProps> {
                 <br/>
 
                 <button type="submit" disabled={this.props.authenticating}>Login</button>
-                {errorMessage  && <span>{errorMessage.message}<br/></span>}
+                {errorMessage && <span>{errorMessage.message}<br/></span>}
             </form>
     }
 }
@@ -73,5 +74,9 @@ const mapStateToProps = (state: AppState) => ({
     errorMessage: state.authenticatedUser.authenticationError,
 })
 
-const form = reduxForm<LoginPageData>({form: 'login'})(LoginPage)
-export default connect<{}>(mapStateToProps, {authenticate})(form)
+const composedHOC = compose(
+    connect(mapStateToProps, { authenticate }),
+    reduxForm<LoginPageData>({ form: "login" }),
+)
+
+export default composedHOC(LoginPage)

@@ -15,10 +15,12 @@
  */
 import * as React from "react"
 import { Component, SFC } from "react"
+import { compose } from "redux"
+import { connect } from "react-redux"
+import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
-import { InjectedFormProps, reduxForm } from "redux-form"
 import {
     ArchaeologySpecificMetadata,
     BasicInformation,
@@ -35,7 +37,6 @@ import { DepositId } from "../../model/Deposits"
 import { ReduxAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
-import { connect } from "react-redux"
 import { DepositFormState } from "../../model/DepositForm"
 import { Alert, ReloadAlert } from "../../Errors"
 
@@ -97,8 +98,8 @@ interface DepositFormStoreArguments {
     formState: DepositFormState
     formValues?: DepositFormData,
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
-    saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{depositId: DepositId, data: DepositFormData}>
-    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{depositId: DepositId, data: DepositFormData}>,
+    saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
+    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>,
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -212,8 +213,6 @@ class DepositForm extends Component<DepositFormProps> {
     }
 }
 
-const depositForm = reduxForm<DepositFormData>({ form: "depositForm", enableReinitialize: true })(DepositForm)
-
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     formState: state.depositForm,
@@ -221,8 +220,9 @@ const mapStateToProps = (state: AppState) => ({
     formValues: state.form.depositForm && state.form.depositForm.values,
 })
 
-export default connect<{}>(mapStateToProps, {
-    fetchMetadata,
-    saveDraft,
-    submitDeposit,
-})(depositForm)
+const composedHOC = compose(
+    connect(mapStateToProps, { fetchMetadata, saveDraft, submitDeposit }),
+    reduxForm({ form: "depositForm", enableReinitialize: true }),
+)
+
+export default composedHOC(DepositForm)
