@@ -15,11 +15,12 @@
  */
 import { Middleware } from "redux"
 import { createMiddleware } from "../lib/redux"
-import { DepositFormConstants, saveDraftResetTimeout } from "../constants/depositFormConstants"
+import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import { DepositFormMetadata } from "../components/form/parts"
 import {
+    fetchDoiSucceeded,
     fetchMetadataFailed,
     fetchMetadataSucceeded,
     sendSaveDraft,
@@ -33,6 +34,7 @@ import {
     SchemedValue,
     toAccessRight, toPrivacySensitiveData, Value,
 } from "../model/FormData"
+import { change } from "redux-form"
 
 const wrappedValue: (v: any) => Value = v => ({
     value: v,
@@ -297,6 +299,15 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
     }
 })
 
+const fetchDoiProcessor: Middleware = createMiddleware(({ dispatch }, next, action) => {
+    next(action)
+
+    if (action.type === DepositFormConstants.FETCH_DOI_FULFILLED) {
+        dispatch(change(depositFormName, "doi", action.payload.doi))
+        dispatch(fetchDoiSucceeded())
+    }
+})
+
 const saveTimer: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
 
@@ -316,6 +327,7 @@ const submitReroute: Middleware = createMiddleware(({ dispatch }, next, action) 
 export const depositFormMiddleware = [
     metadataFetchConverter,
     metadataSendConverter,
+    fetchDoiProcessor,
     saveTimer,
     submitReroute,
 ]

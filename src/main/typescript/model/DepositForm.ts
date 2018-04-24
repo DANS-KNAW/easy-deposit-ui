@@ -28,6 +28,12 @@ export interface InitialState {
     metadata: DepositFormMetadata
 }
 
+export interface FetchDoiState {
+    fetchingDoi: boolean
+    fetchedDoi: boolean
+    fetchDoiError?: string
+}
+
 export interface SaveDraftState {
     saving: boolean
     saved: boolean
@@ -44,6 +50,7 @@ export interface DepositFormState {
     depositId?: DepositId
     fetchMetadata: FetchMetadataState
     initialState: InitialState
+    fetchDoi: FetchDoiState
     saveDraft: SaveDraftState
     submit: SubmitState
 }
@@ -56,6 +63,10 @@ export const empty: DepositFormState = {
     initialState: {
         data: {},
         metadata: {},
+    },
+    fetchDoi: {
+        fetchingDoi: false,
+        fetchedDoi: false,
     },
     saveDraft: {
         saving: false,

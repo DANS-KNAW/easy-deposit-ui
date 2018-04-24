@@ -20,7 +20,7 @@ import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
-    getDeposit,
+    getDeposit, getDoi,
     getMetadata,
     getState,
     getUser,
@@ -103,6 +103,26 @@ app.put('/deposit/:id/metadata', (req: Request, res: Response) => {
     }
 })
 
+app.get('/deposit/:id/doi', (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/doi`)
+    if (hasMetadata(req.params.id)) {
+        const doi = getDoi(req.params.id)
+        if (doi) {
+            res.status(200)
+            res.json({ doi: doi })
+            console.log("  200")
+        }
+        else {
+            res.status(404)
+            res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
+        }
+    }
+    else {
+        res.status(404)
+        res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
+    }
+})
+
 app.get('/deposit/:id/state', (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/state`)
     const state = getState(req.params.id)
@@ -153,6 +173,7 @@ app.put('/deposit/:id/state', (req: Request, res: Response) => {
         console.log("  400")
     }
 })
+
 app.get('/user', (req: Request, res: Response) => {
     console.log(`GET /user`)
     res.status(200)
@@ -166,21 +187,18 @@ app.post('/auth/login', (req: Request, res: Response) => {
     res.send()
     console.log("  204")
 })
-
 app.post('/auth/login401', (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(401)
     res.send("Unauthorized")
     console.log(" 401 ")
 })
-
 app.post('/auth/login403', (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(403)
     res.send("Forbidden")
     console.log(" 403 ")
 })
-
 app.post('/auth/login500', (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(500)

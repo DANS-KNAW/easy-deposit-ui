@@ -18,7 +18,12 @@ import { Action, AnyAction, Middleware } from "redux"
 import { createMiddleware } from "../lib/redux"
 import { createNewDepositFailed, deleteDepositFailed, fetchDepositsFailed } from "../actions/depositOverviewActions"
 import { DepositFormConstants } from "../constants/depositFormConstants"
-import { fetchMetadataFailed, sendSaveDraftFailed, sendSubmitDepositFailed } from "../actions/depositFormActions"
+import {
+    fetchDoiFailed,
+    fetchMetadataFailed,
+    sendSaveDraftFailed,
+    sendSubmitDepositFailed,
+} from "../actions/depositFormActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
 
@@ -47,6 +52,8 @@ const newDepositRejected = rejectedMiddleware(DepositOverviewConstants.CREATE_NE
 
 const fetchMetadataRejected = rejectedMiddleware(DepositFormConstants.FETCH_METADATA_REJECTED)(() => fetchMetadataFailed)
 
+const fetchDoiRejected = rejectedMiddleware(DepositFormConstants.FETCH_DOI_REJECTED)(() => fetchDoiFailed)
+
 const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SEND_SAVE_DRAFT_REJECTED)(() => sendSaveDraftFailed)
 
 const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_SUBMIT_DEPOSIT_REJECTED)(() => sendSubmitDepositFailed)
@@ -56,6 +63,7 @@ export const rejectedRequestMiddleware = [
     depositDeleteRejected,
     newDepositRejected,
     fetchMetadataRejected,
+    fetchDoiRejected,
     sendSaveDraftRejected,
     sendSubmitDepositRejected,
 ]

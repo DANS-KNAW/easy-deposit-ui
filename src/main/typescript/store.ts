@@ -31,6 +31,7 @@ import { routerMiddleware } from "react-router-redux"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
 const predicate = () => true // if you want to see all actions
+// const predicate = () => false // if you want to see no actions
 
 export const newStore = (history: H.History) => {
     if (process.env.NODE_ENV === "development") {

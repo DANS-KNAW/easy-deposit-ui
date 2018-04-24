@@ -34,6 +34,7 @@ export const userURL: Promise<string> = createURL("user")
 export const newDepositURL: Promise<string> = createURL("deposit")
 
 export const fetchMetadataURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/metadata`)
+export const fetchDoiURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/doi`)
 export const saveDraftURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/metadata`)
 export const submitDepositURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/state`)
 
