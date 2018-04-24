@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export type Doi = string
+
 export interface Metadata {
     // basic information
-    doi?: string
+    doi?: Doi
     languageOfDescription?: string
     titles?: string[]
     alternativeTitles?: string[]
