@@ -16,7 +16,7 @@
 import * as uuid from "uuid/v4"
 import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
-import { allfields, mandatoryOnly, Metadata, newMetadata } from "./metadata"
+import { allfields, Doi, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
 
 interface DataPerDraft {
@@ -24,6 +24,7 @@ interface DataPerDraft {
     metadata?: Metadata
 }
 
+export type DepositId = string
 export type Data = { [id: string]: DataPerDraft }
 
 let data: Data = {
@@ -43,11 +44,11 @@ let data: Data = {
     },
 }
 
-export const listDeposits: () => (Deposit & { id: string })[] = () => {
+export const listDeposits: () => (Deposit & { id: DepositId })[] = () => {
     return Object.keys(data).map(id => ({ id, ...data[id].deposit }))
 }
 
-export const getDeposit: (id: string) => Deposit & { id: string } | undefined = id => {
+export const getDeposit: (id: DepositId) => Deposit & { id: DepositId } | undefined = id => {
     return data[id]
         ? { id: id, ...data[id].deposit }
         : undefined
@@ -59,7 +60,7 @@ const newDeposit: () => Deposit = () => ({
     stateDescription: "",
     date: new Date().toISOString(),
 })
-export const createDeposit: () => Deposit & { id: string } = () => {
+export const createDeposit: () => Deposit & { id: DepositId } = () => {
     const id = uuid()
     const deposit = newDeposit()
     const metadata = newMetadata()
@@ -67,7 +68,7 @@ export const createDeposit: () => Deposit & { id: string } = () => {
     return { id, ...deposit }
 }
 
-export const deleteDeposit: (id: string) => boolean = id => {
+export const deleteDeposit: (id: DepositId) => boolean = id => {
     if (data[id]) {
         data = immutable.del(data, id)
         return true
@@ -77,13 +78,13 @@ export const deleteDeposit: (id: string) => boolean = id => {
     }
 }
 
-export const getState: (id: string) => State | undefined = id => {
+export const getState: (id: DepositId) => State | undefined = id => {
     return data[id]
         ? { state: data[id].deposit.state, stateDescription: data[id].deposit.stateDescription }
         : undefined
 }
 
-export const setState: (id: string, state: State) => boolean = (id, state) => {
+export const setState: (id: DepositId, state: State) => boolean = (id, state) => {
     if (data[id]) {
         data = { ...data,
             [id]: {
@@ -96,23 +97,40 @@ export const setState: (id: string, state: State) => boolean = (id, state) => {
     else return false
 }
 
-export const hasMetadata: (id: string) => boolean = id => {
+export const hasMetadata: (id: DepositId) => boolean = id => {
     return data[id]
         ? data[id].metadata !== undefined
         : false
 }
 
-export const getMetadata: (id: string) => Metadata | undefined = id => {
+export const getMetadata: (id: DepositId) => Metadata | undefined = id => {
     return data[id]
         ? data[id].metadata
         : undefined
 }
 
-export const setMetadata: (id: string, metadata: Metadata) => void = (id, metadata) => {
+export const setMetadata: (id: DepositId, metadata: Metadata) => void = (id, metadata) => {
     if (data[id]) {
         data = { ...data, [id]: { ...data[id], metadata } }
     }
     else return false
+}
+
+export const getDoi: (id: DepositId) => Doi | undefined = id => {
+    if (data[id]) {
+        const metadata = data[id].metadata
+        if (metadata && metadata.doi) {
+            return metadata.doi
+        }
+        else if (metadata && !metadata.doi) {
+            // generate a random doi
+            const doi = `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
+            data = { ...data, [id]: { ...data[id], metadata: {...metadata, doi: doi}}}
+            return doi
+        }
+    }
+
+    return undefined
 }
 
 export const getUser: () => User = () => {

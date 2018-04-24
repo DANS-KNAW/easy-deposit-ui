@@ -15,21 +15,28 @@
  */
 import * as React from "react"
 import { WrappedFieldArrayProps, WrappedFieldProps } from "redux-form"
+import { FetchDoiState } from "../../model/DepositForm"
+import { ReloadAlert } from "../../Errors"
 
 interface DoiFieldProps {
     fetchDoi: () => void
-    fetchingDoi: boolean
+    fetchDoiState: FetchDoiState
 }
 
-const DoiField = ({ input, meta, label }: WrappedFieldProps & DoiFieldProps) => (
+const DoiField = ({ input, meta, label, fetchDoi, fetchDoiState: { fetchingDoi, fetchedDoi, fetchDoiError } }: WrappedFieldProps & DoiFieldProps) => (
     <>
         <label className="col-12 col-md-3 pl-0 title-label" htmlFor={input.name}>{label}</label>
-        {input.value
+        {fetchedDoi && input.value
             ? <label className="col-12 col-md-9 value-label" id={input.name}>{input.value}</label>
-            : <button type="button"
-                      className="btn btn-primary mb-0 mt-0 value-button"
-                      onClick={this.fetchDoi}
-                      disabled={this.fetchingDoi}>Reserve DOI</button>}
+            : fetchDoiError
+                ? <ReloadAlert key="fetchMetadataError" reload={fetchDoi}>
+                    An error occurred: {fetchDoiError}. Cannot create a new DOI.
+                </ReloadAlert>
+                : <button type="button"
+                          className="btn btn-primary mb-0 mt-0 value-button"
+                          onClick={fetchDoi}
+                          disabled={fetchingDoi}>Reserve DOI</button>
+        }
     </>
 )
 
