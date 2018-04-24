@@ -103,8 +103,8 @@ app.put('/deposit/:id/metadata', (req: Request, res: Response) => {
     }
 })
 
-app.get('/deposit/:id/metadata/doi', (req: Request, res: Response) => {
-    console.log(`GET /deposit/${req.params.id}/metadata/doi`)
+app.get('/deposit/:id/doi', (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/doi`)
     if (hasMetadata(req.params.id)) {
         const doi = getDoi(req.params.id)
         if (doi) {
