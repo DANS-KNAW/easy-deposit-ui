@@ -57,7 +57,7 @@ export const getDeposit: (id: DepositId) => Deposit & { id: DepositId } | undefi
 const newDeposit: () => Deposit = () => ({
     title: "New Deposit",
     state: "DRAFT",
-    state_description: "",
+    stateDescription: "",
     date: new Date().toISOString(),
 })
 export const createDeposit: () => Deposit & { id: DepositId } = () => {
@@ -80,7 +80,7 @@ export const deleteDeposit: (id: DepositId) => boolean = id => {
 
 export const getState: (id: DepositId) => State | undefined = id => {
     return data[id]
-        ? { state: data[id].deposit.state, state_description: data[id].deposit.state_description }
+        ? { state: data[id].deposit.state, stateDescription: data[id].deposit.stateDescription }
         : undefined
 }
 
@@ -89,7 +89,7 @@ export const setState: (id: DepositId, state: State) => boolean = (id, state) =>
         data = { ...data,
             [id]: {
                 ...data[id],
-                deposit: { ...data[id].deposit, state: state.state, state_description: state.state_description },
+                deposit: { ...data[id].deposit, state: state.state, stateDescription: state.stateDescription },
             },
         }
         return true

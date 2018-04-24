@@ -16,36 +16,36 @@
 export interface Deposit {
     title: string
     state: string
-    state_description: string
+    stateDescription: string
     date: string
 }
 
 export interface State {
     state: string
-    state_description: string
+    stateDescription: string
 }
 
 export const depositData1: Deposit = {
     title: "Current Dataset with a very very very very very very very very very very long title",
     state: "DRAFT",
-    state_description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies arcu nec erat rhoncus, non interdum risus mattis. ",
+    stateDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies arcu nec erat rhoncus, non interdum risus mattis. ",
     date: "2018-01-20T10:40:52Z",
 }
 export const depositData2: Deposit = {
     title: "Missing file",
     state: "REJECTED",
-    state_description: "there are some files missing",
+    stateDescription: "there are some files missing",
     date: "2018-01-12T10:40:52Z",
 }
 export const depositData3: Deposit = {
     title: "First Dataset",
     state: "IN_PROGRESS",
-    state_description: "",
+    stateDescription: "",
     date: "2017-12-01T11:10:22Z",
 }
 export const depositData4: Deposit = {
     title: "Old Dataset",
     state: "ARCHIVED",
-    state_description: "easy-dataset:id",
+    stateDescription: "easy-dataset:id",
     date: "2017-08-09T10:10:22Z",
 }

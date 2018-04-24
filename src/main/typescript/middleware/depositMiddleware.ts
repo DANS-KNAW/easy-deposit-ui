@@ -38,7 +38,7 @@ const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, 
                         depositId: input.id,
                         title: input.title,
                         state: state,
-                        stateDescription: input.state_description,
+                        stateDescription: input.stateDescription,
                         date: new Date(input.date),
                     })
                 }
@@ -69,7 +69,7 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
-        const { id, title, state: state_text, state_description, date } = action.payload
+        const { id, title, state: state_text, stateDescription, date } = action.payload
 
         const state = toDepositState(state_text)
         if (state) {
@@ -77,7 +77,7 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
                 [id]: {
                     title: title,
                     state: state,
-                    stateDescription: state_description,
+                    stateDescription: stateDescription,
                     date: new Date(date),
                 },
             })
