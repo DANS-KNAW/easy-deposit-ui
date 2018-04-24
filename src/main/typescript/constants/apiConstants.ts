@@ -39,5 +39,5 @@ export const submitDepositURL: (id: DepositId) => Promise<string> = (id: Deposit
 
 export const submitState = ({
     state: "SUBMITTED",
-    state_description: "Deposit is ready for post-submission processing"
+    stateDescription: "Deposit is ready for post-submission processing"
 })
