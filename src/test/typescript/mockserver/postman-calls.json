@@ -127,7 +127,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"state\": \"SUBMITTED\",\n    \"state_description\": \"Go, go, go, ingest this dataset!\"\n}"
+					"raw": "{\n    \"state\": \"SUBMITTED\",\n    \"stateDescription\": \"Go, go, go, ingest this dataset!\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",

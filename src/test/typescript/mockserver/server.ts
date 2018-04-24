@@ -120,7 +120,7 @@ app.get('/deposit/:id/state', (req: Request, res: Response) => {
 app.put('/deposit/:id/state', (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/state`)
     const body = req.body
-    if (Object.keys(body).filter(value => value !== "state" && value !== "state_description").length === 0) {
+    if (Object.keys(body).filter(value => value !== "state" && value !== "stateDescription").length === 0) {
         const state = getState(req.params.id)
         if (state) {
             if (state.state === "DRAFT" && body.state === "SUBMITTED" || state.state === "REJECTED" && body.state === "DRAFT") {
