@@ -39,6 +39,7 @@ import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFo
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
 import { Alert, ReloadAlert } from "../../Errors"
+import { depositFormName } from "../../constants/depositFormConstants"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -139,7 +140,7 @@ class DepositForm extends Component<DepositFormProps> {
 
                     <Card title="Basic information" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <BasicInformation/>
+                            <BasicInformation depositId={this.props.depositId}/>
                         </Loaded>
                     </Card>
 
@@ -222,7 +223,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const composedHOC = compose(
     connect(mapStateToProps, { fetchMetadata, saveDraft, submitDeposit }),
-    reduxForm({ form: "depositForm", enableReinitialize: true }),
+    reduxForm({ form: depositFormName, enableReinitialize: true }),
 )
 
 export default composedHOC(DepositForm)

@@ -18,7 +18,7 @@ import { ReduxAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import axios from "axios"
-import { fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/apiConstants"
+import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/apiConstants"
 import { Action } from "redux"
 
 export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
@@ -46,6 +46,24 @@ export const fetchMetadataSucceeded: (data: DepositFormMetadata) => ReduxAction<
 
 export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
     type: DepositFormConstants.FETCH_METADATA_FAILED,
+    payload: errorMessage,
+})
+
+export const fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
+    type: DepositFormConstants.FETCH_DOI,
+    async payload() {
+        const url = await fetchDoiURL(depositId)
+        const response = await axios.get(url)
+        return response.data
+    },
+})
+
+export const fetchDoiSucceeded: () => Action = () => ({
+    type: DepositFormConstants.FETCH_DOI_SUCCEEDED,
+})
+
+export const fetchDoiFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositFormConstants.FETCH_DOI_FAILED,
     payload: errorMessage,
 })
 

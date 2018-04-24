@@ -29,6 +29,11 @@ import DoiField from "../../../lib/formComponents/DoiField"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
+import { AppState } from "../../../model/AppState"
+import { fetchDoi } from "../../../actions/depositFormActions"
+import { ReduxAction } from "../../../lib/redux"
+import { DepositId } from "../../../model/Deposits"
+import { FetchDoiState } from "../../../model/DepositForm"
 
 export interface BasicInformationFormData {
     doi?: string
@@ -51,17 +56,16 @@ export interface BasicInformationFormData {
     instructionsForReuse?: string
 }
 
-interface DoiFieldProps {
-    // fetchDoi: () => ReduxAction<Promise<any>>
-    fetchDoi: () => void
-    // fetchingDoi: boolean
-    // fetchedDoi: boolean
-    // fetchDoiError?: string
+interface BasicInformationFormInputProps {
+    depositId: DepositId
 }
 
-interface BasicInformationFormProps {
-    // fetchDoi: () => ReduxAction<Promise<any>>
+interface DoiFieldProps {
+    fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>>
+    fetchDoiState: FetchDoiState
 }
+
+type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
 
 class BasicInformationForm extends Component<BasicInformationFormProps> {
     render() {
@@ -70,9 +74,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 <div className="row form-group input-element">
                     <Field name="doi"
                            label="Digital Object Identifier"
-                           fetchDoi={() => console.log("TODO: implement DOI fetching")} // TODO implement DOI fetching
-                        // fetchDoi={this.props.fetchDoi}
-                           fetchingDoi={false} // TODO implement fetchingDoi
+                           fetchDoi={() => this.props.fetchDoi(this.props.depositId)}
+                           fetchingDoi={this.props.fetchDoiState.fetchingDoi}
                            component={DoiField}/>
                 </div>
 
@@ -173,4 +176,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
     }
 }
 
-export default connect(null)(BasicInformationForm)
+const mapStateToProps = (state: AppState) => ({
+    fetchDoiState: state.depositForm.fetchDoi,
+})
+
+export default connect(mapStateToProps, { fetchDoi })(BasicInformationForm)

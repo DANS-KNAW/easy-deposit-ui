@@ -25,7 +25,6 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.UNREGISTER_FORM: {
             return empty
         }
-        // TODO fetch data
         case DepositFormConstants.FETCH_METADATA_PENDING: {
             return { ...state, fetchMetadata: { ...state.fetchMetadata, fetching: true, fetchError: undefined } }
         }
@@ -40,6 +39,18 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                 ...state,
                 initialState: { ...state.initialState, metadata: action.payload },
                 fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: true },
+            }
+        }
+        case DepositFormConstants.FETCH_DOI_PENDING: {
+            return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: true, fetchDoiError: undefined } }
+        }
+        case DepositFormConstants.FETCH_DOI_SUCCEEDED: {
+            return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: true } }
+        }
+        case DepositFormConstants.FETCH_DOI_FAILED: {
+            return {
+                ...state,
+                fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: false, fetchDoiError: action.payload },
             }
         }
         case DepositFormConstants.SEND_SAVE_DRAFT_PENDING: {
@@ -59,7 +70,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             }
         }
         case DepositFormConstants.SEND_SAVE_DRAFT_RESET: {
-            return { ...state, saveDraft: { ...state.saveDraft, saved: false }}
+            return { ...state, saveDraft: { ...state.saveDraft, saved: false } }
         }
         case DepositFormConstants.SEND_SUBMIT_DEPOSIT_PENDING: {
             return {
