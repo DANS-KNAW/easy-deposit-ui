@@ -75,7 +75,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="doi"
                            label="Digital Object Identifier"
                            fetchDoi={() => this.props.fetchDoi(this.props.depositId)}
-                           fetchingDoi={this.props.fetchDoiState.fetchingDoi}
+                           fetchDoiState={this.props.fetchDoiState}
                            component={DoiField}/>
                 </div>
 
