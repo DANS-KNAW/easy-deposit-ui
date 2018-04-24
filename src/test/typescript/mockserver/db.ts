@@ -116,6 +116,23 @@ export const setMetadata: (id: DepositId, metadata: Metadata) => void = (id, met
     else return false
 }
 
+export const getDoi: (id: DepositId) => Doi | undefined = id => {
+    if (data[id]) {
+        const metadata = data[id].metadata
+        if (metadata && metadata.doi) {
+            return metadata.doi
+        }
+        else if (metadata && !metadata.doi) {
+            // generate a random doi
+            const doi = `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
+            data = { ...data, [id]: { ...data[id], metadata: {...metadata, doi: doi}}}
+            return doi
+        }
+    }
+
+    return undefined
+}
+
 export const getUser: () => User = () => {
     return User001
 }

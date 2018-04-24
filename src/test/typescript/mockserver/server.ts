@@ -20,7 +20,7 @@ import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
-    getDeposit,
+    getDeposit, getDoi,
     getMetadata,
     getState,
     getUser,
@@ -100,6 +100,26 @@ app.put('/deposit/:id/metadata', (req: Request, res: Response) => {
         res.status(404)
         res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
         console.log("  404")
+    }
+})
+
+app.get('/deposit/:id/metadata/doi', (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/metadata/doi`)
+    if (hasMetadata(req.params.id)) {
+        const doi = getDoi(req.params.id)
+        if (doi) {
+            res.status(200)
+            res.json({ doi: doi })
+            console.log("  200")
+        }
+        else {
+            res.status(404)
+            res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
+        }
+    }
+    else {
+        res.status(404)
+        res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
     }
 })
 
