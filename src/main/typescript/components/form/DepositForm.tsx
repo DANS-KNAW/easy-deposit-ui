@@ -135,31 +135,31 @@ class DepositForm extends Component<DepositFormProps> {
                         <DataForm/>
                     </Card>
 
-                    <Card title="Basic information" required defaultOpened>
+                    <Card title="Basic information" required defaultOpened> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <BasicInformationForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="License and access" required defaultOpened>
+                    <Card title="License and access" required defaultOpened> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <LicenseAndAccessForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="Upload type">
+                    <Card title="Upload type"> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <UploadTypeForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="Archaeology specific metadata">
+                    <Card title="Archaeology specific metadata"> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <ArchaeologySpecificMetadataForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="Temporal and spatial coverage">
+                    <Card title="Temporal and spatial coverage"> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <TemporalAndSpatialCoverageForm/>
                         </Loaded>
