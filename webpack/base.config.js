@@ -56,6 +56,17 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(json)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'app/[name].[ext]',
+                        }
+                    }
+                ]
+            },
         ],
     },
 
@@ -64,7 +75,6 @@ module.exports = {
             'NODE_ENV',
         ]),
         new webpack.DefinePlugin({
-            __API__: JSON.stringify(config[process.env.NODE_ENV].apiHost),
             __CLIENT_ROUTE__: JSON.stringify(config[process.env.NODE_ENV].clientRoute),
             __VERSION__: JSON.stringify(process.env.npm_package_version),
             __BUILD_DATE__: JSON.stringify(dateFormat(new Date(), "yyyy-mm-dd HH:MM")),

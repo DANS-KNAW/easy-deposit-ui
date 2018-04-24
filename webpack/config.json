@@ -1,10 +1,8 @@
 {
   "development": {
-    "apiHost": "http://localhost:3004",
     "clientRoute": ""
   },
   "production": {
-    "apiHost": "/deposit-api",
     "clientRoute": "/deposit"
   }
 }
