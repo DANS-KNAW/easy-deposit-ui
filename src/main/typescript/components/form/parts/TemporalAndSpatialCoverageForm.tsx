@@ -33,11 +33,13 @@ interface TemporalAndSpatialCoverageFormProps {
 
 const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
+        // @formatter:off
         { key: "NL", value: "Netherlands" },
         { key: "GB", value: "United Kingdom" },
         { key: "DE", value: "Germany" },
         { key: "BE", value: "Belgium" },
         // TODO add others
+        // @formatter:on
     ]}/>
 )
 

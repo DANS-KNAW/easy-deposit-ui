@@ -70,26 +70,30 @@ type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
 
 const IdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
-        { key: "DOI", value: "DOI" },
-        { key: "URN", value: "URN" },
-        { key: "MENDELEY-DATA", value: "Mendeley data" },
-        { key: "ISBN", value: "ISBN" },
-        { key: "ISSN", value: "ISSN" },
-        { key: "NWO-PROJECTNR", value: "NWO project no." },
+        // @formatter:off
+        { key: "DOI",                       value: "DOI" },
+        { key: "URN",                       value: "URN" },
+        { key: "MENDELEY-DATA",             value: "Mendeley data" },
+        { key: "ISBN",                      value: "ISBN" },
+        { key: "ISSN",                      value: "ISSN" },
+        { key: "NWO-PROJECTNR",             value: "NWO project no." },
         { key: "ARCHIS-ZAAK-IDENTIFICATIE", value: "Archis zaak identificatie" },
-        { key: "eDNA-project", value: "eDNA project" },
+        { key: "eDNA-project",              value: "eDNA project" },
         // TODO add others
+        // @formatter:on
     ]}/>
 )
 
 const DateFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
-        { key: "Valid", value: "Valid" },
-        { key: "Issued", value: "Issued" },
-        { key: "Modified", value: "Modified" },
-        { key: "Date accepted", value: "Date accepted" },
+        // @formatter:off
+        { key: "Valid",            value: "Valid" },
+        { key: "Issued",           value: "Issued" },
+        { key: "Modified",         value: "Modified" },
+        { key: "Date accepted",    value: "Date accepted" },
         { key: "Date copyrighted", value: "Date copyrighted" },
         // TODO add others
+        // @formatter:on
     ]}/>
 )
 

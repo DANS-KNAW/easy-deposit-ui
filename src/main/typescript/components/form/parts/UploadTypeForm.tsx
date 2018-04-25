@@ -32,38 +32,42 @@ interface UploadTypeFormProps {
 
 const TypesDCMIFieldArray = (props: FieldArrayProps<Value>) => (
     <SelectFieldArray {...props} choices={[
-        { key: "", value: "" },
-        { key: "Collection", value: "Collection" },
-        { key: "Dataset", value: "Dataset" },
-        { key: "Event", value: "Event" },
-        { key: "Image", value: "Image" },
+        // @formatter:off
+        { key: "",                     value: "" },
+        { key: "Collection",           value: "Collection" },
+        { key: "Dataset",              value: "Dataset" },
+        { key: "Event",                value: "Event" },
+        { key: "Image",                value: "Image" },
         { key: "Interactive resource", value: "Interactive resource" },
-        { key: "Moving image", value: "Moving image" },
-        { key: "Physical object", value: "Physical object" },
-        { key: "Service", value: "Service" },
-        { key: "Software", value: "Software" },
-        { key: "Sound", value: "Sound" },
-        { key: "Still image", value: "Still image" },
-        { key: "Text", value: "Text" },
+        { key: "Moving image",         value: "Moving image" },
+        { key: "Physical object",      value: "Physical object" },
+        { key: "Service",              value: "Service" },
+        { key: "Software",             value: "Software" },
+        { key: "Sound",                value: "Sound" },
+        { key: "Still image",          value: "Still image" },
+        { key: "Text",                 value: "Text" },
+        // @formatter:on
     ]}/>
 )
 
 const FormatMediaTypeFieldArray = (props: FieldArrayProps<Value>) => (
     <SelectFieldArray {...props} choices={[
-        { key: "", value: "" },
+        // @formatter:off
+        { key: "",                       value: "" },
         { key: "application/postscript", value: "application/postscript" },
-        { key: "application/rtf", value: "application/rtf" },
-        { key: "application/pdf", value: "application/pdf" },
-        { key: "application/msword", value: "application/msword" },
-        { key: "text/plain", value: "text/plain" },
-        { key: "text/html", value: "text/html" },
-        { key: "text/sgml", value: "text/sgml" },
-        { key: "text/xml", value: "text/xml" },
-        { key: "image/jpeg", value: "image/jpeg" },
-        { key: "image/gif", value: "image/gif" },
-        { key: "image/tiff", value: "image/tiff" },
-        { key: "video/quicktime", value: "video/quicktime" },
-        { key: "video/mpeg1", value: "video/mpeg1" },
+        { key: "application/rtf",        value: "application/rtf" },
+        { key: "application/pdf",        value: "application/pdf" },
+        { key: "application/msword",     value: "application/msword" },
+        { key: "text/plain",             value: "text/plain" },
+        { key: "text/html",              value: "text/html" },
+        { key: "text/sgml",              value: "text/sgml" },
+        { key: "text/xml",               value: "text/xml" },
+        { key: "image/jpeg",             value: "image/jpeg" },
+        { key: "image/gif",              value: "image/gif" },
+        { key: "image/tiff",             value: "image/tiff" },
+        { key: "video/quicktime",        value: "video/quicktime" },
+        { key: "video/mpeg1",            value: "video/mpeg1" },
+        // @formatter:on
     ]}/>
 )
 
