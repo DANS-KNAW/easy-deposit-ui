@@ -247,8 +247,8 @@ export const allfields: Metadata = {
     license: "CC-0",
     dateAvailable: "2018-03-14",
     typesDCMI: [
-        "typeDCMI1",
-        "typeDCMI2",
+        "Dataset",
+        "Software",
     ],
     types: [
         "type1",

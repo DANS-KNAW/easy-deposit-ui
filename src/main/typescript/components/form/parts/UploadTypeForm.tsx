@@ -15,9 +15,10 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { emptyStringValue, Value } from "../../../model/FormData"
+import { emptyStringValue, SchemedValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -29,12 +30,34 @@ export interface UploadTypeFormData {
 interface UploadTypeFormProps {
 }
 
+const TypesDCMIFieldArray = (props: FieldArrayProps<SchemedValue>) => (
+    <SelectFieldArray {...props} choices={[
+        { key: "", value: "" },
+        { key: "Collection", value: "Collection" },
+        { key: "Dataset", value: "Dataset" },
+        { key: "Event", value: "Event" },
+        { key: "Image", value: "Image" },
+        { key: "Interactive resource", value: "Interactive resource" },
+        { key: "Moving image", value: "Moving image" },
+        { key: "Physical object", value: "Physical object" },
+        { key: "Service", value: "Service" },
+        { key: "Software", value: "Software" },
+        { key: "Sound", value: "Sound" },
+        { key: "Still image", value: "Still image" },
+        { key: "Text", value: "Text" },
+    ]}/>
+)
+
 class UploadTypeForm extends Component<UploadTypeFormProps> {
     render() {
         return (
             <div className="container pl-0 pr-0">
                 <div className="row form-group input-element">
-                    <p>Type (DCMI resource type)</p>
+                    <RepeatableField name="typesDCMI"
+                                     label="Type (DCMI resource type)"
+                                     empty={emptyStringValue}
+                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     component={TypesDCMIFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

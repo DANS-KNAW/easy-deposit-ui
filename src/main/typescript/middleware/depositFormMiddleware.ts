@@ -24,15 +24,23 @@ import {
     fetchMetadataFailed,
     fetchMetadataSucceeded,
     sendSaveDraft,
-    sendSaveDraftReset, sendSubmitDeposit,
+    sendSaveDraftReset,
+    sendSubmitDeposit,
 } from "../actions/depositFormActions"
 import {
-    AccessRight, Box,
-    CreatorOrContributor, emptySchemedValue, emptyStringValue, Point, PrivacySensitiveDataValue,
+    AccessRight,
+    Box,
+    CreatorOrContributor,
+    emptySchemedValue,
+    emptyStringValue,
+    Point,
+    PrivacySensitiveDataValue,
     Relation,
     SchemedDate,
     SchemedValue,
-    toAccessRight, toPrivacySensitiveData, Value,
+    toAccessRight,
+    toPrivacySensitiveData,
+    Value,
 } from "../model/FormData"
 import { change } from "redux-form"
 
@@ -192,7 +200,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 dateAvailable: input.dateAvailable && dateConverter(input.dateAvailable),
 
                 // upload type
-                typesDCMI: input.typesDCMI, // TODO with or without capitals
+                typesDCMI: input.typesDCMI ? input.typesDCMI.map(wrappedValue) : [emptyStringValue], // TODO with or without capitals
                 types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
                 formatsMediaType: input.formatsMediaType,
                 formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
