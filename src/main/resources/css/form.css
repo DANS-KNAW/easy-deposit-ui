@@ -20,9 +20,16 @@
 
 .input-element .title-label {
     padding-top: 5px;
-    align-self: center;
     font-weight: bold;
     color: #444;
+}
+
+.input-element .title-label.multi-field-label {
+    padding-top: 11px;
+}
+
+.input-element .title-label.text-array-label {
+    padding-top: 6px;
 }
 
 .input-element .value-label {
