@@ -23,10 +23,10 @@ interface DoiFieldProps {
     fetchDoiState: FetchDoiState
 }
 
-const DoiField = ({ input, meta, label, fetchDoi, fetchDoiState: { fetchingDoi, fetchedDoi, fetchDoiError } }: WrappedFieldProps & DoiFieldProps) => (
+const DoiField = ({ input, meta, label, fetchDoi, fetchDoiState: { fetchingDoi, fetchDoiError } }: WrappedFieldProps & DoiFieldProps) => (
     <>
         <label className="col-12 col-md-3 pl-0 title-label" htmlFor={input.name}>{label}</label>
-        {fetchedDoi && input.value
+        {input.value
             ? <label className="col-12 col-md-9 value-label" id={input.name}>{input.value}</label>
             : fetchDoiError
                 ? <ReloadAlert key="fetchMetadataError" reload={fetchDoi}>
