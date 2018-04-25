@@ -25,6 +25,9 @@ interface Schemed<Scheme = string> {
 }
 
 export type SchemedValue = Schemed & Value
+
+export const emptySchemedValue: SchemedValue = { scheme: "", value: "" }
+
 export type SchemedDate = Schemed & Value<Date>
 
 export interface CreatorOrContributor {

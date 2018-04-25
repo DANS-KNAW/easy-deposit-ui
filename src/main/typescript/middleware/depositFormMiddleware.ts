@@ -206,7 +206,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 temporalCoverages: input.temporalCoverages ? input.temporalCoverages.map(wrappedValue) : [emptyStringValue],
                 spatialPoint: input.spatialPoint && input.spatialPoint.map(pointConverter),
                 spatialBoxes: input.spatialBoxes && input.spatialBoxes.map(boxConverter),
-                spatialCoverageIso3166: input.spatialCoverageIso3166 && input.spatialCoverageIso3166.map(schemedValueConverter),
+                spatialCoverageIso3166: input.spatialCoverageIso3166 ? input.spatialCoverageIso3166.map(schemedValueConverter) : [{ scheme: "", value: "", }],
                 spatialCoverages: input.spatialCoverages ? input.spatialCoverages.map(wrappedValue) : [emptyStringValue],
 
                 // message for data manager

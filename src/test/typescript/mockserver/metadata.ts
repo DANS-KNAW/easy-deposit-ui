@@ -308,11 +308,11 @@ export const allfields: Metadata = {
     ],
     spatialCoverageIso3166: [
         {
-            scheme: "sC1",
+            scheme: "NL",
             value: "foo",
         },
         {
-            scheme: "sC2",
+            scheme: "BE",
             value: "bar",
         },
     ],

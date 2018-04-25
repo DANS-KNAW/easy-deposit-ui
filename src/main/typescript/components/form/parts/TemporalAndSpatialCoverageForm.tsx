@@ -15,9 +15,10 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { Box, emptyStringValue, Point, SchemedValue, Value } from "../../../model/FormData"
+import { Box, emptySchemedValue, emptyStringValue, Point, SchemedValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextField"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: Value[]
@@ -29,6 +30,16 @@ export interface TemporalAndSpatialCoverageFormData {
 
 interface TemporalAndSpatialCoverageFormProps {
 }
+
+const SpatialCoverageIso3166Field = (props: FieldArrayProps<SchemedValue>) => (
+    <SchemedTextFieldArray {...props} schemeValues={[
+        { key: "NL", value: "Netherlands" },
+        { key: "GB", value: "United Kingdom" },
+        { key: "DE", value: "Germany" },
+        { key: "BE", value: "Belgium" },
+        // TODO add others
+    ]}/>
+)
 
 class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverageFormProps> {
     render() {
@@ -51,7 +62,14 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Spatial coverage (ISO 3166)</p>
+                    <RepeatableField name="spatialCoverageIso3166"
+                                     label="Spatial coverage (ISO 3166)"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     component={SpatialCoverageIso3166Field}/>
                 </div>
 
                 <div className="row form-group input-element">
