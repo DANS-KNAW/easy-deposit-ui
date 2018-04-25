@@ -84,6 +84,6 @@ module.exports = {
             template: './src/main/html/index.html',
         }),
         // Extract imported CSS into own file
-        new ExtractTextPlugin('[name].bundle.[chunkhash].css'),
+        new ExtractTextPlugin('[name].bundle.css'),
     ],
 };
