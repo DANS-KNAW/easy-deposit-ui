@@ -38,7 +38,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                     <RepeatableField name="temporalCoverages"
                                      label="Temporal coverage"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -58,7 +58,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                     <RepeatableField name="spatialCoverages"
                                      label="Spatial coverage"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
             </div>

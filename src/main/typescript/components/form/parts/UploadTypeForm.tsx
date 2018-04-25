@@ -41,7 +41,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                     <RepeatableField name="types"
                                      label="Types"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -53,7 +53,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                     <RepeatableField name="formats"
                                      label="Formats"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
             </div>

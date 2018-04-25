@@ -18,7 +18,7 @@ import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
 import {Field} from "redux-form"
 
-function TextFieldArray<T>({ fields, meta, label, empty, fieldName }: FieldArrayProps<T>) {
+function TextFieldArray<T>({ fields, meta, label, empty, fieldNames }: FieldArrayProps<T>) {
     return (
         <>
             <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
@@ -26,9 +26,8 @@ function TextFieldArray<T>({ fields, meta, label, empty, fieldName }: FieldArray
                 {fields.map((name, index, fields) => {
                     return (
                         <div key={name} className="input-group mb-2 mr-2">
-                            <Field name={fieldName(name)}
+                            <Field name={fieldNames[0](name)}
                                    label={label}
-                                   className="form-control"
                                    placeholder={label}
                                    component={TextField}/>
                             <div className="input-group-append">

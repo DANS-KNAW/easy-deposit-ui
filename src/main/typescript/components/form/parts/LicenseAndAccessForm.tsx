@@ -38,7 +38,7 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                     <RepeatableField name="rightsHolders"
                                      label="Rightsholders"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -46,7 +46,7 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                     <RepeatableField name="publishers"
                                      label="Publishers"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 

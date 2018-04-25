@@ -87,7 +87,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <RepeatableField name="titles"
                                      label="Title"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -95,7 +95,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <RepeatableField name="alternativeTitles"
                                      label="Alternative title"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -126,7 +126,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <RepeatableField name="subjects"
                                      label="Subject"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -146,7 +146,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <RepeatableField name="languagesOfFiles"
                                      label="Language of files"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
