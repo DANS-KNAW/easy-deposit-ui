@@ -148,7 +148,7 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    <Card title="Upload type"> { /* TODO */ }
+                    <Card title="Upload type">
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <UploadTypeForm/>
                         </Loaded>

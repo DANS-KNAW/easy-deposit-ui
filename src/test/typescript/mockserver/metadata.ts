@@ -255,8 +255,8 @@ export const allfields: Metadata = {
         "type2",
     ],
     formatsMediaType: [
-        "mt1",
-        "mt2",
+        "text/plain",
+        "image/tiff",
     ],
     formats: [
         "f1",

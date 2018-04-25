@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { emptyStringValue, SchemedValue, Value } from "../../../model/FormData"
+import { emptyStringValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
@@ -30,7 +30,7 @@ export interface UploadTypeFormData {
 interface UploadTypeFormProps {
 }
 
-const TypesDCMIFieldArray = (props: FieldArrayProps<SchemedValue>) => (
+const TypesDCMIFieldArray = (props: FieldArrayProps<Value>) => (
     <SelectFieldArray {...props} choices={[
         { key: "", value: "" },
         { key: "Collection", value: "Collection" },
@@ -45,6 +45,25 @@ const TypesDCMIFieldArray = (props: FieldArrayProps<SchemedValue>) => (
         { key: "Sound", value: "Sound" },
         { key: "Still image", value: "Still image" },
         { key: "Text", value: "Text" },
+    ]}/>
+)
+
+const FormatMediaTypeFieldArray = (props: FieldArrayProps<Value>) => (
+    <SelectFieldArray {...props} choices={[
+        { key: "", value: "" },
+        { key: "application/postscript", value: "application/postscript" },
+        { key: "application/rtf", value: "application/rtf" },
+        { key: "application/pdf", value: "application/pdf" },
+        { key: "application/msword", value: "application/msword" },
+        { key: "text/plain", value: "text/plain" },
+        { key: "text/html", value: "text/html" },
+        { key: "text/sgml", value: "text/sgml" },
+        { key: "text/xml", value: "text/xml" },
+        { key: "image/jpeg", value: "image/jpeg" },
+        { key: "image/gif", value: "image/gif" },
+        { key: "image/tiff", value: "image/tiff" },
+        { key: "video/quicktime", value: "video/quicktime" },
+        { key: "video/mpeg1", value: "video/mpeg1" },
     ]}/>
 )
 
@@ -69,7 +88,11 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Format (internet media type)</p>
+                    <RepeatableField name="formatsMediaType"
+                                     label=" Format (internet media type)"
+                                     empty={emptyStringValue}
+                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     component={FormatMediaTypeFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

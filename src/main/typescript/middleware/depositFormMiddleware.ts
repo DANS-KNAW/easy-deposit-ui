@@ -202,7 +202,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // upload type
                 typesDCMI: input.typesDCMI ? input.typesDCMI.map(wrappedValue) : [emptyStringValue], // TODO with or without capitals
                 types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
-                formatsMediaType: input.formatsMediaType,
+                formatsMediaType: input.formatsMediaType ? input.formatsMediaType.map(wrappedValue) : [emptyStringValue],
                 formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
 
                 // archaeology specific metadata
