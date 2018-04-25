@@ -169,8 +169,8 @@ export const allfields: Metadata = {
     ],
     dateCreated: "2018-03-19",
     audiences: [
-        "audience1",
-        "audience2",
+        "easy-discipline:7",
+        "easy-discipline:22",
     ],
     subjects: [
         "subject1",
