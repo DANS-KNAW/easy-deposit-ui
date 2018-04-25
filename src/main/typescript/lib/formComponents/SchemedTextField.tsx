@@ -38,7 +38,7 @@ function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, sche
                                 </Field>
                             </div>
                             <div className="col">
-                                <div className="input-group mb-2 mr-2" style={{ marginTop: "4px" }}>
+                                <div className="input-group mb-2 mr-2">
                                     <Field id="spatialCoverageISO3166Value"
                                            name={fieldNames[1](name)}
                                            label="Value"

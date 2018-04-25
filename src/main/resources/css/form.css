@@ -59,6 +59,10 @@
     font-size: 14px;
 }
 
+.input-element select {
+    height: 33px!important; /* 33px = 1px border-top + 5xp padding-top + 21px + 5px padding-bottom + 1px border-bottom */
+}
+
 .input-element .form-check-input {
     margin-top: 0.2rem; /* officially 0.3rem, but I think that's too much */
 }
