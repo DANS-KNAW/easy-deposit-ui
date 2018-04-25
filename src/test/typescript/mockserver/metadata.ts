@@ -178,12 +178,12 @@ export const allfields: Metadata = {
     ],
     identifiers: [
         {
-            scheme: "id1",
-            value: "test1",
+            scheme: "ISBN",
+            value: "test identifier 1",
         },
         {
-            scheme: "id2",
-            value: "test2",
+            scheme: "ARCHIS-ZAAK-IDENTIFICATIE",
+            value: "test identifier 2",
         },
     ],
     relations: [
@@ -218,12 +218,12 @@ export const allfields: Metadata = {
     ],
     dates: [ // TODO is this actually the same type of object?
         {
-            scheme: "scheme1",
-            value: "2018-03-16",
+            scheme: "Date accepted",
+            value: "2018-02-02",
         },
         {
-            scheme: "scheme2",
-            value: "2018-03-15",
+            scheme: "Issued",
+            value: "Groundhog day",
         },
     ],
     sources: [

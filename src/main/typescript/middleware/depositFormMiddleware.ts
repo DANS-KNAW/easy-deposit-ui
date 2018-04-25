@@ -28,7 +28,7 @@ import {
 } from "../actions/depositFormActions"
 import {
     AccessRight, Box,
-    CreatorOrContributor, emptyStringValue, Point, PrivacySensitiveDataValue,
+    CreatorOrContributor, emptySchemedValue, emptyStringValue, Point, PrivacySensitiveDataValue,
     Relation,
     SchemedDate,
     SchemedValue,
@@ -175,12 +175,12 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 dateCreated: input.dateCreated ? dateConverter(input.dateCreated) : new Date(), // TODO not sure if this is correct
                 audiences: input.audiences ? input.audiences.map(wrappedValue) : [emptyStringValue],
                 subjects: input.subjects ? input.subjects.map(wrappedValue) : [emptyStringValue],
-                identifiers: input.identifiers && input.identifiers.map(schemedValueConverter),
+                identifiers: input.identifiers ? input.identifiers.map(schemedValueConverter) : [emptySchemedValue],
                 relations: input.relations && input.relations.map(relationConverter),
                 languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [emptyStringValue],
                 languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [emptyStringValue],
                 datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
-                dates: input.dates && input.dates.map(schemedValueConverter),
+                dates: input.dates ? input.dates.map(schemedValueConverter) : [emptySchemedValue],
                 source: input.sources && input.sources.join("\n\n"),
                 instructionsForReuse: input.instructionsForReuse && input.instructionsForReuse.join("\n\n"),
 

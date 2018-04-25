@@ -31,7 +31,7 @@ export interface TemporalAndSpatialCoverageFormData {
 interface TemporalAndSpatialCoverageFormProps {
 }
 
-const SpatialCoverageIso3166Field = (props: FieldArrayProps<SchemedValue>) => (
+const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
         { key: "NL", value: "Netherlands" },
         { key: "GB", value: "United Kingdom" },
@@ -69,7 +69,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
                                      ]}
-                                     component={SpatialCoverageIso3166Field}/>
+                                     component={SpatialCoverageIso3166FieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

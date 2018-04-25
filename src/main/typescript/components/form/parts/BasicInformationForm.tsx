@@ -16,7 +16,7 @@
 import * as React from "react"
 import { Component } from "react"
 import {
-    CreatorOrContributor,
+    CreatorOrContributor, emptySchemedValue,
     emptyStringValue,
     Relation,
     SchemedDate,
@@ -26,7 +26,7 @@ import {
 import { Field, WrappedFieldArrayProps } from "redux-form"
 import { connect } from "react-redux"
 import DoiField from "../../../lib/formComponents/DoiField"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { AppState } from "../../../model/AppState"
@@ -34,6 +34,7 @@ import { fetchDoi } from "../../../actions/depositFormActions"
 import { ReduxAction } from "../../../lib/redux"
 import { DepositId } from "../../../model/Deposits"
 import { FetchDoiState } from "../../../model/DepositForm"
+import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextField"
 
 export interface BasicInformationFormData {
     doi?: string
@@ -66,6 +67,31 @@ interface DoiFieldProps {
 }
 
 type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
+
+const IdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) => (
+    <SchemedTextFieldArray {...props} schemeValues={[
+        { key: "DOI", value: "DOI" },
+        { key: "URN", value: "URN" },
+        { key: "MENDELEY-DATA", value: "Mendeley data" },
+        { key: "ISBN", value: "ISBN" },
+        { key: "ISSN", value: "ISSN" },
+        { key: "NWO-PROJECTNR", value: "NWO project no." },
+        { key: "ARCHIS-ZAAK-IDENTIFICATIE", value: "Archis zaak identificatie" },
+        { key: "eDNA-project", value: "eDNA project" },
+        // TODO add others
+    ]}/>
+)
+
+const DateFieldArray = (props: FieldArrayProps<SchemedValue>) => (
+    <SchemedTextFieldArray {...props} schemeValues={[
+        { key: "Valid", value: "Valid" },
+        { key: "Issued", value: "Issued" },
+        { key: "Modified", value: "Modified" },
+        { key: "Date accepted", value: "Date accepted" },
+        { key: "Date copyrighted", value: "Date copyrighted" },
+        // TODO add others
+    ]}/>
+)
 
 class BasicInformationForm extends Component<BasicInformationFormProps> {
     render() {
@@ -131,7 +157,14 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Identifier</p>
+                    <RepeatableField name="identifiers"
+                                     label="Identifier"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     component={IdentifierFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -155,7 +188,14 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Date</p>
+                    <RepeatableField name="dates"
+                                     label="Date"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     component={DateFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
