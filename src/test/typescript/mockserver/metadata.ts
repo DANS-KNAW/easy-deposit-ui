@@ -244,7 +244,7 @@ export const allfields: Metadata = {
     accessRights: {
         category: AccessRightValue.OPEN_FOR_REGISTERED_USERS,
     },
-    license: "CC-0",
+    license: "http://creativecommons.org/publicdomain/zero/1.0",
     dateAvailable: "2018-03-14",
     typesDCMI: [
         "Dataset",
