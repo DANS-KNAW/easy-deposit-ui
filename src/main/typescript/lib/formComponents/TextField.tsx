@@ -17,8 +17,15 @@ import * as React from "react"
 import { InputHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
 
-const TextField = ({ input, meta, label, ...rest }: WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>) => (
-    <input type="text" className="form-control" {...input} {...rest}/>
+interface TextFieldProps {
+    withLabel?: boolean
+}
+
+const TextField = ({ input, meta, label, withLabel, className, ...rest }: WrappedFieldProps & InputHTMLAttributes<HTMLInputElement> & TextFieldProps) => (
+    <>
+        {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={input.name}>{label}</label>}
+        <input type="text" className={`form-control ${className}`} {...input} {...rest}/>
+    </>
 )
 
 export default TextField

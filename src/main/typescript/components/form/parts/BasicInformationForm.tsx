@@ -129,6 +129,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="description"
                            rows={5}
                            label="Description"
+                           className="col-12 col-md-8"
+                           withLabel
                            component={TextArea}/>
                 </div>
 
@@ -202,6 +204,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="source"
                            rows={5}
                            label="Source"
+                           className="col-12 col-md-8"
+                           withLabel
                            component={TextArea}/>
                 </div>
 
@@ -209,6 +213,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="instructionsForReuse"
                            rows={5}
                            label="Instructions for reuse"
+                           className="col-12 col-md-8"
+                           withLabel
                            component={TextArea}/>
                 </div>
             </div>
