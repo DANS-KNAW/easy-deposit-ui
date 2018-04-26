@@ -24,7 +24,7 @@ interface TextFieldProps {
 const TextField = ({ input, meta, label, withLabel, className, type, ...rest }: WrappedFieldProps & InputHTMLAttributes<HTMLInputElement> & TextFieldProps) => (
     <>
         {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={input.name}>{label}</label>}
-        <input type={type || "text"} className={`form-control ${className}`} {...input} {...rest}/>
+        <input type={type || "text"} className={`form-control${className || ""}`} {...input} {...rest}/>
     </>
 )
 
