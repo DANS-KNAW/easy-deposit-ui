@@ -34,7 +34,7 @@ import { fetchDoi } from "../../../actions/depositFormActions"
 import { ReduxAction } from "../../../lib/redux"
 import { DepositId } from "../../../model/Deposits"
 import { FetchDoiState } from "../../../model/DepositForm"
-import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextField"
+import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 
 export interface BasicInformationFormData {

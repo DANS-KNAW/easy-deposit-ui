@@ -18,7 +18,7 @@ import { Component } from "react"
 import { Box, emptySchemedValue, emptyStringValue, Point, SchemedValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
-import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextField"
+import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: Value[]
