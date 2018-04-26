@@ -28,19 +28,6 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
         <>
             <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
             <div className="col-12 col-md-8 pl-0 pr-0 text-array">
-
-                <div className="form-row">
-                    <div className="col">
-                        <label htmlFor="spatialPointScheme">Scheme</label>
-                    </div>
-                    <div className="col">
-                        <label htmlFor="spatialPointX">X</label>
-                    </div>
-                    <div className="col">
-                        <label htmlFor="spatialPointY">Y</label>
-                    </div>
-                </div>
-
                 {fields.map((name, index, fields) => {
                     return (
                         <div key={name} className="form-row">
@@ -55,7 +42,10 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                     ))}
                                 </Field>
                             </div>
-                            <div className="col">
+                            <div className="col input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text">X</span>
+                                </div>
                                 <Field id="spatialPointX"
                                        name={fieldNames[1](name)}
                                        label="X"
@@ -64,6 +54,9 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                             </div>
                             <div className="col">
                                 <div className="input-group mb-2 mr-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">Y</span>
+                                    </div>
                                     <Field id="spatialPointY"
                                            name={fieldNames[2](name)}
                                            label="Y"
