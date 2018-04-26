@@ -26,22 +26,12 @@ interface SchemedTextFieldArrayProps {
 function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, schemeValues }: FieldArrayProps<T> & SchemedTextFieldArrayProps) {
     return (
         <>
-            <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
+            <label className="col-12 col-md-3 pl-0 title-label multi-field-label">{label}</label>
             <div className="col-12 col-md-8 pl-0 pr-0 text-array">
-
-                <div className="form-row">
-                    <div className="col">
-                        <label htmlFor="spatialCoverageISO3166Scheme">Scheme</label>
-                    </div>
-                    <div className="col">
-                        <label htmlFor="spatialCoverageISO3166Value">Value</label>
-                    </div>
-                </div>
-
                 {fields.map((name, index, fields) => {
                     return (
                         <div key={name} className="form-row">
-                            <div className="col">
+                            <div className="col col-md-4">
                                 <Field id="spatialCoverageISO3166Scheme"
                                        name={fieldNames[0](name)}
                                        label="Scheme"
@@ -52,7 +42,7 @@ function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, sche
                                     ))}
                                 </Field>
                             </div>
-                            <div className="col">
+                            <div className="col col-md-8">
                                 <div className="input-group mb-2 mr-2">
                                     <Field id="spatialCoverageISO3166Value"
                                            name={fieldNames[1](name)}
