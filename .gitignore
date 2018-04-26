@@ -1,6 +1,5 @@
 node_modules
 .idea
 .vagrant
-dist
 target
 *.iml
