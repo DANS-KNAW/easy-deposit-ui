@@ -26,7 +26,7 @@ interface SchemedBoxFieldArrayProps {
 function SchemedBoxArrayField<T>({ fields, meta, label, empty, fieldNames, schemeValues }: FieldArrayProps<T> & SchemedBoxFieldArrayProps) {
     return (
         <>
-            <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
+            <label className="col-12 col-md-3 pl-0 title-label multi-field-label">{label}</label>
             <div className="col-12 col-md-8 pl-0 pr-0 text-array">
                 {fields.map((name, index, fields) => {
                     return (
