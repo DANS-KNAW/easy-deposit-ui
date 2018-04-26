@@ -40,7 +40,7 @@ import {
     SchemedValue,
     toAccessRight,
     toPrivacySensitiveData,
-    Value,
+    Value, emptyBox,
 } from "../model/FormData"
 import { change } from "redux-form"
 
@@ -223,7 +223,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // temporal and spatial coverage
                 temporalCoverages: input.temporalCoverages ? input.temporalCoverages.map(wrappedValue) : [emptyStringValue],
                 spatialPoint: input.spatialPoint ? input.spatialPoint.map(pointConverter) : [emptyPoint],
-                spatialBoxes: input.spatialBoxes && input.spatialBoxes.map(boxConverter),
+                spatialBoxes: input.spatialBoxes ? input.spatialBoxes.map(boxConverter) : [emptyBox],
                 spatialCoverageIso3166: input.spatialCoverageIso3166 ? input.spatialCoverageIso3166.map(schemedValueConverter) : [{ scheme: "", value: "", }],
                 spatialCoverages: input.spatialCoverages ? input.spatialCoverages.map(wrappedValue) : [emptyStringValue],
 

@@ -292,14 +292,14 @@ export const allfields: Metadata = {
     ],
     spatialBoxes: [
         {
-            scheme: "box-foo",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
             north: 1,
             east: 2,
             south: 3,
             west: 4,
         },
         {
-            scheme: "box-bar",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
             north: 5,
             east: 6,
             south: 7,
