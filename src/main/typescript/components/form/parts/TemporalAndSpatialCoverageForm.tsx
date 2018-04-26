@@ -64,6 +64,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 </div>
 
                 <div className="row form-group input-element">
+                    {/* TODO for some reason this doesn't match with the moqups anymore! */}
                     <RepeatableField name="spatialCoverageIso3166"
                                      label="Spatial coverage (ISO 3166)"
                                      empty={emptySchemedValue}
