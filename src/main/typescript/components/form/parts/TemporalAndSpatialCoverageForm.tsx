@@ -15,10 +15,19 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { Box, emptySchemedValue, emptyStringValue, Point, SchemedValue, Value } from "../../../model/FormData"
+import {
+    Box,
+    emptyPoint,
+    emptySchemedValue,
+    emptyStringValue,
+    Point,
+    SchemedValue,
+    Value,
+} from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
+import SchemedPointArrayField from "../../../lib/formComponents/SchemedPointArrayField"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: Value[]
@@ -30,6 +39,15 @@ export interface TemporalAndSpatialCoverageFormData {
 
 interface TemporalAndSpatialCoverageFormProps {
 }
+
+const SpatialPointFieldArray = (props: FieldArrayProps<Point>) => (
+    <SchemedPointArrayField {...props} schemeValues={[
+        // @formatter:off
+        { key: "http://www.opengis.net/def/crs/EPSG/0/28992", value: "RD (in m.)" },
+        { key: "http://www.opengis.net/def/crs/EPSG/0/4326", value: "lengte/breedte (graden)" },
+        // @formatter:on
+    ]}/>
+)
 
 const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
@@ -56,7 +74,15 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Spatial point</p>
+                    <RepeatableField name="spatialPoint"
+                                     label="Spatial point"
+                                     empty={emptyPoint}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.x`,
+                                         (name: string) => `${name}.y`
+                                     ]}
+                                     component={SpatialPointFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

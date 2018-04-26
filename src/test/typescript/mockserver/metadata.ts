@@ -280,12 +280,12 @@ export const allfields: Metadata = {
     ],
     spatialPoint: [
         {
-            scheme: "point-foo",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
             x: 12,
             y: 34,
         },
         {
-            scheme: "point-bar",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
             x: 56,
             y: 78,
         },
