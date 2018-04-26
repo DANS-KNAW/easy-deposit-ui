@@ -19,11 +19,11 @@ import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
 import SelectField from "./SelectField"
 
-interface SchemedTextFieldProps {
+interface SchemedTextFieldArrayProps {
     schemeValues: { key: string, value: string }[]
 }
 
-function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, schemeValues }: FieldArrayProps<T> & SchemedTextFieldProps) {
+function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, schemeValues }: FieldArrayProps<T> & SchemedTextFieldArrayProps) {
     return (
         <>
             <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
