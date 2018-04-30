@@ -25,6 +25,9 @@ interface Schemed<Scheme = string> {
 }
 
 export type SchemedValue = Schemed & Value
+
+export const emptySchemedValue: SchemedValue = { scheme: "", value: "" }
+
 export type SchemedDate = Schemed & Value<Date>
 
 export interface CreatorOrContributor {
@@ -62,16 +65,20 @@ export function toAccessRight(value: string): AccessRightValue | undefined {
 }
 
 export interface Point extends Schemed {
-    x: number
-    y: number
+    x?: number
+    y?: number
 }
 
+export const emptyPoint: Point = { scheme: "", x: undefined, y: undefined}
+
 export interface Box extends Schemed {
-    north: number
-    east: number
-    south: number
-    west: number
+    north?: number
+    east?: number
+    south?: number
+    west?: number
 }
+
+export const emptyBox: Box = { scheme: "", north: undefined, east: undefined, south: undefined, west: undefined }
 
 export enum PrivacySensitiveDataValue {
     YES = "yes",

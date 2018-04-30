@@ -15,9 +15,20 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { Box, emptyStringValue, Point, SchemedValue, Value } from "../../../model/FormData"
+import {
+    Box, emptyBox,
+    emptyPoint,
+    emptySchemedValue,
+    emptyStringValue,
+    Point,
+    SchemedValue,
+    Value,
+} from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
+import SchemedPointArrayField from "../../../lib/formComponents/SchemedPointArrayField"
+import SchemedBoxArrayField from "../../../lib/formComponents/SchemedBoxArrayField"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: Value[]
@@ -30,6 +41,36 @@ export interface TemporalAndSpatialCoverageFormData {
 interface TemporalAndSpatialCoverageFormProps {
 }
 
+const SpatialPointFieldArray = (props: FieldArrayProps<Point>) => (
+    <SchemedPointArrayField {...props} schemeValues={[
+        // @formatter:off
+        { key: "http://www.opengis.net/def/crs/EPSG/0/28992", value: "RD (in m.)" },
+        { key: "http://www.opengis.net/def/crs/EPSG/0/4326", value: "lengte/breedte (graden)" },
+        // @formatter:on
+    ]}/>
+)
+
+const SpatialBoxFieldArray = (props: FieldArrayProps<Point>) => (
+    <SchemedBoxArrayField {...props} schemeValues={[
+        // @formatter:off
+        { key: "http://www.opengis.net/def/crs/EPSG/0/28992", value: "RD (in m.)" },
+        { key: "http://www.opengis.net/def/crs/EPSG/0/4326", value: "lengte/breedte (graden)" },
+        // @formatter:on
+    ]}/>
+)
+
+const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
+    <SchemedTextFieldArray {...props} schemeValues={[
+        // @formatter:off
+        { key: "NL", value: "Netherlands" },
+        { key: "GB", value: "United Kingdom" },
+        { key: "DE", value: "Germany" },
+        { key: "BE", value: "Belgium" },
+        // TODO add others
+        // @formatter:on
+    ]}/>
+)
+
 class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverageFormProps> {
     render() {
         return (
@@ -38,27 +79,53 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                     <RepeatableField name="temporalCoverages"
                                      label="Temporal coverage"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Spatial point</p>
+                    <RepeatableField name="spatialPoint"
+                                     label="Spatial point"
+                                     empty={emptyPoint}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.x`,
+                                         (name: string) => `${name}.y`,
+                                     ]}
+                                     component={SpatialPointFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Spatial box</p>
+                    <RepeatableField name="spatialBoxes"
+                                     label="Spatial box"
+                                     empty={emptyBox}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.north`,
+                                         (name: string) => `${name}.east`,
+                                         (name: string) => `${name}.south`,
+                                         (name: string) => `${name}.west`,
+                                     ]}
+                                     component={SpatialBoxFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Spatial coverage (ISO 3166)</p>
+                    {/* TODO for some reason this doesn't match with the moqups anymore! */}
+                    <RepeatableField name="spatialCoverageIso3166"
+                                     label="Spatial coverage (ISO 3166)"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     component={SpatialCoverageIso3166FieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
                     <RepeatableField name="spatialCoverages"
                                      label="Spatial coverage"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
             </div>

@@ -21,24 +21,22 @@ import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
-import {
-    ArchaeologySpecificMetadata,
-    BasicInformation,
-    Data,
-    DepositFormData,
-    DepositLicense,
-    LicenseAndAccess,
-    MessageForDataManager,
-    PrivacySensitiveData,
-    TemporalAndSpatialCoverage,
-    UploadType,
-} from "./parts"
+import { DepositFormData } from "./parts"
 import { DepositId } from "../../model/Deposits"
 import { ReduxAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
 import { Alert, ReloadAlert } from "../../Errors"
+import DepositLicenseForm from "./parts/DepositLicenseForm"
+import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
+import MessageForDataManagerForm from "./parts/MessageForDataManagerForm"
+import TemporalAndSpatialCoverageForm from "./parts/TemporalAndSpatialCoverageForm"
+import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadataForm"
+import UploadTypeForm from "./parts/UploadTypeForm"
+import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
+import BasicInformationForm from "./parts/BasicInformationForm"
+import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 
 interface FetchMetadataErrorProps {
@@ -135,54 +133,54 @@ class DepositForm extends Component<DepositFormProps> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <Data/>
+                        <DataForm/>
                     </Card>
 
-                    <Card title="Basic information" required defaultOpened>
+                    <Card title="Basic information" required defaultOpened> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <BasicInformation depositId={this.props.depositId}/>
+                            <BasicInformationForm depositId={this.props.depositId}/>
                         </Loaded>
                     </Card>
 
-                    <Card title="License and access" required defaultOpened>
+                    <Card title="License and access" required defaultOpened> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <LicenseAndAccess/>
+                            <LicenseAndAccessForm/>
                         </Loaded>
                     </Card>
 
                     <Card title="Upload type">
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <UploadType/>
+                            <UploadTypeForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="Archaeology specific metadata">
+                    <Card title="Archaeology specific metadata"> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <ArchaeologySpecificMetadata/>
+                            <ArchaeologySpecificMetadataForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="Temporal and spatial coverage">
+                    <Card title="Temporal and spatial coverage"> { /* TODO */ }
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <TemporalAndSpatialCoverage/>
+                            <TemporalAndSpatialCoverageForm/>
                         </Loaded>
                     </Card>
 
                     <Card title="Message for the data manager">
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <MessageForDataManager/>
+                            <MessageForDataManagerForm/>
                         </Loaded>
                     </Card>
 
                     <Card title="Privacy sensitive data" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <PrivacySensitiveData/>
+                            <PrivacySensitiveDataForm/>
                         </Loaded>
                     </Card>
 
                     <Card title="Deposit license" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <DepositLicense/>
+                            <DepositLicenseForm/>
                         </Loaded>
                     </Card>
 

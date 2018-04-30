@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { InputHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
+import { SelectHTMLAttributes } from "react"
 
-interface TextFieldProps {
+interface SelectFieldProps {
     withLabel?: boolean
 }
 
-const TextField = ({ input, meta, label, withLabel, className, type, ...rest }: WrappedFieldProps & InputHTMLAttributes<HTMLInputElement> & TextFieldProps) => (
+const SelectField = ({ input, meta, label, withLabel, children, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
     <>
         {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={input.name}>{label}</label>}
-        <input type={type || "text"} className={`form-control${className || ""}`} {...input} {...rest}/>
+        <select className={`form-control ${className}`} {...input} {...rest}>{children}</select>
     </>
 )
 
-export default TextField
+export default SelectField

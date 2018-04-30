@@ -15,10 +15,14 @@
  */
 import * as React from "react"
 import { FieldArrayProps } from "./RepeatableField"
-import TextField from "./TextField"
 import {Field} from "redux-form"
+import SelectField from "./SelectField"
 
-function TextFieldArray<T>({ fields, meta, label, empty, fieldNames }: FieldArrayProps<T>) {
+interface SelectFieldArrayProps {
+    choices: { key: string, value: string }[]
+}
+
+function SelectFieldArray<T>({ fields, meta, label, empty, fieldNames, choices }: FieldArrayProps<T> & SelectFieldArrayProps) {
     return (
         <>
             <label className="col-12 col-md-3 pl-0 title-label multi-field-label">{label}</label>
@@ -28,8 +32,12 @@ function TextFieldArray<T>({ fields, meta, label, empty, fieldNames }: FieldArra
                         <div key={name} className="input-group mb-2 mr-2">
                             <Field name={fieldNames[0](name)}
                                    label={label}
-                                   placeholder={label}
-                                   component={TextField}/>
+                                   className="custom-select"
+                                   component={SelectField}>
+                                {choices.map((value, index) => (
+                                    <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
+                                ))}
+                            </Field>
                             <div className="input-group-append">
                                 <button type="button"
                                         className="input-group-text bg-danger text-light remove-button"
@@ -53,4 +61,4 @@ function TextFieldArray<T>({ fields, meta, label, empty, fieldNames }: FieldArra
     )
 }
 
-export default TextFieldArray
+export default SelectFieldArray

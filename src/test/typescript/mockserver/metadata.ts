@@ -169,8 +169,8 @@ export const allfields: Metadata = {
     ],
     dateCreated: "2018-03-19",
     audiences: [
-        "audience1",
-        "audience2",
+        "easy-discipline:7",
+        "easy-discipline:22",
     ],
     subjects: [
         "subject1",
@@ -178,12 +178,12 @@ export const allfields: Metadata = {
     ],
     identifiers: [
         {
-            scheme: "id1",
-            value: "test1",
+            scheme: "ISBN",
+            value: "test identifier 1",
         },
         {
-            scheme: "id2",
-            value: "test2",
+            scheme: "ARCHIS-ZAAK-IDENTIFICATIE",
+            value: "test identifier 2",
         },
     ],
     relations: [
@@ -218,12 +218,12 @@ export const allfields: Metadata = {
     ],
     dates: [ // TODO is this actually the same type of object?
         {
-            scheme: "scheme1",
-            value: "2018-03-16",
+            scheme: "Date accepted",
+            value: "2018-02-02",
         },
         {
-            scheme: "scheme2",
-            value: "2018-03-15",
+            scheme: "Issued",
+            value: "Groundhog day",
         },
     ],
     sources: [
@@ -244,19 +244,19 @@ export const allfields: Metadata = {
     accessRights: {
         category: AccessRightValue.OPEN_FOR_REGISTERED_USERS,
     },
-    license: "CC-0",
+    license: "http://creativecommons.org/publicdomain/zero/1.0",
     dateAvailable: "2018-03-14",
     typesDCMI: [
-        "typeDCMI1",
-        "typeDCMI2",
+        "Dataset",
+        "Software",
     ],
     types: [
         "type1",
         "type2",
     ],
     formatsMediaType: [
-        "mt1",
-        "mt2",
+        "text/plain",
+        "image/tiff",
     ],
     formats: [
         "f1",
@@ -280,26 +280,26 @@ export const allfields: Metadata = {
     ],
     spatialPoint: [
         {
-            scheme: "point-foo",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
             x: 12,
             y: 34,
         },
         {
-            scheme: "point-bar",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
             x: 56,
             y: 78,
         },
     ],
     spatialBoxes: [
         {
-            scheme: "box-foo",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
             north: 1,
             east: 2,
             south: 3,
             west: 4,
         },
         {
-            scheme: "box-bar",
+            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
             north: 5,
             east: 6,
             south: 7,
@@ -308,11 +308,11 @@ export const allfields: Metadata = {
     ],
     spatialCoverageIso3166: [
         {
-            scheme: "sC1",
+            scheme: "NL",
             value: "foo",
         },
         {
-            scheme: "sC2",
+            scheme: "BE",
             value: "bar",
         },
     ],

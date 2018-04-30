@@ -39,7 +39,7 @@ module.exports = merge(baseConfig, {
         rules: [
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
+                use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
                         {
@@ -51,7 +51,7 @@ module.exports = merge(baseConfig, {
                             options: {config: {path: 'webpack/postcss.config.js'}},
                         },
                     ]
-                }),
+                })),
             },
         ],
     },

@@ -24,6 +24,14 @@
     color: #444;
 }
 
+.input-element .title-label.multi-field-label {
+    padding-top: 11px;
+}
+
+.input-element .title-label.text-array-label {
+    padding-top: 6px;
+}
+
 .input-element .value-label {
     padding-top: 5px;
     padding-left: 0;
@@ -58,6 +66,10 @@
     font-size: 14px;
 }
 
+.input-element select {
+    height: 33px!important; /* 33px = 1px border-top + 5xp padding-top + 21px + 5px padding-bottom + 1px border-bottom */
+}
+
 .input-element .form-check-input {
     margin-top: 0.2rem; /* officially 0.3rem, but I think that's too much */
 }
@@ -70,4 +82,23 @@
 .input-element > .text-array {
     padding-top: 5px;
     color: #444;
+}
+
+.input-element > .text-array > .form-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.input-element > .text-array > .form-row > .col:first-child {
+    padding-left: 0;
+}
+
+.input-element > .text-array > .form-row > .col:last-child {
+    padding-right: 0;
+}
+
+.input-element .input-group-text {
+    font-size: inherit;
+    /*       t   r   b   l*/
+    padding: 5px 8px 5px 8px;
 }

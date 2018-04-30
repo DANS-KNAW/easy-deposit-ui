@@ -34,13 +34,3 @@ export type DepositFormMetadata =
     & DepositLicenseFormData
 
 export type DepositFormData = DataFormData & DepositFormMetadata
-
-export const Data = DataForm
-export const BasicInformation = BasicInformationForm
-export const LicenseAndAccess = LicenseAndAccessForm
-export const UploadType = UploadTypeForm
-export const ArchaeologySpecificMetadata = ArchaeologySpecificMetadataForm
-export const TemporalAndSpatialCoverage = TemporalAndSpatialCoverageForm
-export const MessageForDataManager = MessageForDataManagerForm
-export const PrivacySensitiveData = PrivacySensitiveDataForm
-export const DepositLicense = DepositLicenseForm

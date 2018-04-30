@@ -18,7 +18,7 @@ import { FieldArray, GenericFieldArray, WrappedFieldArrayProps } from "redux-for
 export interface CustomFieldArrayProps<FieldValue> {
     label: string,
     empty: FieldValue,
-    fieldName: (name: string) => string
+    fieldNames: ((name: string) => string)[]
 }
 
 export type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayProps<FieldValue>

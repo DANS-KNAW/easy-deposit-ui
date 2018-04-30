@@ -36,7 +36,7 @@ class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetad
                     <RepeatableField name="archisNrs"
                                      label="Archis zaakidentificatie"
                                      empty={emptyStringValue}
-                                     fieldName={(name: string) => `${name}.value`}
+                                     fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
                 </div>
 

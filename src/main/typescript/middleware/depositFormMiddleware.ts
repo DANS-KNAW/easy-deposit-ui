@@ -24,15 +24,23 @@ import {
     fetchMetadataFailed,
     fetchMetadataSucceeded,
     sendSaveDraft,
-    sendSaveDraftReset, sendSubmitDeposit,
+    sendSaveDraftReset,
+    sendSubmitDeposit,
 } from "../actions/depositFormActions"
 import {
-    AccessRight, Box,
-    CreatorOrContributor, emptyStringValue, Point, PrivacySensitiveDataValue,
+    AccessRight,
+    Box,
+    CreatorOrContributor,
+    emptySchemedValue, emptyPoint,
+    emptyStringValue,
+    Point,
+    PrivacySensitiveDataValue,
     Relation,
     SchemedDate,
     SchemedValue,
-    toAccessRight, toPrivacySensitiveData, Value,
+    toAccessRight,
+    toPrivacySensitiveData,
+    Value, emptyBox,
 } from "../model/FormData"
 import { change } from "redux-form"
 
@@ -116,32 +124,42 @@ const accessRightDeconverter: (ar: AccessRight) => any = ar => ({
     group: ar.group,
 })
 
-const pointConverter: (p: any) => Point = p => ({
-    scheme: p.scheme,
-    x: Number(p.x),
-    y: Number(p.y),
-})
+const pointConverter: (p: any) => Point = p => {
+    if (Number.isNaN(Number(p.x)) || Number.isNaN(Number(p.y))) {
+        throw `Error in metadata: Point ${JSON.stringify(p)} consists of something else than a Number`
+    }
+    else return ({
+        scheme: p.scheme,
+        x: Number(p.x),
+        y: Number(p.y),
+    })
+}
 
 const pointDeconverter: (p: Point) => any = p => ({
     scheme: p.scheme,
-    x: p.x,
-    y: p.y,
+    x: p.x && p.x.toString(),
+    y: p.y && p.y.toString(),
 })
 
-const boxConverter: (b: any) => Box = b => ({
-    scheme: b.scheme,
-    north: Number(b.north),
-    east: Number(b.east),
-    south: Number(b.south),
-    west: Number(b.west),
-})
+const boxConverter: (b: any) => Box = b => {
+    if (Number.isNaN(Number(b.north)) || Number.isNaN(Number(b.east)) || Number.isNaN(Number(b.south)) || Number.isNaN(Number(b.west))) {
+        throw `Error in metadata: Point ${JSON.stringify(b)} consists of something else than a Number`
+    }
+    else return ({
+        scheme: b.scheme,
+        north: Number(b.north),
+        east: Number(b.east),
+        south: Number(b.south),
+        west: Number(b.west),
+    })
+}
 
 const boxDeconverter: (b: Box) => any = b => ({
     scheme: b.scheme,
-    north: b.north,
-    east: b.east,
-    south: b.south,
-    west: b.west,
+    north: b.north && b.north.toString(),
+    east: b.east && b.east.toString(),
+    south: b.south && b.south.toString(),
+    west: b.west && b.west.toString(),
 })
 
 const privacySensitiveDataConverter: (psd: any) => PrivacySensitiveDataValue = psd => {
@@ -175,12 +193,12 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 dateCreated: input.dateCreated ? dateConverter(input.dateCreated) : new Date(), // TODO not sure if this is correct
                 audiences: input.audiences ? input.audiences.map(wrappedValue) : [emptyStringValue],
                 subjects: input.subjects ? input.subjects.map(wrappedValue) : [emptyStringValue],
-                identifiers: input.identifiers && input.identifiers.map(schemedValueConverter),
+                identifiers: input.identifiers ? input.identifiers.map(schemedValueConverter) : [emptySchemedValue],
                 relations: input.relations && input.relations.map(relationConverter),
                 languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [emptyStringValue],
                 languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [emptyStringValue],
                 datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
-                dates: input.dates && input.dates.map(schemedValueConverter),
+                dates: input.dates ? input.dates.map(schemedValueConverter) : [emptySchemedValue],
                 source: input.sources && input.sources.join("\n\n"),
                 instructionsForReuse: input.instructionsForReuse && input.instructionsForReuse.join("\n\n"),
 
@@ -192,9 +210,9 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 dateAvailable: input.dateAvailable && dateConverter(input.dateAvailable),
 
                 // upload type
-                typesDCMI: input.typesDCMI, // TODO with or without capitals
+                typesDCMI: input.typesDCMI ? input.typesDCMI.map(wrappedValue) : [emptyStringValue], // TODO with or without capitals
                 types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
-                formatsMediaType: input.formatsMediaType,
+                formatsMediaType: input.formatsMediaType ? input.formatsMediaType.map(wrappedValue) : [emptyStringValue],
                 formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
 
                 // archaeology specific metadata
@@ -204,9 +222,9 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
 
                 // temporal and spatial coverage
                 temporalCoverages: input.temporalCoverages ? input.temporalCoverages.map(wrappedValue) : [emptyStringValue],
-                spatialPoint: input.spatialPoint && input.spatialPoint.map(pointConverter),
-                spatialBoxes: input.spatialBoxes && input.spatialBoxes.map(boxConverter),
-                spatialCoverageIso3166: input.spatialCoverageIso3166 && input.spatialCoverageIso3166.map(schemedValueConverter),
+                spatialPoint: input.spatialPoint ? input.spatialPoint.map(pointConverter) : [emptyPoint],
+                spatialBoxes: input.spatialBoxes ? input.spatialBoxes.map(boxConverter) : [emptyBox],
+                spatialCoverageIso3166: input.spatialCoverageIso3166 ? input.spatialCoverageIso3166.map(schemedValueConverter) : [{ scheme: "", value: "", }],
                 spatialCoverages: input.spatialCoverages ? input.spatialCoverages.map(wrappedValue) : [emptyStringValue],
 
                 // message for data manager
