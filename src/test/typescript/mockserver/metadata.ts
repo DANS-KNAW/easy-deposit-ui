@@ -48,6 +48,7 @@ export interface Metadata {
     types?: string[]
     formatsMediaType?: string[]
     formats?: string[]
+    extraClarinMetadataPresent?: boolean
 
     // Archaeology specific metadata
     archisNrs?: string[]
@@ -262,6 +263,7 @@ export const allfields: Metadata = {
         "f1",
         "f2",
     ],
+    extraClarinMetadataPresent: true,
     archisNrs: [
         "archis nr. 1",
         "archis nr. 2",

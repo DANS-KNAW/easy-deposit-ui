@@ -15,17 +15,23 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { emptyStringValue, Value } from "../../../model/FormData"
+import { emptyStringValue, PrivacySensitiveDataValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
+import RadioChoices from "../../../lib/formComponents/RadioChoices"
+import { Field } from "redux-form"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
     types?: Value[]
     formatsMediaType?: string[]
     formats?: Value[]
+    extraClarinMetadataPresent?: boolean
 }
+
+// validation rules
+const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
 
 interface UploadTypeFormProps {
 }
@@ -105,6 +111,26 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                                      empty={emptyStringValue}
                                      fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
+                </div>
+
+                <div className="row form-group input-element">
+                    <Field name="extraClarinMetadataPresent"
+                           label="Contains CLARIN metadata"
+                           withLabel
+                           choices={[
+                               {
+                                   name: "no CLARIN metadata",
+                                   title: false,
+                                   value: "This dataset does not contain CLARIN metadata, i.e., no CMDI files",
+                               },
+                               {
+                                   name: "contains CLARIN metadata",
+                                   title: true,
+                                   value: "This dataset contains CLARIN metadata, i.e., CMDI file(s)",
+                               },
+                           ]}
+                           component={RadioChoices}
+                           validate={[oneSelected]}/>
                 </div>
             </div>
         )

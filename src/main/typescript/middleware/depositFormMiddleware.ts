@@ -214,6 +214,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
                 formatsMediaType: input.formatsMediaType ? input.formatsMediaType.map(wrappedValue) : [emptyStringValue],
                 formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
+                extraClarinMetadataPresent: input.extraClarinMetadataPresent ? Boolean(input.extraClarinMetadataPresent) : false,
 
                 // archaeology specific metadata
                 archisNrs: input.archisNrs ? input.archisNrs.map(wrappedValue) : [emptyStringValue],
@@ -283,6 +284,7 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             types: data.types && data.types.map(unwrapValue),
             formatsMediaType: data.formatsMediaType,
             formats: data.formats && data.formats.map(unwrapValue),
+            extraClarinMetadataPresent: data.extraClarinMetadataPresent || false,
 
             // archaeology specific metadata
             archisNrs: data.archisNrs && data.archisNrs.map(unwrapValue),
