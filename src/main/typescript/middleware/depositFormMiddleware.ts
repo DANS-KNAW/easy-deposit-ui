@@ -214,7 +214,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
                 formatsMediaType: input.formatsMediaType ? input.formatsMediaType.map(wrappedValue) : [emptyStringValue],
                 formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
-                extraClarinMetadataPresent: input.extraClarinMetadataPresent ? Boolean(input.extraClarinMetadataPresent) : false,
+                extraClarinMetadataPresent: input.extraClarinMetadataPresent ? input.extraClarinMetadataPresent == "true" : false,
 
                 // archaeology specific metadata
                 archisNrs: input.archisNrs ? input.archisNrs.map(wrappedValue) : [emptyStringValue],
