@@ -311,6 +311,9 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             acceptLicenseAgreement: data.acceptLicenseAgreement,
         }
 
+        // TODO remove this alert once the form is fully implemented. Replace with console.log if necessary.
+        alert(`saving draft for ${action.payload.depositId}:\n\n${JSON.stringify(output, null, 2)}`)
+
         switch (action.type) {
             case DepositFormConstants.SAVE_DRAFT:
                 dispatch(sendSaveDraft(action.payload.depositId, output))
