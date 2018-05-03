@@ -39,7 +39,7 @@ import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 
 export interface BasicInformationFormData {
     doi?: string
-    languageOfDescription?: string
+    languageOfDescription: Value
     titles?: Value[]
     alternativeTitles?: Value[]
     description?: string

@@ -50,6 +50,20 @@ const wrappedValue: (v: any) => Value = v => ({
 
 const unwrapValue: (value: Value) => string = value => value.value
 
+const languageOfDescriptionConverter: (schemedLanguageOfDescription: any) => Value = lang => {
+    const {scheme, value} = lang
+
+    if (scheme && scheme === "dcterms:ISO639-2") {
+        return wrappedValue(value)
+    }
+    throw "unknown scheme for the 'Language of description'"
+}
+
+const languageOfDescriptionDeconverter: (lang: Value) => any = lang => ({
+    scheme: "dcterms:ISO639-2",
+    value: unwrapValue(lang)
+})
+
 const creatorOrContributorConverter: (c: any) => CreatorOrContributor = c => ({
     titles: c.titles,
     initials: c.initials,
@@ -184,7 +198,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
             const data: DepositFormMetadata = {
                 // basic info
                 doi: input.doi && input.doi.value,
-                languageOfDescription: input.languageOfDescription,
+                languageOfDescription: input.languageOfDescription ? languageOfDescriptionConverter(input.languageOfDescription) : emptyStringValue,
                 titles: input.titles ? input.titles.map(wrappedValue) : [emptyStringValue],
                 alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [emptyStringValue],
                 description: input.descriptions && input.descriptions.join("\n\n"),
@@ -257,7 +271,7 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
                 scheme: "id-type:DOI",
                 value: data.doi,
             },
-            languageOfDescription: data.languageOfDescription,
+            languageOfDescription: data.languageOfDescription && languageOfDescriptionDeconverter(data.languageOfDescription),
             titles: data.titles ? data.titles.map(unwrapValue) : [],
             alternativeTitles: data.alternativeTitles ? data.alternativeTitles.map(unwrapValue) : [],
             descriptions: data.description && data.description.split("\n\n"),

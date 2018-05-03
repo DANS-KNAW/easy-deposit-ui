@@ -18,7 +18,7 @@ export type Doi = string
 export interface Metadata {
     // basic information
     doi?: SchemedValue<DoiSchemeValues, Doi>
-    languageOfDescription?: string
+    languageOfDescription?: SchemedValue<LanguageOfDescriptionSchemeValues, string>
     titles?: string[]
     alternativeTitles?: string[]
     descriptions?: string[]
@@ -81,6 +81,10 @@ export enum DoiSchemeValues {
     DOI = "id-type:DOI",
 }
 
+export enum LanguageOfDescriptionSchemeValues {
+    ISO639_2 = "dcterms:ISO639-2",
+}
+
 interface CreatorOrContributor {
     titles?: string
     initials: string
@@ -135,7 +139,10 @@ export const allfields: Metadata = {
         scheme: DoiSchemeValues.DOI,
         value: "doi:10.17632/DANS.6wg5xccnjd.1",
     },
-    languageOfDescription: "Nederlands",
+    languageOfDescription: {
+        scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
+        value: "Nederlands",
+    },
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
     descriptions: [
@@ -355,7 +362,10 @@ export const mandatoryOnly: Metadata = {
         scheme: DoiSchemeValues.DOI,
         value: "doi:10.17632/DANS.6wg5xccnjd.2",
     },
-    languageOfDescription: "English",
+    languageOfDescription: {
+        scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
+        value: "English",
+    },
     titles: [
         "title1",
     ],

@@ -16,6 +16,7 @@
 import { DepositId } from "./Deposits"
 import { DepositFormMetadata } from "../components/form/parts"
 import { DataFormData } from "../components/form/parts/DataForm"
+import { emptyStringValue } from "./FormData"
 
 export interface FetchMetadataState {
     fetching: boolean
@@ -62,7 +63,10 @@ export const empty: DepositFormState = {
     },
     initialState: {
         data: {},
-        metadata: {},
+        metadata: {
+            doi: undefined,
+            languageOfDescription: emptyStringValue,
+        },
     },
     fetchDoi: {
         fetchingDoi: false,
