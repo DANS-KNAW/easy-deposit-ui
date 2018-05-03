@@ -183,7 +183,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
         try {
             const data: DepositFormMetadata = {
                 // basic info
-                doi: input.doi,
+                doi: input.doi && input.doi.value,
                 languageOfDescription: input.languageOfDescription,
                 titles: input.titles ? input.titles.map(wrappedValue) : [emptyStringValue],
                 alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [emptyStringValue],
@@ -253,7 +253,10 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
 
         const output = {
             // basic info
-            doi: data.doi,
+            doi: {
+                scheme: "id-type:DOI",
+                value: data.doi,
+            },
             languageOfDescription: data.languageOfDescription,
             titles: data.titles ? data.titles.map(unwrapValue) : [],
             alternativeTitles: data.alternativeTitles ? data.alternativeTitles.map(unwrapValue) : [],

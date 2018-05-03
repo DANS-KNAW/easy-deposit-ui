@@ -17,7 +17,7 @@ export type Doi = string
 
 export interface Metadata {
     // basic information
-    doi?: Doi
+    doi?: SchemedValue<DoiSchemeValues, Doi>
     languageOfDescription?: string
     titles?: string[]
     alternativeTitles?: string[]
@@ -72,9 +72,13 @@ export interface Metadata {
     acceptLicenseAgreement?: boolean
 }
 
-interface SchemedValue {
-    scheme: string
-    value: string
+interface SchemedValue<Scheme = string, Value = string> {
+    scheme: Scheme
+    value: Value
+}
+
+export enum DoiSchemeValues {
+    DOI = "id-type:DOI",
 }
 
 interface CreatorOrContributor {
@@ -127,7 +131,10 @@ enum AccessRightValue {
 }
 
 export const allfields: Metadata = {
-    doi: "doi:10.17632/DANS.6wg5xccnjd.1",
+    doi: {
+        scheme: DoiSchemeValues.DOI,
+        value: "doi:10.17632/DANS.6wg5xccnjd.1",
+    },
     languageOfDescription: "Nederlands",
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
@@ -344,7 +351,10 @@ export const allfields: Metadata = {
 }
 
 export const mandatoryOnly: Metadata = {
-    doi: "doi:10.17632/DANS.6wg5xccnjd.2",
+    doi: {
+        scheme: DoiSchemeValues.DOI,
+        value: "doi:10.17632/DANS.6wg5xccnjd.2",
+    },
     languageOfDescription: "English",
     titles: [
         "title1",
