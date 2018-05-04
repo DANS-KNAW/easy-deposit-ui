@@ -15,13 +15,12 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-deposit-ui</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-beta-1</version>
     <packaging>pom</packaging>
 
     <name>EASY Deposit UI</name>
@@ -31,11 +30,11 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/easy-deposit-ui</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.0-beta-1</tag>
     </scm>
 
     <properties>
-        <rpm-release/><!-- Only declared here, override on the command line if you need a custom release for the RPM -->
+        <rpm-release /><!-- Only declared here, override on the command line if you need a custom release for the RPM -->
         <dans-provider-name>dans.knaw.nl</dans-provider-name>
         <context-root>deposit</context-root>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
