@@ -94,6 +94,12 @@ enum LanguageOfDescriptionSchemeValues {
     ISO639_2 = "dcterms:ISO639-2",
 }
 
+enum CreatorIdSchemeValues {
+    DAI = "id-type:DAI",
+    ORCID = "id-type:ORCID",
+    ISNI = "id-type:ISNI",
+}
+
 enum CreatorRoleSchemeValues {
     contributorType = "datacite:contributorType",
 }
@@ -127,7 +133,7 @@ interface CreatorOrContributor {
     initials?: string
     insertions?: string
     surname?: string
-    ids?: SchemedValue[]
+    ids?: SchemedValue<CreatorIdSchemeValues>[]
     role?: SchemedKeyValue<CreatorRoleSchemeValues, CreatorRoleKeyValues>
     organization?: string
 }
@@ -251,7 +257,7 @@ export const allfields: Metadata = {
     ],
     languageOfDescription: {
         scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
-        value: "Nederlands",
+        value: "nld",
     },
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
@@ -266,11 +272,11 @@ export const allfields: Metadata = {
             surname: "NS",
             ids: [
                 {
-                    scheme: "S1",
+                    scheme: CreatorIdSchemeValues.DAI,
                     value: "123456",
                 },
                 {
-                    scheme: "S2",
+                    scheme: CreatorIdSchemeValues.ORCID,
                     value: "abcdef",
                 },
             ],
