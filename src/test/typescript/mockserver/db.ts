@@ -16,7 +16,7 @@
 import * as uuid from "uuid/v4"
 import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
-import { allfields, Doi, IdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
+import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
 
 interface DataPerDraft {
@@ -121,7 +121,7 @@ export const getDoi: (id: DepositId) => Doi | undefined = id => {
     if (data[id]) {
         const metadata = data[id].metadata
         if (metadata && metadata.identifiers) {
-            const sv = metadata.identifiers.find(sv => sv.scheme === IdentifierSchemeValues.DOI)
+            const sv = metadata.identifiers.find(sv => sv.scheme === DansIdentifierSchemeValues.DOI)
             if (sv)
                 return sv.value
             else {
@@ -133,7 +133,7 @@ export const getDoi: (id: DepositId) => Doi | undefined = id => {
                         ...data[id],
                         metadata: {
                             ...metadata,
-                            identifiers: [...metadata.identifiers, { scheme: IdentifierSchemeValues.DOI, value: doi }],
+                            identifiers: [...metadata.identifiers, { scheme: DansIdentifierSchemeValues.DOI, value: doi }],
                         },
                     },
                 }
@@ -150,7 +150,7 @@ export const getDoi: (id: DepositId) => Doi | undefined = id => {
                     ...data[id],
                     metadata: {
                         ...metadata,
-                        identifiers: [{ scheme: IdentifierSchemeValues.DOI, value: doi }],
+                        identifiers: [{ scheme: DansIdentifierSchemeValues.DOI, value: doi }],
                     },
                 },
             }

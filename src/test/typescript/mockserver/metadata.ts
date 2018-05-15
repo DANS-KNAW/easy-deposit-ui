@@ -17,8 +17,8 @@ export type Doi = string
 
 export interface Metadata {
     // basic information
-    identifiers?: SchemedValue<IdentifierSchemeValues>[]
-    languageOfDescription?: SchemedValue<LanguageOfDescriptionSchemeValues>
+    identifiers?: SchemedValue<DansIdentifierSchemeValues>[]
+    languageOfDescription?: SchemedKeyValue<LanguageOfDescriptionSchemeValues>
     titles?: string[]
     alternativeTitles?: string[]
     descriptions?: string[]
@@ -26,8 +26,8 @@ export interface Metadata {
     contributor?: CreatorOrContributor[]
     audiences?: SchemedKeyValue<AudienceSchemeValues>[]
     subjects?: PossiblySchemedKeyValue<SubjectsSchemeValues>[]
-    alternativeIdentifiers?: SchemedValue<AlternativeIdentifierSchemeValues>[]
-    relations?: Relation[]
+    alternativeIdentifiers?: SchemedValue<ExternalIdentifierSchemeValues>[]
+    relations?: (Relation | QualifiedSchemedValue<RelationQualifierValues, ExternalIdentifierSchemeValues>)[]
     languagesOfFiles?: PossiblySchemedKeyValue<LanguageOfFilesSchemeValues>[]
     dates?: QualifiedSchemedValue<DateQualifierValues, DateSchemeValues>[]
     sources?: string[]
@@ -46,7 +46,7 @@ export interface Metadata {
     temporalCoverages?: PossiblySchemedKeyValue<TemporalCoverageSchemeValues>[]
     spatialPoints?: Point[]
     spatialBoxes?: Box[]
-    spatialCoverages?: PossiblySchemedValue<SpatialCoverageSchemeValues>[]
+    spatialCoverages?: PossiblySchemedKeyValue<SpatialCoverageSchemeValues>[]
 
     // For the Data Manager
     messageForDataManager?: string
@@ -86,7 +86,7 @@ interface QualifiedSchemedValue<Qualifier = string, Scheme = string, Value = str
     qualifier: Qualifier
 }
 
-export enum IdentifierSchemeValues {
+export enum DansIdentifierSchemeValues {
     DOI = "id-type:DOI",
 }
 
@@ -146,24 +146,23 @@ enum SubjectsSchemeValues {
     abrComplex = "abr:ABRcomplex",
 }
 
-enum AlternativeIdentifierSchemeValues {
+enum ExternalIdentifierSchemeValues {
     DOI = "id-type:DOI",
     URN = "id-type:URN",
-    MENDELEY_DATA = "id-type:MENDELEY-DATA",
+    MENDELEY_DATA = "id-type:MENDELEY-DATA", // kan mogelijk weg
     ISBN = "id-type:ISBN",
     ISSN = "id-type:ISSN",
     NWO_PROJECTNR = "id-type:NWO-PROJECTNR",
     ARCHIS_ZAAK_IDENTIFICATIE = "id-type:ARCHIS-ZAAK-IDENTIFICATIE",
-    eDNA_project = "id-type:eDNA-project",
 }
 
 interface Relation {
-    qualifier?: RelationSchemeValues
+    qualifier?: RelationQualifierValues
     url?: string
     title?: string
 }
 
-enum RelationSchemeValues {
+enum RelationQualifierValues {
     conformsTo = "dcterms:conformsTo",
     hasFormat = "dcterms:hasFormat",
     hasPart = "dcterms:hasPart",
@@ -184,15 +183,15 @@ enum LanguageOfFilesSchemeValues {
 }
 
 enum DateQualifierValues {
-    created = "created",
-    available = "available",
-    date = "date",
-    dateAccepted = "dateAccepted",
-    dateCopyrighted = "dateCopyrighted",
-    dateSubmitted = "dateSubmitted",
-    issued = "issued",
-    modified = "modified",
-    valid = "valid",
+    created = "dcterms:created",
+    available = "dcterms:available",
+    date = "dcterms:date",
+    dateAccepted = "dcterms:dateAccepted",
+    dateCopyrighted = "dcterms:dateCopyrighted",
+    dateSubmitted = "dcterms:dateSubmitted",
+    issued = "dcterms:issued",
+    modified = "dcterms:modified",
+    valid = "dcterms:valid",
 }
 
 enum DateSchemeValues {
@@ -205,11 +204,11 @@ interface AccessRight {
 }
 
 enum AccessRightValue {
-    OPEN = "open",
-    OPEN_FOR_REGISTERED_USERS = "open_for_registered_users",
-    RESTRICTED_GROUP = "restricted_group",
-    RESTRICTED_REQUEST = "restricted_request",
-    OTHER_ACCESS = "other_access",
+    OPEN_ACCESS = "OPEN_ACCESS",
+    OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
+    GROUP_ACCESS = "GROUP_ACCESS",
+    REQUEST_PERMISSION = "REQUEST_PERMISSION",
+    NO_ACCESS = "NO_ACCESS",
 }
 
 enum TypesSchemeValues {
@@ -224,14 +223,19 @@ enum TemporalCoverageSchemeValues {
     abrPeriode = "abr:ABRperiode",
 }
 
+enum SpatialScheme {
+    degrees = "http://www.opengis.net/def/crs/EPSG/0/4326",
+    RD = "http://www.opengis.net/def/crs/EPSG/0/28992",
+}
+
 interface Point {
-    scheme: string
+    scheme: SpatialScheme
     x: number
     y: number
 }
 
 interface Box {
-    scheme: string
+    scheme: SpatialScheme
     north: number
     east: number
     south: number
@@ -251,13 +255,14 @@ enum PrivacySensitiveDataValue {
 export const allfields: Metadata = {
     identifiers: [
         {
-            scheme: IdentifierSchemeValues.DOI,
+            scheme: DansIdentifierSchemeValues.DOI,
             value: "doi:10.17632/DANS.6wg5xccnjd.1",
         },
     ],
     languageOfDescription: {
         scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
-        value: "nld",
+        key: "nld",
+        value: "Dutch",
     },
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
@@ -313,7 +318,10 @@ export const allfields: Metadata = {
             },
         },
         {
-            organization: "rightsHolder1",
+            titles: "Dr.",
+            initials: "A.S.",
+            insertions: "van",
+            surname: "Terix",
             role: {
                 scheme: CreatorRoleSchemeValues.contributorType,
                 key: CreatorRoleKeyValues.RightsHolder,
@@ -353,34 +361,39 @@ export const allfields: Metadata = {
     ],
     alternativeIdentifiers: [
         {
-            scheme: AlternativeIdentifierSchemeValues.ISBN,
+            scheme: ExternalIdentifierSchemeValues.ISBN,
             value: "test identifier 1",
         },
         {
-            scheme: AlternativeIdentifierSchemeValues.NWO_PROJECTNR,
+            scheme: ExternalIdentifierSchemeValues.NWO_PROJECTNR,
             value: "test identifier 2",
         },
         {
-            scheme: AlternativeIdentifierSchemeValues.ARCHIS_ZAAK_IDENTIFICATIE,
+            scheme: ExternalIdentifierSchemeValues.ARCHIS_ZAAK_IDENTIFICATIE,
             value: "archis nr. 1",
         },
         {
-            scheme: AlternativeIdentifierSchemeValues.ARCHIS_ZAAK_IDENTIFICATIE,
+            scheme: ExternalIdentifierSchemeValues.ARCHIS_ZAAK_IDENTIFICATIE,
             value: "archis nr. 2",
         },
     ],
     relations: [
         {
-            qualifier: RelationSchemeValues.conformsTo,
+            qualifier: RelationQualifierValues.isReferencedBy,
+            scheme: ExternalIdentifierSchemeValues.ISSN,
+            value: "2123-34X",
+        },
+        {
+            qualifier: RelationQualifierValues.conformsTo,
             url: "http://x",
             title: "title1",
         },
         {
-            qualifier: RelationSchemeValues.requires,
+            qualifier: RelationQualifierValues.requires,
             title: "title2",
         },
         {
-            qualifier: RelationSchemeValues.isReplacedBy,
+            qualifier: RelationQualifierValues.isReplacedBy,
             url: "http://y",
         },
         {
@@ -450,7 +463,7 @@ export const allfields: Metadata = {
         "pub2",
     ],
     accessRights: {
-        category: AccessRightValue.OPEN_FOR_REGISTERED_USERS,
+        category: AccessRightValue.OPEN_ACCESS,
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     types: [
@@ -509,26 +522,26 @@ export const allfields: Metadata = {
     ],
     spatialPoints: [
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
+            scheme: SpatialScheme.RD,
             x: 12,
             y: 34,
         },
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
+            scheme: SpatialScheme.degrees,
             x: 56,
             y: 78,
         },
     ],
     spatialBoxes: [
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
+            scheme: SpatialScheme.RD,
             north: 1,
             east: 2,
             south: 3,
             west: 4,
         },
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
+            scheme: SpatialScheme.degrees,
             north: 5,
             east: 6,
             south: 7,
@@ -538,13 +551,14 @@ export const allfields: Metadata = {
     spatialCoverages: [
         {
             scheme: SpatialCoverageSchemeValues.iso3166,
+            key: "NLD",
             value: "Nederland",
         },
         {
-            value: "spatial-coverage1",
+            value: "Haringvliet",
         },
         {
-            value: "spatial-coverage2",
+            value: "Grevelingenmeer",
         },
     ],
     messageForDataManager:
@@ -571,12 +585,13 @@ export const allfields: Metadata = {
 export const mandatoryOnly: Metadata = {
     identifiers: [
         {
-            scheme: IdentifierSchemeValues.DOI,
+            scheme: DansIdentifierSchemeValues.DOI,
             value: "doi:10.17632/DANS.6wg5xccnjd.2",
         },
     ],
     languageOfDescription: {
         scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
+        key: "eng",
         value: "English",
     },
     titles: [
@@ -610,14 +625,19 @@ export const mandatoryOnly: Metadata = {
             value: "2018-03-19",
             qualifier: DateQualifierValues.created,
         },
+        {
+            scheme: DateSchemeValues.W3CDTF,
+            value: "2018-05-14",
+            qualifier: DateQualifierValues.available,
+        }
     ],
     accessRights: {
-        category: AccessRightValue.RESTRICTED_GROUP,
+        category: AccessRightValue.GROUP_ACCESS,
         group: "archaeology",
     },
-    license: "CC-BY-NC-SA",
+    license: "DANS-CONDITIONS-OF-USE", // TODO Linda komt met een correcte value
     privacySensitiveDataPresent: PrivacySensitiveDataValue.YES,
-    acceptLicenseAgreement: true,
+    acceptLicenseAgreement: false,
 }
 
 export const newMetadata: () => Metadata = () => ({})
