@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import DataForm, { DataFormData } from "./DataForm"
-import BasicInformationForm, { BasicInformationFormData } from "./BasicInformationForm"
-import LicenseAndAccessForm, { LicenseAndAccessFormData } from "./LicenseAndAccessForm"
-import UploadTypeForm, { UploadTypeFormData } from "./UploadTypeForm"
-import ArchaeologySpecificMetadataForm, { ArchaeologySpecificMetadataFormData } from "./ArchaeologySpecificMetadataForm"
-import TemporalAndSpatialCoverageForm, { TemporalAndSpatialCoverageFormData } from "./TemporalAndSpatialCoverageForm"
-import MessageForDataManagerForm, { MessageForDataManagerFormData } from "./MessageForDataManagerForm"
-import PrivacySensitiveDataForm, { PrivacySensitiveDataFormData } from "./PrivacySensitiveDataForm"
-import DepositLicenseForm, { DepositLicenseFormData } from "./DepositLicenseForm"
+import { DataFormData } from "./DataForm"
+import { BasicInformationFormData } from "./BasicInformationForm"
+import { LicenseAndAccessFormData } from "./LicenseAndAccessForm"
+import { UploadTypeFormData } from "./UploadTypeForm"
+import { ArchaeologySpecificMetadataFormData } from "./ArchaeologySpecificMetadataForm"
+import { TemporalAndSpatialCoverageFormData } from "./TemporalAndSpatialCoverageForm"
+import { MessageForDataManagerFormData } from "./MessageForDataManagerForm"
+import { PrivacySensitiveDataFormData } from "./PrivacySensitiveDataForm"
+import { DepositLicenseFormData } from "./DepositLicenseForm"
 
 export type DepositFormMetadata =
     & BasicInformationFormData

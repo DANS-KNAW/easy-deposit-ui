@@ -15,15 +15,7 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import {
-    CreatorOrContributor, emptySchemedValue,
-    emptyStringValue,
-    Relation,
-    SchemedDate,
-    SchemedValue,
-    Value,
-} from "../../../model/FormData"
-import { Field, WrappedFieldArrayProps } from "redux-form"
+import { Field } from "redux-form"
 import { connect } from "react-redux"
 import DoiField from "../../../lib/formComponents/DoiField"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
@@ -36,24 +28,36 @@ import { DepositId } from "../../../model/Deposits"
 import { FetchDoiState } from "../../../model/DepositForm"
 import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
+import { Doi } from "../../../../../test/typescript/mockserver/metadata"
+import {
+    emptySchemedValue,
+    emptyStringValue,
+    QualifiedSchemedValue,
+    SchemedValue,
+    Value,
+} from "../../../lib/metadata/Value"
+import { Creator } from "../../../lib/metadata/Creator"
+import { QualifiedDate } from "../../../lib/metadata/Date"
+import { Relation } from "../../../lib/metadata/Relation"
 
 export interface BasicInformationFormData {
-    doi?: string
-    languageOfDescription: Value
+    doi?: Doi
+    languageOfDescription?: string
     titles?: Value[]
     alternativeTitles?: Value[]
     description?: string
-    creators?: CreatorOrContributor[]
-    contributors?: CreatorOrContributor[]
+    creators?: Creator[]
+    contributors?: Creator[]
     dateCreated?: Date
     audiences?: Value[]
     subjects?: Value[]
-    identifiers?: SchemedValue[]
+    alternativeIdentifiers?: SchemedValue[]
+    relatedIdentifiers?: QualifiedSchemedValue[]
     relations?: Relation[]
     languagesOfFilesIso639?: Value[]
     languagesOfFiles?: Value[]
-    datesIso8601?: SchemedDate[] // TODO how are these different from the ones below?
-    dates?: SchemedValue[]
+    datesIso8601?: QualifiedDate<Date>[]
+    dates?: QualifiedDate<string>[]
     source?: string
     instructionsForReuse?: string
 }
@@ -72,6 +76,7 @@ type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
 const AudienceFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SelectFieldArray {...props} choices={[
         // TODO fetch from server
+        // TODO this list is incorrect
         // @formatter:off
         { key: "",                    value: "Choose..." },
         { key: "easy-discipline:1",   value: "Humanities" },
@@ -94,7 +99,7 @@ const AudienceFieldArray = (props: FieldArrayProps<SchemedValue>) => (
         { key: "easy-discipline:17",  value: "------ Germanic language and literature studies" },
         { key: "easy-discipline:18",  value: "------ Romance language and literature studies" },
         { key: "easy-discipline:19",  value: "------ Language and literature studies of other language groups" },
-        { key: "easy-discipline:20",  value: "--- Paleography, bibliology, bibliography,  library science" },
+        { key: "easy-discipline:20",  value: "--- Paleography, bibliology, bibliography, library science" },
         { key: "easy-discipline:21",  value: "--- Philosophy" },
         { key: "easy-discipline:210", value: "------ History and philosophy of science and technology" },
         { key: "easy-discipline:211", value: "------ History and philosphy of the life sciences, ethics, evolution biology" },
@@ -277,7 +282,7 @@ const AudienceFieldArray = (props: FieldArrayProps<SchemedValue>) => (
         { key: "easy-discipline:133", value: "------ Computer simulation, virtual reality" },
         { key: "easy-discipline:134", value: "--- Astronomy, astrophysics" },
         { key: "easy-discipline:135", value: "--- Agriculture and the physical environment" },
-        { key: "easy-discipline:136", value: "------ Exploitation and management  physical environment" },
+        { key: "easy-discipline:136", value: "------ Exploitation and management physical environment" },
         { key: "easy-discipline:137", value: "--------- Air" },
         { key: "easy-discipline:138", value: "--------- Surfacewater and groundwater" },
         { key: "easy-discipline:139", value: "--------- Soil" },
@@ -301,7 +306,7 @@ const AudienceFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     ]}/>
 )
 
-const IdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) => (
+const AlternativeIdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
         // @formatter:off
         { key: "DOI",                       value: "DOI" },
@@ -400,14 +405,18 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <RepeatableField name="identifiers"
-                                     label="Identifier"
+                    <RepeatableField name="alternativeIdentifiers"
+                                     label="Alternative identifier"
                                      empty={emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
                                      ]}
-                                     component={IdentifierFieldArray}/>
+                                     component={AlternativeIdentifierFieldArray}/>
+                </div>
+
+                <div className="row form-group input-element">
+                    <p>Related identifier</p>
                 </div>
 
                 <div className="row form-group input-element">

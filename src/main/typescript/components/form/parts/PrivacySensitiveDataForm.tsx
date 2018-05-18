@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { PrivacySensitiveDataValue } from "../../../model/FormData"
 import { Field } from "redux-form"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
+import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue

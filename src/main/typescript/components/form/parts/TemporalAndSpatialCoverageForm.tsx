@@ -15,26 +15,21 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import {
-    Box, emptyBox,
-    emptyPoint,
-    emptySchemedValue,
-    emptyStringValue,
-    Point,
-    SchemedValue,
-    Value,
-} from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
 import SchemedPointArrayField from "../../../lib/formComponents/SchemedPointArrayField"
 import SchemedBoxArrayField from "../../../lib/formComponents/SchemedBoxArrayField"
+import { emptySchemedValue, emptyStringValue, SchemedValue, Value } from "../../../lib/metadata/Value"
+import { emptyPoint, Point } from "../../../lib/metadata/SpatialPoint"
+import { Box, emptyBox } from "../../../lib/metadata/SpatialBox"
+import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: Value[]
     spatialPoint?: Point[]
     spatialBoxes?: Box[]
-    spatialCoverageIso3166?: SchemedValue[]
+    spatialCoverageIso3166?: Value[]
     spatialCoverages?: Value[]
 }
 
@@ -60,7 +55,7 @@ const SpatialBoxFieldArray = (props: FieldArrayProps<Point>) => (
 )
 
 const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
-    <SchemedTextFieldArray {...props} schemeValues={[
+    <SelectFieldArray {...props} choices={[
         // @formatter:off
         { key: "NL", value: "Netherlands" },
         { key: "GB", value: "United Kingdom" },
@@ -110,12 +105,10 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 </div>
 
                 <div className="row form-group input-element">
-                    {/* TODO for some reason this doesn't match with the moqups anymore! */}
                     <RepeatableField name="spatialCoverageIso3166"
                                      label="Spatial coverage (ISO 3166)"
                                      empty={emptySchemedValue}
                                      fieldNames={[
-                                         (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
                                      ]}
                                      component={SpatialCoverageIso3166FieldArray}/>

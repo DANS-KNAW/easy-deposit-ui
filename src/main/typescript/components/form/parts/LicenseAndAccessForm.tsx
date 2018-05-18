@@ -15,14 +15,16 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { AccessRight, emptyStringValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { Field } from "redux-form"
 import SelectField from "../../../lib/formComponents/SelectField"
+import { Creator } from "../../../lib/metadata/Creator"
+import { emptyStringValue, Value } from "../../../lib/metadata/Value"
+import { AccessRight } from "../../../lib/metadata/AccessRight"
 
 export interface LicenseAndAccessFormData {
-    rightsHolders?: Value[]
+    rightsHolders?: Creator[]
     publishers?: Value[]
     accessRights?: AccessRight
     license?: string

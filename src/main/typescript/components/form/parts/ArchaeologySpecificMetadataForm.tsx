@@ -15,14 +15,14 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { emptyStringValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { emptyStringValue, Value } from "../../../lib/metadata/Value"
 
 export interface ArchaeologySpecificMetadataFormData {
     archisNrs?: Value[]
-    subjectsAbrComplex?: string[]
-    temporalCoveragesAbr?: string[]
+    subjectsAbrComplex?: Value[]
+    temporalCoveragesAbr?: Value[]
 }
 
 interface ArchaeologySpecificMetadataFormProps {

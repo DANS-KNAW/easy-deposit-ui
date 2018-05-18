@@ -15,17 +15,17 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { emptyStringValue, PrivacySensitiveDataValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
+import { emptyStringValue, Value } from "../../../lib/metadata/Value"
 
 export interface UploadTypeFormData {
-    typesDCMI?: string[]
+    typesDCMI?: Value[]
     types?: Value[]
-    formatsMediaType?: string[]
+    formatsMediaType?: Value[]
     formats?: Value[]
     extraClarinMetadataPresent?: boolean
 }
