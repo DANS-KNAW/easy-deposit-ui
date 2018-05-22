@@ -39,7 +39,7 @@ interface UploadTypeFormProps {
 const TypesDCMIFieldArray = (props: FieldArrayProps<Value>) => (
     <SelectFieldArray {...props} choices={[
         // @formatter:off
-        { key: "",                     value: "" },
+        { key: "",                     value: "Choose..." },
         { key: "Collection",           value: "Collection" },
         { key: "Dataset",              value: "Dataset" },
         { key: "Event",                value: "Event" },
@@ -59,7 +59,7 @@ const TypesDCMIFieldArray = (props: FieldArrayProps<Value>) => (
 const FormatMediaTypeFieldArray = (props: FieldArrayProps<Value>) => (
     <SelectFieldArray {...props} choices={[
         // @formatter:off
-        { key: "",                       value: "" },
+        { key: "",                       value: "Choose..." },
         { key: "application/postscript", value: "application/postscript" },
         { key: "application/rtf",        value: "application/rtf" },
         { key: "application/pdf",        value: "application/pdf" },

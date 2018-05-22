@@ -49,6 +49,7 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                 <Field id="spatialPointX"
                                        name={fieldNames[1](name)}
                                        label="X"
+                                       placeholder="coordinate"
                                        type="number"
                                        component={TextField}/>
                             </div>
@@ -60,6 +61,7 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                     <Field id="spatialPointY"
                                            name={fieldNames[2](name)}
                                            label="Y"
+                                           placeholder="coordinate"
                                            type="number"
                                            component={TextField}/>
                                     <div className="input-group-append">

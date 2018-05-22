@@ -47,6 +47,7 @@ function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, sche
                                     <Field id="spatialCoverageISO3166Value"
                                            name={fieldNames[1](name)}
                                            label="Value"
+                                           placeholder={label}
                                            component={TextField}/>
                                     <div className="input-group-append">
                                         <button type="button"

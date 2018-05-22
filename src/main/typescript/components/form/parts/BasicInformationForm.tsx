@@ -371,7 +371,6 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="description"
                            rows={5}
                            label="Description"
-                           placeholder="Description"
                            className="col-12 col-md-8"
                            withLabel
                            component={TextArea}/>
@@ -455,7 +454,6 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="source"
                            rows={5}
                            label="Source"
-                           placeholder="Source"
                            className="col-12 col-md-8"
                            withLabel
                            component={TextArea}/>
@@ -465,7 +463,6 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                     <Field name="instructionsForReuse"
                            rows={5}
                            label="Instructions for reuse"
-                           placeholder="Instructions for reuse"
                            className="col-12 col-md-8"
                            withLabel
                            component={TextArea}/>
