@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptyStringValue, Value } from "./Value"
-import {isEqual} from "lodash"
+import { Value } from "./Value"
+import { isEqual } from "lodash"
+import { clean } from "./misc"
 
 enum SpatialCoverageScheme {
     iso3166 = "dcterms:ISO3166",
@@ -37,12 +38,17 @@ export const spatialCoveragesConverter: (coverage: any[]) => [Value[], Value[]] 
     }, [[], []])
 }
 
-export const isoSpatialCoverageDeconverter: (coverage: Value) => any = coverage => ({
-    scheme: SpatialCoverageScheme.iso3166,
-    key: coverage.value,
-    value: "???", // TODO get correct value
-})
+export const isoSpatialCoverageDeconverter: (coverage: Value) => any = coverage => {
+    if (coverage.value)
+        return {
+            scheme: SpatialCoverageScheme.iso3166,
+            key: coverage.value,
+            value: "???", // TODO get correct value
+        }
+    else
+        return {}
+}
 
-export const spatialCoverageDeconverter: (coverage: Value) => any = coverage => ({
+export const spatialCoverageDeconverter: (coverage: Value) => any = coverage => clean({
     value: coverage.value,
 })

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptyStringValue, Value } from "./Value"
-import {isEqual} from "lodash"
+import { Value } from "./Value"
+import { isEqual } from "lodash"
+import { clean } from "./misc"
 
 enum LanguageScheme {
     ISO639_2 = "dcterms:ISO639-2",
@@ -33,7 +34,7 @@ export const languageOfDescriptionConverter: (schemedLanguageOfDescription: any)
         throw `Error in metadata: no such language scheme: '${lang.scheme}'`
 }
 
-export const languageOfDescriptionDeconverter: (lang: string) => any = lang => ({
+export const languageOfDescriptionDeconverter: (lang: string) => any = lang => clean({
     scheme: LanguageScheme.ISO639_2,
     key: lang,
     value: "???", // TODO get correct value
@@ -44,20 +45,25 @@ export const languagesOfFilesConverter: (lofs: any[]) => [Value[], Value[]] = lo
         const scheme = lof.scheme && toLanguageScheme(lof.scheme)
 
         if (scheme && scheme === LanguageScheme.ISO639_2)
-            return [[...isoLangs, {value: lof.key}], langs]
+            return [[...isoLangs, { value: lof.key }], langs]
         else if (isEqual(Object.keys(lof), ["value"]))
-            return [isoLangs, [...langs, {value: lof.value}]]
+            return [isoLangs, [...langs, { value: lof.value }]]
         else
             throw `Error in metadata: unrecognized language-of-files object: ${JSON.stringify(lof)}`
     }, [[], []])
 }
 
-export const languageOfFilesIsoDeconverter: (lof: Value) => any = lof => ({
-    scheme: LanguageScheme.ISO639_2,
-    key: lof.value,
-    value: "???", // TODO get correct value
-})
+export const languageOfFilesIsoDeconverter: (lof: Value) => any = lof => {
+    if (lof.value)
+        return {
+            scheme: LanguageScheme.ISO639_2,
+            key: lof.value,
+            value: "???", // TODO get correct value
+        }
+    else
+        return {}
+}
 
-export const languageOfFilesDeconverter: (lof: Value) => any = lof => ({
-    value: lof.value
+export const languageOfFilesDeconverter: (lof: Value) => any = lof => clean({
+    value: lof.value,
 })

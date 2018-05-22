@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { clean } from "./misc"
+
 export interface Qualifier<Q = string> {
     qualifier: Q
 }
@@ -26,6 +28,8 @@ export interface Value<Type = string> {
 }
 
 export const emptyStringValue: Value = { value: "" }
+
+export const isEmptyStringValue: (v: Value) => boolean = v => v === emptyStringValue
 
 export const wrapValue: (v: any) => Value = v => ({
     value: v
@@ -42,7 +46,7 @@ export const schemedValueConverter: (scheme: any, value: any) => SchemedValue = 
     value: value,
 })
 
-export const schemedValueDeconverter: (sv: SchemedValue) => any = sv => ({
+export const schemedValueDeconverter: (sv: SchemedValue) => any = sv => clean({
     scheme: sv.scheme,
     value: sv.value,
 })
@@ -57,7 +61,7 @@ export const qualifiedSchemedValueConverter: (qualifier: any, scheme: any, value
     value: value,
 })
 
-export const qualifiedSchemedValueDeconverter: (sv: QualifiedSchemedValue) => any = sv => ({
+export const qualifiedSchemedValueDeconverter: (sv: QualifiedSchemedValue) => any = sv => clean({
     qualifier: sv.qualifier,
     scheme: sv.scheme,
     value: sv.value,

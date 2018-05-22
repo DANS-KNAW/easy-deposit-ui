@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Value, wrapValue } from "./Value"
+import { clean } from "./misc"
 
 enum AudienceScheme {
     narcisDisciplineTypes = "narcis:DisciplineType",
@@ -32,7 +33,7 @@ export const audienceConverter: (a: any) => Value = a => {
         throw `Error in metadata: no such audience scheme: '${a.scheme}'`
 }
 
-export const audienceDeconverter: (a: Value) => any = a => ({
+export const audienceDeconverter: (a: Value) => any = a => clean({
     scheme: AudienceScheme.narcisDisciplineTypes,
     key: a.value,
     value: "???", // TODO get correct value

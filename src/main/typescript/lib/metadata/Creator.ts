@@ -15,6 +15,7 @@
  */
 import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
 import * as lodash from "lodash"
+import { clean, nonEmptyObject } from "./misc"
 
 enum CreatorIdScheme {
     DAI = "id-type:DAI",
@@ -64,7 +65,7 @@ const creatorSchemeIdConverter: (cs: any) => SchemedValue = cs => {
         throw `Error in metadata: no such creator/contributor scheme: '${cs.scheme}'`
 }
 
-const creatorSchemeIdDeconverter: (sv: SchemedValue) => any = sv => schemedValueDeconverter(sv)
+const creatorSchemeIdDeconverter: (sv: SchemedValue) => any = schemedValueDeconverter
 
 const creatorRoleConverter: (cr: any) => string = cr => {
     const scheme = toCreatorRoleScheme(cr.scheme)
@@ -74,7 +75,7 @@ const creatorRoleConverter: (cr: any) => string = cr => {
     }
 }
 
-const creatorRoleDeconverter: (r: string) => any = r => ({
+const creatorRoleDeconverter: (r: string) => any = r => clean({
     scheme: CreatorRoleScheme.DATACITE_CONTRIBUTOR,
     key: r,
     value: "???", // TODO get correct value
@@ -92,12 +93,12 @@ export const creatorConverter: (c: any) => Creator = c => {
     })
 }
 
-export const creatorDeconverter: (c: Creator) => any = c => ({
+export const creatorDeconverter: (c: Creator) => any = c => clean({
     titles: c.titles,
     initials: c.initials,
     insertions: c.insertions,
     surname: c.surname,
-    ids: c.ids && c.ids.map(creatorSchemeIdDeconverter),
+    ids: c.ids && c.ids.map(creatorSchemeIdDeconverter).filter(nonEmptyObject),
     role: c.role && creatorRoleDeconverter(c.role),
     organization: c.organization,
 })

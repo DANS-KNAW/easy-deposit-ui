@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Value } from "./Value"
+import { clean } from "./misc"
 
 enum SubjectScheme {
     abrComplex = "abr:ABRcomplex",
@@ -38,12 +39,17 @@ export const subjectConverter: (ss: any[]) => [Value[], Value[]] = ss => {
     }, [[], []])
 }
 
-export const subjectDeconverter: (s: Value) => any = s => ({
-    value: s.value
+export const subjectDeconverter: (s: Value) => any = s => clean({
+    value: s.value,
 })
 
-export const subjectAbrDeconverter: (s: Value) => any = s => ({
-    scheme: SubjectScheme.abrComplex,
-    key: s.value,
-    value: "???", // TODO get correct value
-})
+export const subjectAbrDeconverter: (s: Value) => any = s => {
+    if (s.value)
+        return {
+            scheme: SubjectScheme.abrComplex,
+            key: s.value,
+            value: "???", // TODO get correct value
+        }
+    else
+        return {}
+}

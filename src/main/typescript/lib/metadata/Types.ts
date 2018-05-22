@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptyStringValue, Value } from "./Value"
-import {isEqual} from "lodash"
+import { Value } from "./Value"
+import { isEqual } from "lodash"
+import { clean } from "./misc"
 
 enum TypeScheme {
     dcmi = "dcterms:DCMIType",
@@ -37,11 +38,16 @@ export const typesConverter: (types: any[]) => [Value[], Value[]] = types => {
     }, [[], []])
 }
 
-export const dcmiTypeDeconverter: (type: Value) => any = type => ({
-    scheme: TypeScheme.dcmi,
-    value: type.value,
-})
+export const dcmiTypeDeconverter: (type: Value) => any = type => {
+    if (type.value)
+        return {
+            scheme: TypeScheme.dcmi,
+            value: type.value,
+        }
+    else
+        return {}
+}
 
-export const typeDeconverter: (type: Value) => any = type => ({
+export const typeDeconverter: (type: Value) => any = type => clean({
     value: type.value,
 })

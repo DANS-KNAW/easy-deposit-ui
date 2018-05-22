@@ -28,7 +28,6 @@ import {
     sendSubmitDeposit,
 } from "../actions/depositFormActions"
 import { change } from "redux-form"
-import * as lodash from "lodash"
 import {
     alternativeIdentifersConverter,
     alternativeIdentifierDeconverter,
@@ -46,7 +45,7 @@ import {
 import {
     emptyQualifiedSchemedValue,
     emptySchemedValue,
-    emptyStringValue,
+    emptyStringValue, isEmptyStringValue,
     unwrapValue,
     wrapValue,
 } from "../lib/metadata/Value"
@@ -93,7 +92,8 @@ import {
     privacySensitiveDataDeconverter,
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
-import {isEmpty} from "lodash"
+import {isEmpty } from "lodash"
+import { clean, nonEmptyObject } from "../lib/metadata/misc"
 
 function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
     if (!arr || isEmpty(arr))
@@ -217,12 +217,9 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 acceptLicenseAgreement: input.acceptLicenseAgreement || false,
             }
 
-            console.log(data)
-
             dispatch(fetchMetadataSucceeded(data))
         }
         catch (errorMessage) {
-            console.log(errorMessage)
             dispatch(fetchMetadataFailed(errorMessage))
         }
     }
@@ -234,44 +231,47 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
     if (action.type === DepositFormConstants.SAVE_DRAFT || action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
         const data: DepositFormMetadata = action.payload.data
 
-        const output = {
+        const output = clean({
             // basic info
-            indentifiers: [data.doi && doiDeconverter(data.doi)].filter(obj => obj !== undefined),
+            identifiers: [data.doi && doiDeconverter(data.doi)].filter(obj => obj !== undefined),
             languageOfDescription: data.languageOfDescription && languageOfDescriptionDeconverter(data.languageOfDescription),
-            titles: data.titles && data.titles.map(unwrapValue),
-            alternativeTitles: data.alternativeTitles && data.alternativeTitles.map(unwrapValue),
+            titles: data.titles && data.titles.filter(t => !isEmptyStringValue(t)).map(unwrapValue),
+            alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyStringValue(at)).map(unwrapValue),
             descriptions: data.description && data.description.split("\n\n"),
-            creators: data.creators && data.creators.map(creatorDeconverter),
-            contributors: [...(data.contributors || []), ...(data.rightsHolders || [])].map(creatorDeconverter),
-            audiences: data.audiences && data.audiences.map(audienceDeconverter),
+            creators: data.creators && data.creators.map(creatorDeconverter).filter(nonEmptyObject),
+            contributors: [
+                ...(data.contributors || []),
+                ...(data.rightsHolders || [])
+            ].map(creatorDeconverter).filter(nonEmptyObject),
+            audiences: data.audiences && data.audiences.filter(a => !isEmptyStringValue(a)).map(audienceDeconverter),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
                 ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : [])
-            ],
+            ].filter(nonEmptyObject),
             alternativeIdentifiers: [
                 ...(data.alternativeIdentifiers ? data.alternativeIdentifiers.map(alternativeIdentifierDeconverter) : []),
                 ...(data.archisNrs ? data.archisNrs.map(alternativeIdentifierDeconverter) : [])
-            ],
+            ].filter(nonEmptyObject),
             relations: [
                 ...(data.relatedIdentifiers ? data.relatedIdentifiers.map(relatedIdentifierDeconverter) : []),
                 ...(data.relations ? data.relations.map(relationDeconverter) : []),
-            ],
+            ].filter(nonEmptyObject),
             languagesOfFiles: [
                 ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter) : []),
                 ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : [])
-            ],
+            ].filter(nonEmptyObject),
             dates: [
                 (data.dateCreated && qualifiedDateDeconverter({qualifier: DateQualifier.created, value: data.dateCreated})),
                 (data.dateAvailable && qualifiedDateDeconverter({qualifier: DateQualifier.available, value: data.dateAvailable})),
                 // TODO dateSubmitted if submit; not if only save
                 ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
                 ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
-            ],
+            ].filter(nonEmptyObject),
             source: data.source && data.source.split("\n\n"),
             instructionsForReuse: data.instructionsForReuse && data.instructionsForReuse.split("\n\n"),
 
             // license and access
-            publishers: data.publishers && data.publishers.map(unwrapValue),
+            publishers: data.publishers && data.publishers.filter(p => !isEmptyStringValue(p)).map(unwrapValue),
             accessRights: data.accessRights && accessRightDeconverter(data.accessRights), // TODO not sure if this is correct
             license: data.license,
 
@@ -279,24 +279,24 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             types: [
                 ...(data.typesDCMI ? data.typesDCMI.map(dcmiTypeDeconverter) : []),
                 ...(data.types ? data.types.map(typeDeconverter) : []),
-            ],
+            ].filter(nonEmptyObject),
             formats: [
                 ...(data.formatsMediaType ? data.formatsMediaType.map(imtFormatDeconverter) : []),
                 ...(data.formats ? data.formats.map(formatDeconverter) : []),
-                ...(data.extraClarinMetadataPresent ? [cmdiFormatDeconverter] : []),
-            ],
+                ...(data.extraClarinMetadataPresent ? [cmdiFormatDeconverter()] : []),
+            ].filter(nonEmptyObject),
             temporalCoverages: [
                 ...(data.temporalCoveragesAbr ? data.temporalCoveragesAbr.map(abrTemporalCoverageDeconverter) : []),
                 ...(data.temporalCoverages ? data.temporalCoverages.map(temporalCoverageDeconverter) : []),
-            ],
+            ].filter(nonEmptyObject),
 
             // temporal and spatial coverage
-            spatialPoints: data.spatialPoints && data.spatialPoints.map(pointDeconverter),
-            spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter),
+            spatialPoints: data.spatialPoints && data.spatialPoints.map(pointDeconverter).filter(nonEmptyObject),
+            spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter).filter(nonEmptyObject),
             spatialCoverages: [
                 ...(data.spatialCoverageIso3166 ? data.spatialCoverageIso3166.map(isoSpatialCoverageDeconverter) : []),
                 ...(data.spatialCoverages ? data.spatialCoverages.map(spatialCoverageDeconverter) : []),
-            ],
+            ].filter(nonEmptyObject),
 
             // message for data manager
             messageForDataManager: data.messageForDataManager,
@@ -305,21 +305,20 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             privacySensitiveDataPresent: data.privacySensitiveDataPresent && privacySensitiveDataDeconverter(data.privacySensitiveDataPresent),
 
             // deposit license
-            acceptLicenseAgreement: data.acceptLicenseAgreement,
-        }
+            acceptLicenseAgreement: data.acceptLicenseAgreement || undefined,
+        })
 
         // TODO remove this alert once the form is fully implemented. Replace with console.log if necessary.
-        console.log(output)
         alert(`saving draft for ${action.payload.depositId}:\n\n${JSON.stringify(output, null, 2)}`)
 
-        // switch (action.type) {
-        //     case DepositFormConstants.SAVE_DRAFT:
-        //         dispatch(sendSaveDraft(action.payload.depositId, output))
-        //         break
-        //     case DepositFormConstants.SUBMIT_DEPOSIT:
-        //         dispatch(sendSubmitDeposit(action.payload.depositId, output))
-        //         break
-        // }
+        switch (action.type) {
+            case DepositFormConstants.SAVE_DRAFT:
+                dispatch(sendSaveDraft(action.payload.depositId, output))
+                break
+            case DepositFormConstants.SUBMIT_DEPOSIT:
+                dispatch(sendSubmitDeposit(action.payload.depositId, output))
+                break
+        }
     }
 })
 

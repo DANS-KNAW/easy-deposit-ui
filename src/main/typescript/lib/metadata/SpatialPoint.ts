@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Schemed } from "./Value"
+import { clean } from "./misc"
 
 export interface Point extends Schemed {
     x?: number
@@ -33,7 +34,7 @@ export const pointConverter: (p: any) => Point = p => {
         })
 }
 
-export const pointDeconverter: (p: Point) => any = p => ({
+export const pointDeconverter: (p: Point) => any = p => clean({
     scheme: p.scheme,
     x: p.x && p.x.toString(),
     y: p.y && p.y.toString(),

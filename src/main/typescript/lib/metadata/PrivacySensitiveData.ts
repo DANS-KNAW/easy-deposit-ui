@@ -31,4 +31,11 @@ export const privacySensitiveDataConverter: (psd: any) => PrivacySensitiveDataVa
         throw `Error in metadata: no such privacy sensitive data value: '${psd}'`
 }
 
-export const privacySensitiveDataDeconverter: (psd: PrivacySensitiveDataValue) => any = psd => psd.toString()
+export const privacySensitiveDataDeconverter: (psd: PrivacySensitiveDataValue) => any = psd => {
+    switch (psd) {
+        case PrivacySensitiveDataValue.YES:
+        case PrivacySensitiveDataValue.NO:
+            return psd.toString()
+        default: return undefined
+    }
+}

@@ -15,6 +15,7 @@
  */
 import { SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
 import * as lodash from "lodash"
+import { clean } from "./misc"
 
 enum IdentifierScheme {
     DOI = "id-type:DOI",
@@ -52,7 +53,7 @@ export type Doi = string
 
 export const doiConverter: (obj: { [scheme: string]: string }) => Doi = obj => obj[IdentifierScheme.DOI]
 
-export const doiDeconverter: (d: Doi) => any = d => ({
+export const doiDeconverter: (d: Doi) => any = d => clean({
     scheme: IdentifierScheme.DOI,
     value: d,
 })

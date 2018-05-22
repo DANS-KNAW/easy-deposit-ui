@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import { Value } from "./Value"
-import {isEqual} from "lodash"
+import { isEqual } from "lodash"
+import { clean } from "./misc"
 
 enum FormatScheme {
     imt = "dcterms:IMT",
@@ -43,12 +44,17 @@ export const formatsConverter: (formats: any[]) => [Value[], Value[], boolean] =
     }, [[], [], false])
 }
 
-export const imtFormatDeconverter: (type: Value) => any = type => ({
-    scheme: FormatScheme.imt,
-    value: type.value,
-})
+export const imtFormatDeconverter: (type: Value) => any = type => {
+    if (type.value)
+        return {
+            scheme: FormatScheme.imt,
+            value: type.value,
+        }
+    else
+        return {}
+}
 
-export const formatDeconverter: (type: Value) => any = type => ({
+export const formatDeconverter: (type: Value) => any = type => clean({
     value: type.value,
 })
 

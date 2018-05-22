@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Schemed } from "./Value"
+import { clean } from "./misc"
 
 export interface Box extends Schemed {
     north?: number
@@ -37,7 +38,7 @@ export const boxConverter: (b: any) => Box = b => {
         })
 }
 
-export const boxDeconverter: (b: Box) => any = b => ({
+export const boxDeconverter: (b: Box) => any = b => clean({
     scheme: b.scheme,
     north: b.north && b.north.toString(),
     east: b.east && b.east.toString(),

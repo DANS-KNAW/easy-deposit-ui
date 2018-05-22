@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { clean } from "./misc"
+
 export interface AccessRight {
     category?: AccessRightValue
     group?: string
@@ -43,7 +45,7 @@ export const accessRightConverter: (ar: any) => AccessRight = ar => {
     }
 }
 
-export const accessRightDeconverter: (ar: AccessRight) => any = ar => ({
+export const accessRightDeconverter: (ar: AccessRight) => any = ar => clean({
     category: ar.category && ar.category.toString(),
     group: ar.group,
 })

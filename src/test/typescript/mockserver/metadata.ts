@@ -294,7 +294,6 @@ export const allfields: Metadata = {
             organization: "KNAW",
         },
         {
-            titles: "",
             initials: "Foo",
             insertions: "van",
             surname: "Bar",

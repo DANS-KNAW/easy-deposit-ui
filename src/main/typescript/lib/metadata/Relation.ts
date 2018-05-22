@@ -15,6 +15,7 @@
  */
 import { QualifiedSchemedValue, qualifiedSchemedValueConverter, qualifiedSchemedValueDeconverter } from "./Value"
 import { isEmpty, isEqual } from "lodash"
+import { clean } from "./misc"
 
 export interface Relation {
     qualifier?: string
@@ -47,7 +48,7 @@ export const relationsConverter: (rs: any[]) => [QualifiedSchemedValue[], Relati
     }, [[], []])
 }
 
-export const relationDeconverter: (r: Relation) => any = r => ({
+export const relationDeconverter: (r: Relation) => any = r => clean({
     qualifier: r.qualifier,
     url: r.url,
     title: r.title,

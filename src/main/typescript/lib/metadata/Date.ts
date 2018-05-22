@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { clean } from "./misc"
+import * as dateFormat from "dateformat"
+
 enum DateScheme {
     W3CDTF = "dcterms:W3CDTF"
 }
@@ -61,7 +64,7 @@ export interface Dates {
 
 const dateConverter: (d: any) => Date = d => new Date(d)
 
-const dateDeconverter: (d: Date) => any = d => d.toUTCString() // TODO is this one correct?
+const dateDeconverter: (d: Date) => any = d => dateFormat(d, "yyyy-mm-dd")
 
 const qualifiedDateConverter: (sd: any) => InternalDate = sd => {
     const scheme = sd.scheme && toDateScheme(sd.scheme)
@@ -134,13 +137,18 @@ export const qualifiedDatesConverter: (sds: any) => Dates = sds => {
     }, empty)
 }
 
-export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => ({
-    scheme: DateScheme.W3CDTF,
-    value: d.value && dateDeconverter(d.value),
-    qualifier: d.qualifier,
-})
+export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => {
+    if (d.value)
+        return {
+            scheme: DateScheme.W3CDTF,
+            value: dateDeconverter(d.value),
+            qualifier: d.qualifier,
+        }
+    else
+        return {}
+}
 
-export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => ({
+export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => clean({
     value: d.value,
     qualifier: d.qualifier,
 })

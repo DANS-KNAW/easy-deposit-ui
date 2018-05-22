@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptyStringValue, Value } from "./Value"
-import {isEqual} from "lodash"
+import { Value } from "./Value"
+import { isEqual } from "lodash"
+import { clean } from "./misc"
 
 enum TemporalCoverageScheme {
     abrPeriode = "abr:ABRperiode",
@@ -27,7 +28,6 @@ function toTemporalCoverageScheme(value: string): TemporalCoverageScheme | undef
 export const temporalCoveragesConverter: (coverage: any[]) => [Value[], Value[]] = coverages => {
     return coverages.reduce(([abrCoverage, normalCoverages], coverage) => {
         const scheme = coverage.scheme && toTemporalCoverageScheme(coverage.scheme)
-        const value = coverage.value
 
         if (scheme && scheme == TemporalCoverageScheme.abrPeriode)
             return [[...abrCoverage, { value: coverage.key }], normalCoverages]
@@ -38,12 +38,17 @@ export const temporalCoveragesConverter: (coverage: any[]) => [Value[], Value[]]
     }, [[], []])
 }
 
-export const abrTemporalCoverageDeconverter: (coverage: Value) => any = coverage => ({
-    scheme: TemporalCoverageScheme.abrPeriode,
-    key: coverage.value,
-    value: "???", // TODO get correct value
-})
+export const abrTemporalCoverageDeconverter: (coverage: Value) => any = coverage => {
+    if (coverage.value)
+        return {
+            scheme: TemporalCoverageScheme.abrPeriode,
+            key: coverage.value,
+            value: "???", // TODO get correct value
+        }
+    else
+        return {}
+}
 
-export const temporalCoverageDeconverter: (coverage: Value) => any = coverage => ({
+export const temporalCoverageDeconverter: (coverage: Value) => any = coverage => clean({
     value: coverage.value,
 })
