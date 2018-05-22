@@ -23,7 +23,7 @@ export interface Metadata {
     alternativeTitles?: string[]
     descriptions?: string[]
     creators?: CreatorOrContributor[]
-    contributor?: CreatorOrContributor[]
+    contributors?: CreatorOrContributor[]
     audiences?: SchemedKeyValue<AudienceSchemeValues>[]
     subjects?: PossiblySchemedKeyValue<SubjectsSchemeValues>[]
     alternativeIdentifiers?: SchemedValue<ExternalIdentifierSchemeValues>[]
@@ -267,7 +267,8 @@ export const allfields: Metadata = {
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
     descriptions: [
-        "description",
+        "description1",
+        "description2",
     ],
     creators: [
         {
@@ -299,7 +300,7 @@ export const allfields: Metadata = {
             surname: "Bar",
         },
     ],
-    contributor: [
+    contributors: [
         {
             titles: "Dr.",
             initials: "O.",
@@ -456,7 +457,8 @@ export const allfields: Metadata = {
         "source2",
     ],
     instructionsForReuse: [
-        "remark",
+        "remark1",
+        "remark2",
     ],
     publishers: [
         "pub1",

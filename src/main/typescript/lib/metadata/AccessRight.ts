@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 export interface AccessRight {
-    category: AccessRightValue
+    category?: AccessRightValue
     group?: string
 }
 
@@ -44,6 +44,6 @@ export const accessRightConverter: (ar: any) => AccessRight = ar => {
 }
 
 export const accessRightDeconverter: (ar: AccessRight) => any = ar => ({
-    category: ar.category.toString(),
+    category: ar.category && ar.category.toString(),
     group: ar.group,
 })

@@ -34,7 +34,7 @@ export const typesConverter: (types: any[]) => [Value[], Value[]] = types => {
             return [dcmiTypes, [...normalTypes, { value: type.value }]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(type)}`
-    }, [[emptyStringValue], [emptyStringValue]])
+    }, [[], []])
 }
 
 export const dcmiTypeDeconverter: (type: Value) => any = type => ({

@@ -13,13 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-    emptyQualifiedSchemedValue,
-    QualifiedSchemedValue,
-    qualifiedSchemedValueConverter,
-    qualifiedSchemedValueDeconverter,
-} from "./Value"
-import {isEmpty, isEqual} from "lodash"
+import { QualifiedSchemedValue, qualifiedSchemedValueConverter, qualifiedSchemedValueDeconverter } from "./Value"
+import { isEmpty, isEqual } from "lodash"
 
 export interface Relation {
     qualifier?: string
@@ -49,7 +44,7 @@ export const relationsConverter: (rs: any[]) => [QualifiedSchemedValue[], Relati
             return [relatedIdentifiers, [...relations, relationConverter(r)]]
         else
             throw `Error in metadata: unrecognized relation: ${JSON.stringify(r)}`
-    }, [[emptyQualifiedSchemedValue], [emptyRelation]])
+    }, [[], []])
 }
 
 export const relationDeconverter: (r: Relation) => any = r => ({

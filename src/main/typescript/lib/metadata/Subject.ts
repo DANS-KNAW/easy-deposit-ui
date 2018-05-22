@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptyStringValue, Value } from "./Value"
+import { Value } from "./Value"
 
 enum SubjectScheme {
     abrComplex = "abr:ABRcomplex",
@@ -35,7 +35,7 @@ export const subjectConverter: (ss: any[]) => [Value[], Value[]] = ss => {
             return [[...subjects, { value: value }], abrSubjects]
         else
             throw `Error in metadata: unrecognized subject: ${JSON.stringify(s)}`
-    }, [[emptyStringValue], [emptyStringValue]])
+    }, [[], []])
 }
 
 export const subjectDeconverter: (s: Value) => any = s => ({

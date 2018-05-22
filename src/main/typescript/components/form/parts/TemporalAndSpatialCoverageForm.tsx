@@ -27,7 +27,7 @@ import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: Value[]
-    spatialPoint?: Point[]
+    spatialPoints?: Point[]
     spatialBoxes?: Box[]
     spatialCoverageIso3166?: Value[]
     spatialCoverages?: Value[]
@@ -79,7 +79,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 </div>
 
                 <div className="row form-group input-element">
-                    <RepeatableField name="spatialPoint"
+                    <RepeatableField name="spatialPoints"
                                      label="Spatial point"
                                      empty={emptyPoint}
                                      fieldNames={[

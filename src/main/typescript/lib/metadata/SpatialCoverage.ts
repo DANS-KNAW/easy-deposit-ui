@@ -34,7 +34,7 @@ export const spatialCoveragesConverter: (coverage: any[]) => [Value[], Value[]] 
             return [isoCoverage, [...normalCoverages, { value: coverage.value }]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(coverage)}`
-    }, [[emptyStringValue], [emptyStringValue]])
+    }, [[], []])
 }
 
 export const isoSpatialCoverageDeconverter: (coverage: Value) => any = coverage => ({

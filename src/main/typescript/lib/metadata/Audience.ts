@@ -27,7 +27,7 @@ export const audienceConverter: (a: any) => Value = a => {
     const scheme = toAudienceScheme(a.scheme)
 
     if (scheme && scheme === AudienceScheme.narcisDisciplineTypes)
-        return wrapValue(a.value)
+        return wrapValue(a.key)
     else
         throw `Error in metadata: no such audience scheme: '${a.scheme}'`
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptyStringValue, Value } from "./Value"
+import { Value } from "./Value"
 import {isEqual} from "lodash"
 
 enum FormatScheme {
@@ -31,7 +31,7 @@ export const formatsConverter: (formats: any[]) => [Value[], Value[], boolean] =
         const scheme = format.scheme && toFormatScheme(format.scheme)
         const value = format.value
 
-        if (scheme && scheme == FormatScheme.imt)
+        if (scheme && scheme === FormatScheme.imt)
             if (value === cmdiFormat)
                 return [imtFormats, normalFormats, true]
             else
@@ -40,7 +40,7 @@ export const formatsConverter: (formats: any[]) => [Value[], Value[], boolean] =
             return [imtFormats, [...normalFormats, { value: format.value }], hasCmdi]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(format)}`
-    }, [[emptyStringValue], [emptyStringValue], false])
+    }, [[], [], false])
 }
 
 export const imtFormatDeconverter: (type: Value) => any = type => ({

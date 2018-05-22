@@ -93,6 +93,18 @@ import {
     privacySensitiveDataDeconverter,
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
+import {isEmpty} from "lodash"
+
+function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
+    if (arr) {
+        if (isEmpty(arr))
+            return [defaultValue()]
+        else
+            return arr
+    }
+    else
+        return [defaultValue()]
+}
 
 const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
@@ -100,99 +112,123 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
     if (action.type === DepositFormConstants.FETCH_METADATA_FULFILLED) {
         const input = action.payload
 
+        console.log("input", input)
+
         try {
             const identifiers = input.identifiers && identifiersConverter(input.identifiers)
+            const languageOfDescription = input.languageOfDescription
+                ? languageOfDescriptionConverter(input.languageOfDescription)
+                : ""
+            const titles = input.titles && input.titles.map(wrapValue)
+            const alternativeTitles = input.alternativeTitles && input.alternativeTitles.map(wrapValue)
+            const creators = input.creators && input.creators.map(creatorConverter)
             const [rightsHolders, normalContributors] = input.contributors
                 ? contributorsConverter(input.contributors)
-                : [[emptyCreator], [emptyCreator]]
+                : [[], []]
             const {dateCreated, dateAvailable, dateSubmitted, dates, textDates} = input.dates
                 ? qualifiedDatesConverter(input.dates)
                 : emptyDates
+            const audiences = input.audiences && input.audiences.map(audienceConverter)
             const [subjects, abrSubjects] = input.subjects
                 ? subjectConverter(input.subjects)
-                : [[emptyStringValue], [emptyStringValue]]
+                : [[], []]
             const [archisIdentifiers, alternativeIdentifiers] = input.alternativeIdentifiers
                 ? alternativeIdentifersConverter(input.alternativeIdentifiers)
-                : [[emptySchemedValue], [emptySchemedValue]]
+                : [[], []]
             const [relatedIdentifiers, relations] = input.relations
                 ? relationsConverter(input.relations)
-                : [[emptyQualifiedSchemedValue], [emptyRelation]]
+                : [[], []]
             const [isoLanguageOfFiles, languageOfFiles] = input.languagesOfFiles
                 ? languagesOfFilesConverter(input.languagesOfFiles)
-                : [[emptyStringValue], [emptyStringValue]]
+                : [[], []]
+            const sources = input.sources && input.sources.join("\n\n")
+            const instructionsForReuse = input.instructionsForReuse && input.instructionsForReuse.join("\n\n")
+            const publishers = input.publishers && input.publishers.map(wrapValue)
+            const accessRights = input.accessRights
+                ? accessRightConverter(input.accessRights)
+                : { category: undefined, group: undefined }
             const [dcmiTypes, normalTypes] = input.types
                 ? typesConverter(input.types)
-                : [[emptyStringValue], [emptyStringValue]]
+                : [[], []]
             const [imtFormats, normalFormats, hasCmdiFormat] = input.formats
                 ? formatsConverter(input.formats)
-                : [[emptyStringValue], [emptyStringValue], false]
+                : [[], [], false]
             const [abrTemporalCoverages, normalTemporalCoverages] = input.temporalCoverages
                 ? temporalCoveragesConverter(input.temporalCoverages)
-                : [[emptyStringValue], [emptyStringValue]]
+                : [[], []]
+            const spatialPoints = input.spatialPoints && input.spatialPoints.map(pointConverter)
+            const spatialBoxes = input.spatialBoxes && input.spatialBoxes.map(boxConverter)
             const [isoSpatialCoverages, normalSpatialCoverages] = input.spatialCoverages
                 ? spatialCoveragesConverter(input.spatialCoverages)
-                : [[emptyStringValue], [emptyStringValue]]
+                : [[], []]
+            const privacySensitiveDataPresent = input.privacySensitiveDataPresent
+                ? privacySensitiveDataConverter(input.privacySensitiveDataPresent)
+                : PrivacySensitiveDataValue.UNSPECIFIED
 
             const data: DepositFormMetadata = {
                 // basic info
                 doi: identifiers && doiConverter(identifiers),
-                languageOfDescription: input.languageOfDescription ? languageOfDescriptionConverter(input.languageOfDescription) : "",
-                titles: input.titles ? input.titles.map(wrapValue) : [emptyStringValue],
-                alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrapValue) : [emptyStringValue],
+                languageOfDescription: languageOfDescription,
+                titles: normalizeEmpty(titles, () => emptyStringValue),
+                alternativeTitles: normalizeEmpty(alternativeTitles, () => emptyStringValue),
                 description: input.descriptions && input.descriptions.join("\n\n"),
-                creators: input.creators ? input.creators.map(creatorConverter) : [emptyCreator],
-                contributors: normalContributors,
+                creators: normalizeEmpty(creators, () => emptyCreator),
+                contributors: normalizeEmpty(normalContributors, () => emptyCreator),
                 dateCreated: dateCreated && dateCreated.value,
-                audiences: input.audiences ? input.audiences.map(audienceConverter) : [emptyStringValue],
-                subjects: subjects,
-                alternativeIdentifiers: alternativeIdentifiers,
-                relatedIdentifiers: relatedIdentifiers,
-                relations: relations,
-                languagesOfFilesIso639: isoLanguageOfFiles,
-                languagesOfFiles: languageOfFiles,
-                datesIso8601: lodash.isEmpty(dates) ? [emptyQualifiedDate] : dates,
-                dates: lodash.isEmpty(textDates) ? [emptyQualifiedStringDate] : textDates,
-                source: input.sources && input.sources.join("\n\n"),
-                instructionsForReuse: input.instructionsForReuse && input.instructionsForReuse.join("\n\n"),
+                audiences: normalizeEmpty(audiences, () => emptyStringValue),
+                subjects: normalizeEmpty(subjects, () => emptyStringValue),
+                alternativeIdentifiers: normalizeEmpty(alternativeIdentifiers, () => emptySchemedValue),
+                relatedIdentifiers: normalizeEmpty(relatedIdentifiers, () => emptyQualifiedSchemedValue),
+                relations: normalizeEmpty(relations, () => emptyRelation),
+                languagesOfFilesIso639: normalizeEmpty(isoLanguageOfFiles, () => emptyStringValue),
+                languagesOfFiles: normalizeEmpty(languageOfFiles, () => emptyStringValue),
+                datesIso8601: normalizeEmpty(dates, () => emptyQualifiedDate),
+                dates: normalizeEmpty(textDates, () => emptyQualifiedStringDate),
+                source: sources,
+                instructionsForReuse: instructionsForReuse,
 
                 // license and access
-                rightsHolders: rightsHolders,
-                publishers: input.publishers ? input.publishers.map(wrapValue) : [emptyStringValue],
-                accessRights: input.accessRights && accessRightConverter(input.accessRights),
+                rightsHolders: normalizeEmpty(rightsHolders, () => emptyCreator),
+                publishers: normalizeEmpty(publishers, () => emptyStringValue),
+                accessRights: accessRights,
                 license: input.license,
                 dateAvailable: dateAvailable && dateAvailable.value,
 
                 // upload type
-                typesDCMI: dcmiTypes,
-                types: normalTypes,
-                formatsMediaType: imtFormats,
-                formats: normalFormats,
+                typesDCMI: normalizeEmpty(dcmiTypes, () => emptyStringValue),
+                types: normalizeEmpty(normalTypes, () => emptyStringValue),
+                formatsMediaType: normalizeEmpty(imtFormats, () => emptyStringValue),
+                formats: normalizeEmpty(normalFormats, () => emptyStringValue),
                 extraClarinMetadataPresent: hasCmdiFormat,
 
                 // archaeology specific metadata
-                archisNrs: archisIdentifiers,
-                subjectsAbrComplex: abrSubjects,
-                temporalCoveragesAbr: abrTemporalCoverages,
+                archisNrs: normalizeEmpty(archisIdentifiers, () => emptyStringValue),
+                subjectsAbrComplex: normalizeEmpty(abrSubjects, () => emptyStringValue),
+                temporalCoveragesAbr: normalizeEmpty(abrTemporalCoverages, () => emptyStringValue),
 
                 // temporal and spatial coverage
-                temporalCoverages: normalTemporalCoverages,
-                spatialPoint: input.spatialPoint ? input.spatialPoint.map(pointConverter) : [emptyPoint],
-                spatialBoxes: input.spatialBoxes ? input.spatialBoxes.map(boxConverter) : [emptyBox],
-                spatialCoverageIso3166: isoSpatialCoverages,
-                spatialCoverages: normalSpatialCoverages,
+                temporalCoverages: normalizeEmpty(normalTemporalCoverages, () => emptyStringValue),
+                spatialPoints: normalizeEmpty(spatialPoints, () => emptyPoint),
+                spatialBoxes: normalizeEmpty(spatialBoxes, () => emptyBox),
+                spatialCoverageIso3166: normalizeEmpty(isoSpatialCoverages, () => emptyStringValue),
+                spatialCoverages: normalizeEmpty(normalSpatialCoverages, () => emptyStringValue),
 
                 // message for data manager
                 messageForDataManager: input.messageForDataManager,
 
                 // privacy sensitive data
-                privacySensitiveDataPresent: input.privacySensitiveDataPresent ? privacySensitiveDataConverter(input.privacySensitiveDataPresent) : PrivacySensitiveDataValue.UNSPECIFIED,
+                privacySensitiveDataPresent: privacySensitiveDataPresent,
 
                 // deposit license
                 acceptLicenseAgreement: input.acceptLicenseAgreement || false,
             }
+
+            console.log(data)
+
             dispatch(fetchMetadataSucceeded(data))
         }
         catch (errorMessage) {
+            console.log(errorMessage)
             dispatch(fetchMetadataFailed(errorMessage))
         }
     }
@@ -261,7 +297,7 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             ],
 
             // temporal and spatial coverage
-            spatialPoints: data.spatialPoint && data.spatialPoint.map(pointDeconverter),
+            spatialPoints: data.spatialPoints && data.spatialPoints.map(pointDeconverter),
             spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter),
             spatialCoverages: [
                 ...(data.spatialCoverageIso3166 ? data.spatialCoverageIso3166.map(isoSpatialCoverageDeconverter) : []),
@@ -279,16 +315,17 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
         }
 
         // TODO remove this alert once the form is fully implemented. Replace with console.log if necessary.
+        console.log(output)
         alert(`saving draft for ${action.payload.depositId}:\n\n${JSON.stringify(output, null, 2)}`)
 
-        switch (action.type) {
-            case DepositFormConstants.SAVE_DRAFT:
-                dispatch(sendSaveDraft(action.payload.depositId, output))
-                break
-            case DepositFormConstants.SUBMIT_DEPOSIT:
-                dispatch(sendSubmitDeposit(action.payload.depositId, output))
-                break
-        }
+        // switch (action.type) {
+        //     case DepositFormConstants.SAVE_DRAFT:
+        //         dispatch(sendSaveDraft(action.payload.depositId, output))
+        //         break
+        //     case DepositFormConstants.SUBMIT_DEPOSIT:
+        //         dispatch(sendSubmitDeposit(action.payload.depositId, output))
+        //         break
+        // }
     }
 })
 

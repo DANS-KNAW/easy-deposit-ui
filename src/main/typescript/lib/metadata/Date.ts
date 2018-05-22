@@ -114,7 +114,7 @@ export const qualifiedDatesConverter: (sds: any) => Dates = sds => {
                 if (res.dateCreated)
                     throw `Error in metadata: multiple dates with qualifier 'created' found`
                 else
-                    return { ...res, created: { qualifier: qualifier, value: dateConverter(value) } }
+                    return { ...res, dateCreated: { qualifier: qualifier, value: dateConverter(value) } }
             case DateQualifier.available:
                 if (res.dateAvailable)
                     throw `Error in metadata: multiple dates with qualifier 'available' found`

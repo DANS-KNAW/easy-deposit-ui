@@ -35,7 +35,7 @@ export const temporalCoveragesConverter: (coverage: any[]) => [Value[], Value[]]
             return [abrCoverage, [...normalCoverages, { value: coverage.value }]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(coverage)}`
-    }, [[emptyStringValue], [emptyStringValue]])
+    }, [[], []])
 }
 
 export const abrTemporalCoverageDeconverter: (coverage: Value) => any = coverage => ({

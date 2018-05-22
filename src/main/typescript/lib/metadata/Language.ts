@@ -28,7 +28,7 @@ export const languageOfDescriptionConverter: (schemedLanguageOfDescription: any)
     const scheme = toLanguageScheme(lang.scheme)
 
     if (scheme && scheme === LanguageScheme.ISO639_2)
-        return lang.value
+        return lang.key
     else
         throw `Error in metadata: no such language scheme: '${lang.scheme}'`
 }
@@ -49,7 +49,7 @@ export const languagesOfFilesConverter: (lofs: any[]) => [Value[], Value[]] = lo
             return [isoLangs, [...langs, {value: lof.value}]]
         else
             throw `Error in metadata: unrecognized language-of-files object: ${JSON.stringify(lof)}`
-    }, [[emptyStringValue], [emptyStringValue]])
+    }, [[], []])
 }
 
 export const languageOfFilesIsoDeconverter: (lof: Value) => any = lof => ({

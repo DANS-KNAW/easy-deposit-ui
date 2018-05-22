@@ -82,13 +82,13 @@ const creatorRoleDeconverter: (r: string) => any = r => ({
 
 export const creatorConverter: (c: any) => Creator = c => {
     return ({
-        titles: c.titles,
-        initials: c.initials,
-        insertions: c.insertions,
-        surname: c.surname,
+        titles: c.titles || "",
+        initials: c.initials || "",
+        insertions: c.insertions || "",
+        surname: c.surname || "",
         ids: c.ids ? c.ids.map(creatorSchemeIdConverter) : [emptySchemedValue],
-        role: c.role && creatorRoleConverter(c.role),
-        organization: c.organization,
+        role: c.role ? creatorRoleConverter(c.role) : "",
+        organization: c.organization || "",
     })
 }
 
