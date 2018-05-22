@@ -96,14 +96,10 @@ import {
 import {isEmpty} from "lodash"
 
 function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
-    if (arr) {
-        if (isEmpty(arr))
-            return [defaultValue()]
-        else
-            return arr
-    }
-    else
+    if (!arr || isEmpty(arr))
         return [defaultValue()]
+    else
+        return arr
 }
 
 const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
@@ -111,8 +107,6 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
 
     if (action.type === DepositFormConstants.FETCH_METADATA_FULFILLED) {
         const input = action.payload
-
-        console.log("input", input)
 
         try {
             const identifiers = input.identifiers && identifiersConverter(input.identifiers)
@@ -191,7 +185,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 rightsHolders: normalizeEmpty(rightsHolders, () => emptyCreator),
                 publishers: normalizeEmpty(publishers, () => emptyStringValue),
                 accessRights: accessRights,
-                license: input.license,
+                license: input.license || "",
                 dateAvailable: dateAvailable && dateAvailable.value,
 
                 // upload type
@@ -214,7 +208,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 spatialCoverages: normalizeEmpty(normalSpatialCoverages, () => emptyStringValue),
 
                 // message for data manager
-                messageForDataManager: input.messageForDataManager,
+                messageForDataManager: input.messageForDataManager || "",
 
                 // privacy sensitive data
                 privacySensitiveDataPresent: privacySensitiveDataPresent,
