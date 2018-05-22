@@ -71,12 +71,17 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
         return (
             <div className="container pl-0 pr-0">
                 <div className="row form-group input-element">
+                    <p>Rightsholders</p>
+                </div>
+
+                {/* TODO replace the Rightsholders with a Creator field */}
+                {/*<div className="row form-group input-element">
                     <RepeatableField name="rightsHolders"
                                      label="Rightsholders"
                                      empty={emptyStringValue}
                                      fieldNames={[(name: string) => `${name}.value`]}
                                      component={TextFieldArray}/>
-                </div>
+                </div>*/}
 
                 <div className="row form-group input-element">
                     <RepeatableField name="publishers"

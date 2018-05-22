@@ -29,8 +29,7 @@ const PrivacySensitiveDataForm = () => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
             {/* TODO provide a proper text */}
-            <p>Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet
-                maken.</p>
+            Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.
         </div>
 
         <div className="row form-group input-element">

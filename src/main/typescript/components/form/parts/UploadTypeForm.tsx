@@ -77,6 +77,19 @@ const FormatMediaTypeFieldArray = (props: FieldArrayProps<Value>) => (
     ]}/>
 )
 
+const clarinChoices = [
+    {
+        name: "no CLARIN metadata",
+        title: false,
+        value: "This dataset does not contain CLARIN metadata, i.e., no CMDI files",
+    },
+    {
+        name: "contains CLARIN metadata",
+        title: true,
+        value: "This dataset contains CLARIN metadata, i.e., CMDI file(s)",
+    },
+]
+
 class UploadTypeForm extends Component<UploadTypeFormProps> {
     render() {
         return (
@@ -117,18 +130,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                     <Field name="extraClarinMetadataPresent"
                            label="Contains CLARIN metadata"
                            withLabel
-                           choices={[
-                               {
-                                   name: "no CLARIN metadata",
-                                   title: false,
-                                   value: "This dataset does not contain CLARIN metadata, i.e., no CMDI files",
-                               },
-                               {
-                                   name: "contains CLARIN metadata",
-                                   title: true,
-                                   value: "This dataset contains CLARIN metadata, i.e., CMDI file(s)",
-                               },
-                           ]}
+                           choices={clarinChoices}
                            component={RadioChoices}
                            validate={[oneSelected]}/>
                 </div>
