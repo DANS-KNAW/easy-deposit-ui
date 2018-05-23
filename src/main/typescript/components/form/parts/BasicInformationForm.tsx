@@ -74,11 +74,10 @@ interface DoiFieldProps {
 type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
 
 const AudienceFieldArray = (props: FieldArrayProps<SchemedValue>) => (
-    <SelectFieldArray {...props} choices={[
+    <SelectFieldArray {...props} withEmptyDefault choices={[
         // TODO fetch from server
         // TODO this list is incorrect
         // @formatter:off
-        { key: "",       value: "Choose..." },
         { key: "D30000", value: "Humanities" },
         { key: "D37000", value: "--- Archaeology" },
         { key: "D35000", value: "--- Arts and culture" },
@@ -307,7 +306,7 @@ const AudienceFieldArray = (props: FieldArrayProps<SchemedValue>) => (
 )
 
 const AlternativeIdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) => (
-    <SchemedTextFieldArray {...props} schemeValues={[
+    <SchemedTextFieldArray {...props} withEmptyDefault schemeValues={[
         // @formatter:off
         // TODO is this list correct/complete?
         { key: "id-type:DOI",                       value: "DOI" },
@@ -325,7 +324,7 @@ const AlternativeIdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) =
 const DateFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
         // @formatter:off
-        { key: "dcterms:date",            value: "Date" }, // TODO is this one supposed to be here?
+        // first option is the default
         { key: "dcterms:valid",           value: "Valid" },
         { key: "dcterms:issued",          value: "Issued" },
         { key: "dcterms:modified",        value: "Modified" },

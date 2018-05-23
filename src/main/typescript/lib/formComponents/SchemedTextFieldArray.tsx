@@ -21,9 +21,10 @@ import SelectField from "./SelectField"
 
 interface SchemedTextFieldArrayProps {
     schemeValues: { key: string, value: string }[]
+    withEmptyDefault?: boolean
 }
 
-function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, schemeValues }: FieldArrayProps<T> & SchemedTextFieldArrayProps) {
+function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, schemeValues, withEmptyDefault }: FieldArrayProps<T> & SchemedTextFieldArrayProps) {
     return (
         <>
             <label className="col-12 col-md-3 pl-0 title-label multi-field-label">{label}</label>
@@ -35,8 +36,8 @@ function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, sche
                                 <Field id="spatialCoverageISO3166Scheme"
                                        name={fieldNames[0](name)}
                                        label="Scheme"
+                                       withEmptyDefault={withEmptyDefault}
                                        component={SelectField}>
-                                    <option>Choose...</option>
                                     {schemeValues.map((value, index) => (
                                         <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
                                     ))}

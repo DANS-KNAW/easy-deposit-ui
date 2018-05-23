@@ -35,8 +35,8 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                 <Field id="spatialPointScheme"
                                        name={fieldNames[0](name)}
                                        label="Scheme"
+                                       withEmptyDefault
                                        component={SelectField}>
-                                    <option>Choose...</option>
                                     {schemeValues.map((value, index) => (
                                         <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
                                     ))}

@@ -38,7 +38,6 @@ interface LicenseAndAccessFormProps {
 // TODO expand values into better descriptions
 const licenses = [
     // @formatter:off
-    { key: "",                                                            value: "Choose..." },
     { key: "http://creativecommons.org/publicdomain/zero/1.0",            value: "CC0-1.0" },
     { key: "http://creativecommons.org/licenses/by-nc/3.0",               value: "BY-NC-3.0" },
     { key: "http://creativecommons.org/licenses/by-nc-sa/3.0",            value: "BY-NC-SA-3.0" },
@@ -100,6 +99,7 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                            label="License"
                            className="col-12 col-md-8"
                            withLabel
+                           withEmptyDefault
                            component={SelectField}>
                         {licenses.map((value, index) => (
                             <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
