@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Schemed } from "./Value"
 import { clean } from "./misc"
 
-export interface Point extends Schemed {
+export interface Point {
+    scheme?: string
     x?: number
     y?: number
 }

@@ -29,33 +29,28 @@ import { FetchDoiState } from "../../../model/DepositForm"
 import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
-import {
-    emptySchemedValue,
-    emptyStringValue,
-    QualifiedSchemedValue,
-    SchemedValue,
-    Value,
-} from "../../../lib/metadata/Value"
+import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Creator } from "../../../lib/metadata/Creator"
 import { QualifiedDate } from "../../../lib/metadata/Date"
 import { Relation } from "../../../lib/metadata/Relation"
+import { emptyString } from "../../../lib/metadata/misc"
 
 export interface BasicInformationFormData {
     doi?: Doi
     languageOfDescription?: string
-    titles?: Value[]
-    alternativeTitles?: Value[]
+    titles?: string[]
+    alternativeTitles?: string[]
     description?: string
     creators?: Creator[]
     contributors?: Creator[]
     dateCreated?: Date
-    audiences?: Value[]
-    subjects?: Value[]
+    audiences?: string[]
+    subjects?: string[]
     alternativeIdentifiers?: SchemedValue[]
     relatedIdentifiers?: QualifiedSchemedValue[]
     relations?: Relation[]
-    languagesOfFilesIso639?: Value[]
-    languagesOfFiles?: Value[]
+    languagesOfFilesIso639?: string[]
+    languagesOfFiles?: string[]
     datesIso8601?: QualifiedDate<Date>[]
     dates?: QualifiedDate<string>[]
     source?: string
@@ -354,16 +349,16 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 <div className="row form-group input-element">
                     <RepeatableField name="titles"
                                      label="Title"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
                     <RepeatableField name="alternativeTitles"
                                      label="Alternative title"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -391,16 +386,16 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 <div className="row form-group input-element">
                     <RepeatableField name="audiences"
                                      label="Audience"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={AudienceFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
                     <RepeatableField name="subjects"
                                      label="Subject"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -430,8 +425,8 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 <div className="row form-group input-element">
                     <RepeatableField name="languagesOfFiles"
                                      label="Language of files"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 

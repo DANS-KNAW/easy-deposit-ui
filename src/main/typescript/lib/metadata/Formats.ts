@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value } from "./Value"
 import { isEqual } from "lodash"
 import { clean } from "./misc"
 
@@ -27,7 +26,7 @@ function toFormatScheme(value: string): FormatScheme | undefined {
     return Object.values(FormatScheme).find(v => v === value)
 }
 
-export const formatsConverter: (formats: any[]) => [Value[], Value[], boolean] = formats => {
+export const formatsConverter: (formats: any[]) => [string[], string[], boolean] = formats => {
     return formats.reduce(([imtFormats, normalFormats, hasCmdi], format) => {
         const scheme = format.scheme && toFormatScheme(format.scheme)
         const value = format.value
@@ -36,26 +35,26 @@ export const formatsConverter: (formats: any[]) => [Value[], Value[], boolean] =
             if (value === cmdiFormat)
                 return [imtFormats, normalFormats, true]
             else
-                return [[...imtFormats, { value: format.value }], normalFormats, hasCmdi]
+                return [[...imtFormats, format.value], normalFormats, hasCmdi]
         else if (isEqual(Object.keys(format), ["value"]))
-            return [imtFormats, [...normalFormats, { value: format.value }], hasCmdi]
+            return [imtFormats, [...normalFormats, format.value], hasCmdi]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(format)}`
     }, [[], [], false])
 }
 
-export const imtFormatDeconverter: (type: Value) => any = type => {
-    if (type.value)
+export const imtFormatDeconverter: (type: string) => any = type => {
+    if (type)
         return {
             scheme: FormatScheme.imt,
-            value: type.value,
+            value: type,
         }
     else
         return {}
 }
 
-export const formatDeconverter: (type: Value) => any = type => clean({
-    value: type.value,
+export const formatDeconverter: (type: string) => any = type => clean({
+    value: type,
 })
 
 export const cmdiFormatDeconverter: () => any = () => ({

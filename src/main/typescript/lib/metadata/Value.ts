@@ -15,29 +15,10 @@
  */
 import { clean } from "./misc"
 
-export interface Qualifier<Q = string> {
-    qualifier: Q
+export interface SchemedValue {
+    scheme: string
+    value: string
 }
-
-export interface Schemed<Scheme = string> {
-    scheme: Scheme
-}
-
-export interface Value<Type = string> {
-    value: Type
-}
-
-export const emptyStringValue: Value = { value: "" }
-
-export const isEmptyStringValue: (v: Value) => boolean = v => v === emptyStringValue
-
-export const wrapValue: (v: any) => Value = v => ({
-    value: v
-})
-
-export const unwrapValue: (value: Value) => string = value => value.value
-
-export type SchemedValue = Schemed & Value
 
 export const emptySchemedValue: SchemedValue = { scheme: "", value: "" }
 
@@ -51,7 +32,11 @@ export const schemedValueDeconverter: (sv: SchemedValue) => any = sv => clean({
     value: sv.value,
 })
 
-export type QualifiedSchemedValue = Qualifier & Schemed & Value
+export interface QualifiedSchemedValue {
+    qualifier: string
+    scheme: string
+    value: string
+}
 
 export const emptyQualifiedSchemedValue: QualifiedSchemedValue = { qualifier: "", scheme: "", value: "" }
 

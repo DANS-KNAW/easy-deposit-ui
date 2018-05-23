@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value } from "./Value"
 import { isEqual } from "lodash"
 import { clean } from "./misc"
 
@@ -40,30 +39,30 @@ export const languageOfDescriptionDeconverter: (lang: string) => any = lang => c
     value: "???", // TODO get correct value
 })
 
-export const languagesOfFilesConverter: (lofs: any[]) => [Value[], Value[]] = lofs => {
+export const languagesOfFilesConverter: (lofs: any[]) => [string[], string[]] = lofs => {
     return lofs.reduce(([isoLangs, langs], lof) => {
         const scheme = lof.scheme && toLanguageScheme(lof.scheme)
 
         if (scheme && scheme === LanguageScheme.ISO639_2)
-            return [[...isoLangs, { value: lof.key }], langs]
+            return [[...isoLangs, lof.key], langs]
         else if (isEqual(Object.keys(lof), ["value"]))
-            return [isoLangs, [...langs, { value: lof.value }]]
+            return [isoLangs, [...langs, lof.value]]
         else
             throw `Error in metadata: unrecognized language-of-files object: ${JSON.stringify(lof)}`
     }, [[], []])
 }
 
-export const languageOfFilesIsoDeconverter: (lof: Value) => any = lof => {
-    if (lof.value)
+export const languageOfFilesIsoDeconverter: (lof: string) => any = lof => {
+    if (lof)
         return {
             scheme: LanguageScheme.ISO639_2,
-            key: lof.value,
+            key: lof,
             value: "???", // TODO get correct value
         }
     else
         return {}
 }
 
-export const languageOfFilesDeconverter: (lof: Value) => any = lof => clean({
-    value: lof.value,
+export const languageOfFilesDeconverter: (lof: string) => any = lof => clean({
+    value: lof,
 })

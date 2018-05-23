@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value } from "./Value"
 import { clean } from "./misc"
 
 enum SubjectScheme {
@@ -24,30 +23,30 @@ function toSubjectScheme(value: string): SubjectScheme | undefined {
     return Object.values(SubjectScheme).find(v => v === value)
 }
 
-export const subjectConverter: (ss: any[]) => [Value[], Value[]] = ss => {
+export const subjectConverter: (ss: any[]) => [string[], string[]] = ss => {
     return ss.reduce(([subjects, abrSubjects], s) => {
         const scheme = s.scheme && toSubjectScheme(s.scheme)
         const key = s.key
         const value = s.value
 
         if (scheme && key)
-            return [subjects, [...abrSubjects, { value: key }]]
+            return [subjects, [...abrSubjects, key]]
         else if (!scheme && !key && value)
-            return [[...subjects, { value: value }], abrSubjects]
+            return [[...subjects, value], abrSubjects]
         else
             throw `Error in metadata: unrecognized subject: ${JSON.stringify(s)}`
     }, [[], []])
 }
 
-export const subjectDeconverter: (s: Value) => any = s => clean({
-    value: s.value,
+export const subjectDeconverter: (s: string) => any = s => clean({
+    value: s,
 })
 
-export const subjectAbrDeconverter: (s: Value) => any = s => {
-    if (s.value)
+export const subjectAbrDeconverter: (s: string) => any = s => {
+    if (s)
         return {
             scheme: SubjectScheme.abrComplex,
-            key: s.value,
+            key: s,
             value: "???", // TODO get correct value
         }
     else

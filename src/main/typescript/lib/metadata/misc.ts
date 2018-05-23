@@ -28,3 +28,7 @@ export function clean<T>(obj: T): Partial<T> {
 export function nonEmptyObject<T>(obj: T): boolean {
     return obj && !isEmpty(obj)
 }
+
+export const emptyString: string = ""
+
+export const isEmptyString: (s: String) => boolean = s => s.length === 0

@@ -19,17 +19,18 @@ import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import SchemedPointArrayField from "../../../lib/formComponents/SchemedPointArrayField"
 import SchemedBoxArrayField from "../../../lib/formComponents/SchemedBoxArrayField"
-import { emptySchemedValue, emptyStringValue, SchemedValue, Value } from "../../../lib/metadata/Value"
+import { emptySchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { emptyPoint, Point } from "../../../lib/metadata/SpatialPoint"
 import { Box, emptyBox } from "../../../lib/metadata/SpatialBox"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
+import { emptyString } from "../../../lib/metadata/misc"
 
 export interface TemporalAndSpatialCoverageFormData {
-    temporalCoverages?: Value[]
+    temporalCoverages?: string[]
     spatialPoints?: Point[]
     spatialBoxes?: Box[]
-    spatialCoverageIso3166?: Value[]
-    spatialCoverages?: Value[]
+    spatialCoverageIso3166?: string[]
+    spatialCoverages?: string[]
 }
 
 interface TemporalAndSpatialCoverageFormProps {
@@ -74,8 +75,8 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 <div className="row form-group input-element">
                     <RepeatableField name="temporalCoverages"
                                      label="Temporal coverage"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -110,7 +111,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                                      label="Spatial coverage (ISO 3166)"
                                      empty={emptySchemedValue}
                                      fieldNames={[
-                                         (name: string) => `${name}.value`,
+                                         (name: string) => name,
                                      ]}
                                      component={SpatialCoverageIso3166FieldArray}/>
                 </div>
@@ -118,8 +119,8 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                 <div className="row form-group input-element">
                     <RepeatableField name="spatialCoverages"
                                      label="Spatial coverage"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
             </div>

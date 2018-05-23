@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value } from "./Value"
 import { isEqual } from "lodash"
 import { clean } from "./misc"
 
@@ -25,30 +24,30 @@ function toTemporalCoverageScheme(value: string): TemporalCoverageScheme | undef
     return Object.values(TemporalCoverageScheme).find(v => v === value)
 }
 
-export const temporalCoveragesConverter: (coverage: any[]) => [Value[], Value[]] = coverages => {
+export const temporalCoveragesConverter: (coverage: any[]) => [string[], string[]] = coverages => {
     return coverages.reduce(([abrCoverage, normalCoverages], coverage) => {
         const scheme = coverage.scheme && toTemporalCoverageScheme(coverage.scheme)
 
         if (scheme && scheme == TemporalCoverageScheme.abrPeriode)
-            return [[...abrCoverage, { value: coverage.key }], normalCoverages]
+            return [[...abrCoverage, coverage.key], normalCoverages]
         else if (isEqual(Object.keys(coverage), ["value"]))
-            return [abrCoverage, [...normalCoverages, { value: coverage.value }]]
+            return [abrCoverage, [...normalCoverages, coverage.value]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(coverage)}`
     }, [[], []])
 }
 
-export const abrTemporalCoverageDeconverter: (coverage: Value) => any = coverage => {
-    if (coverage.value)
+export const abrTemporalCoverageDeconverter: (coverage: string) => any = coverage => {
+    if (coverage)
         return {
             scheme: TemporalCoverageScheme.abrPeriode,
-            key: coverage.value,
+            key: coverage,
             value: "???", // TODO get correct value
         }
     else
         return {}
 }
 
-export const temporalCoverageDeconverter: (coverage: Value) => any = coverage => clean({
-    value: coverage.value,
+export const temporalCoverageDeconverter: (coverage: string) => any = coverage => clean({
+    value: coverage,
 })

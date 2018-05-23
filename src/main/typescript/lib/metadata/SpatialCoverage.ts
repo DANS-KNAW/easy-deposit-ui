@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value } from "./Value"
 import { isEqual } from "lodash"
 import { clean } from "./misc"
 
@@ -25,30 +24,30 @@ function toSpatialCoverageScheme(value: string): SpatialCoverageScheme | undefin
     return Object.values(SpatialCoverageScheme).find(v => v === value)
 }
 
-export const spatialCoveragesConverter: (coverage: any[]) => [Value[], Value[]] = coverages => {
+export const spatialCoveragesConverter: (coverage: any[]) => [string[], string[]] = coverages => {
     return coverages.reduce(([isoCoverage, normalCoverages], coverage) => {
         const scheme = coverage.scheme && toSpatialCoverageScheme(coverage.scheme)
 
         if (scheme && scheme == SpatialCoverageScheme.iso3166)
-            return [[...isoCoverage, { value: coverage.key }], normalCoverages]
+            return [[...isoCoverage, coverage.key], normalCoverages]
         else if (isEqual(Object.keys(coverage), ["value"]))
-            return [isoCoverage, [...normalCoverages, { value: coverage.value }]]
+            return [isoCoverage, [...normalCoverages, coverage.value]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(coverage)}`
     }, [[], []])
 }
 
-export const isoSpatialCoverageDeconverter: (coverage: Value) => any = coverage => {
-    if (coverage.value)
+export const isoSpatialCoverageDeconverter: (coverage: string) => any = coverage => {
+    if (coverage)
         return {
             scheme: SpatialCoverageScheme.iso3166,
-            key: coverage.value,
+            key: coverage,
             value: "???", // TODO get correct value
         }
     else
         return {}
 }
 
-export const spatialCoverageDeconverter: (coverage: Value) => any = coverage => clean({
-    value: coverage.value,
+export const spatialCoverageDeconverter: (coverage: string) => any = coverage => clean({
+    value: coverage,
 })

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value, wrapValue } from "./Value"
 import { clean } from "./misc"
 
 enum AudienceScheme {
@@ -24,17 +23,17 @@ function toAudienceScheme(value: string): AudienceScheme | undefined {
     return Object.values(AudienceScheme).find(v => v === value)
 }
 
-export const audienceConverter: (a: any) => Value = a => {
+export const audienceConverter: (a: any) => string = a => {
     const scheme = toAudienceScheme(a.scheme)
 
     if (scheme && scheme === AudienceScheme.narcisDisciplineTypes)
-        return wrapValue(a.key)
+        return a.key
     else
         throw `Error in metadata: no such audience scheme: '${a.scheme}'`
 }
 
-export const audienceDeconverter: (a: Value) => any = a => clean({
+export const audienceDeconverter: (a: string) => any = a => clean({
     scheme: AudienceScheme.narcisDisciplineTypes,
-    key: a.value,
+    key: a,
     value: "???", // TODO get correct value
 })

@@ -20,13 +20,13 @@ import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/Re
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
-import { emptyStringValue, Value } from "../../../lib/metadata/Value"
+import { emptyString } from "../../../lib/metadata/misc"
 
 export interface UploadTypeFormData {
-    typesDCMI?: Value[]
-    types?: Value[]
-    formatsMediaType?: Value[]
-    formats?: Value[]
+    typesDCMI?: string[]
+    types?: string[]
+    formatsMediaType?: string[]
+    formats?: string[]
     extraClarinMetadataPresent?: boolean
 }
 
@@ -36,7 +36,7 @@ const oneSelected = (value?: any) => value ? undefined : "you need to select one
 interface UploadTypeFormProps {
 }
 
-const TypesDCMIFieldArray = (props: FieldArrayProps<Value>) => (
+const TypesDCMIFieldArray = (props: FieldArrayProps<string>) => (
     <SelectFieldArray {...props} withEmptyDefault choices={[
         // @formatter:off
         { key: "Collection",           value: "Collection" },
@@ -55,7 +55,7 @@ const TypesDCMIFieldArray = (props: FieldArrayProps<Value>) => (
     ]}/>
 )
 
-const FormatMediaTypeFieldArray = (props: FieldArrayProps<Value>) => (
+const FormatMediaTypeFieldArray = (props: FieldArrayProps<string>) => (
     <SelectFieldArray {...props} withEmptyDefault choices={[
         // @formatter:off
         { key: "application/postscript", value: "application/postscript" },
@@ -95,32 +95,32 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                 <div className="row form-group input-element">
                     <RepeatableField name="typesDCMI"
                                      label="Type (DCMI resource type)"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TypesDCMIFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
                     <RepeatableField name="types"
                                      label="Types"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
                     <RepeatableField name="formatsMediaType"
                                      label=" Format (internet media type)"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={FormatMediaTypeFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">
                     <RepeatableField name="formats"
                                      label="Formats"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 

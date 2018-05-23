@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Schemed } from "./Value"
 import { clean } from "./misc"
 
-export interface Box extends Schemed {
+export interface Box {
+    scheme?: string
     north?: number
     east?: number
     south?: number

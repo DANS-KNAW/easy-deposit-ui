@@ -20,12 +20,12 @@ import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { Field } from "redux-form"
 import SelectField from "../../../lib/formComponents/SelectField"
 import { Creator } from "../../../lib/metadata/Creator"
-import { emptyStringValue, Value } from "../../../lib/metadata/Value"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
+import { emptyString } from "../../../lib/metadata/misc"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Creator[]
-    publishers?: Value[]
+    publishers?: string[]
     accessRights?: AccessRight
     license?: string
     dateAvailable?: Date
@@ -78,15 +78,15 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                     <RepeatableField name="rightsHolders"
                                      label="Rightsholders"
                                      empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>*/}
 
                 <div className="row form-group input-element">
                     <RepeatableField name="publishers"
                                      label="Publishers"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 

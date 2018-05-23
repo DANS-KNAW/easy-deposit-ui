@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Value } from "./Value"
 import { isEqual } from "lodash"
 import { clean } from "./misc"
 
@@ -25,29 +24,29 @@ function toTypeScheme(value: string): TypeScheme | undefined {
     return Object.values(TypeScheme).find(v => v === value)
 }
 
-export const typesConverter: (types: any[]) => [Value[], Value[]] = types => {
+export const typesConverter: (types: any[]) => [string[], string[]] = types => {
     return types.reduce(([dcmiTypes, normalTypes], type) => {
         const scheme = type.scheme && toTypeScheme(type.scheme)
 
         if (scheme && scheme == TypeScheme.dcmi)
-            return [[...dcmiTypes, { value: type.value }], normalTypes]
+            return [[...dcmiTypes, type.value], normalTypes]
         else if (isEqual(Object.keys(type), ["value"]))
-            return [dcmiTypes, [...normalTypes, { value: type.value }]]
+            return [dcmiTypes, [...normalTypes, type.value]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(type)}`
     }, [[], []])
 }
 
-export const dcmiTypeDeconverter: (type: Value) => any = type => {
-    if (type.value)
+export const dcmiTypeDeconverter: (type: string) => any = type => {
+    if (type)
         return {
             scheme: TypeScheme.dcmi,
-            value: type.value,
+            value: type,
         }
     else
         return {}
 }
 
-export const typeDeconverter: (type: Value) => any = type => clean({
-    value: type.value,
+export const typeDeconverter: (type: string) => any = type => clean({
+    value: type,
 })
