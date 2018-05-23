@@ -108,8 +108,7 @@ class DepositForm extends Component<DepositFormProps> {
 
     save = () => {
         const { depositId, formValues, saveDraft } = this.props
-        // TODO remove this alert once the form is fully implemented.
-        alert(`saving draft for ${depositId}:\n\n${JSON.stringify(formValues, null, 2)}`)
+        // TODO remove this log once the form is fully implemented.
         console.log(`saving draft for ${depositId}`, formValues)
 
         formValues && saveDraft(depositId, formValues)
