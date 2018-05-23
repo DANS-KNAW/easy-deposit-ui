@@ -57,6 +57,7 @@ const SpatialBoxFieldArray = (props: FieldArrayProps<Point>) => (
 const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SelectFieldArray {...props} choices={[
         // @formatter:off
+        { key: "",   value: "Choose..." },
         { key: "NL", value: "Netherlands" },
         { key: "GB", value: "United Kingdom" },
         { key: "DE", value: "Germany" },
