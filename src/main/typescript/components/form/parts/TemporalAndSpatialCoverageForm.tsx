@@ -56,10 +56,12 @@ const SpatialBoxFieldArray = (props: FieldArrayProps<Point>) => (
 const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SelectFieldArray {...props} withEmptyDefault choices={[
         // @formatter:off
-        { key: "NL", value: "Netherlands" },
-        { key: "GB", value: "United Kingdom" },
-        { key: "DE", value: "Germany" },
-        { key: "BE", value: "Belgium" },
+        // values taken from https://nl.wikipedia.org/wiki/ISO_3166-1
+        // use values ISO-3166-1 alpha-3
+        { key: "NLD", value: "Netherlands" },
+        { key: "GBR", value: "United Kingdom" },
+        { key: "DEU", value: "Germany" },
+        { key: "BEL", value: "Belgium" },
         // TODO add others
         // @formatter:on
     ]}/>

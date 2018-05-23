@@ -325,6 +325,7 @@ const DateFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
         // @formatter:off
         // first option is the default
+        { key: "dcterms:date",            value: "Date" },
         { key: "dcterms:valid",           value: "Valid" },
         { key: "dcterms:issued",          value: "Issued" },
         { key: "dcterms:modified",        value: "Modified" },
