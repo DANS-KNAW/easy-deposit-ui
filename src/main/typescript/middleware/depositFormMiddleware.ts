@@ -27,152 +27,67 @@ import {
     sendSaveDraftReset,
     sendSubmitDeposit,
 } from "../actions/depositFormActions"
-import {
-    AccessRight,
-    Box,
-    CreatorOrContributor,
-    emptySchemedValue, emptyPoint,
-    emptyStringValue,
-    Point,
-    PrivacySensitiveDataValue,
-    Relation,
-    SchemedDate,
-    SchemedValue,
-    toAccessRight,
-    toPrivacySensitiveData,
-    Value, emptyBox,
-} from "../model/FormData"
 import { change } from "redux-form"
-
-const wrappedValue: (v: any) => Value = v => ({
-    value: v,
-})
-
-const unwrapValue: (value: Value) => string = value => value.value
-
-const creatorOrContributorConverter: (c: any) => CreatorOrContributor = c => ({
-    titles: c.titles,
-    initials: c.initials,
-    insertions: c.insertions,
-    surname: c.surname,
-    ids: c.ids && c.ids.map(schemedValueConverter),
-    role: c.role,
-    organization: c.organization,
-})
-
-const creatorOrContributorDeconverter: (c: CreatorOrContributor) => any = c => ({
-    titles: c.titles,
-    initials: c.initials,
-    insertions: c.insertions,
-    surname: c.surname,
-    ids: c.ids && c.ids.map(schemedValueDeconverter),
-    role: c.role,
-    organization: c.organization,
-})
-
-const dateConverter: (d: any) => Date = d => new Date(d)
-
-const dateDeconverter: (d: Date) => any = d => d.toUTCString() // TODO is this one correct?
-
-const schemedValueConverter: (sv: any) => SchemedValue = sv => ({
-    scheme: sv.scheme,
-    value: sv.value,
-})
-
-const schemedValueDeconverter: (sv: SchemedValue) => any = sv => ({
-    scheme: sv.scheme,
-    value: sv.value,
-})
-
-const schemedDateConverter: (sd: any) => SchemedDate = sd => ({
-    scheme: sd.scheme,
-    value: dateConverter(sd.value),
-})
-
-const schemedDateDeconverter: (sd: SchemedDate) => any = sd => ({
-    scheme: sd.scheme,
-    value: dateDeconverter(sd.value),
-})
-
-const relationConverter: (r: any) => Relation = r => ({
-    qualifier: r.qualifier,
-    url: r.url,
-    title: r.title,
-})
-
-const relationDeconverter: (r: Relation) => any = r => ({
-    qualifier: r.qualifier,
-    url: r.url,
-    title: r.title,
-})
-
-const accessRightConverter: (ar: any) => AccessRight = ar => {
-    const category = toAccessRight(ar.category)
-    if (category) {
-        return ({
-            category: category,
-            group: ar.group,
-        })
-    }
-    else {
-        throw `Error in metadata: no such access right: '${ar.category}'`
-    }
-}
-
-const accessRightDeconverter: (ar: AccessRight) => any = ar => ({
-    category: ar.category.toString(),
-    group: ar.group,
-})
-
-const pointConverter: (p: any) => Point = p => {
-    if (Number.isNaN(Number(p.x)) || Number.isNaN(Number(p.y))) {
-        throw `Error in metadata: Point ${JSON.stringify(p)} consists of something else than a Number`
-    }
-    else return ({
-        scheme: p.scheme,
-        x: Number(p.x),
-        y: Number(p.y),
-    })
-}
-
-const pointDeconverter: (p: Point) => any = p => ({
-    scheme: p.scheme,
-    x: p.x && p.x.toString(),
-    y: p.y && p.y.toString(),
-})
-
-const boxConverter: (b: any) => Box = b => {
-    if (Number.isNaN(Number(b.north)) || Number.isNaN(Number(b.east)) || Number.isNaN(Number(b.south)) || Number.isNaN(Number(b.west))) {
-        throw `Error in metadata: Point ${JSON.stringify(b)} consists of something else than a Number`
-    }
-    else return ({
-        scheme: b.scheme,
-        north: Number(b.north),
-        east: Number(b.east),
-        south: Number(b.south),
-        west: Number(b.west),
-    })
-}
-
-const boxDeconverter: (b: Box) => any = b => ({
-    scheme: b.scheme,
-    north: b.north && b.north.toString(),
-    east: b.east && b.east.toString(),
-    south: b.south && b.south.toString(),
-    west: b.west && b.west.toString(),
-})
-
-const privacySensitiveDataConverter: (psd: any) => PrivacySensitiveDataValue = psd => {
-    const res = toPrivacySensitiveData(psd)
-    if (res) {
-        return res
-    }
-    else {
-        throw `Error in metadata: no such privacy sensitive data value: '${psd}'`
-    }
-}
-
-const privacySensitiveDataDeconverter: (psd: PrivacySensitiveDataValue) => any = psd => psd.toString()
+import {
+    alternativeIdentifersConverter,
+    alternativeIdentifierDeconverter,
+    archisIdentifierDeconverter,
+    doiConverter,
+    doiDeconverter,
+    identifiersConverter,
+} from "../lib/metadata/Identifier"
+import {
+    languageOfDescriptionConverter,
+    languageOfDescriptionDeconverter,
+    languageOfFilesDeconverter,
+    languageOfFilesIsoDeconverter,
+    languagesOfFilesConverter,
+} from "../lib/metadata/Language"
+import { emptyQualifiedSchemedValue, emptySchemedValue } from "../lib/metadata/Value"
+import { contributorsConverter, contributorConverter, contributorDeconverter, emptyContributor } from "../lib/metadata/Contributor"
+import {
+    DateQualifier,
+    emptyDates,
+    emptyQualifiedDate,
+    emptyQualifiedStringDate,
+    qualifiedDateDeconverter,
+    qualifiedDatesConverter,
+    qualifiedDateStringDeconverter,
+} from "../lib/metadata/Date"
+import { audienceConverter, audienceDeconverter } from "../lib/metadata/Audience"
+import { subjectAbrDeconverter, subjectConverter, subjectDeconverter } from "../lib/metadata/Subject"
+import {
+    emptyRelation,
+    relatedIdentifierDeconverter,
+    relationDeconverter,
+    relationsConverter,
+} from "../lib/metadata/Relation"
+import { accessRightConverter, accessRightDeconverter } from "../lib/metadata/AccessRight"
+import { dcmiTypeDeconverter, typeDeconverter, typesConverter } from "../lib/metadata/Types"
+import {
+    cmdiFormatDeconverter,
+    formatDeconverter,
+    formatsConverter,
+    imtFormatDeconverter,
+} from "../lib/metadata/Formats"
+import {
+    abrTemporalCoverageDeconverter,
+    temporalCoverageDeconverter,
+    temporalCoveragesConverter,
+} from "../lib/metadata/TemporalCoverage"
+import { emptyPoint, pointConverter, pointDeconverter } from "../lib/metadata/SpatialPoint"
+import { boxConverter, boxDeconverter, emptyBox } from "../lib/metadata/SpatialBox"
+import {
+    isoSpatialCoverageDeconverter,
+    spatialCoverageDeconverter,
+    spatialCoveragesConverter,
+} from "../lib/metadata/SpatialCoverage"
+import {
+    privacySensitiveDataConverter,
+    privacySensitiveDataDeconverter,
+    PrivacySensitiveDataValue,
+} from "../lib/metadata/PrivacySensitiveData"
+import { clean, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
 
 const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
@@ -181,61 +96,114 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
         const input = action.payload
 
         try {
+            const identifiers = input.identifiers && identifiersConverter(input.identifiers)
+            const languageOfDescription = input.languageOfDescription
+                ? languageOfDescriptionConverter(input.languageOfDescription)
+                : ""
+            const creators = input.creators && input.creators.map(contributorConverter)
+            const [rightsHolders, normalContributors] = input.contributors
+                ? contributorsConverter(input.contributors)
+                : [[], []]
+            const {dateCreated, dateAvailable, dates, textDates} = input.dates
+                ? qualifiedDatesConverter(input.dates)
+                : emptyDates
+            const audiences = input.audiences && input.audiences.map(audienceConverter)
+            const [subjects, abrSubjects] = input.subjects
+                ? subjectConverter(input.subjects)
+                : [[], []]
+            const [archisIdentifiers, alternativeIdentifiers] = input.alternativeIdentifiers
+                ? alternativeIdentifersConverter(input.alternativeIdentifiers)
+                : [[], []]
+            const [relatedIdentifiers, relations] = input.relations
+                ? relationsConverter(input.relations)
+                : [[], []]
+            const [isoLanguageOfFiles, languageOfFiles] = input.languagesOfFiles
+                ? languagesOfFilesConverter(input.languagesOfFiles)
+                : [[], []]
+            const sources = input.sources && input.sources.join("\n\n")
+            const instructionsForReuse = input.instructionsForReuse && input.instructionsForReuse.join("\n\n")
+            const accessRights = input.accessRights
+                ? accessRightConverter(input.accessRights)
+                : { category: undefined, group: undefined }
+            const [dcmiTypes, normalTypes] = input.types
+                ? typesConverter(input.types)
+                : [[], []]
+            const [imtFormats, normalFormats, hasCmdiFormat] = input.formats
+                ? formatsConverter(input.formats)
+                : [[], [], false]
+            const [abrTemporalCoverages, normalTemporalCoverages] = input.temporalCoverages
+                ? temporalCoveragesConverter(input.temporalCoverages)
+                : [[], []]
+            const spatialPoints = input.spatialPoints && input.spatialPoints.map(pointConverter)
+            const spatialBoxes = input.spatialBoxes && input.spatialBoxes.map(boxConverter)
+            const [isoSpatialCoverages, normalSpatialCoverages] = input.spatialCoverages
+                ? spatialCoveragesConverter(input.spatialCoverages)
+                : [[], []]
+            const privacySensitiveDataPresent = input.privacySensitiveDataPresent
+                ? privacySensitiveDataConverter(input.privacySensitiveDataPresent)
+                : PrivacySensitiveDataValue.UNSPECIFIED
+
             const data: DepositFormMetadata = {
                 // basic info
-                doi: input.doi,
-                languageOfDescription: input.languageOfDescription,
-                titles: input.titles ? input.titles.map(wrappedValue) : [emptyStringValue],
-                alternativeTitles: input.alternativeTitles ? input.alternativeTitles.map(wrappedValue) : [emptyStringValue],
+                doi: identifiers && doiConverter(identifiers),
+                languageOfDescription: languageOfDescription,
+                titles: normalizeEmpty(input.titles, () => ""),
+                alternativeTitles: normalizeEmpty(input.alternativeTitles, () => ""),
                 description: input.descriptions && input.descriptions.join("\n\n"),
-                creators: input.creators ? input.creators.map(creatorOrContributorConverter) : [],
-                contributors: input.contributors && input.contributors.map(creatorOrContributorConverter),
-                dateCreated: input.dateCreated ? dateConverter(input.dateCreated) : new Date(), // TODO not sure if this is correct
-                audiences: input.audiences ? input.audiences.map(wrappedValue) : [emptyStringValue],
-                subjects: input.subjects ? input.subjects.map(wrappedValue) : [emptyStringValue],
-                identifiers: input.identifiers ? input.identifiers.map(schemedValueConverter) : [emptySchemedValue],
-                relations: input.relations && input.relations.map(relationConverter),
-                languagesOfFilesIso639: input.languagesOfFilesIso639 ? input.languagesOfFilesIso639.map(wrappedValue) : [emptyStringValue],
-                languagesOfFiles: input.languagesOfFiles ? input.languagesOfFiles.map(wrappedValue) : [emptyStringValue],
-                datesIso8601: input.datesIso8601 && input.datesIso8601.map(schemedDateConverter),
-                dates: input.dates ? input.dates.map(schemedValueConverter) : [emptySchemedValue],
-                source: input.sources && input.sources.join("\n\n"),
-                instructionsForReuse: input.instructionsForReuse && input.instructionsForReuse.join("\n\n"),
+                creators: normalizeEmpty(creators, () => emptyContributor),
+                contributors: normalizeEmpty(normalContributors, () => emptyContributor),
+                dateCreated: dateCreated && dateCreated.value,
+                audiences: normalizeEmpty(audiences, () => ""),
+                subjects: normalizeEmpty(subjects, () => ""),
+                alternativeIdentifiers: normalizeEmpty(alternativeIdentifiers, () => emptySchemedValue),
+                relatedIdentifiers: normalizeEmpty(relatedIdentifiers, () => emptyQualifiedSchemedValue),
+                relations: normalizeEmpty(relations, () => emptyRelation),
+                languagesOfFilesIso639: normalizeEmpty(isoLanguageOfFiles, () => ""),
+                languagesOfFiles: normalizeEmpty(languageOfFiles, () => ""),
+                datesIso8601: normalizeEmpty(dates, () => emptyQualifiedDate),
+                dates: normalizeEmpty(textDates, () => emptyQualifiedStringDate),
+                source: sources,
+                instructionsForReuse: instructionsForReuse,
 
                 // license and access
-                rightsHolders: input.rightsHolders ? input.rightsHolders.map(wrappedValue) : [emptyStringValue],
-                publishers: input.publishers ? input.publishers.map(wrappedValue) : [emptyStringValue],
-                accessRights: input.accessRights && accessRightConverter(input.accessRights),
-                license: input.license,
-                dateAvailable: input.dateAvailable && dateConverter(input.dateAvailable),
+                rightsHolders: normalizeEmpty(rightsHolders, () => emptyContributor),
+                publishers: normalizeEmpty(input.publishers, () => ""),
+                accessRights: accessRights,
+                license: input.license || "",
+                dateAvailable: dateAvailable && dateAvailable.value,
 
                 // upload type
-                typesDCMI: input.typesDCMI ? input.typesDCMI.map(wrappedValue) : [emptyStringValue], // TODO with or without capitals
-                types: input.types ? input.types.map(wrappedValue) : [emptyStringValue],
-                formatsMediaType: input.formatsMediaType ? input.formatsMediaType.map(wrappedValue) : [emptyStringValue],
-                formats: input.formats ? input.formats.map(wrappedValue) : [emptyStringValue],
+                typesDCMI: normalizeEmpty(dcmiTypes, () => ""),
+                types: normalizeEmpty(normalTypes, () => ""),
+                formatsMediaType: normalizeEmpty(imtFormats, () => ""),
+                formats: normalizeEmpty(normalFormats, () => ""),
+                extraClarinMetadataPresent: hasCmdiFormat,
 
                 // archaeology specific metadata
-                archisNrs: input.archisNrs ? input.archisNrs.map(wrappedValue) : [emptyStringValue],
-                subjectsAbrComplex: input.subjectsAbrComplex,
-                temporalCoveragesAbr: input.temporalCoveragesAbr,
+                archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value), () => ""),
+                subjectsAbrComplex: normalizeEmpty(abrSubjects, () => ""),
+                temporalCoveragesAbr: normalizeEmpty(abrTemporalCoverages, () => ""),
 
                 // temporal and spatial coverage
-                temporalCoverages: input.temporalCoverages ? input.temporalCoverages.map(wrappedValue) : [emptyStringValue],
-                spatialPoint: input.spatialPoint ? input.spatialPoint.map(pointConverter) : [emptyPoint],
-                spatialBoxes: input.spatialBoxes ? input.spatialBoxes.map(boxConverter) : [emptyBox],
-                spatialCoverageIso3166: input.spatialCoverageIso3166 ? input.spatialCoverageIso3166.map(schemedValueConverter) : [{ scheme: "", value: "", }],
-                spatialCoverages: input.spatialCoverages ? input.spatialCoverages.map(wrappedValue) : [emptyStringValue],
+                temporalCoverages: normalizeEmpty(normalTemporalCoverages, () => ""),
+                spatialPoints: normalizeEmpty(spatialPoints, () => emptyPoint),
+                spatialBoxes: normalizeEmpty(spatialBoxes, () => emptyBox),
+                spatialCoverageIso3166: normalizeEmpty(isoSpatialCoverages, () => ""),
+                spatialCoverages: normalizeEmpty(normalSpatialCoverages, () => ""),
 
                 // message for data manager
-                messageForDataManager: input.messageForDataManager,
+                messageForDataManager: input.messageForDataManager || "",
 
                 // privacy sensitive data
-                privacySensitiveDataPresent: input.privacySensitiveDataPresent ? privacySensitiveDataConverter(input.privacySensitiveDataPresent) : PrivacySensitiveDataValue.UNSPECIFIED,
+                privacySensitiveDataPresent: privacySensitiveDataPresent,
 
                 // deposit license
                 acceptLicenseAgreement: input.acceptLicenseAgreement || false,
             }
+
+            // TODO remove this log once the form is fully implemented.
+            console.log(data)
+
             dispatch(fetchMetadataSucceeded(data))
         }
         catch (errorMessage) {
@@ -250,61 +218,85 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
     if (action.type === DepositFormConstants.SAVE_DRAFT || action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
         const data: DepositFormMetadata = action.payload.data
 
-        const output = {
+        const output = clean({
             // basic info
-            doi: data.doi,
-            languageOfDescription: data.languageOfDescription,
-            titles: data.titles ? data.titles.map(unwrapValue) : [],
-            alternativeTitles: data.alternativeTitles ? data.alternativeTitles.map(unwrapValue) : [],
+            identifiers: [data.doi && doiDeconverter(data.doi)].filter(obj => obj !== undefined),
+            languageOfDescription: data.languageOfDescription && languageOfDescriptionDeconverter(data.languageOfDescription),
+            titles: data.titles && data.titles.filter(t => !isEmptyString(t)),
+            alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyString(at)),
             descriptions: data.description && data.description.split("\n\n"),
-            creators: data.creators ? data.creators.map(creatorOrContributorDeconverter) : [],
-            contributors: data.contributors && data.contributors.map(creatorOrContributorDeconverter),
-            dateCreated: data.dateCreated && dateDeconverter(data.dateCreated), // TODO not sure if this is correct
-            audiences: data.audiences ? data.audiences.map(unwrapValue) : [],
-            subjects: data.subjects ? data.subjects.map(unwrapValue) : [],
-            identifiers: data.identifiers && data.identifiers.map(schemedValueDeconverter),
-            relations: data.relations && data.relations.map(relationDeconverter),
-            languagesOfFilesIso639: data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(unwrapValue) : [],
-            languagesOfFiles: data.languagesOfFiles ? data.languagesOfFiles.map(unwrapValue) : [],
-            datesIso8601: data.datesIso8601 && data.datesIso8601.map(schemedDateDeconverter),
-            dates: data.dates && data.dates.map(schemedValueDeconverter),
+            creators: data.creators && data.creators.map(contributorDeconverter).filter(nonEmptyObject),
+            contributors: [
+                ...(data.contributors || []),
+                ...(data.rightsHolders || [])
+            ].map(contributorDeconverter).filter(nonEmptyObject),
+            audiences: data.audiences && data.audiences.filter(a => !isEmptyString(a)).map(audienceDeconverter),
+            subjects: [
+                ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
+                ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : [])
+            ].filter(nonEmptyObject),
+            alternativeIdentifiers: [
+                ...(data.alternativeIdentifiers ? data.alternativeIdentifiers.map(alternativeIdentifierDeconverter) : []),
+                ...(data.archisNrs ? data.archisNrs.map(archisIdentifierDeconverter) : [])
+            ].filter(nonEmptyObject),
+            relations: [
+                ...(data.relatedIdentifiers ? data.relatedIdentifiers.map(relatedIdentifierDeconverter) : []),
+                ...(data.relations ? data.relations.map(relationDeconverter) : []),
+            ].filter(nonEmptyObject),
+            languagesOfFiles: [
+                ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter) : []),
+                ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : [])
+            ].filter(nonEmptyObject),
+            dates: [
+                (data.dateCreated && qualifiedDateDeconverter({qualifier: DateQualifier.created, value: data.dateCreated})),
+                (data.dateAvailable && qualifiedDateDeconverter({qualifier: DateQualifier.available, value: data.dateAvailable})),
+                (action.type === DepositFormConstants.SUBMIT_DEPOSIT && qualifiedDateDeconverter({qualifier: DateQualifier.dateSubmitted, value: new Date()})),
+                ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
+                ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
+            ].filter(nonEmptyObject),
             source: data.source && data.source.split("\n\n"),
             instructionsForReuse: data.instructionsForReuse && data.instructionsForReuse.split("\n\n"),
 
             // license and access
-            rightsHolders: data.rightsHolders && data.rightsHolders.map(unwrapValue),
-            publishers: data.publishers && data.publishers.map(unwrapValue),
+            publishers: data.publishers && data.publishers.filter(p => !isEmptyString(p)),
             accessRights: data.accessRights && accessRightDeconverter(data.accessRights), // TODO not sure if this is correct
             license: data.license,
-            dateAvailable: data.dateAvailable && dateDeconverter(data.dateAvailable),
 
             // upload type
-            typesDCMI: data.typesDCMI,
-            types: data.types && data.types.map(unwrapValue),
-            formatsMediaType: data.formatsMediaType,
-            formats: data.formats && data.formats.map(unwrapValue),
-
-            // archaeology specific metadata
-            archisNrs: data.archisNrs && data.archisNrs.map(unwrapValue),
-            subjectsAbrComplex: data.subjectsAbrComplex,
-            temporalCoveragesAbr: data.temporalCoveragesAbr,
+            types: [
+                ...(data.typesDCMI ? data.typesDCMI.map(dcmiTypeDeconverter) : []),
+                ...(data.types ? data.types.map(typeDeconverter) : []),
+            ].filter(nonEmptyObject),
+            formats: [
+                ...(data.formatsMediaType ? data.formatsMediaType.map(imtFormatDeconverter) : []),
+                ...(data.formats ? data.formats.map(formatDeconverter) : []),
+                ...(data.extraClarinMetadataPresent ? [cmdiFormatDeconverter()] : []),
+            ].filter(nonEmptyObject),
+            temporalCoverages: [
+                ...(data.temporalCoveragesAbr ? data.temporalCoveragesAbr.map(abrTemporalCoverageDeconverter) : []),
+                ...(data.temporalCoverages ? data.temporalCoverages.map(temporalCoverageDeconverter) : []),
+            ].filter(nonEmptyObject),
 
             // temporal and spatial coverage
-            temporalCoverages: data.temporalCoverages && data.temporalCoverages.map(unwrapValue),
-            spatialPoint: data.spatialPoint && data.spatialPoint.map(pointDeconverter),
-            spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter),
-            spatialCoverageIso3166: data.spatialCoverageIso3166 && data.spatialCoverageIso3166.map(schemedValueDeconverter),
-            spatialCoverages: data.spatialCoverages && data.spatialCoverages.map(unwrapValue),
+            spatialPoints: data.spatialPoints && data.spatialPoints.map(pointDeconverter).filter(nonEmptyObject),
+            spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter).filter(nonEmptyObject),
+            spatialCoverages: [
+                ...(data.spatialCoverageIso3166 ? data.spatialCoverageIso3166.map(isoSpatialCoverageDeconverter) : []),
+                ...(data.spatialCoverages ? data.spatialCoverages.map(spatialCoverageDeconverter) : []),
+            ].filter(nonEmptyObject),
 
             // message for data manager
             messageForDataManager: data.messageForDataManager,
 
             // privacy sensitive data
-            privacySensitiveDataPresent: data.privacySensitiveDataPresent && privacySensitiveDataDeconverter(data.privacySensitiveDataPresent), // TODO not sure if this is correct
+            privacySensitiveDataPresent: data.privacySensitiveDataPresent && privacySensitiveDataDeconverter(data.privacySensitiveDataPresent),
 
             // deposit license
-            acceptLicenseAgreement: data.acceptLicenseAgreement,
-        }
+            acceptLicenseAgreement: data.acceptLicenseAgreement || undefined,
+        })
+
+        // TODO remove this log once the form is fully implemented.
+        console.log(`saving draft for ${action.payload.depositId}`, output)
 
         switch (action.type) {
             case DepositFormConstants.SAVE_DRAFT:

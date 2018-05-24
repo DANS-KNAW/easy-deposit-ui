@@ -35,8 +35,8 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                 <Field id="spatialPointScheme"
                                        name={fieldNames[0](name)}
                                        label="Scheme"
+                                       withEmptyDefault
                                        component={SelectField}>
-                                    <option>Choose...</option>
                                     {schemeValues.map((value, index) => (
                                         <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
                                     ))}
@@ -49,6 +49,7 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                 <Field id="spatialPointX"
                                        name={fieldNames[1](name)}
                                        label="X"
+                                       placeholder="coordinate"
                                        type="number"
                                        component={TextField}/>
                             </div>
@@ -60,6 +61,7 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                     <Field id="spatialPointY"
                                            name={fieldNames[2](name)}
                                            label="Y"
+                                           placeholder="coordinate"
                                            type="number"
                                            component={TextField}/>
                                     <div className="input-group-append">

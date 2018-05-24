@@ -36,8 +36,8 @@ function SchemedBoxArrayField<T>({ fields, meta, label, empty, fieldNames, schem
                                     <Field id="spatialBoxScheme"
                                            name={fieldNames[0](name)}
                                            label="Scheme"
+                                           withEmptyDefault
                                            component={SelectField}>
-                                        <option>Choose...</option>
                                         {schemeValues.map((value, index) => (
                                             <option key={`${value.key}${index}`}
                                                     value={value.key}>{value.value}</option>
@@ -51,6 +51,7 @@ function SchemedBoxArrayField<T>({ fields, meta, label, empty, fieldNames, schem
                                     <Field id="spatialBoxNorth"
                                            name={fieldNames[1](name)}
                                            label="North"
+                                           placeholder="upper bound"
                                            type="number"
                                            component={TextField}/>
                                 </div>
@@ -61,6 +62,7 @@ function SchemedBoxArrayField<T>({ fields, meta, label, empty, fieldNames, schem
                                     <Field id="spatialBoxEast"
                                            name={fieldNames[2](name)}
                                            label="East"
+                                           placeholder="right bound"
                                            type="number"
                                            component={TextField}/>
                                 </div>
@@ -75,6 +77,7 @@ function SchemedBoxArrayField<T>({ fields, meta, label, empty, fieldNames, schem
                                     <Field id="spatialBoxSouth"
                                            name={fieldNames[3](name)}
                                            label="South"
+                                           placeholder="lower bound"
                                            type="number"
                                            component={TextField}/>
                                 </div>
@@ -86,6 +89,7 @@ function SchemedBoxArrayField<T>({ fields, meta, label, empty, fieldNames, schem
                                         <Field id="spatialBoxWest"
                                                name={fieldNames[4](name)}
                                                label="West"
+                                               placeholder="left bound"
                                                type="number"
                                                component={TextField}/>
                                         <div className="input-group-append">

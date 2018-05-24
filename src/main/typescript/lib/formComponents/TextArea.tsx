@@ -24,7 +24,11 @@ interface TextAreaProps {
 const TextArea = ({ input, meta, label, withLabel, className, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
     <>
         {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={input.name}>{label}</label>}
-        <textarea className={`form-control ${className}`} id={input.name} {...input} {...rest}/>
+        <textarea className={`form-control ${className}`}
+                  id={input.name}
+                  placeholder={label}
+                  {...input}
+                  {...rest}/>
     </>
 )
 

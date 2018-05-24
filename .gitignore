@@ -2,6 +2,7 @@
 /.idea
 /.vagrant
 /target
+/dist
 /*.iml
 /pom.xml.tag
 /pom.xml.releaseBackup
