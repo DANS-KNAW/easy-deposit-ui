@@ -88,14 +88,7 @@ import {
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
 import { isEmpty } from "lodash"
-import { clean, isEmptyString, nonEmptyObject } from "../lib/metadata/misc"
-
-function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
-    if (!arr || isEmpty(arr))
-        return [defaultValue()]
-    else
-        return arr
-}
+import { clean, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
 
 const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
     next(action)
@@ -108,8 +101,6 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
             const languageOfDescription = input.languageOfDescription
                 ? languageOfDescriptionConverter(input.languageOfDescription)
                 : ""
-            const titles = input.titles
-            const alternativeTitles = input.alternativeTitles
             const creators = input.creators && input.creators.map(creatorConverter)
             const [rightsHolders, normalContributors] = input.contributors
                 ? contributorsConverter(input.contributors)
@@ -132,7 +123,6 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 : [[], []]
             const sources = input.sources && input.sources.join("\n\n")
             const instructionsForReuse = input.instructionsForReuse && input.instructionsForReuse.join("\n\n")
-            const publishers = input.publishers
             const accessRights = input.accessRights
                 ? accessRightConverter(input.accessRights)
                 : { category: undefined, group: undefined }
@@ -158,8 +148,8 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 // basic info
                 doi: identifiers && doiConverter(identifiers),
                 languageOfDescription: languageOfDescription,
-                titles: normalizeEmpty(titles, () => ""),
-                alternativeTitles: normalizeEmpty(alternativeTitles, () => ""),
+                titles: normalizeEmpty(input.titles, () => ""),
+                alternativeTitles: normalizeEmpty(input.alternativeTitles, () => ""),
                 description: input.descriptions && input.descriptions.join("\n\n"),
                 creators: normalizeEmpty(creators, () => emptyCreator),
                 contributors: normalizeEmpty(normalContributors, () => emptyCreator),
@@ -178,7 +168,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
 
                 // license and access
                 rightsHolders: normalizeEmpty(rightsHolders, () => emptyCreator),
-                publishers: normalizeEmpty(publishers, () => ""),
+                publishers: normalizeEmpty(input.publishers, () => ""),
                 accessRights: accessRights,
                 license: input.license || "",
                 dateAvailable: dateAvailable && dateAvailable.value,

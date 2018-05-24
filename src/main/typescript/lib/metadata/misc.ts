@@ -15,6 +15,13 @@
  */
 import { isEmpty, pickBy } from "lodash"
 
+export function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
+    if (!arr || isEmpty(arr))
+        return [defaultValue()]
+    else
+        return arr
+}
+
 export function clean<T>(obj: T): Partial<T> {
     return pickBy(obj, v => {
         if (Array.isArray(v))
