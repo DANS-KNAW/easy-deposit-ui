@@ -44,7 +44,7 @@ import {
     languagesOfFilesConverter,
 } from "../lib/metadata/Language"
 import { emptyQualifiedSchemedValue, emptySchemedValue } from "../lib/metadata/Value"
-import { contributorsConverter, creatorConverter, creatorDeconverter, emptyCreator } from "../lib/metadata/Creator"
+import { contributorsConverter, contributorConverter, contributorDeconverter, emptyContributor } from "../lib/metadata/Contributor"
 import {
     DateQualifier,
     emptyDates,
@@ -101,7 +101,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
             const languageOfDescription = input.languageOfDescription
                 ? languageOfDescriptionConverter(input.languageOfDescription)
                 : ""
-            const creators = input.creators && input.creators.map(creatorConverter)
+            const creators = input.creators && input.creators.map(contributorConverter)
             const [rightsHolders, normalContributors] = input.contributors
                 ? contributorsConverter(input.contributors)
                 : [[], []]
@@ -151,8 +151,8 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 titles: normalizeEmpty(input.titles, () => ""),
                 alternativeTitles: normalizeEmpty(input.alternativeTitles, () => ""),
                 description: input.descriptions && input.descriptions.join("\n\n"),
-                creators: normalizeEmpty(creators, () => emptyCreator),
-                contributors: normalizeEmpty(normalContributors, () => emptyCreator),
+                creators: normalizeEmpty(creators, () => emptyContributor),
+                contributors: normalizeEmpty(normalContributors, () => emptyContributor),
                 dateCreated: dateCreated && dateCreated.value,
                 audiences: normalizeEmpty(audiences, () => ""),
                 subjects: normalizeEmpty(subjects, () => ""),
@@ -167,7 +167,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
                 instructionsForReuse: instructionsForReuse,
 
                 // license and access
-                rightsHolders: normalizeEmpty(rightsHolders, () => emptyCreator),
+                rightsHolders: normalizeEmpty(rightsHolders, () => emptyContributor),
                 publishers: normalizeEmpty(input.publishers, () => ""),
                 accessRights: accessRights,
                 license: input.license || "",
@@ -226,12 +226,12 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             titles: data.titles && data.titles.filter(t => !isEmptyString(t)),
             alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyString(at)),
             descriptions: data.description && data.description.split("\n\n"),
-            creators: data.creators && data.creators.map(creatorDeconverter).filter(nonEmptyObject),
+            creators: data.creators && data.creators.map(contributorDeconverter).filter(nonEmptyObject),
             contributors: [
                 ...(data.contributors || []),
                 ...(data.rightsHolders || [])
-            ].map(creatorDeconverter).filter(nonEmptyObject),
             audiences: data.audiences && data.audiences.filter(a => !isEmptyString(a)).map(audienceDeconverter),
+            ].map(contributorDeconverter).filter(nonEmptyObject),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
                 ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : [])

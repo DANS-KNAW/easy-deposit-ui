@@ -19,12 +19,12 @@ import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { Field } from "redux-form"
 import SelectField from "../../../lib/formComponents/SelectField"
-import { Creator } from "../../../lib/metadata/Creator"
+import { Contributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
 
 export interface LicenseAndAccessFormData {
-    rightsHolders?: Creator[]
+    rightsHolders?: Contributor[]
     publishers?: string[]
     accessRights?: AccessRight
     license?: string

@@ -17,25 +17,25 @@ import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDec
 import * as lodash from "lodash"
 import { clean, nonEmptyObject } from "./misc"
 
-enum CreatorIdScheme {
+enum ContributorIdScheme {
     DAI = "id-type:DAI",
     ORCID = "id-type:ORCID",
     ISNI = "id-type:ISNI",
 }
 
-function toCreatorIdScheme(value: string): CreatorIdScheme | undefined {
-    return Object.values(CreatorIdScheme).find(v => v === value)
+function toContributorIdScheme(value: string): ContributorIdScheme | undefined {
+    return Object.values(ContributorIdScheme).find(v => v === value)
 }
 
-enum CreatorRoleScheme {
+enum ContributorRoleScheme {
     DATACITE_CONTRIBUTOR = "datacite:contributorType",
 }
 
-function toCreatorRoleScheme(value: string): CreatorRoleScheme | undefined {
-    return Object.values(CreatorRoleScheme).find(v => v === value)
+function toContributorRoleScheme(value: string): ContributorRoleScheme | undefined {
+    return Object.values(ContributorRoleScheme).find(v => v === value)
 }
 
-export interface Creator {
+export interface Contributor {
     titles?: string
     initials?: string
     insertions?: string
@@ -45,7 +45,7 @@ export interface Creator {
     organization?: string
 }
 
-export const emptyCreator: Creator = {
+export const emptyContributor: Contributor = {
     titles: "",
     initials: "",
     insertions: "",
@@ -55,8 +55,8 @@ export const emptyCreator: Creator = {
     organization: "",
 }
 
-const creatorSchemeIdConverter: (cs: any) => SchemedValue = cs => {
-    const scheme = toCreatorIdScheme(cs.scheme)
+const contributorSchemeIdConverter: (cs: any) => SchemedValue = cs => {
+    const scheme = toContributorIdScheme(cs.scheme)
 
     if (scheme) {
         return schemedValueConverter(scheme, cs.value)
@@ -65,45 +65,45 @@ const creatorSchemeIdConverter: (cs: any) => SchemedValue = cs => {
         throw `Error in metadata: no such creator/contributor scheme: '${cs.scheme}'`
 }
 
-const creatorSchemeIdDeconverter: (sv: SchemedValue) => any = schemedValueDeconverter
+const contributorSchemeIdDeconverter: (sv: SchemedValue) => any = schemedValueDeconverter
 
-const creatorRoleConverter: (cr: any) => string = cr => {
-    const scheme = toCreatorRoleScheme(cr.scheme)
+const contributorRoleConverter: (cr: any) => string = cr => {
+    const scheme = toContributorRoleScheme(cr.scheme)
 
-    if (scheme && scheme === CreatorRoleScheme.DATACITE_CONTRIBUTOR) {
+    if (scheme && scheme === ContributorRoleScheme.DATACITE_CONTRIBUTOR) {
         return cr.key
     }
 }
 
-const creatorRoleDeconverter: (r: string) => any = r => clean({
-    scheme: CreatorRoleScheme.DATACITE_CONTRIBUTOR,
+const contributorRoleDeconverter: (r: string) => any = r => clean({
+    scheme: ContributorRoleScheme.DATACITE_CONTRIBUTOR,
     key: r,
     value: "???", // TODO get correct value
 })
 
-export const creatorConverter: (c: any) => Creator = c => {
+export const contributorConverter: (c: any) => Contributor = c => {
     return ({
         titles: c.titles || "",
         initials: c.initials || "",
         insertions: c.insertions || "",
         surname: c.surname || "",
-        ids: c.ids ? c.ids.map(creatorSchemeIdConverter) : [emptySchemedValue],
-        role: c.role ? creatorRoleConverter(c.role) : "",
+        ids: c.ids ? c.ids.map(contributorSchemeIdConverter) : [emptySchemedValue],
+        role: c.role ? contributorRoleConverter(c.role) : "",
         organization: c.organization || "",
     })
 }
 
-export const creatorDeconverter: (c: Creator) => any = c => clean({
+export const contributorDeconverter: (c: Contributor) => any = c => clean({
     titles: c.titles,
     initials: c.initials,
     insertions: c.insertions,
     surname: c.surname,
-    ids: c.ids && c.ids.map(creatorSchemeIdDeconverter).filter(nonEmptyObject),
-    role: c.role && creatorRoleDeconverter(c.role),
+    ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
+    role: c.role && contributorRoleDeconverter(c.role),
     organization: c.organization,
 })
 
-export const contributorsConverter: (cs: any) => [Creator[], Creator[]] = cs => {
-    const contributors: Creator[] = cs.map(creatorConverter)
+export const contributorsConverter: (cs: any) => [Contributor[], Contributor[]] = cs => {
+    const contributors: Contributor[] = cs.map(contributorConverter)
     return lodash.partition(contributors, { role: "RightsHolder" })
 }

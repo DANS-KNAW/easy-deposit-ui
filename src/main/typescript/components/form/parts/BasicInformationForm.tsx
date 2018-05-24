@@ -30,7 +30,7 @@ import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldA
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
-import { Creator } from "../../../lib/metadata/Creator"
+import { Contributor } from "../../../lib/metadata/Contributor"
 import { QualifiedDate } from "../../../lib/metadata/Date"
 import { Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -41,8 +41,8 @@ export interface BasicInformationFormData {
     titles?: string[]
     alternativeTitles?: string[]
     description?: string
-    creators?: Creator[]
-    contributors?: Creator[]
+    creators?: Contributor[]
+    contributors?: Contributor[]
     dateCreated?: Date
     audiences?: string[]
     subjects?: string[]
