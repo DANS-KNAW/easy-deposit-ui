@@ -64,7 +64,7 @@ export interface Dates {
 
 const dateConverter: (d: any) => Date = d => new Date(d)
 
-const dateDeconverter: (d: Date) => any = d => dateFormat(d, "yyyy-mm-dd")
+const dateDeconverter: (d: Date) => any = d => dateFormat(d, "isoDateTime")
 
 const qualifiedDateConverter: (sd: any) => InternalDate = sd => {
     const scheme = sd.scheme && toDateScheme(sd.scheme)
