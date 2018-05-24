@@ -88,12 +88,14 @@ import {
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
 import { clean, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
+import { AppState } from "../model/AppState"
 
-const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatch, getState }, next, action) => {
     next(action)
 
     if (action.type === DepositFormConstants.FETCH_METADATA_FULFILLED) {
         const input = action.payload
+        const dropDowns = getState().dropDowns
 
         try {
             const identifiers = input.identifiers && identifiersConverter(input.identifiers)
@@ -107,7 +109,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
             const {dateCreated, dateAvailable, dates, textDates} = input.dates
                 ? qualifiedDatesConverter(input.dates)
                 : emptyDates
-            const audiences = input.audiences && input.audiences.map(audienceConverter)
+            const audiences = input.audiences && input.audiences.map(audienceConverter(dropDowns.audiences.list))
             const [subjects, abrSubjects] = input.subjects
                 ? subjectConverter(input.subjects)
                 : [[], []]
@@ -212,11 +214,12 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
     }
 })
 
-const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch, getState }, next, action) => {
     next(action)
 
     if (action.type === DepositFormConstants.SAVE_DRAFT || action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
         const data: DepositFormMetadata = action.payload.data
+        const dropdowns = getState().dropDowns
 
         const output = clean({
             // basic info
@@ -230,7 +233,9 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
                 ...(data.contributors || []),
                 ...(data.rightsHolders || [])
             ].map(contributorDeconverter).filter(nonEmptyObject),
-            audiences: data.audiences && data.audiences.filter(a => !isEmptyString(a)).map(audienceDeconverter),
+            audiences: data.audiences && data.audiences
+                .filter(a => !isEmptyString(a))
+                .map(audienceDeconverter(dropdowns.audiences.list)),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
                 ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : [])
