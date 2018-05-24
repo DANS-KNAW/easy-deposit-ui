@@ -46,7 +46,7 @@ interface FetchMetadataErrorProps {
 
 const FetchMetadataError = ({ fetchError, reload }: FetchMetadataErrorProps) => (
     fetchError
-        ? <ReloadAlert key="fetchMetadataError" reload={reload()}>
+        ? <ReloadAlert key="fetchMetadataError" reload={reload}>
             An error occurred: {fetchError}. Cannot load metadata from the server.
         </ReloadAlert>
         : null
@@ -108,7 +108,7 @@ class DepositForm extends Component<DepositFormProps> {
 
     save = () => {
         const { depositId, formValues, saveDraft } = this.props
-        alert(`saving draft for ${depositId}:\n\n${JSON.stringify(formValues, null, 2)}`)
+        // TODO remove this log once the form is fully implemented.
         console.log(`saving draft for ${depositId}`, formValues)
 
         formValues && saveDraft(depositId, formValues)

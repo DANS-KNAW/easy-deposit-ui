@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { WrappedFieldProps } from "redux-form"
 import { SelectHTMLAttributes } from "react"
+import { WrappedFieldProps } from "redux-form"
 
 interface SelectFieldProps {
     withLabel?: boolean
+    withEmptyDefault?: boolean
 }
 
-const SelectField = ({ input, meta, label, withLabel, children, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
+const SelectField = ({ input, meta, label, withLabel, withEmptyDefault, children, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
     <>
-        {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={input.name}>{label}</label>}
-        <select className={`form-control ${className}`} {...input} {...rest}>{children}</select>
+        {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label"
+                             htmlFor={input.name}>{label}</label>}
+        <select className={`form-control ${className}`} {...input} {...rest}>
+            {withEmptyDefault ? [<option key={"empty choice"} value="">Choose...</option>] : []}
+            {children}
+        </select>
     </>
 )
 

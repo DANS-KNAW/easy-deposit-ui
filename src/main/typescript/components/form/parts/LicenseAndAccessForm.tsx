@@ -15,15 +15,17 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { AccessRight, emptyStringValue, Value } from "../../../model/FormData"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { Field } from "redux-form"
 import SelectField from "../../../lib/formComponents/SelectField"
+import { Contributor } from "../../../lib/metadata/Contributor"
+import { AccessRight } from "../../../lib/metadata/AccessRight"
+import { emptyString } from "../../../lib/metadata/misc"
 
 export interface LicenseAndAccessFormData {
-    rightsHolders?: Value[]
-    publishers?: Value[]
+    rightsHolders?: Contributor[]
+    publishers?: string[]
     accessRights?: AccessRight
     license?: string
     dateAvailable?: Date
@@ -36,7 +38,6 @@ interface LicenseAndAccessFormProps {
 // TODO expand values into better descriptions
 const licenses = [
     // @formatter:off
-    { key: "",                                                            value: "Choose..." },
     { key: "http://creativecommons.org/publicdomain/zero/1.0",            value: "CC0-1.0" },
     { key: "http://creativecommons.org/licenses/by-nc/3.0",               value: "BY-NC-3.0" },
     { key: "http://creativecommons.org/licenses/by-nc-sa/3.0",            value: "BY-NC-SA-3.0" },
@@ -69,18 +70,23 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
         return (
             <div className="container pl-0 pr-0">
                 <div className="row form-group input-element">
+                    <p>Rightsholders</p>
+                </div>
+
+                {/* TODO replace the Rightsholders with a Creator field */}
+                {/*<div className="row form-group input-element">
                     <RepeatableField name="rightsHolders"
                                      label="Rightsholders"
                                      empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
-                </div>
+                </div>*/}
 
                 <div className="row form-group input-element">
                     <RepeatableField name="publishers"
                                      label="Publishers"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => `${name}.value`]}
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
                                      component={TextFieldArray}/>
                 </div>
 
@@ -93,6 +99,7 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                            label="License"
                            className="col-12 col-md-8"
                            withLabel
+                           withEmptyDefault
                            component={SelectField}>
                         {licenses.map((value, index) => (
                             <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>

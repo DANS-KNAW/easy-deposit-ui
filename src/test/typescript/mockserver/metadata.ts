@@ -17,49 +17,36 @@ export type Doi = string
 
 export interface Metadata {
     // basic information
-    doi?: Doi
-    languageOfDescription?: string
+    identifiers?: SchemedValue<DansIdentifierSchemeValues>[]
+    languageOfDescription?: SchemedKeyValue<LanguageOfDescriptionSchemeValues>
     titles?: string[]
     alternativeTitles?: string[]
     descriptions?: string[]
-    creators?: CreatorOrContributor[]
-    contributor?: CreatorOrContributor[]
-    dateCreated?: string
-    audiences?: string[]
-    subjects?: string[]
-    identifiers?: SchemedValue[]
-    relations?: Relation[]
-    languagesOfFilesIso639?: string[]
-    languagesOfFiles?: string[]
-    datesIso8601?: SchemedValue[]
-    dates?: SchemedValue[]
+    creators?: Contributor[]
+    contributors?: Contributor[]
+    audiences?: SchemedKeyValue<AudienceSchemeValues>[]
+    subjects?: PossiblySchemedKeyValue<SubjectsSchemeValues>[]
+    alternativeIdentifiers?: SchemedValue<ExternalIdentifierSchemeValues>[]
+    relations?: (Relation | QualifiedSchemedValue<RelationQualifierValues, ExternalIdentifierSchemeValues>)[]
+    languagesOfFiles?: PossiblySchemedKeyValue<LanguageOfFilesSchemeValues>[]
+    dates?: QualifiedSchemedValue<DateQualifierValues, DateSchemeValues>[]
     sources?: string[]
     instructionsForReuse?: string[]
 
     // license and access
-    rightsHolders?: string[]
     publishers?: string[]
     accessRights?: AccessRight
     license?: string
-    dateAvailable?: string
 
     // Upload types
-    typesDCMI?: string[]
-    types?: string[]
-    formatsMediaType?: string[]
-    formats?: string[]
-
-    // Archaeology specific metadata
-    archisNrs?: string[]
-    subjectsAbrComplex?: string[]
-    temporalCoveragesAbr?: string[]
+    types?: PossiblySchemedValue<TypesSchemeValues>[]
+    formats?: PossiblySchemedValue<FormatsSchemeValues>[]
 
     // Time and Spatial coverage
-    temporalCoverages?: string[]
-    spatialPoint?: Point[]
+    temporalCoverages?: PossiblySchemedKeyValue<TemporalCoverageSchemeValues>[]
+    spatialPoints?: Point[]
     spatialBoxes?: Box[]
-    spatialCoverageIso3166?: SchemedValue[]
-    spatialCoverages?: string[]
+    spatialCoverages?: PossiblySchemedKeyValue<SpatialCoverageSchemeValues>[]
 
     // For the Data Manager
     messageForDataManager?: string
@@ -71,45 +58,144 @@ export interface Metadata {
     acceptLicenseAgreement?: boolean
 }
 
-interface SchemedValue {
-    scheme: string
-    value: string
+interface SchemedValue<Scheme = string, Value = string> {
+    scheme: Scheme
+    value: Value
 }
 
-interface CreatorOrContributor {
+interface PossiblySchemedValue<Scheme = string, Value = string> {
+    scheme?: Scheme
+    value: Value
+}
+
+interface SchemedKeyValue<Scheme = string, Key = string, Value = string> {
+    scheme: Scheme
+    key: Key
+    value: Value
+}
+
+interface PossiblySchemedKeyValue<Scheme = string, Key = string, Value = string> {
+    scheme?: Scheme
+    key?: Key
+    value: Value
+}
+
+interface QualifiedSchemedValue<Qualifier = string, Scheme = string, Value = string> {
+    scheme?: Scheme
+    value: Value
+    qualifier: Qualifier
+}
+
+export enum DansIdentifierSchemeValues {
+    DOI = "id-type:DOI",
+}
+
+enum LanguageOfDescriptionSchemeValues {
+    ISO639_2 = "dcterms:ISO639-2",
+}
+
+enum ContributorIdSchemeValues {
+    DAI = "id-type:DAI",
+    ORCID = "id-type:ORCID",
+    ISNI = "id-type:ISNI",
+}
+
+enum ContributorRoleSchemeValues {
+    contributorType = "datacite:contributorType",
+}
+
+enum ContributorRoleKeyValues {
+    ContactPerson = "ContactPerson",
+    DataCollector = "DataCollector",
+    DataCurator = "DataCurator",
+    DataManager = "DataManager",
+    Distributor = "Distributor",
+    Editor = "Editor",
+    HostingInstitution = "HostingInstitution",
+    Other = "Other",
+    Producer = "Producer",
+    ProjectLeader = "ProjectLeader",
+    ProjectManager = "ProjectManager",
+    ProjectMember = "ProjectMember",
+    RegistrationAgency = "RegistrationAgency",
+    RegistrationAuthority = "RegistrationAuthority",
+    RelatedPerson = "RelatedPerson",
+    ResearchGroup = "ResearchGroup",
+    RightsHolder = "RightsHolder",
+    Researcher = "Researcher",
+    Sponsor = "Sponsor",
+    Supervisor = "Supervisor",
+    WorkPackageLeader = "WorkPackageLeader",
+}
+
+interface Contributor {
     titles?: string
-    initials: string
+    initials?: string
     insertions?: string
-    surname: string
-    ids?: SchemedValue[]
-    role?: string
+    surname?: string
+    ids?: SchemedValue<ContributorIdSchemeValues>[]
+    role?: SchemedKeyValue<ContributorRoleSchemeValues, ContributorRoleKeyValues>
     organization?: string
 }
 
-interface Point {
-    scheme: string
-    x: number
-    y: number
+enum AudienceSchemeValues {
+    narcisDisciplineTypes = "narcis:DisciplineType",
 }
 
-interface Box {
-    scheme: string
-    north: number
-    east: number
-    south: number
-    west: number
+enum SubjectsSchemeValues {
+    abrComplex = "abr:ABRcomplex",
+}
+
+enum ExternalIdentifierSchemeValues {
+    DOI = "id-type:DOI",
+    URN = "id-type:URN",
+    MENDELEY_DATA = "id-type:MENDELEY-DATA", // kan mogelijk weg
+    ISBN = "id-type:ISBN",
+    ISSN = "id-type:ISSN",
+    NWO_PROJECTNR = "id-type:NWO-PROJECTNR",
+    ARCHIS_ZAAK_IDENTIFICATIE = "id-type:ARCHIS-ZAAK-IDENTIFICATIE",
 }
 
 interface Relation {
-    qualifier: string
-    url: string
-    title: string
+    qualifier?: RelationQualifierValues
+    url?: string
+    title?: string
 }
 
-enum PrivacySensitiveDataValue {
-    YES = "yes",
-    NO = "no",
-    UNSPECIFIED = "unspecified"
+enum RelationQualifierValues {
+    conformsTo = "dcterms:conformsTo",
+    hasFormat = "dcterms:hasFormat",
+    hasPart = "dcterms:hasPart",
+    references = "dcterms:references",
+    replaces = "dcterms:replaces",
+    requires = "dcterms:requires",
+    hasVersion = "dcterms:hasVersion",
+    isFormatOf = "dcterms:isFormatOf",
+    isPartOf = "dcterms:isPartOf",
+    isReferencedBy = "dcterms:isReferencedBy",
+    isReplacedBy = "dcterms:isReplacedBy",
+    isRequiredBy = "dcterms:isRequiredBy",
+    isVersionOf = "dcterms:isVersionOf",
+}
+
+enum LanguageOfFilesSchemeValues {
+    ISO639_2 = "dcterms:ISO639-2",
+}
+
+enum DateQualifierValues {
+    created = "dcterms:created",
+    available = "dcterms:available",
+    date = "dcterms:date",
+    dateAccepted = "dcterms:dateAccepted",
+    dateCopyrighted = "dcterms:dateCopyrighted",
+    dateSubmitted = "dcterms:dateSubmitted",
+    issued = "dcterms:issued",
+    modified = "dcterms:modified",
+    valid = "dcterms:valid",
+}
+
+enum DateSchemeValues {
+    W3CDTF = "dcterms:W3CDTF"
 }
 
 interface AccessRight {
@@ -118,20 +204,71 @@ interface AccessRight {
 }
 
 enum AccessRightValue {
-    OPEN = "open",
-    OPEN_FOR_REGISTERED_USERS = "open_for_registered_users",
-    RESTRICTED_GROUP = "restricted_group",
-    RESTRICTED_REQUEST = "restricted_request",
-    OTHER_ACCESS = "other_access",
+    OPEN_ACCESS = "OPEN_ACCESS",
+    OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
+    GROUP_ACCESS = "GROUP_ACCESS",
+    REQUEST_PERMISSION = "REQUEST_PERMISSION",
+    NO_ACCESS = "NO_ACCESS",
+}
+
+enum TypesSchemeValues {
+    dcmi = "dcterms:DCMIType",
+}
+
+enum FormatsSchemeValues {
+    imt = "dcterms:IMT",
+}
+
+enum TemporalCoverageSchemeValues {
+    abrPeriode = "abr:ABRperiode",
+}
+
+enum SpatialScheme {
+    degrees = "http://www.opengis.net/def/crs/EPSG/0/4326",
+    RD = "http://www.opengis.net/def/crs/EPSG/0/28992",
+}
+
+interface Point {
+    scheme: SpatialScheme
+    x: number
+    y: number
+}
+
+interface Box {
+    scheme: SpatialScheme
+    north: number
+    east: number
+    south: number
+    west: number
+}
+
+enum SpatialCoverageSchemeValues {
+    iso3166 = "dcterms:ISO3166",
+}
+
+enum PrivacySensitiveDataValue {
+    YES = "yes",
+    NO = "no",
+    UNSPECIFIED = "unspecified"
 }
 
 export const allfields: Metadata = {
-    doi: "doi:10.17632/DANS.6wg5xccnjd.1",
-    languageOfDescription: "Nederlands",
+    identifiers: [
+        {
+            scheme: DansIdentifierSchemeValues.DOI,
+            value: "doi:10.17632/DANS.6wg5xccnjd.1",
+        },
+    ],
+    languageOfDescription: {
+        scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
+        key: "nld",
+        value: "Dutch",
+    },
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
     descriptions: [
-        "description",
+        "description1",
+        "description2",
     ],
     creators: [
         {
@@ -141,89 +278,177 @@ export const allfields: Metadata = {
             surname: "NS",
             ids: [
                 {
-                    scheme: "S1",
+                    scheme: ContributorIdSchemeValues.DAI,
                     value: "123456",
                 },
                 {
-                    scheme: "S2",
+                    scheme: ContributorIdSchemeValues.ORCID,
                     value: "abcdef",
                 },
             ],
-            role: "worker",
+            role: {
+                scheme: ContributorRoleSchemeValues.contributorType,
+                key: ContributorRoleKeyValues.ContactPerson,
+                value: "Contact Person",
+            },
             organization: "KNAW",
         },
         {
-            titles: "",
             initials: "Foo",
             insertions: "van",
             surname: "Bar",
         },
     ],
-    contributor: [
+    contributors: [
         {
             titles: "Dr.",
             initials: "O.",
             insertions: "van",
             surname: "Belix",
         },
+        {
+            organization: "my organization",
+        },
+        {
+            organization: "rightsHolder1",
+            role: {
+                scheme: ContributorRoleSchemeValues.contributorType,
+                key: ContributorRoleKeyValues.RightsHolder,
+                value: "rightsholder",
+            },
+        },
+        {
+            titles: "Dr.",
+            initials: "A.S.",
+            insertions: "van",
+            surname: "Terix",
+            role: {
+                scheme: ContributorRoleSchemeValues.contributorType,
+                key: ContributorRoleKeyValues.RightsHolder,
+                value: "rightsholder",
+            },
+        },
     ],
-    dateCreated: "2018-03-19",
     audiences: [
-        "easy-discipline:7",
-        "easy-discipline:22",
+        {
+            scheme: AudienceSchemeValues.narcisDisciplineTypes,
+            key: "D35200",
+            value: "Musicology",
+        },
+        {
+            scheme: AudienceSchemeValues.narcisDisciplineTypes,
+            key: "D33000",
+            value: "Theology and religious studies",
+        },
     ],
     subjects: [
-        "subject1",
-        "subject2",
-    ],
-    identifiers: [
         {
-            scheme: "ISBN",
+            value: "subject1",
+        },
+        {
+            value: "subject2",
+        },
+        {
+            scheme: SubjectsSchemeValues.abrComplex,
+            key: "RKER",
+            value: "Religie - Kerk",
+        },
+        {
+            scheme: SubjectsSchemeValues.abrComplex,
+            key: "VK",
+            value: "Versterking - Kasteel",
+        },
+    ],
+    alternativeIdentifiers: [
+        {
+            scheme: ExternalIdentifierSchemeValues.ISBN,
             value: "test identifier 1",
         },
         {
-            scheme: "ARCHIS-ZAAK-IDENTIFICATIE",
+            scheme: ExternalIdentifierSchemeValues.NWO_PROJECTNR,
             value: "test identifier 2",
+        },
+        {
+            scheme: ExternalIdentifierSchemeValues.ARCHIS_ZAAK_IDENTIFICATIE,
+            value: "archis nr. 1",
+        },
+        {
+            scheme: ExternalIdentifierSchemeValues.ARCHIS_ZAAK_IDENTIFICATIE,
+            value: "archis nr. 2",
         },
     ],
     relations: [
         {
-            qualifier: "Q1",
+            qualifier: RelationQualifierValues.isReferencedBy,
+            scheme: ExternalIdentifierSchemeValues.ISSN,
+            value: "2123-34X",
+        },
+        {
+            qualifier: RelationQualifierValues.conformsTo,
             url: "http://x",
             title: "title1",
         },
         {
-            qualifier: "Q2",
-            url: "http://y",
+            qualifier: RelationQualifierValues.requires,
             title: "title2",
         },
-    ],
-    languagesOfFilesIso639: [
-        "langISO1",
-        "langISO2",
+        {
+            qualifier: RelationQualifierValues.isReplacedBy,
+            url: "http://y",
+        },
+        {
+            url: "http://z",
+        },
+        {
+            title: "title3",
+        },
     ],
     languagesOfFiles: [
-        "lang1",
-        "lang2",
-    ],
-    datesIso8601: [
         {
-            scheme: "iso-scheme1",
+            scheme: LanguageOfFilesSchemeValues.ISO639_2,
+            key: "eng",
+            value: "english",
+        },
+        {
+            scheme: LanguageOfFilesSchemeValues.ISO639_2,
+            key: "nld",
+            value: "dutch",
+        },
+        {
+            value: "Flakkees",
+        },
+        {
+            value: "Goerees",
+        },
+    ],
+    dates: [
+        {
+            scheme: DateSchemeValues.W3CDTF,
             value: "2018-03-18",
+            qualifier: DateQualifierValues.dateCopyrighted,
         },
         {
-            scheme: "iso-scheme2",
+            scheme: DateSchemeValues.W3CDTF,
             value: "2018-03-17",
+            qualifier: DateQualifierValues.valid,
         },
-    ],
-    dates: [ // TODO is this actually the same type of object?
         {
-            scheme: "Date accepted",
+            scheme: DateSchemeValues.W3CDTF,
+            value: "2018-03-19",
+            qualifier: DateQualifierValues.created,
+        },
+        {
             value: "2018-02-02",
+            qualifier: DateQualifierValues.modified,
         },
         {
-            scheme: "Issued",
+            scheme: DateSchemeValues.W3CDTF,
+            value: "2018-03-14",
+            qualifier: DateQualifierValues.available,
+        },
+        {
             value: "Groundhog day",
+            qualifier: DateQualifierValues.issued,
         },
     ],
     sources: [
@@ -231,94 +456,111 @@ export const allfields: Metadata = {
         "source2",
     ],
     instructionsForReuse: [
-        "remark",
-    ],
-    rightsHolders: [
-        "rH1",
-        "rH2",
+        "remark1",
+        "remark2",
     ],
     publishers: [
         "pub1",
         "pub2",
     ],
     accessRights: {
-        category: AccessRightValue.OPEN_FOR_REGISTERED_USERS,
+        category: AccessRightValue.OPEN_ACCESS,
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
-    dateAvailable: "2018-03-14",
-    typesDCMI: [
-        "Dataset",
-        "Software",
-    ],
     types: [
-        "type1",
-        "type2",
-    ],
-    formatsMediaType: [
-        "text/plain",
-        "image/tiff",
+        {
+            scheme: TypesSchemeValues.dcmi,
+            value: "Dataset",
+        },
+        {
+            scheme: TypesSchemeValues.dcmi,
+            value: "Software",
+        },
+        {
+            value: "drawings",
+        },
+        {
+            value: "paintings",
+        },
     ],
     formats: [
-        "f1",
-        "f2",
-    ],
-    archisNrs: [
-        "archis nr. 1",
-        "archis nr. 2",
-    ],
-    subjectsAbrComplex: [
-        "Nederzetting onbepaald",
-        "moated site",
-    ],
-    temporalCoveragesAbr: [
-        "ROMLA",
-        "ROMLB",
+        {
+            scheme: FormatsSchemeValues.imt,
+            value: "text/plain",
+        },
+        {
+            scheme: FormatsSchemeValues.imt,
+            value: "image/tiff",
+        },
+        {
+            value: "paperback",
+        },
+        {
+            value: "audiobook",
+        },
+        {
+            scheme: FormatsSchemeValues.imt,
+            value: "application/x-cmdi+xml",
+        },
     ],
     temporalCoverages: [
-        "temp1",
-        "temp2",
-    ],
-    spatialPoint: [
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
+            scheme: TemporalCoverageSchemeValues.abrPeriode,
+            key: "ROMLA",
+            value: "Romeinse tijd laat A: 270 - 350 nC",
+        },
+        {
+            scheme: TemporalCoverageSchemeValues.abrPeriode,
+            key: "ROMLB",
+            value: "Romeinse tijd laat B: 350 - 450 nC",
+        },
+        {
+            value: "temp1",
+        },
+        {
+            value: "temp2",
+        },
+    ],
+    spatialPoints: [
+        {
+            scheme: SpatialScheme.RD,
             x: 12,
             y: 34,
         },
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
+            scheme: SpatialScheme.degrees,
             x: 56,
             y: 78,
         },
     ],
     spatialBoxes: [
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
+            scheme: SpatialScheme.RD,
             north: 1,
             east: 2,
             south: 3,
             west: 4,
         },
         {
-            scheme: "http://www.opengis.net/def/crs/EPSG/0/4326",
+            scheme: SpatialScheme.degrees,
             north: 5,
             east: 6,
             south: 7,
             west: 8,
         },
     ],
-    spatialCoverageIso3166: [
-        {
-            scheme: "NL",
-            value: "foo",
-        },
-        {
-            scheme: "BE",
-            value: "bar",
-        },
-    ],
     spatialCoverages: [
-        "spatial-coverage1",
-        "spatial-coverage2",
+        {
+            scheme: SpatialCoverageSchemeValues.iso3166,
+            key: "NLD",
+            value: "Nederland",
+        },
+        {
+            value: "Haringvliet",
+        },
+        {
+            value: "Grevelingenmeer",
+        },
     ],
     messageForDataManager:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a neque ac sapien tincidunt consequat. " +
@@ -342,8 +584,17 @@ export const allfields: Metadata = {
 }
 
 export const mandatoryOnly: Metadata = {
-    doi: "doi:10.17632/DANS.6wg5xccnjd.2",
-    languageOfDescription: "English",
+    identifiers: [
+        {
+            scheme: DansIdentifierSchemeValues.DOI,
+            value: "doi:10.17632/DANS.6wg5xccnjd.2",
+        },
+    ],
+    languageOfDescription: {
+        scheme: LanguageOfDescriptionSchemeValues.ISO639_2,
+        key: "eng",
+        value: "English",
+    },
     titles: [
         "title1",
     ],
@@ -357,18 +608,37 @@ export const mandatoryOnly: Metadata = {
             surname: "Terix",
         },
     ],
-    dateCreated: "2018-03-19",
     audiences: [
-        "audience1",
-        "audience2",
+        {
+            scheme: AudienceSchemeValues.narcisDisciplineTypes,
+            key: "D11400",
+            value: "Fourier analysis, functional analysis",
+        },
+        {
+            scheme: AudienceSchemeValues.narcisDisciplineTypes,
+            key: "D16300",
+            value: "Theoretical computer science",
+        },
+    ],
+    dates: [
+        {
+            scheme: DateSchemeValues.W3CDTF,
+            value: "2018-03-19",
+            qualifier: DateQualifierValues.created,
+        },
+        {
+            scheme: DateSchemeValues.W3CDTF,
+            value: "2018-05-14",
+            qualifier: DateQualifierValues.available,
+        }
     ],
     accessRights: {
-        category: AccessRightValue.RESTRICTED_GROUP,
+        category: AccessRightValue.GROUP_ACCESS,
         group: "archaeology",
     },
-    license: "CC-BY-NC-SA",
+    license: "DANS-CONDITIONS-OF-USE", // TODO Linda komt met een correcte value
     privacySensitiveDataPresent: PrivacySensitiveDataValue.YES,
-    acceptLicenseAgreement: true,
+    acceptLicenseAgreement: false,
 }
 
 export const newMetadata: () => Metadata = () => ({})

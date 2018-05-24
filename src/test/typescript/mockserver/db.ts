@@ -16,7 +16,7 @@
 import * as uuid from "uuid/v4"
 import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
-import { allfields, Doi, mandatoryOnly, Metadata, newMetadata } from "./metadata"
+import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
 
 interface DataPerDraft {
@@ -86,7 +86,8 @@ export const getState: (id: DepositId) => State | undefined = id => {
 
 export const setState: (id: DepositId, state: State) => boolean = (id, state) => {
     if (data[id]) {
-        data = { ...data,
+        data = {
+            ...data,
             [id]: {
                 ...data[id],
                 deposit: { ...data[id].deposit, state: state.state, stateDescription: state.stateDescription },
@@ -119,19 +120,49 @@ export const setMetadata: (id: DepositId, metadata: Metadata) => void = (id, met
 export const getDoi: (id: DepositId) => Doi | undefined = id => {
     if (data[id]) {
         const metadata = data[id].metadata
-        if (metadata && metadata.doi) {
-            return metadata.doi
+        if (metadata && metadata.identifiers) {
+            const sv = metadata.identifiers.find(sv => sv.scheme === DansIdentifierSchemeValues.DOI)
+            if (sv)
+                return sv.value
+            else {
+                const doi = generateNewDoi()
+
+                data = {
+                    ...data,
+                    [id]: {
+                        ...data[id],
+                        metadata: {
+                            ...metadata,
+                            identifiers: [...metadata.identifiers, { scheme: DansIdentifierSchemeValues.DOI, value: doi }],
+                        },
+                    },
+                }
+
+                return doi
+            }
         }
-        else if (metadata && !metadata.doi) {
-            // generate a random doi
-            const doi = `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
-            data = { ...data, [id]: { ...data[id], metadata: {...metadata, doi: doi}}}
+        else if (metadata && !metadata.identifiers) {
+            const doi = generateNewDoi()
+
+            data = {
+                ...data,
+                [id]: {
+                    ...data[id],
+                    metadata: {
+                        ...metadata,
+                        identifiers: [{ scheme: DansIdentifierSchemeValues.DOI, value: doi }],
+                    },
+                },
+            }
+
             return doi
         }
     }
-
-    return undefined
+    else
+        return undefined
 }
+
+const generateNewDoi = () => `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
 
 export const getUser: () => User = () => {
     return User001

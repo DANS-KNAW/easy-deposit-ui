@@ -15,14 +15,15 @@
  */
 import * as React from "react"
 import { FieldArrayProps } from "./RepeatableField"
-import {Field} from "redux-form"
+import { Field } from "redux-form"
 import SelectField from "./SelectField"
 
 interface SelectFieldArrayProps {
     choices: { key: string, value: string }[]
+    withEmptyDefault?: boolean
 }
 
-function SelectFieldArray<T>({ fields, meta, label, empty, fieldNames, choices }: FieldArrayProps<T> & SelectFieldArrayProps) {
+function SelectFieldArray<T>({ fields, meta, label, empty, fieldNames, choices, withEmptyDefault }: FieldArrayProps<T> & SelectFieldArrayProps) {
     return (
         <>
             <label className="col-12 col-md-3 pl-0 title-label multi-field-label">{label}</label>
@@ -33,6 +34,7 @@ function SelectFieldArray<T>({ fields, meta, label, empty, fieldNames, choices }
                             <Field name={fieldNames[0](name)}
                                    label={label}
                                    className="custom-select"
+                                   withEmptyDefault={withEmptyDefault}
                                    component={SelectField}>
                                 {choices.map((value, index) => (
                                     <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
