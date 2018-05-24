@@ -105,7 +105,7 @@ const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next,
             const [rightsHolders, normalContributors] = input.contributors
                 ? contributorsConverter(input.contributors)
                 : [[], []]
-            const {dateCreated, dateAvailable, dateSubmitted, dates, textDates} = input.dates
+            const {dateCreated, dateAvailable, dates, textDates} = input.dates
                 ? qualifiedDatesConverter(input.dates)
                 : emptyDates
             const audiences = input.audiences && input.audiences.map(audienceConverter)
@@ -251,7 +251,7 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             dates: [
                 (data.dateCreated && qualifiedDateDeconverter({qualifier: DateQualifier.created, value: data.dateCreated})),
                 (data.dateAvailable && qualifiedDateDeconverter({qualifier: DateQualifier.available, value: data.dateAvailable})),
-                // TODO dateSubmitted if submit; not if only save
+                (action.type === DepositFormConstants.SUBMIT_DEPOSIT && qualifiedDateDeconverter({qualifier: DateQualifier.dateSubmitted, value: new Date()})),
                 ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
                 ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
             ].filter(nonEmptyObject),
