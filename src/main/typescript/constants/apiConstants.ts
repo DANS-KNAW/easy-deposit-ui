@@ -42,3 +42,5 @@ export const submitState = ({
     state: "SUBMITTED",
     stateDescription: "Deposit is ready for post-submission processing"
 })
+
+export const fetchFileInfoUrl: (id: DepositId, dirpath: string) => Promise<string> =  (id: DepositId, dirpath: string) => createURL(`deposit/${id}/file/${dirpath}`)

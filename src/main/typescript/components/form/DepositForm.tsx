@@ -36,7 +36,7 @@ import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadata
 import UploadTypeForm from "./parts/UploadTypeForm"
 import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
-import DataForm from "./parts/DataForm"
+import DataForm from "./parts/fileOverview/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 
 interface FetchMetadataErrorProps {

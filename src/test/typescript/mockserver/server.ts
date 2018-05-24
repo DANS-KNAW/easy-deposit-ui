@@ -29,6 +29,7 @@ import {
     setMetadata,
     setState,
 } from "./db"
+import { Directory001 } from "./fileinfo"
 
 const app = express();
 app.use(bodyParser.json());
@@ -210,6 +211,13 @@ app.post('/auth/logout', (req: Request, res:Response) => {
     console.log(('POST /auth/logout'))
     res.status(204)
     res.send()
+    console.log(204)
+})
+
+app.get('deposit/:id/file/:dirpath', (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/file/${req.params.dirpath}`)
+    res.status(200)
+    res.json(Directory001)
     console.log(204)
 })
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import DataForm, { DataFormData } from "./DataForm"
+import DataForm, { DataFormData } from "./fileOverview/DataForm"
 import BasicInformationForm, { BasicInformationFormData } from "./BasicInformationForm"
 import LicenseAndAccessForm, { LicenseAndAccessFormData } from "./LicenseAndAccessForm"
 import UploadTypeForm, { UploadTypeFormData } from "./UploadTypeForm"
