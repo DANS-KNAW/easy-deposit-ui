@@ -46,7 +46,7 @@ interface FetchMetadataErrorProps {
 
 const FetchMetadataError = ({ fetchError, reload }: FetchMetadataErrorProps) => (
     fetchError
-        ? <ReloadAlert key="fetchMetadataError" reload={reload()}>
+        ? <ReloadAlert key="fetchMetadataError" reload={reload}>
             An error occurred: {fetchError}. Cannot load metadata from the server.
         </ReloadAlert>
         : null
