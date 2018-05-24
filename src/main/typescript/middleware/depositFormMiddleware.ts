@@ -87,7 +87,6 @@ import {
     privacySensitiveDataDeconverter,
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
-import { isEmpty } from "lodash"
 import { clean, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
 
 const metadataFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
