@@ -22,8 +22,8 @@ export interface Metadata {
     titles?: string[]
     alternativeTitles?: string[]
     descriptions?: string[]
-    creators?: CreatorOrContributor[]
-    contributors?: CreatorOrContributor[]
+    creators?: Contributor[]
+    contributors?: Contributor[]
     audiences?: SchemedKeyValue<AudienceSchemeValues>[]
     subjects?: PossiblySchemedKeyValue<SubjectsSchemeValues>[]
     alternativeIdentifiers?: SchemedValue<ExternalIdentifierSchemeValues>[]
@@ -94,17 +94,17 @@ enum LanguageOfDescriptionSchemeValues {
     ISO639_2 = "dcterms:ISO639-2",
 }
 
-enum CreatorIdSchemeValues {
+enum ContributorIdSchemeValues {
     DAI = "id-type:DAI",
     ORCID = "id-type:ORCID",
     ISNI = "id-type:ISNI",
 }
 
-enum CreatorRoleSchemeValues {
+enum ContributorRoleSchemeValues {
     contributorType = "datacite:contributorType",
 }
 
-enum CreatorRoleKeyValues {
+enum ContributorRoleKeyValues {
     ContactPerson = "ContactPerson",
     DataCollector = "DataCollector",
     DataCurator = "DataCurator",
@@ -128,13 +128,13 @@ enum CreatorRoleKeyValues {
     WorkPackageLeader = "WorkPackageLeader",
 }
 
-interface CreatorOrContributor {
+interface Contributor {
     titles?: string
     initials?: string
     insertions?: string
     surname?: string
-    ids?: SchemedValue<CreatorIdSchemeValues>[]
-    role?: SchemedKeyValue<CreatorRoleSchemeValues, CreatorRoleKeyValues>
+    ids?: SchemedValue<ContributorIdSchemeValues>[]
+    role?: SchemedKeyValue<ContributorRoleSchemeValues, ContributorRoleKeyValues>
     organization?: string
 }
 
@@ -278,17 +278,17 @@ export const allfields: Metadata = {
             surname: "NS",
             ids: [
                 {
-                    scheme: CreatorIdSchemeValues.DAI,
+                    scheme: ContributorIdSchemeValues.DAI,
                     value: "123456",
                 },
                 {
-                    scheme: CreatorIdSchemeValues.ORCID,
+                    scheme: ContributorIdSchemeValues.ORCID,
                     value: "abcdef",
                 },
             ],
             role: {
-                scheme: CreatorRoleSchemeValues.contributorType,
-                key: CreatorRoleKeyValues.ContactPerson,
+                scheme: ContributorRoleSchemeValues.contributorType,
+                key: ContributorRoleKeyValues.ContactPerson,
                 value: "Contact Person",
             },
             organization: "KNAW",
@@ -312,8 +312,8 @@ export const allfields: Metadata = {
         {
             organization: "rightsHolder1",
             role: {
-                scheme: CreatorRoleSchemeValues.contributorType,
-                key: CreatorRoleKeyValues.RightsHolder,
+                scheme: ContributorRoleSchemeValues.contributorType,
+                key: ContributorRoleKeyValues.RightsHolder,
                 value: "rightsholder",
             },
         },
@@ -323,8 +323,8 @@ export const allfields: Metadata = {
             insertions: "van",
             surname: "Terix",
             role: {
-                scheme: CreatorRoleSchemeValues.contributorType,
-                key: CreatorRoleKeyValues.RightsHolder,
+                scheme: ContributorRoleSchemeValues.contributorType,
+                key: ContributorRoleKeyValues.RightsHolder,
                 value: "rightsholder",
             },
         },
