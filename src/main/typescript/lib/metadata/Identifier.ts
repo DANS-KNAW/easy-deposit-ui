@@ -75,7 +75,12 @@ export const alternativeIdentifersConverter: (ais: any[]) => [SchemedValue[], Sc
 
 export const alternativeIdentifierDeconverter: (ai: SchemedValue) => any = schemedValueDeconverter
 
-export const archisIdentifierDeconverter: (ai: string) => any = ai => ({
-    scheme: AlternativeIdentifierScheme.ARCHIS_ZAAK_IDENTIFICATIE,
-    value: ai,
-})
+export const archisIdentifierDeconverter: (ai: string) => any = ai => {
+    if (ai)
+        return {
+            scheme: AlternativeIdentifierScheme.ARCHIS_ZAAK_IDENTIFICATIE,
+            value: ai,
+        }
+    else
+        return {}
+}
