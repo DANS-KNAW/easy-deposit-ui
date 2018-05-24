@@ -229,8 +229,8 @@ const metadataSendConverter: Middleware = createMiddleware(({ dispatch }, next, 
             contributors: [
                 ...(data.contributors || []),
                 ...(data.rightsHolders || [])
-            audiences: data.audiences && data.audiences.filter(a => !isEmptyString(a)).map(audienceDeconverter),
             ].map(contributorDeconverter).filter(nonEmptyObject),
+            audiences: data.audiences && data.audiences.filter(a => !isEmptyString(a)).map(audienceDeconverter),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
                 ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : [])
