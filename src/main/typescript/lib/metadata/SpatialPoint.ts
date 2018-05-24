@@ -17,8 +17,8 @@ import { clean } from "./misc"
 
 export interface Point {
     scheme?: string
-    x?: number
-    y?: number
+    x?: string
+    y?: string
 }
 
 export const emptyPoint: Point = { scheme: "", x: undefined, y: undefined }
@@ -29,13 +29,13 @@ export const pointConverter: (p: any) => Point = p => {
     else
         return ({
             scheme: p.scheme,
-            x: Number(p.x),
-            y: Number(p.y),
+            x: p.x,
+            y: p.y,
         })
 }
 
 export const pointDeconverter: (p: Point) => any = p => clean({
     scheme: p.scheme,
-    x: p.x && p.x.toString(),
-    y: p.y && p.y.toString(),
+    x: p.x && Number(p.x),
+    y: p.y && Number(p.y),
 })

@@ -17,10 +17,10 @@ import { clean } from "./misc"
 
 export interface Box {
     scheme?: string
-    north?: number
-    east?: number
-    south?: number
-    west?: number
+    north?: string
+    east?: string
+    south?: string
+    west?: string
 }
 
 export const emptyBox: Box = { scheme: "", north: undefined, east: undefined, south: undefined, west: undefined }
@@ -31,17 +31,17 @@ export const boxConverter: (b: any) => Box = b => {
     else
         return ({
             scheme: b.scheme,
-            north: Number(b.north),
-            east: Number(b.east),
-            south: Number(b.south),
-            west: Number(b.west),
+            north: b.north,
+            east: b.east,
+            south: b.south,
+            west: b.west,
         })
 }
 
 export const boxDeconverter: (b: Box) => any = b => clean({
     scheme: b.scheme,
-    north: b.north && b.north.toString(),
-    east: b.east && b.east.toString(),
-    south: b.south && b.south.toString(),
-    west: b.west && b.west.toString(),
+    north: b.north && Number(b.north),
+    east: b.east && Number(b.east),
+    south: b.south && Number(b.south),
+    west: b.west && Number(b.west),
 })

@@ -28,7 +28,7 @@ export function clean<T>(obj: T): Partial<T> {
             return !isEmpty(v)
         else if (typeof v === "object")
             return Object.keys(v).length !== 0
-        return !!v && v !== ""
+        return v === 0 || (!!v && v !== "")
     })
 }
 
