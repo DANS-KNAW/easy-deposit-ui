@@ -142,7 +142,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 ? typesConverter(dropDowns.dcmiTypes.list)(input.types)
                 : [[], []]
             const [imtFormats, normalFormats, hasCmdiFormat] = input.formats
-                ? formatsConverter(input.formats)
+                ? formatsConverter(dropDowns.imtFormats.list)(input.formats)
                 : [[], [], false]
             const [abrTemporalCoverages, normalTemporalCoverages] = input.temporalCoverages
                 ? temporalCoveragesConverter(input.temporalCoverages)

@@ -15,6 +15,7 @@
  */
 import { isEqual } from "lodash"
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum FormatScheme {
     imt = "dcterms:IMT",
@@ -26,7 +27,7 @@ function toFormatScheme(value: string): FormatScheme | undefined {
     return Object.values(FormatScheme).find(v => v === value)
 }
 
-export const formatsConverter: (formats: any[]) => [string[], string[], boolean] = formats => {
+export const formatsConverter: (imtFormatValues: DropdownListEntry[]) => (formats: any[]) => [string[], string[], boolean] = imtFormatValues => formats => {
     return formats.reduce(([imtFormats, normalFormats, hasCmdi], format) => {
         const scheme = format.scheme && toFormatScheme(format.scheme)
         const value = format.value
@@ -34,8 +35,10 @@ export const formatsConverter: (formats: any[]) => [string[], string[], boolean]
         if (scheme && scheme === FormatScheme.imt)
             if (value === cmdiFormat)
                 return [imtFormats, normalFormats, true]
-            else
+            else if (imtFormatValues.find(({key}) => key === value))
                 return [[...imtFormats, format.value], normalFormats, hasCmdi]
+            else
+                throw `Error in metadata: invalid internet media type: '${value}'`
         else if (isEqual(Object.keys(format), ["value"]))
             return [imtFormats, [...normalFormats, format.value], hasCmdi]
         else

@@ -58,3 +58,9 @@ export const fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
 
 export const fetchDcmiTypesDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FAILED)
+
+export const fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN, "imtFormats.json")
+
+export const fetchImtFormatsDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED)

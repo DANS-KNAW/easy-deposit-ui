@@ -31,6 +31,7 @@ export interface DropdownLists {
     dates: DropdownList
     licenses: DropdownList
     dcmiTypes: DropdownList
+    imtFormats: DropdownList
     // TODO add others
 }
 
@@ -40,4 +41,5 @@ export const emptyDropdownLists: DropdownLists = {
     dates: emptyDropdownList,
     licenses: emptyDropdownList,
     dcmiTypes: emptyDropdownList,
+    imtFormats: emptyDropdownList,
 }

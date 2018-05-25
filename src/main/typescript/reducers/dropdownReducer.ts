@@ -85,6 +85,9 @@ const [licensesPendingLens, licensesFulfilledLens, licensesFailedLens] = createL
 const dcmiTypesLens = Lens.fromProp<DropdownLists, "dcmiTypes">("dcmiTypes")
 const [dcmiTypesPendingLens, dcmiTypesFulfilledLens, dcmiTypesFailedLens] = createLenses(dcmiTypesLens)
 
+const imtFormatsLens = Lens.fromProp<DropdownLists, "imtFormats">("imtFormats")
+const [imtFormatsPendingLens, imtFormatsFulfilledLens, imtFormatsFailedLens] = createLenses(imtFormatsLens)
+
 export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLists, action) => {
     switch (action.type) {
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
@@ -117,6 +120,12 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(dcmiTypesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FAILED:
             return handleFailed(dcmiTypesFailedLens, action.payload, state)
+        case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING:
+            return handlePending(imtFormatsPendingLens, state)
+        case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED:
+            return handleFulfilled(imtFormatsFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED:
+            return handleFailed(imtFormatsFailedLens, action.payload, state)
         default:
             return state
     }
