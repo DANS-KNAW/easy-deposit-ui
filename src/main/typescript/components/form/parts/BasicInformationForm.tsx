@@ -34,6 +34,7 @@ import { QualifiedDate } from "../../../lib/metadata/Date"
 import { Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
+import IdentifierFieldArray from "./basicInformation/IdentifierFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -67,22 +68,6 @@ interface DoiFieldProps {
 }
 
 type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
-
-const AlternativeIdentifierFieldArray = (props: FieldArrayProps<SchemedValue>) => (
-    <SchemedTextFieldArray {...props} withEmptyDefault schemeValues={[
-        // @formatter:off
-        // TODO is this list correct/complete?
-        { key: "id-type:DOI",                       value: "DOI" },
-        { key: "id-type:URN",                       value: "URN" },
-        { key: "id-type:MENDELEY-DATA",             value: "Mendeley data" },
-        { key: "id-type:ISBN",                      value: "ISBN" },
-        { key: "id-type:ISSN",                      value: "ISSN" },
-        { key: "id-type:NWO-PROJECTNR",             value: "NWO project no." },
-        { key: "id-type:ARCHIS-ZAAK-IDENTIFICATIE", value: "Archis zaak identificatie" },
-        { key: "id-type:eDNA-project",              value: "eDNA project" },
-        // @formatter:on
-    ]}/>
-)
 
 const DateFieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SchemedTextFieldArray {...props} schemeValues={[
@@ -175,7 +160,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
                                      ]}
-                                     component={AlternativeIdentifierFieldArray}/>
+                                     component={IdentifierFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

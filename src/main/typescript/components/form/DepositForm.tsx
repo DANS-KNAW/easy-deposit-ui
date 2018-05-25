@@ -39,7 +39,7 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import { fetchAudienceData } from "../../actions/dropdownActions"
+import { fetchIdentifierData, fetchAudienceData } from "../../actions/dropdownActions"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -101,7 +101,9 @@ interface DepositFormStoreArguments {
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
     saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
     submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
+
     fetchAudienceData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchIdentifierData: () => ReduxAction<Promise<DropdownListEntry[]>>
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -123,6 +125,7 @@ class DepositForm extends Component<DepositFormProps> {
 
     componentDidMount() {
         this.props.fetchAudienceData()
+        this.props.fetchIdentifierData()
         this.fetchMetadata()
     }
 
@@ -224,7 +227,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const composedHOC = compose(
-    connect(mapStateToProps, { fetchMetadata, saveDraft, submitDeposit, fetchAudienceData }),
+    connect(mapStateToProps, { fetchMetadata, saveDraft, submitDeposit, fetchAudienceData, fetchIdentifierData }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )
 

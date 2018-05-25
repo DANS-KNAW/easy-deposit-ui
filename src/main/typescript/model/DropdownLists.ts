@@ -27,9 +27,11 @@ const emptyDropdownList: DropdownList = {
 
 export interface DropdownLists {
     audiences: DropdownList
+    identifiers: DropdownList
     // TODO add others
 }
 
 export const emptyDropdownLists: DropdownLists = {
-    audiences: emptyDropdownList
+    audiences: emptyDropdownList,
+    identifiers: emptyDropdownList,
 }

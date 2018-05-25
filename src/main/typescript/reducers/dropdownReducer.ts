@@ -73,6 +73,9 @@ function handleFailed(lens: Lens<DropdownLists, [boolean, boolean, string | unde
 const audiencesLens = Lens.fromProp<DropdownLists, "audiences">("audiences")
 const [audiencePendingLens, audienceFulfilledLens, audienceFailedLens] = createLenses(audiencesLens)
 
+const identifiersLens = Lens.fromProp<DropdownLists, "identifiers">("identifiers")
+const [identifiersPendingLens, identifiersFulfilledLens, identifiersFailedLens] = createLenses(identifiersLens)
+
 export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLists, action) => {
     switch (action.type) {
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
@@ -81,6 +84,12 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(audienceFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FAILED:
             return handleFailed(audienceFailedLens, action.payload, state)
+        case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING:
+            return handlePending(identifiersPendingLens, state)
+        case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FULFILLED:
+            return handleFulfilled(identifiersFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FAILED:
+            return handleFailed(identifiersFailedLens, action.payload, state)
         default:
             return state
     }

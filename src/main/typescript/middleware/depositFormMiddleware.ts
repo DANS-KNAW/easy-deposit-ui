@@ -114,7 +114,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 ? subjectConverter(input.subjects)
                 : [[], []]
             const [archisIdentifiers, alternativeIdentifiers] = input.alternativeIdentifiers
-                ? alternativeIdentifersConverter(input.alternativeIdentifiers)
+                ? alternativeIdentifersConverter(dropDowns.identifiers.list)(input.alternativeIdentifiers)
                 : [[], []]
             const [relatedIdentifiers, relations] = input.relations
                 ? relationsConverter(input.relations)
