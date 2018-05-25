@@ -1,13 +1,11 @@
 import * as React from "react"
 import { connect } from "react-redux"
-import { fetchAudienceData } from "../../../../actions/dropdownActions"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
 import SelectFieldArray from "../../../../lib/formComponents/SelectFieldArray"
 import { SchemedValue } from "../../../../lib/metadata/Value"
-import { ReduxAction } from "../../../../lib/redux"
 import { AppState } from "../../../../model/AppState"
-import { DropdownList, DropdownListEntry } from "../../../../model/DropdownLists"
+import { DropdownList } from "../../../../model/DropdownLists"
 
 interface AudienceFieldArrayReduxProperties {
     audiences: DropdownList
