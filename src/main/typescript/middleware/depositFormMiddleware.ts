@@ -109,7 +109,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             const identifiers = input.identifiers && identifiersConverter(input.identifiers)
             const languageOfDescription = input.languageOfDescription
                 ? languageOfDescriptionConverter(input.languageOfDescription)
-                : ""
+                : emptyString
             const creators = input.creators && input.creators.map(contributorConverter)
             const [rightsHolders, normalContributors] = input.contributors
                 ? contributorsConverter(input.contributors)
@@ -160,19 +160,19 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 // basic info
                 doi: identifiers && doiConverter(identifiers),
                 languageOfDescription: languageOfDescription,
-                titles: normalizeEmpty(input.titles, () => ""),
-                alternativeTitles: normalizeEmpty(input.alternativeTitles, () => ""),
+                titles: normalizeEmpty(input.titles, () => emptyString),
+                alternativeTitles: normalizeEmpty(input.alternativeTitles, () => emptyString),
                 description: input.descriptions && input.descriptions.join("\n\n"),
                 creators: normalizeEmpty(creators, () => emptyContributor),
                 contributors: normalizeEmpty(normalContributors, () => emptyContributor),
                 dateCreated: dateCreated && dateCreated.value,
-                audiences: normalizeEmpty(audiences, () => ""),
-                subjects: normalizeEmpty(subjects, () => ""),
+                audiences: normalizeEmpty(audiences, () => emptyString),
+                subjects: normalizeEmpty(subjects, () => emptyString),
                 alternativeIdentifiers: normalizeEmpty(alternativeIdentifiers, () => emptySchemedValue),
                 relatedIdentifiers: normalizeEmpty(relatedIdentifiers, () => emptyQualifiedSchemedValue),
                 relations: normalizeEmpty(relations, () => emptyRelation),
-                languagesOfFilesIso639: normalizeEmpty(isoLanguageOfFiles, () => ""),
-                languagesOfFiles: normalizeEmpty(languageOfFiles, () => ""),
+                languagesOfFilesIso639: normalizeEmpty(isoLanguageOfFiles, () => emptyString),
+                languagesOfFiles: normalizeEmpty(languageOfFiles, () => emptyString),
                 datesIso8601: normalizeEmpty(dates, () => emptyQualifiedDate),
                 dates: normalizeEmpty(textDates, () => emptyQualifiedStringDate),
                 source: sources,
@@ -180,32 +180,32 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
 
                 // license and access
                 rightsHolders: normalizeEmpty(rightsHolders, () => emptyContributor),
-                publishers: normalizeEmpty(input.publishers, () => ""),
+                publishers: normalizeEmpty(input.publishers, () => emptyString),
                 accessRights: accessRights,
                 license: license,
                 dateAvailable: dateAvailable && dateAvailable.value,
 
                 // upload type
-                typesDCMI: normalizeEmpty(dcmiTypes, () => ""),
-                types: normalizeEmpty(normalTypes, () => ""),
-                formatsMediaType: normalizeEmpty(imtFormats, () => ""),
-                formats: normalizeEmpty(normalFormats, () => ""),
+                typesDCMI: normalizeEmpty(dcmiTypes, () => emptyString),
+                types: normalizeEmpty(normalTypes, () => emptyString),
+                formatsMediaType: normalizeEmpty(imtFormats, () => emptyString),
+                formats: normalizeEmpty(normalFormats, () => emptyString),
                 extraClarinMetadataPresent: hasCmdiFormat,
 
                 // archaeology specific metadata
-                archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value), () => ""),
-                subjectsAbrComplex: normalizeEmpty(abrSubjects, () => ""),
-                temporalCoveragesAbr: normalizeEmpty(abrTemporalCoverages, () => ""),
+                archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value), () => emptyString),
+                subjectsAbrComplex: normalizeEmpty(abrSubjects, () => emptyString),
+                temporalCoveragesAbr: normalizeEmpty(abrTemporalCoverages, () => emptyString),
 
                 // temporal and spatial coverage
-                temporalCoverages: normalizeEmpty(normalTemporalCoverages, () => ""),
+                temporalCoverages: normalizeEmpty(normalTemporalCoverages, () => emptyString),
                 spatialPoints: normalizeEmpty(spatialPoints, () => emptyPoint),
                 spatialBoxes: normalizeEmpty(spatialBoxes, () => emptyBox),
-                spatialCoverageIso3166: normalizeEmpty(isoSpatialCoverages, () => ""),
-                spatialCoverages: normalizeEmpty(normalSpatialCoverages, () => ""),
+                spatialCoverageIso3166: normalizeEmpty(isoSpatialCoverages, () => emptyString),
+                spatialCoverages: normalizeEmpty(normalSpatialCoverages, () => emptyString),
 
                 // message for data manager
-                messageForDataManager: input.messageForDataManager || "",
+                messageForDataManager: input.messageForDataManager || emptyString,
 
                 // privacy sensitive data
                 privacySensitiveDataPresent: privacySensitiveDataPresent,
