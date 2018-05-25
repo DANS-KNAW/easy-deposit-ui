@@ -25,7 +25,12 @@ import {
     sendSubmitDepositFailed,
 } from "../actions/depositFormActions"
 import { DropdownConstants } from "../constants/dropdownConstants"
-import { fetchAudienceDataFailed, fetchDateDataFailed, fetchIdentifierDataFailed } from "../actions/dropdownActions"
+import {
+    fetchAudienceDataFailed,
+    fetchDateDataFailed,
+    fetchIdentifierDataFailed,
+    fetchLicenseDataFailed,
+} from "../actions/dropdownActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
 
@@ -63,6 +68,7 @@ const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_S
 const fetchAudienceDataRejected = rejectedMiddleware(DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED)(() => fetchAudienceDataFailed)
 const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED)(() => fetchIdentifierDataFailed)
 const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED)(() => fetchDateDataFailed)
+const fetchLicenseDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED)(() => fetchLicenseDataFailed)
 
 export const rejectedRequestMiddleware = [
     depositFetchRejected,
@@ -74,5 +80,6 @@ export const rejectedRequestMiddleware = [
     sendSubmitDepositRejected,
     fetchAudienceDataRejected,
     fetchIdentifierDataRejected,
-    fetchDateDataRejected
+    fetchDateDataRejected,
+    fetchLicenseDataRejected,
 ]

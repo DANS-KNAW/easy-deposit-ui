@@ -94,8 +94,9 @@ import {
     privacySensitiveDataDeconverter,
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
-import { clean, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
+import { clean, emptyString, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
 import { AppState } from "../model/AppState"
+import { licenseConverter, licenseDeconverter } from "../lib/metadata/License"
 
 const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatch, getState }, next, action) => {
     next(action)
@@ -134,6 +135,9 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             const accessRights = input.accessRights
                 ? accessRightConverter(input.accessRights)
                 : { category: undefined, group: undefined }
+            const license = input.license
+                ? licenseConverter(dropDowns.licenses.list)(input.license)
+                : emptyString
             const [dcmiTypes, normalTypes] = input.types
                 ? typesConverter(input.types)
                 : [[], []]
@@ -178,7 +182,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 rightsHolders: normalizeEmpty(rightsHolders, () => emptyContributor),
                 publishers: normalizeEmpty(input.publishers, () => ""),
                 accessRights: accessRights,
-                license: input.license || "",
+                license: license,
                 dateAvailable: dateAvailable && dateAvailable.value,
 
                 // upload type
@@ -281,7 +285,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             // license and access
             publishers: data.publishers && data.publishers.filter(p => !isEmptyString(p)),
             accessRights: data.accessRights && accessRightDeconverter(data.accessRights), // TODO not sure if this is correct
-            license: data.license,
+            license: data.license && licenseDeconverter(data.license),
 
             // upload type
             types: [

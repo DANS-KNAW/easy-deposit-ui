@@ -17,7 +17,7 @@ import * as React from "react"
 import { SelectHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
 
-interface SelectFieldProps {
+export interface SelectFieldProps {
     withLabel?: boolean
     withEmptyDefault?: boolean
 }

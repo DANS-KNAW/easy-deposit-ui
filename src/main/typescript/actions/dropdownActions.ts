@@ -46,3 +46,9 @@ export const fetchDateData: () => ReduxAction<Promise<DropdownListEntry[]>> = ()
 
 export const fetchDateDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_DATES_DROPDOWN_FAILED)
+
+export const fetchLicenseData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_LICENSES_DROPDOWN, "licenses.json")
+
+export const fetchLicenseDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_LICENSES_DROPDOWN_FAILED)

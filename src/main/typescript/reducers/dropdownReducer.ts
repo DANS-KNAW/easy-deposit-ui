@@ -79,6 +79,9 @@ const [identifiersPendingLens, identifiersFulfilledLens, identifiersFailedLens] 
 const datesLens = Lens.fromProp<DropdownLists, "dates">("dates")
 const [datesPendingLens, datesFulfilledLens, datesFailedLens] = createLenses(datesLens)
 
+const licensesLens = Lens.fromProp<DropdownLists, "licenses">("licenses")
+const [licensesPendingLens, licensesFulfilledLens, licensesFailedLens] = createLenses(licensesLens)
+
 export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLists, action) => {
     switch (action.type) {
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
@@ -99,6 +102,12 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(datesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_DATES_DROPDOWN_FAILED:
             return handleFailed(datesFailedLens, action.payload, state)
+        case DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING:
+            return handlePending(licensesPendingLens, state)
+        case DropdownConstants.FETCH_LICENSES_DROPDOWN_FULFILLED:
+            return handleFulfilled(licensesFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_LICENSES_DROPDOWN_FAILED:
+            return handleFailed(licensesFailedLens, action.payload, state)
         default:
             return state
     }
