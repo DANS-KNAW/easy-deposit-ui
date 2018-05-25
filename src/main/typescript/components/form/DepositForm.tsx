@@ -47,6 +47,7 @@ import {
     fetchImtFormatsData,
     fetchLicenseData,
     fetchSpatialCoordinatesData,
+    fetchSpatialCoveragesIsoData,
 } from "../../actions/dropdownActions"
 
 interface FetchMetadataErrorProps {
@@ -117,6 +118,7 @@ interface DepositFormStoreArguments {
     fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchSpatialCoveragesIsoData: () => ReduxAction<Promise<DropdownListEntry[]>>
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -144,6 +146,7 @@ class DepositForm extends Component<DepositFormProps> {
         this.props.fetchDcmiTypesData()
         this.props.fetchImtFormatsData()
         this.props.fetchSpatialCoordinatesData()
+        this.props.fetchSpatialCoveragesIsoData()
         this.fetchMetadata()
     }
 
@@ -258,6 +261,7 @@ const composedHOC = compose(
             fetchDcmiTypesData,
             fetchImtFormatsData,
             fetchSpatialCoordinatesData,
+            fetchSpatialCoveragesIsoData,
         }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )

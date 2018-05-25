@@ -70,3 +70,9 @@ export const fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownList
 
 export const fetchSpatialCoordinatesDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FAILED)
+
+export const fetchSpatialCoveragesIsoData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN, "spatialCoveragesIso.json")
+
+export const fetchSpatialCoveragesIsoDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_FAILED)

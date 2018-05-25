@@ -37,7 +37,7 @@ export const audienceConverter: (audiences: DropdownListEntry[]) => (a: any) => 
 }
 
 export const audienceDeconverter: (audiences: DropdownListEntry[]) => (a: string) => any = audiences => a => {
-    const entry = audiences.find(({key}) => key === a)
+    const entry: DropdownListEntry | undefined = audiences.find(({key}) => key === a)
 
     if (entry)
         return clean({

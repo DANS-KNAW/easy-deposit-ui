@@ -18,7 +18,7 @@ type LicenseFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElem
 const LicenseField = ({ licenses: { state, list }, dispatch, ...rest }: LicenseFieldProps & LicenseFieldReduxProps & HideReduxDispatch) => (
     <LoadDropdownData state={state}>
         <SelectField {...rest}>
-            {list.map((value, index) => <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>)}
+            {list.map((value, index) => <option key={`${value.key}${index}`} value={value.key}>{value.displayValue}</option>)}
         </SelectField>
     </LoadDropdownData>
 )

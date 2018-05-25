@@ -150,7 +150,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             const spatialPoints = input.spatialPoints && input.spatialPoints.map(pointConverter(dropDowns.spatialCoordinates.list))
             const spatialBoxes = input.spatialBoxes && input.spatialBoxes.map(boxConverter(dropDowns.spatialCoordinates.list))
             const [isoSpatialCoverages, normalSpatialCoverages] = input.spatialCoverages
-                ? spatialCoveragesConverter(input.spatialCoverages)
+                ? spatialCoveragesConverter(dropDowns.spatialCoveragesIso.list)(input.spatialCoverages)
                 : [[], []]
             const privacySensitiveDataPresent = input.privacySensitiveDataPresent
                 ? privacySensitiveDataConverter(input.privacySensitiveDataPresent)
@@ -230,7 +230,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
 
     if (action.type === DepositFormConstants.SAVE_DRAFT || action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
         const data: DepositFormMetadata = action.payload.data
-        const dropdowns = getState().dropDowns
+        const dropDowns = getState().dropDowns
 
         const output = clean({
             // basic info
@@ -246,7 +246,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             ].map(contributorDeconverter).filter(nonEmptyObject),
             audiences: data.audiences && data.audiences
                 .filter(a => !isEmptyString(a))
-                .map(audienceDeconverter(dropdowns.audiences.list)),
+                .map(audienceDeconverter(dropDowns.audiences.list)),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
                 ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : []),
@@ -306,7 +306,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             spatialPoints: data.spatialPoints && data.spatialPoints.map(pointDeconverter).filter(nonEmptyObject),
             spatialBoxes: data.spatialBoxes && data.spatialBoxes.map(boxDeconverter).filter(nonEmptyObject),
             spatialCoverages: [
-                ...(data.spatialCoverageIso3166 ? data.spatialCoverageIso3166.map(isoSpatialCoverageDeconverter) : []),
+                ...(data.spatialCoverageIso3166 ? data.spatialCoverageIso3166.map(isoSpatialCoverageDeconverter(dropDowns.spatialCoveragesIso.list)) : []),
                 ...(data.spatialCoverages ? data.spatialCoverages.map(spatialCoverageDeconverter) : []),
             ].filter(nonEmptyObject),
 

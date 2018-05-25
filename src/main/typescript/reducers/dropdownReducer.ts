@@ -91,6 +91,9 @@ const [imtFormatsPendingLens, imtFormatsFulfilledLens, imtFormatsFailedLens] = c
 const spatialCoordinatesLens = Lens.fromProp<DropdownLists, "spatialCoordinates">("spatialCoordinates")
 const [spatialCoordinatesPendingLens, spatialCoordinatesFulfilledLens, spatialCoordinatesFailedLens] = createLenses(spatialCoordinatesLens)
 
+const spatialCoveragesIsoLens = Lens.fromProp<DropdownLists, "spatialCoveragesIso">("spatialCoveragesIso")
+const [spatialCoveragesIsoPendingLens, spatialCoveragesIsoFulfilledLens, spatialCoveragesIsoFailedLens] = createLenses(spatialCoveragesIsoLens)
+
 export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLists, action) => {
     switch (action.type) {
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
@@ -99,42 +102,56 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(audienceFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FAILED:
             return handleFailed(audienceFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING:
             return handlePending(identifiersPendingLens, state)
         case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FULFILLED:
             return handleFulfilled(identifiersFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FAILED:
             return handleFailed(identifiersFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_DATES_DROPDOWN_PENDING:
             return handlePending(datesPendingLens, state)
         case DropdownConstants.FETCH_DATES_DROPDOWN_FULFILLED:
             return handleFulfilled(datesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_DATES_DROPDOWN_FAILED:
             return handleFailed(datesFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING:
             return handlePending(licensesPendingLens, state)
         case DropdownConstants.FETCH_LICENSES_DROPDOWN_FULFILLED:
             return handleFulfilled(licensesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_LICENSES_DROPDOWN_FAILED:
             return handleFailed(licensesFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_PENDING:
             return handlePending(dcmiTypesPendingLens, state)
         case DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FULFILLED:
             return handleFulfilled(dcmiTypesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FAILED:
             return handleFailed(dcmiTypesFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING:
             return handlePending(imtFormatsPendingLens, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED:
             return handleFulfilled(imtFormatsFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED:
             return handleFailed(imtFormatsFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING:
             return handlePending(spatialCoordinatesPendingLens, state)
         case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FULFILLED:
             return handleFulfilled(spatialCoordinatesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FAILED:
             return handleFailed(spatialCoordinatesFailedLens, action.payload, state)
+
+        case DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_PENDING:
+            return handlePending(spatialCoveragesIsoPendingLens, state)
+        case DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_FULFILLED:
+            return handleFulfilled(spatialCoveragesIsoFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_FAILED:
+            return handleFailed(spatialCoveragesIsoFailedLens, action.payload, state)
+
         default:
             return state
     }
