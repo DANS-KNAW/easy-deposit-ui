@@ -21,6 +21,7 @@ import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
+import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -35,25 +36,6 @@ const oneSelected = (value?: any) => value ? undefined : "you need to select one
 
 interface UploadTypeFormProps {
 }
-
-const TypesDCMIFieldArray = (props: FieldArrayProps<string>) => (
-    <SelectFieldArray {...props} withEmptyDefault choices={[
-        // @formatter:off
-        { key: "Collection",           value: "Collection" },
-        { key: "Dataset",              value: "Dataset" },
-        { key: "Event",                value: "Event" },
-        { key: "Image",                value: "Image" },
-        { key: "Interactive resource", value: "Interactive resource" },
-        { key: "Moving image",         value: "Moving image" },
-        { key: "Physical object",      value: "Physical object" },
-        { key: "Service",              value: "Service" },
-        { key: "Software",             value: "Software" },
-        { key: "Sound",                value: "Sound" },
-        { key: "Still image",          value: "Still image" },
-        { key: "Text",                 value: "Text" },
-        // @formatter:on
-    ]}/>
-)
 
 const FormatMediaTypeFieldArray = (props: FieldArrayProps<string>) => (
     <SelectFieldArray {...props} withEmptyDefault choices={[
@@ -97,7 +79,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                                      label="Type (DCMI resource type)"
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     component={TypesDCMIFieldArray}/>
+                                     component={DcmiTypesFieldArray}/>
                 </div>
 
                 <div className="row form-group input-element">

@@ -39,7 +39,13 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import { fetchIdentifierData, fetchAudienceData, fetchDateData, fetchLicenseData } from "../../actions/dropdownActions"
+import {
+    fetchIdentifierData,
+    fetchAudienceData,
+    fetchDateData,
+    fetchLicenseData,
+    fetchDcmiTypesData,
+} from "../../actions/dropdownActions"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -106,6 +112,7 @@ interface DepositFormStoreArguments {
     fetchIdentifierData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchDateData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchLicenseData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -130,6 +137,7 @@ class DepositForm extends Component<DepositFormProps> {
         this.props.fetchIdentifierData()
         this.props.fetchDateData()
         this.props.fetchLicenseData()
+        this.props.fetchDcmiTypesData()
         this.fetchMetadata()
     }
 
@@ -240,7 +248,8 @@ const composedHOC = compose(
             fetchAudienceData,
             fetchIdentifierData,
             fetchDateData,
-            fetchLicenseData
+            fetchLicenseData,
+            fetchDcmiTypesData,
         }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )

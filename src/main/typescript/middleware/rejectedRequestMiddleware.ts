@@ -28,6 +28,7 @@ import { DropdownConstants } from "../constants/dropdownConstants"
 import {
     fetchAudienceDataFailed,
     fetchDateDataFailed,
+    fetchDcmiTypesDataFailed,
     fetchIdentifierDataFailed,
     fetchLicenseDataFailed,
 } from "../actions/dropdownActions"
@@ -69,6 +70,7 @@ const fetchAudienceDataRejected = rejectedMiddleware(DropdownConstants.FETCH_AUD
 const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED)(() => fetchIdentifierDataFailed)
 const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED)(() => fetchDateDataFailed)
 const fetchLicenseDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED)(() => fetchLicenseDataFailed)
+const fetchDcmiTypeDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED)(() => fetchDcmiTypesDataFailed)
 
 export const rejectedRequestMiddleware = [
     depositFetchRejected,
@@ -82,4 +84,5 @@ export const rejectedRequestMiddleware = [
     fetchIdentifierDataRejected,
     fetchDateDataRejected,
     fetchLicenseDataRejected,
+    fetchDcmiTypeDataRejected,
 ]

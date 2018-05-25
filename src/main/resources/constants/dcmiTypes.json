@@ -1,0 +1,50 @@
+{
+  "Collection": {
+    "title": "Collection",
+    "viewName": "Collection"
+  },
+  "Dataset": {
+    "title": "Dataset",
+    "viewName": "Dataset"
+  },
+  "Event": {
+    "title": "Event",
+    "viewName": "Event"
+  },
+  "Image": {
+    "title": "Image",
+    "viewName": "Image"
+  },
+  "Interactive resource": {
+    "title": "Interactive resource",
+    "viewName": "Interactive resource"
+  },
+  "Moving image": {
+    "title": "Moving image",
+    "viewName": "Moving image"
+  },
+  "Physical object": {
+    "title": "Physical object",
+    "viewName": "Physical object"
+  },
+  "Service": {
+    "title": "Service",
+    "viewName": "Service"
+  },
+  "Software": {
+    "title": "Software",
+    "viewName": "Software"
+  },
+  "Sound": {
+    "title": "Sound",
+    "viewName": "Sound"
+  },
+  "Still image": {
+    "title": "Still image",
+    "viewName": "Still image"
+  },
+  "Text": {
+    "title": "Text",
+    "viewName": "Text"
+  }
+}

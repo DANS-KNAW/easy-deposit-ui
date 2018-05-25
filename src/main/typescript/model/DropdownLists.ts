@@ -30,6 +30,7 @@ export interface DropdownLists {
     identifiers: DropdownList
     dates: DropdownList
     licenses: DropdownList
+    dcmiTypes: DropdownList
     // TODO add others
 }
 
@@ -38,4 +39,5 @@ export const emptyDropdownLists: DropdownLists = {
     identifiers: emptyDropdownList,
     dates: emptyDropdownList,
     licenses: emptyDropdownList,
+    dcmiTypes: emptyDropdownList,
 }

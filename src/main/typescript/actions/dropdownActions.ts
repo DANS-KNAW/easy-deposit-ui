@@ -52,3 +52,9 @@ export const fetchLicenseData: () => ReduxAction<Promise<DropdownListEntry[]>> =
 
 export const fetchLicenseDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_LICENSES_DROPDOWN_FAILED)
+
+export const fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN, "dcmiTypes.json")
+
+export const fetchDcmiTypesDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FAILED)

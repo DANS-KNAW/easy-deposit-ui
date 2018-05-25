@@ -139,7 +139,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 ? licenseConverter(dropDowns.licenses.list)(input.license)
                 : emptyString
             const [dcmiTypes, normalTypes] = input.types
-                ? typesConverter(input.types)
+                ? typesConverter(dropDowns.dcmiTypes.list)(input.types)
                 : [[], []]
             const [imtFormats, normalFormats, hasCmdiFormat] = input.formats
                 ? formatsConverter(input.formats)
