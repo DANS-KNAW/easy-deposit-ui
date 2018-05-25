@@ -1,0 +1,26 @@
+{
+  "dcterms:date": {
+    "title": "Date",
+    "viewName": "Date"
+  },
+  "dcterms:valid": {
+    "title": "Valid",
+    "viewName": "Valid"
+  },
+  "dcterms:issued": {
+    "title": "Issued",
+    "viewName": "Issued"
+  },
+  "dcterms:modified": {
+    "title": "Modified",
+    "viewName": "Modified"
+  },
+  "dcterms:dateAccepted": {
+    "title": "Date accepted",
+    "viewName": "Date accepted"
+  },
+  "dcterms:dateCopyrighted": {
+    "title": "Date copyrighted",
+    "viewName": "Date copyrighted"
+  }
+}

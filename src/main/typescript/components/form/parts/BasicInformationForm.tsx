@@ -18,7 +18,7 @@ import { Component } from "react"
 import { Field } from "redux-form"
 import { connect } from "react-redux"
 import DoiField from "../../../lib/formComponents/DoiField"
-import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { AppState } from "../../../model/AppState"
@@ -26,7 +26,6 @@ import { fetchDoi } from "../../../actions/depositFormActions"
 import { ReduxAction } from "../../../lib/redux"
 import { DepositId } from "../../../model/Deposits"
 import { FetchDoiState } from "../../../model/DepositForm"
-import SchemedTextFieldArray from "../../../lib/formComponents/SchemedTextFieldArray"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Contributor } from "../../../lib/metadata/Contributor"
@@ -35,6 +34,7 @@ import { Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
 import IdentifierFieldArray from "./basicInformation/IdentifierFieldArray"
+import DateFieldArray from "./basicInformation/DateFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -68,20 +68,6 @@ interface DoiFieldProps {
 }
 
 type BasicInformationFormProps = DoiFieldProps & BasicInformationFormInputProps
-
-const DateFieldArray = (props: FieldArrayProps<SchemedValue>) => (
-    <SchemedTextFieldArray {...props} schemeValues={[
-        // @formatter:off
-        // first option is the default
-        { key: "dcterms:date",            value: "Date" },
-        { key: "dcterms:valid",           value: "Valid" },
-        { key: "dcterms:issued",          value: "Issued" },
-        { key: "dcterms:modified",        value: "Modified" },
-        { key: "dcterms:dateAccepted",    value: "Date accepted" },
-        { key: "dcterms:dateCopyrighted", value: "Date copyrighted" },
-        // @formatter:on
-    ]}/>
-)
 
 class BasicInformationForm extends Component<BasicInformationFormProps> {
     render() {

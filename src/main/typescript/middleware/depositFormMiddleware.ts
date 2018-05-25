@@ -44,9 +44,16 @@ import {
     languagesOfFilesConverter,
 } from "../lib/metadata/Language"
 import { emptyQualifiedSchemedValue, emptySchemedValue } from "../lib/metadata/Value"
-import { contributorsConverter, contributorConverter, contributorDeconverter, emptyContributor } from "../lib/metadata/Contributor"
 import {
-    DateQualifier,
+    contributorConverter,
+    contributorDeconverter,
+    contributorsConverter,
+    emptyContributor,
+} from "../lib/metadata/Contributor"
+import {
+    availableQualifier,
+    createdQualifier,
+    dateSubmittedQualifier,
     emptyDates,
     emptyQualifiedDate,
     emptyQualifiedStringDate,
@@ -106,8 +113,8 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             const [rightsHolders, normalContributors] = input.contributors
                 ? contributorsConverter(input.contributors)
                 : [[], []]
-            const {dateCreated, dateAvailable, dates, textDates} = input.dates
-                ? qualifiedDatesConverter(input.dates)
+            const { dateCreated, dateAvailable, dates, textDates } = input.dates
+                ? qualifiedDatesConverter(dropDowns.dates.list)(input.dates)
                 : emptyDates
             const audiences = input.audiences && input.audiences.map(audienceConverter(dropDowns.audiences.list))
             const [subjects, abrSubjects] = input.subjects
@@ -231,18 +238,18 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             creators: data.creators && data.creators.map(contributorDeconverter).filter(nonEmptyObject),
             contributors: [
                 ...(data.contributors || []),
-                ...(data.rightsHolders || [])
+                ...(data.rightsHolders || []),
             ].map(contributorDeconverter).filter(nonEmptyObject),
             audiences: data.audiences && data.audiences
                 .filter(a => !isEmptyString(a))
                 .map(audienceDeconverter(dropdowns.audiences.list)),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
-                ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : [])
+                ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : []),
             ].filter(nonEmptyObject),
             alternativeIdentifiers: [
                 ...(data.alternativeIdentifiers ? data.alternativeIdentifiers.map(alternativeIdentifierDeconverter) : []),
-                ...(data.archisNrs ? data.archisNrs.map(archisIdentifierDeconverter) : [])
+                ...(data.archisNrs ? data.archisNrs.map(archisIdentifierDeconverter) : []),
             ].filter(nonEmptyObject),
             relations: [
                 ...(data.relatedIdentifiers ? data.relatedIdentifiers.map(relatedIdentifierDeconverter) : []),
@@ -250,12 +257,21 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             ].filter(nonEmptyObject),
             languagesOfFiles: [
                 ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter) : []),
-                ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : [])
+                ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : []),
             ].filter(nonEmptyObject),
             dates: [
-                (data.dateCreated && qualifiedDateDeconverter({qualifier: DateQualifier.created, value: data.dateCreated})),
-                (data.dateAvailable && qualifiedDateDeconverter({qualifier: DateQualifier.available, value: data.dateAvailable})),
-                (action.type === DepositFormConstants.SUBMIT_DEPOSIT && qualifiedDateDeconverter({qualifier: DateQualifier.dateSubmitted, value: new Date()})),
+                (data.dateCreated && qualifiedDateDeconverter({
+                    qualifier: createdQualifier,
+                    value: data.dateCreated,
+                })),
+                (data.dateAvailable && qualifiedDateDeconverter({
+                    qualifier: availableQualifier,
+                    value: data.dateAvailable,
+                })),
+                (action.type === DepositFormConstants.SUBMIT_DEPOSIT && qualifiedDateDeconverter({
+                    qualifier: dateSubmittedQualifier,
+                    value: new Date(),
+                })),
                 ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
                 ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
             ].filter(nonEmptyObject),

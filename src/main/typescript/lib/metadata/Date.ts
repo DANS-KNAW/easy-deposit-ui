@@ -15,6 +15,7 @@
  */
 import { clean } from "./misc"
 import * as dateFormat from "dateformat"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum DateScheme {
     W3CDTF = "dcterms:W3CDTF"
@@ -24,24 +25,12 @@ function toDateScheme(value: string): DateScheme | undefined {
     return Object.values(DateScheme).find(v => v === value)
 }
 
-export enum DateQualifier {
-    created = "dcterms:created",
-    available = "dcterms:available",
-    date = "dcterms:date",
-    dateAccepted = "dcterms:dateAccepted",
-    dateCopyrighted = "dcterms:dateCopyrighted",
-    dateSubmitted = "dcterms:dateSubmitted",
-    issued = "dcterms:issued",
-    modified = "dcterms:modified",
-    valid = "dcterms:valid",
-}
-
-function toDateQualifier(value: string): DateQualifier | undefined {
-    return Object.values(DateQualifier).find(v => v === value)
-}
+export const createdQualifier = "dcterms:created"
+export const availableQualifier = "dcterms:available"
+export const dateSubmittedQualifier = "dcterms:dateSubmitted"
 
 export interface QualifiedDate<Value> {
-    qualifier?: DateQualifier
+    qualifier?: string
     value?: Value
 }
 
@@ -50,7 +39,7 @@ export const emptyQualifiedStringDate: QualifiedDate<string> = {}
 
 interface InternalDate {
     scheme?: DateScheme,
-    qualifier: DateQualifier,
+    qualifier: string,
     value: string
 }
 
@@ -66,45 +55,43 @@ const dateConverter: (d: any) => Date = d => new Date(d)
 
 const dateDeconverter: (d: Date) => any = d => dateFormat(d, "isoDateTime")
 
-const qualifiedDateConverter: (sd: any) => InternalDate = sd => {
+const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => InternalDate = dates => sd => {
     const scheme = sd.scheme && toDateScheme(sd.scheme)
-    const qualifier = toDateQualifier(sd.qualifier)
+    const qualifierObj = dates.find(({key}) => key === sd.qualifier)
     const value = sd.value
 
-    if (qualifier) {
+    if (qualifierObj)
         if (scheme && scheme === DateScheme.W3CDTF)
             return ({
                 scheme: scheme,
-                qualifier: qualifier,
+                qualifier: qualifierObj.key,
                 value: value,
             })
         else
-            switch (qualifier) {
-                case DateQualifier.created:
-                case DateQualifier.available:
-                case DateQualifier.dateSubmitted:
-                    throw `Error in metadata: schemaless dates with qualifiers 'created', 'available' or 'submitted' are not allowed`
-                default:
-                    return ({
-                        qualifier: qualifier,
-                        value: value,
-                    })
-            }
-    }
+            return ({
+                qualifier: qualifierObj.key,
+                value: value,
+            })
+    else if (sd.qualifier === createdQualifier || sd.qualifier === availableQualifier || sd.qualifier === dateSubmittedQualifier)
+        return ({
+            scheme: scheme,
+            qualifier: sd.qualifier,
+            value: value,
+        })
     else
         throw `Error in metadata: no such date qualifier: '${sd.qualifier}'`
 }
 
 export const emptyDates: Dates = ({
-    dateCreated: { qualifier: DateQualifier.created, value: undefined },
-    dateAvailable: { qualifier: DateQualifier.available, value: undefined },
-    dateSubmitted: { qualifier: DateQualifier.dateSubmitted, value: undefined },
+    dateCreated: { qualifier: createdQualifier, value: undefined },
+    dateAvailable: { qualifier: availableQualifier, value: undefined },
+    dateSubmitted: { qualifier: dateSubmittedQualifier, value: undefined },
     dates: [{ qualifier: undefined, value: undefined }],
     textDates: [{ qualifier: undefined, value: "" }],
 })
 
-export const qualifiedDatesConverter: (sds: any) => Dates = sds => {
-    const stringDates: InternalDate[] = sds.map(qualifiedDateConverter)
+export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any) => Dates = dates => sds => {
+    const stringDates: InternalDate[] = sds.map(qualifiedDateConverter(dates))
 
     const empty: Dates = ({
         dates: [],
@@ -113,17 +100,17 @@ export const qualifiedDatesConverter: (sds: any) => Dates = sds => {
 
     return stringDates.reduce((res, { scheme, qualifier, value }) => {
         switch (qualifier) {
-            case DateQualifier.created:
+            case createdQualifier:
                 if (res.dateCreated)
                     throw `Error in metadata: multiple dates with qualifier 'created' found`
                 else
                     return { ...res, dateCreated: { qualifier: qualifier, value: dateConverter(value) } }
-            case DateQualifier.available:
+            case availableQualifier:
                 if (res.dateAvailable)
                     throw `Error in metadata: multiple dates with qualifier 'available' found`
                 else
                     return { ...res, dateAvailable: { qualifier: qualifier, value: dateConverter(value) } }
-            case DateQualifier.dateSubmitted:
+            case dateSubmittedQualifier:
                 if (res.dateSubmitted)
                     throw `Error in metadata: multiple dates with qualifier 'submitted' found`
                 else
