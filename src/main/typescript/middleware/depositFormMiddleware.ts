@@ -147,8 +147,8 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             const [abrTemporalCoverages, normalTemporalCoverages] = input.temporalCoverages
                 ? temporalCoveragesConverter(input.temporalCoverages)
                 : [[], []]
-            const spatialPoints = input.spatialPoints && input.spatialPoints.map(pointConverter)
-            const spatialBoxes = input.spatialBoxes && input.spatialBoxes.map(boxConverter)
+            const spatialPoints = input.spatialPoints && input.spatialPoints.map(pointConverter(dropDowns.spatialCoordinates.list))
+            const spatialBoxes = input.spatialBoxes && input.spatialBoxes.map(boxConverter(dropDowns.spatialCoordinates.list))
             const [isoSpatialCoverages, normalSpatialCoverages] = input.spatialCoverages
                 ? spatialCoveragesConverter(input.spatialCoverages)
                 : [[], []]

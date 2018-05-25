@@ -17,13 +17,13 @@ import * as React from "react"
 import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
-import SchemedPointArrayField from "../../../lib/formComponents/SchemedPointArrayField"
-import SchemedBoxArrayField from "../../../lib/formComponents/SchemedBoxArrayField"
 import { emptySchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { emptyPoint, Point } from "../../../lib/metadata/SpatialPoint"
 import { Box, emptyBox } from "../../../lib/metadata/SpatialBox"
 import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
 import { emptyString } from "../../../lib/metadata/misc"
+import SpatialPointFieldArray from "./temporalAndSpatialCoverage/SpatialPointFieldArray"
+import SpatialBoxFieldArray from "./temporalAndSpatialCoverage/SpatialBoxFieldArray"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: string[]
@@ -35,24 +35,6 @@ export interface TemporalAndSpatialCoverageFormData {
 
 interface TemporalAndSpatialCoverageFormProps {
 }
-
-const SpatialPointFieldArray = (props: FieldArrayProps<Point>) => (
-    <SchemedPointArrayField {...props} schemeValues={[
-        // @formatter:off
-        { key: "http://www.opengis.net/def/crs/EPSG/0/28992", value: "RD (in m.)" },
-        { key: "http://www.opengis.net/def/crs/EPSG/0/4326", value: "lengte/breedte (graden)" },
-        // @formatter:on
-    ]}/>
-)
-
-const SpatialBoxFieldArray = (props: FieldArrayProps<Point>) => (
-    <SchemedBoxArrayField {...props} schemeValues={[
-        // @formatter:off
-        { key: "http://www.opengis.net/def/crs/EPSG/0/28992", value: "RD (in m.)" },
-        { key: "http://www.opengis.net/def/crs/EPSG/0/4326", value: "lengte/breedte (graden)" },
-        // @formatter:on
-    ]}/>
-)
 
 const SpatialCoverageIso3166FieldArray = (props: FieldArrayProps<SchemedValue>) => (
     <SelectFieldArray {...props} withEmptyDefault choices={[

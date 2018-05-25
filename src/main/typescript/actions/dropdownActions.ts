@@ -64,3 +64,9 @@ export const fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>
 
 export const fetchImtFormatsDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED)
+
+export const fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN, "spatialCoordinates.json")
+
+export const fetchSpatialCoordinatesDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FAILED)

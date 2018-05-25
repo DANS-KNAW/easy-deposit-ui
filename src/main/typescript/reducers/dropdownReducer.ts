@@ -88,6 +88,9 @@ const [dcmiTypesPendingLens, dcmiTypesFulfilledLens, dcmiTypesFailedLens] = crea
 const imtFormatsLens = Lens.fromProp<DropdownLists, "imtFormats">("imtFormats")
 const [imtFormatsPendingLens, imtFormatsFulfilledLens, imtFormatsFailedLens] = createLenses(imtFormatsLens)
 
+const spatialCoordinatesLens = Lens.fromProp<DropdownLists, "spatialCoordinates">("spatialCoordinates")
+const [spatialCoordinatesPendingLens, spatialCoordinatesFulfilledLens, spatialCoordinatesFailedLens] = createLenses(spatialCoordinatesLens)
+
 export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLists, action) => {
     switch (action.type) {
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
@@ -126,6 +129,12 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(imtFormatsFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED:
             return handleFailed(imtFormatsFailedLens, action.payload, state)
+        case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING:
+            return handlePending(spatialCoordinatesPendingLens, state)
+        case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FULFILLED:
+            return handleFulfilled(spatialCoordinatesFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FAILED:
+            return handleFailed(spatialCoordinatesFailedLens, action.payload, state)
         default:
             return state
     }

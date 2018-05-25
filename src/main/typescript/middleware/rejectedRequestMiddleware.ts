@@ -30,7 +30,7 @@ import {
     fetchDateDataFailed,
     fetchDcmiTypesDataFailed,
     fetchIdentifierDataFailed, fetchImtFormatsDataFailed,
-    fetchLicenseDataFailed,
+    fetchLicenseDataFailed, fetchSpatialCoordinatesDataFailed,
 } from "../actions/dropdownActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
@@ -71,7 +71,8 @@ const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_I
 const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED)(() => fetchDateDataFailed)
 const fetchLicenseDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED)(() => fetchLicenseDataFailed)
 const fetchDcmiTypeDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED)(() => fetchDcmiTypesDataFailed)
-const fetchimtFormatsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchImtFormatsDataFailed)
+const fetchImtFormatsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchImtFormatsDataFailed)
+const fetchSpatialCoordinatesDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchSpatialCoordinatesDataFailed)
 
 export const rejectedRequestMiddleware = [
     depositFetchRejected,
@@ -86,5 +87,6 @@ export const rejectedRequestMiddleware = [
     fetchDateDataRejected,
     fetchLicenseDataRejected,
     fetchDcmiTypeDataRejected,
-    fetchimtFormatsDataRejected,
+    fetchImtFormatsDataRejected,
+    fetchSpatialCoordinatesDataRejected,
 ]
