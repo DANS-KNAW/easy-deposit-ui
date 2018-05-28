@@ -77,6 +77,12 @@ export const fetchAbrComplexSubjectsData: () => ReduxAction<Promise<DropdownList
 export const fetchAbrComplexSubjectsDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FAILED)
 
+export const fetchAbrPeriodeTemporalsData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN, "abrPeriodeTemporals.json")
+
+export const fetchAbrPeriodeTemporalsDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_FAILED)
+
 export const fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
     createFetchAction(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN, "spatialCoordinates.json")
 

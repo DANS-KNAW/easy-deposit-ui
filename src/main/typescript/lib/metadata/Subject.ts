@@ -28,7 +28,7 @@ export const subjectConverter: (abrComplexSubjects: DropdownListEntry[]) => (ss:
     return ss.reduce(([subjects, abrSubjects], s) => {
         const scheme = s.scheme && toSubjectScheme(s.scheme)
 
-        if (scheme && s.key)
+        if (scheme && scheme === SubjectScheme.abrComplex && s.key)
             if (abrComplexSubjects.find(({key}) => key === s.key))
                 return [subjects, [...abrSubjects, s.key]]
             else

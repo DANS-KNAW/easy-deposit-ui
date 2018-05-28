@@ -94,6 +94,9 @@ const [imtFormatsPendingLens, imtFormatsFulfilledLens, imtFormatsFailedLens] = c
 const abrComplexSubjectsLens = Lens.fromProp<DropdownLists, "abrComplexSubjects">("abrComplexSubjects")
 const [abrComplexSubjectsPendingLens, abrComplexSubjectsFulfilledLens, abrComplexSubjectsFailedLens] = createLenses(abrComplexSubjectsLens)
 
+const abrPeriodeTemporalsLens = Lens.fromProp<DropdownLists, "abrPeriodeTemporals">("abrPeriodeTemporals")
+const [abrPeriodeTemporalsPendingLens, abrPeriodeTemporalsFulfilledLens, abrPeriodeTemporalsFailedLens] = createLenses(abrPeriodeTemporalsLens)
+
 const spatialCoordinatesLens = Lens.fromProp<DropdownLists, "spatialCoordinates">("spatialCoordinates")
 const [spatialCoordinatesPendingLens, spatialCoordinatesFulfilledLens, spatialCoordinatesFailedLens] = createLenses(spatialCoordinatesLens)
 
@@ -157,6 +160,13 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(abrComplexSubjectsFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FAILED:
             return handleFailed(abrComplexSubjectsFailedLens, action.payload, state)
+
+        case DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_PENDING:
+            return handlePending(abrPeriodeTemporalsPendingLens, state)
+        case DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_FULFILLED:
+            return handleFulfilled(abrPeriodeTemporalsFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_FAILED:
+            return handleFailed(abrPeriodeTemporalsFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING:
             return handlePending(spatialCoordinatesPendingLens, state)

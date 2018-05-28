@@ -22,6 +22,7 @@ import AbrComplexSubjectFieldArray from "./archaeologySpecificMetadata/AbrComple
 import { DropdownList } from "../../../model/DropdownLists"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
+import AbrPeriodeTemporalsFieldArray from "./archaeologySpecificMetadata/AbrPeriodeTemporalsFieldArray"
 
 export interface ArchaeologySpecificMetadataFormData {
     archisNrs?: string[]
@@ -31,6 +32,7 @@ export interface ArchaeologySpecificMetadataFormData {
 
 interface ArchaeologySpecificMetadataFormProps {
     abrComplexSubjects: DropdownList
+    abrPeriodeTemporals: DropdownList
 }
 
 class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetadataFormProps> {
@@ -54,7 +56,11 @@ class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetad
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Temporal (ABR period)</p>
+                    <RepeatableField name="temporalCoveragesAbr"
+                                     label="Temporal (ABR period)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     component={AbrPeriodeTemporalsFieldArray(this.props.abrPeriodeTemporals)}/>
                 </div>
             </div>
         )
@@ -63,6 +69,7 @@ class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetad
 
 const mapStateToProps = (state: AppState) => ({
     abrComplexSubjects: state.dropDowns.abrComplexSubjects,
+    abrPeriodeTemporals: state.dropDowns.abrPeriodeTemporals,
 })
 
 export default connect(mapStateToProps)(ArchaeologySpecificMetadataForm)

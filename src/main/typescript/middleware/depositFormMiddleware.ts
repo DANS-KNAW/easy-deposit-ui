@@ -145,7 +145,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 ? formatsConverter(dropDowns.imtFormats.list)(input.formats)
                 : [[], [], false]
             const [abrTemporalCoverages, normalTemporalCoverages] = input.temporalCoverages
-                ? temporalCoveragesConverter(input.temporalCoverages)
+                ? temporalCoveragesConverter(dropDowns.abrPeriodeTemporals.list)(input.temporalCoverages)
                 : [[], []]
             const spatialPoints = input.spatialPoints && input.spatialPoints.map(pointConverter(dropDowns.spatialCoordinates.list))
             const spatialBoxes = input.spatialBoxes && input.spatialBoxes.map(boxConverter(dropDowns.spatialCoordinates.list))
@@ -298,7 +298,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
                 ...(data.extraClarinMetadataPresent ? [cmdiFormatDeconverter()] : []),
             ].filter(nonEmptyObject),
             temporalCoverages: [
-                ...(data.temporalCoveragesAbr ? data.temporalCoveragesAbr.map(abrTemporalCoverageDeconverter) : []),
+                ...(data.temporalCoveragesAbr ? data.temporalCoveragesAbr.map(abrTemporalCoverageDeconverter(dropDowns.abrPeriodeTemporals.list)) : []),
                 ...(data.temporalCoverages ? data.temporalCoverages.map(temporalCoverageDeconverter) : []),
             ].filter(nonEmptyObject),
 
