@@ -40,12 +40,14 @@ import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import {
-    fetchAbrComplexSubjectsData, fetchAbrPeriodeTemporalsData,
+    fetchAbrComplexSubjectsData,
+    fetchAbrPeriodeTemporalsData,
     fetchAudiencesData,
     fetchDatesData,
     fetchDcmiTypesData,
     fetchIdentifiersData,
-    fetchImtFormatsData, fetchLanguagesData,
+    fetchImtFormatsData,
+    fetchLanguagesData,
     fetchLicensesData,
     fetchSpatialCoordinatesData,
     fetchSpatialCoveragesIsoData,

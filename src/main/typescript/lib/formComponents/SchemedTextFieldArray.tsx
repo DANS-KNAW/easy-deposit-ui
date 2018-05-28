@@ -17,7 +17,7 @@ import * as React from "react"
 import { Field } from "redux-form"
 import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
-import SelectField  from "./SelectField"
+import SelectField from "./SelectField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 interface SchemedTextFieldArrayProps {

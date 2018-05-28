@@ -30,7 +30,8 @@ const SelectField = ({ input, meta, label, withLabel, withEmptyDefault, choices,
                              htmlFor={input.name}>{label}</label>}
         <select className={`form-control ${className}`} {...input} {...rest}>
             {withEmptyDefault ? [<option key={"empty choice"} value="">Choose...</option>] : []}
-            {choices.map(({key, displayValue}, index) => <option key={`${key}${index}`} value={key}>{displayValue}</option>)}
+            {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
+                                                                   value={key}>{displayValue}</option>)}
         </select>
     </>
 )

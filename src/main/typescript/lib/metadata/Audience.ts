@@ -40,11 +40,11 @@ export const audienceDeconverter: (audiences: DropdownListEntry[]) => (a: string
     const entry: DropdownListEntry | undefined = audiences.find(({key}) => key === a)
 
     if (entry)
-        return clean({
+        return {
             scheme: AudienceScheme.narcisDisciplineTypes,
             key: a,
             value: entry.value
-        })
+        }
     else
         throw `Error in metadata: no valid audience found for key '${a}'`
 }
