@@ -16,7 +16,7 @@
 import * as React from "react"
 import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
-import {Field} from "redux-form"
+import { Field } from "redux-form"
 
 function TextFieldArray<T>({ fields, meta, label, empty, fieldNames }: FieldArrayProps<T>) {
     return (

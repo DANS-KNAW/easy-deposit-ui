@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 export interface Box {
     scheme?: string
@@ -25,9 +26,11 @@ export interface Box {
 
 export const emptyBox: Box = { scheme: "", north: undefined, east: undefined, south: undefined, west: undefined }
 
-export const boxConverter: (b: any) => Box = b => {
+export const boxConverter: (schemeValues: DropdownListEntry[]) => (b: any) => Box = schemeValues => b => {
     if (Number.isNaN(Number(b.north)) || Number.isNaN(Number(b.east)) || Number.isNaN(Number(b.south)) || Number.isNaN(Number(b.west)))
         throw `Error in metadata: Point ${JSON.stringify(b)} consists of something else than a Number`
+    else if (!schemeValues.find(({ key }) => key === b.scheme))
+        throw `Error in metadata: unknown coordinate system: '${b.scheme}'`
     else
         return ({
             scheme: b.scheme,

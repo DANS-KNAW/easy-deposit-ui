@@ -1,0 +1,54 @@
+{
+  "application/postscript": {
+    "title": "application/postscript",
+    "viewName": "application/postscript"
+  },
+  "application/rtf": {
+    "title": "application/rtf",
+    "viewName": "application/rtf"
+  },
+  "application/pdf": {
+    "title": "application/pdf",
+    "viewName": "application/pdf"
+  },
+  "application/msword": {
+    "title": "application/msword",
+    "viewName": "application/msword"
+  },
+  "text/plain": {
+    "title": "text/plain",
+    "viewName": "text/plain"
+  },
+  "text/html": {
+    "title": "text/html",
+    "viewName": "text/html"
+  },
+  "text/sgml": {
+    "title": "text/sgml",
+    "viewName": "text/sgml"
+  },
+  "text/xml": {
+    "title": "text/xml",
+    "viewName": "text/xml"
+  },
+  "image/jpeg": {
+    "title": "image/jpeg",
+    "viewName": "image/jpeg"
+  },
+  "image/gif": {
+    "title": "image/gif",
+    "viewName": "image/gif"
+  },
+  "image/tiff": {
+    "title": "image/tiff",
+    "viewName": "image/tiff"
+  },
+  "video/quicktime": {
+    "title": "video/quicktime",
+    "viewName": "video/quicktime"
+  },
+  "video/mpeg1": {
+    "title": "video/mpeg1",
+    "viewName": "video/mpeg1"
+  }
+}

@@ -15,6 +15,7 @@
  */
 import { isEqual } from "lodash"
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum TemporalCoverageScheme {
     abrPeriode = "abr:ABRperiode",
@@ -24,12 +25,15 @@ function toTemporalCoverageScheme(value: string): TemporalCoverageScheme | undef
     return Object.values(TemporalCoverageScheme).find(v => v === value)
 }
 
-export const temporalCoveragesConverter: (coverage: any[]) => [string[], string[]] = coverages => {
+export const temporalCoveragesConverter: (abrPeriodeTemporals: DropdownListEntry[]) => (coverage: any[]) => [string[], string[]] = abrPeriodeTemporals => coverages => {
     return coverages.reduce(([abrCoverage, normalCoverages], coverage) => {
         const scheme = coverage.scheme && toTemporalCoverageScheme(coverage.scheme)
 
-        if (scheme && scheme == TemporalCoverageScheme.abrPeriode)
-            return [[...abrCoverage, coverage.key], normalCoverages]
+        if (scheme && scheme === TemporalCoverageScheme.abrPeriode)
+            if (abrPeriodeTemporals.find(({ key }) => key === coverage.key))
+                return [[...abrCoverage, coverage.key], normalCoverages]
+            else
+                throw `Error in metadata: no such ABR temporal periode found: '${coverage.key}'`
         else if (isEqual(Object.keys(coverage), ["value"]))
             return [abrCoverage, [...normalCoverages, coverage.value]]
         else
@@ -37,13 +41,18 @@ export const temporalCoveragesConverter: (coverage: any[]) => [string[], string[
     }, [[], []])
 }
 
-export const abrTemporalCoverageDeconverter: (coverage: string) => any = coverage => {
+export const abrTemporalCoverageDeconverter: (abrPeriodeTemporals: DropdownListEntry[]) => (coverage: string) => any = abrPeriodeTemporals => coverage => {
+    const entry: DropdownListEntry | undefined = abrPeriodeTemporals.find(({ key }) => key === coverage)
+
     if (coverage)
-        return {
-            scheme: TemporalCoverageScheme.abrPeriode,
-            key: coverage,
-            value: "???", // TODO get correct value
-        }
+        if (entry)
+            return {
+                scheme: TemporalCoverageScheme.abrPeriode,
+                key: coverage,
+                value: entry.value,
+            }
+        else
+            throw `Error in metadata: no valid ABR periode temporal found for key '${coverage}'`
     else
         return {}
 }

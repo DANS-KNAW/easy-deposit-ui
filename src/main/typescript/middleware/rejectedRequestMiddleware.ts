@@ -24,6 +24,15 @@ import {
     sendSaveDraftFailed,
     sendSubmitDepositFailed,
 } from "../actions/depositFormActions"
+import { DropdownConstants } from "../constants/dropdownConstants"
+import {
+    fetchAbrComplexSubjectsDataFailed, fetchAbrPeriodeTemporalsDataFailed,
+    fetchAudiencesDataFailed,
+    fetchDatesDataFailed,
+    fetchDcmiTypesDataFailed,
+    fetchIdentifiersDataFailed, fetchImtFormatsDataFailed, fetchLanguagesDataFailed,
+    fetchLicensesDataFailed, fetchSpatialCoordinatesDataFailed, fetchSpatialCoveragesIsoDataFailed,
+} from "../actions/dropdownActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
 
@@ -58,6 +67,18 @@ const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SEND_SAVE_
 
 const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_SUBMIT_DEPOSIT_REJECTED)(() => sendSubmitDepositFailed)
 
+const fetchLanguageDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED)(() => fetchLanguagesDataFailed)
+const fetchAudienceDataRejected = rejectedMiddleware(DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED)(() => fetchAudiencesDataFailed)
+const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED)(() => fetchIdentifiersDataFailed)
+const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED)(() => fetchDatesDataFailed)
+const fetchLicenseDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED)(() => fetchLicensesDataFailed)
+const fetchDcmiTypeDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED)(() => fetchDcmiTypesDataFailed)
+const fetchImtFormatsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchImtFormatsDataFailed)
+const fetchAbrComplexSubjectsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED)(() => fetchAbrComplexSubjectsDataFailed)
+const fetchAbrPeriodeTemporalsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED)(() => fetchAbrPeriodeTemporalsDataFailed)
+const fetchSpatialCoordinatesDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED)(() => fetchSpatialCoordinatesDataFailed)
+const fetchSpatialCoveragesIsoDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED)(() => fetchSpatialCoveragesIsoDataFailed)
+
 export const rejectedRequestMiddleware = [
     depositFetchRejected,
     depositDeleteRejected,
@@ -66,4 +87,15 @@ export const rejectedRequestMiddleware = [
     fetchDoiRejected,
     sendSaveDraftRejected,
     sendSubmitDepositRejected,
+    fetchLanguageDataRejected,
+    fetchAudienceDataRejected,
+    fetchIdentifierDataRejected,
+    fetchDateDataRejected,
+    fetchLicenseDataRejected,
+    fetchDcmiTypeDataRejected,
+    fetchImtFormatsDataRejected,
+    fetchAbrComplexSubjectsDataRejected,
+    fetchAbrPeriodeTemporalsDataRejected,
+    fetchSpatialCoordinatesDataRejected,
+    fetchSpatialCoveragesIsoDataRejected,
 ]

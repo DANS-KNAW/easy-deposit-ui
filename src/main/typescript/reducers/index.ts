@@ -24,6 +24,7 @@ import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
 import { datafilesOverviewReducer } from "./datafilesReducer"
+import { dropdownReducer } from "./dropdownReducer"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
@@ -47,5 +48,6 @@ export default combineReducers({
     deposits: depositOverviewReducer,
     foldableCards: foldableCardReducer,
     depositForm: depositFormReducer,
+    dropDowns: dropdownReducer,
 })
 

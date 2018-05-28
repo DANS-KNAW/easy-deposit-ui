@@ -16,11 +16,15 @@
 import * as React from "react"
 import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { FieldArrayProps, RepeatableField } from "../../../lib/formComponents/RepeatableField"
-import SelectFieldArray from "../../../lib/formComponents/SelectFieldArray"
+import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
+import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
+import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
+import { AppState } from "../../../model/AppState"
+import { connect } from "react-redux"
+import { DropdownList } from "../../../model/DropdownLists"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -34,46 +38,9 @@ export interface UploadTypeFormData {
 const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
 
 interface UploadTypeFormProps {
+    dcmiTypes: DropdownList
+    imtFormats: DropdownList
 }
-
-const TypesDCMIFieldArray = (props: FieldArrayProps<string>) => (
-    <SelectFieldArray {...props} withEmptyDefault choices={[
-        // @formatter:off
-        { key: "Collection",           value: "Collection" },
-        { key: "Dataset",              value: "Dataset" },
-        { key: "Event",                value: "Event" },
-        { key: "Image",                value: "Image" },
-        { key: "Interactive resource", value: "Interactive resource" },
-        { key: "Moving image",         value: "Moving image" },
-        { key: "Physical object",      value: "Physical object" },
-        { key: "Service",              value: "Service" },
-        { key: "Software",             value: "Software" },
-        { key: "Sound",                value: "Sound" },
-        { key: "Still image",          value: "Still image" },
-        { key: "Text",                 value: "Text" },
-        // @formatter:on
-    ]}/>
-)
-
-const FormatMediaTypeFieldArray = (props: FieldArrayProps<string>) => (
-    <SelectFieldArray {...props} withEmptyDefault choices={[
-        // @formatter:off
-        { key: "application/postscript", value: "application/postscript" },
-        { key: "application/rtf",        value: "application/rtf" },
-        { key: "application/pdf",        value: "application/pdf" },
-        { key: "application/msword",     value: "application/msword" },
-        { key: "text/plain",             value: "text/plain" },
-        { key: "text/html",              value: "text/html" },
-        { key: "text/sgml",              value: "text/sgml" },
-        { key: "text/xml",               value: "text/xml" },
-        { key: "image/jpeg",             value: "image/jpeg" },
-        { key: "image/gif",              value: "image/gif" },
-        { key: "image/tiff",             value: "image/tiff" },
-        { key: "video/quicktime",        value: "video/quicktime" },
-        { key: "video/mpeg1",            value: "video/mpeg1" },
-        // @formatter:on
-    ]}/>
-)
 
 const clarinChoices = [
     {
@@ -97,7 +64,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                                      label="Type (DCMI resource type)"
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     component={TypesDCMIFieldArray}/>
+                                     component={DcmiTypesFieldArray(this.props.dcmiTypes)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -113,7 +80,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                                      label=" Format (internet media type)"
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     component={FormatMediaTypeFieldArray}/>
+                                     component={ImtFormatsFieldArray(this.props.imtFormats)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -137,4 +104,9 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
     }
 }
 
-export default UploadTypeForm
+const mapStateToProps = (state: AppState) => ({
+    dcmiTypes: state.dropDowns.dcmiTypes,
+    imtFormats: state.dropDowns.imtFormats,
+})
+
+export default connect(mapStateToProps)(UploadTypeForm)

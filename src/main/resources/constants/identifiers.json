@@ -1,0 +1,30 @@
+{
+  "id-type:DOI": {
+    "title": "doi",
+    "viewName": "doi"
+  },
+  "id-type:URN": {
+    "title": "urn",
+    "viewName": "urn"
+  },
+  "id-type:MENDELEY-DATA": {
+    "title": "mendeley data",
+    "viewName": "mendeley data"
+  },
+  "id-type:ISBN": {
+    "title": "ISBN",
+    "viewName": "ISBN"
+  },
+  "id-type:ISSN": {
+    "title": "ISSN",
+    "viewName": "ISSN"
+  },
+  "id-type:NWO-PROJECTNR": {
+    "title": "NWO project number",
+    "viewName": "NWO project number"
+  },
+  "id-type:eDNA-project": {
+    "title": "eDNA project number",
+    "viewName": "eDNA project number"
+  }
+}

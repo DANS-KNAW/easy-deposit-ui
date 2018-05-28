@@ -1,0 +1,378 @@
+{
+  "DEPO": {
+    "title": "Depot",
+    "viewName": "Depot"
+  },
+  "EX": {
+    "title": "Economie, onbepaald",
+    "viewName": "Economie, onbepaald"
+  },
+  "GX": {
+    "title": "Begraving, onbepaald",
+    "viewName": "Begraving, onbepaald"
+  },
+  "IX": {
+    "title": "Infrastructuur, onbepaald",
+    "viewName": "Infrastructuur, onbepaald"
+  },
+  "NX": {
+    "title": "Nederzetting, onbepaald",
+    "viewName": "Nederzetting, onbepaald"
+  },
+  "RX": {
+    "title": "Religie, onbepaald",
+    "viewName": "Religie, onbepaald"
+  },
+  "VX": {
+    "title": "Versterking, onbepaald",
+    "viewName": "Versterking, onbepaald"
+  },
+  "XXX": {
+    "title": "Onbekend",
+    "viewName": "Onbekend"
+  },
+  "ELA": {
+    "title": "Economie - Akker/tuin",
+    "viewName": "Economie - Akker/tuin"
+  },
+  "EIBB": {
+    "title": "Economie - Beenbewerking",
+    "viewName": "Economie - Beenbewerking"
+  },
+  "EIB": {
+    "title": "Economie - Brouwerij",
+    "viewName": "Economie - Brouwerij"
+  },
+  "ELCF": {
+    "title": "Economie - Celtic field/raatakker",
+    "viewName": "Economie - Celtic field/raatakker"
+  },
+  "ELDP": {
+    "title": "Economie - Drenkplaats/dobbe",
+    "viewName": "Economie - Drenkplaats/dobbe"
+  },
+  "ELEK": {
+    "title": "Economie - Eendekooi",
+    "viewName": "Economie - Eendekooi"
+  },
+  "EIGB": {
+    "title": "Economie - Glasblazerij",
+    "viewName": "Economie - Glasblazerij"
+  },
+  "EGX": {
+    "title": "Economie - Grondstofwinning",
+    "viewName": "Economie - Grondstofwinning"
+  },
+  "EIHB": {
+    "title": "Economie - Houtbewerking",
+    "viewName": "Economie - Houtbewerking"
+  },
+  "EIHK": {
+    "title": "Economie - Houtskool-/kolenbranderij",
+    "viewName": "Economie - Houtskool-/kolenbranderij"
+  },
+  "EGYW": {
+    "title": "Economie - IJzerwinning",
+    "viewName": "Economie - IJzerwinning"
+  },
+  "EIX": {
+    "title": "Economie - Industrie/nijverheid",
+    "viewName": "Economie - Industrie/nijverheid"
+  },
+  "EIKB": {
+    "title": "Economie - Kalkbranderij",
+    "viewName": "Economie - Kalkbranderij"
+  },
+  "EGKW": {
+    "title": "Economie - Kleiwinning",
+    "viewName": "Economie - Kleiwinning"
+  },
+  "ELX": {
+    "title": "Economie - Landbouw",
+    "viewName": "Economie - Landbouw"
+  },
+  "EILL": {
+    "title": "Economie - Leerlooierij",
+    "viewName": "Economie - Leerlooierij"
+  },
+  "EGMW": {
+    "title": "Economie - Mergel-/kalkwinning",
+    "viewName": "Economie - Mergel-/kalkwinning"
+  },
+  "EIMB": {
+    "title": "Economie - Metaalbewerking/smederij",
+    "viewName": "Economie - Metaalbewerking/smederij"
+  },
+  "EIM": {
+    "title": "Economie - Molen",
+    "viewName": "Economie - Molen"
+  },
+  "EIPB": {
+    "title": "Economie - Pottenbakkerij",
+    "viewName": "Economie - Pottenbakkerij"
+  },
+  "ESCH": {
+    "title": "Economie - Scheepvaart",
+    "viewName": "Economie - Scheepvaart"
+  },
+  "EISM": {
+    "title": "Economie - Smelterij",
+    "viewName": "Economie - Smelterij"
+  },
+  "EISB": {
+    "title": "Economie - Steen-/pannenbakkerij",
+    "viewName": "Economie - Steen-/pannenbakkerij"
+  },
+  "EITN": {
+    "title": "Economie - Textielnijverheid",
+    "viewName": "Economie - Textielnijverheid"
+  },
+  "ELVK": {
+    "title": "Economie - Veekraal/schaapskooi",
+    "viewName": "Economie - Veekraal/schaapskooi"
+  },
+  "EGVW": {
+    "title": "Economie - Veenwinning",
+    "viewName": "Economie - Veenwinning"
+  },
+  "EVX": {
+    "title": "Economie - Visserij",
+    "viewName": "Economie - Visserij"
+  },
+  "EIVB": {
+    "title": "Economie - Vuursteenbewerking",
+    "viewName": "Economie - Vuursteenbewerking"
+  },
+  "EGVU": {
+    "title": "Economie - Vuursteenwinning",
+    "viewName": "Economie - Vuursteenwinning"
+  },
+  "EGZW": {
+    "title": "Economie - Zoutwinning/moernering",
+    "viewName": "Economie - Zoutwinning/moernering"
+  },
+  "GC": {
+    "title": "Begraving - Crematiegraf",
+    "viewName": "Begraving - Crematiegraf"
+  },
+  "GD": {
+    "title": "Begraving - Dierengraf",
+    "viewName": "Begraving - Dierengraf"
+  },
+  "GHC": {
+    "title": "Begraving - Grafheuvel, crematie",
+    "viewName": "Begraving - Grafheuvel, crematie"
+  },
+  "GHIC": {
+    "title": "Begraving - Grafheuvel, gemengd",
+    "viewName": "Begraving - Grafheuvel, gemengd"
+  },
+  "GHI": {
+    "title": "Begraving - Grafheuvel, inhumatie",
+    "viewName": "Begraving - Grafheuvel, inhumatie"
+  },
+  "GHX": {
+    "title": "Begraving - Grafheuvel, onbepaald",
+    "viewName": "Begraving - Grafheuvel, onbepaald"
+  },
+  "GVC": {
+    "title": "Begraving - Grafveld, crematies",
+    "viewName": "Begraving - Grafveld, crematies"
+  },
+  "GVIC": {
+    "title": "Begraving - Grafveld, gemengd",
+    "viewName": "Begraving - Grafveld, gemengd"
+  },
+  "GVI": {
+    "title": "Begraving - Grafveld, inhumaties",
+    "viewName": "Begraving - Grafveld, inhumaties"
+  },
+  "GVX": {
+    "title": "Begraving - Grafveld, onbepaald",
+    "viewName": "Begraving - Grafveld, onbepaald"
+  },
+  "GI": {
+    "title": "Begraving - Inhumatiegraf",
+    "viewName": "Begraving - Inhumatiegraf"
+  },
+  "GVIK": {
+    "title": "Begraving - Kerkhof",
+    "viewName": "Begraving - Kerkhof"
+  },
+  "GMEG": {
+    "title": "Begraving - Megalietgraf",
+    "viewName": "Begraving - Megalietgraf"
+  },
+  "GVIR": {
+    "title": "Begraving - Rijengrafveld",
+    "viewName": "Begraving - Rijengrafveld"
+  },
+  "GVCU": {
+    "title": "Begraving - Urnenveld",
+    "viewName": "Begraving - Urnenveld"
+  },
+  "GCV": {
+    "title": "Begraving - Vlakgraf, crematie",
+    "viewName": "Begraving - Vlakgraf, crematie"
+  },
+  "GIV": {
+    "title": "Begraving - Vlakgraf, inhumatie",
+    "viewName": "Begraving - Vlakgraf, inhumatie"
+  },
+  "GXV": {
+    "title": "Begraving - Vlakgraf, onbepaald",
+    "viewName": "Begraving - Vlakgraf, onbepaald"
+  },
+  "IBRU": {
+    "title": "Infrastructuur - Brug",
+    "viewName": "Infrastructuur - Brug"
+  },
+  "IDAM": {
+    "title": "Infrastructuur - Dam",
+    "viewName": "Infrastructuur - Dam"
+  },
+  "IDIJ": {
+    "title": "Infrastructuur - Dijk",
+    "viewName": "Infrastructuur - Dijk"
+  },
+  "IDUI": {
+    "title": "Infrastructuur - Duiker",
+    "viewName": "Infrastructuur - Duiker"
+  },
+  "IGEM": {
+    "title": "Infrastructuur - Gemaal",
+    "viewName": "Infrastructuur - Gemaal"
+  },
+  "IHAV": {
+    "title": "Infrastructuur - Haven",
+    "viewName": "Infrastructuur - Haven"
+  },
+  "IKAN": {
+    "title": "Infrastructuur - Kanaal/vaarweg",
+    "viewName": "Infrastructuur - Kanaal/vaarweg"
+  },
+  "IPER": {
+    "title": "Infrastructuur - Percelering/verkaveling",
+    "viewName": "Infrastructuur - Percelering/verkaveling"
+  },
+  "ISLU": {
+    "title": "Infrastructuur - Sluis",
+    "viewName": "Infrastructuur - Sluis"
+  },
+  "ISTE": {
+    "title": "Infrastructuur - Steiger",
+    "viewName": "Infrastructuur - Steiger"
+  },
+  "IVW": {
+    "title": "Infrastructuur - Veenweg/veenbrug",
+    "viewName": "Infrastructuur - Veenweg/veenbrug"
+  },
+  "IWAT": {
+    "title": "Infrastructuur - Waterweg (natuurlijk)",
+    "viewName": "Infrastructuur - Waterweg (natuurlijk)"
+  },
+  "IWEG": {
+    "title": "Infrastructuur - Weg",
+    "viewName": "Infrastructuur - Weg"
+  },
+  "NBAS": {
+    "title": "Nederzetting - Basiskamp/basisnederzetting",
+    "viewName": "Nederzetting - Basiskamp/basisnederzetting"
+  },
+  "NVB": {
+    "title": "Nederzetting - Borg/stins/versterkt huis",
+    "viewName": "Nederzetting - Borg/stins/versterkt huis"
+  },
+  "NEXT": {
+    "title": "Nederzetting - Extractiekamp/-nederzetting",
+    "viewName": "Nederzetting - Extractiekamp/-nederzetting"
+  },
+  "NVH": {
+    "title": "Nederzetting - Havezathe/ridderhofstad",
+    "viewName": "Nederzetting - Havezathe/ridderhofstad"
+  },
+  "NHP": {
+    "title": "Nederzetting - Huisplaats, onverhoogd",
+    "viewName": "Nederzetting - Huisplaats, onverhoogd"
+  },
+  "NHT": {
+    "title": "Nederzetting - Huisterp",
+    "viewName": "Nederzetting - Huisterp"
+  },
+  "NKD": {
+    "title": "Nederzetting - Kampdorp",
+    "viewName": "Nederzetting - Kampdorp"
+  },
+  "NMS": {
+    "title": "Nederzetting - Moated site",
+    "viewName": "Nederzetting - Moated site"
+  },
+  "NRV": {
+    "title": "Nederzetting - Romeins villa(complex)",
+    "viewName": "Nederzetting - Romeins villa(complex)"
+  },
+  "NS": {
+    "title": "Nederzetting - Stad",
+    "viewName": "Nederzetting - Stad"
+  },
+  "NT": {
+    "title": "Nederzetting - Terp/wierde",
+    "viewName": "Nederzetting - Terp/wierde"
+  },
+  "NWD": {
+    "title": "Nederzetting - Wegdorp",
+    "viewName": "Nederzetting - Wegdorp"
+  },
+  "RCP": {
+    "title": "Religie - Cultusplaats/heiligdom/tempel",
+    "viewName": "Religie - Cultusplaats/heiligdom/tempel"
+  },
+  "RKAP": {
+    "title": "Religie - Kapel",
+    "viewName": "Religie - Kapel"
+  },
+  "RKER": {
+    "title": "Religie - Kerk",
+    "viewName": "Religie - Kerk"
+  },
+  "RKLO": {
+    "title": "Religie - Klooster(complex)",
+    "viewName": "Religie - Klooster(complex)"
+  },
+  "VK": {
+    "title": "Versterking - Kasteel",
+    "viewName": "Versterking - Kasteel"
+  },
+  "VLW": {
+    "title": "Versterking - Landweer",
+    "viewName": "Versterking - Landweer"
+  },
+  "VLP": {
+    "title": "Versterking - Legerplaats",
+    "viewName": "Versterking - Legerplaats"
+  },
+  "VKM": {
+    "title": "Versterking - Motte/kasteelheuvel/vliedberg",
+    "viewName": "Versterking - Motte/kasteelheuvel/vliedberg"
+  },
+  "VSCH": {
+    "title": "Versterking - Schans",
+    "viewName": "Versterking - Schans"
+  },
+  "VWP": {
+    "title": "Versterking - Wachtpost",
+    "viewName": "Versterking - Wachtpost"
+  },
+  "VWB": {
+    "title": "Versterking - Wal-/vluchtburcht",
+    "viewName": "Versterking - Wal-/vluchtburcht"
+  },
+  "VWAL": {
+    "title": "Versterking - Wal/omwalling",
+    "viewName": "Versterking - Wal/omwalling"
+  },
+  "VKW": {
+    "title": "Versterking - Waterburcht",
+    "viewName": "Versterking - Waterburcht"
+  }
+}

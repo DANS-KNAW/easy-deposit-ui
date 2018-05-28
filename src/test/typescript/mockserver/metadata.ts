@@ -407,12 +407,12 @@ export const allfields: Metadata = {
         {
             scheme: LanguageOfFilesSchemeValues.ISO639_2,
             key: "eng",
-            value: "english",
+            value: "English",
         },
         {
             scheme: LanguageOfFilesSchemeValues.ISO639_2,
             key: "nld",
-            value: "dutch",
+            value: "Dutch",
         },
         {
             value: "Flakkees",

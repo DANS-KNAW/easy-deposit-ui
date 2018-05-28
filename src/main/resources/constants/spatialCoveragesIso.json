@@ -1,0 +1,18 @@
+{
+  "NLD": {
+    "title": "Netherlands",
+    "viewName": "Netherlands"
+  },
+  "GBR": {
+    "title": "United Kingdom",
+    "viewName": "United Kingdom"
+  },
+  "DEU": {
+    "title": "Germany",
+    "viewName": "Germany"
+  },
+  "BEL": {
+    "title": "Belgium",
+    "viewName": "Belgium"
+  }
+}

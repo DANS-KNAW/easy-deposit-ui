@@ -15,6 +15,7 @@
  */
 import { isEqual } from "lodash"
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum SpatialCoverageScheme {
     iso3166 = "dcterms:ISO3166",
@@ -24,28 +25,36 @@ function toSpatialCoverageScheme(value: string): SpatialCoverageScheme | undefin
     return Object.values(SpatialCoverageScheme).find(v => v === value)
 }
 
-export const spatialCoveragesConverter: (coverage: any[]) => [string[], string[]] = coverages => {
-    return coverages.reduce(([isoCoverage, normalCoverages], coverage) => {
+export const spatialCoveragesConverter: (isoValues: DropdownListEntry[]) => (coverage: any[]) => [string[], string[]] = isoValues => coverages => {
+    return coverages.reduce(([isoCoverages, normalCoverages], coverage) => {
         const scheme = coverage.scheme && toSpatialCoverageScheme(coverage.scheme)
 
         if (scheme && scheme == SpatialCoverageScheme.iso3166)
-            return [[...isoCoverage, coverage.key], normalCoverages]
+            if (isoValues.find(({ key }) => key === coverage.key))
+                return [[...isoCoverages, coverage.key], normalCoverages]
+            else
+                throw `Error in metadata: unknown coverage value: '${coverage.key}'`
         else if (isEqual(Object.keys(coverage), ["value"]))
-            return [isoCoverage, [...normalCoverages, coverage.value]]
+            return [isoCoverages, [...normalCoverages, coverage.value]]
         else
             throw `Error in metadata: unrecognized object: ${JSON.stringify(coverage)}`
     }, [[], []])
 }
 
-export const isoSpatialCoverageDeconverter: (coverage: string) => any = coverage => {
-    if (coverage)
-        return {
-            scheme: SpatialCoverageScheme.iso3166,
-            key: coverage,
-            value: "???", // TODO get correct value
-        }
+export const isoSpatialCoverageDeconverter: (isoValues: DropdownListEntry[]) => (coverage: string) => any = isoValues => coverage => {
+    const entry: DropdownListEntry | undefined = isoValues.find(({ key }) => key === coverage)
+
+    if (entry)
+        if (coverage)
+            return {
+                scheme: SpatialCoverageScheme.iso3166,
+                key: coverage,
+                value: entry.value,
+            }
+        else
+            return {}
     else
-        return {}
+        throw `Error in metadata: no valid coverage found for key '${coverage}'`
 }
 
 export const spatialCoverageDeconverter: (coverage: string) => any = coverage => clean({

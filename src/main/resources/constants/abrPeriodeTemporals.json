@@ -1,0 +1,218 @@
+{
+  "PALEO": {
+    "title": "Paleolithicum: tot 8800 vC",
+    "viewName": "Paleolithicum: tot 8800 vC"
+  },
+  "PALEOV": {
+    "title": "Paleolithicum vroeg: tot 300000 C14",
+    "viewName": "Paleolithicum vroeg: tot 300000 C14"
+  },
+  "PALEOM": {
+    "title": "Paleolithicum midden: 300000 - 35000 C14",
+    "viewName": "Paleolithicum midden: 300000 - 35000 C14"
+  },
+  "PALEOL": {
+    "title": "Paleolithicum laat: 35000 C14 - 8800 vC",
+    "viewName": "Paleolithicum laat: 35000 C14 - 8800 vC"
+  },
+  "PALEOLA": {
+    "title": "Paleolithicum laat A: 35000 - 18000 C14",
+    "viewName": "Paleolithicum laat A: 35000 - 18000 C14"
+  },
+  "PALEOB": {
+    "title": "Paleolithicum laat B: 18000 C14 -8800 vC",
+    "viewName": "Paleolithicum laat B: 18000 C14 -8800 vC"
+  },
+  "MESO": {
+    "title": "Mesolithicum: 8800 - 4900 vC",
+    "viewName": "Mesolithicum: 8800 - 4900 vC"
+  },
+  "MESOV": {
+    "title": "Mesolithicum vroeg: 8800 - 7100 vC",
+    "viewName": "Mesolithicum vroeg: 8800 - 7100 vC"
+  },
+  "MESOM": {
+    "title": "Mesolithicum midden: 7100 - 6450 vC",
+    "viewName": "Mesolithicum midden: 7100 - 6450 vC"
+  },
+  "MESOL": {
+    "title": "Mesolithicum laat: 6450 -4900 vC",
+    "viewName": "Mesolithicum laat: 6450 -4900 vC"
+  },
+  "NEO": {
+    "title": "Neolithicum: 5300 - 2000 vC",
+    "viewName": "Neolithicum: 5300 - 2000 vC"
+  },
+  "NEOV": {
+    "title": "Neolithicum vroeg: 5300 - 4200 vC",
+    "viewName": "Neolithicum vroeg: 5300 - 4200 vC"
+  },
+  "NEOVA": {
+    "title": "Neolithicum vroeg A: 5300 - 4900 vC",
+    "viewName": "Neolithicum vroeg A: 5300 - 4900 vC"
+  },
+  "NEOVB": {
+    "title": "Neolithicum vroeg B: 4900 - 4200 vC",
+    "viewName": "Neolithicum vroeg B: 4900 - 4200 vC"
+  },
+  "NEOM": {
+    "title": "Neolithicum midden: 4200 - 2850 vC",
+    "viewName": "Neolithicum midden: 4200 - 2850 vC"
+  },
+  "NEOMA": {
+    "title": "Neolithicum midden A: 4200 - 3400 vC",
+    "viewName": "Neolithicum midden A: 4200 - 3400 vC"
+  },
+  "NEOMB": {
+    "title": "Neolithicum midden B: 3400 - 2850 vC",
+    "viewName": "Neolithicum midden B: 3400 - 2850 vC"
+  },
+  "NEOL": {
+    "title": "Neolithicum laat: 2850 - 2000 vC",
+    "viewName": "Neolithicum laat: 2850 - 2000 vC"
+  },
+  "NEOLA": {
+    "title": "Neolithicum laat A: 2850 - 2450 vC",
+    "viewName": "Neolithicum laat A: 2850 - 2450 vC"
+  },
+  "NEOLB": {
+    "title": "Neolithicum laat B: 2450 - 2000 vC",
+    "viewName": "Neolithicum laat B: 2450 - 2000 vC"
+  },
+  "BRONS": {
+    "title": "Bronstijd: 2000 - 800 vC",
+    "viewName": "Bronstijd: 2000 - 800 vC"
+  },
+  "BRONSV": {
+    "title": "Bronstijd vroeg: 2000 - 1800 vC",
+    "viewName": "Bronstijd vroeg: 2000 - 1800 vC"
+  },
+  "BRONSM": {
+    "title": "Bronstijd midden: 1800 - 1100 vC",
+    "viewName": "Bronstijd midden: 1800 - 1100 vC"
+  },
+  "BRONSMA": {
+    "title": "Bronstijd midden A: 1800 - 1500 vC",
+    "viewName": "Bronstijd midden A: 1800 - 1500 vC"
+  },
+  "BRONSMB": {
+    "title": "Bronstijd midden B: 1500 - 1100 vC",
+    "viewName": "Bronstijd midden B: 1500 - 1100 vC"
+  },
+  "BRONSL": {
+    "title": "Bronstijd laat: 1100 - 800 vC",
+    "viewName": "Bronstijd laat: 1100 - 800 vC"
+  },
+  "IJZ": {
+    "title": "IJzertijd: 800 - 12 vC",
+    "viewName": "IJzertijd: 800 - 12 vC"
+  },
+  "IJZV": {
+    "title": "IJzertijd vroeg: 800 - 500 vC",
+    "viewName": "IJzertijd vroeg: 800 - 500 vC"
+  },
+  "IJZM": {
+    "title": "IJzertijd midden: 500 - 250 vC",
+    "viewName": "IJzertijd midden: 500 - 250 vC"
+  },
+  "IJZL": {
+    "title": "IJzertijd laat: 250 - 12 vC",
+    "viewName": "IJzertijd laat: 250 - 12 vC"
+  },
+  "ROM": {
+    "title": "Romeinse tijd: 12 vC - 450 nC",
+    "viewName": "Romeinse tijd: 12 vC - 450 nC"
+  },
+  "ROMV": {
+    "title": "Romeinse tijd vroeg: 12 vC - 70 nC",
+    "viewName": "Romeinse tijd vroeg: 12 vC - 70 nC"
+  },
+  "ROMVA": {
+    "title": "Romeinse tijd vroeg A: 12 vC - 25 nC",
+    "viewName": "Romeinse tijd vroeg A: 12 vC - 25 nC"
+  },
+  "ROMVB": {
+    "title": "Romeinse tijd vroeg B: 25 - 70 nC",
+    "viewName": "Romeinse tijd vroeg B: 25 - 70 nC"
+  },
+  "ROMM": {
+    "title": "Romeinse tijd midden: 70 - 270 nC",
+    "viewName": "Romeinse tijd midden: 70 - 270 nC"
+  },
+  "ROMMA": {
+    "title": "Romeinse tijd midden A: 70 - 150 nC",
+    "viewName": "Romeinse tijd midden A: 70 - 150 nC"
+  },
+  "ROMMB": {
+    "title": "Romeinse tijd midden B: 150 - 270 nC",
+    "viewName": "Romeinse tijd midden B: 150 - 270 nC"
+  },
+  "ROML": {
+    "title": "Romeinse tijd laat: 270 - 450 nC",
+    "viewName": "Romeinse tijd laat: 270 - 450 nC"
+  },
+  "ROMLA": {
+    "title": "Romeinse tijd laat A: 270 - 350 nC",
+    "viewName": "Romeinse tijd laat A: 270 - 350 nC"
+  },
+  "ROMLB": {
+    "title": "Romeinse tijd laat B: 350 - 450 nC",
+    "viewName": "Romeinse tijd laat B: 350 - 450 nC"
+  },
+  "XME": {
+    "title": "Middeleeuwen: 450 - 1500 nC",
+    "viewName": "Middeleeuwen: 450 - 1500 nC"
+  },
+  "VME": {
+    "title": "Middeleeuwen vroeg: 450 - 1050 nC",
+    "viewName": "Middeleeuwen vroeg: 450 - 1050 nC"
+  },
+  "VMEA": {
+    "title": "Middeleeuwen vroeg A: 450 - 525 nC",
+    "viewName": "Middeleeuwen vroeg A: 450 - 525 nC"
+  },
+  "VMEB": {
+    "title": "Middeleeuwen vroeg B: 525 - 725 nC",
+    "viewName": "Middeleeuwen vroeg B: 525 - 725 nC"
+  },
+  "VMEC": {
+    "title": "Middeleeuwen vroeg C: 725 - 900 nC",
+    "viewName": "Middeleeuwen vroeg C: 725 - 900 nC"
+  },
+  "VMED": {
+    "title": "Middeleeuwen vroeg D: 900 - 1050 nC",
+    "viewName": "Middeleeuwen vroeg D: 900 - 1050 nC"
+  },
+  "LME": {
+    "title": "Middeleeuwen laat: 1050 - 1500 nC",
+    "viewName": "Middeleeuwen laat: 1050 - 1500 nC"
+  },
+  "LMEA": {
+    "title": "Middeleeuwen laat A: 1050 - 1250 nC",
+    "viewName": "Middeleeuwen laat A: 1050 - 1250 nC"
+  },
+  "LMEB": {
+    "title": "Middeleeuwen laat B: 1250 - 1500 nC",
+    "viewName": "Middeleeuwen laat B: 1250 - 1500 nC"
+  },
+  "NT": {
+    "title": "Nieuwe tijd: 1500 - heden",
+    "viewName": "Nieuwe tijd: 1500 - heden"
+  },
+  "NTA": {
+    "title": "Nieuwe tijd A: 1500 - 1650 nC",
+    "viewName": "Nieuwe tijd A: 1500 - 1650 nC"
+  },
+  "NTB": {
+    "title": "Nieuwe tijd B: 1650 - 1850 nC",
+    "viewName": "Nieuwe tijd B: 1650 - 1850 nC"
+  },
+  "NTC": {
+    "title": "Nieuwe tijd C: 1850 - heden",
+    "viewName": "Nieuwe tijd C: 1850 - heden"
+  },
+  "XXX": {
+    "title": "Onbekend",
+    "viewName": "Onbekend"
+  }
+}

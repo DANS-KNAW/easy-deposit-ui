@@ -22,6 +22,7 @@ import { empty as emptyDepositForm } from "./DepositForm"
 import { DepositFormState } from "./DepositForm"
 import { FormStateMap } from "redux-form/lib/reducer"
 import { empty as emptyDatafiles, DatafileOverviewState } from "./Datafiles"
+import { DropdownLists, emptyDropdownLists } from "./DropdownLists"
 
 export interface AppState {
     authenticatedUser: Authentication
@@ -31,6 +32,7 @@ export interface AppState {
     foldableCards: FoldableCards,
     depositForm: DepositFormState,
     form: FormStateMap
+    dropDowns: DropdownLists
 }
 
 export const empty: AppState = {
@@ -41,4 +43,5 @@ export const empty: AppState = {
     foldableCards: emptyFoldableCards,
     depositForm: emptyDepositForm,
     form: {},
+    dropDowns: emptyDropdownLists
 }
