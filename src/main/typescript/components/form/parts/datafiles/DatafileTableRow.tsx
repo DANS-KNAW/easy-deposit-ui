@@ -43,8 +43,8 @@ const DatafileTableRow = ({ datafile, deleting, deleteDatafile }: DatafileTableR
             "row",
         ].join(" ")}>
             {/* these column sizes need to match with the sizes in DatafileTableHead */}
-            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{datafile.filepath}</td>
-            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{datafile.sha1sum}</td>
+            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-5 order-md-1" scope="row">{datafile.filepath}</td>
+            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-6 order-md-3">{datafile.sha1sum}</td>
             <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"
                 id="actions_cell">{deleteButton}</td>
         </tr>

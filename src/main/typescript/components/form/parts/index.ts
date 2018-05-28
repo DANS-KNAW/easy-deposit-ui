@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DataFormData } from "./datafiles/DatafilesForm"
 import { BasicInformationFormData } from "./BasicInformationForm"
 import { LicenseAndAccessFormData } from "./LicenseAndAccessForm"
 import { UploadTypeFormData } from "./UploadTypeForm"
@@ -33,4 +32,4 @@ export type DepositFormMetadata =
     & PrivacySensitiveDataFormData
     & DepositLicenseFormData
 
-export type DepositFormData = DataFormData & DepositFormMetadata
+export type DepositFormData = DepositFormMetadata

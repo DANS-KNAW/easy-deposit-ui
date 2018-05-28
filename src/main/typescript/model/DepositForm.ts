@@ -15,7 +15,7 @@
  */
 import { DepositId } from "./Deposits"
 import { DepositFormMetadata } from "../components/form/parts"
-import { DataFormData } from "../components/form/parts/datafiles/DatafilesForm"
+import { DataFormData } from "../components/form/parts/datafiles/DatafilesOverview"
 
 export interface FetchMetadataState {
     fetching: boolean

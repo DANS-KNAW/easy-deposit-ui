@@ -214,12 +214,19 @@ app.post('/auth/logout', (req: Request, res:Response) => {
     console.log(204)
 })
 
-app.get('/deposit/:id/file', (req: Request, res: Response) => {
+app.get('/deposit/:id/file/:dirpath', (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/file/${req.params.dirpath}`)
     res.status(200)
     console.log(getDirectoryListing())
     res.json(getDirectoryListing())
-    console.log(204)
+    console.log(" 200 ")
+})
+
+app.delete('/deposit/:id/file/:dirpath', (req: Request, res: Response) =>{
+    console.log(`DELETE /deposit/${req.params.id}/file/${req.params.dirpath}`)
+    res.status(204)
+    res.send("Resource deleted.")
+    console.log(" 204 ")
 })
 
 app.listen(3004, () => console.log("Running on localhost:3004"))

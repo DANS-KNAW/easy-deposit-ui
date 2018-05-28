@@ -36,7 +36,6 @@ import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadata
 import UploadTypeForm from "./parts/UploadTypeForm"
 import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
-import DatafilesForm from "./parts/datafiles/DatafilesForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 import DatafilesOverview from "./parts/datafiles/DatafilesOverview"
 

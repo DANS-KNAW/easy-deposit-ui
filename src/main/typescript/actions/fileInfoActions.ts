@@ -25,7 +25,6 @@ export const fetchDatafiles: (depositId: DepositId, dirpath: string) => ReduxAct
     async payload(){
         const url = await fileInfoUrl(depositId, dirpath)
         const response = await axios.get(url)
-        console.log(response.data)
         return response.data
     },
 })
@@ -41,11 +40,16 @@ export const fetchDatafilesFailed: (errorMessage: string) => ReduxAction<string>
 })
 
 export const deleteDatafiles: (depositId: DepositId, dirpath: FilePath) => ReduxAction<Promise<void>> = (depositId, dirpath) => ({
-    type: FileInfoConstants.DELETE_DATAFILE,
+    type: FileInfoConstants.DELETE_DATAFILES,
     async payload(){
         const url = await fileInfoUrl(depositId, dirpath)
         await axios.delete(url)
     },
     meta: {depositId: depositId, dirpath: dirpath}
+})
 
+export const deleteDatafilesFailed: (depositId: DepositId, dirpath: FilePath) => (errorMessage: string) => ReduxAction<string> = (depositId, dirpath) => errorMessage => ({
+    type: FileInfoConstants.DELETE_DATAFILES_FAILED,
+    payload: errorMessage,
+    meta: {depositId: depositId, dirpath: dirpath},
 })
