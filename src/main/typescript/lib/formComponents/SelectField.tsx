@@ -16,19 +16,22 @@
 import * as React from "react"
 import { SelectHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
-interface SelectFieldProps {
+export interface SelectFieldProps {
     withLabel?: boolean
+    choices: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
-const SelectField = ({ input, meta, label, withLabel, withEmptyDefault, children, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
+const SelectField = ({ input, meta, label, withLabel, withEmptyDefault, choices, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
     <>
         {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label"
                              htmlFor={input.name}>{label}</label>}
         <select className={`form-control ${className}`} {...input} {...rest}>
             {withEmptyDefault ? [<option key={"empty choice"} value="">Choose...</option>] : []}
-            {children}
+            {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
+                                                                   value={key}>{displayValue}</option>)}
         </select>
     </>
 )

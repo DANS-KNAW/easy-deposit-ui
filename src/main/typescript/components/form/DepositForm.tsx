@@ -38,6 +38,20 @@ import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
 import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
+import { DropdownListEntry } from "../../model/DropdownLists"
+import {
+    fetchAbrComplexSubjectsData,
+    fetchAbrPeriodeTemporalsData,
+    fetchAudiencesData,
+    fetchDatesData,
+    fetchDcmiTypesData,
+    fetchIdentifiersData,
+    fetchImtFormatsData,
+    fetchLanguagesData,
+    fetchLicensesData,
+    fetchSpatialCoordinatesData,
+    fetchSpatialCoveragesIsoData,
+} from "../../actions/dropdownActions"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -98,7 +112,19 @@ interface DepositFormStoreArguments {
     formValues?: DepositFormData,
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
     saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
-    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>,
+    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
+
+    fetchLanguagesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchAudiencesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchIdentifiersData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchDatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchLicensesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchAbrComplexSubjectsData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchAbrPeriodeTemporalsData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchSpatialCoveragesIsoData: () => ReduxAction<Promise<DropdownListEntry[]>>
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
@@ -119,6 +145,17 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     componentDidMount() {
+        this.props.fetchLanguagesData()
+        this.props.fetchAudiencesData()
+        this.props.fetchIdentifiersData()
+        this.props.fetchDatesData()
+        this.props.fetchLicensesData()
+        this.props.fetchDcmiTypesData()
+        this.props.fetchImtFormatsData()
+        this.props.fetchAbrComplexSubjectsData()
+        this.props.fetchAbrPeriodeTemporalsData()
+        this.props.fetchSpatialCoordinatesData()
+        this.props.fetchSpatialCoveragesIsoData()
         this.fetchMetadata()
     }
 
@@ -220,7 +257,24 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const composedHOC = compose(
-    connect(mapStateToProps, { fetchMetadata, saveDraft, submitDeposit }),
+    connect(
+        mapStateToProps,
+        {
+            fetchMetadata,
+            saveDraft,
+            submitDeposit,
+            fetchLanguagesData,
+            fetchAudiencesData,
+            fetchIdentifiersData,
+            fetchDatesData,
+            fetchLicensesData,
+            fetchDcmiTypesData,
+            fetchImtFormatsData,
+            fetchAbrComplexSubjectsData,
+            fetchAbrPeriodeTemporalsData,
+            fetchSpatialCoordinatesData,
+            fetchSpatialCoveragesIsoData,
+        }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )
 

@@ -1,0 +1,18 @@
+{
+  "nld": {
+    "title": "Dutch",
+    "viewName": "Dutch"
+  },
+  "eng": {
+    "title": "English",
+    "viewName": "English"
+  },
+  "fra": {
+    "title": "French",
+    "viewName": "French"
+  },
+  "deu": {
+    "title": "German",
+    "viewName": "German"
+  }
+}

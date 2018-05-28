@@ -16,6 +16,7 @@
 import { SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
 import * as lodash from "lodash"
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum IdentifierScheme {
     DOI = "id-type:DOI",
@@ -25,19 +26,7 @@ function toIdentifierScheme(value: string): IdentifierScheme | undefined {
     return Object.values(IdentifierScheme).find(v => v === value)
 }
 
-enum AlternativeIdentifierScheme {
-    DOI = "id-type:DOI",
-    URN = "id-type:URN",
-    MENDELEY_DATA = "id-type:MENDELEY-DATA", // kan mogelijk weg
-    ISBN = "id-type:ISBN",
-    ISSN = "id-type:ISSN",
-    NWO_PROJECTNR = "id-type:NWO-PROJECTNR",
-    ARCHIS_ZAAK_IDENTIFICATIE = "id-type:ARCHIS-ZAAK-IDENTIFICATIE",
-}
-
-function toAlternativeIdentifierScheme(value: string): AlternativeIdentifierScheme | undefined {
-    return Object.values(AlternativeIdentifierScheme).find(v => v === value)
-}
+const archisZaakIdentificatie = "id-type:ARCHIS-ZAAK-IDENTIFICATIE"
 
 export const identifiersConverter: (list: any[]) => { [scheme: string]: string } = list => {
     return list.reduce((map, obj) => {
@@ -58,8 +47,8 @@ export const doiDeconverter: (d: Doi) => any = d => clean({
     value: d,
 })
 
-const alternativeIdentifierConverter: (ai: any) => SchemedValue = ai => {
-    const scheme = ai.scheme && toAlternativeIdentifierScheme(ai.scheme)
+const alternativeIdentifierConverter: (identifiers: DropdownListEntry[]) => (ai: any) => SchemedValue = identifiers => ai => {
+    const scheme = ai.scheme && (identifiers.find(({ key }) => key === ai.scheme) || archisZaakIdentificatie === ai.scheme)
 
     if (scheme)
         return schemedValueConverter(ai.scheme, ai.value)
@@ -67,10 +56,10 @@ const alternativeIdentifierConverter: (ai: any) => SchemedValue = ai => {
         throw `Error in metadata: no such identifier: '${ai.scheme}'`
 }
 
-export const alternativeIdentifersConverter: (ais: any[]) => [SchemedValue[], SchemedValue[]] = ais => {
-    const ids = ais.map(alternativeIdentifierConverter)
+export const alternativeIdentifersConverter: (identifiers: DropdownListEntry[]) => (ais: any[]) => [SchemedValue[], SchemedValue[]] = identifiers => ais => {
+    const ids = ais.map(alternativeIdentifierConverter(identifiers))
 
-    return lodash.partition(ids, { scheme: AlternativeIdentifierScheme.ARCHIS_ZAAK_IDENTIFICATIE })
+    return lodash.partition(ids, { scheme: archisZaakIdentificatie })
 }
 
 export const alternativeIdentifierDeconverter: (ai: SchemedValue) => any = schemedValueDeconverter
@@ -78,7 +67,7 @@ export const alternativeIdentifierDeconverter: (ai: SchemedValue) => any = schem
 export const archisIdentifierDeconverter: (ai: string) => any = ai => {
     if (ai)
         return {
-            scheme: AlternativeIdentifierScheme.ARCHIS_ZAAK_IDENTIFICATIE,
+            scheme: archisZaakIdentificatie,
             value: ai,
         }
     else

@@ -36,6 +36,7 @@ export const privacySensitiveDataDeconverter: (psd: PrivacySensitiveDataValue) =
         case PrivacySensitiveDataValue.YES:
         case PrivacySensitiveDataValue.NO:
             return psd.toString()
-        default: return undefined
+        default:
+            return undefined
     }
 }

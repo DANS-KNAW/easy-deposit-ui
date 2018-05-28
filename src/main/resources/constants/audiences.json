@@ -1,0 +1,894 @@
+{
+  "D10000": {
+    "title": "Science and technology",
+    "viewName": "Science and technology"
+  },
+  "D11000": {
+    "title": "Mathematics",
+    "viewName": "--- Mathematics"
+  },
+  "D11100": {
+    "title": "Logic, set theory and arithmetic",
+    "viewName": "------ Logic, set theory and arithmetic"
+  },
+  "D11200": {
+    "title": "Algebra, group theory",
+    "viewName": "------ Algebra, group theory"
+  },
+  "D11300": {
+    "title": "Functions, differential equations",
+    "viewName": "------ Functions, differential equations"
+  },
+  "D11400": {
+    "title": "Fourier analysis, functional analysis",
+    "viewName": "------ Fourier analysis, functional analysis"
+  },
+  "D11500": {
+    "title": "Geometry, topology",
+    "viewName": "------ Geometry, topology"
+  },
+  "D11600": {
+    "title": "Probability theory, statistics",
+    "viewName": "------ Probability theory, statistics"
+  },
+  "D11700": {
+    "title": "Operations research",
+    "viewName": "------ Operations research"
+  },
+  "D11800": {
+    "title": "Numerical analysis",
+    "viewName": "------ Numerical analysis"
+  },
+  "D12000": {
+    "title": "Physics",
+    "viewName": "--- Physics"
+  },
+  "D12100": {
+    "title": "Metrology, scientific instrumentation",
+    "viewName": "------ Metrology, scientific instrumentation"
+  },
+  "D12200": {
+    "title": "Theoretical physics, (quantum) mechanics",
+    "viewName": "------ Theoretical physics, (quantum) mechanics"
+  },
+  "D12300": {
+    "title": "Electromagnetism, optics, acoustics",
+    "viewName": "------ Electromagnetism, optics, acoustics"
+  },
+  "D12400": {
+    "title": "Elementary particle physics and nuclear physics",
+    "viewName": "------ Elementary particle physics and nuclear physics"
+  },
+  "D12600": {
+    "title": "Atomic and molecular physics",
+    "viewName": "------ Atomic and molecular physics"
+  },
+  "D12700": {
+    "title": "Gases, fluid dynamics, plasma physics",
+    "viewName": "------ Gases, fluid dynamics, plasma physics"
+  },
+  "D12800": {
+    "title": "Solid-state physics",
+    "viewName": "------ Solid-state physics"
+  },
+  "D13000": {
+    "title": "Chemistry",
+    "viewName": "--- Chemistry"
+  },
+  "D13100": {
+    "title": "Analytical chemistry",
+    "viewName": "------ Analytical chemistry"
+  },
+  "D13200": {
+    "title": "Macromolecular chemistry, polymer chemistry",
+    "viewName": "------ Macromolecular chemistry, polymer chemistry"
+  },
+  "D13300": {
+    "title": "Organic chemistry",
+    "viewName": "------ Organic chemistry"
+  },
+  "D13400": {
+    "title": "Inorganic chemistry",
+    "viewName": "------ Inorganic chemistry"
+  },
+  "D13500": {
+    "title": "Physical chemistry",
+    "viewName": "------ Physical chemistry"
+  },
+  "D13600": {
+    "title": "Catalysis",
+    "viewName": "------ Catalysis"
+  },
+  "D13700": {
+    "title": "Theoretical chemistry, quantum chemistry",
+    "viewName": "------ Theoretical chemistry, quantum chemistry"
+  },
+  "D14000": {
+    "title": "Technology",
+    "viewName": "--- Technology"
+  },
+  "D14100": {
+    "title": "Materials technology",
+    "viewName": "------ Materials technology"
+  },
+  "D14200": {
+    "title": "Mechanical engineering",
+    "viewName": "------ Mechanical engineering"
+  },
+  "D14210": {
+    "title": "Technical mechanics",
+    "viewName": "--------- Technical mechanics"
+  },
+  "D14220": {
+    "title": "Engines, energy converters",
+    "viewName": "--------- Engines, energy converters"
+  },
+  "D14230": {
+    "title": "Vehicle and transport technology",
+    "viewName": "--------- Vehicle and transport technology"
+  },
+  "D14231": {
+    "title": "Road vehicles, rail vehicles",
+    "viewName": "------------ Road vehicles, rail vehicles"
+  },
+  "D14232": {
+    "title": "Vessels",
+    "viewName": "------------ Vessels"
+  },
+  "D14233": {
+    "title": "Aircraft and spacecraft",
+    "viewName": "------------ Aircraft and spacecraft"
+  },
+  "D14240": {
+    "title": "Manufacturing technology, mechanical technology, robotics",
+    "viewName": "--------- Manufacturing technology, mechanical technology, robotics"
+  },
+  "D14300": {
+    "title": "Electrical engineering",
+    "viewName": "------ Electrical engineering"
+  },
+  "D14310": {
+    "title": "Telecommunication engineering",
+    "viewName": "--------- Telecommunication engineering"
+  },
+  "D14320": {
+    "title": "Microelectronics",
+    "viewName": "--------- Microelectronics"
+  },
+  "D14330": {
+    "title": "Electrical energy technology",
+    "viewName": "--------- Electrical energy technology"
+  },
+  "D14340": {
+    "title": "Measurement and control engineering",
+    "viewName": "--------- Measurement and control engineering"
+  },
+  "D14400": {
+    "title": "Civil engineering, building technology",
+    "viewName": "------ Civil engineering, building technology"
+  },
+  "D14410": {
+    "title": "Building technology",
+    "viewName": "--------- Building technology"
+  },
+  "D14420": {
+    "title": "Civil engineering",
+    "viewName": "--------- Civil engineering"
+  },
+  "D14430": {
+    "title": "Hydraulic engineering",
+    "viewName": "--------- Hydraulic engineering"
+  },
+  "D14431": {
+    "title": "Offshore technology",
+    "viewName": "------------ Offshore technology"
+  },
+  "D14440": {
+    "title": "Sanitary engineering",
+    "viewName": "--------- Sanitary engineering"
+  },
+  "D14441": {
+    "title": "Drinking water supply",
+    "viewName": "------------ Drinking water supply"
+  },
+  "D14442": {
+    "title": "Waste water treatment",
+    "viewName": "------------ Waste water treatment"
+  },
+  "D14443": {
+    "title": "Waste treatment",
+    "viewName": "------------ Waste treatment"
+  },
+  "D14500": {
+    "title": "Chemical technology, process technology",
+    "viewName": "------ Chemical technology, process technology"
+  },
+  "D14510": {
+    "title": "Inorganic-chemical technology",
+    "viewName": "--------- Inorganic-chemical technology"
+  },
+  "D14520": {
+    "title": "Organic-chemical technology",
+    "viewName": "--------- Organic-chemical technology"
+  },
+  "D14530": {
+    "title": "Fuel technology",
+    "viewName": "--------- Fuel technology"
+  },
+  "D14540": {
+    "title": "Food technology",
+    "viewName": "--------- Food technology"
+  },
+  "D14600": {
+    "title": "Geotechnics",
+    "viewName": "------ Geotechnics"
+  },
+  "D14610": {
+    "title": "Mining engineering",
+    "viewName": "--------- Mining engineering"
+  },
+  "D14620": {
+    "title": "Engineering geology",
+    "viewName": "--------- Engineering geology"
+  },
+  "D14700": {
+    "title": "Industrial design",
+    "viewName": "------ Industrial design"
+  },
+  "D14800": {
+    "title": "Energy",
+    "viewName": "------ Energy"
+  },
+  "D14900": {
+    "title": "Technology assessment",
+    "viewName": "------ Technology assessment"
+  },
+  "D15000": {
+    "title": "Earth sciences",
+    "viewName": "--- Earth sciences"
+  },
+  "D15100": {
+    "title": "Geochemistry, geophysics",
+    "viewName": "------ Geochemistry, geophysics"
+  },
+  "D15200": {
+    "title": "Paleontology, stratigraphy",
+    "viewName": "------ Paleontology, stratigraphy"
+  },
+  "D15300": {
+    "title": "Physical geology",
+    "viewName": "------ Physical geology"
+  },
+  "D15400": {
+    "title": "Petrology, mineralogy, sedimentology",
+    "viewName": "------ Petrology, mineralogy, sedimentology"
+  },
+  "D15500": {
+    "title": "Atmospheric sciences",
+    "viewName": "------ Atmospheric sciences"
+  },
+  "D15600": {
+    "title": "Hydrospheric sciences",
+    "viewName": "------ Hydrospheric sciences"
+  },
+  "D15700": {
+    "title": "Geodesy, physical geography",
+    "viewName": "------ Geodesy, physical geography"
+  },
+  "D16000": {
+    "title": "Computer science",
+    "viewName": "--- Computer science"
+  },
+  "D16100": {
+    "title": "Computer systems, architectures, networks",
+    "viewName": "------ Computer systems, architectures, networks"
+  },
+  "D16200": {
+    "title": "Software, algorithms, control systems",
+    "viewName": "------ Software, algorithms, control systems"
+  },
+  "D16300": {
+    "title": "Theoretical computer science",
+    "viewName": "------ Theoretical computer science"
+  },
+  "D16400": {
+    "title": "Information systems, databases",
+    "viewName": "------ Information systems, databases"
+  },
+  "D16500": {
+    "title": "User interfaces, multimedia",
+    "viewName": "------ User interfaces, multimedia"
+  },
+  "D16600": {
+    "title": "Artificial intelligence, expert systems",
+    "viewName": "------ Artificial intelligence, expert systems"
+  },
+  "D16700": {
+    "title": "Computer graphics",
+    "viewName": "------ Computer graphics"
+  },
+  "D16800": {
+    "title": "Computer simulation, virtual reality",
+    "viewName": "------ Computer simulation, virtual reality"
+  },
+  "D17000": {
+    "title": "Astronomy, astrophysics",
+    "viewName": "--- Astronomy, astrophysics"
+  },
+  "D18000": {
+    "title": "Agriculture and the physical environment",
+    "viewName": "--- Agriculture and the physical environment"
+  },
+  "D18100": {
+    "title": "Exploitation and management physical environment",
+    "viewName": "------ Exploitation and management physical environment"
+  },
+  "D18110": {
+    "title": "Air",
+    "viewName": "--------- Air"
+  },
+  "D18120": {
+    "title": "Surfacewater and groundwater",
+    "viewName": "--------- Surfacewater and groundwater"
+  },
+  "D18130": {
+    "title": "Soil",
+    "viewName": "--------- Soil"
+  },
+  "D18140": {
+    "title": "Nature and landscape",
+    "viewName": "--------- Nature and landscape"
+  },
+  "D18200": {
+    "title": "Plant production and animal production",
+    "viewName": "------ Plant production and animal production"
+  },
+  "D18210": {
+    "title": "Agriculture and horticulture",
+    "viewName": "--------- Agriculture and horticulture"
+  },
+  "D18220": {
+    "title": "Animal husbandry",
+    "viewName": "--------- Animal husbandry"
+  },
+  "D18230": {
+    "title": "Fisheries",
+    "viewName": "--------- Fisheries"
+  },
+  "D18240": {
+    "title": "Forestry",
+    "viewName": "--------- Forestry"
+  },
+  "D18250": {
+    "title": "Agriculturural technology",
+    "viewName": "--------- Agriculturural technology"
+  },
+  "D20000": {
+    "title": "Life sciences, medicine and health care",
+    "viewName": "Life sciences, medicine and health care"
+  },
+  "D21000": {
+    "title": "Life sciences",
+    "viewName": "--- Life sciences"
+  },
+  "D21100": {
+    "title": "Bioinformatics, biomathematics",
+    "viewName": "------ Bioinformatics, biomathematics"
+  },
+  "D21200": {
+    "title": "Biophysics, clinical physics",
+    "viewName": "------ Biophysics, clinical physics"
+  },
+  "D21300": {
+    "title": "Biochemistry",
+    "viewName": "------ Biochemistry"
+  },
+  "D21400": {
+    "title": "Genetics",
+    "viewName": "------ Genetics"
+  },
+  "D21500": {
+    "title": "Histology, cell biology",
+    "viewName": "------ Histology, cell biology"
+  },
+  "D21600": {
+    "title": "Anatomy, morphology",
+    "viewName": "------ Anatomy, morphology"
+  },
+  "D21700": {
+    "title": "Physiology",
+    "viewName": "------ Physiology"
+  },
+  "D21800": {
+    "title": "Immunology, serology",
+    "viewName": "------ Immunology, serology"
+  },
+  "D21900": {
+    "title": "Epidemiology and medical statistics",
+    "viewName": "------ Epidemiology and medical statistics"
+  },
+  "D22000": {
+    "title": "Biology",
+    "viewName": "--- Biology"
+  },
+  "D22100": {
+    "title": "Microbiology",
+    "viewName": "------ Microbiology"
+  },
+  "D22200": {
+    "title": "Biogeography, taxonomy",
+    "viewName": "------ Biogeography, taxonomy"
+  },
+  "D22300": {
+    "title": "Animal ethology, animal psychology",
+    "viewName": "------ Animal ethology, animal psychology"
+  },
+  "D22400": {
+    "title": "Ecology",
+    "viewName": "------ Ecology"
+  },
+  "D22500": {
+    "title": "Botany",
+    "viewName": "------ Botany"
+  },
+  "D22600": {
+    "title": "Zoology",
+    "viewName": "------ Zoology"
+  },
+  "D22700": {
+    "title": "Toxicology (plants, invertebrates)",
+    "viewName": "------ Toxicology (plants, invertebrates)"
+  },
+  "D23000": {
+    "title": "Medicine",
+    "viewName": "--- Medicine"
+  },
+  "D23100": {
+    "title": "Pathology, pathological anatomy",
+    "viewName": "------ Pathology, pathological anatomy"
+  },
+  "D23110": {
+    "title": "Infections, parasitology, virology",
+    "viewName": "--------- Infections, parasitology, virology"
+  },
+  "D23120": {
+    "title": "Oncology",
+    "viewName": "--------- Oncology"
+  },
+  "D23130": {
+    "title": "Allergology",
+    "viewName": "--------- Allergology"
+  },
+  "D23140": {
+    "title": "Traumatology",
+    "viewName": "--------- Traumatology"
+  },
+  "D23200": {
+    "title": "Organs and organ systems",
+    "viewName": "------ Organs and organ systems"
+  },
+  "D23210": {
+    "title": "Dermatology, venereology, rheumatology, orthopaedics",
+    "viewName": "--------- Dermatology, venereology, rheumatology, orthopaedics"
+  },
+  "D23211": {
+    "title": "Dermatology",
+    "viewName": "------------ Dermatology"
+  },
+  "D23212": {
+    "title": "Venereology",
+    "viewName": "------------ Venereology"
+  },
+  "D23213": {
+    "title": "Rheumatology",
+    "viewName": "------------ Rheumatology"
+  },
+  "D23214": {
+    "title": "Orthopaedics",
+    "viewName": "------------ Orthopaedics"
+  },
+  "D23220": {
+    "title": "Internal medicine",
+    "viewName": "--------- Internal medicine"
+  },
+  "D23221": {
+    "title": "Blood and lymphatic diseases",
+    "viewName": "------------ Blood and lymphatic diseases"
+  },
+  "D23222": {
+    "title": "Cardiovascular disorders",
+    "viewName": "------------ Cardiovascular disorders"
+  },
+  "D23223": {
+    "title": "Gastrointestinal system",
+    "viewName": "------------ Gastrointestinal system"
+  },
+  "D23224": {
+    "title": "Gynaecology and obstetrics",
+    "viewName": "------------ Gynaecology and obstetrics"
+  },
+  "D23225": {
+    "title": "Pulmonary disorders",
+    "viewName": "------------ Pulmonary disorders"
+  },
+  "D23226": {
+    "title": "Nephrology",
+    "viewName": "------------ Nephrology"
+  },
+  "D23227": {
+    "title": "Urology",
+    "viewName": "------------ Urology"
+  },
+  "D23230": {
+    "title": "Neurology, otorhinolaryngology, opthalmology",
+    "viewName": "--------- Neurology, otorhinolaryngology, opthalmology"
+  },
+  "D23231": {
+    "title": "Neurology",
+    "viewName": "------------ Neurology"
+  },
+  "D23232": {
+    "title": "Otorhinolaryngology",
+    "viewName": "------------ Otorhinolaryngology"
+  },
+  "D23233": {
+    "title": "Ophthalmology",
+    "viewName": "------------ Ophthalmology"
+  },
+  "D23240": {
+    "title": "Dentistry",
+    "viewName": "--------- Dentistry"
+  },
+  "D23300": {
+    "title": "Medical specialisms",
+    "viewName": "------ Medical specialisms"
+  },
+  "D23310": {
+    "title": "Surgery",
+    "viewName": "--------- Surgery"
+  },
+  "D23320": {
+    "title": "Anesthesiology",
+    "viewName": "--------- Anesthesiology"
+  },
+  "D23330": {
+    "title": "Radiology, radiotherapy",
+    "viewName": "--------- Radiology, radiotherapy"
+  },
+  "D23340": {
+    "title": "Biopharmacology, toxicology",
+    "viewName": "--------- Biopharmacology, toxicology"
+  },
+  "D23350": {
+    "title": "Psychiatry, clinical psychology",
+    "viewName": "--------- Psychiatry, clinical psychology"
+  },
+  "D23360": {
+    "title": "Age-related medical specialisms",
+    "viewName": "--------- Age-related medical specialisms"
+  },
+  "D23361": {
+    "title": "Neonatology",
+    "viewName": "------------ Neonatology"
+  },
+  "D23362": {
+    "title": "Pediatrics",
+    "viewName": "------------ Pediatrics"
+  },
+  "D23363": {
+    "title": "Geriatrics",
+    "viewName": "------------ Geriatrics"
+  },
+  "D23370": {
+    "title": "Social medicine",
+    "viewName": "--------- Social medicine"
+  },
+  "D23380": {
+    "title": "Primary care (including General practice)",
+    "viewName": "--------- Primary care (including General practice)"
+  },
+  "D23390": {
+    "title": "Occupational medicine",
+    "viewName": "--------- Occupational medicine"
+  },
+  "D24000": {
+    "title": "Health sciences",
+    "viewName": "--- Health sciences"
+  },
+  "D24100": {
+    "title": "Nursing sciences",
+    "viewName": "------ Nursing sciences"
+  },
+  "D24200": {
+    "title": "Health education, prevention",
+    "viewName": "------ Health education, prevention"
+  },
+  "D24300": {
+    "title": "Nutrition",
+    "viewName": "------ Nutrition"
+  },
+  "D25000": {
+    "title": "Kinesiology",
+    "viewName": "--- Kinesiology"
+  },
+  "D25100": {
+    "title": "Rehabilitation",
+    "viewName": "------ Rehabilitation"
+  },
+  "D26000": {
+    "title": "Veterinary medicine",
+    "viewName": "--- Veterinary medicine"
+  },
+  "D30000": {
+    "title": "Humanities",
+    "viewName": "Humanities"
+  },
+  "D30100": {
+    "title": "Digital humanities",
+    "viewName": "------ Digital humanities"
+  },
+  "D31000": {
+    "title": "Paleography, bibliology, bibliography, library science",
+    "viewName": "--- Paleography, bibliology, bibliography, library science"
+  },
+  "D32000": {
+    "title": "Philosophy",
+    "viewName": "--- Philosophy"
+  },
+  "D32100": {
+    "title": "History and philosophy of science and technology",
+    "viewName": "------ History and philosophy of science and technology"
+  },
+  "D32200": {
+    "title": "History and philosphy of the life sciences, ethics, evolution biology",
+    "viewName": "------ History and philosphy of the life sciences, ethics, evolution biology"
+  },
+  "D32300": {
+    "title": "History and philosophy of the humanities",
+    "viewName": "------ History and philosophy of the humanities"
+  },
+  "D32400": {
+    "title": "History and philosophy of the behavioural sciences",
+    "viewName": "------ History and philosophy of the behavioural sciences"
+  },
+  "D32500": {
+    "title": "History and philosophy of the social sciences",
+    "viewName": "------ History and philosophy of the social sciences"
+  },
+  "D33000": {
+    "title": "Theology and religious studies",
+    "viewName": "--- Theology and religious studies"
+  },
+  "D34000": {
+    "title": "History",
+    "viewName": "--- History"
+  },
+  "D34100": {
+    "title": "Antiquity",
+    "viewName": "------ Antiquity"
+  },
+  "D34200": {
+    "title": "Middle Ages",
+    "viewName": "------ Middle Ages"
+  },
+  "D34300": {
+    "title": "Modern and contemporary history",
+    "viewName": "------ Modern and contemporary history"
+  },
+  "D35000": {
+    "title": "Arts and culture",
+    "viewName": "--- Arts and culture"
+  },
+  "D35100": {
+    "title": "History of arts and architecture",
+    "viewName": "------ History of arts and architecture"
+  },
+  "D35200": {
+    "title": "Musicology",
+    "viewName": "------ Musicology"
+  },
+  "D35300": {
+    "title": "Dramaturgy",
+    "viewName": "------ Dramaturgy"
+  },
+  "D35400": {
+    "title": "Media sciences",
+    "viewName": "------ Media sciences"
+  },
+  "D35500": {
+    "title": "Architecture and building construction",
+    "viewName": "------ Architecture and building construction"
+  },
+  "D36000": {
+    "title": "Language and literature studies",
+    "viewName": "--- Language and literature studies"
+  },
+  "D36100": {
+    "title": "Linguistics",
+    "viewName": "------ Linguistics"
+  },
+  "D36200": {
+    "title": "Classic studies",
+    "viewName": "------ Classic studies"
+  },
+  "D36300": {
+    "title": "Germanic language and literature studies",
+    "viewName": "------ Germanic language and literature studies"
+  },
+  "D36400": {
+    "title": "Romance language and literature studies",
+    "viewName": "------ Romance language and literature studies"
+  },
+  "D36500": {
+    "title": "Baltic and Slavonic language and literature studies",
+    "viewName": "------ Baltic and Slavonic language and literature studies"
+  },
+  "D36900": {
+    "title": "Language and literature studies of other language groups",
+    "viewName": "------ Language and literature studies of other language groups"
+  },
+  "D37000": {
+    "title": "Archaeology",
+    "viewName": "--- Archaeology"
+  },
+  "D38000": {
+    "title": "Area Studies",
+    "viewName": "--- Area Studies"
+  },
+  "D40000": {
+    "title": "Law and public administration",
+    "viewName": "Law and public administration"
+  },
+  "D41000": {
+    "title": "Science of law",
+    "viewName": "--- Science of law"
+  },
+  "D41100": {
+    "title": "History of law",
+    "viewName": "------ History of law"
+  },
+  "D41200": {
+    "title": "Private (procedural) law",
+    "viewName": "------ Private (procedural) law"
+  },
+  "D41300": {
+    "title": "Criminal (procedural) law and criminology",
+    "viewName": "------ Criminal (procedural) law and criminology"
+  },
+  "D41400": {
+    "title": "Constitutional and administrative law",
+    "viewName": "------ Constitutional and administrative law"
+  },
+  "D41500": {
+    "title": "Interdisciplinary branches of law",
+    "viewName": "------ Interdisciplinary branches of law"
+  },
+  "D41600": {
+    "title": "International law",
+    "viewName": "------ International law"
+  },
+  "D42000": {
+    "title": "Political and administrative sciences",
+    "viewName": "--- Political and administrative sciences"
+  },
+  "D42100": {
+    "title": "Political science",
+    "viewName": "------ Political science"
+  },
+  "D42110": {
+    "title": "Defence",
+    "viewName": "--------- Defence"
+  },
+  "D42200": {
+    "title": "Social and public administration",
+    "viewName": "------ Social and public administration"
+  },
+  "D44000": {
+    "title": "Traffic and transport studies",
+    "viewName": "--- Traffic and transport studies"
+  },
+  "D50000": {
+    "title": "Behavioural and educational sciences",
+    "viewName": "Behavioural and educational sciences"
+  },
+  "D51000": {
+    "title": "Psychology",
+    "viewName": "--- Psychology"
+  },
+  "D52000": {
+    "title": "Educational theory",
+    "viewName": "--- Educational theory"
+  },
+  "D53000": {
+    "title": "Gerontology",
+    "viewName": "--- Gerontology"
+  },
+  "D54000": {
+    "title": "Pedagogics",
+    "viewName": "--- Pedagogics"
+  },
+  "D60000": {
+    "title": "Social sciences",
+    "viewName": "Social sciences"
+  },
+  "D61000": {
+    "title": "Sociology",
+    "viewName": "--- Sociology"
+  },
+  "D62000": {
+    "title": "Social geography",
+    "viewName": "--- Social geography"
+  },
+  "D63000": {
+    "title": "Cultural anthropology",
+    "viewName": "--- Cultural anthropology"
+  },
+  "D64000": {
+    "title": "Demography",
+    "viewName": "--- Demography"
+  },
+  "D65000": {
+    "title": "Urban and rural planning",
+    "viewName": "--- Urban and rural planning"
+  },
+  "D66000": {
+    "title": "Communication sciences",
+    "viewName": "--- Communication sciences"
+  },
+  "D67000": {
+    "title": "Leisure and recreation studies",
+    "viewName": "--- Leisure and recreation studies"
+  },
+  "D68000": {
+    "title": "Social security studies",
+    "viewName": "--- Social security studies"
+  },
+  "D69000": {
+    "title": "Gender studies",
+    "viewName": "--- Gender studies"
+  },
+  "D70000": {
+    "title": "Economics and Business Administration",
+    "viewName": "Economics and Business Administration"
+  },
+  "D70100": {
+    "title": "Personnel administration and management",
+    "viewName": "--- Personnel administration and management"
+  },
+  "E10000": {
+    "title": "Interdisciplinary sciences",
+    "viewName": "Interdisciplinary sciences"
+  },
+  "E11000": {
+    "title": "Biotechnology",
+    "viewName": "--- Biotechnology"
+  },
+  "E12000": {
+    "title": "Technology in medicine and health care",
+    "viewName": "--- Technology in medicine and health care"
+  },
+  "E13000": {
+    "title": "Development studies",
+    "viewName": "--- Development studies"
+  },
+  "E14000": {
+    "title": "Migration, ethnic relations and multiculturalism",
+    "viewName": "--- Migration, ethnic relations and multiculturalism"
+  },
+  "E15000": {
+    "title": "Environmental studies",
+    "viewName": "--- Environmental studies"
+  },
+  "E16000": {
+    "title": "Nanotechnology",
+    "viewName": "--- Nanotechnology"
+  },
+  "E17000": {
+    "title": "Greenhouse gas mitigation",
+    "viewName": "--- Greenhouse gas mitigation"
+  },
+  "E18000": {
+    "title": "Biobased economy",
+    "viewName": "--- Biobased economy"
+  }
+}

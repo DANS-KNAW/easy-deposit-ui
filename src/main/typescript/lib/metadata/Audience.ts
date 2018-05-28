@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum AudienceScheme {
     narcisDisciplineTypes = "narcis:DisciplineType",
@@ -23,17 +24,27 @@ function toAudienceScheme(value: string): AudienceScheme | undefined {
     return Object.values(AudienceScheme).find(v => v === value)
 }
 
-export const audienceConverter: (a: any) => string = a => {
+export const audienceConverter: (audiences: DropdownListEntry[]) => (a: any) => string = audiences => a => {
     const scheme = toAudienceScheme(a.scheme)
 
     if (scheme && scheme === AudienceScheme.narcisDisciplineTypes)
-        return a.key
+        if (audiences.find(({ key }) => key === a.key))
+            return a.key
+        else
+            throw `Error in metadata: no such audience found: '${a.key}'`
     else
         throw `Error in metadata: no such audience scheme: '${a.scheme}'`
 }
 
-export const audienceDeconverter: (a: string) => any = a => clean({
-    scheme: AudienceScheme.narcisDisciplineTypes,
-    key: a,
-    value: "???", // TODO get correct value
-})
+export const audienceDeconverter: (audiences: DropdownListEntry[]) => (a: string) => any = audiences => a => {
+    const entry: DropdownListEntry | undefined = audiences.find(({ key }) => key === a)
+
+    if (entry)
+        return {
+            scheme: AudienceScheme.narcisDisciplineTypes,
+            key: a,
+            value: entry.value,
+        }
+    else
+        throw `Error in metadata: no valid audience found for key '${a}'`
+}

@@ -18,9 +18,10 @@ import { Field } from "redux-form"
 import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
 import SelectField from "./SelectField"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 interface SchemedPointFieldArrayProps {
-    schemeValues: { key: string, value: string }[]
+    schemeValues: DropdownListEntry[]
 }
 
 function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, schemeValues }: FieldArrayProps<T> & SchemedPointFieldArrayProps) {
@@ -35,12 +36,9 @@ function SchemedPointArrayField<T>({ fields, meta, label, empty, fieldNames, sch
                                 <Field id="spatialPointScheme"
                                        name={fieldNames[0](name)}
                                        label="Scheme"
+                                       choices={schemeValues}
                                        withEmptyDefault
-                                       component={SelectField}>
-                                    {schemeValues.map((value, index) => (
-                                        <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
-                                    ))}
-                                </Field>
+                                       component={SelectField}/>
                             </div>
                             <div className="col input-group mb-2">
                                 <div className="input-group-prepend">
