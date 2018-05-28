@@ -57,7 +57,7 @@ const dateDeconverter: (d: Date) => any = d => dateFormat(d, "isoDateTime")
 
 const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => InternalDate = dates => sd => {
     const scheme = sd.scheme && toDateScheme(sd.scheme)
-    const qualifierObj = dates.find(({key}) => key === sd.qualifier)
+    const qualifierObj = dates.find(({ key }) => key === sd.qualifier)
     const value = sd.value
 
     if (qualifierObj)

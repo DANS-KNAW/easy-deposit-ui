@@ -29,7 +29,7 @@ export const typesConverter: (dcmiValues: DropdownListEntry[]) => (types: any[])
     return types.reduce(([dcmiTypes, normalTypes], type) => {
         const scheme = type.scheme && toTypeScheme(type.scheme)
 
-        if (scheme && scheme == TypeScheme.dcmi && dcmiValues.find(({key}) => key === type.value))
+        if (scheme && scheme == TypeScheme.dcmi && dcmiValues.find(({ key }) => key === type.value))
             return [[...dcmiTypes, type.value], normalTypes]
         else if (isEqual(Object.keys(type), ["value"]))
             return [dcmiTypes, [...normalTypes, type.value]]

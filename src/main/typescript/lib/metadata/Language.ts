@@ -29,7 +29,7 @@ export const languageOfDescriptionConverter: (languages: DropdownListEntry[]) =>
     const scheme = toLanguageScheme(lang.scheme)
 
     if (scheme && scheme === LanguageScheme.ISO639_2)
-        if (languages.find(({key}) => key === lang.key))
+        if (languages.find(({ key }) => key === lang.key))
             return lang.key
         else
             throw `Error in metadata: no such language of description found: '${lang.key}'`
@@ -38,7 +38,7 @@ export const languageOfDescriptionConverter: (languages: DropdownListEntry[]) =>
 }
 
 export const languageOfDescriptionDeconverter: (languages: DropdownListEntry[]) => (lang: string) => any = languages => lang => {
-    const entry: DropdownListEntry | undefined = languages.find(({key}) => key === lang)
+    const entry: DropdownListEntry | undefined = languages.find(({ key }) => key === lang)
 
     if (entry)
         return clean({
@@ -55,7 +55,7 @@ export const languagesOfFilesConverter: (languages: DropdownListEntry[]) => (lof
         const scheme = lof.scheme && toLanguageScheme(lof.scheme)
 
         if (scheme && scheme === LanguageScheme.ISO639_2)
-            if (languages.find(({key}) => key === lof.key))
+            if (languages.find(({ key }) => key === lof.key))
                 return [[...isoLangs, lof.key], langs]
             else
                 throw `Error in metadata: no such language of files found: '${lof.key}'`
@@ -68,7 +68,7 @@ export const languagesOfFilesConverter: (languages: DropdownListEntry[]) => (lof
 }
 
 export const languageOfFilesIsoDeconverter: (languages: DropdownListEntry[]) => (lof: string) => any = languages => lof => {
-    const entry: DropdownListEntry | undefined = languages.find(({key}) => key === lof)
+    const entry: DropdownListEntry | undefined = languages.find(({ key }) => key === lof)
 
     if (lof)
         if (entry)

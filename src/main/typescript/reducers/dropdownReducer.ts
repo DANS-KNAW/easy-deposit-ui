@@ -163,7 +163,7 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFailed(dcmiTypesFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING:
-        return handlePending(imtFormatsPendingLens, state)
+            return handlePending(imtFormatsPendingLens, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED:
             return handleFulfilled(imtFormatsFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED:

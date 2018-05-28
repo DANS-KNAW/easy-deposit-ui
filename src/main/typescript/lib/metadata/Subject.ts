@@ -29,7 +29,7 @@ export const subjectConverter: (abrComplexSubjects: DropdownListEntry[]) => (ss:
         const scheme = s.scheme && toSubjectScheme(s.scheme)
 
         if (scheme && scheme === SubjectScheme.abrComplex && s.key)
-            if (abrComplexSubjects.find(({key}) => key === s.key))
+            if (abrComplexSubjects.find(({ key }) => key === s.key))
                 return [subjects, [...abrSubjects, s.key]]
             else
                 throw `Error in metadata: no such ABR complex subject found: '${s.key}'`
@@ -45,7 +45,7 @@ export const subjectDeconverter: (s: string) => any = s => clean({
 })
 
 export const subjectAbrDeconverter: (abrComplexSubjects: DropdownListEntry[]) => (s: string) => any = abrComplexSubjects => s => {
-    const entry: DropdownListEntry | undefined = abrComplexSubjects.find(({key}) => key === s)
+    const entry: DropdownListEntry | undefined = abrComplexSubjects.find(({ key }) => key === s)
 
     if (s)
         if (entry)

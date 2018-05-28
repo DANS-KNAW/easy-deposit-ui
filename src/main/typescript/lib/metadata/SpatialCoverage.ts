@@ -30,7 +30,7 @@ export const spatialCoveragesConverter: (isoValues: DropdownListEntry[]) => (cov
         const scheme = coverage.scheme && toSpatialCoverageScheme(coverage.scheme)
 
         if (scheme && scheme == SpatialCoverageScheme.iso3166)
-            if (isoValues.find(({key}) => key === coverage.key))
+            if (isoValues.find(({ key }) => key === coverage.key))
                 return [[...isoCoverages, coverage.key], normalCoverages]
             else
                 throw `Error in metadata: unknown coverage value: '${coverage.key}'`
@@ -42,14 +42,14 @@ export const spatialCoveragesConverter: (isoValues: DropdownListEntry[]) => (cov
 }
 
 export const isoSpatialCoverageDeconverter: (isoValues: DropdownListEntry[]) => (coverage: string) => any = isoValues => coverage => {
-    const entry: DropdownListEntry | undefined = isoValues.find(({key}) => key === coverage)
+    const entry: DropdownListEntry | undefined = isoValues.find(({ key }) => key === coverage)
 
     if (entry)
         if (coverage)
             return {
                 scheme: SpatialCoverageScheme.iso3166,
                 key: coverage,
-                value: entry.value
+                value: entry.value,
             }
         else
             return {}

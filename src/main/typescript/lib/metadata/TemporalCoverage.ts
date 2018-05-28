@@ -30,7 +30,7 @@ export const temporalCoveragesConverter: (abrPeriodeTemporals: DropdownListEntry
         const scheme = coverage.scheme && toTemporalCoverageScheme(coverage.scheme)
 
         if (scheme && scheme === TemporalCoverageScheme.abrPeriode)
-            if (abrPeriodeTemporals.find(({key}) => key === coverage.key))
+            if (abrPeriodeTemporals.find(({ key }) => key === coverage.key))
                 return [[...abrCoverage, coverage.key], normalCoverages]
             else
                 throw `Error in metadata: no such ABR temporal periode found: '${coverage.key}'`
@@ -42,14 +42,14 @@ export const temporalCoveragesConverter: (abrPeriodeTemporals: DropdownListEntry
 }
 
 export const abrTemporalCoverageDeconverter: (abrPeriodeTemporals: DropdownListEntry[]) => (coverage: string) => any = abrPeriodeTemporals => coverage => {
-    const entry: DropdownListEntry | undefined = abrPeriodeTemporals.find(({key}) => key === coverage)
+    const entry: DropdownListEntry | undefined = abrPeriodeTemporals.find(({ key }) => key === coverage)
 
     if (coverage)
         if (entry)
             return {
                 scheme: TemporalCoverageScheme.abrPeriode,
                 key: coverage,
-                value: entry.value
+                value: entry.value,
             }
         else
             throw `Error in metadata: no valid ABR periode temporal found for key '${coverage}'`

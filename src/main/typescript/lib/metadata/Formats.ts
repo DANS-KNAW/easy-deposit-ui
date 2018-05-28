@@ -35,7 +35,7 @@ export const formatsConverter: (imtFormatValues: DropdownListEntry[]) => (format
         if (scheme && scheme === FormatScheme.imt)
             if (value === cmdiFormat)
                 return [imtFormats, normalFormats, true]
-            else if (imtFormatValues.find(({key}) => key === value))
+            else if (imtFormatValues.find(({ key }) => key === value))
                 return [[...imtFormats, format.value], normalFormats, hasCmdi]
             else
                 throw `Error in metadata: invalid internet media type: '${value}'`

@@ -48,7 +48,7 @@ export const doiDeconverter: (d: Doi) => any = d => clean({
 })
 
 const alternativeIdentifierConverter: (identifiers: DropdownListEntry[]) => (ai: any) => SchemedValue = identifiers => ai => {
-    const scheme = ai.scheme && (identifiers.find(({key}) => key === ai.scheme) || archisZaakIdentificatie === ai.scheme)
+    const scheme = ai.scheme && (identifiers.find(({ key }) => key === ai.scheme) || archisZaakIdentificatie === ai.scheme)
 
     if (scheme)
         return schemedValueConverter(ai.scheme, ai.value)

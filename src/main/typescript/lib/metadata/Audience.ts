@@ -28,7 +28,7 @@ export const audienceConverter: (audiences: DropdownListEntry[]) => (a: any) => 
     const scheme = toAudienceScheme(a.scheme)
 
     if (scheme && scheme === AudienceScheme.narcisDisciplineTypes)
-        if (audiences.find(({key}) => key === a.key))
+        if (audiences.find(({ key }) => key === a.key))
             return a.key
         else
             throw `Error in metadata: no such audience found: '${a.key}'`
@@ -37,13 +37,13 @@ export const audienceConverter: (audiences: DropdownListEntry[]) => (a: any) => 
 }
 
 export const audienceDeconverter: (audiences: DropdownListEntry[]) => (a: string) => any = audiences => a => {
-    const entry: DropdownListEntry | undefined = audiences.find(({key}) => key === a)
+    const entry: DropdownListEntry | undefined = audiences.find(({ key }) => key === a)
 
     if (entry)
         return {
             scheme: AudienceScheme.narcisDisciplineTypes,
             key: a,
-            value: entry.value
+            value: entry.value,
         }
     else
         throw `Error in metadata: no valid audience found for key '${a}'`
