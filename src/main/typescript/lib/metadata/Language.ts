@@ -15,6 +15,7 @@
  */
 import { isEqual } from "lodash"
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum LanguageScheme {
     ISO639_2 = "dcterms:ISO639-2",
@@ -24,27 +25,41 @@ function toLanguageScheme(value: string): LanguageScheme | undefined {
     return Object.values(LanguageScheme).find(v => v === value)
 }
 
-export const languageOfDescriptionConverter: (schemedLanguageOfDescription: any) => string = lang => {
+export const languageOfDescriptionConverter: (languages: DropdownListEntry[]) => (schemedLanguageOfDescription: any) => string = languages => lang => {
     const scheme = toLanguageScheme(lang.scheme)
 
     if (scheme && scheme === LanguageScheme.ISO639_2)
-        return lang.key
+        if (languages.find(({key}) => key === lang.key))
+            return lang.key
+        else
+            throw `Error in metadata: no such language of description found: '${lang.key}'`
     else
         throw `Error in metadata: no such language scheme: '${lang.scheme}'`
 }
 
-export const languageOfDescriptionDeconverter: (lang: string) => any = lang => clean({
-    scheme: LanguageScheme.ISO639_2,
-    key: lang,
-    value: "???", // TODO get correct value
-})
+export const languageOfDescriptionDeconverter: (languages: DropdownListEntry[]) => (lang: string) => any = languages => lang => {
+    const entry: DropdownListEntry | undefined = languages.find(({key}) => key === lang)
 
-export const languagesOfFilesConverter: (lofs: any[]) => [string[], string[]] = lofs => {
+    if (entry)
+        return clean({
+            scheme: LanguageScheme.ISO639_2,
+            key: lang,
+            value: entry.value,
+        })
+    else
+        throw `Error in metadata: no valid language of description found for key '${lang}'`
+}
+
+export const languagesOfFilesConverter: (languages: DropdownListEntry[]) => (lofs: any[]) => [string[], string[]] = languages => lofs => {
     return lofs.reduce(([isoLangs, langs], lof) => {
         const scheme = lof.scheme && toLanguageScheme(lof.scheme)
 
         if (scheme && scheme === LanguageScheme.ISO639_2)
-            return [[...isoLangs, lof.key], langs]
+            if (languages.find(({key}) => key === lof.key))
+                return [[...isoLangs, lof.key], langs]
+            else
+                throw `Error in metadata: no such language of files found: '${lof.key}'`
+
         else if (isEqual(Object.keys(lof), ["value"]))
             return [isoLangs, [...langs, lof.value]]
         else
@@ -52,13 +67,18 @@ export const languagesOfFilesConverter: (lofs: any[]) => [string[], string[]] = 
     }, [[], []])
 }
 
-export const languageOfFilesIsoDeconverter: (lof: string) => any = lof => {
+export const languageOfFilesIsoDeconverter: (languages: DropdownListEntry[]) => (lof: string) => any = languages => lof => {
+    const entry: DropdownListEntry | undefined = languages.find(({key}) => key === lof)
+
     if (lof)
-        return {
-            scheme: LanguageScheme.ISO639_2,
-            key: lof,
-            value: "???", // TODO get correct value
-        }
+        if (entry)
+            return clean({
+                scheme: LanguageScheme.ISO639_2,
+                key: lof,
+                value: entry.value,
+            })
+        else
+            throw `Error in metadata: no valid language of description found for key '${lof}'`
     else
         return {}
 }

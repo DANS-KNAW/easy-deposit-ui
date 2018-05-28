@@ -40,12 +40,12 @@ import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import {
-    fetchAudienceData,
-    fetchDateData,
+    fetchAudiencesData,
+    fetchDatesData,
     fetchDcmiTypesData,
-    fetchIdentifierData,
-    fetchImtFormatsData,
-    fetchLicenseData,
+    fetchIdentifiersData,
+    fetchImtFormatsData, fetchLanguagesData,
+    fetchLicensesData,
     fetchSpatialCoordinatesData,
     fetchSpatialCoveragesIsoData,
 } from "../../actions/dropdownActions"
@@ -111,10 +111,11 @@ interface DepositFormStoreArguments {
     saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
     submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
 
-    fetchAudienceData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchIdentifierData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchDateData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchLicenseData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchLanguagesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchAudiencesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchIdentifiersData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchDatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchLicensesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
@@ -139,10 +140,11 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     componentDidMount() {
-        this.props.fetchAudienceData()
-        this.props.fetchIdentifierData()
-        this.props.fetchDateData()
-        this.props.fetchLicenseData()
+        this.props.fetchLanguagesData()
+        this.props.fetchAudiencesData()
+        this.props.fetchIdentifiersData()
+        this.props.fetchDatesData()
+        this.props.fetchLicensesData()
         this.props.fetchDcmiTypesData()
         this.props.fetchImtFormatsData()
         this.props.fetchSpatialCoordinatesData()
@@ -254,10 +256,11 @@ const composedHOC = compose(
             fetchMetadata,
             saveDraft,
             submitDeposit,
-            fetchAudienceData,
-            fetchIdentifierData,
-            fetchDateData,
-            fetchLicenseData,
+            fetchLanguagesData,
+            fetchAudiencesData,
+            fetchIdentifiersData,
+            fetchDatesData,
+            fetchLicensesData,
             fetchDcmiTypesData,
             fetchImtFormatsData,
             fetchSpatialCoordinatesData,

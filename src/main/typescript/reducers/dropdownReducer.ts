@@ -70,8 +70,11 @@ function handleFailed(lens: Lens<DropdownLists, [boolean, boolean, string | unde
     return lens.set([false, true, errorMessage, []])(state)
 }
 
+const languagesLens = Lens.fromProp<DropdownLists, "languages">("languages")
+const [languagesPendingLens, languagesFulfilledLens, languagesFailedLens] = createLenses(languagesLens)
+
 const audiencesLens = Lens.fromProp<DropdownLists, "audiences">("audiences")
-const [audiencePendingLens, audienceFulfilledLens, audienceFailedLens] = createLenses(audiencesLens)
+const [audiencesPendingLens, audiencesFulfilledLens, audiencesFailedLens] = createLenses(audiencesLens)
 
 const identifiersLens = Lens.fromProp<DropdownLists, "identifiers">("identifiers")
 const [identifiersPendingLens, identifiersFulfilledLens, identifiersFailedLens] = createLenses(identifiersLens)
@@ -96,12 +99,19 @@ const [spatialCoveragesIsoPendingLens, spatialCoveragesIsoFulfilledLens, spatial
 
 export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLists, action) => {
     switch (action.type) {
+        case DropdownConstants.FETCH_LANGUAGES_DROPDOWN_PENDING:
+            return handlePending(languagesPendingLens, state)
+        case DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FULFILLED:
+            return handleFulfilled(languagesFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FAILED:
+            return handleFailed(languagesFailedLens, action.payload, state)
+
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
-            return handlePending(audiencePendingLens, state)
+            return handlePending(audiencesPendingLens, state)
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FULFILLED:
-            return handleFulfilled(audienceFulfilledLens, action.payload, state)
+            return handleFulfilled(audiencesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FAILED:
-            return handleFailed(audienceFailedLens, action.payload, state)
+            return handleFailed(audiencesFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING:
             return handlePending(identifiersPendingLens, state)

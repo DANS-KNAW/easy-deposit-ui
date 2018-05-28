@@ -26,6 +26,7 @@ const emptyDropdownList: DropdownList = {
 }
 
 export interface DropdownLists {
+    languages: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
     dates: DropdownList
@@ -38,6 +39,7 @@ export interface DropdownLists {
 }
 
 export const emptyDropdownLists: DropdownLists = {
+    languages: emptyDropdownList,
     audiences: emptyDropdownList,
     identifiers: emptyDropdownList,
     dates: emptyDropdownList,

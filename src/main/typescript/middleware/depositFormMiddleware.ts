@@ -108,7 +108,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
         try {
             const identifiers = input.identifiers && identifiersConverter(input.identifiers)
             const languageOfDescription = input.languageOfDescription
-                ? languageOfDescriptionConverter(input.languageOfDescription)
+                ? languageOfDescriptionConverter(dropDowns.languages.list)(input.languageOfDescription)
                 : emptyString
             const creators = input.creators && input.creators.map(contributorConverter)
             const [rightsHolders, normalContributors] = input.contributors
@@ -128,7 +128,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 ? relationsConverter(input.relations)
                 : [[], []]
             const [isoLanguageOfFiles, languageOfFiles] = input.languagesOfFiles
-                ? languagesOfFilesConverter(input.languagesOfFiles)
+                ? languagesOfFilesConverter(dropDowns.languages.list)(input.languagesOfFiles)
                 : [[], []]
             const sources = input.sources && input.sources.join("\n\n")
             const instructionsForReuse = input.instructionsForReuse && input.instructionsForReuse.join("\n\n")
@@ -235,7 +235,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
         const output = clean({
             // basic info
             identifiers: [data.doi && doiDeconverter(data.doi)].filter(obj => obj !== undefined),
-            languageOfDescription: data.languageOfDescription && languageOfDescriptionDeconverter(data.languageOfDescription),
+            languageOfDescription: data.languageOfDescription && languageOfDescriptionDeconverter(dropDowns.languages.list)(data.languageOfDescription),
             titles: data.titles && data.titles.filter(t => !isEmptyString(t)),
             alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyString(at)),
             descriptions: data.description && data.description.split("\n\n"),
@@ -260,7 +260,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
                 ...(data.relations ? data.relations.map(relationDeconverter) : []),
             ].filter(nonEmptyObject),
             languagesOfFiles: [
-                ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter) : []),
+                ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter(dropDowns.languages.list)) : []),
                 ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : []),
             ].filter(nonEmptyObject),
             dates: [

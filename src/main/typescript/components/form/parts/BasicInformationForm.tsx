@@ -33,6 +33,8 @@ import DateFieldArray from "./basicInformation/DateFieldArray"
 import { DropdownList } from "../../../model/DropdownLists"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
+import LanguageField from "./basicInformation/LanguageField"
+import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -59,6 +61,7 @@ export interface BasicInformationFormData {
 interface BasicInformationFormProps {
     depositId: DepositId
 
+    languages: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
     dates: DropdownList
@@ -76,7 +79,12 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Language of description</p>
+                    <Field name="languageOfDescription"
+                           label="Language of description"
+                           className="col-12 col-md-8"
+                           withLabel
+                           withEmptyDefault
+                           component={LanguageField(this.props.languages)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -156,6 +164,14 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
+                    <RepeatableField name="languagesOfFilesIso639"
+                                     label="Language of files (ISO 639)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     component={LanguageFieldArray(this.props.languages)}/>
+                </div>
+
+                <div className="row form-group input-element">
                     <RepeatableField name="languagesOfFiles"
                                      label="Language of files"
                                      empty={emptyString}
@@ -201,6 +217,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
+    languages: state.dropDowns.languages,
     audiences: state.dropDowns.audiences,
     identifiers: state.dropDowns.identifiers,
     dates: state.dropDowns.dates,
