@@ -26,6 +26,7 @@ import {
 } from "../actions/depositFormActions"
 import { DropdownConstants } from "../constants/dropdownConstants"
 import {
+    fetchAbrComplexSubjectsDataFailed,
     fetchAudiencesDataFailed,
     fetchDatesDataFailed,
     fetchDcmiTypesDataFailed,
@@ -73,8 +74,9 @@ const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_D
 const fetchLicenseDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED)(() => fetchLicensesDataFailed)
 const fetchDcmiTypeDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED)(() => fetchDcmiTypesDataFailed)
 const fetchImtFormatsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchImtFormatsDataFailed)
-const fetchSpatialCoordinatesDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchSpatialCoordinatesDataFailed)
-const fetchSpatialCoveragesIsoDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED)(() => fetchSpatialCoveragesIsoDataFailed)
+const fetchAbrComplexSubjectsDataRejected = rejectedMiddleware(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED)(() => fetchAbrComplexSubjectsDataFailed)
+const fetchSpatialCoordinatesDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED)(() => fetchSpatialCoordinatesDataFailed)
+const fetchSpatialCoveragesIsoDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED)(() => fetchSpatialCoveragesIsoDataFailed)
 
 export const rejectedRequestMiddleware = [
     depositFetchRejected,
@@ -91,6 +93,7 @@ export const rejectedRequestMiddleware = [
     fetchLicenseDataRejected,
     fetchDcmiTypeDataRejected,
     fetchImtFormatsDataRejected,
+    fetchAbrComplexSubjectsDataRejected,
     fetchSpatialCoordinatesDataRejected,
     fetchSpatialCoveragesIsoDataRejected,
 ]

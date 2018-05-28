@@ -119,7 +119,7 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
                 : emptyDates
             const audiences = input.audiences && input.audiences.map(audienceConverter(dropDowns.audiences.list))
             const [subjects, abrSubjects] = input.subjects
-                ? subjectConverter(input.subjects)
+                ? subjectConverter(dropDowns.abrComplexSubjects.list)(input.subjects)
                 : [[], []]
             const [archisIdentifiers, alternativeIdentifiers] = input.alternativeIdentifiers
                 ? alternativeIdentifersConverter(dropDowns.identifiers.list)(input.alternativeIdentifiers)
@@ -249,7 +249,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
                 .map(audienceDeconverter(dropDowns.audiences.list)),
             subjects: [
                 ...(data.subjects ? data.subjects.map(subjectDeconverter) : []),
-                ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter) : []),
+                ...(data.subjectsAbrComplex ? data.subjectsAbrComplex.map(subjectAbrDeconverter(dropDowns.abrComplexSubjects.list)) : []),
             ].filter(nonEmptyObject),
             alternativeIdentifiers: [
                 ...(data.alternativeIdentifiers ? data.alternativeIdentifiers.map(alternativeIdentifierDeconverter) : []),

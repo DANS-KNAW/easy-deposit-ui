@@ -71,6 +71,12 @@ export const fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>
 export const fetchImtFormatsDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED)
 
+export const fetchAbrComplexSubjectsData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN, "abrComplexSubjects.json")
+
+export const fetchAbrComplexSubjectsDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FAILED)
+
 export const fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
     createFetchAction(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN, "spatialCoordinates.json")
 

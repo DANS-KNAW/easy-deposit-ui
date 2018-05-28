@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum SubjectScheme {
     abrComplex = "abr:ABRcomplex",
@@ -23,16 +24,17 @@ function toSubjectScheme(value: string): SubjectScheme | undefined {
     return Object.values(SubjectScheme).find(v => v === value)
 }
 
-export const subjectConverter: (ss: any[]) => [string[], string[]] = ss => {
+export const subjectConverter: (abrComplexSubjects: DropdownListEntry[]) => (ss: any[]) => [string[], string[]] = abrComplexSubjects => ss => {
     return ss.reduce(([subjects, abrSubjects], s) => {
         const scheme = s.scheme && toSubjectScheme(s.scheme)
-        const key = s.key
-        const value = s.value
 
-        if (scheme && key)
-            return [subjects, [...abrSubjects, key]]
-        else if (!scheme && !key && value)
-            return [[...subjects, value], abrSubjects]
+        if (scheme && s.key)
+            if (abrComplexSubjects.find(({key}) => key === s.key))
+                return [subjects, [...abrSubjects, s.key]]
+            else
+                throw `Error in metadata: no such ABR complex subject found: '${s.key}'`
+        else if (!scheme && !s.key && s.value)
+            return [[...subjects, s.value], abrSubjects]
         else
             throw `Error in metadata: unrecognized subject: ${JSON.stringify(s)}`
     }, [[], []])
@@ -42,13 +44,18 @@ export const subjectDeconverter: (s: string) => any = s => clean({
     value: s,
 })
 
-export const subjectAbrDeconverter: (s: string) => any = s => {
+export const subjectAbrDeconverter: (abrComplexSubjects: DropdownListEntry[]) => (s: string) => any = abrComplexSubjects => s => {
+    const entry: DropdownListEntry | undefined = abrComplexSubjects.find(({key}) => key === s)
+
     if (s)
-        return {
-            scheme: SubjectScheme.abrComplex,
-            key: s,
-            value: "???", // TODO get correct value
-        }
+        if (entry)
+            return {
+                scheme: SubjectScheme.abrComplex,
+                key: s,
+                value: entry.value,
+            }
+        else
+            throw `Error in metadata: no valid ABR complex subject found for key '${s}'`
     else
         return {}
 }

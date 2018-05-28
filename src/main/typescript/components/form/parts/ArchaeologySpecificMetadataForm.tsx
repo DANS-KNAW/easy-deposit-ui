@@ -18,6 +18,10 @@ import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { emptyString } from "../../../lib/metadata/misc"
+import AbrComplexSubjectFieldArray from "./archaeologySpecificMetadata/AbrComplexSubjectFieldArray"
+import { DropdownList } from "../../../model/DropdownLists"
+import { AppState } from "../../../model/AppState"
+import { connect } from "react-redux"
 
 export interface ArchaeologySpecificMetadataFormData {
     archisNrs?: string[]
@@ -26,6 +30,7 @@ export interface ArchaeologySpecificMetadataFormData {
 }
 
 interface ArchaeologySpecificMetadataFormProps {
+    abrComplexSubjects: DropdownList
 }
 
 class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetadataFormProps> {
@@ -41,7 +46,11 @@ class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetad
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Subject (ABR complex)</p>
+                    <RepeatableField name="subjectsAbrComplex"
+                                     label="Subject (ABR complex)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     component={AbrComplexSubjectFieldArray(this.props.abrComplexSubjects)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -52,4 +61,8 @@ class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetad
     }
 }
 
-export default ArchaeologySpecificMetadataForm
+const mapStateToProps = (state: AppState) => ({
+    abrComplexSubjects: state.dropDowns.abrComplexSubjects,
+})
+
+export default connect(mapStateToProps)(ArchaeologySpecificMetadataForm)

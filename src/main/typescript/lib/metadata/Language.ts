@@ -72,13 +72,13 @@ export const languageOfFilesIsoDeconverter: (languages: DropdownListEntry[]) => 
 
     if (lof)
         if (entry)
-            return clean({
+            return {
                 scheme: LanguageScheme.ISO639_2,
                 key: lof,
                 value: entry.value,
-            })
+            }
         else
-            throw `Error in metadata: no valid language of description found for key '${lof}'`
+            throw `Error in metadata: no valid language of files found for key '${lof}'`
     else
         return {}
 }

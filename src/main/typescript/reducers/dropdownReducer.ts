@@ -91,6 +91,9 @@ const [dcmiTypesPendingLens, dcmiTypesFulfilledLens, dcmiTypesFailedLens] = crea
 const imtFormatsLens = Lens.fromProp<DropdownLists, "imtFormats">("imtFormats")
 const [imtFormatsPendingLens, imtFormatsFulfilledLens, imtFormatsFailedLens] = createLenses(imtFormatsLens)
 
+const abrComplexSubjectsLens = Lens.fromProp<DropdownLists, "abrComplexSubjects">("abrComplexSubjects")
+const [abrComplexSubjectsPendingLens, abrComplexSubjectsFulfilledLens, abrComplexSubjectsFailedLens] = createLenses(abrComplexSubjectsLens)
+
 const spatialCoordinatesLens = Lens.fromProp<DropdownLists, "spatialCoordinates">("spatialCoordinates")
 const [spatialCoordinatesPendingLens, spatialCoordinatesFulfilledLens, spatialCoordinatesFailedLens] = createLenses(spatialCoordinatesLens)
 
@@ -142,11 +145,18 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFailed(dcmiTypesFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING:
-            return handlePending(imtFormatsPendingLens, state)
+        return handlePending(imtFormatsPendingLens, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED:
             return handleFulfilled(imtFormatsFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FAILED:
             return handleFailed(imtFormatsFailedLens, action.payload, state)
+
+        case DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_PENDING:
+            return handlePending(abrComplexSubjectsPendingLens, state)
+        case DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FULFILLED:
+            return handleFulfilled(abrComplexSubjectsFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FAILED:
+            return handleFailed(abrComplexSubjectsFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING:
             return handlePending(spatialCoordinatesPendingLens, state)

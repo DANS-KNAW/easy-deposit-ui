@@ -33,6 +33,7 @@ export interface DropdownLists {
     licenses: DropdownList
     dcmiTypes: DropdownList
     imtFormats: DropdownList
+    abrComplexSubjects: DropdownList
     spatialCoordinates: DropdownList
     spatialCoveragesIso: DropdownList
     // TODO add others
@@ -46,6 +47,7 @@ export const emptyDropdownLists: DropdownLists = {
     licenses: emptyDropdownList,
     dcmiTypes: emptyDropdownList,
     imtFormats: emptyDropdownList,
+    abrComplexSubjects: emptyDropdownList,
     spatialCoordinates: emptyDropdownList,
     spatialCoveragesIso: emptyDropdownList,
 }

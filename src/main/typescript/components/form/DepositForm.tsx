@@ -40,6 +40,7 @@ import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import {
+    fetchAbrComplexSubjectsData,
     fetchAudiencesData,
     fetchDatesData,
     fetchDcmiTypesData,
@@ -118,6 +119,7 @@ interface DepositFormStoreArguments {
     fetchLicensesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchAbrComplexSubjectsData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchSpatialCoveragesIsoData: () => ReduxAction<Promise<DropdownListEntry[]>>
 }
@@ -147,6 +149,7 @@ class DepositForm extends Component<DepositFormProps> {
         this.props.fetchLicensesData()
         this.props.fetchDcmiTypesData()
         this.props.fetchImtFormatsData()
+        this.props.fetchAbrComplexSubjectsData()
         this.props.fetchSpatialCoordinatesData()
         this.props.fetchSpatialCoveragesIsoData()
         this.fetchMetadata()
@@ -263,6 +266,7 @@ const composedHOC = compose(
             fetchLicensesData,
             fetchDcmiTypesData,
             fetchImtFormatsData,
+            fetchAbrComplexSubjectsData,
             fetchSpatialCoordinatesData,
             fetchSpatialCoveragesIsoData,
         }),
