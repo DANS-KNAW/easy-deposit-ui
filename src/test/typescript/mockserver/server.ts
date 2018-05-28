@@ -20,7 +20,7 @@ import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
-    getDeposit, getDoi,
+    getDeposit, getDirectoryListing, getDoi,
     getMetadata,
     getState,
     getUser,
@@ -214,10 +214,11 @@ app.post('/auth/logout', (req: Request, res:Response) => {
     console.log(204)
 })
 
-app.get('deposit/:id/file/:dirpath', (req: Request, res: Response) => {
+app.get('/deposit/:id/file', (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/file/${req.params.dirpath}`)
     res.status(200)
-    res.json(Directory001)
+    console.log(getDirectoryListing())
+    res.json(getDirectoryListing())
     console.log(204)
 })
 

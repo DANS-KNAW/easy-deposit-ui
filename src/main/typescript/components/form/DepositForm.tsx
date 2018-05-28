@@ -36,8 +36,9 @@ import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadata
 import UploadTypeForm from "./parts/UploadTypeForm"
 import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
-import DataForm from "./parts/fileOverview/DataForm"
+import DatafilesForm from "./parts/datafiles/DatafilesForm"
 import { depositFormName } from "../../constants/depositFormConstants"
+import DatafilesOverview from "./parts/datafiles/DatafilesOverview"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -133,56 +134,56 @@ class DepositForm extends Component<DepositFormProps> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <DataForm/>
+                        <DatafilesOverview depositId={this.props.depositId}/>
                     </Card>
 
-                    <Card title="Basic information" required defaultOpened> { /* TODO */ }
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <BasicInformationForm depositId={this.props.depositId}/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Basic information" required defaultOpened> { /* TODO */ }*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<BasicInformationForm depositId={this.props.depositId}/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="License and access" required defaultOpened> { /* TODO */ }
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <LicenseAndAccessForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="License and access" required defaultOpened> { /* TODO */ }*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<LicenseAndAccessForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="Upload type">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <UploadTypeForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Upload type">*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<UploadTypeForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="Archaeology specific metadata"> { /* TODO */ }
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <ArchaeologySpecificMetadataForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Archaeology specific metadata"> { /* TODO */ }*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<ArchaeologySpecificMetadataForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="Temporal and spatial coverage"> { /* TODO */ }
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <TemporalAndSpatialCoverageForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Temporal and spatial coverage"> { /* TODO */ }*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<TemporalAndSpatialCoverageForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="Message for the data manager">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <MessageForDataManagerForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Message for the data manager">*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<MessageForDataManagerForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="Privacy sensitive data" required defaultOpened>
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <PrivacySensitiveDataForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Privacy sensitive data" required defaultOpened>*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<PrivacySensitiveDataForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
-                    <Card title="Deposit license" required defaultOpened>
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <DepositLicenseForm/>
-                        </Loaded>
-                    </Card>
+                    {/*<Card title="Deposit license" required defaultOpened>*/}
+                        {/*<Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>*/}
+                            {/*<DepositLicenseForm/>*/}
+                        {/*</Loaded>*/}
+                    {/*</Card>*/}
 
                     <SaveDraftError saveError={saveError}/>
                     <SubmitError submitError={submitError}/>

@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { depositMiddleware } from "./depositMiddleware"
-import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
-import { userDetailsMiddleware } from "./userDetailsMiddleware"
-import { datafilesMiddleware } from "./datafilesMiddleware"
-import { depositFormMiddleware } from "./depositFormMiddleware"
+import * as React from "react"
 
-export default [
-    ...depositMiddleware,
-    ...depositFormMiddleware,
-    ...rejectedRequestMiddleware,
-    ...userDetailsMiddleware,
-    ...datafilesMiddleware,
-]
+const DatafileTableHead = () => (
+    <thead>
+    <tr className="row">
+        {/* these column sizes need to match with the sizes in DepositTableRow */}
+        <th className="col-10 col-sm-11 col-md-3" scope="col">File</th>
+        <th className="col-12 col-sm-12 col-md-2" scope="col">Checksum</th>
+        <th className="col-2  col-sm-1  col-md-1" scope="col" id="actions_cell"/>
+    </tr>
+    </thead>
+)
+
+export default DatafileTableHead

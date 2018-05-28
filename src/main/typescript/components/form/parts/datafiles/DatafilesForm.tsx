@@ -15,18 +15,20 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { DepositId } from "../../../../model/Deposits"
 
 export interface DataFormData {
     // TODO not yet implemented in mock server side
 }
 
 interface DataFormProps {
+    depositId: DepositId
 }
 
-class DataForm extends Component<DataFormProps> {
+class DatafilesForm extends Component<DataFormProps> {
     render() {
         return <p>Upload your data form</p>
     }
 }
 
-export default DataForm
+export default DatafilesForm

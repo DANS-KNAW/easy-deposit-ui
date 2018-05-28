@@ -20,6 +20,6 @@ export interface Authentication {
 }
 
 export const empty = {
-    isAuthenticated: false,
+    isAuthenticated: true,
     isAuthenticating: false,
 }

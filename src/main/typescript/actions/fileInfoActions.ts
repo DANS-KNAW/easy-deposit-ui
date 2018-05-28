@@ -16,15 +16,36 @@
 import { ReduxAction } from "../lib/redux"
 import { FileInfoConstants } from "../constants/fileInfoConstants"
 import axios from "axios"
-import { fetchFileInfoUrl } from "../constants/apiConstants"
+import { fileInfoUrl } from "../constants/apiConstants"
 import { DepositId } from "../model/Deposits"
+import { Datafiles, FilePath } from "../model/Datafiles"
 
-export const fetchFileInfo: (depositId: DepositId, dirpath: string) => ReduxAction<Promise<any>> = (depositId, dirpath) =>({
-    type: FileInfoConstants.FETCH_FILEINFO,
+export const fetchDatafiles: (depositId: DepositId, dirpath: string) => ReduxAction<Promise<any>> = (depositId, dirpath) =>({
+    type: FileInfoConstants.FETCH_DATAFILES,
     async payload(){
-        const url = await fetchFileInfoUrl(depositId, dirpath)
+        const url = await fileInfoUrl(depositId, dirpath)
         const response = await axios.get(url)
+        console.log(response.data)
         return response.data
     },
+})
+
+export const fetchDatafilesSucceeded: (datafiles: Datafiles) => ReduxAction<Datafiles> = datafiles => ({
+    type: FileInfoConstants.FETCH_DATAFILES_SUCCEEDED,
+    payload: datafiles
+})
+
+export const fetchDatafilesFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: FileInfoConstants.FETCH_DATAFILES_FAILED,
+    payload: errorMessage,
+})
+
+export const deleteDatafiles: (depositId: DepositId, dirpath: FilePath) => ReduxAction<Promise<void>> = (depositId, dirpath) => ({
+    type: FileInfoConstants.DELETE_DATAFILE,
+    async payload(){
+        const url = await fileInfoUrl(depositId, dirpath)
+        await axios.delete(url)
+    },
+    meta: {depositId: depositId, dirpath: dirpath}
 
 })

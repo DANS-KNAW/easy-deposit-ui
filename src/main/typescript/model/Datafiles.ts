@@ -13,16 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { depositMiddleware } from "./depositMiddleware"
-import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
-import { userDetailsMiddleware } from "./userDetailsMiddleware"
-import { datafilesMiddleware } from "./datafilesMiddleware"
-import { depositFormMiddleware } from "./depositFormMiddleware"
 
-export default [
-    ...depositMiddleware,
-    ...depositFormMiddleware,
-    ...rejectedRequestMiddleware,
-    ...userDetailsMiddleware,
-    ...datafilesMiddleware,
-]
+
+import { DeletingStates, LoadingState } from "./Deposits"
+
+export type FilePath = string
+export type Datafiles = { [filepath: string]: Datafile}
+
+export interface Datafile {
+    filename: string
+    filepath: FilePath
+    dirpath: FilePath
+    sha1sum: string
+}
+
+export interface DatafileOverviewState {
+    loadingState: LoadingState
+    deleting: DeletingStates
+    datafiles : Datafiles
+}
+
+export const empty: DatafileOverviewState = {
+    loadingState: {
+        loading: false,
+        loaded: false,
+    },
+    deleting: {},
+    datafiles: {},
+}
