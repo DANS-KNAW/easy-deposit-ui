@@ -41,11 +41,11 @@ export const languageOfDescriptionDeconverter: (languages: DropdownListEntry[]) 
     const entry: DropdownListEntry | undefined = languages.find(({ key }) => key === lang)
 
     if (entry)
-        return clean({
+        return {
             scheme: LanguageScheme.ISO639_2,
             key: lang,
             value: entry.value,
-        })
+        }
     else
         throw `Error in metadata: no valid language of description found for key '${lang}'`
 }
