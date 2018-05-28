@@ -15,12 +15,7 @@ type DcmiTypesFieldArrayProperties = FieldArrayProps<SchemedValue> & DcmiTypesFi
 
 const DcmiTypesFieldArray = ({ dcmiTypes: { state, list }, ...rest }: DcmiTypesFieldArrayProperties) => (
     <LoadDropdownData state={state}>
-        <SelectFieldArray {...rest} withEmptyDefault choices={
-            list.map(entry => ({
-                key: entry.key,
-                value: entry.displayValue,
-            }))
-        }/>
+        <SelectFieldArray {...rest} withEmptyDefault choices={list}/>
     </LoadDropdownData>
 )
 

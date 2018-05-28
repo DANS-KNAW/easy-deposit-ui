@@ -17,10 +17,11 @@ import * as React from "react"
 import { Field } from "redux-form"
 import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
-import SelectField from "./SelectField"
+import SelectField  from "./SelectField"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 interface SchemedTextFieldArrayProps {
-    schemeValues: { key: string, value: string }[]
+    schemeValues: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
@@ -36,12 +37,9 @@ function SchemedTextFieldArray<T>({ fields, meta, label, empty, fieldNames, sche
                                 <Field id="spatialCoverageISO3166Scheme"
                                        name={fieldNames[0](name)}
                                        label="Scheme"
+                                       choices={schemeValues}
                                        withEmptyDefault={withEmptyDefault}
-                                       component={SelectField}>
-                                    {schemeValues.map((value, index) => (
-                                        <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
-                                    ))}
-                                </Field>
+                                       component={SelectField}/>
                             </div>
                             <div className="col col-md-8">
                                 <div className="input-group mb-2 mr-2">

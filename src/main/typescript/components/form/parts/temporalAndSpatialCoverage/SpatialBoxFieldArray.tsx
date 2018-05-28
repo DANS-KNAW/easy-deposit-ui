@@ -15,12 +15,7 @@ type SpatialBoxFieldArrayProperties = FieldArrayProps<SchemedValue> & SpatialBox
 
 const SpatialBoxFieldArray = ({ spatialCoordinates: { state, list }, ...rest }: SpatialBoxFieldArrayProperties) => (
     <LoadDropdownData state={state}>
-        <SchemedBoxArrayField {...rest} schemeValues={
-            list.map(entry => ({
-                key: entry.key,
-                value: entry.displayValue,
-            }))
-        }/>
+        <SchemedBoxArrayField {...rest} schemeValues={list}/>
     </LoadDropdownData>
 )
 

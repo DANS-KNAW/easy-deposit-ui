@@ -15,12 +15,7 @@ type AudienceFieldArrayProperties = FieldArrayProps<SchemedValue> & AudienceFiel
 
 const AudienceFieldArray = ({ audiences: { state, list }, ...rest }: AudienceFieldArrayProperties) => (
     <LoadDropdownData state={state}>
-        <SelectFieldArray {...rest} withEmptyDefault choices={
-            list.map(entry => ({
-                key: entry.key,
-                value: entry.displayValue,
-            }))
-        }/>
+        <SelectFieldArray {...rest} withEmptyDefault choices={list}/>
     </LoadDropdownData>
 )
 

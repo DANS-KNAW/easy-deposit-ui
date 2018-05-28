@@ -17,9 +17,10 @@ import * as React from "react"
 import { FieldArrayProps } from "./RepeatableField"
 import { Field } from "redux-form"
 import SelectField from "./SelectField"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 interface SelectFieldArrayProps {
-    choices: { key: string, value: string }[]
+    choices: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
@@ -34,12 +35,9 @@ function SelectFieldArray<T>({ fields, meta, label, empty, fieldNames, choices, 
                             <Field name={fieldNames[0](name)}
                                    label={label}
                                    className="custom-select"
+                                   choices={choices}
                                    withEmptyDefault={withEmptyDefault}
-                                   component={SelectField}>
-                                {choices.map((value, index) => (
-                                    <option key={`${value.key}${index}`} value={value.key}>{value.value}</option>
-                                ))}
-                            </Field>
+                                   component={SelectField}/>
                             <div className="input-group-append">
                                 <button type="button"
                                         className="input-group-text bg-danger text-light remove-button"

@@ -15,12 +15,7 @@ type IdentifierFieldArrayProps = FieldArrayProps<SchemedValue> & IdentifierField
 
 const IdentifierFieldArray = ({ identifiers: { state, list }, ...rest }: IdentifierFieldArrayProps) => (
     <LoadDropdownData state={state}>
-        <SchemedTextFieldArray {...rest} withEmptyDefault schemeValues={
-            list.map(entry => ({
-                key: entry.key,
-                value: entry.displayValue,
-            }))
-        }/>
+        <SchemedTextFieldArray {...rest} withEmptyDefault schemeValues={list}/>
     </LoadDropdownData>
 )
 

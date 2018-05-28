@@ -15,12 +15,7 @@ type ImtFormatsFieldArrayProperties = FieldArrayProps<SchemedValue> & ImtFormats
 
 const ImtFormatsFieldArray = ({ imtFormats: { state, list }, ...rest }: ImtFormatsFieldArrayProperties) => (
     <LoadDropdownData state={state}>
-        <SelectFieldArray {...rest} withEmptyDefault choices={
-            list.map(entry => ({
-                key: entry.key,
-                value: entry.displayValue,
-            }))
-        }/>
+        <SelectFieldArray {...rest} withEmptyDefault choices={list}/>
     </LoadDropdownData>
 )
 

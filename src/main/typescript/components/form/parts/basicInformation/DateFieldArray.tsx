@@ -15,12 +15,7 @@ type DateFieldArrayProps = FieldArrayProps<SchemedValue> & DateFieldArrayReduxPr
 
 const DateFieldArray = ({ dates: { state, list }, ...rest }: DateFieldArrayProps) => (
     <LoadDropdownData state={state}>
-        <SchemedTextFieldArray {...rest} schemeValues={
-            list.map(entry => ({
-                key: entry.key,
-                value: entry.displayValue,
-            }))
-        }/>
+        <SchemedTextFieldArray {...rest} schemeValues={list}/>
     </LoadDropdownData>
 )
 
