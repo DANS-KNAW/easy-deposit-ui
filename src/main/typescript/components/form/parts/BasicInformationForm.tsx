@@ -160,10 +160,6 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                 </div>
 
                 <div className="row form-group input-element">
-                    <p>Language of files (ISO 639)</p>
-                </div>
-
-                <div className="row form-group input-element">
                     <RepeatableField name="languagesOfFilesIso639"
                                      label="Language of files (ISO 639)"
                                      empty={emptyString}
