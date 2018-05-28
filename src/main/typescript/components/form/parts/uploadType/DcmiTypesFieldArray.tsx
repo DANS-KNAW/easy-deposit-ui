@@ -1,26 +1,14 @@
 import * as React from "react"
-import { connect } from "react-redux"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
 import SelectFieldArray from "../../../../lib/formComponents/SelectFieldArray"
 import { SchemedValue } from "../../../../lib/metadata/Value"
-import { AppState } from "../../../../model/AppState"
 import { DropdownList } from "../../../../model/DropdownLists"
 
-interface DcmiTypesFieldArrayReduxProperties {
-    dcmiTypes: DropdownList
-}
-
-type DcmiTypesFieldArrayProperties = FieldArrayProps<SchemedValue> & DcmiTypesFieldArrayReduxProperties
-
-const DcmiTypesFieldArray = ({ dcmiTypes: { state, list }, ...rest }: DcmiTypesFieldArrayProperties) => (
+const DcmiTypesFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
     <LoadDropdownData state={state}>
-        <SelectFieldArray {...rest} withEmptyDefault choices={list}/>
+        <SelectFieldArray {...props} withEmptyDefault choices={list}/>
     </LoadDropdownData>
 )
 
-const mapStateToProps = (state: AppState) => ({
-    dcmiTypes: state.dropDowns.dcmiTypes,
-})
-
-export default connect(mapStateToProps)(DcmiTypesFieldArray)
+export default DcmiTypesFieldArray

@@ -22,6 +22,9 @@ import { Contributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
 import LicenseField from "./licenseAndAccess/LicenseField"
+import { AppState } from "../../../model/AppState"
+import { connect } from "react-redux"
+import { DropdownList } from "../../../model/DropdownLists"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -32,6 +35,7 @@ export interface LicenseAndAccessFormData {
 }
 
 interface LicenseAndAccessFormProps {
+    licenses: DropdownList
 }
 
 class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
@@ -69,7 +73,7 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                            className="col-12 col-md-8"
                            withLabel
                            withEmptyDefault
-                           component={LicenseField}/>
+                           component={LicenseField(this.props.licenses)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -80,4 +84,8 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
     }
 }
 
-export default LicenseAndAccessForm
+const mapStateToProps = (state: AppState) => ({
+    licenses: state.dropDowns.licenses,
+})
+
+export default connect(mapStateToProps)(LicenseAndAccessForm)

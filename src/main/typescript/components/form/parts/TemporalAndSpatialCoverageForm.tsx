@@ -24,6 +24,9 @@ import { emptyString } from "../../../lib/metadata/misc"
 import SpatialPointFieldArray from "./temporalAndSpatialCoverage/SpatialPointFieldArray"
 import SpatialBoxFieldArray from "./temporalAndSpatialCoverage/SpatialBoxFieldArray"
 import SpatialCoverageIso3166FieldArray from "./temporalAndSpatialCoverage/SpatialCoverageIso3166FieldArray"
+import { DropdownList } from "../../../model/DropdownLists"
+import { AppState } from "../../../model/AppState"
+import { connect } from "react-redux"
 
 export interface TemporalAndSpatialCoverageFormData {
     temporalCoverages?: string[]
@@ -34,6 +37,8 @@ export interface TemporalAndSpatialCoverageFormData {
 }
 
 interface TemporalAndSpatialCoverageFormProps {
+    spatialCoordinates: DropdownList
+    spatialCoveragesIso: DropdownList
 }
 
 class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverageFormProps> {
@@ -57,7 +62,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                                          (name: string) => `${name}.x`,
                                          (name: string) => `${name}.y`,
                                      ]}
-                                     component={SpatialPointFieldArray}/>
+                                     component={SpatialPointFieldArray(this.props.spatialCoordinates)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -71,7 +76,7 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                                          (name: string) => `${name}.south`,
                                          (name: string) => `${name}.west`,
                                      ]}
-                                     component={SpatialBoxFieldArray}/>
+                                     component={SpatialBoxFieldArray(this.props.spatialCoordinates)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -81,7 +86,11 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
                                      fieldNames={[
                                          (name: string) => name,
                                      ]}
-                                     component={SpatialCoverageIso3166FieldArray}/>
+                                     /*
+                                      * values taken from https://nl.wikipedia.org/wiki/ISO_3166-1
+                                      * use values ISO-3166-1 alpha-3
+                                      */
+                                     component={SpatialCoverageIso3166FieldArray(this.props.spatialCoveragesIso)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -96,4 +105,9 @@ class TemporalAndSpatialCoverageForm extends Component<TemporalAndSpatialCoverag
     }
 }
 
-export default TemporalAndSpatialCoverageForm
+const mapStateToProps = (state: AppState) => ({
+    spatialCoordinates: state.dropDowns.spatialCoordinates,
+    spatialCoveragesIso: state.dropDowns.spatialCoveragesIso,
+})
+
+export default connect(mapStateToProps)(TemporalAndSpatialCoverageForm)

@@ -22,6 +22,9 @@ import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
 import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
 import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
+import { AppState } from "../../../model/AppState"
+import { connect } from "react-redux"
+import { DropdownList } from "../../../model/DropdownLists"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -35,6 +38,8 @@ export interface UploadTypeFormData {
 const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
 
 interface UploadTypeFormProps {
+    dcmiTypes: DropdownList
+    imtFormats: DropdownList
 }
 
 const clarinChoices = [
@@ -59,7 +64,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                                      label="Type (DCMI resource type)"
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     component={DcmiTypesFieldArray}/>
+                                     component={DcmiTypesFieldArray(this.props.dcmiTypes)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -75,7 +80,7 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
                                      label=" Format (internet media type)"
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     component={ImtFormatsFieldArray}/>
+                                     component={ImtFormatsFieldArray(this.props.imtFormats)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -99,4 +104,9 @@ class UploadTypeForm extends Component<UploadTypeFormProps> {
     }
 }
 
-export default UploadTypeForm
+const mapStateToProps = (state: AppState) => ({
+    dcmiTypes: state.dropDowns.dcmiTypes,
+    imtFormats: state.dropDowns.imtFormats,
+})
+
+export default connect(mapStateToProps)(UploadTypeForm)

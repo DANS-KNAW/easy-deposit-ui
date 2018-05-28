@@ -30,6 +30,9 @@ import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
 import IdentifierFieldArray from "./basicInformation/IdentifierFieldArray"
 import DateFieldArray from "./basicInformation/DateFieldArray"
+import { DropdownList } from "../../../model/DropdownLists"
+import { AppState } from "../../../model/AppState"
+import { connect } from "react-redux"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -55,6 +58,10 @@ export interface BasicInformationFormData {
 
 interface BasicInformationFormProps {
     depositId: DepositId
+
+    audiences: DropdownList
+    identifiers: DropdownList
+    dates: DropdownList
 }
 
 class BasicInformationForm extends Component<BasicInformationFormProps> {
@@ -114,7 +121,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                                      label="Audience"
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     component={AudienceFieldArray}/>
+                                     component={AudienceFieldArray(this.props.audiences)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -133,7 +140,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
                                      ]}
-                                     component={IdentifierFieldArray}/>
+                                     component={IdentifierFieldArray(this.props.identifiers)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -168,7 +175,7 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
                                          (name: string) => `${name}.qualifier`,
                                          (name: string) => `${name}.value`,
                                      ]}
-                                     component={DateFieldArray}/>
+                                     component={DateFieldArray(this.props.dates)}/>
                 </div>
 
                 <div className="row form-group input-element">
@@ -193,4 +200,10 @@ class BasicInformationForm extends Component<BasicInformationFormProps> {
     }
 }
 
-export default BasicInformationForm
+const mapStateToProps = (state: AppState) => ({
+    audiences: state.dropDowns.audiences,
+    identifiers: state.dropDowns.identifiers,
+    dates: state.dropDowns.dates,
+})
+
+export default connect(mapStateToProps)(BasicInformationForm)
