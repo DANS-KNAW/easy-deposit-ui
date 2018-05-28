@@ -35,7 +35,7 @@ export interface UploadTypeFormData {
 }
 
 // validation rules
-const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
+const oneSelected = (value?: any) => value !== undefined ? undefined : "you need to select one of these choices"
 
 interface UploadTypeFormProps {
     dcmiTypes: DropdownList
