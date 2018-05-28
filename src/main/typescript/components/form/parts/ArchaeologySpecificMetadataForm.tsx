@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -35,37 +34,33 @@ interface ArchaeologySpecificMetadataFormProps {
     abrPeriodeTemporals: DropdownList
 }
 
-class ArchaeologySpecificMetadataForm extends Component<ArchaeologySpecificMetadataFormProps> {
-    render() {
-        return (
-            <div className="container pl-0 pr-0">
-                <div className="row form-group input-element">
-                    <RepeatableField name="archisNrs"
-                                     label="Archis zaakidentificatie"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={TextFieldArray}/>
-                </div>
+const ArchaeologySpecificMetadataForm = ({abrComplexSubjects, abrPeriodeTemporals} : ArchaeologySpecificMetadataFormProps) => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            <RepeatableField name="archisNrs"
+                             label="Archis zaakidentificatie"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={TextFieldArray}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <RepeatableField name="subjectsAbrComplex"
-                                     label="Subject (ABR complex)"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={AbrComplexSubjectFieldArray(this.props.abrComplexSubjects)}/>
-                </div>
+        <div className="row form-group input-element">
+            <RepeatableField name="subjectsAbrComplex"
+                             label="Subject (ABR complex)"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={AbrComplexSubjectFieldArray(abrComplexSubjects)}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <RepeatableField name="temporalCoveragesAbr"
-                                     label="Temporal (ABR period)"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={AbrPeriodeTemporalsFieldArray(this.props.abrPeriodeTemporals)}/>
-                </div>
-            </div>
-        )
-    }
-}
+        <div className="row form-group input-element">
+            <RepeatableField name="temporalCoveragesAbr"
+                             label="Temporal (ABR period)"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={AbrPeriodeTemporalsFieldArray(abrPeriodeTemporals)}/>
+        </div>
+    </div>
+)
 
 const mapStateToProps = (state: AppState) => ({
     abrComplexSubjects: state.dropDowns.abrComplexSubjects,
