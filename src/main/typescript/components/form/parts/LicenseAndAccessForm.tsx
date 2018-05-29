@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { Field } from "redux-form"
@@ -38,16 +37,14 @@ interface LicenseAndAccessFormProps {
     licenses: DropdownList
 }
 
-class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
-    render() {
-        return (
-            <div className="container pl-0 pr-0">
-                <div className="row form-group input-element">
-                    <p>Rightsholders</p>
-                </div>
+const LicenseAndAccessForm = ({ licenses }: LicenseAndAccessFormProps) => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            <p>Rightsholders</p>
+        </div>
 
-                {/* TODO replace the Rightsholders with a Creator field */}
-                {/*<div className="row form-group input-element">
+        {/* TODO replace the Rightsholders with a Creator field */}
+        {/*<div className="row form-group input-element">
                     <RepeatableField name="rightsHolders"
                                      label="Rightsholders"
                                      empty={emptyStringValue}
@@ -55,34 +52,32 @@ class LicenseAndAccessForm extends Component<LicenseAndAccessFormProps> {
                                      component={TextFieldArray}/>
                 </div>*/}
 
-                <div className="row form-group input-element">
-                    <RepeatableField name="publishers"
-                                     label="Publishers"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={TextFieldArray}/>
-                </div>
+        <div className="row form-group input-element">
+            <RepeatableField name="publishers"
+                             label="Publishers"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={TextFieldArray}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <p>Access rights</p>
-                </div>
+        <div className="row form-group input-element">
+            <p>Access rights</p>
+        </div>
 
-                <div className="row form-group input-element">
-                    <Field name="license"
-                           label="License"
-                           className="col-12 col-md-8"
-                           withLabel
-                           withEmptyDefault
-                           component={LicenseField(this.props.licenses)}/>
-                </div>
+        <div className="row form-group input-element">
+            <Field name="license"
+                   label="License"
+                   className="col-12 col-md-8"
+                   withLabel
+                   withEmptyDefault
+                   component={LicenseField(licenses)}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <p>Date available</p>
-                </div>
-            </div>
-        )
-    }
-}
+        <div className="row form-group input-element">
+            <p>Date available</p>
+        </div>
+    </div>
+)
 
 const mapStateToProps = (state: AppState) => ({
     licenses: state.dropDowns.licenses,

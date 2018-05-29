@@ -35,7 +35,7 @@ export interface UploadTypeFormData {
 }
 
 // validation rules
-const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
+const oneSelected = (value?: any) => value !== undefined ? undefined : "you need to select one of these choices"
 
 interface UploadTypeFormProps {
     dcmiTypes: DropdownList
@@ -55,54 +55,50 @@ const clarinChoices = [
     },
 ]
 
-class UploadTypeForm extends Component<UploadTypeFormProps> {
-    render() {
-        return (
-            <div className="container pl-0 pr-0">
-                <div className="row form-group input-element">
-                    <RepeatableField name="typesDCMI"
-                                     label="Type (DCMI resource type)"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={DcmiTypesFieldArray(this.props.dcmiTypes)}/>
-                </div>
+const UploadTypeForm = ({dcmiTypes, imtFormats}: UploadTypeFormProps) => (
+    <div className="container pl-0 pr-0">
+        <div className="row form-group input-element">
+            <RepeatableField name="typesDCMI"
+                             label="Type (DCMI resource type)"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={DcmiTypesFieldArray(dcmiTypes)}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <RepeatableField name="types"
-                                     label="Types"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={TextFieldArray}/>
-                </div>
+        <div className="row form-group input-element">
+            <RepeatableField name="types"
+                             label="Types"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={TextFieldArray}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <RepeatableField name="formatsMediaType"
-                                     label=" Format (internet media type)"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={ImtFormatsFieldArray(this.props.imtFormats)}/>
-                </div>
+        <div className="row form-group input-element">
+            <RepeatableField name="formatsMediaType"
+                             label=" Format (internet media type)"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={ImtFormatsFieldArray(imtFormats)}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <RepeatableField name="formats"
-                                     label="Formats"
-                                     empty={emptyString}
-                                     fieldNames={[(name: string) => name]}
-                                     component={TextFieldArray}/>
-                </div>
+        <div className="row form-group input-element">
+            <RepeatableField name="formats"
+                             label="Formats"
+                             empty={emptyString}
+                             fieldNames={[(name: string) => name]}
+                             component={TextFieldArray}/>
+        </div>
 
-                <div className="row form-group input-element">
-                    <Field name="extraClarinMetadataPresent"
-                           label="Contains CLARIN metadata"
-                           withLabel
-                           choices={clarinChoices}
-                           component={RadioChoices}
-                           validate={[oneSelected]}/>
-                </div>
-            </div>
-        )
-    }
-}
+        <div className="row form-group input-element">
+            <Field name="extraClarinMetadataPresent"
+                   label="Contains CLARIN metadata"
+                   withLabel
+                   choices={clarinChoices}
+                   component={RadioChoices}
+                   validate={[oneSelected]}/>
+        </div>
+    </div>
+)
 
 const mapStateToProps = (state: AppState) => ({
     dcmiTypes: state.dropDowns.dcmiTypes,

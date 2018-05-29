@@ -42,7 +42,7 @@ export type Doi = string
 
 export const doiConverter: (obj: { [scheme: string]: string }) => Doi = obj => obj[IdentifierScheme.DOI]
 
-export const doiDeconverter: (d: Doi) => any = d => clean({
+export const doiDeconverter: (d: Doi) => any = d => ({
     scheme: IdentifierScheme.DOI,
     value: d,
 })
