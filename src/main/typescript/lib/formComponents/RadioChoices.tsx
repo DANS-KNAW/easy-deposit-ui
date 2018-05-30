@@ -22,11 +22,13 @@ interface RadioChoice {
     value: string
 }
 
-export interface RadioProps {
+export interface RadioInputProps {
     choices: RadioChoice[]
 }
 
-const RadioChoices = ({ input, meta, label, choices }: WrappedFieldProps & RadioProps) => (
+export type RadioProps = WrappedFieldProps & RadioInputProps
+
+const RadioChoices = ({ input, meta, label, choices }: RadioProps) => (
     <>
         {choices.map(({ name, title, value }) =>
             <div className={`form-check col-12`} key={name || title.toString()}> {/* TODO unique key */}

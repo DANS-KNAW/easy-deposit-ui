@@ -16,15 +16,16 @@
 import * as React from "react"
 import { TextareaHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
-
 import TextareaAutosize from "react-textarea-autosize"
 
-export interface TextAreaProps {
+interface TextAreaInputProps {
     maxRows?: number
     maxHeight?: number
 }
 
-const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
+export type TextAreaProps = WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaInputProps
+
+const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ...rest }: TextAreaProps) => (
     <TextareaAutosize className={`form-control ${className}`}
                       id={input.name}
                       placeholder={label}

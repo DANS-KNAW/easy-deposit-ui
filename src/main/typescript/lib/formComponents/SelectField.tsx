@@ -18,12 +18,14 @@ import { SelectHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
-export interface SelectFieldProps {
+interface SelectFieldInputProps {
     choices: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
-const SelectField = ({ input, withEmptyDefault, choices, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
+export type SelectFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldInputProps
+
+const SelectField = ({ input, withEmptyDefault, choices, className, ...rest }: SelectFieldProps) => (
     <select className={`form-control ${className}`} {...input} {...rest}>
         {withEmptyDefault ? [<option key="empty choice" value="">Choose...</option>] : []}
         {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}

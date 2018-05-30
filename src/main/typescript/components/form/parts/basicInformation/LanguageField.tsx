@@ -16,19 +16,15 @@
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import SelectField from "../../../../lib/formComponents/SelectField"
-import { WrappedFieldProps } from "redux-form"
-import { SelectHTMLAttributes } from "react"
 import SelectFieldEntry from "../../../../lib/formComponents/SelectFieldEntry"
+import { WrappedFieldProps } from "redux-form"
 
-interface LanguageFieldInputProps {
+interface LanguageFieldProps {
     withLabel?: boolean
     withEmptyDefault?: boolean
 }
 
-type LanguageFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & LanguageFieldInputProps
-
-const LanguageField = ({ state, list }: DropdownList) => (props: LanguageFieldProps) => (
+const LanguageField = ({ state, list }: DropdownList) => (props: WrappedFieldProps & LanguageFieldProps) => (
     <LoadDropdownData state={state}>
         <SelectFieldEntry {...props} choices={list}/>
     </LoadDropdownData>
