@@ -23,9 +23,9 @@ export interface SelectFieldProps {
     withEmptyDefault?: boolean
 }
 
-const SelectField = ({ input, meta, label, withEmptyDefault, choices, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
+const SelectField = ({ input, withEmptyDefault, choices, className, ...rest }: WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & SelectFieldProps) => (
     <select className={`form-control ${className}`} {...input} {...rest}>
-        {withEmptyDefault ? [<option key={"empty choice"} value="">Choose...</option>] : []}
+        {withEmptyDefault ? [<option key="empty choice" value="">Choose...</option>] : []}
         {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
                                                                value={key}>{displayValue}</option>)}
     </select>

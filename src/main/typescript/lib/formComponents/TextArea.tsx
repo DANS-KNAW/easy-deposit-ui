@@ -24,7 +24,7 @@ export interface TextAreaProps {
     maxHeight?: number
 }
 
-const TextArea = ({ input, meta, label, className, rows, maxRows, style, maxHeight, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
+const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
     <TextareaAutosize className={`form-control ${className}`}
                       id={input.name}
                       placeholder={label}
