@@ -16,6 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import TextArea from "../../../lib/formComponents/TextArea"
+import TextAreaEntry from "../../../lib/formComponents/TextAreaEntry"
 
 export interface MessageForDataManagerFormData {
     messageForDataManager?: string
@@ -29,9 +30,7 @@ const MessageForDataManagerForm = () => (
                    maxRows={20}
                    maxHeight={500}
                    label="Message for the data manager"
-                   className="col-12 col-md-9"
-                   withLabel
-                   component={TextArea}/>
+                   component={TextAreaEntry}/>
         </div>
     </div>
 )

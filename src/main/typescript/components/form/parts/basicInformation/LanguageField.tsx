@@ -19,6 +19,7 @@ import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import SelectField from "../../../../lib/formComponents/SelectField"
 import { WrappedFieldProps } from "redux-form"
 import { SelectHTMLAttributes } from "react"
+import SelectFieldEntry from "../../../../lib/formComponents/SelectFieldEntry"
 
 interface LanguageFieldInputProps {
     withLabel?: boolean
@@ -29,7 +30,7 @@ type LanguageFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectEle
 
 const LanguageField = ({ state, list }: DropdownList) => (props: LanguageFieldProps) => (
     <LoadDropdownData state={state}>
-        <SelectField {...props} choices={list}/>
+        <SelectFieldEntry {...props} choices={list}/>
     </LoadDropdownData>
 )
 

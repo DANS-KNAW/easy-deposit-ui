@@ -67,8 +67,6 @@ const LicenseAndAccessForm = ({ licenses }: LicenseAndAccessFormProps) => (
         <div className="row form-group input-element">
             <Field name="license"
                    label="License"
-                   className="col-12 col-md-8"
-                   withLabel
                    withEmptyDefault
                    component={LicenseField(licenses)}/>
         </div>

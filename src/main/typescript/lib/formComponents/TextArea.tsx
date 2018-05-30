@@ -19,25 +19,20 @@ import { WrappedFieldProps } from "redux-form"
 
 import TextareaAutosize from "react-textarea-autosize"
 
-interface TextAreaProps {
-    withLabel?: boolean
+export interface TextAreaProps {
     maxRows?: number
     maxHeight?: number
 }
 
-const TextArea = ({ input, meta, label, withLabel, className, rows, maxRows, style, maxHeight, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
-    <>
-        {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label"
-                             htmlFor={input.name}>{label}</label>}
-        <TextareaAutosize className={`form-control ${className}`}
-                          id={input.name}
-                          placeholder={label}
-                          minRows={rows}
-                          maxRows={maxRows}
-                          style={{ ...style, maxHeight: maxHeight ? `${maxHeight}px` : "400px" }}
-                          {...input}
-                          {...rest}/>
-    </>
+const TextArea = ({ input, meta, label, className, rows, maxRows, style, maxHeight, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
+    <TextareaAutosize className={`form-control ${className}`}
+                      id={input.name}
+                      placeholder={label}
+                      minRows={rows}
+                      maxRows={maxRows}
+                      style={{ ...style, maxHeight: maxHeight ? `${maxHeight}px` : "400px" }}
+                      {...input}
+                      {...rest}/>
 )
 
 export default TextArea
