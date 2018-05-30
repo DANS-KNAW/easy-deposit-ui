@@ -26,6 +26,8 @@ const MessageForDataManagerForm = () => (
         <div className="row form-group input-element">
             <Field name="messageForDataManager"
                    rows={10}
+                   maxRows={20}
+                   maxHeight={500}
                    label="Message for the data manager"
                    className="col-12 col-md-9"
                    withLabel
