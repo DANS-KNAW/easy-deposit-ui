@@ -103,6 +103,7 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
         <div className="row form-group input-element">
             <Field name="description"
                    rows={5}
+                   maxRows={15}
                    label="Description"
                    className="col-12 col-md-8"
                    withLabel
@@ -190,6 +191,7 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
         <div className="row form-group input-element">
             <Field name="source"
                    rows={5}
+                   maxRows={15}
                    label="Source"
                    className="col-12 col-md-8"
                    withLabel
@@ -199,6 +201,7 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
         <div className="row form-group input-element">
             <Field name="instructionsForReuse"
                    rows={5}
+                   maxRows={15}
                    label="Instructions for reuse"
                    className="col-12 col-md-8"
                    withLabel
