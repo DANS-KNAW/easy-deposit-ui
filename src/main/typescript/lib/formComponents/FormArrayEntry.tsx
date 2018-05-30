@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Component, LabelHTMLAttributes, SFC } from "react"
+import { Component } from "react"
 import { FieldArrayProps } from "./RepeatableField"
 
 interface PlusButtonProps {

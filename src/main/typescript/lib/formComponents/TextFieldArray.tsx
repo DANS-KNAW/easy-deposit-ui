@@ -18,6 +18,7 @@ import { Field } from "redux-form"
 import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
 import TextField from "./TextField"
+import RemoveButton from "./RemoveButton"
 
 function TextFieldArray<T>(props: FieldArrayProps<T>) {
     const { fields, label, fieldNames } = props
@@ -31,14 +32,8 @@ function TextFieldArray<T>(props: FieldArrayProps<T>) {
                                label={label}
                                placeholder={label}
                                component={TextField}/>
-                        <div className="input-group-append">
-                            <button type="button"
-                                    className="input-group-text bg-danger text-light remove-button"
-                                    onClick={() => fields.remove(index)}
-                                    disabled={fields.length <= 1}>
-                                <i className="fas fa-minus-square"/>
-                            </button>
-                        </div>
+                        <RemoveButton onClick={() => fields.remove(index)}
+                                      disabled={fields.length < 1}/>
                     </div>
                 )
             })}

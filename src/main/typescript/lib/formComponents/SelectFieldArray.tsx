@@ -19,6 +19,7 @@ import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
 import SelectField from "./SelectField"
 import { DropdownListEntry } from "../../model/DropdownLists"
+import RemoveButton from "./RemoveButton"
 
 interface SelectFieldArrayProps {
     choices: DropdownListEntry[]
@@ -39,14 +40,8 @@ function SelectFieldArray<T>(props: FieldArrayProps<T> & SelectFieldArrayProps) 
                                choices={choices}
                                withEmptyDefault={withEmptyDefault}
                                component={SelectField}/>
-                        <div className="input-group-append">
-                            <button type="button"
-                                    className="input-group-text bg-danger text-light remove-button"
-                                    onClick={() => fields.remove(index)}
-                                    disabled={fields.length <= 1}>
-                                <i className="fas fa-minus-square"/>
-                            </button>
-                        </div>
+                        <RemoveButton onClick={() => fields.remove(index)}
+                                      disabled={fields.length < 1}/>
                     </div>
                 )
             })}

@@ -20,6 +20,7 @@ import { FieldArrayProps } from "./RepeatableField"
 import SelectField from "./SelectField"
 import TextField from "./TextField"
 import { DropdownListEntry } from "../../model/DropdownLists"
+import RemoveButton from "./RemoveButton"
 
 interface SchemedTextFieldArrayProps {
     schemeValues: DropdownListEntry[]
@@ -49,14 +50,8 @@ function SchemedTextFieldArray<T>(props: FieldArrayProps<T> & SchemedTextFieldAr
                                        label="Value"
                                        placeholder={label}
                                        component={TextField}/>
-                                <div className="input-group-append">
-                                    <button type="button"
-                                            className="input-group-text bg-danger text-light remove-button"
-                                            onClick={() => fields.remove(index)}
-                                            disabled={fields.length <= 1}>
-                                        <i className="fas fa-minus-square"/>
-                                    </button>
-                                </div>
+                                <RemoveButton onClick={() => fields.remove(index)}
+                                              disabled={fields.length < 1}/>
                             </div>
                         </div>
                     </div>
