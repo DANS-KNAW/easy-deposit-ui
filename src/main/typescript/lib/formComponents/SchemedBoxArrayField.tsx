@@ -15,8 +15,8 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import { DropdownListEntry } from "../../model/DropdownLists"
 import { SelectFieldInput } from "./SelectField"
+import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArray"
