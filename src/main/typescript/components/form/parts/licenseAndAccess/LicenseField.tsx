@@ -16,9 +16,9 @@
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
+import SelectField from "../../../../lib/formComponents/SelectField"
 import { WrappedFieldProps } from "redux-form"
 import { SelectHTMLAttributes } from "react"
-import SelectField from "../../../../lib/formComponents/SelectField"
 
 interface LicenseFieldInputProps {
     withLabel?: boolean

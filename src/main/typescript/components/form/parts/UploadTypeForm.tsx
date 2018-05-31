@@ -16,6 +16,7 @@
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
 import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
@@ -23,7 +24,6 @@ import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
-import RadioChoices from "../../../lib/formComponents/RadioChoices"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
