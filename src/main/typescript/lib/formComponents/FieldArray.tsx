@@ -18,7 +18,7 @@ import AddButton from "./AddButton"
 import { ComponentType } from "react"
 import { FieldArrayProps } from "./RepeatableField"
 
-interface InnerComponentProps {
+export interface InnerComponentProps {
     names: string[]
     onDelete: () => void
     deleteDisabled: boolean

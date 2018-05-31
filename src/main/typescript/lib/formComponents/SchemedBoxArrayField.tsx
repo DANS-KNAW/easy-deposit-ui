@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { Field } from "redux-form"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import { SelectFieldInput } from "./SelectField"
 import LabeledTextField from "./LabeledTextField"
-import { Field } from "redux-form"
 import RemoveButton from "./RemoveButton"
-import asFieldArray from "./FieldArray"
+import asFieldArray, { InnerComponentProps } from "./FieldArray"
 
-interface SchemedBoxArrayFieldElementProps {
-    names: string[]
-    onDelete: () => void
-    deleteDisabled: boolean
+interface SchemedBoxArrayFieldElementProps extends InnerComponentProps {
     schemeValues: DropdownListEntry[]
 }
 

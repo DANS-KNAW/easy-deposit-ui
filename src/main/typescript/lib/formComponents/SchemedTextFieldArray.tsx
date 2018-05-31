@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { DropdownListEntry } from "../../model/DropdownLists"
-import { SelectFieldInput } from "./SelectField"
-import TextField from "./TextField"
-import RemoveButton from "./RemoveButton"
 import { Field } from "redux-form"
-import asFieldArray from "./FieldArray"
+import TextField from "./TextField"
+import { SelectFieldInput } from "./SelectField"
+import { DropdownListEntry } from "../../model/DropdownLists"
+import RemoveButton from "./RemoveButton"
+import asFieldArray, { InnerComponentProps } from "./FieldArray"
 
-interface SchemedTextFieldArrayElementProps {
-    names: string[]
+interface SchemedTextFieldArrayElementProps extends InnerComponentProps {
     label: string
-    onDelete: () => void
-    deleteDisabled: boolean
     schemeValues: DropdownListEntry[]
     withEmptyDefault?: boolean
 }

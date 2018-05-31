@@ -17,13 +17,10 @@ import * as React from "react"
 import TextField from "./TextField"
 import { Field } from "redux-form"
 import RemoveButton from "./RemoveButton"
-import asFieldArray from "./FieldArray"
+import asFieldArray, { InnerComponentProps } from "./FieldArray"
 
-interface TextFieldArrayElementProps {
-    names: string[]
+interface TextFieldArrayElementProps extends InnerComponentProps {
     label: string
-    onDelete: () => void
-    deleteDisabled: boolean
 }
 
 const TextFieldArrayElement = ({ names, label, onDelete, deleteDisabled }: TextFieldArrayElementProps) => (
