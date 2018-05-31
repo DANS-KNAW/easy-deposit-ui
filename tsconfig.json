@@ -4,7 +4,6 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "module": "es2015",
     "target": "es2017",
     "jsx": "react",
     "moduleResolution": "node",
