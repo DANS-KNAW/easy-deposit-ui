@@ -18,6 +18,7 @@ import { Field } from "redux-form"
 import DoiField from "./basicInformation/DoiField"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
+import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
@@ -33,7 +34,6 @@ import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import LanguageField from "./basicInformation/LanguageField"
 import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
-import { TextAreaEntry } from "../../../lib/formComponents/TextArea"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -103,7 +103,7 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
                    rows={5}
                    maxRows={15}
                    label="Description"
-                   component={TextAreaEntry}/>
+                   component={TextArea}/>
         </div>
 
         <div className="row form-group input-element">
@@ -189,7 +189,7 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
                    rows={5}
                    maxRows={15}
                    label="Source"
-                   component={TextAreaEntry}/>
+                   component={TextArea}/>
         </div>
 
         <div className="row form-group input-element">
@@ -197,7 +197,7 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
                    rows={5}
                    maxRows={15}
                    label="Instructions for reuse"
-                   component={TextAreaEntry}/>
+                   component={TextArea}/>
         </div>
     </div>
 )

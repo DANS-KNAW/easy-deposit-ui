@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import { RadioChoicesEntry } from "../../../lib/formComponents/RadioChoices"
+import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
 
 export interface PrivacySensitiveDataFormData {
@@ -45,7 +45,7 @@ const PrivacySensitiveDataForm = () => (
                        },
                    ]}
                    withoutLabel
-                   component={RadioChoicesEntry}
+                   component={RadioChoices}
                    validate={[oneSelected]}/>
         </div>
     </div>

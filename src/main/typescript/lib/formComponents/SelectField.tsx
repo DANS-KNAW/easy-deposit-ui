@@ -34,6 +34,6 @@ const SelectField = ({ input, withEmptyDefault, choices, className, ...rest }: S
     </select>
 )
 
-export default SelectField
+export default asFormEntry(SelectField)
 
-export const SelectFieldEntry = asFormEntry(SelectField)
+export const SelectFieldInput = SelectField

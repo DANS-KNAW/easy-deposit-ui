@@ -15,8 +15,8 @@
  */
 import * as React from "react"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import SelectField from "./SelectField"
-import {Field} from "redux-form"
+import { SelectFieldInput } from "./SelectField"
+import { Field } from "redux-form"
 import RemoveButton from "./RemoveButton"
 import asFieldArray from "./FieldArray"
 
@@ -36,7 +36,7 @@ const SelectFieldArrayElement = ({ names, label, onDelete, deleteDisabled, choic
                className="custom-select"
                choices={choices}
                withEmptyDefault={withEmptyDefault}
-               component={SelectField}/>
+               component={SelectFieldInput}/>
         <RemoveButton onClick={onDelete}
                       disabled={deleteDisabled}/>
     </div>

@@ -23,7 +23,7 @@ import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
-import { RadioChoicesEntry } from "../../../lib/formComponents/RadioChoices"
+import RadioChoices from "../../../lib/formComponents/RadioChoices"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -92,7 +92,7 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
             <Field name="extraClarinMetadataPresent"
                    label="Contains CLARIN metadata"
                    choices={clarinChoices}
-                   component={RadioChoicesEntry}
+                   component={RadioChoices}
                    validate={[oneSelected]}/>
         </div>
     </div>

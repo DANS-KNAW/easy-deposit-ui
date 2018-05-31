@@ -45,6 +45,6 @@ const RadioChoices = ({ input, meta, label, choices }: RadioProps) => (
     </>
 )
 
-export default RadioChoices
+export default asFormEntry(RadioChoices)
 
-export const RadioChoicesEntry = asFormEntry(RadioChoices)
+export const RadioChoicesInput = RadioChoices

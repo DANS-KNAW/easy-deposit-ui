@@ -37,6 +37,6 @@ const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ..
                       {...rest}/>
 )
 
-export default TextArea
+export default asFormEntry(TextArea)
 
-export const TextAreaEntry = asFormEntry(TextArea)
+export const TextAreaInput = asFormEntry(TextArea)

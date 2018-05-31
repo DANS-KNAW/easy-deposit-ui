@@ -15,9 +15,9 @@
  */
 import * as React from "react"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import SelectField from "./SelectField"
+import { SelectFieldInput } from "./SelectField"
 import LabeledTextField from "./LabeledTextField"
-import {Field} from "redux-form"
+import { Field } from "redux-form"
 import RemoveButton from "./RemoveButton"
 import asFieldArray from "./FieldArray"
 
@@ -36,7 +36,7 @@ const SchemedBoxArrayFieldElement = ({ names, onDelete, deleteDisabled, schemeVa
                        label="Scheme"
                        choices={schemeValues}
                        withEmptyDefault
-                       component={SelectField}/>
+                       component={SelectFieldInput}/>
             </div>
             <div className="col input-group mb-1">
                 <Field name={names[1]}
