@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
-import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
 import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
@@ -25,7 +23,7 @@ import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
-import RadioChoicesEntry from "../../../lib/formComponents/RadioChoicesEntry"
+import { RadioChoicesEntry } from "../../../lib/formComponents/RadioChoices"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -56,7 +54,7 @@ const clarinChoices = [
     },
 ]
 
-const UploadTypeForm = ({dcmiTypes, imtFormats}: UploadTypeFormProps) => (
+const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
             <RepeatableField name="typesDCMI"

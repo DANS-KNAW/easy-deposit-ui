@@ -33,7 +33,7 @@ import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import LanguageField from "./basicInformation/LanguageField"
 import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
-import TextAreaEntry from "../../../lib/formComponents/TextAreaEntry"
+import { TextAreaEntry } from "../../../lib/formComponents/TextArea"
 
 export interface BasicInformationFormData {
     doi?: Doi

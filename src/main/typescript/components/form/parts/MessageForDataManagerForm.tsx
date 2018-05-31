@@ -15,8 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import TextArea from "../../../lib/formComponents/TextArea"
-import TextAreaEntry from "../../../lib/formComponents/TextAreaEntry"
+import { TextAreaEntry } from "../../../lib/formComponents/TextArea"
 
 export interface MessageForDataManagerFormData {
     messageForDataManager?: string

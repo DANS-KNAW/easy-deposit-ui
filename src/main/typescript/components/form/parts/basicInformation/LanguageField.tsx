@@ -16,7 +16,7 @@
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import SelectFieldEntry from "../../../../lib/formComponents/SelectFieldEntry"
+import { SelectFieldEntry } from "../../../../lib/formComponents/SelectField"
 import { WrappedFieldProps } from "redux-form"
 
 interface LanguageFieldProps {

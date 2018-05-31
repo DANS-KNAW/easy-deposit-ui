@@ -15,9 +15,8 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import RadioChoices from "../../../lib/formComponents/RadioChoices"
+import { RadioChoicesEntry } from "../../../lib/formComponents/RadioChoices"
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
-import RadioChoicesEntry from "../../../lib/formComponents/RadioChoicesEntry"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
