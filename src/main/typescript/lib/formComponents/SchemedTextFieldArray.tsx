@@ -14,32 +14,42 @@
  * limitations under the License.
  */
 import * as React from "react"
-import FormArrayEntry from "./FormArrayEntry"
-import { FieldArrayProps } from "./RepeatableField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import SchemedTextFieldArrayElement from "./SchemedTextFieldArrayElement"
+import SelectField from "./SelectField"
+import TextField from "./TextField"
+import RemoveButton from "./RemoveButton"
+import {Field} from "redux-form"
+import asFieldArray from "./FieldArray"
 
-export interface SchemedTextFieldArrayProps {
+interface SchemedTextFieldArrayElementProps {
+    names: string[]
+    label: string
+    onDelete: () => void
+    deleteDisabled: boolean
     schemeValues: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
-function SchemedTextFieldArray<T>(props: FieldArrayProps<T> & SchemedTextFieldArrayProps) {
-    const { fields, label, fieldNames, schemeValues, withEmptyDefault } = props
+const SchemedTextFieldArrayElement = ({names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault}: SchemedTextFieldArrayElementProps) => (
+    <div className="form-row">
+        <div className="col col-md-4">
+            <Field name={names[0]}
+                   label="Scheme"
+                   choices={schemeValues}
+                   withEmptyDefault={withEmptyDefault}
+                   component={SelectField}/>
+        </div>
+        <div className="col col-md-8">
+            <div className="input-group mb-2 mr-2">
+                <Field name={names[1]}
+                       label="Value"
+                       placeholder={label}
+                       component={TextField}/>
+                <RemoveButton onClick={onDelete}
+                              disabled={deleteDisabled}/>
+            </div>
+        </div>
+    </div>
+)
 
-    return (
-        <FormArrayEntry {...props}>
-            {fields.map((name, index) => (
-                <SchemedTextFieldArrayElement key={`${name}.${index}`}
-                                              name={fieldNames.map(f => f(name))}
-                                              label={label}
-                                              onDelete={() => fields.remove(index)}
-                                              deleteDisabled={fields.length <= 1}
-                                              schemeValues={schemeValues}
-                                              withEmptyDefault={withEmptyDefault}/>
-            ))}
-        </FormArrayEntry>
-    )
-}
-
-export default SchemedTextFieldArray
+export default asFieldArray(SchemedTextFieldArrayElement)

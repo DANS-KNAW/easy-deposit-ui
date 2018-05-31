@@ -14,29 +14,48 @@
  * limitations under the License.
  */
 import * as React from "react"
-import FormArrayEntry from "./FormArrayEntry"
-import { FieldArrayProps } from "./RepeatableField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import SchemedPointArrayFieldElement from "./SchemedPointArrayFieldElement"
+import SelectField from "./SelectField"
+import LabeledTextField from "./LabeledTextField"
+import RemoveButton from "./RemoveButton"
+import {Field} from "redux-form"
+import asFieldArray from "./FieldArray"
 
-export interface SchemedPointFieldArrayProps {
+interface SchemedPointArrayFieldElementProps {
+    names: string[]
+    onDelete: () => void
+    deleteDisabled: boolean
     schemeValues: DropdownListEntry[]
 }
 
-function SchemedPointArrayField<T>(props: FieldArrayProps<T> & SchemedPointFieldArrayProps) {
-    const { fields, fieldNames, schemeValues } = props
+const SchemedPointArrayFieldElement = ({names, onDelete, deleteDisabled, schemeValues}: SchemedPointArrayFieldElementProps) => (
+    <div className="form-row">
+        <div className="col">
+            <Field name={names[0]}
+                   label="Scheme"
+                   choices={schemeValues}
+                   withEmptyDefault
+                   component={SelectField}/>
+        </div>
+        <div className="col input-group mb-2">
+            <Field name={names[1]}
+                   label="X"
+                   placeholder="coordinate"
+                   type="number"
+                   component={LabeledTextField}/>
+        </div>
+        <div className="col">
+            <div className="input-group mb-2 mr-2">
+                <Field name={names[2]}
+                       label="Y"
+                       placeholder="coordinate"
+                       type="number"
+                       component={LabeledTextField}/>
+                <RemoveButton onClick={onDelete}
+                              disabled={deleteDisabled}/>
+            </div>
+        </div>
+    </div>
+)
 
-    return (
-        <FormArrayEntry {...props}>
-            {fields.map((name, index) => (
-                <SchemedPointArrayFieldElement key={`${name}.${index}`}
-                                               name={fieldNames.map(f => f(name))}
-                                               onDelete={() => fields.remove(index)}
-                                               deleteDisabled={fields.length <= 1}
-                                               schemeValues={schemeValues}/>
-            ))}
-        </FormArrayEntry>
-    )
-}
-
-export default SchemedPointArrayField
+export default asFieldArray(SchemedPointArrayFieldElement)

@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 import * as React from "react"
-import FormArrayEntry from "./FormArrayEntry"
-import { FieldArrayProps } from "./RepeatableField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import SelectFieldArrayElement from "./SelectFieldArrayElement"
+import SelectField from "./SelectField"
+import {Field} from "redux-form"
+import RemoveButton from "./RemoveButton"
+import asFieldArray from "./FieldArray"
 
-export interface SelectFieldArrayProps {
+interface SelectFieldArrayElementProps {
+    names: string[]
+    label: string
+    onDelete: () => void
+    deleteDisabled: boolean
     choices: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
-function SelectFieldArray<T>(props: FieldArrayProps<T> & SelectFieldArrayProps) {
-    const { fields, label, fieldNames, choices, withEmptyDefault } = props
+const SelectFieldArrayElement = ({ names, label, onDelete, deleteDisabled, choices, withEmptyDefault }: SelectFieldArrayElementProps) => (
+    <div className="input-group mb-2 mr-2">
+        <Field name={names[0]}
+               label={label}
+               className="custom-select"
+               choices={choices}
+               withEmptyDefault={withEmptyDefault}
+               component={SelectField}/>
+        <RemoveButton onClick={onDelete}
+                      disabled={deleteDisabled}/>
+    </div>
+)
 
-    return (
-        <FormArrayEntry {...props}>
-            {fields.map((name, index) => (
-                <SelectFieldArrayElement key={`${name}.${index}`}
-                                         name={fieldNames[0](name)}
-                                         label={label}
-                                         onDelete={() => fields.remove(index)}
-                                         deleteDisabled={fields.length <= 1}
-                                         choices={choices}
-                                         withEmptyDefault={withEmptyDefault}/>
-            ))}
-        </FormArrayEntry>
-    )
-}
-
-export default SelectFieldArray
+export default asFieldArray(SelectFieldArrayElement)
