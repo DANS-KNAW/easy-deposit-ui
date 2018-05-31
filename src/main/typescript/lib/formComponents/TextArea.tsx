@@ -39,4 +39,4 @@ const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ..
 
 export default asFormEntry(TextArea)
 
-export const TextAreaInput = asFormEntry(TextArea)
+export const TextAreaInput = TextArea

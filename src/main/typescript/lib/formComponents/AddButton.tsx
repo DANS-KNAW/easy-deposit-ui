@@ -4,7 +4,7 @@ interface AddButtonProps {
     onClick: () => void
 }
 
-const AddButton = ({onClick}: AddButtonProps) => (
+const AddButton = ({ onClick }: AddButtonProps) => (
     <div className="col-12 col-md-1 mb-2 pl-0 pr-0 add-button">
         <button type="button"
                 className="input-group-text bg-success text-light"

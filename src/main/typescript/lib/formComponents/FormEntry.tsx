@@ -9,7 +9,7 @@ interface FormEntryProps {
 }
 
 const asFormEntry = (InnerComponent: ComponentType<FormEntryProps & any>) => (props: WrappedFieldProps & any) => {
-    const {htmlFor, label, withoutLabel} = props
+    const { htmlFor, label, withoutLabel } = props
 
     return (
         <>

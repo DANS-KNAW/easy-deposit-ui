@@ -25,8 +25,8 @@ interface InnerComponentProps {
 }
 
 const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => {
-    return function<T>(props: FieldArrayProps<T> & any) {
-        const {fields, fieldNames, empty, label} = props
+    return function <T>(props: FieldArrayProps<T> & any) {
+        const { fields, fieldNames, empty, label } = props
 
         return (
             <>
