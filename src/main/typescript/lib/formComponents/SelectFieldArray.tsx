@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
 import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
-import SelectField from "./SelectField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
+import SelectFieldArrayElement from "./SelectFieldArrayElement"
 
-interface SelectFieldArrayProps {
+export interface SelectFieldArrayProps {
     choices: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
@@ -31,20 +29,15 @@ function SelectFieldArray<T>(props: FieldArrayProps<T> & SelectFieldArrayProps) 
 
     return (
         <FormArrayEntry {...props}>
-            {fields.map((name, index, fields) => {
-                return (
-                    <div key={name} className="input-group mb-2 mr-2">
-                        <Field name={fieldNames[0](name)}
-                               label={label}
-                               className="custom-select"
-                               choices={choices}
-                               withEmptyDefault={withEmptyDefault}
-                               component={SelectField}/>
-                        <RemoveButton onClick={() => fields.remove(index)}
-                                      disabled={fields.length < 1}/>
-                    </div>
-                )
-            })}
+            {fields.map((name, index) => (
+                <SelectFieldArrayElement key={`${name}.${index}`}
+                                         name={fieldNames[0](name)}
+                                         label={label}
+                                         onDelete={() => fields.remove(index)}
+                                         deleteDisabled={fields.length <= 1}
+                                         choices={choices}
+                                         withEmptyDefault={withEmptyDefault}/>
+            ))}
         </FormArrayEntry>
     )
 }

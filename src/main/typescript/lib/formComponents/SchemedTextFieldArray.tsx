@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
 import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
-import SelectField from "./SelectField"
-import TextField from "./TextField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
+import SchemedTextFieldArrayElement from "./SchemedTextFieldArrayElement"
 
-interface SchemedTextFieldArrayProps {
+export interface SchemedTextFieldArrayProps {
     schemeValues: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
@@ -32,31 +29,15 @@ function SchemedTextFieldArray<T>(props: FieldArrayProps<T> & SchemedTextFieldAr
 
     return (
         <FormArrayEntry {...props}>
-            {fields.map((name, index, fields) => {
-                return (
-                    <div key={name} className="form-row">
-                        <div className="col col-md-4">
-                            <Field id="spatialCoverageISO3166Scheme"
-                                   name={fieldNames[0](name)}
-                                   label="Scheme"
-                                   choices={schemeValues}
-                                   withEmptyDefault={withEmptyDefault}
-                                   component={SelectField}/>
-                        </div>
-                        <div className="col col-md-8">
-                            <div className="input-group mb-2 mr-2">
-                                <Field id="spatialCoverageISO3166Value"
-                                       name={fieldNames[1](name)}
-                                       label="Value"
-                                       placeholder={label}
-                                       component={TextField}/>
-                                <RemoveButton onClick={() => fields.remove(index)}
-                                              disabled={fields.length < 1}/>
-                            </div>
-                        </div>
-                    </div>
-                )
-            })}
+            {fields.map((name, index) => (
+                <SchemedTextFieldArrayElement key={`${name}.${index}`}
+                                              name={fieldNames.map(f => f(name))}
+                                              label={label}
+                                              onDelete={() => fields.remove(index)}
+                                              deleteDisabled={fields.length <= 1}
+                                              schemeValues={schemeValues}
+                                              withEmptyDefault={withEmptyDefault}/>
+            ))}
         </FormArrayEntry>
     )
 }

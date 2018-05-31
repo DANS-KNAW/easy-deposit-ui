@@ -14,29 +14,22 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
 import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
-import TextField from "./TextField"
-import RemoveButton from "./RemoveButton"
+import TextFieldArrayElement from "./TextFieldArrayElement"
 
 function TextFieldArray<T>(props: FieldArrayProps<T>) {
     const { fields, label, fieldNames } = props
 
     return (
         <FormArrayEntry {...props}>
-            {fields.map((name, index, fields) => {
-                return (
-                    <div key={name} className="input-group mb-2 mr-2">
-                        <Field name={fieldNames[0](name)}
-                               label={label}
-                               placeholder={label}
-                               component={TextField}/>
-                        <RemoveButton onClick={() => fields.remove(index)}
-                                      disabled={fields.length < 1}/>
-                    </div>
-                )
-            })}
+            {fields.map((name, index) => (
+                <TextFieldArrayElement key={`${name}.${index}`}
+                                       name={fieldNames[0](name)}
+                                       label={label}
+                                       onDelete={() => fields.remove(index)}
+                                       deleteDisabled={fields.length <= 1}/>
+            ))}
         </FormArrayEntry>
     )
 }

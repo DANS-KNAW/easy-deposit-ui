@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
 import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
-import SelectField from "./SelectField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
-import LabeledTextField from "./LabeledTextField"
+import SchemedBoxArrayFieldElement from "./SchemedBoxArrayFieldElement"
 
-interface SchemedBoxFieldArrayProps {
+export interface SchemedBoxFieldArrayProps {
     schemeValues: DropdownListEntry[]
 }
 
@@ -31,62 +28,13 @@ function SchemedBoxArrayField<T>(props: FieldArrayProps<T> & SchemedBoxFieldArra
 
     return (
         <FormArrayEntry {...props}>
-            {fields.map((name, index, fields) => {
-                return (
-                    <div key={`${name}.${index}`}>
-                        <div className="form-row">
-                            <div className="col input-group mb-1">
-                                <Field id="spatialBoxScheme"
-                                       name={fieldNames[0](name)}
-                                       label="Scheme"
-                                       choices={schemeValues}
-                                       withEmptyDefault
-                                       component={SelectField}/>
-                            </div>
-                            <div className="col input-group mb-1">
-                                <Field id="spatialBoxNorth"
-                                       name={fieldNames[1](name)}
-                                       label="North"
-                                       placeholder="upper bound"
-                                       type="number"
-                                       component={LabeledTextField}/>
-                            </div>
-                            <div className="col input-group mb-1">
-                                <Field id="spatialBoxEast"
-                                       name={fieldNames[2](name)}
-                                       label="East"
-                                       placeholder="right bound"
-                                       type="number"
-                                       component={LabeledTextField}/>
-                            </div>
-                        </div>
-
-                        <div className="form-row">
-                            <div className="col input-group mb-2"/>
-                            <div className="col input-group mb-2">
-                                <Field id="spatialBoxSouth"
-                                       name={fieldNames[3](name)}
-                                       label="South"
-                                       placeholder="lower bound"
-                                       type="number"
-                                       component={LabeledTextField}/>
-                            </div>
-                            <div className="col">
-                                <div className="input-group mb-2 mr-2">
-                                    <Field id="spatialBoxWest"
-                                           name={fieldNames[4](name)}
-                                           label="West"
-                                           placeholder="left bound"
-                                           type="number"
-                                           component={LabeledTextField}/>
-                                    <RemoveButton onClick={() => fields.remove(index)}
-                                                  disabled={fields.length < 1}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )
-            })}
+            {fields.map((name, index) => (
+                <SchemedBoxArrayFieldElement key={`${name}.${index}`}
+                                             name={fieldNames.map(f => f(name))}
+                                             onDelete={() => fields.remove(index)}
+                                             deleteDisabled={fields.length <= 1}
+                                             schemeValues={schemeValues}/>
+            ))}
         </FormArrayEntry>
     )
 }

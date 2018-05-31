@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
 import FormArrayEntry from "./FormArrayEntry"
 import { FieldArrayProps } from "./RepeatableField"
-import SelectField from "./SelectField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
-import LabeledTextField from "./LabeledTextField"
+import SchemedPointArrayFieldElement from "./SchemedPointArrayFieldElement"
 
-interface SchemedPointFieldArrayProps {
+export interface SchemedPointFieldArrayProps {
     schemeValues: DropdownListEntry[]
 }
 
@@ -31,40 +28,13 @@ function SchemedPointArrayField<T>(props: FieldArrayProps<T> & SchemedPointField
 
     return (
         <FormArrayEntry {...props}>
-            {fields.map((name, index, fields) => {
-                return (
-                    <div key={`${name}.${index}`} className="form-row">
-                        <div className="col">
-                            <Field id="spatialPointScheme"
-                                   name={fieldNames[0](name)}
-                                   label="Scheme"
-                                   choices={schemeValues}
-                                   withEmptyDefault
-                                   component={SelectField}/>
-                        </div>
-                        <div className="col input-group mb-2">
-                            <Field id="spatialPointX"
-                                   name={fieldNames[1](name)}
-                                   label="X"
-                                   placeholder="coordinate"
-                                   type="number"
-                                   component={LabeledTextField}/>
-                        </div>
-                        <div className="col">
-                            <div className="input-group mb-2 mr-2">
-                                <Field id="spatialPointY"
-                                       name={fieldNames[2](name)}
-                                       label="Y"
-                                       placeholder="coordinate"
-                                       type="number"
-                                       component={LabeledTextField}/>
-                                <RemoveButton onClick={() => fields.remove(index)}
-                                              disabled={fields.length < 1}/>
-                            </div>
-                        </div>
-                    </div>
-                )
-            })}
+            {fields.map((name, index) => (
+                <SchemedPointArrayFieldElement key={`${name}.${index}`}
+                                               name={fieldNames.map(f => f(name))}
+                                               onDelete={() => fields.remove(index)}
+                                               deleteDisabled={fields.length <= 1}
+                                               schemeValues={schemeValues}/>
+            ))}
         </FormArrayEntry>
     )
 }
