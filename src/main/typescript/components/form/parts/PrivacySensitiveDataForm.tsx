@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import RadioChoices from "../../../lib/formComponents/RadioChoices"
+import {RadioChoicesInput} from "../../../lib/formComponents/RadioChoices"
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
 
 export interface PrivacySensitiveDataFormData {
@@ -44,7 +44,7 @@ const PrivacySensitiveDataForm = () => (
                            value: "NO, this dataset does not contain personal data",
                        },
                    ]}
-                   component={RadioChoices}
+                   component={RadioChoicesInput}
                    validate={[oneSelected]}/>
         </div>
     </div>

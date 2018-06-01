@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { InputHTMLAttributes } from "react"
-import { WrappedFieldProps } from "redux-form"
 
-export type TextFieldProps = WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>
+interface RemoveButtonProps {
+    onClick: () => void
+    disabled: boolean
+}
 
-const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
-    <input type={type || "text"} className={`form-control${className || ""}`} {...input} {...rest}/>
+const RemoveButton = ({ onClick, disabled }: RemoveButtonProps) => (
+    <div className="input-group-append">
+        <button type="button"
+                className="input-group-text bg-danger text-light remove-button"
+                onClick={onClick}
+                disabled={disabled}>
+            <i className="fas fa-minus-square"/>
+        </button>
+    </div>
 )
 
-export default TextField
+export default RemoveButton

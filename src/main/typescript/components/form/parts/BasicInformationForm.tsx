@@ -78,8 +78,6 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
         <div className="row form-group input-element">
             <Field name="languageOfDescription"
                    label="Language of description"
-                   className="col-12 col-md-8"
-                   withLabel
                    withEmptyDefault
                    component={LanguageField(languages)}/>
         </div>
@@ -105,8 +103,6 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
                    rows={5}
                    maxRows={15}
                    label="Description"
-                   className="col-12 col-md-8"
-                   withLabel
                    component={TextArea}/>
         </div>
 
@@ -193,8 +189,6 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
                    rows={5}
                    maxRows={15}
                    label="Source"
-                   className="col-12 col-md-8"
-                   withLabel
                    component={TextArea}/>
         </div>
 
@@ -203,8 +197,6 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
                    rows={5}
                    maxRows={15}
                    label="Instructions for reuse"
-                   className="col-12 col-md-8"
-                   withLabel
                    component={TextArea}/>
         </div>
     </div>

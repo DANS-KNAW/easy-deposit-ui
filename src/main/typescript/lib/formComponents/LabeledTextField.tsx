@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { InputHTMLAttributes } from "react"
-import { WrappedFieldProps } from "redux-form"
+import TextField, { TextFieldProps } from "./TextField"
 
-export type TextFieldProps = WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>
-
-const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
-    <input type={type || "text"} className={`form-control${className || ""}`} {...input} {...rest}/>
+/**
+ * Creates a TextField with a prepended label
+ */
+const LabeledTextField = ({ label, ...rest }: TextFieldProps) => (
+    <>
+        <div className="input-group-prepend">
+            <span className="input-group-text">{label}</span>
+        </div>
+        <TextField {...rest}/>
+    </>
 )
 
-export default TextField
+export default LabeledTextField

@@ -29,8 +29,6 @@ const MessageForDataManagerForm = () => (
                    maxRows={20}
                    maxHeight={500}
                    label="Message for the data manager"
-                   className="col-12 col-md-9"
-                   withLabel
                    component={TextArea}/>
         </div>
     </div>

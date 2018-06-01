@@ -16,28 +16,27 @@
 import * as React from "react"
 import { TextareaHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
-
 import TextareaAutosize from "react-textarea-autosize"
+import asField from "./FieldHOC"
 
-interface TextAreaProps {
-    withLabel?: boolean
+interface TextAreaInputProps {
     maxRows?: number
     maxHeight?: number
 }
 
-const TextArea = ({ input, meta, label, withLabel, className, rows, maxRows, style, maxHeight, ...rest }: WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaProps) => (
-    <>
-        {withLabel && <label className="col-12 col-md-3 pl-0 title-label text-array-label"
-                             htmlFor={input.name}>{label}</label>}
-        <TextareaAutosize className={`form-control ${className}`}
-                          id={input.name}
-                          placeholder={label}
-                          minRows={rows}
-                          maxRows={maxRows}
-                          style={{ ...style, maxHeight: maxHeight ? `${maxHeight}px` : "400px" }}
-                          {...input}
-                          {...rest}/>
-    </>
+type TextAreaProps = WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaInputProps
+
+const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ...rest }: TextAreaProps) => (
+    <TextareaAutosize className={`form-control ${className}`}
+                      id={input.name}
+                      placeholder={label}
+                      minRows={rows}
+                      maxRows={maxRows}
+                      style={{ ...style, maxHeight: maxHeight ? `${maxHeight}px` : "400px" }}
+                      {...input}
+                      {...rest}/>
 )
 
-export default TextArea
+export default asField(TextArea)
+
+export const TextAreaInput = TextArea

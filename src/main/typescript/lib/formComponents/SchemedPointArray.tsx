@@ -15,33 +15,39 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import TextField from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
+import LabeledTextField from "./LabeledTextField"
 import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
-interface SchemedTextFieldProps extends InnerComponentProps {
-    label: string
+interface SchemedPointProps extends InnerComponentProps {
     schemeValues: DropdownListEntry[]
-    withEmptyDefault?: boolean
 }
 
-const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedTextFieldProps) => (
+const SchemedPoint = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedPointProps) => (
     <div className="form-row">
-        <div className="col col-md-4">
+        <div className="col">
             <Field name={names[0]}
                    label="Scheme"
                    choices={schemeValues}
-                   withEmptyDefault={withEmptyDefault}
+                   withEmptyDefault
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-8">
+        <div className="col input-group mb-2">
+            <Field name={names[1]}
+                   label="X"
+                   placeholder="coordinate"
+                   type="number"
+                   component={LabeledTextField}/>
+        </div>
+        <div className="col">
             <div className="input-group mb-2 mr-2">
-                <Field name={names[1]}
-                       label="Value"
-                       placeholder={label}
-                       component={TextField}/>
+                <Field name={names[2]}
+                       label="Y"
+                       placeholder="coordinate"
+                       type="number"
+                       component={LabeledTextField}/>
                 <RemoveButton onClick={onDelete}
                               disabled={deleteDisabled}/>
             </div>
@@ -49,4 +55,4 @@ const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues
     </div>
 )
 
-export default asFieldArray(SchemedTextField)
+export default asFieldArray(SchemedPoint)

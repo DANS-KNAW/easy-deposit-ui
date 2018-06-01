@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { ComponentType } from "react"
 import { WrappedFieldProps } from "redux-form"
 
-const SingleCheckbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) => {
-    const changed = (meta as any).changed
-    const hasError = meta.error && (changed || meta.submitFailed)
+interface InnerComponentProps {
+    htmlFor: string
+    label?: string // TODO what happens when label is undefined?
+}
+
+const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => (props: WrappedFieldProps & any) => {
+    const { htmlFor, label } = props
 
     return (
         <>
-            {hasError && <span className="validation-error">{meta.error}</span>}
-            <div className="form-check col-12">
-                <input className="form-check-input" id={input.name} type="checkbox"
-                       {...input} defaultChecked={input.value}/>
-                <label className="form-check-label" htmlFor={input.name}>{label}</label>
+            <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={htmlFor}>{label}</label>
+            <div className="col-12 col-md-8 pl-0 pr-0">
+                <InnerComponent {...props}/>
             </div>
         </>
     )
 }
 
-export default SingleCheckbox
+export default asField

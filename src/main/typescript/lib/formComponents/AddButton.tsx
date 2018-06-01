@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { InputHTMLAttributes } from "react"
-import { WrappedFieldProps } from "redux-form"
 
-export type TextFieldProps = WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>
+interface AddButtonProps {
+    onClick: () => void
+}
 
-const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
-    <input type={type || "text"} className={`form-control${className || ""}`} {...input} {...rest}/>
+const AddButton = ({ onClick }: AddButtonProps) => (
+    <div className="col-12 col-md-1 mb-2 pl-0 pr-0 add-button">
+        <button type="button"
+                className="input-group-text bg-success text-light"
+                onClick={onClick}>
+            <i className="fas fa-plus-square"/>
+        </button>
+    </div>
 )
 
-export default TextField
+export default AddButton

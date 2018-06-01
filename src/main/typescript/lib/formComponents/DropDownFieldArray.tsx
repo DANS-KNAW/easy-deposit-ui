@@ -14,24 +14,29 @@
  * limitations under the License.
  */
 import * as React from "react"
-import InnerTextField from "./TextField"
 import { Field } from "redux-form"
+import { DropdownFieldInput } from "./DropDownField"
+import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
-interface TextFieldProps extends InnerComponentProps {
+interface DropdownFieldProps extends InnerComponentProps {
     label: string
+    choices: DropdownListEntry[]
+    withEmptyDefault?: boolean
 }
 
-const TextField = ({ names, label, onDelete, deleteDisabled }: TextFieldProps) => (
+const DropdownField = ({ names, label, onDelete, deleteDisabled, choices, withEmptyDefault }: DropdownFieldProps) => (
     <div className="input-group mb-2 mr-2">
         <Field name={names[0]}
                label={label}
-               placeholder={label}
-               component={InnerTextField }/>
+               className="custom-select"
+               choices={choices}
+               withEmptyDefault={withEmptyDefault}
+               component={DropdownFieldInput}/>
         <RemoveButton onClick={onDelete}
                       disabled={deleteDisabled}/>
     </div>
 )
 
-export default asFieldArray(TextField)
+export default asFieldArray(DropdownField)

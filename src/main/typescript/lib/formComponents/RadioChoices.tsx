@@ -15,6 +15,7 @@
  */
 import * as React from "react"
 import { WrappedFieldProps } from "redux-form"
+import asField from "./FieldHOC"
 
 interface RadioChoice {
     name?: string
@@ -24,32 +25,24 @@ interface RadioChoice {
 
 interface RadioProps {
     choices: RadioChoice[]
-    withLabel?: boolean
 }
 
-const RadioChoices = ({ input, meta, label, choices, withLabel }: WrappedFieldProps & RadioProps) => {
-    const changed = (meta as any).changed
-    const hasError = meta.error && (changed || meta.submitFailed)
+const RadioChoices = ({ input, meta, label, choices }: WrappedFieldProps & RadioProps) => (
+    <>
+        {choices.map(({ name, title, value }) =>
+            <div className={`form-check col-12`} key={name || title.toString()}> {/* TODO unique key */}
+                {/*
+                  * Note to future developers: the order of the attributes in <input> is important!
+                  * {...input} must come before value={title} and neither of them may be omitted.
+                  */}
+                <input className="form-check-input" id={name || title.toString()} type="radio"
+                       {...input} value={title} defaultChecked={input.value == title}/>
+                <label className="form-check-label" htmlFor={name || title.toString()}>{value}</label>
+            </div>,
+        )}
+    </>
+)
 
-    return (
-        <>
-            {withLabel && <label className="col-12 col-md-3 pl-0 title-label">{label}</label>}
-            {hasError && <span className="validation-error">{meta.error}</span>}
-            <div className={`col-12${withLabel ? " col-md-8" : ""} pl-0 pr-0 text-array`}>
-                {choices.map(({ name, title, value }) =>
-                    <div className={`form-check col-12`} key={name || title.toString()}> {/* TODO unique key */}
-                        {/*
-                          * Note to future developers: the order of the attributes in <input> is important!
-                          * {...input} must come before value={title} and neither of them may be omitted.
-                          */}
-                        <input className="form-check-input" id={name || title.toString()} type="radio"
-                               {...input} value={title} defaultChecked={input.value == title}/>
-                        <label className="form-check-label" htmlFor={name || title.toString()}>{value}</label>
-                    </div>,
-                )}
-            </div>
-        </>
-    )
-}
+export default asField(RadioChoices)
 
-export default RadioChoices
+export const RadioChoicesInput = RadioChoices

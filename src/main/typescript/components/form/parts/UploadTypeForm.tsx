@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
@@ -55,7 +54,7 @@ const clarinChoices = [
     },
 ]
 
-const UploadTypeForm = ({dcmiTypes, imtFormats}: UploadTypeFormProps) => (
+const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
             <RepeatableField name="typesDCMI"
@@ -92,7 +91,6 @@ const UploadTypeForm = ({dcmiTypes, imtFormats}: UploadTypeFormProps) => (
         <div className="row form-group input-element">
             <Field name="extraClarinMetadataPresent"
                    label="Contains CLARIN metadata"
-                   withLabel
                    choices={clarinChoices}
                    component={RadioChoices}
                    validate={[oneSelected]}/>
