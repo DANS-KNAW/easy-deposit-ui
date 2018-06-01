@@ -16,25 +16,25 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import TextField from "./TextField"
-import { SelectFieldInput } from "./SelectField"
+import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
-import asFieldArray, { InnerComponentProps } from "./FieldArray"
+import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
-interface SchemedTextFieldArrayElementProps extends InnerComponentProps {
+interface SchemedTextFieldProps extends InnerComponentProps {
     label: string
     schemeValues: DropdownListEntry[]
     withEmptyDefault?: boolean
 }
 
-const SchemedTextFieldArrayElement = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedTextFieldArrayElementProps) => (
+const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedTextFieldProps) => (
     <div className="form-row">
         <div className="col col-md-4">
             <Field name={names[0]}
                    label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault={withEmptyDefault}
-                   component={SelectFieldInput}/>
+                   component={DropdownFieldInput}/>
         </div>
         <div className="col col-md-8">
             <div className="input-group mb-2 mr-2">
@@ -49,4 +49,4 @@ const SchemedTextFieldArrayElement = ({ names, label, onDelete, deleteDisabled, 
     </div>
 )
 
-export default asFieldArray(SchemedTextFieldArrayElement)
+export default asFieldArray(SchemedTextField)

@@ -15,17 +15,17 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import { SelectFieldInput } from "./SelectField"
+import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import RemoveButton from "./RemoveButton"
-import asFieldArray, { InnerComponentProps } from "./FieldArray"
+import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
-interface SchemedBoxArrayFieldElementProps extends InnerComponentProps {
+interface SchemedBoxProps extends InnerComponentProps {
     schemeValues: DropdownListEntry[]
 }
 
-const SchemedBoxArrayFieldElement = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBoxArrayFieldElementProps) => (
+const SchemedBox = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBoxProps) => (
     <>
         <div className="form-row">
             <div className="col input-group mb-1">
@@ -33,7 +33,7 @@ const SchemedBoxArrayFieldElement = ({ names, onDelete, deleteDisabled, schemeVa
                        label="Scheme"
                        choices={schemeValues}
                        withEmptyDefault
-                       component={SelectFieldInput}/>
+                       component={DropdownFieldInput}/>
             </div>
             <div className="col input-group mb-1">
                 <Field name={names[1]}
@@ -75,4 +75,4 @@ const SchemedBoxArrayFieldElement = ({ names, onDelete, deleteDisabled, schemeVa
     </>
 )
 
-export default asFieldArray(SchemedBoxArrayFieldElement)
+export default asFieldArray(SchemedBox)

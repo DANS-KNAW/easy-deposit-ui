@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { WrappedFieldProps } from "redux-form"
-import asFormEntry from "./FormEntry"
+import asField from "./FieldHOC"
 
 interface RadioChoice {
     name?: string
@@ -43,6 +43,6 @@ const RadioChoices = ({ input, meta, label, choices }: WrappedFieldProps & Radio
     </>
 )
 
-export default asFormEntry(RadioChoices)
+export default asField(RadioChoices)
 
 export const RadioChoicesInput = RadioChoices

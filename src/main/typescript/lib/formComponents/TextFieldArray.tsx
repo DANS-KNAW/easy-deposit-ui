@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 import * as React from "react"
-import TextField from "./TextField"
+import InnerTextField from "./TextField"
 import { Field } from "redux-form"
 import RemoveButton from "./RemoveButton"
-import asFieldArray, { InnerComponentProps } from "./FieldArray"
+import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
-interface TextFieldArrayElementProps extends InnerComponentProps {
+interface TextFieldProps extends InnerComponentProps {
     label: string
 }
 
-const TextFieldArrayElement = ({ names, label, onDelete, deleteDisabled }: TextFieldArrayElementProps) => (
+const TextField = ({ names, label, onDelete, deleteDisabled }: TextFieldProps) => (
     <div className="input-group mb-2 mr-2">
         <Field name={names[0]}
                label={label}
                placeholder={label}
-               component={TextField}/>
+               component={InnerTextField }/>
         <RemoveButton onClick={onDelete}
                       disabled={deleteDisabled}/>
     </div>
 )
 
-export default asFieldArray(TextFieldArrayElement)
+export default asFieldArray(TextField)

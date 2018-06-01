@@ -16,7 +16,7 @@
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import SelectField from "../../../../lib/formComponents/SelectField"
+import DropdownField from "../../../../lib/formComponents/DropDownField"
 import { WrappedFieldProps } from "redux-form"
 import { SelectHTMLAttributes } from "react"
 
@@ -29,7 +29,7 @@ type LicenseFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElem
 
 const LicenseField = ({ state, list }: DropdownList) => (props: LicenseFieldProps) => (
     <LoadDropdownData state={state}>
-        <SelectField {...props} choices={list}/>
+        <DropdownField {...props} choices={list}/>
     </LoadDropdownData>
 )
 

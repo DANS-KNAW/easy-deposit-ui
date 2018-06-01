@@ -16,7 +16,7 @@
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import SelectField from "../../../../lib/formComponents/SelectField"
+import DropdownField from "../../../../lib/formComponents/DropDownField"
 import { WrappedFieldProps } from "redux-form"
 
 interface LanguageFieldInputProps {
@@ -28,7 +28,7 @@ type LanguageFieldProps = WrappedFieldProps & LanguageFieldInputProps
 
 const LanguageField = ({ state, list }: DropdownList) => (props: LanguageFieldProps) => (
     <LoadDropdownData state={state}>
-        <SelectField {...props} choices={list}/>
+        <DropdownField {...props} choices={list}/>
     </LoadDropdownData>
 )
 

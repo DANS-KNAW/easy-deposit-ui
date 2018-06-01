@@ -17,7 +17,7 @@ import * as React from "react"
 import { TextareaHTMLAttributes } from "react"
 import { WrappedFieldProps } from "redux-form"
 import TextareaAutosize from "react-textarea-autosize"
-import asFormEntry from "./FormEntry"
+import asField from "./FieldHOC"
 
 interface TextAreaInputProps {
     maxRows?: number
@@ -37,6 +37,6 @@ const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ..
                       {...rest}/>
 )
 
-export default asFormEntry(TextArea)
+export default asField(TextArea)
 
 export const TextAreaInput = TextArea

@@ -18,11 +18,11 @@ import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
 import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
-import SchemedPointArrayField from "../../../../lib/formComponents/SchemedPointArrayField"
+import SchemedPointArray from "../../../../lib/formComponents/SchemedPointArray"
 
 const SpatialPointFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
     <LoadDropdownData state={state}>
-        <SchemedPointArrayField {...props} schemeValues={list}/>
+        <SchemedPointArray {...props} schemeValues={list}/>
     </LoadDropdownData>
 )
 

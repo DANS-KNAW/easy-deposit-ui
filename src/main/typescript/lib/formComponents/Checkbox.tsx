@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import { WrappedFieldProps } from "redux-form"
 
-const SingleCheckbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) => {
+const Checkbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
 
@@ -33,4 +32,4 @@ const SingleCheckbox = ({ input, meta, label }: WrappedFieldProps & { foo?: numb
     )
 }
 
-export default SingleCheckbox
+export default Checkbox
