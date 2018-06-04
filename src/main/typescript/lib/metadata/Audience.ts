@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { clean } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum AudienceScheme {
