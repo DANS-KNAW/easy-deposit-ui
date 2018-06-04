@@ -71,7 +71,7 @@ describe("AccessRight", () => {
                 group: "my-group",
             }
             expect(() => accessRightConverter(input)).to
-                .throw("Error in metadata: no such access right: 'undefined'")
+                .throw("Error in metadata: no such access category: 'undefined'")
         })
 
         it("should fail when an unknown category is given", () => {
@@ -80,7 +80,7 @@ describe("AccessRight", () => {
                 group: "my-group",
             }
             expect(() => accessRightConverter(input)).to
-                .throw("Error in metadata: no such access right: 'unknown-category'")
+                .throw("Error in metadata: no such access category: 'unknown-category'")
         })
 
         it("should fail when an empty object is given", () => {
@@ -89,7 +89,7 @@ describe("AccessRight", () => {
                 // no group here
             }
             expect(() => accessRightConverter(input)).to
-                .throw("Error in metadata: no such access right: 'undefined'")
+                .throw("Error in metadata: no such access category: 'undefined'")
         })
     })
 
@@ -99,12 +99,12 @@ describe("AccessRight", () => {
             expect(accessRightDeconverter({})).to.deep.equal({})
         })
 
-        it("should convert an AccessRight with only a category accordingly", () => {
+        it("should convert an AccessRight with only a category into the correct external model", () => {
             expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS })).to.deep
                 .equal({ category: "OPEN_ACCESS" })
         })
 
-        it("should convert an AccessRight with both a category and group accordingly", () => {
+        it("should convert an AccessRight with both a category and group into the correct external model", () => {
             expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS, group: "my-group" })).to.deep
                 .equal({ category: "OPEN_ACCESS", group: "my-group" })
         })

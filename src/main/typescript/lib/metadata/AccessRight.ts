@@ -54,7 +54,7 @@ export const accessRightConverter: (ar: any) => AccessRight = ar => {
 
         }
     else
-        throw `Error in metadata: no such access right: '${ar.category}'`
+        throw `Error in metadata: no such access category: '${ar.category}'`
 }
 
 export const accessRightDeconverter: (ar: AccessRight) => any = ar => clean({
