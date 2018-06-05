@@ -22,6 +22,7 @@ import {
     qualifiedDatesConverter, qualifiedDateStringDeconverter,
 } from "../../../../main/typescript/lib/metadata/Date"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
+import * as dateFormat from "dateformat"
 
 describe("Date", () => {
 
@@ -223,7 +224,7 @@ describe("Date", () => {
             }
             const expected = {
                 scheme: "dcterms:W3CDTF",
-                value: "2018-03-14T01:00:00+0100",
+                value: dateFormat(new Date("2018-03-14"), "isoDateTime"), // don't just match against the String, because of time zone issues
                 qualifier: "dcterms:issued",
             }
             expect(qualifiedDateDeconverter(input)).to.deep.equal(expected)
