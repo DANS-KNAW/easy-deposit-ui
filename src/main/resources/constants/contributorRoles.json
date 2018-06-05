@@ -1,0 +1,42 @@
+{
+  "DataCollector": {
+    "title": "Data collector",
+    "viewName": "Data collector"
+  },
+  "DataCurator": {
+    "title": "Data curator",
+    "viewName": "Data curator"
+  },
+  "Editor": {
+    "title": "Editor",
+    "viewName": "Editor"
+  },
+  "HostingInstitution": {
+    "title": "Hosting institution",
+    "viewName": "Hosting institution"
+  },
+  "ProjectLeader": {
+    "title": "Project leader",
+    "viewName": "Project leader"
+  },
+  "ProjectMember": {
+    "title": "Project member",
+    "viewName": "Project member"
+  },
+  "RelatedPerson": {
+    "title": "Related person",
+    "viewName": "Related person"
+  },
+  "ResearchGroup": {
+    "title": "Research group",
+    "viewName": "Research group"
+  },
+  "Researcher": {
+    "title": "Researcher",
+    "viewName": "Researcher"
+  },
+  "Sponsor": {
+    "title": "Sponsor",
+    "viewName": "Sponsor"
+  }
+}

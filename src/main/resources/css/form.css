@@ -102,3 +102,25 @@
     /*       t   r   b   l*/
     padding: 5px 8px 5px 8px;
 }
+
+.input-element .contributor:last-child {
+    margin-bottom: 0!important;
+}
+
+.input-element .contributor .form-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.input-element .contributor .form-row .col:first-child {
+    padding-left: 0;
+}
+
+.input-element .contributor .form-row .form-group > label {
+    margin-bottom: 0;
+    margin-left: 0.25rem;
+}
+
+.input-element .contributor:last-child > .form-row:last-child > .form-group {
+    margin-bottom: 0!important;
+}

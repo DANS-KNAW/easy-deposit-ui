@@ -42,7 +42,7 @@ import { DropdownListEntry } from "../../model/DropdownLists"
 import {
     fetchAbrComplexSubjectsData,
     fetchAbrPeriodeTemporalsData,
-    fetchAudiencesData,
+    fetchAudiencesData, fetchContributorIdsData, fetchContributorRolesData,
     fetchDatesData,
     fetchDcmiTypesData,
     fetchIdentifiersData,
@@ -115,6 +115,8 @@ interface DepositFormStoreArguments {
     submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
 
     fetchLanguagesData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchContributorIdsData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchContributorRolesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchAudiencesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchIdentifiersData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchDatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
@@ -146,6 +148,8 @@ class DepositForm extends Component<DepositFormProps> {
 
     componentDidMount() {
         this.props.fetchLanguagesData()
+        this.props.fetchContributorIdsData()
+        this.props.fetchContributorRolesData()
         this.props.fetchAudiencesData()
         this.props.fetchIdentifiersData()
         this.props.fetchDatesData()
@@ -264,6 +268,8 @@ const composedHOC = compose(
             saveDraft,
             submitDeposit,
             fetchLanguagesData,
+            fetchContributorRolesData,
+            fetchContributorIdsData,
             fetchAudiencesData,
             fetchIdentifiersData,
             fetchDatesData,

@@ -1,0 +1,14 @@
+{
+  "id-type:DAI": {
+    "title": "DAI",
+    "viewName": "DAI"
+  },
+  "id-type:ORCID": {
+    "title": "ORCID",
+    "viewName": "ORCID"
+  },
+  "id-type:ISNI": {
+    "title": "ISNI",
+    "viewName": "ISNI"
+  }
+}

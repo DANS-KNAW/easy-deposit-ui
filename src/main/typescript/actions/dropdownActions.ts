@@ -23,7 +23,7 @@ const createFetchAction: (type: DropdownConstants, filename: string) => ReduxAct
     async payload() {
         const response = await axios.get(require(`../../resources/constants/${filename}`))
         return convertDropdownData(response.data)
-    }
+    },
 })
 
 const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
@@ -34,7 +34,7 @@ const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
             return {
                 key: key,
                 value: obj.title,
-                displayValue: obj.viewName
+                displayValue: obj.viewName,
             }
         })
 }
@@ -49,6 +49,18 @@ export const fetchLanguagesData: () => ReduxAction<Promise<DropdownListEntry[]>>
 
 export const fetchLanguagesDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FAILED)
+
+export const fetchContributorIdsData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN, "contributorIds.json")
+
+export const fetchContributorIdsDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FAILED)
+
+export const fetchContributorRolesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN, "contributorRoles.json")
+
+export const fetchContributorRolesDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_FAILED)
 
 export const fetchAudiencesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
     createFetchAction(DropdownConstants.FETCH_AUDIENCE_DROPDOWN, "audiences.json")
