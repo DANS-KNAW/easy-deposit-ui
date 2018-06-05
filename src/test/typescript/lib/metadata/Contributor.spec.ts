@@ -66,7 +66,7 @@ describe("Contributor", () => {
                 role: "ContactPerson",
                 organization: "KNAW",
             }
-            expect(contributorConverter(input)).to.deep.equal(expected)
+            expect(contributorConverter(input)).to.eql(expected)
         })
 
         it("should convert an empty input to an internal representation with empty strings", () => {
@@ -80,7 +80,7 @@ describe("Contributor", () => {
                 role: "",
                 organization: "",
             }
-            expect(contributorConverter(input)).to.deep.equal(expected)
+            expect(contributorConverter(input)).to.eql(expected)
         })
 
         it("should fail when using an invalid contributor schemeId", () => {
@@ -169,7 +169,7 @@ describe("Contributor", () => {
                 role: "RightsHolder",
                 organization: "rightsHolder1",
             }
-            expect(contributorsConverter([input1, input2])).to.deep.equal([[expected2], [expected1]])
+            expect(contributorsConverter([input1, input2])).to.eql([[expected2], [expected1]])
         })
     })
 
@@ -186,7 +186,7 @@ describe("Contributor", () => {
                 organization: "",
             }
             const expected = {}
-            expect(contributorDeconverter(input)).to.deep.equal(expected)
+            expect(contributorDeconverter(input)).to.eql(expected)
         })
 
         it("should convert a Contributor into the correct external model", () => {
@@ -230,7 +230,7 @@ describe("Contributor", () => {
                 },
                 organization: "KNAW",
             }
-            expect(contributorDeconverter(input)).to.deep.equal(expected)
+            expect(contributorDeconverter(input)).to.eql(expected)
         })
     })
 })

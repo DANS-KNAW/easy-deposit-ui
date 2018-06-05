@@ -124,7 +124,7 @@ describe("Date", () => {
                     },
                 ],
             }
-            expect(converter(input)).to.deep.equal(expected)
+            expect(converter(input)).to.eql(expected)
         })
 
         it("should fail when no qualifier is given", () => {
@@ -227,7 +227,7 @@ describe("Date", () => {
                 value: dateFormat(new Date("2018-03-14"), "isoDateTime"), // don't just match against the String, because of time zone issues
                 qualifier: "dcterms:issued",
             }
-            expect(qualifiedDateDeconverter(input)).to.deep.equal(expected)
+            expect(qualifiedDateDeconverter(input)).to.eql(expected)
         })
 
         it("should convert a QualifiedDate without a value into an empty object", () => {
@@ -235,7 +235,7 @@ describe("Date", () => {
                 qualifier: "dcterms:issued",
             }
             const expected = {}
-            expect(qualifiedDateDeconverter(input)).to.deep.equal(expected)
+            expect(qualifiedDateDeconverter(input)).to.eql(expected)
         })
     })
 
@@ -250,7 +250,7 @@ describe("Date", () => {
                 value: "today",
                 qualifier: "dcterms:issued",
             }
-            expect(qualifiedDateStringDeconverter(input)).to.deep.equal(expected)
+            expect(qualifiedDateStringDeconverter(input)).to.eql(expected)
         })
     })
 })

@@ -48,7 +48,7 @@ describe("Audience", () => {
                 value: "Musicology",
             }
             const expected = "D35200"
-            expect(converter(input)).to.deep.equal(expected)
+            expect(converter(input)).to.eql(expected)
         })
 
         it("should fail when no scheme is defined", () => {
@@ -95,8 +95,8 @@ describe("Audience", () => {
     describe("audienceDeconverter", () => {
 
         it("should convert a known Audience into the correct external model", () => {
-            expect(deconverter("D33000")).to.deep
-                .equal({ scheme: "narcis:DisciplineType", key: "D33000", value: "Theology and religious studies" })
+            expect(deconverter("D33000")).to
+                .eql({ scheme: "narcis:DisciplineType", key: "D33000", value: "Theology and religious studies" })
         })
 
         it("should fail when converting an unknown Audience", () => {

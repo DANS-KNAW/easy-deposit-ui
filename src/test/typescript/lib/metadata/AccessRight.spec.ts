@@ -32,7 +32,7 @@ describe("AccessRight", () => {
             const expected = {
                 category: "OPEN_ACCESS",
             }
-            expect(accessRightConverter(input)).to.deep.equal(expected)
+            expect(accessRightConverter(input)).to.eql(expected)
         })
 
         it("should fail when given an open-access with a group", () => {
@@ -53,7 +53,7 @@ describe("AccessRight", () => {
                 category: "GROUP_ACCESS",
                 group: "my-group",
             }
-            expect(accessRightConverter(input)).to.deep.equal(expected)
+            expect(accessRightConverter(input)).to.eql(expected)
         })
 
         it("should fail when given a group-access without a group", () => {
@@ -96,17 +96,17 @@ describe("AccessRight", () => {
     describe("accessRightDeconverter", () => {
 
         it("should convert an empty AccessRight to an empty output", () => {
-            expect(accessRightDeconverter({})).to.deep.equal({})
+            expect(accessRightDeconverter({})).to.eql({})
         })
 
         it("should convert an AccessRight with only a category into the correct external model", () => {
-            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS })).to.deep
-                .equal({ category: "OPEN_ACCESS" })
+            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS })).to
+                .eql({ category: "OPEN_ACCESS" })
         })
 
         it("should convert an AccessRight with both a category and group into the correct external model", () => {
-            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS, group: "my-group" })).to.deep
-                .equal({ category: "OPEN_ACCESS", group: "my-group" })
+            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS, group: "my-group" })).to
+                .eql({ category: "OPEN_ACCESS", group: "my-group" })
         })
     })
 })
