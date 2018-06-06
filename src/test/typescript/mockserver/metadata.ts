@@ -105,27 +105,17 @@ enum ContributorRoleSchemeValues {
 }
 
 enum ContributorRoleKeyValues {
-    ContactPerson = "ContactPerson",
     DataCollector = "DataCollector",
     DataCurator = "DataCurator",
-    DataManager = "DataManager",
-    Distributor = "Distributor",
     Editor = "Editor",
     HostingInstitution = "HostingInstitution",
-    Other = "Other",
-    Producer = "Producer",
     ProjectLeader = "ProjectLeader",
-    ProjectManager = "ProjectManager",
     ProjectMember = "ProjectMember",
-    RegistrationAgency = "RegistrationAgency",
-    RegistrationAuthority = "RegistrationAuthority",
     RelatedPerson = "RelatedPerson",
     ResearchGroup = "ResearchGroup",
-    RightsHolder = "RightsHolder",
+    RightsHolder = "RightsHolder", // special element, not visible in UI dropdown list
     Researcher = "Researcher",
     Sponsor = "Sponsor",
-    Supervisor = "Supervisor",
-    WorkPackageLeader = "WorkPackageLeader",
 }
 
 interface Contributor {
@@ -288,8 +278,8 @@ export const allfields: Metadata = {
             ],
             role: {
                 scheme: ContributorRoleSchemeValues.contributorType,
-                key: ContributorRoleKeyValues.ContactPerson,
-                value: "Contact Person",
+                key: ContributorRoleKeyValues.DataCollector,
+                value: "Data collector",
             },
             organization: "KNAW",
         },
