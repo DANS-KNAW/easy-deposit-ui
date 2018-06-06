@@ -28,21 +28,33 @@ export enum AccessRightValue {
     NO_ACCESS = "NO_ACCESS",
 }
 
-export function toAccessRight(value: string): AccessRightValue | undefined {
+function toAccessRight(value: string): AccessRightValue | undefined {
     return Object.values(AccessRightValue).find(v => v === value)
 }
 
 export const accessRightConverter: (ar: any) => AccessRight = ar => {
     const category = toAccessRight(ar.category)
-    if (category) {
-        return ({
-            category: category,
-            group: ar.group,
-        })
-    }
-    else {
-        throw `Error in metadata: no such access right: '${ar.category}'`
-    }
+    if (category)
+        switch (category) {
+            case AccessRightValue.GROUP_ACCESS:
+                if (!!ar.group)
+                    return {
+                        category: category,
+                        group: ar.group,
+                    }
+                else
+                    throw `Error in metadata: access right ${AccessRightValue.GROUP_ACCESS} has no 'group' defined`
+            default:
+                if (!!ar.group)
+                    throw `Error in metadata: access right is not ${AccessRightValue.GROUP_ACCESS} but has a 'group' defined`
+                else
+                    return {
+                        category: category,
+                    }
+
+        }
+    else
+        throw `Error in metadata: no such access category: '${ar.category}'`
 }
 
 export const accessRightDeconverter: (ar: AccessRight) => any = ar => clean({
