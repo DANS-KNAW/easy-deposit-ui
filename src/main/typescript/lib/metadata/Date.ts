@@ -51,7 +51,14 @@ export interface Dates {
     textDates: QualifiedDate<string>[]
 }
 
-const dateConverter: (d: any) => Date = d => new Date(d)
+const dateConverter: (d: any) => Date = d => {
+    const date: Date = new Date(d)
+
+    if (isNaN(date.getTime()))
+        throw `Error in metadata: invalid date found: '${d}'`
+    else
+        return date
+}
 
 const dateDeconverter: (d: Date) => any = d => dateFormat(d, "isoDateTime")
 
@@ -62,16 +69,16 @@ const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => Inter
 
     if (qualifierObj)
         if (scheme && scheme === DateScheme.W3CDTF)
-            return ({
+            return {
                 scheme: scheme,
                 qualifier: qualifierObj.key,
                 value: value,
-            })
+            }
         else
-            return ({
+            return {
                 qualifier: qualifierObj.key,
                 value: value,
-            })
+            }
     else if (sd.qualifier === createdQualifier || sd.qualifier === availableQualifier || sd.qualifier === dateSubmittedQualifier)
         return ({
             scheme: scheme,
@@ -112,7 +119,7 @@ export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any)
                     return { ...res, dateAvailable: { qualifier: qualifier, value: dateConverter(value) } }
             case dateSubmittedQualifier:
                 if (res.dateSubmitted)
-                    throw `Error in metadata: multiple dates with qualifier 'submitted' found`
+                    throw `Error in metadata: multiple dates with qualifier 'dateSubmitted' found`
                 else
                     return { ...res, dateSubmitted: { qualifier: qualifier, value: dateConverter(value) } }
             default:

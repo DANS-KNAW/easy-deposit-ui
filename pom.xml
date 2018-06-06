@@ -38,7 +38,7 @@
         <dans-provider-name>dans.knaw.nl</dans-provider-name>
         <context-root>deposit</context-root>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.test.skip>false</maven.test.skip>
+        <skipTests>false</skipTests>
         <output.directory>target/build</output.directory>
         <dans-build-resources.version>2.4.0</dans-build-resources.version>
     </properties>
@@ -104,27 +104,23 @@
                         </configuration>
                     </execution>
 
-                    <!-- Run unit tests. My test scripts in npm look for the property 'skipTests',
-                         so I map it to 'maven.test.skip'
-                         Note: the double '-' syntax used below only works with npm >= 2. -->
-                    <!-- TODO uncomment the execution once we have tests defined in our project
-                         and 'npm run test' is defined in package.json -->
-                    <!--<execution>
+                    <!-- Run unit tests using `npm run test` where 'test' is the script name
+                         we defined in package.json -->
+                    <execution>
                         <id>npm run test (test)</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <phase>test</phase>
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>run</argument>
                                 <argument>test</argument>
-                                <argument>&#45;&#45;</argument>
-                                <argument>&#45;&#45;skipTests=${maven.test.skip}</argument>
                             </arguments>
                         </configuration>
-                    </execution>-->
+                    </execution>
                 </executions>
             </plugin>
 

@@ -51,9 +51,8 @@ export const emptyContributor: Contributor = {
 const contributorSchemeIdConverter: (ids: DropdownListEntry[]) => (cs: any) => SchemedValue = ids => cs => {
     const scheme = ids.find(({ key }) => key === cs.scheme)
 
-    if (scheme) {
+    if (scheme)
         return schemedValueConverter(scheme.key, cs.value)
-    }
     else
         throw `Error in metadata: no such creator/contributor id scheme: '${cs.scheme}'`
 }
@@ -67,8 +66,10 @@ const contributorRoleConverter: (roles: DropdownListEntry[]) => (cr: any) => str
         if (roles.find(({ key }) => key === cr.key) || rightsholderRole === cr.key)
             return cr.key
         else
-            throw `Error in metadata: no such creator/contributor role found: '${cr.key}'`
+            throw `Error in metadata: no such creator/contributor role: '${cr.key}'`
     }
+    else
+        throw `Error in metadata: no such creator/contributor role scheme: '${cr.scheme}'`
 }
 
 const contributorRoleDeconverter: (roles: DropdownListEntry[]) => (r: string) => any = roles => r => {
