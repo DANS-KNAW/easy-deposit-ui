@@ -46,18 +46,18 @@ export const formatsConverter: (imtFormatValues: DropdownListEntry[]) => (format
     }, [[], [], false])
 }
 
-export const imtFormatDeconverter: (type: string) => any = type => {
-    if (type)
+export const imtFormatDeconverter: (format: string) => any = format => {
+    if (format)
         return {
             scheme: FormatScheme.imt,
-            value: type,
+            value: format,
         }
     else
         return {}
 }
 
-export const formatDeconverter: (type: string) => any = type => clean({
-    value: type,
+export const formatDeconverter: (format: string) => any = format => clean({
+    value: format,
 })
 
 export const cmdiFormatDeconverter: () => any = () => ({

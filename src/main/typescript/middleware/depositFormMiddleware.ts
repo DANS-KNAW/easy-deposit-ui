@@ -76,7 +76,7 @@ import {
     formatDeconverter,
     formatsConverter,
     imtFormatDeconverter,
-} from "../lib/metadata/Formats"
+} from "../lib/metadata/Format"
 import {
     abrTemporalCoverageDeconverter,
     temporalCoverageDeconverter,
