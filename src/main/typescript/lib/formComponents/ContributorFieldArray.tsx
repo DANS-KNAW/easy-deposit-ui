@@ -150,7 +150,7 @@ interface ContributorFieldProps extends InnerComponentProps {
 }
 
 const ContributorField = ({ names, onDelete, deleteDisabled, idValues, roleValues }: ContributorFieldProps) => (
-    <div className="contributor mb-3">
+    <div className="contributor mb-4">
         <ContributorIdRows idName={names[4]}
                            idValues={idValues}/>
 
