@@ -48,7 +48,8 @@ import {
     contributorConverter,
     contributorDeconverter,
     contributorsConverter,
-    emptyContributor, rightsHolderDeconverter,
+    emptyContributor,
+    rightsHolderDeconverter,
 } from "../lib/metadata/Contributor"
 import {
     availableQualifier,

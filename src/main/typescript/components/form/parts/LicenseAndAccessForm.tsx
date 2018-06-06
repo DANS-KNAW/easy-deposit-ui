@@ -51,7 +51,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                                  (name: string) => `${name}.insertions`, // 2
                                  (name: string) => `${name}.surname`, // 3
                                  (name: string) => `${name}.ids`, // 4
-                                 (name: string) => `${name}.role`, // 5
+                                 (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
                                  (name: string) => `${name}.organization`, // 6
                              ]}
                              component={RightsholderFields(contributorIds)}/>
