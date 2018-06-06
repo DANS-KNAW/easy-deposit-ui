@@ -17,8 +17,10 @@ import { expect } from "chai"
 import "mocha"
 import {
     Contributor,
-    contributorConverter, contributorDeconverter,
-    contributorsConverter, rightsHolderDeconverter,
+    contributorConverter,
+    contributorDeconverter,
+    contributorsConverter,
+    rightsHolderDeconverter,
 } from "../../../../main/typescript/lib/metadata/Contributor"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 

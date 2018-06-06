@@ -42,7 +42,9 @@ import { DropdownListEntry } from "../../model/DropdownLists"
 import {
     fetchAbrComplexSubjectsData,
     fetchAbrPeriodeTemporalsData,
-    fetchAudiencesData, fetchContributorIdsData, fetchContributorRolesData,
+    fetchAudiencesData,
+    fetchContributorIdsData,
+    fetchContributorRolesData,
     fetchDatesData,
     fetchDcmiTypesData,
     fetchIdentifiersData,
