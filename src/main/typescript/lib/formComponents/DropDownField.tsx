@@ -22,13 +22,14 @@ import asField from "./FieldHOC"
 interface DropdownFieldInputProps {
     choices: DropdownListEntry[]
     withEmptyDefault?: boolean
+    emptyDefault?: string
 }
 
 export type DropdownFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & DropdownFieldInputProps
 
-const DropdownField = ({ input, withEmptyDefault, choices, className, ...rest }: DropdownFieldProps) => (
+const DropdownField = ({ input, withEmptyDefault, emptyDefault, choices, className, ...rest }: DropdownFieldProps) => (
     <select className={`form-control ${className}`} {...input} {...rest}>
-        {withEmptyDefault ? [<option key="empty choice" value="">Choose...</option>] : []}
+        {withEmptyDefault ? [<option key="empty choice" value="">{emptyDefault || "Choose..."}</option>] : []}
         {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
                                                                value={key}>{displayValue}</option>)}
     </select>
