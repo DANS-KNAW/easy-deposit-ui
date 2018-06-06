@@ -91,12 +91,12 @@
 }
 
 .input-element > .text-array > .form-row > .col:first-child,
-.input-element .contributor .form-row .col:first-child {
+.input-element .contributor .form-row .form-group:first-child {
     padding-left: 0;
 }
 
 .input-element > .text-array > .form-row > .col:last-child,
-.input-element .contributor .form-row .col:last-child {
+.input-element .contributor .form-row .form-group:last-child {
     padding-right: 0;
 }
 

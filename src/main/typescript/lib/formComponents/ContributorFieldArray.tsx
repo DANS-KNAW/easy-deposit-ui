@@ -13,10 +13,10 @@ const ContributorIdArray = (idValues: DropdownListEntry[]) => (
     function <T>({ fields, fieldNames, empty }: FieldArrayProps<T>) {
         return (
             <>
-                <div className="col-12 col-md-11 pl-0 pr-0 text-array">
+                <div className="col-12 col-md-9 pl-0 pr-0 text-array">
                     {fields.map((name: string, index: number) => (
                         <div className="form-row" key={`${name}.${index}`}>
-                            <div className="col form-group mb-2">
+                            <div className="form-group col-md-3 mb-2">
                                 <label>Scheme</label>
                                 <Field name={fieldNames[0](name)}
                                        choices={idValues}
@@ -24,15 +24,14 @@ const ContributorIdArray = (idValues: DropdownListEntry[]) => (
                                        component={DropdownFieldInput}/>
                             </div>
 
-                            <div className="col">
-                                <div className="form-group mb-2">
-                                    <label>ID</label>
-                                    <div className="input-group">
-                                        <Field name={fieldNames[1](name)}
-                                               component={TextField}/>
-                                        <RemoveButton onClick={() => fields.remove(index)}
-                                                      disabled={fields.length <= 1}/>
-                                    </div>
+                            <div className="form-group col-md-9 mb-2">
+                                <label>ID</label>
+                                <div className="input-group">
+                                    <Field name={fieldNames[1](name)}
+                                           placeholder="ID"
+                                           component={TextField}/>
+                                    <RemoveButton onClick={() => fields.remove(index)}
+                                                  disabled={fields.length <= 1}/>
                                 </div>
                             </div>
                         </div>
@@ -65,45 +64,49 @@ const ContributorField = ({ names, onDelete, deleteDisabled, idValues, roleValue
         </div>
 
         <div className="form-row">
-            <div className="col form-group mb-2">
+            <div className="form-group col-md-3 mb-2">
                 <label>Titles</label>
                 <Field name={names[0]}
+                       placeholder="(acadamic) title(s)"
                        component={TextField}/>
             </div>
-            <div className="col form-group mb-2">
+            <div className="form-group col-md-3 mb-2">
                 <label>Initials</label>
                 <Field name={names[1]}
+                       placeholder="initials"
                        component={TextField}/>
             </div>
-            <div className="col form-group mb-2">
+            <div className="form-group col-md-3 mb-2">
                 <label>Insertions</label>
                 <Field name={names[2]}
+                       placeholder="insertions"
                        component={TextField}/>
             </div>
-            <div className="col form-group mb-2">
+            <div className="form-group col-md-3 mb-2">
                 <label>Surname</label>
                 <Field name={names[3]}
+                       placeholder="surname"
                        component={TextField}/>
             </div>
         </div>
 
         <div className="form-row">
-            <div className="col form-group mb-2">
+            <div className="form-group col-md-4 mb-2">
                 <label>Role</label>
                 <Field name={names[5]}
                        choices={roleValues}
                        withEmptyDefault
+                       emptyDefault="-no role-"
                        component={DropdownFieldInput}/>
             </div>
-            <div className="col">
-                <div className="form-group mb-2">
-                    <label>Organization</label>
-                    <div className="input-group">
-                        <Field name={names[6]}
-                               component={TextField}/>
-                        <RemoveButton onClick={onDelete}
-                                      disabled={deleteDisabled}/>
-                    </div>
+            <div className="form-group col-md-8 mb-2">
+                <label>Organization</label>
+                <div className="input-group">
+                    <Field name={names[6]}
+                           placeholder="organization"
+                           component={TextField}/>
+                    <RemoveButton onClick={onDelete}
+                                  disabled={deleteDisabled}/>
                 </div>
             </div>
         </div>
