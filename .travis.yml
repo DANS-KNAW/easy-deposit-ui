@@ -13,10 +13,5 @@ before_install:
   - if [ ! -d $M2_HOME/bin ]; then curl https://archive.apache.org/dist/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz | tar zxf - -C $HOME; fi
   - export PATH=$M2_HOME/bin:$PATH
 
-install:
-  - npm install
-
 script:
-  - npm run test
-  - npm run build
   - mvn clean install
