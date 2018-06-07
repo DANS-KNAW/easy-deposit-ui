@@ -17,11 +17,45 @@ import { expect } from "chai"
 import "mocha"
 import {
     Contributor,
-    contributorConverter, contributorDeconverter,
+    contributorConverter,
+    contributorDeconverter,
     contributorsConverter,
+    rightsHolderDeconverter,
 } from "../../../../main/typescript/lib/metadata/Contributor"
+import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 
 describe("Contributor", () => {
+
+    const idChoices: DropdownListEntry[] = [
+        {
+            key: "id-type:DAI",
+            value: "DAI",
+            displayValue: "DAI",
+        },
+        {
+            key: "id-type:ISNI",
+            value: "ISNI",
+            displayValue: "ISNI",
+        },
+    ]
+
+    const roleChoices: DropdownListEntry[] = [
+        {
+            key: "DataCurator",
+            value: "Data curator",
+            displayValue: "Data curator",
+        },
+        {
+            key: "Researcher",
+            value: "Researcher",
+            displayValue: "Researcher",
+        },
+        {
+            key: "RightsHolder",
+            value: "Rightsholder",
+            displayValue: "Rightsholder",
+        }
+    ]
 
     describe("contributorConverter", () => {
 
@@ -37,14 +71,14 @@ describe("Contributor", () => {
                         value: "123456",
                     },
                     {
-                        scheme: "id-type:ORCID",
+                        scheme: "id-type:ISNI",
                         value: "abcdef",
                     },
                 ],
                 role: {
                     scheme: "datacite:contributorType",
-                    key: "ContactPerson",
-                    value: "Contact Person",
+                    key: "DataCurator",
+                    value: "Data curator",
                 },
                 organization: "KNAW",
             }
@@ -59,14 +93,14 @@ describe("Contributor", () => {
                         value: "123456",
                     },
                     {
-                        scheme: "id-type:ORCID",
+                        scheme: "id-type:ISNI",
                         value: "abcdef",
                     },
                 ],
-                role: "ContactPerson",
+                role: "DataCurator",
                 organization: "KNAW",
             }
-            expect(contributorConverter(input)).to.eql(expected)
+            expect(contributorConverter(idChoices, roleChoices)(input)).to.eql(expected)
         })
 
         it("should convert an empty input to an internal representation with empty strings", () => {
@@ -80,10 +114,10 @@ describe("Contributor", () => {
                 role: "",
                 organization: "",
             }
-            expect(contributorConverter(input)).to.eql(expected)
+            expect(contributorConverter(idChoices, roleChoices)(input)).to.eql(expected)
         })
 
-        it("should fail when using an invalid contributor schemeId", () => {
+        it("should fail when using an invalid contributor scheme id", () => {
             const input = {
                 ids: [
                     {
@@ -92,20 +126,32 @@ describe("Contributor", () => {
                     },
                 ],
             }
-            expect(() => contributorConverter(input)).to
-                .throw("Error in metadata: no such creator/contributor scheme: 'id-type:invalid'")
+            expect(() => contributorConverter(idChoices, roleChoices)(input)).to
+                .throw("Error in metadata: no such creator/contributor id scheme: 'id-type:invalid'")
         })
 
         it("should fail when using an invalid contributor role scheme", () => {
             const input = {
                 role: {
                     scheme: "datacite:invalid",
-                    key: "ContactPerson",
-                    value: "Contact Person",
+                    key: "Researcher",
+                    value: "Researcher",
                 },
             }
-            expect(() => contributorConverter(input)).to
+            expect(() => contributorConverter(idChoices, roleChoices)(input)).to
                 .throw("Error in metadata: no such creator/contributor role scheme: 'datacite:invalid'")
+        })
+
+        it("should fail when using an invalid contributor role", () => {
+            const input = {
+                role: {
+                    scheme: "datacite:contributorType",
+                    key: "invalid",
+                    value: "invalid",
+                },
+            }
+            expect(() => contributorConverter(idChoices, roleChoices)(input)).to
+                .throw("Error in metadata: no such creator/contributor role: 'invalid'")
         })
     })
 
@@ -123,14 +169,14 @@ describe("Contributor", () => {
                         value: "123456",
                     },
                     {
-                        scheme: "id-type:ORCID",
+                        scheme: "id-type:ISNI",
                         value: "abcdef",
                     },
                 ],
                 role: {
                     scheme: "datacite:contributorType",
-                    key: "ContactPerson",
-                    value: "Contact Person",
+                    key: "Researcher",
+                    value: "Researcher",
                 },
                 organization: "KNAW",
             }
@@ -153,11 +199,11 @@ describe("Contributor", () => {
                         value: "123456",
                     },
                     {
-                        scheme: "id-type:ORCID",
+                        scheme: "id-type:ISNI",
                         value: "abcdef",
                     },
                 ],
-                role: "ContactPerson",
+                role: "Researcher",
                 organization: "KNAW",
             }
             const expected2: Contributor = {
@@ -169,7 +215,7 @@ describe("Contributor", () => {
                 role: "RightsHolder",
                 organization: "rightsHolder1",
             }
-            expect(contributorsConverter([input1, input2])).to.eql([[expected2], [expected1]])
+            expect(contributorsConverter(idChoices, roleChoices)([input1, input2])).to.eql([[expected2], [expected1]])
         })
     })
 
@@ -186,7 +232,7 @@ describe("Contributor", () => {
                 organization: "",
             }
             const expected = {}
-            expect(contributorDeconverter(input)).to.eql(expected)
+            expect(contributorDeconverter(roleChoices)(input)).to.eql(expected)
         })
 
         it("should convert a Contributor into the correct external model", () => {
@@ -201,11 +247,11 @@ describe("Contributor", () => {
                         value: "123456",
                     },
                     {
-                        scheme: "id-type:ORCID",
+                        scheme: "id-type:ISNI",
                         value: "abcdef",
                     },
                 ],
-                role: "ContactPerson",
+                role: "DataCurator",
                 organization: "KNAW",
             }
             const expected = {
@@ -219,18 +265,87 @@ describe("Contributor", () => {
                         value: "123456",
                     },
                     {
-                        scheme: "id-type:ORCID",
+                        scheme: "id-type:ISNI",
                         value: "abcdef",
                     },
                 ],
                 role: {
                     scheme: "datacite:contributorType",
-                    key: "ContactPerson",
-                    value: "???",
+                    key: "DataCurator",
+                    value: "Data curator",
                 },
                 organization: "KNAW",
             }
-            expect(contributorDeconverter(input)).to.eql(expected)
+            expect(contributorDeconverter(roleChoices)(input)).to.eql(expected)
+        })
+
+        it("should fail when an invalid role is used", () => {
+            const input: Contributor = {
+                role: "invalid",
+            }
+            expect(() => contributorDeconverter(roleChoices)(input)).to
+                .throw("Error in metadata: no valid role found for key 'invalid'")
+        })
+    })
+
+    describe("rightsHolderDeconverter", () => {
+
+        it("should convert an empty Contributor to an empty object", () => {
+            const input: Contributor = {
+                titles: "",
+                initials: "",
+                insertions: "",
+                surname: "",
+                ids: [{ scheme: "", value: "" }],
+                role: "",
+                organization: "",
+            }
+            const expected = {}
+            expect(rightsHolderDeconverter(input)).to.eql(expected)
+        })
+
+        it("should convert a Contributor into the correct external model", () => {
+            const input: Contributor = {
+                titles: "Drs.",
+                initials: "D.A.",
+                insertions: "van",
+                surname: "NS",
+                ids: [
+                    {
+                        scheme: "id-type:DAI",
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: "abcdef",
+                    },
+                ],
+                role: "RightsHolder",
+                organization: "KNAW",
+            }
+            const expected = {
+                titles: "Drs.",
+                initials: "D.A.",
+                insertions: "van",
+                surname: "NS",
+                ids: [
+                    {
+                        scheme: "id-type:DAI",
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: "abcdef",
+                    },
+                ],
+                role: {
+                    scheme: "datacite:contributorType",
+                    key: "RightsHolder",
+                    value: "Rightsholder",
+                },
+                organization: "KNAW",
+            }
+            expect(rightsHolderDeconverter(input)).to.eql(expected)
         })
     })
 })

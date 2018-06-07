@@ -22,7 +22,7 @@ import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
-import { Contributor } from "../../../lib/metadata/Contributor"
+import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { QualifiedDate } from "../../../lib/metadata/Date"
 import { Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -34,6 +34,7 @@ import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import LanguageField from "./basicInformation/LanguageField"
 import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
+import ContributorFields from "./basicInformation/ContributorFields"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -61,12 +62,14 @@ interface BasicInformationFormProps {
     depositId: DepositId
 
     languages: DropdownList
+    contributorIds: DropdownList
+    contributorRoles: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
     dates: DropdownList
 }
 
-const BasicInformationForm = ({ depositId, languages, audiences, identifiers, dates }: BasicInformationFormProps) => (
+const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, dates }: BasicInformationFormProps) => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
             <Field name="doi"
@@ -107,11 +110,35 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
         </div>
 
         <div className="row form-group input-element">
-            <p>Creator</p>
+            <RepeatableField name="creators"
+                             label="Creator"
+                             empty={emptyContributor}
+                             fieldNames={[
+                                 (name: string) => `${name}.titles`, // 0
+                                 (name: string) => `${name}.initials`, // 1
+                                 (name: string) => `${name}.insertions`, // 2
+                                 (name: string) => `${name}.surname`, // 3
+                                 (name: string) => `${name}.ids`, // 4
+                                 (name: string) => `${name}.role`, // 5
+                                 (name: string) => `${name}.organization`, // 6
+                             ]}
+                             component={ContributorFields(contributorIds, contributorRoles)}/>
         </div>
 
         <div className="row form-group input-element">
-            <p>Contributor</p>
+            <RepeatableField name="contributors"
+                             label="Contributors"
+                             empty={emptyContributor}
+                             fieldNames={[
+                                 (name: string) => `${name}.titles`, // 0
+                                 (name: string) => `${name}.initials`, // 1
+                                 (name: string) => `${name}.insertions`, // 2
+                                 (name: string) => `${name}.surname`, // 3
+                                 (name: string) => `${name}.ids`, // 4
+                                 (name: string) => `${name}.role`, // 5
+                                 (name: string) => `${name}.organization`, // 6
+                             ]}
+                             component={ContributorFields(contributorIds, contributorRoles)}/>
         </div>
 
         <div className="row form-group input-element">
@@ -204,6 +231,8 @@ const BasicInformationForm = ({ depositId, languages, audiences, identifiers, da
 
 const mapStateToProps = (state: AppState) => ({
     languages: state.dropDowns.languages,
+    contributorIds: state.dropDowns.contributorIds,
+    contributorRoles: state.dropDowns.contributorRoles,
     audiences: state.dropDowns.audiences,
     identifiers: state.dropDowns.identifiers,
     dates: state.dropDowns.dates,

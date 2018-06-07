@@ -84,16 +84,16 @@
     color: #444;
 }
 
-.input-element > .text-array > .form-row {
+.input-element .form-row {
     margin-left: 0;
     margin-right: 0;
 }
 
-.input-element > .text-array > .form-row > .col:first-child {
+.input-element .form-row .col:first-child {
     padding-left: 0;
 }
 
-.input-element > .text-array > .form-row > .col:last-child {
+.input-element .form-row .col:last-child {
     padding-right: 0;
 }
 
@@ -101,4 +101,14 @@
     font-size: inherit;
     /*       t   r   b   l*/
     padding: 5px 8px 5px 8px;
+}
+
+.input-element .contributor:last-child,
+.input-element .contributor > .form-row:last-child > .form-group {
+    margin-bottom: 0!important;
+}
+
+.input-element .contributor .form-row .form-group > label {
+    margin-bottom: 0;
+    margin-left: 0.25rem;
 }

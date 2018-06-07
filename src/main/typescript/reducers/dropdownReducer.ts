@@ -88,6 +88,12 @@ function handleFailed(lens: Lens<DropdownLists, [boolean, boolean, string | unde
 const languagesLens = Lens.fromProp<DropdownLists, "languages">("languages")
 const [languagesPendingLens, languagesFulfilledLens, languagesFailedLens] = createLenses(languagesLens)
 
+const contributorIdsLens = Lens.fromProp<DropdownLists, "contributorIds">("contributorIds")
+const [contributorIdsPendingLens, contributorIdsFulfilledLens, contributorIdsFailedLens] = createLenses(contributorIdsLens)
+
+const contributorRolesLens = Lens.fromProp<DropdownLists, "contributorRoles">("contributorRoles")
+const [contributorRolesPendingLens, contributorRolesFulfilledLens, contributorRolesFailedLens] = createLenses(contributorRolesLens)
+
 const audiencesLens = Lens.fromProp<DropdownLists, "audiences">("audiences")
 const [audiencesPendingLens, audiencesFulfilledLens, audiencesFailedLens] = createLenses(audiencesLens)
 
@@ -126,6 +132,20 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(languagesFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FAILED:
             return handleFailed(languagesFailedLens, action.payload, state)
+
+        case DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING:
+            return handlePending(contributorIdsPendingLens, state)
+        case DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FULFILLED:
+            return handleFulfilled(contributorIdsFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FAILED:
+            return handleFailed(contributorIdsFailedLens, action.payload, state)
+
+        case DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING:
+            return handlePending(contributorRolesPendingLens, state)
+        case DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_FULFILLED:
+            return handleFulfilled(contributorRolesFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_FAILED:
+            return handleFailed(contributorRolesFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING:
             return handlePending(audiencesPendingLens, state)

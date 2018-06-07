@@ -26,12 +26,19 @@ import {
 } from "../actions/depositFormActions"
 import { DropdownConstants } from "../constants/dropdownConstants"
 import {
-    fetchAbrComplexSubjectsDataFailed, fetchAbrPeriodeTemporalsDataFailed,
+    fetchAbrComplexSubjectsDataFailed,
+    fetchAbrPeriodeTemporalsDataFailed,
     fetchAudiencesDataFailed,
+    fetchContributorIdsDataFailed,
+    fetchContributorRolesDataFailed,
     fetchDatesDataFailed,
     fetchDcmiTypesDataFailed,
-    fetchIdentifiersDataFailed, fetchImtFormatsDataFailed, fetchLanguagesDataFailed,
-    fetchLicensesDataFailed, fetchSpatialCoordinatesDataFailed, fetchSpatialCoveragesIsoDataFailed,
+    fetchIdentifiersDataFailed,
+    fetchImtFormatsDataFailed,
+    fetchLanguagesDataFailed,
+    fetchLicensesDataFailed,
+    fetchSpatialCoordinatesDataFailed,
+    fetchSpatialCoveragesIsoDataFailed,
 } from "../actions/dropdownActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
@@ -68,6 +75,8 @@ const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SEND_SAVE_
 const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_SUBMIT_DEPOSIT_REJECTED)(() => sendSubmitDepositFailed)
 
 const fetchLanguageDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED)(() => fetchLanguagesDataFailed)
+const fetchContributorIdDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED)(() => fetchContributorIdsDataFailed)
+const fetchContributorRoleDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED)(() => fetchContributorRolesDataFailed)
 const fetchAudienceDataRejected = rejectedMiddleware(DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED)(() => fetchAudiencesDataFailed)
 const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED)(() => fetchIdentifiersDataFailed)
 const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED)(() => fetchDatesDataFailed)
@@ -88,6 +97,8 @@ export const rejectedRequestMiddleware = [
     sendSaveDraftRejected,
     sendSubmitDepositRejected,
     fetchLanguageDataRejected,
+    fetchContributorIdDataRejected,
+    fetchContributorRoleDataRejected,
     fetchAudienceDataRejected,
     fetchIdentifierDataRejected,
     fetchDateDataRejected,

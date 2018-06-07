@@ -49,6 +49,7 @@ import {
     contributorDeconverter,
     contributorsConverter,
     emptyContributor,
+    rightsHolderDeconverter,
 } from "../lib/metadata/Contributor"
 import {
     availableQualifier,
@@ -110,9 +111,9 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             const languageOfDescription = input.languageOfDescription
                 ? languageOfDescriptionConverter(dropDowns.languages.list)(input.languageOfDescription)
                 : emptyString
-            const creators = input.creators && input.creators.map(contributorConverter)
+            const creators = input.creators && input.creators.map(contributorConverter(dropDowns.contributorIds.list, dropDowns.contributorRoles.list))
             const [rightsHolders, normalContributors] = input.contributors
-                ? contributorsConverter(input.contributors)
+                ? contributorsConverter(dropDowns.contributorIds.list, dropDowns.contributorRoles.list)(input.contributors)
                 : [[], []]
             const { dateCreated, dateAvailable, dates, textDates } = input.dates
                 ? qualifiedDatesConverter(dropDowns.dates.list)(input.dates)
@@ -239,11 +240,11 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             titles: data.titles && data.titles.filter(t => !isEmptyString(t)),
             alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyString(at)),
             descriptions: data.description && data.description.split("\n\n"),
-            creators: data.creators && data.creators.map(contributorDeconverter).filter(nonEmptyObject),
+            creators: data.creators && data.creators.map(contributorDeconverter(dropDowns.contributorRoles.list)).filter(nonEmptyObject),
             contributors: [
-                ...(data.contributors || []),
-                ...(data.rightsHolders || []),
-            ].map(contributorDeconverter).filter(nonEmptyObject),
+                ...(data.contributors ? data.contributors.map(contributorDeconverter(dropDowns.contributorRoles.list)) : []),
+                ...(data.rightsHolders ? data.rightsHolders.map(rightsHolderDeconverter) : []),
+            ].filter(nonEmptyObject),
             audiences: data.audiences && data.audiences
                 .filter(a => !isEmptyString(a))
                 .map(audienceDeconverter(dropDowns.audiences.list)),

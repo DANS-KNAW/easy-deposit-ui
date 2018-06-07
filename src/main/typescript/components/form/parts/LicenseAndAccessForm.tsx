@@ -17,13 +17,14 @@ import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
 import { Field } from "redux-form"
-import { Contributor } from "../../../lib/metadata/Contributor"
+import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
 import LicenseField from "./licenseAndAccess/LicenseField"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
+import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -34,23 +35,27 @@ export interface LicenseAndAccessFormData {
 }
 
 interface LicenseAndAccessFormProps {
+    contributorIds: DropdownList
     licenses: DropdownList
 }
 
-const LicenseAndAccessForm = ({ licenses }: LicenseAndAccessFormProps) => (
+const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessFormProps) => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
-            <p>Rightsholders</p>
+            <RepeatableField name="rightsHolders"
+                             label="Rightsholders"
+                             empty={emptyContributor}
+                             fieldNames={[
+                                 (name: string) => `${name}.titles`, // 0
+                                 (name: string) => `${name}.initials`, // 1
+                                 (name: string) => `${name}.insertions`, // 2
+                                 (name: string) => `${name}.surname`, // 3
+                                 (name: string) => `${name}.ids`, // 4
+                                 (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
+                                 (name: string) => `${name}.organization`, // 6
+                             ]}
+                             component={RightsholderFields(contributorIds)}/>
         </div>
-
-        {/* TODO replace the Rightsholders with a Creator field */}
-        {/*<div className="row form-group input-element">
-                    <RepeatableField name="rightsHolders"
-                                     label="Rightsholders"
-                                     empty={emptyStringValue}
-                                     fieldNames={[(name: string) => name]}
-                                     component={TextFieldArray}/>
-                </div>*/}
 
         <div className="row form-group input-element">
             <RepeatableField name="publishers"
@@ -78,6 +83,7 @@ const LicenseAndAccessForm = ({ licenses }: LicenseAndAccessFormProps) => (
 )
 
 const mapStateToProps = (state: AppState) => ({
+    contributorIds: state.dropDowns.contributorIds,
     licenses: state.dropDowns.licenses,
 })
 
