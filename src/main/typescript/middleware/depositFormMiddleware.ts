@@ -285,7 +285,7 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
             // license and access
             publishers: data.publishers && data.publishers.filter(p => !isEmptyString(p)),
             accessRights: data.accessRights && accessRightDeconverter(data.accessRights), // TODO not sure if this is correct
-            license: data.license && licenseDeconverter(data.license),
+            license: data.license && licenseDeconverter(dropDowns.licenses.list)(data.license),
 
             // upload type
             types: [
