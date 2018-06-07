@@ -31,16 +31,14 @@ const ContributorIdArray = (idValues: DropdownListEntry[]) => (
                 <div className="col-12 col-md-9 pl-0 pr-0 text-array">
                     {fields.map((name: string, index: number) => (
                         <div className="form-row" key={`${name}.${index}`}>
-                            <div className="form-group col-md-3 mb-2">
-                                <label>Scheme</label>
+                            <div className="col col-md-3 mb-2">
                                 <Field name={fieldNames[0](name)}
                                        choices={idValues}
                                        withEmptyDefault
                                        component={DropdownFieldInput}/>
                             </div>
 
-                            <div className="form-group col-md-9 mb-2">
-                                <label>ID</label>
+                            <div className="col col-md-9 mb-2">
                                 <div className="input-group">
                                     <Field name={fieldNames[1](name)}
                                            placeholder="ID"
@@ -78,34 +76,34 @@ const ContributorIdRows = ({ idName, idValues }: ContributorIdRowsProps) => (
     </div>
 )
 
-interface FirstRowProps {
+interface NameProps {
     titleName: string
     initialsName: string
     insertionsName: string
     surnameName: string
 }
 
-const FirstRow = ({ titleName, initialsName, insertionsName, surnameName }: FirstRowProps) => (
+const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProps) => (
     <>
-        <div className="form-group col-md-3 mb-2">
+        <div className="col form-group col-md-3 mb-2">
             <label>Titles</label>
             <Field name={titleName}
                    placeholder="(acadamic) title(s)"
                    component={TextField}/>
         </div>
-        <div className="form-group col-md-3 mb-2">
+        <div className="col form-group col-md-3 mb-2">
             <label>Initials</label>
             <Field name={initialsName}
                    placeholder="initials"
                    component={TextField}/>
         </div>
-        <div className="form-group col-md-3 mb-2">
+        <div className="col form-group col-md-3 mb-2">
             <label>Insertions</label>
             <Field name={insertionsName}
                    placeholder="insertions"
                    component={TextField}/>
         </div>
-        <div className="form-group col-md-3 mb-2">
+        <div className="col form-group col-md-3 mb-2">
             <label>Surname</label>
             <Field name={surnameName}
                    placeholder="surname"
@@ -133,61 +131,39 @@ const Organization = ({ organizationName, onDelete, deleteDisabled }: Organizati
     </>
 )
 
-interface SecondRowWithRoleProps {
-    roleName: string
-    roleValues: DropdownListEntry[]
-    organizationName: string
-    onDelete: () => void
-    deleteDisabled: boolean
-}
-
-const SecondRowWithRole = ({ roleName, roleValues, organizationName, onDelete, deleteDisabled }: SecondRowWithRoleProps) => (
-    <>
-        <div className="form-group col-md-4 mb-2">
-            <label>Role</label>
-            <Field name={roleName}
-                   choices={roleValues || []}
-                   withEmptyDefault
-                   emptyDefault="-no role-"
-                   component={DropdownFieldInput}/>
-        </div>
-        <div className="form-group col-md-8 mb-2">
-            <Organization organizationName={organizationName}
-                          onDelete={onDelete}
-                          deleteDisabled={deleteDisabled}/>
-        </div>
-    </>
-)
-
 interface ContributorFieldProps extends InnerComponentProps {
     idValues: DropdownListEntry[]
     roleValues?: DropdownListEntry[]
 }
 
 const ContributorField = ({ names, onDelete, deleteDisabled, idValues, roleValues }: ContributorFieldProps) => (
-    <div className="contributor mb-4">
+    <div className="border rounded contributor p-2 mb-4">
+        <div className="form-row">
+            <Name titleName={names[0]}
+                  initialsName={names[1]}
+                  insertionsName={names[2]}
+                  surnameName={names[3]}/>
+        </div>
+
+        {roleValues && <div className="form-row">
+            <div className="col mb-2">
+                <Field name={names[5]}
+                       choices={roleValues || []}
+                       withEmptyDefault
+                       emptyDefault="Choose role..."
+                       component={DropdownFieldInput}/>
+            </div>
+        </div>}
+
         <ContributorIdRows idName={names[4]}
                            idValues={idValues}/>
 
         <div className="form-row">
-            <FirstRow titleName={names[0]}
-                      initialsName={names[1]}
-                      insertionsName={names[2]}
-                      surnameName={names[3]}/>
-        </div>
-
-        <div className="form-row">
-            {roleValues
-                ? <SecondRowWithRole roleName={names[5]}
-                                     roleValues={roleValues}
-                                     organizationName={names[6]}
-                                     onDelete={onDelete}
-                                     deleteDisabled={deleteDisabled}/>
-                : <div className="form-group col-md-12 mb-2">
-                    <Organization organizationName={names[6]}
-                                  onDelete={onDelete}
-                                  deleteDisabled={deleteDisabled}/>
-                </div>}
+            <div className="col form-group">
+                <Organization organizationName={names[6]}
+                              onDelete={onDelete}
+                              deleteDisabled={deleteDisabled}/>
+            </div>
         </div>
     </div>
 )
