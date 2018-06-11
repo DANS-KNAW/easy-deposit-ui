@@ -47,6 +47,10 @@ class CustomDatePicker extends Component<CustomDatePickerProps> {
     }
 }
 
+// detects if the website is displayed on a mobile device
+// copied from https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
+const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)
+
 type DatePickerProps = WrappedFieldProps & ReactDatePickerProps
 
 const DatePickerField = (props: DatePickerProps) => {
@@ -59,6 +63,7 @@ const DatePickerField = (props: DatePickerProps) => {
 
                        customInput={<CustomDatePicker/>}
                        isClearable={true}
+                       withPortal={isMobileDevice()}
                        placeholderText="Choose a date..."
 
                        selected={value ? moment(value, dateFormat) : null}
