@@ -105,9 +105,9 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <div className="row form-group input-element">
             <Field name="description"
+                   label="Description"
                    rows={5}
                    maxRows={15}
-                   label="Description"
                    component={TextArea}/>
         </div>
 
@@ -220,17 +220,17 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <div className="row form-group input-element">
             <Field name="source"
+                   label="Source"
                    rows={5}
                    maxRows={15}
-                   label="Source"
                    component={TextArea}/>
         </div>
 
         <div className="row form-group input-element">
             <Field name="instructionsForReuse"
+                   label="Instructions for reuse"
                    rows={5}
                    maxRows={15}
-                   label="Instructions for reuse"
                    component={TextArea}/>
         </div>
     </div>
