@@ -112,3 +112,12 @@
     margin-bottom: 0;
     margin-left: 0.25rem;
 }
+
+.react-datepicker__close-icon:after {
+    background-color: #a9a9a9!important;
+    font-size: 13px!important;
+}
+
+.react-datepicker__close-icon:hover:after {
+    background-color: #919191!important;
+}

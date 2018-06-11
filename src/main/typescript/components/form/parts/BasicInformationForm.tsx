@@ -35,6 +35,8 @@ import { connect } from "react-redux"
 import LanguageField from "./basicInformation/LanguageField"
 import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
 import ContributorFields from "./basicInformation/ContributorFields"
+import DatePickerField from "../../../lib/formComponents/DatePickerField"
+import * as moment from "moment"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -142,7 +144,12 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         </div>
 
         <div className="row form-group input-element">
-            <p>Date created</p>
+            <Field name="dateCreated"
+                   label="Date created"
+                   todayButton="Today"
+                   minDate={moment().subtract(2, "years")} // TODO check if this is correct!
+                   maxDate={moment()}
+                   component={DatePickerField}/>
         </div>
 
         <div className="row form-group input-element">

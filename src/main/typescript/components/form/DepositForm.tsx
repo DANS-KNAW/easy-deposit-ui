@@ -21,6 +21,7 @@ import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import { DepositFormData } from "./parts"
 import { DepositId } from "../../model/Deposits"
 import { ReduxAction } from "../../lib/redux"
