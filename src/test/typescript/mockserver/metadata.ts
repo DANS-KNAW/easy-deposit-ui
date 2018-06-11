@@ -180,7 +180,6 @@ enum DateQualifierValues {
     date = "dcterms:date",
     dateAccepted = "dcterms:dateAccepted",
     dateCopyrighted = "dcterms:dateCopyrighted",
-    dateSubmitted = "dcterms:dateSubmitted",
     issued = "dcterms:issued",
     modified = "dcterms:modified",
     valid = "dcterms:valid",

@@ -54,7 +54,6 @@ import {
 import {
     availableQualifier,
     createdQualifier,
-    dateSubmittedQualifier,
     emptyDates,
     emptyQualifiedDate,
     emptyQualifiedStringDate,
@@ -280,10 +279,6 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
                             value: new Date(),
                         })
                         : {}),
-                (action.type === DepositFormConstants.SUBMIT_DEPOSIT && qualifiedDateDeconverter({
-                    qualifier: dateSubmittedQualifier,
-                    value: new Date(),
-                })),
                 ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
                 ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
             ].filter(nonEmptyObject),
