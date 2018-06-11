@@ -39,7 +39,7 @@ const DatePickerField = (props: DatePickerProps) => {
                        scrollableMonthYearDropdown
 
                        selected={value ? moment(value, dateFormat) : null}
-                       onChange={date => onChange(date ? moment(date).format(dateFormat) : "")}>
+                       onChange={date => onChange(date ? moment(date).toDate() : "")}>
             {children}
         </LibDatePicker>
     )
