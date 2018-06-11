@@ -83,7 +83,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                    label="Date available"
                    todayButton="Today"
                    minDate={moment()}
-                   maxDate={moment().add(2, "years")} // TODO check if this is correct! - embargo max 2 years
+                   maxDate={moment().add(2, "years")}
                    component={DatePickerField}/>
         </div>
     </div>

@@ -20,6 +20,33 @@ import * as moment from "moment"
 import { WrappedFieldProps } from "redux-form"
 import { Component } from "react"
 
+interface CustomDatePickerProps {
+    value?: string
+    placeholder?: string
+
+    onClick?(event: any): void
+}
+
+class CustomDatePicker extends Component<CustomDatePickerProps> {
+    onClick = (event: any) => {
+        event.preventDefault()
+        this.props.onClick && this.props.onClick(event)
+    }
+
+    render() {
+        console.log(this.props)
+        return (
+            <button {...this.props}
+                    type="button"
+                    className={`btn btn-primary mb-0 mt-0 value-button`}
+                    style={{width: "129px"}}
+                    onClick={this.onClick}>
+                {this.props.value || this.props.placeholder}
+            </button>
+        )
+    }
+}
+
 type DatePickerProps = WrappedFieldProps & ReactDatePickerProps
 
 const DatePickerField = (props: DatePickerProps) => {
@@ -30,13 +57,9 @@ const DatePickerField = (props: DatePickerProps) => {
         <LibDatePicker {...props}
                        dateFormat={dateFormat}
 
+                       customInput={<CustomDatePicker/>}
                        isClearable={true}
                        placeholderText="Choose a date..."
-
-                       showDisabledMonthNavigation
-                       showMonthYearDropdown
-                       dateFormatCalendar="MMM YYYY"
-                       scrollableMonthYearDropdown
 
                        selected={value ? moment(value, dateFormat) : null}
                        onChange={date => onChange(date ? moment(date).toDate() : "")}>

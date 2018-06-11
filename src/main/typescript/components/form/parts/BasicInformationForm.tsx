@@ -147,7 +147,9 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
             <Field name="dateCreated"
                    label="Date created"
                    todayButton="Today"
-                   minDate={moment().subtract(2, "years")} // TODO check if this is correct!
+                   showYearDropdown
+                   yearDropdownItemNumber={10}
+                   scrollableYearDropdown
                    maxDate={moment()}
                    component={DatePickerField}/>
         </div>
