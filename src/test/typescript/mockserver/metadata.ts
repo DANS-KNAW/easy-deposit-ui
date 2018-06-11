@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as dateFormat from "dateformat"
+
 export type Doi = string
 
 export interface Metadata {
@@ -433,7 +435,7 @@ export const allfields: Metadata = {
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-14",
+            value: dateFormat(Date.now(), "yyyy-mm-dd"),
             qualifier: DateQualifierValues.available,
         },
         {

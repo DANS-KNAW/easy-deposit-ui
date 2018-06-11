@@ -25,6 +25,8 @@ import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
 import RightsholderFields from "./licenseAndAccess/RightsholderFields"
+import DatePickerField from "../../../lib/formComponents/DatePickerField"
+import * as moment from "moment"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -77,7 +79,12 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         </div>
 
         <div className="row form-group input-element">
-            <p>Date available</p>
+            <Field name="dateAvailable"
+                   label="Date available"
+                   todayButton="Today"
+                   minDate={moment()}
+                   maxDate={moment().add(2, "years")} // TODO check if this is correct! - embargo max 2 years
+                   component={DatePickerField}/>
         </div>
     </div>
 )
