@@ -425,7 +425,7 @@ export const allfields: Metadata = {
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-19",
+            value: dateFormat(new Date().setDate(new Date().getDate() - 2), "yyyy-mm-dd"),
             qualifier: DateQualifierValues.created,
         },
         {
