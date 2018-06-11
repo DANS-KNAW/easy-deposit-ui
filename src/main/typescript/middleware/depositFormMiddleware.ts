@@ -269,10 +269,17 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
                     qualifier: createdQualifier,
                     value: data.dateCreated,
                 })),
-                (data.dateAvailable && qualifiedDateDeconverter({
-                    qualifier: availableQualifier,
-                    value: data.dateAvailable,
-                })),
+                (data.dateAvailable
+                    ? qualifiedDateDeconverter({
+                        qualifier: availableQualifier,
+                        value: data.dateAvailable,
+                    })
+                    : action.type === DepositFormConstants.SUBMIT_DEPOSIT
+                        ? qualifiedDateDeconverter({
+                            qualifier: availableQualifier,
+                            value: new Date(),
+                        })
+                        : {}),
                 (action.type === DepositFormConstants.SUBMIT_DEPOSIT && qualifiedDateDeconverter({
                     qualifier: dateSubmittedQualifier,
                     value: new Date(),
