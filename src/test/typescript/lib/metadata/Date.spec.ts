@@ -185,29 +185,12 @@ describe("Date", () => {
                 .throw("Error in metadata: multiple dates with qualifier 'available' found")
         })
 
-        it("should fail when multiple dateSubmitted fields are given", () => {
-            const input = [
-                {
-                    scheme: "dcterms:W3CDTF",
-                    value: "2018-03-18",
-                    qualifier: "dcterms:dateSubmitted"
-                },
-                {
-                    scheme: "dcterms:W3CDTF",
-                    value: "2018-03-19",
-                    qualifier: "dcterms:dateSubmitted"
-                },
-            ]
-            expect(() => converter(input)).to
-                .throw("Error in metadata: multiple dates with qualifier 'dateSubmitted' found")
-        })
-
         it("should fail when the date is not properly formatted", () => {
             const input = [
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "20180318",
-                    qualifier: "dcterms:dateSubmitted"
+                    qualifier: "dcterms:available"
                 },
             ]
             expect(() => converter(input)).to

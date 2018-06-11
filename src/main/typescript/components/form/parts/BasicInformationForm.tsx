@@ -35,6 +35,8 @@ import { connect } from "react-redux"
 import LanguageField from "./basicInformation/LanguageField"
 import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
 import ContributorFields from "./basicInformation/ContributorFields"
+import DatePickerField from "../../../lib/formComponents/DatePickerField"
+import * as moment from "moment"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -103,9 +105,9 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <div className="row form-group input-element">
             <Field name="description"
+                   label="Description"
                    rows={5}
                    maxRows={15}
-                   label="Description"
                    component={TextArea}/>
         </div>
 
@@ -142,7 +144,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         </div>
 
         <div className="row form-group input-element">
-            <p>Date created</p>
+            <Field name="dateCreated"
+                   label="Date created"
+                   todayButton="Today"
+                   showYearDropdown
+                   yearDropdownItemNumber={10}
+                   scrollableYearDropdown
+                   maxDate={moment()}
+                   component={DatePickerField}/>
         </div>
 
         <div className="row form-group input-element">
@@ -213,17 +222,17 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <div className="row form-group input-element">
             <Field name="source"
+                   label="Source"
                    rows={5}
                    maxRows={15}
-                   label="Source"
                    component={TextArea}/>
         </div>
 
         <div className="row form-group input-element">
             <Field name="instructionsForReuse"
+                   label="Instructions for reuse"
                    rows={5}
                    maxRows={15}
-                   label="Instructions for reuse"
                    component={TextArea}/>
         </div>
     </div>

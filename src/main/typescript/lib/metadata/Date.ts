@@ -27,7 +27,6 @@ function toDateScheme(value: string): DateScheme | undefined {
 
 export const createdQualifier = "dcterms:created"
 export const availableQualifier = "dcterms:available"
-export const dateSubmittedQualifier = "dcterms:dateSubmitted"
 
 export interface QualifiedDate<Value> {
     qualifier?: string
@@ -79,7 +78,7 @@ const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => Inter
                 qualifier: qualifierObj.key,
                 value: value,
             }
-    else if (sd.qualifier === createdQualifier || sd.qualifier === availableQualifier || sd.qualifier === dateSubmittedQualifier)
+    else if (sd.qualifier === createdQualifier || sd.qualifier === availableQualifier)
         return ({
             scheme: scheme,
             qualifier: sd.qualifier,
@@ -92,7 +91,6 @@ const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => Inter
 export const emptyDates: Dates = ({
     dateCreated: { qualifier: createdQualifier, value: undefined },
     dateAvailable: { qualifier: availableQualifier, value: undefined },
-    dateSubmitted: { qualifier: dateSubmittedQualifier, value: undefined },
     dates: [{ qualifier: undefined, value: undefined }],
     textDates: [{ qualifier: undefined, value: "" }],
 })
@@ -117,11 +115,6 @@ export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any)
                     throw `Error in metadata: multiple dates with qualifier 'available' found`
                 else
                     return { ...res, dateAvailable: { qualifier: qualifier, value: dateConverter(value) } }
-            case dateSubmittedQualifier:
-                if (res.dateSubmitted)
-                    throw `Error in metadata: multiple dates with qualifier 'dateSubmitted' found`
-                else
-                    return { ...res, dateSubmitted: { qualifier: qualifier, value: dateConverter(value) } }
             default:
                 if (scheme)
                     return { ...res, dates: [...res.dates, { qualifier: qualifier, value: dateConverter(value) }] }

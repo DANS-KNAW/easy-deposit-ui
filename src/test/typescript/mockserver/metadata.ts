@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as dateFormat from "dateformat"
+
 export type Doi = string
 
 export interface Metadata {
@@ -178,7 +180,6 @@ enum DateQualifierValues {
     date = "dcterms:date",
     dateAccepted = "dcterms:dateAccepted",
     dateCopyrighted = "dcterms:dateCopyrighted",
-    dateSubmitted = "dcterms:dateSubmitted",
     issued = "dcterms:issued",
     modified = "dcterms:modified",
     valid = "dcterms:valid",
@@ -424,7 +425,7 @@ export const allfields: Metadata = {
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-19",
+            value: dateFormat(new Date().setDate(new Date().getDate() - 2), "yyyy-mm-dd"),
             qualifier: DateQualifierValues.created,
         },
         {
@@ -433,7 +434,7 @@ export const allfields: Metadata = {
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-14",
+            value: dateFormat(Date.now(), "yyyy-mm-dd"),
             qualifier: DateQualifierValues.available,
         },
         {
