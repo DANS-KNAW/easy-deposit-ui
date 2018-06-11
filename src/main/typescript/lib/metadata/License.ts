@@ -24,4 +24,11 @@ export const licenseConverter: (licenses: DropdownListEntry[]) => (l: any) => st
         throw `Error in metadata: no such license: '${l}'`
 }
 
-export const licenseDeconverter: (l: string) => any = l => l
+export const licenseDeconverter: (licenses: DropdownListEntry[]) => (l: string) => any = licenses => l => {
+    const validLicense = licenses.find(({key}) => key === l)
+
+    if (validLicense)
+        return l
+    else
+        throw `Error in metadata: no such license: '${l}'`
+}

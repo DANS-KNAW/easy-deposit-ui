@@ -63,7 +63,7 @@ export const languagesOfFilesConverter: (languages: DropdownListEntry[]) => (lof
         else if (isEqual(Object.keys(lof), ["value"]))
             return [isoLangs, [...langs, lof.value]]
         else
-            throw `Error in metadata: unrecognized language-of-files object: ${JSON.stringify(lof)}`
+            throw `Error in metadata: unrecognized language of files object: ${JSON.stringify(lof)}`
     }, [[], []])
 }
 
