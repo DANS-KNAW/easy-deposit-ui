@@ -37,6 +37,7 @@ import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
 import ContributorFields from "./basicInformation/ContributorFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
+import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -206,7 +207,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         </div>
 
         <div className="row form-group input-element">
-            <p>Date (ISO 8601)</p>
+            <RepeatableField name="datesIso8601"
+                             label="Date (ISO 8601)"
+                             empty={emptyQualifiedDate}
+                             fieldNames={[
+                                 (name: string) => `${name}.qualifier`,
+                                 (name: string) => `${name}.value`,
+                             ]}
+                             component={IsoDateFieldArray}/>
         </div>
 
         <div className="row form-group input-element">
