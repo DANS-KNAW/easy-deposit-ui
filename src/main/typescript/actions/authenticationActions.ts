@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { ReduxAction } from "../lib/redux"
-import { loginURL, userURL, logoutURL } from "../constants/apiConstants"
+import { loginURL, logoutURL } from "../constants/apiConstants"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import axios from "axios"
 
