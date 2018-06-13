@@ -19,7 +19,7 @@ const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const baseConfig = require('./base.config.js');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(baseConfig, {
     output: {
@@ -31,16 +31,17 @@ module.exports = merge(baseConfig, {
         rules: [
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract([
+                use: [
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
-                        options: {minimize: true},
+                        options: {sourceMap: true},
                     },
                     {
                         loader: 'postcss-loader',
                         options: {config: {path: 'webpack/postcss.config.js'}},
                     },
-                ]),
+                ],
             },
         ]
     },
