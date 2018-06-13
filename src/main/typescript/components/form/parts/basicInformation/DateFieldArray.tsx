@@ -17,10 +17,10 @@ import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
 import SchemedTextFieldArray from "../../../../lib/formComponents/SchemedTextFieldArray"
-import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
+import { QualifiedDate } from "../../../../lib/metadata/Date"
 
-const DateFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
+const DateFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<QualifiedDate<string>>) => (
     <LoadDropdownData state={state}>
         <SchemedTextFieldArray {...props} schemeValues={list}/>
     </LoadDropdownData>

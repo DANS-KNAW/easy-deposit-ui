@@ -23,7 +23,7 @@ import { DepositId } from "../../../model/Deposits"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
-import { QualifiedDate } from "../../../lib/metadata/Date"
+import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
@@ -212,7 +212,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <RepeatableField name="dates"
                              label="Date"
-                             empty={emptySchemedValue}
+                             empty={emptyQualifiedStringDate}
                              fieldNames={[
                                  (name: string) => `${name}.qualifier`,
                                  (name: string) => `${name}.value`,
