@@ -29,10 +29,13 @@ interface DoiFieldInputArguments {
 
 interface DoiFieldStoreArguments {
     fetchDoiState: FetchDoiState
+}
+
+interface DoiFieldStoreFunctions {
     fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>>
 }
 
-type DoiFieldProps = WrappedFieldProps & DoiFieldInputArguments & DoiFieldStoreArguments
+type DoiFieldProps = WrappedFieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
 
 const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fetchingDoi, fetchDoiError } }: DoiFieldProps) => (
     <>
@@ -55,7 +58,7 @@ const mapStateToProps = (state: AppState) => ({
     fetchDoiState: state.depositForm.fetchDoi,
 })
 
-const ConnectedDoiField = connect(mapStateToProps, { fetchDoi })(DoiField)
+const ConnectedDoiField = connect<DoiFieldStoreArguments, DoiFieldStoreFunctions, DoiFieldInputArguments>(mapStateToProps, { fetchDoi })(DoiField)
 
 const DoiFieldWrapper = ({depositId, ...rest}: WrappedFieldProps & DoiFieldInputArguments) => (
     <ConnectedDoiField depositId={depositId} {...rest}/>
