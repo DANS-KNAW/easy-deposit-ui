@@ -15,7 +15,6 @@
  */
 import { SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
 import * as lodash from "lodash"
-import { clean } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum IdentifierScheme {
