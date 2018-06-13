@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 import { AppState } from "../model/AppState"
-import { Action, AnyAction, Dispatch as ReduxDispatch, Middleware, MiddlewareAPI } from "redux"
+import { Action, Dispatch as ReduxDispatch } from "redux"
 
 export type Dispatch = ReduxDispatch<AppState>
 
 export interface ReduxAction<T> extends Action {
     payload: T | (() => T)
-}
-
-interface ExtendedMiddleware<StateType> extends Middleware {
-    <S extends StateType>(api: MiddlewareAPI<S>): (next: ReduxDispatch<S>) => ReduxDispatch<S>;
-}
-
-export function createMiddleware<T>(f: (api: MiddlewareAPI<T>, next: ReduxDispatch<T>, action: AnyAction) => any): ExtendedMiddleware<T> {
-    return <S extends T>(api: MiddlewareAPI<S>) => (next: ReduxDispatch<S>) => <A extends AnyAction>(action: A) => f(api, next, action)
 }

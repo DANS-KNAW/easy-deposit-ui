@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Middleware } from "redux"
+import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import { Deposit, Deposits, toDepositState } from "../model/Deposits"
 import {
@@ -22,11 +22,10 @@ import {
     fetchDepositsFailed,
     fetchDepositsSucceeded,
 } from "../actions/depositOverviewActions"
-import { createMiddleware } from "../lib/redux"
 import { push } from "react-router-redux"
 import { depositFormRoute } from "../constants/clientRoutes"
 
-const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const depositFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.FETCH_DEPOSITS_FULFILLED) {
@@ -63,9 +62,9 @@ const depositFetchConverter: Middleware = createMiddleware(({ dispatch }, next, 
             dispatch(fetchDepositsFailed(errorMessage))
         }
     }
-})
+}
 
-const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const newDepositResponseConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
@@ -88,6 +87,6 @@ const newDepositResponseConverter: Middleware = createMiddleware(({ dispatch }, 
             dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state_text}'`))
         }
     }
-})
+}
 
 export const depositMiddleware = [depositFetchConverter, newDepositResponseConverter]
