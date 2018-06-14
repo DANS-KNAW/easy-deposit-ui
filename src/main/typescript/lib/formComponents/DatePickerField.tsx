@@ -27,7 +27,7 @@ interface CustomDatePickerProps {
     onClick?(event: any): void
 }
 
-class CustomDatePicker extends Component<CustomDatePickerProps> {
+class CustomDateButton extends Component<CustomDatePickerProps> {
     onClick = (event: any) => {
         event.preventDefault()
         this.props.onClick && this.props.onClick(event)
@@ -47,6 +47,16 @@ class CustomDatePicker extends Component<CustomDatePickerProps> {
     }
 }
 
+class CustomDateTextField extends Component<CustomDatePickerProps> {
+    render() {
+        return (
+            <input {...this.props}
+                   type="text"
+                   readOnly/>
+        )
+    }
+}
+
 // detects if the website is displayed on a mobile device
 // copied from https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
 const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)
@@ -61,7 +71,7 @@ const DatePickerField = (props: DatePickerProps) => {
         <LibDatePicker {...props}
                        dateFormat={dateFormat}
 
-                       customInput={<CustomDatePicker/>}
+                       customInput={<CustomDateTextField/>}
                        isClearable={true}
                        withPortal={isMobileDevice()}
                        placeholderText="Choose a date..."
@@ -74,3 +84,5 @@ const DatePickerField = (props: DatePickerProps) => {
 }
 
 export default asField(DatePickerField)
+
+export const DatePickerInput = (props: WrappedFieldProps & any) => <DatePickerField {...props}/>
