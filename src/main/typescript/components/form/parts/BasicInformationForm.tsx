@@ -214,7 +214,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                  (name: string) => `${name}.qualifier`,
                                  (name: string) => `${name}.value`,
                              ]}
-                             component={IsoDateFieldArray}/>
+                             component={IsoDateFieldArray(dates)}/>
         </div>
 
         <div className="row form-group input-element">
