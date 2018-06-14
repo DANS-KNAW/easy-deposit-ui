@@ -76,6 +76,8 @@ const DatePickerField = (props: DatePickerProps) => {
                        withPortal={isMobileDevice()}
                        placeholderText="Choose a date..."
 
+                       className="react-datepicker__input-field"
+
                        selected={value ? moment(value, dateFormat) : null}
                        onChange={date => onChange(date ? moment(date).toDate() : "")}>
             {children}

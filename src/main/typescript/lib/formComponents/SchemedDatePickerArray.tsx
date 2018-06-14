@@ -23,10 +23,19 @@ const SchemedDatePickerArray = ({ names, label, onDelete, deleteDisabled, scheme
         </div>
         <div className="col col-md-8">
             <div className="input-group mb-2 mr-2">
-                <Field name={names[1]}
-                       label="Value"
-                       placeholder={label}
-                       component={DatePickerInput}/>
+                {/*
+                  * In contrast to other form fields, we have the '.form-control' wrapped around the Field
+                  * DatePickerInput wraps a DatePicker that is not managed by us. Therefore we cannot add
+                  * the '.form-control' at the appropriate location in the DOM tree.
+                  * Wrapping the Field in this way, together with the '.date-picker-field' allows us to
+                  * change some rules in form.css such that this field matches our overall look-and-feel.
+                  */}
+                <div className="form-control date-picker-field">
+                    <Field name={names[1]}
+                           label="Value"
+                           placeholder={label}
+                           component={DatePickerInput}/>
+                </div>
                 <RemoveButton onClick={onDelete}
                               disabled={deleteDisabled}/>
             </div>
