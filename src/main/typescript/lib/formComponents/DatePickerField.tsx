@@ -14,37 +14,17 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { Component } from "react"
 import asField from "./FieldHOC"
 import LibDatePicker, { ReactDatePickerProps } from "react-datepicker"
 import * as moment from "moment"
 import { WrappedFieldProps } from "redux-form"
-import { Component } from "react"
 
 interface CustomDatePickerProps {
     value?: string
     placeholder?: string
 
     onClick?(event: any): void
-}
-
-class CustomDateButton extends Component<CustomDatePickerProps> {
-    onClick = (event: any) => {
-        event.preventDefault()
-        this.props.onClick && this.props.onClick(event)
-    }
-
-    render() {
-        console.log(this.props)
-        return (
-            <button {...this.props}
-                    type="button"
-                    className={`btn btn-primary mb-0 mt-0 value-button`}
-                    style={{width: "129px"}}
-                    onClick={this.onClick}>
-                {this.props.value || this.props.placeholder}
-            </button>
-        )
-    }
 }
 
 class CustomDateTextField extends Component<CustomDatePickerProps> {
@@ -59,7 +39,7 @@ class CustomDateTextField extends Component<CustomDatePickerProps> {
 
 // detects if the website is displayed on a mobile device
 // copied from https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
-const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)
+const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf("IEMobile") !== -1)
 
 type DatePickerProps = WrappedFieldProps & ReactDatePickerProps
 
