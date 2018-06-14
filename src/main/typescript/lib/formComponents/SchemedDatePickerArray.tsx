@@ -48,6 +48,10 @@ const SchemedDatePickerArray = ({ names, label, onDelete, deleteDisabled, scheme
                 <div className="form-control date-picker-field">
                     <Field name={names[1]}
                            label="Value"
+                           todayButton="Today"
+                           showYearDropdown
+                           yearDropdownItemNumber={5}
+                           scrollableYearDropdown
                            placeholder={label}
                            component={DatePickerInput}/>
                 </div>
