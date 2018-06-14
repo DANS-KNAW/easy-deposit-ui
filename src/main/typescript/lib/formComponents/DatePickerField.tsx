@@ -43,6 +43,7 @@ const isMobileDevice = () => (typeof window.orientation !== "undefined") || (nav
 
 type DatePickerProps = WrappedFieldProps & ReactDatePickerProps
 
+// See https://reactdatepicker.com/ for all kinds of options to be used on the DatePicker
 const DatePickerField = (props: DatePickerProps) => {
     const { input: { value, onChange }, children } = props
     const dateFormat = "DD-MM-YYYY"
