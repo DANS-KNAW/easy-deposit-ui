@@ -23,7 +23,7 @@ import { DepositId } from "../../../model/Deposits"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
-import { QualifiedDate } from "../../../lib/metadata/Date"
+import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
@@ -37,6 +37,7 @@ import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
 import ContributorFields from "./basicInformation/ContributorFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
+import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -206,13 +207,20 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         </div>
 
         <div className="row form-group input-element">
-            <p>Date (ISO 8601)</p>
+            <RepeatableField name="datesIso8601"
+                             label="Date (ISO 8601)"
+                             empty={emptyQualifiedDate}
+                             fieldNames={[
+                                 (name: string) => `${name}.qualifier`,
+                                 (name: string) => `${name}.value`,
+                             ]}
+                             component={IsoDateFieldArray(dates)}/>
         </div>
 
         <div className="row form-group input-element">
             <RepeatableField name="dates"
                              label="Date"
-                             empty={emptySchemedValue}
+                             empty={emptyQualifiedStringDate}
                              fieldNames={[
                                  (name: string) => `${name}.qualifier`,
                                  (name: string) => `${name}.value`,

@@ -16,14 +16,14 @@
 import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
-import SchemedTextFieldArray from "../../../../lib/formComponents/SchemedTextFieldArray"
+import SchemedDatePickerArray from "../../../../lib/formComponents/SchemedDatePickerArray"
 import { DropdownList } from "../../../../model/DropdownLists"
 import { QualifiedDate } from "../../../../lib/metadata/Date"
 
-const DateFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<QualifiedDate<string>>) => (
+const IsoDateFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<QualifiedDate<Date>>) => (
     <LoadDropdownData state={state}>
-        <SchemedTextFieldArray {...props} schemeValues={list}/>
+        <SchemedDatePickerArray {...props} schemeValues={list}/>
     </LoadDropdownData>
 )
 
-export default DateFieldArray
+export default IsoDateFieldArray

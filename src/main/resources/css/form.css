@@ -113,6 +113,31 @@
     margin-left: 0.25rem;
 }
 
+/*
+ * These 4 '.date-picker-field' rules make sure that the DatePickerField is displayed correctly
+ * Since this is a component not managed by us, we have to change some of this predefined rules
+ * to make it fit with our look and feel.
+ *
+ * To test that the <input/> spans the whole '.form-control', remove 'border: 0;' below and check
+ * that its border matches the border of the '.form-control'.
+ */
+.input-group > .form-control.date-picker-field {
+    padding: 0;
+}
+
+.input-group > .form-control.date-picker-field .react-datepicker-wrapper {
+    display: unset;
+}
+
+.input-group > .form-control.date-picker-field .react-datepicker__input-container {
+    display: unset;
+}
+
+.input-group > .form-control.date-picker-field input.react-datepicker__input-field {
+    border: 0;
+    width: 100%;
+}
+
 .react-datepicker__close-icon:after {
     background-color: #a9a9a9!important;
     font-size: 13px!important;
