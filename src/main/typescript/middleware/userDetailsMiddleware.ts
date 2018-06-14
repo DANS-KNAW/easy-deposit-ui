@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Middleware } from "redux"
+import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { fetchUserFailed, fetchUserSucceeded } from "../actions/userActions"
-import { createMiddleware } from "../lib/redux"
 import { UserConstants } from "../constants/userConstants"
 import { UserDetails } from "../model/UserDetails"
 
 /*
-action.payload is type User, convert to UserDetails
+ * action.payload is type User, convert to UserDetails
  */
-const userFetchConverter: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const userFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === UserConstants.USER_FULFILLED) {
@@ -46,6 +45,6 @@ const userFetchConverter: Middleware = createMiddleware(({ dispatch }, next, act
     if (action.type === UserConstants.USER_REJECTED) {
         dispatch(fetchUserFailed(action.payload.message))
     }
-})
+}
 
 export const userDetailsMiddleware = [userFetchConverter]

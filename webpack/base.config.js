@@ -15,7 +15,7 @@
  */
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./config.json');
 const dateFormat = require('dateformat');
 
@@ -57,6 +57,7 @@ module.exports = {
                 ],
             },
             {
+                type: "javascript/auto",
                 test: /\.(json)$/i,
                 use: [
                     {
@@ -84,6 +85,6 @@ module.exports = {
             template: './src/main/html/index.html',
         }),
         // Extract imported CSS into own file
-        new ExtractTextPlugin('[name].bundle.css'),
+        new MiniCssExtractPlugin('[name].bundle.css'),
     ],
 };

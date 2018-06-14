@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import { Action, AnyAction, Middleware } from "redux"
-import { createMiddleware } from "../lib/redux"
+import { Action, AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { createNewDepositFailed, deleteDepositFailed, fetchDepositsFailed } from "../actions/depositOverviewActions"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import {
@@ -45,7 +44,7 @@ type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Actio
 
 function rejectedMiddleware(type: string) {
     return function (newActionGenerator: NewActionGenerator): Middleware {
-        return createMiddleware(({ dispatch }, next, action) => {
+        return ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
             next(action)
 
             if (action.type === type) {
@@ -56,7 +55,7 @@ function rejectedMiddleware(type: string) {
 
                 dispatch(newActionGenerator(action)(errorMessage))
             }
-        })
+        }
     }
 }
 

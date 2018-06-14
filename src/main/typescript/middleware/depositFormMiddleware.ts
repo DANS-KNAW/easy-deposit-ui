@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Middleware } from "redux"
-import { createMiddleware } from "../lib/redux"
+import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
@@ -95,10 +94,9 @@ import {
     PrivacySensitiveDataValue,
 } from "../lib/metadata/PrivacySensitiveData"
 import { clean, emptyString, isEmptyString, nonEmptyObject, normalizeEmpty } from "../lib/metadata/misc"
-import { AppState } from "../model/AppState"
 import { licenseConverter, licenseDeconverter } from "../lib/metadata/License"
 
-const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatch, getState }, next, action) => {
+const metadataFetchConverter: Middleware = ({dispatch, getState}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.FETCH_METADATA_FULFILLED) {
@@ -223,9 +221,9 @@ const metadataFetchConverter: Middleware = createMiddleware<AppState>(({ dispatc
             dispatch(fetchMetadataFailed(errorMessage))
         }
     }
-})
+}
 
-const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch, getState }, next, action) => {
+const metadataSendConverter: Middleware = ({dispatch, getState}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.SAVE_DRAFT || action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
@@ -335,32 +333,32 @@ const metadataSendConverter: Middleware = createMiddleware<AppState>(({ dispatch
                 break
         }
     }
-})
+}
 
-const fetchDoiProcessor: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const fetchDoiProcessor: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.FETCH_DOI_FULFILLED) {
         dispatch(change(depositFormName, "doi", action.payload.doi))
         dispatch(fetchDoiSucceeded())
     }
-})
+}
 
-const saveTimer: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const saveTimer: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.SEND_SAVE_DRAFT_FULFILLED) {
         setTimeout(() => dispatch(sendSaveDraftReset()), saveDraftResetTimeout * 1000)
     }
-})
+}
 
-const submitReroute: Middleware = createMiddleware(({ dispatch }, next, action) => {
+const submitReroute: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
     if (action.type === DepositFormConstants.SEND_SUBMIT_DEPOSIT_FULFILLED) {
         dispatch(push(depositOverviewRoute))
     }
 
     next(action)
-})
+}
 
 export const depositFormMiddleware = [
     metadataFetchConverter,

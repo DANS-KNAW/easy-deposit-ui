@@ -15,7 +15,6 @@
  */
 import * as React from "react"
 import DepositOverview from "./DepositOverview"
-import { RouteComponentProps } from "react-router"
 import NewDepositButton from "./NewDepositButton"
 import "../../../resources/css/depositOverviewPage"
 

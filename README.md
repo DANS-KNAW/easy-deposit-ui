@@ -54,3 +54,10 @@ The project will be available in the browser at [http://192.168.33.32/] (or a ur
 
 [http://localhost:3000]: http://localhost:3000
 [http://192.168.33.32/]: http://192.168.33.32/
+
+Update dependencies
+-------------------
+
+    npm install -g npm-check-updates
+    ncu -u
+    npm install
