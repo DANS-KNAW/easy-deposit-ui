@@ -18,18 +18,11 @@ import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import createHistory from "history/createBrowserHistory"
 import { newStore } from "./store"
-import { Route, Switch } from "react-router-dom"
 import { ConnectedRouter } from "react-router-redux"
 
 import Header from "./components/Header"
-import HomePage from "./components/home/HomePage"
-import LoginPage from "./components/login/LoginPage"
-import DepositFormPage from "./components/form/DepositFormPage"
-import DepositOverviewPage from "./components/overview/DepositOverviewPage"
-import PrivateRoute from "./components/PrivateRoute"
-import NotFoundPage from "./components/NotFoundPage"
+import Routes from "./Routes"
 import Footer from "./components/Footer"
-import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute } from "./constants/clientRoutes"
 
 import "../resources/css/styling"
 
@@ -41,22 +34,7 @@ ReactDOM.render(
             <>
                 <Header/>
                 <main role="main" className="container">
-                    <Switch>
-                        <Route path={homeRoute}
-                               component={HomePage}
-                               exact/>
-                        <Route path={loginRoute}
-                               component={LoginPage}
-                               exact/>
-                        <PrivateRoute path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.txt/RouterParams
-                                      redirectTo={loginRoute}
-                                      component={DepositFormPage}/>
-                        <PrivateRoute path={depositOverviewRoute}
-                                      redirectTo={loginRoute}
-                                      component={DepositOverviewPage}
-                                      exact/>
-                        <Route component={NotFoundPage}/>
-                    </Switch>
+                    <Routes/>
                 </main>
                 <Footer/>
             </>
