@@ -23,7 +23,7 @@ import { ReduxAction } from "../../lib/redux"
 import { Action } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
-import { Alert, CloseableWarning, ReloadAlert } from "../../Errors"
+import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
 
 interface DepositOverviewProps {
     deposits: DepositOverviewState
