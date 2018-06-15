@@ -17,7 +17,7 @@ const Routes = () => (
                component={LoginPage}
                exact/>
         <PrivateRoute
-            path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.txt/RouterParams
+            path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.tsx/RouterParams
             redirectTo={loginRoute}
             component={DepositFormPage}/>
         <PrivateRoute path={depositOverviewRoute}
