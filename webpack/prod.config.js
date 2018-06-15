@@ -22,6 +22,8 @@ const baseConfig = require('./base.config.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(baseConfig, {
+    mode: 'production',
+
     output: {
         path: path.join(process.cwd(), 'target/build'),
         filename: '[name].bundle.[chunkhash].js',
