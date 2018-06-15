@@ -88,58 +88,6 @@
 			"response": []
 		},
 		{
-			"name": "get state of deposit 93674123-1699-49c5-af91-ed31db19adc9",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3004",
-					"path": [
-						"deposit",
-						"93674123-1699-49c5-af91-ed31db19adc9",
-						"state"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "set state of deposit 93674123-1699-49c5-af91-ed31db19adc9",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"state\": \"SUBMITTED\",\n    \"stateDescription\": \"Go, go, go, ingest this dataset!\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3004",
-					"path": [
-						"deposit",
-						"93674123-1699-49c5-af91-ed31db19adc9",
-						"state"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "get metadata of deposit 93674123-1699-49c5-af91-ed31db19adc9",
 			"request": {
 				"method": "GET",
@@ -208,6 +156,216 @@
 						"deposit",
 						"93674123-1699-49c5-af91-ed31db19adc9",
 						"doi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get state of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set state of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"state\": \"SUBMITTED\",\n    \"stateDescription\": \"Go, go, go, ingest this dataset!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"state\": \"SUBMITTED\",\n    \"stateDescription\": \"Go, go, go, ingest this dataset!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3004/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate login 204",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate login 401",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/auth/login401",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"auth",
+						"login401"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate login 403",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/auth/login403",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"auth",
+						"login403"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate login 500",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/auth/login500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"auth",
+						"login500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"auth",
+						"logout"
 					]
 				}
 			},
