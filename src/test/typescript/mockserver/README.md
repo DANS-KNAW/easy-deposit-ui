@@ -13,9 +13,23 @@ Currently the following paths are currently implemented:
 
     GET    /deposit
     POST   /deposit
+
     GET    /deposit/:id
     DELETE /deposit/:id
+
     GET    /deposit/:id/metadata
     PUT    /deposit/:id/metadata
+
+    GET    /deposit/:id/doi
+
     GET    /deposit/:id/state
     PUT    /deposit/:id/state
+
+    GET    /user
+    
+    POST   /auth/login
+    POST   /auth/login401
+    POST   /auth/login403
+    POST   /auth/login500
+
+    POST   /auth/logout
