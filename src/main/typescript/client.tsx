@@ -28,7 +28,7 @@ import "../resources/css/styling"
 
 const history = createHistory()
 
-ReactDOM.render(
+const HTML = () => (
     <Provider store={newStore(history)}>
         <ConnectedRouter history={history}>
             <>
@@ -39,6 +39,7 @@ ReactDOM.render(
                 <Footer/>
             </>
         </ConnectedRouter>
-    </Provider>,
-    document.getElementById("app"),
+    </Provider>
 )
+
+ReactDOM.render(<HTML/>, document.getElementById("app"))
