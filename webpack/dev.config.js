@@ -19,6 +19,8 @@ const baseConfig = require('./base.config.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(baseConfig, {
+    mode: 'development',
+
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'eval-source-map',
     output: {
