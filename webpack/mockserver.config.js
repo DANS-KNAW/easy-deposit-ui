@@ -13,12 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
+const rootPath = process.cwd();
+const buildPath = 'target/build-mockserver';
+
 module.exports = {
+    mode: 'development',
+
     entry: './src/test/typescript/mockserver/server.ts',
     output: {
-        filename: './target/build-mockserver/server.js'
+        path: path.join(rootPath, buildPath),
+        filename: 'server.js'
     },
 
     resolve: {
@@ -44,6 +51,15 @@ module.exports = {
             }
         ],
     },
+
     target: 'node',
+
     externals: [nodeExternals()],
+
+    plugins: [
+        // Clear out `target/build` directory between builds
+        new CleanWebpackPlugin([buildPath], {
+            root: rootPath,
+        }),
+    ],
 };
