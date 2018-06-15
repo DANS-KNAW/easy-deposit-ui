@@ -23,6 +23,14 @@ function isEditable({ state }: Deposit): boolean {
     return state === DepositState.DRAFT || state === DepositState.REJECTED
 }
 
+interface EnterableProps {
+    title: string
+}
+
+const Enterable = ({title}: EnterableProps) => (
+    <><i className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</>
+)
+
 interface DepositTableRowProps {
     depositId: DepositId
     deposit: Deposit
@@ -33,11 +41,9 @@ interface DepositTableRowProps {
 const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
     const editable = isEditable(deposit)
 
-    const Enterable = () => <><i className="fas fa-sign-in-alt" id="enter_dataset"/> {deposit.title}</>
-
     const title = editable
-        ? <Link to={depositFormRoute(depositId)}><Enterable/></Link>
-        : <Enterable/>
+        ? <Link to={depositFormRoute(depositId)}><Enterable title={deposit.title}/></Link>
+        : <Enterable title={deposit.title}/>
 
     const isDeleting = deleting && deleting.deleting
     const deleteButton = editable &&
