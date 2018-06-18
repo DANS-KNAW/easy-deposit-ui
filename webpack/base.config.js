@@ -19,7 +19,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./config.json');
 const dateFormat = require('dateformat');
 
-module.exports = {
+module.exports = (env, argv) => ({
     entry: [
         'react-hot-loader/patch',
         './src/main/typescript/client.tsx',
@@ -72,11 +72,9 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.EnvironmentPlugin([
-            'NODE_ENV',
-        ]),
         new webpack.DefinePlugin({
-            __CLIENT_ROUTE__: JSON.stringify(config[process.env.NODE_ENV].clientRoute),
+            __DEVELOPMENT__: argv.mode === "development",
+            __CLIENT_ROUTE__: JSON.stringify(config[argv.mode].clientRoute),
             __VERSION__: JSON.stringify(process.env.npm_package_version),
             __BUILD_DATE__: JSON.stringify(dateFormat(new Date(), "yyyy-mm-dd HH:MM")),
         }),
@@ -87,4 +85,4 @@ module.exports = {
         // Extract imported CSS into own file
         new MiniCssExtractPlugin('[name].bundle.css'),
     ],
-};
+});

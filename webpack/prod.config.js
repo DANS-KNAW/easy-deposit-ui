@@ -21,9 +21,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const baseConfig = require('./base.config.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = merge(baseConfig, {
-    mode: 'production',
-
+module.exports = (env, argv) => merge(baseConfig(env, argv), {
     output: {
         path: path.join(process.cwd(), 'target/build'),
         filename: '[name].bundle.[chunkhash].js',
@@ -60,7 +58,7 @@ module.exports = merge(baseConfig, {
             parallel: true,
             uglifyOptions: {
                 ecma: 6,
-                // compress: true,
+                compress: true,
                 mangle: true,
             },
             extractComments: true,

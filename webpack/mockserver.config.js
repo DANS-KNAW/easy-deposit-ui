@@ -21,8 +21,6 @@ const rootPath = process.cwd();
 const buildPath = 'target/build-mockserver';
 
 module.exports = {
-    mode: 'development',
-
     entry: './src/test/typescript/mockserver/server.ts',
     output: {
         path: path.join(rootPath, buildPath),

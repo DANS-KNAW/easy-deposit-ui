@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { apiUrl, buildDate, projectVersion } from "../lib/config"
+import { apiUrl, buildDate, inDevelopmentMode, projectVersion } from "../lib/config"
 import "../../resources/css/footer"
 import { Component } from "react"
 
@@ -144,7 +144,7 @@ class Footer extends Component<{}, FooterState> {
                     <span>
                         <div>Version: <span>{projectVersion}</span></div>
                         <div>Build date: <span>{buildDate}</span></div>
-                        {(process.env.NODE_ENV === "development") && <div>API base url: <span>{this.state.apiUrl}</span></div>}
+                        {inDevelopmentMode && <div>API base url: <span>{this.state.apiUrl}</span></div>}
                     </span>
                         </div>
                     </div>

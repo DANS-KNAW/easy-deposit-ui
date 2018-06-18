@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./base.config.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = merge(baseConfig, {
-    mode: 'development',
-
+module.exports = (env, argv) => merge(baseConfig(env, argv), {
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'eval-source-map',
     output: {
@@ -56,8 +53,4 @@ module.exports = merge(baseConfig, {
             },
         ],
     },
-
-    plugins: [
-        new webpack.NamedModulesPlugin(),
-    ],
 });
