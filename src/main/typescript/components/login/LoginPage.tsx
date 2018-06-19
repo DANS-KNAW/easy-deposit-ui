@@ -55,23 +55,21 @@ class LoginPage extends Component<AllDemoFormProps> {
             ? <Redirect to={from}/>
             :
             <div className="row">
-                <div className={"col-3"}>&nbsp;</div>
-
-            <div className={"col-6"}>
-        <form onSubmit={handleSubmit(this.callAuthenticate)}>
-                <p>You must log in to view this page at {from.pathname}</p>
-                <label>Username</label>
-                <Field name="loginName" type="text" component="input" required/>
-                <br/>
-                <label>Password</label>
-                <Field type="password" name="loginPassword" component="input" required/>
-                <br/>
-
-                <button type="submit" disabled={this.props.authenticating}>Login</button>
-                {errorMessage && <span>{errorMessage.message}<br/></span>}
-            </form>
-            </div>
-                <div className={"col-3"}>&nbsp;</div>
+                <div className={"col-4 offset-md-4"}>
+                    <form onSubmit={handleSubmit(this.callAuthenticate)} className={"row"}>
+                        <p className={"col-12"}>You must log in to view this page at {from.pathname}</p>
+                        <label className={"col-3"}>Username</label>
+                        <Field className={"col-9"} name="loginName" type="text" component="input" required/>
+                        <label className={"col-3"}>Password</label>
+                        <Field className={"col-9"} type="password" name="loginPassword" component="input" required/>
+                        <div className={"col-12"}>
+                            <button className={"btn btn-primary"} type="submit"
+                                    disabled={this.props.authenticating}>Login
+                            </button>
+                        </div>
+                        {errorMessage && <span>{errorMessage.message}<br/></span>}
+                    </form>
+                </div>
             </div>
     }
 }
