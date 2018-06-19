@@ -56,9 +56,10 @@ class LoginPage extends Component<AllDemoFormProps> {
             :
             <div className="row">
                 <div className={"card pl-0 pr-0 col-4 offset-md-4"}>
-                    <p className={"card-header ml-0 mr-0 bg-primary text-white"}>EASY account</p>
-                    <form onSubmit={handleSubmit(this.callAuthenticate)} className={"card-body pl-0 pr-2 ml-0 mr-0"}>
+                    <form onSubmit={handleSubmit(this.callAuthenticate)}>
+                        <p className={"card-header ml-0 mr-0 bg-primary text-white"}>EASY account</p>
 
+                        <div  className={"card-body pl-0 pr-2 ml-0 mr-0"}>
                         <p className={"col-12"}>You must log in to view this page at {from.pathname}</p>
                         <div className={"mb-1"}>
                         <label className={"col-4"}>Username</label>
@@ -74,6 +75,7 @@ class LoginPage extends Component<AllDemoFormProps> {
                             </button>
                         </div>
                         {errorMessage && <span>{errorMessage.message}<br/></span>}
+                        </div>
                     </form>
                 </div>
             </div>
