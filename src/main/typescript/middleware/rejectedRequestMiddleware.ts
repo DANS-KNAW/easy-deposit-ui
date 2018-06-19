@@ -74,7 +74,7 @@ const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SEND_SAVE_
 const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_SUBMIT_DEPOSIT_REJECTED)(() => sendSubmitDepositFailed)
 
 const fetchLanguageDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED)(() => fetchLanguagesDataFailed)
-const fetchContributorIdDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED)(() => fetchContributorIdsDataFailed)
+const fetchContributorIdDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED)(() => fetchContributorIdsDataFailed)
 const fetchContributorRoleDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED)(() => fetchContributorRolesDataFailed)
 const fetchAudienceDataRejected = rejectedMiddleware(DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED)(() => fetchAudiencesDataFailed)
 const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED)(() => fetchIdentifiersDataFailed)
