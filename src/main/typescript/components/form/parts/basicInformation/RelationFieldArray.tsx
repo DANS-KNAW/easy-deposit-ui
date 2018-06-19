@@ -3,10 +3,11 @@ import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
 import { Relation } from "../../../../lib/metadata/Relation"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
+import RelationFieldArrayElement from "../../../../lib/formComponents/RelationFieldArrayElement"
 
 const RelationFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<Relation>) => (
     <LoadDropdownData state={state}>
-        <h1>RelationFieldArray</h1>
+        <RelationFieldArrayElement {...props} schemeValues={list}/>
     </LoadDropdownData>
 )
 
