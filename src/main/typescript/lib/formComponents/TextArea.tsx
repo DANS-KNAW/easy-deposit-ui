@@ -27,7 +27,7 @@ interface TextAreaInputProps {
 type TextAreaProps = WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaInputProps
 
 const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ...rest }: TextAreaProps) => (
-    <TextareaAutosize className={`form-control ${className}`}
+    <TextareaAutosize className={`form-control ${className || ""}`.trim()}
                       id={input.name}
                       placeholder={label}
                       minRows={rows}

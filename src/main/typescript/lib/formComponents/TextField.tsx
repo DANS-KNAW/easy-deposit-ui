@@ -20,7 +20,7 @@ import { WrappedFieldProps } from "redux-form"
 export type TextFieldProps = WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>
 
 const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
-    <input type={type || "text"} className={`form-control${className || ""}`} {...input} {...rest}/>
+    <input type={type || "text"} className={`form-control ${className || ""}`.trim()} {...input} {...rest}/>
 )
 
 export default TextField
