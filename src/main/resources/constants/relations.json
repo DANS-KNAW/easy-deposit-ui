@@ -1,16 +1,58 @@
 {
-  "dcterms:relation": "relation",
-  "dcterms:conformsTo": "conforms to",
-  "dcterms:hasFormat": "has format",
-  "dcterms:hasPart": "has part",
-  "dcterms:references": "references",
-  "dcterms:replaces": "replaces",
-  "dcterms:requires": "requires",
-  "dcterms:hasVersion": "has version",
-  "dcterms:isFormatOf": "is format of",
-  "dcterms:isPartOf": "is part of",
-  "dcterms:isReferencedBy": "is referenced by",
-  "dcterms:isReplacedBy": "is replaced by",
-  "dcterms:isRequiredBy": "is required by",
-  "dcterms:isVersionOf": "is version of"
+  "dcterms:relation": {
+    "title": "relation",
+    "viewName": "relation"
+  },
+  "dcterms:conformsTo": {
+    "title": "conforms to",
+    "viewName": "conforms to"
+  },
+  "dcterms:hasFormat": {
+    "title": "has format",
+    "viewName": "has format"
+  },
+  "dcterms:hasPart": {
+    "title": "has part",
+    "viewName": "has part"
+  },
+  "dcterms:references": {
+    "title": "references",
+    "viewName": "references"
+  },
+  "dcterms:replaces": {
+    "title": "replaces",
+    "viewName": "replaces"
+  },
+  "dcterms:requires": {
+    "title": "requires",
+    "viewName": "requires"
+  },
+  "dcterms:hasVersion": {
+    "title": "has version",
+    "viewName": "has version"
+  },
+  "dcterms:isFormatOf": {
+    "title": "is format of",
+    "viewName": "is format of"
+  },
+  "dcterms:isPartOf": {
+    "title": "is part of",
+    "viewName": "is part of"
+  },
+  "dcterms:isReferencedBy": {
+    "title": "is referenced by",
+    "viewName": "is referenced by"
+  },
+  "dcterms:isReplacedBy": {
+    "title": "is replaced by",
+    "viewName": "is replaced by"
+  },
+  "dcterms:isRequiredBy": {
+    "title": "is required by",
+    "viewName": "is required by"
+  },
+  "dcterms:isVersionOf": {
+    "title": "is version of",
+    "viewName": "is version of"
+  }
 }
