@@ -23,10 +23,12 @@ export const apiUrl: () => Promise<string> = memoize(async () => {
     return apiUrl
 })
 
+declare const __DEVELOPMENT__: boolean
 declare const __CLIENT_ROUTE__: string
 declare const __VERSION__: string
 declare const __BUILD_DATE__: string
 
+export const inDevelopmentMode: boolean = __DEVELOPMENT__
 export const contextRoot = __CLIENT_ROUTE__
 export const projectVersion = __VERSION__
 export const buildDate = __BUILD_DATE__

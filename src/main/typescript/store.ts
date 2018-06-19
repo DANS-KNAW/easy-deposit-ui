@@ -21,6 +21,7 @@ import reducers from "./reducers/index"
 import customMiddleware from "./middleware"
 import * as H from "history"
 import { routerMiddleware } from "react-router-redux"
+import { inDevelopmentMode } from "./lib/config"
 
 // import {Action} from 'redux'
 // import {AppState} from './model/AppState'
@@ -34,7 +35,7 @@ const predicate = () => true // if you want to see all actions
 // const predicate = () => false // if you want to see no actions
 
 export const newStore = (history: H.History) => {
-    if (process.env.NODE_ENV === "development") {
+    if (inDevelopmentMode) {
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
         const composeEnhancers = composeWithDevTools({ predicate })

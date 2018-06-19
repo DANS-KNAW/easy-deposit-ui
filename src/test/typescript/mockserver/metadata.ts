@@ -54,7 +54,7 @@ export interface Metadata {
     messageForDataManager?: string
 
     // Privacy sensitive data
-    privacySensitiveDataPresent?: PrivacySensitiveDataValue
+    privacySensitiveDataPresent?: PrivacySensitiveDataValues
 
     // Deposit License
     acceptLicenseAgreement?: boolean
@@ -214,19 +214,19 @@ enum TemporalCoverageSchemeValues {
     abrPeriode = "abr:ABRperiode",
 }
 
-enum SpatialScheme {
+enum SpatialSchemeValues {
     degrees = "http://www.opengis.net/def/crs/EPSG/0/4326",
     RD = "http://www.opengis.net/def/crs/EPSG/0/28992",
 }
 
 interface Point {
-    scheme: SpatialScheme
+    scheme: SpatialSchemeValues
     x: number
     y: number
 }
 
 interface Box {
-    scheme: SpatialScheme
+    scheme: SpatialSchemeValues
     north: number
     east: number
     south: number
@@ -237,7 +237,7 @@ enum SpatialCoverageSchemeValues {
     iso3166 = "dcterms:ISO3166",
 }
 
-enum PrivacySensitiveDataValue {
+enum PrivacySensitiveDataValues {
     YES = "yes",
     NO = "no",
     UNSPECIFIED = "unspecified"
@@ -514,26 +514,26 @@ export const allfields: Metadata = {
     ],
     spatialPoints: [
         {
-            scheme: SpatialScheme.RD,
+            scheme: SpatialSchemeValues.RD,
             x: 12,
             y: 34,
         },
         {
-            scheme: SpatialScheme.degrees,
+            scheme: SpatialSchemeValues.degrees,
             x: 56,
             y: 78,
         },
     ],
     spatialBoxes: [
         {
-            scheme: SpatialScheme.RD,
+            scheme: SpatialSchemeValues.RD,
             north: 1,
             east: 2,
             south: 3,
             west: 4,
         },
         {
-            scheme: SpatialScheme.degrees,
+            scheme: SpatialSchemeValues.degrees,
             north: 5,
             east: 6,
             south: 7,
@@ -570,7 +570,7 @@ export const allfields: Metadata = {
         "Mauris dolor nulla, convallis fermentum consectetur non, volutpat convallis purus. Fusce a semper neque. " +
         "Suspendisse ornare quis nunc sit amet tristique. Nam sed libero mauris. Duis scelerisque tortor non purus " +
         "porttitor interdum.",
-    privacySensitiveDataPresent: PrivacySensitiveDataValue.NO,
+    privacySensitiveDataPresent: PrivacySensitiveDataValues.NO,
     acceptLicenseAgreement: true,
 }
 
@@ -628,7 +628,7 @@ export const mandatoryOnly: Metadata = {
         group: "archaeology",
     },
     license: "DANS-CONDITIONS-OF-USE", // TODO Linda komt met een correcte value
-    privacySensitiveDataPresent: PrivacySensitiveDataValue.YES,
+    privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
     acceptLicenseAgreement: false,
 }
 

@@ -28,27 +28,25 @@ import { UserDetails } from "../model/UserDetails"
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
 
-const BrandLogo = ({ className, id, src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => (
+const BrandLogo = ({ className, id, ...imgProps }: ImgHTMLAttributes<HTMLImageElement>) => (
     <div className={className} id={id}>
         <Link to={homeRoute}>
-            <img {...rest} src={src} alt={alt}/>
+            <img {...imgProps}/>
         </Link>
     </div>
 )
 
 const LogosHeaders: SFC = ({ children }) => (
-    <header className="container-fluid">
-        <div className="row" id="header-logos">
-            {children}
-        </div>
-    </header>
+    <div className="row" id="header-logos">
+        {children}
+    </div>
 )
 
-interface NavBarButton {
+interface NavBarButtonProps {
     dataTarget: string
 }
 
-const NavBarButton = ({ dataTarget }: NavBarButton) => (
+const NavBarButton = ({ dataTarget }: NavBarButtonProps) => (
     <button className="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -68,17 +66,19 @@ const NavBarLink = ({ to, title, children, className, ...rest }: NavLinkProps) =
 )
 
 const NavBar: SFC = ({ children }) => (
-    <nav className="navbar navbar-expand-lg navbar-light admin-nav" role="navigation">
-        <a className="navbar-brand" href="#"/> {/* this one is here to move the button to the right */}
-        <NavBarButton dataTarget="navbarSupportedContent"/>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ml-auto">
-                {React.Children.map(children, (child, index) => (
-                    <li key={index} className="nav-item">{child}</li>
-                ))}
-            </ul>
-        </div>
-    </nav>
+    <div className="row">
+        <nav className="navbar navbar-expand-lg navbar-light admin-nav" role="navigation">
+            <a className="navbar-brand" href="#"/> {/* this one is here to move the button to the right */}
+            <NavBarButton dataTarget="navbarSupportedContent"/>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav ml-auto">
+                    {React.Children.map(children, (child, index) => (
+                        <li key={index} className="nav-item">{child}</li>
+                    ))}
+                </ul>
+            </div>
+        </nav>
+    </div>
 )
 
 interface HeaderProps {
@@ -103,31 +103,37 @@ class Header extends Component<HeaderProps> {
             ? [
                 <span key="loginName" className="navbar-text">{loginName}</span>,
                 <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-                <Link onClick={signout} className="nav-link logoff" key="log out" to={homeRoute} title="Log out">Log out</Link>,
+                <Link onClick={signout}
+                      className="nav-link logoff"
+                      key="log out"
+                      to={homeRoute}
+                      title="Log out">Log out</Link>,
             ]
             : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Login</NavBarLink>]
 
-        return <>
-            <NavBar>
-                <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                <NavBarLink to={registerRoute} title="Register to get access to EASY">Register</NavBarLink>
-                {...loginNavBar}
-            </NavBar>
+        return (
+            <header className="container-fluid">
+                <NavBar>
+                    <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
+                    <NavBarLink to={registerRoute} title="Register to get access to EASY">Register</NavBarLink>
+                    {...loginNavBar}
+                </NavBar>
 
-            <LogosHeaders>
-                <BrandLogo className="col-6 col-md-3 col-lg-2"
-                           id="dans-logo"
-                           src={logo_dans}
-                           alt="DANS - Data Archiving and Networked Services"/>
-                <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
-                           id="easy-logo"
-                           height="25px"
-                           src={logo_easy}
-                           alt="EASY"/>
-            </LogosHeaders>
-            {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
-            <hr/>
-        </>
+                <LogosHeaders>
+                    <BrandLogo className="col-6 col-md-3 col-lg-2"
+                               id="dans-logo"
+                               src={logo_dans}
+                               alt="DANS - Data Archiving and Networked Services"/>
+                    <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
+                               id="easy-logo"
+                               height="25px"
+                               src={logo_easy}
+                               alt="EASY"/>
+                </LogosHeaders>
+                {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
+                <hr/>
+            </header>
+        )
     }
 }
 

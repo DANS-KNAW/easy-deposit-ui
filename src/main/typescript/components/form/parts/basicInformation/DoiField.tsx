@@ -16,7 +16,7 @@
 import * as React from "react"
 import { WrappedFieldProps } from "redux-form"
 import { FetchDoiState } from "../../../../model/DepositForm"
-import { ReloadAlert } from "../../../../Errors"
+import { ReloadAlert } from "../../../Errors"
 import { ReduxAction } from "../../../../lib/redux"
 import { DepositId } from "../../../../model/Deposits"
 import { connect } from "react-redux"
