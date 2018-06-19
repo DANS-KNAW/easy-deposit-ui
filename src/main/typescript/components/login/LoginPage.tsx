@@ -53,7 +53,12 @@ class LoginPage extends Component<AllDemoFormProps> {
 
         return authenticated
             ? <Redirect to={from}/>
-            : <form onSubmit={handleSubmit(this.callAuthenticate)}>
+            :
+            <div className="row">
+                <div className={"col-3"}>&nbsp;</div>
+
+            <div className={"col-6"}>
+        <form onSubmit={handleSubmit(this.callAuthenticate)}>
                 <p>You must log in to view this page at {from.pathname}</p>
                 <label>Username</label>
                 <Field name="loginName" type="text" component="input" required/>
@@ -65,6 +70,9 @@ class LoginPage extends Component<AllDemoFormProps> {
                 <button type="submit" disabled={this.props.authenticating}>Login</button>
                 {errorMessage && <span>{errorMessage.message}<br/></span>}
             </form>
+            </div>
+                <div className={"col-3"}>&nbsp;</div>
+            </div>
     }
 }
 
