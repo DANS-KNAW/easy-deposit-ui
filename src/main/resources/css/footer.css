@@ -77,6 +77,11 @@ footer .easy-Certificering-link a:hover {
     text-decoration: none;
 }
 
+footer .easy-Certificering-link img {
+    width: 55px;
+    height: 55px;
+}
+
 @media (max-width: 767px) {
     footer .overdans,
     footer .easy-Certificering-link,
