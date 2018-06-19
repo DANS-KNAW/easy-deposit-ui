@@ -24,7 +24,7 @@ import { Doi } from "../../../../../test/typescript/mockserver/metadata"
 import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
-import { Relation } from "../../../lib/metadata/Relation"
+import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
 import IdentifierFieldArray from "./basicInformation/IdentifierFieldArray"
@@ -38,6 +38,7 @@ import ContributorFields from "./basicInformation/ContributorFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
+import RelationFieldArray from "./basicInformation/RelationFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -69,10 +70,11 @@ interface BasicInformationFormProps {
     contributorRoles: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
+    relations: DropdownList
     dates: DropdownList
 }
 
-const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, dates }: BasicInformationFormProps) => (
+const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, relations, dates }: BasicInformationFormProps) => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
             <Field name="doi"
@@ -187,7 +189,15 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         </div>
 
         <div className="row form-group input-element">
-            <p>Relation</p>
+            <RepeatableField name="relations"
+                             label="Relations"
+                             empty={emptyRelation}
+                             fieldNames={[
+                                 (name: string) => `${name}.qualifier`,
+                                 (name: string) => `${name}.title`,
+                                 (name: string) => `${name}.url`,
+                             ]}
+                             component={RelationFieldArray(relations)}/>
         </div>
 
         <div className="row form-group input-element">
@@ -252,6 +262,7 @@ const mapStateToProps = (state: AppState) => ({
     contributorRoles: state.dropDowns.contributorRoles,
     audiences: state.dropDowns.audiences,
     identifiers: state.dropDowns.identifiers,
+    relations: state.dropDowns.relations,
     dates: state.dropDowns.dates,
 })
 

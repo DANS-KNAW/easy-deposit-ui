@@ -35,7 +35,7 @@ import {
     fetchIdentifiersDataFailed,
     fetchImtFormatsDataFailed,
     fetchLanguagesDataFailed,
-    fetchLicensesDataFailed,
+    fetchLicensesDataFailed, fetchRelationsDataFailed,
     fetchSpatialCoordinatesDataFailed,
     fetchSpatialCoveragesIsoDataFailed,
 } from "../actions/dropdownActions"
@@ -78,6 +78,7 @@ const fetchContributorIdDataRejected = rejectedMiddleware(DropdownConstants.FETC
 const fetchContributorRoleDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED)(() => fetchContributorRolesDataFailed)
 const fetchAudienceDataRejected = rejectedMiddleware(DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED)(() => fetchAudiencesDataFailed)
 const fetchIdentifierDataRejected = rejectedMiddleware(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED)(() => fetchIdentifiersDataFailed)
+const fetchRelationDataRejected = rejectedMiddleware(DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED)(() => fetchRelationsDataFailed)
 const fetchDateDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED)(() => fetchDatesDataFailed)
 const fetchLicenseDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED)(() => fetchLicensesDataFailed)
 const fetchDcmiTypeDataRejected = rejectedMiddleware(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED)(() => fetchDcmiTypesDataFailed)
@@ -100,6 +101,7 @@ export const rejectedRequestMiddleware = [
     fetchContributorRoleDataRejected,
     fetchAudienceDataRejected,
     fetchIdentifierDataRejected,
+    fetchRelationDataRejected,
     fetchDateDataRejected,
     fetchLicenseDataRejected,
     fetchDcmiTypeDataRejected,

@@ -16,6 +16,7 @@
 import { QualifiedSchemedValue, qualifiedSchemedValueConverter, qualifiedSchemedValueDeconverter } from "./Value"
 import { isEmpty, isEqual } from "lodash"
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 export interface Relation {
     qualifier?: string
@@ -29,20 +30,27 @@ export const emptyRelation = ({
     title: "",
 })
 
-const relationConverter: (r: any) => Relation = r => ({
-    qualifier: r.qualifier,
-    url: r.url,
-    title: r.title,
-})
+const relationConverter: (qualifiers: DropdownListEntry[]) => (r: any) => Relation = qualifiers => r => {
+    const qualifier = r.qualifier
 
-export const relationsConverter: (rs: any[]) => [QualifiedSchemedValue[], Relation[]] = rs => {
+    if (qualifier && qualifiers.find(({ key }) => key === qualifier))
+        return {
+            qualifier: qualifier,
+            url: r.url,
+            title: r.title,
+        }
+    else
+        throw `Error in metadata: no such relation qualifier found: '${qualifier}'`
+}
+
+export const relationsConverter: (relationQualifiers: DropdownListEntry[]) => (rs: any[]) => [QualifiedSchemedValue[], Relation[]] = relationQualifiers => rs => {
     return rs.reduce(([relatedIdentifiers, relations], r) => {
         const keys = Object.keys(r)
 
         if (isEqual(keys, ["qualifier", "scheme", "value"]))
             return [[...relatedIdentifiers, qualifiedSchemedValueConverter(r.qualifier, r.scheme, r.value)], relations]
         else if (!isEmpty(keys))
-            return [relatedIdentifiers, [...relations, relationConverter(r)]]
+            return [relatedIdentifiers, [...relations, relationConverter(relationQualifiers)(r)]]
         else
             throw `Error in metadata: unrecognized relation: ${JSON.stringify(r)}`
     }, [[], []])
