@@ -55,13 +55,19 @@ class LoginPage extends Component<AllDemoFormProps> {
             ? <Redirect to={from}/>
             :
             <div className="row">
-                <div className={"col-4 offset-md-4"}>
-                    <form onSubmit={handleSubmit(this.callAuthenticate)} className={"row"}>
+                <div className={"card pl-0 pr-0 col-4 offset-md-4"}>
+                    <p className={"card-header ml-0 mr-0 bg-primary text-white"}>EASY account</p>
+                    <form onSubmit={handleSubmit(this.callAuthenticate)} className={"card-body pl-0 pr-2 ml-0 mr-0"}>
+
                         <p className={"col-12"}>You must log in to view this page at {from.pathname}</p>
-                        <label className={"col-3"}>Username</label>
-                        <Field className={"col-9"} name="loginName" type="text" component="input" required/>
-                        <label className={"col-3"}>Password</label>
-                        <Field className={"col-9"} type="password" name="loginPassword" component="input" required/>
+                        <div className={"mb-1"}>
+                        <label className={"col-4"}>Username</label>
+                        <Field className={"col-8"} name="loginName" type="text" component="input" required/>
+                        </div>
+                        <div>
+                        <label className={"col-4"}>Password</label>
+                        <Field className={"col-8"} type="password" name="loginPassword" component="input" required/>
+                        </div>
                         <div className={"col-12"}>
                             <button className={"btn btn-primary"} type="submit"
                                     disabled={this.props.authenticating}>Login
