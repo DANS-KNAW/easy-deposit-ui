@@ -62,7 +62,7 @@ class LoginPage extends Component<AllDemoFormProps> {
                         <p className={"col-12"}>You must log in to view this page at {from.pathname}</p>
                         <div className={"mb-1"}>
                         <label className={"col-4"}>Username</label>
-                        <Field className={"col-8"} name="loginName" type="text" component="input" required/>
+                        <Field className={"col-8"} name="loginName" type="text" component="input" autoFocus required/>
                         </div>
                         <div>
                         <label className={"col-4"}>Password</label>
