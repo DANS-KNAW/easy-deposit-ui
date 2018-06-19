@@ -6,9 +6,10 @@ import LabeledTextField from "./LabeledTextField"
 import RemoveButton from "./RemoveButton"
 import { DropdownFieldInput } from "./DropDownField"
 import { Field, WrappedFieldProps } from "redux-form"
+import * as validUrl from "valid-url"
 
 const RelationValidateButton = ({ ...props }: WrappedFieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    props.input.value
+    props.input.value && validUrl.isUri(props.input.value)
         ? <a className="btn btn-primary value-button relation-validate-button"
              href={props.input.value}
              target="_blank">
