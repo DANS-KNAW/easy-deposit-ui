@@ -21,11 +21,13 @@ import axios from "axios"
 export const authenticate: (userName: string, password: string) => ReduxAction<Promise<void>> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
     async payload() {
-        const params = new URLSearchParams()
-        params.append('login', userName)
-        params.append('password',password)
         const url = await loginURL
-        await axios.post(url, params)
+        await axios.post(url, {}, {
+            auth: {
+                password: password,
+                username: userName,
+            },
+        })
     },
 })
 
@@ -34,6 +36,6 @@ export const signout: () => ReduxAction<Promise<void>> = () => ({
     async payload() {
         const url = await logoutURL
         await axios.post(url)
-    }
+    },
 })
 
