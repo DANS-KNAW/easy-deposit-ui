@@ -377,7 +377,7 @@ export const allfields: Metadata = {
         },
         {
             qualifier: RelationQualifierValues.conformsTo,
-            url: "http://x",
+            url: "http://bit.ly/react-deposit-ui",
             title: "title1",
         },
         {
@@ -386,11 +386,11 @@ export const allfields: Metadata = {
         },
         {
             qualifier: RelationQualifierValues.isReplacedBy,
-            url: "http://y",
+            url: "http://www.google.com",
         },
         {
             qualifier: RelationQualifierValues.relation,
-            url: "http://z",
+            url: "https://easy.dans.knaw.nl/",
         },
         {
             qualifier: RelationQualifierValues.relation,
