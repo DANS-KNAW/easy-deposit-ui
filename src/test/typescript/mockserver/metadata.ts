@@ -149,12 +149,13 @@ enum ExternalIdentifierSchemeValues {
 }
 
 interface Relation {
-    qualifier?: RelationQualifierValues
+    qualifier: RelationQualifierValues
     url?: string
     title?: string
 }
 
 enum RelationQualifierValues {
+    relation = "dcterms:relation",
     conformsTo = "dcterms:conformsTo",
     hasFormat = "dcterms:hasFormat",
     hasPart = "dcterms:hasPart",
@@ -388,9 +389,11 @@ export const allfields: Metadata = {
             url: "http://y",
         },
         {
+            qualifier: RelationQualifierValues.relation,
             url: "http://z",
         },
         {
+            qualifier: RelationQualifierValues.relation,
             title: "title3",
         },
     ],
