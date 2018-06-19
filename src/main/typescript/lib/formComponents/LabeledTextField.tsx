@@ -16,13 +16,17 @@
 import * as React from "react"
 import TextField, { TextFieldProps } from "./TextField"
 
+interface LabeledTextFieldProps {
+    labelWidth?: number
+}
+
 /**
  * Creates a TextField with a prepended label
  */
-const LabeledTextField = ({ label, ...rest }: TextFieldProps) => (
+const LabeledTextField = ({ label, labelWidth, ...rest }: LabeledTextFieldProps & TextFieldProps) => (
     <>
         <div className="input-group-prepend">
-            <span className="input-group-text">{label}</span>
+            <span className="input-group-text" style={labelWidth ? {width: `${labelWidth}px`} : {}}>{label}</span>
         </div>
         <TextField {...rest}/>
     </>
