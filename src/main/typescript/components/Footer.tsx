@@ -18,11 +18,10 @@ import { apiUrl, buildDate, inDevelopmentMode, projectVersion } from "../lib/con
 import "../../resources/css/footer"
 import { Component } from "react"
 
-const dsa = require("../../resources/img/footer/logo_DSA.png")
+const cts = require("../../resources/img/footer/logo_CTS.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
 const nestor = require("../../resources/img/footer/logo_NESTOR.png")
 const nwo = require("../../resources/img/footer/logo_NWO.png")
-const wds = require("../../resources/img/footer/logo_WDS.png")
 
 interface FooterState {
     apiUrl?: string
@@ -114,11 +113,9 @@ class Footer extends Component<{}, FooterState> {
                             <a href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/Certificering"
                                target="_blank"
                                title="Certificering">
-                                <img width="55px" height="55px" src={dsa}/>
+                                <img src={cts}/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <img width="55px" height="55px" src={nestor}/>
-                                &nbsp;&nbsp;
-                                <img height="55px" src={wds}/>
+                                <img src={nestor}/>
                             </a>
                         </div>
                     </div>
