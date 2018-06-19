@@ -22,7 +22,7 @@ import { getUser } from "../actions/userActions"
 import { signout } from "../actions/authenticationActions"
 import "../../resources/css/header"
 import { ReduxAction } from "../lib/redux"
-import { depositOverviewRoute, homeRoute, loginRoute, registerRoute } from "../constants/clientRoutes"
+import { depositOverviewRoute, homeRoute, loginRoute } from "../constants/clientRoutes"
 import { UserDetails } from "../model/UserDetails"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
@@ -115,7 +115,6 @@ class Header extends Component<HeaderProps> {
             <header className="container-fluid">
                 <NavBar>
                     <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                    <NavBarLink to={registerRoute} title="Register to get access to EASY">Register</NavBarLink>
                     {...loginNavBar}
                 </NavBar>
 
