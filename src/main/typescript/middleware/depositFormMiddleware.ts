@@ -123,7 +123,7 @@ const metadataFetchConverter: Middleware = ({dispatch, getState}: MiddlewareAPI)
                 ? alternativeIdentifersConverter(dropDowns.identifiers.list)(input.alternativeIdentifiers)
                 : [[], []]
             const [relatedIdentifiers, relations] = input.relations
-                ? relationsConverter(input.relations)
+                ? relationsConverter(dropDowns.relations.list)(input.relations)
                 : [[], []]
             const [isoLanguageOfFiles, languageOfFiles] = input.languagesOfFiles
                 ? languagesOfFilesConverter(dropDowns.languages.list)(input.languagesOfFiles)

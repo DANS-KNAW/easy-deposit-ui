@@ -46,6 +46,7 @@ export interface DropdownLists {
     contributorRoles: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
+    relations: DropdownList
     dates: DropdownList
     licenses: DropdownList
     dcmiTypes: DropdownList
@@ -63,6 +64,7 @@ export const emptyDropdownLists: DropdownLists = {
     contributorRoles: emptyDropdownList,
     audiences: emptyDropdownList,
     identifiers: emptyDropdownList,
+    relations: emptyDropdownList,
     dates: emptyDropdownList,
     licenses: emptyDropdownList,
     dcmiTypes: emptyDropdownList,

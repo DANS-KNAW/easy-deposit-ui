@@ -74,6 +74,12 @@ export const fetchIdentifiersData: () => ReduxAction<Promise<DropdownListEntry[]
 export const fetchIdentifiersDataFailed: (errorMessage: string) => ReduxAction<string> =
     createFailedAction(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FAILED)
 
+export const fetchRelationsData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
+    createFetchAction(DropdownConstants.FETCH_RELATION_DROPDOWN, "relations.json")
+
+export const fetchRelationsDataFailed: (errorMessage: string) => ReduxAction<string> =
+    createFailedAction(DropdownConstants.FETCH_RELATION_DROPDOWN_FAILED)
+
 export const fetchDatesData: () => ReduxAction<Promise<DropdownListEntry[]>> = () =>
     createFetchAction(DropdownConstants.FETCH_DATES_DROPDOWN, "dates.json")
 

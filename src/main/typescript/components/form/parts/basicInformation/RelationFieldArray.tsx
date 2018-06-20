@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 import * as React from "react"
-import TextField, { TextFieldProps } from "./TextField"
+import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
+import { Relation } from "../../../../lib/metadata/Relation"
+import { DropdownList } from "../../../../model/DropdownLists"
+import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
+import RelationFieldArrayElement from "../../../../lib/formComponents/RelationFieldArrayElement"
 
-interface LabeledTextFieldProps {
-    labelWidth?: number
-}
-
-/**
- * Creates a TextField with a prepended label
- */
-const LabeledTextField = ({ label, labelWidth, ...rest }: LabeledTextFieldProps & TextFieldProps) => (
-    <>
-        <div className="input-group-prepend">
-            <span className="input-group-text" style={labelWidth ? {width: `${labelWidth}px`} : {}}>{label}</span>
-        </div>
-        <TextField {...rest}/>
-    </>
+const RelationFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<Relation>) => (
+    <LoadDropdownData state={state}>
+        <RelationFieldArrayElement {...props} schemeValues={list}/>
+    </LoadDropdownData>
 )
 
-export default LabeledTextField
+export default RelationFieldArray

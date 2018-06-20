@@ -100,6 +100,9 @@ const [audiencesPendingLens, audiencesFulfilledLens, audiencesFailedLens] = crea
 const identifiersLens = Lens.fromProp<DropdownLists, "identifiers">("identifiers")
 const [identifiersPendingLens, identifiersFulfilledLens, identifiersFailedLens] = createLenses(identifiersLens)
 
+const relationsLens = Lens.fromProp<DropdownLists, "relations">("relations")
+const [relationsPendingLens, relationsFulfilledLens, relationsFailedLens] = createLenses(relationsLens)
+
 const datesLens = Lens.fromProp<DropdownLists, "dates">("dates")
 const [datesPendingLens, datesFulfilledLens, datesFailedLens] = createLenses(datesLens)
 
@@ -160,6 +163,13 @@ export const dropdownReducer: Reducer<DropdownLists> = (state = emptyDropdownLis
             return handleFulfilled(identifiersFulfilledLens, action.payload, state)
         case DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FAILED:
             return handleFailed(identifiersFailedLens, action.payload, state)
+
+        case DropdownConstants.FETCH_RELATION_DROPDOWN_PENDING:
+            return handlePending(relationsPendingLens, state)
+        case DropdownConstants.FETCH_RELATION_DROPDOWN_FULFILLED:
+            return handleFulfilled(relationsFulfilledLens, action.payload, state)
+        case DropdownConstants.FETCH_RELATION_DROPDOWN_FAILED:
+            return handleFailed(relationsFailedLens, action.payload, state)
 
         case DropdownConstants.FETCH_DATES_DROPDOWN_PENDING:
             return handlePending(datesPendingLens, state)

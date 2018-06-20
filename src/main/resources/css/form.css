@@ -146,3 +146,11 @@
 .react-datepicker__close-icon:hover:after {
     background-color: #919191!important;
 }
+
+.input-element .relation .relation-validate-button {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #ced4da;
+}

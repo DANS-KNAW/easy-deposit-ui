@@ -51,7 +51,7 @@ import {
     fetchIdentifiersData,
     fetchImtFormatsData,
     fetchLanguagesData,
-    fetchLicensesData,
+    fetchLicensesData, fetchRelationsData,
     fetchSpatialCoordinatesData,
     fetchSpatialCoveragesIsoData,
 } from "../../actions/dropdownActions"
@@ -122,6 +122,7 @@ interface DepositFormStoreArguments {
     fetchContributorRolesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchAudiencesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchIdentifiersData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchRelationsData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchDatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchLicensesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
@@ -155,6 +156,7 @@ class DepositForm extends Component<DepositFormProps> {
         this.props.fetchContributorRolesData()
         this.props.fetchAudiencesData()
         this.props.fetchIdentifiersData()
+        this.props.fetchRelationsData()
         this.props.fetchDatesData()
         this.props.fetchLicensesData()
         this.props.fetchDcmiTypesData()
@@ -275,6 +277,7 @@ const composedHOC = compose(
             fetchContributorIdsData,
             fetchAudiencesData,
             fetchIdentifiersData,
+            fetchRelationsData,
             fetchDatesData,
             fetchLicensesData,
             fetchDcmiTypesData,

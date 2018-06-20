@@ -28,7 +28,7 @@ interface SchemedBoxProps extends InnerComponentProps {
 const SchemedBox = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBoxProps) => (
     <>
         <div className="form-row">
-            <div className="col input-group mb-1">
+            <div className="col mb-1">
                 <Field name={names[0]}
                        label="Scheme"
                        choices={schemeValues}
@@ -52,7 +52,7 @@ const SchemedBox = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBo
         </div>
 
         <div className="form-row">
-            <div className="col input-group mb-2"/>
+            <div className="col mb-2"/>
             <div className="col input-group mb-2">
                 <Field name={names[3]}
                        label="South"
