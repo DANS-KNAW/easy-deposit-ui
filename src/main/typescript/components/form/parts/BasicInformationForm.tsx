@@ -21,7 +21,12 @@ import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
-import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
+import {
+    emptyQualifiedSchemedValue,
+    emptySchemedValue,
+    QualifiedSchemedValue,
+    SchemedValue,
+} from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
@@ -39,6 +44,7 @@ import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
+import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -185,7 +191,15 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         </div>
 
         <div className="row form-group input-element">
-            <p>Related identifier</p>
+            <RepeatableField name="relatedIdentifiers"
+                             label="Related identifiers"
+                             empty={emptyQualifiedSchemedValue}
+                             fieldNames={[
+                                 (name: string) => `${name}.scheme`,
+                                 (name: string) => `${name}.qualifier`,
+                                 (name: string) => `${name}.value`,
+                             ]}
+                             component={RelatedIdentifierFieldArray(identifiers, relations)}/>
         </div>
 
         <div className="row form-group input-element">
