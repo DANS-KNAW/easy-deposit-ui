@@ -182,7 +182,7 @@ class DepositForm extends Component<DepositFormProps> {
                         <DataForm/>
                     </Card>
 
-                    <Card title="Basic information" required defaultOpened> { /* TODO */ }
+                    <Card title="Basic information" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <BasicInformationForm depositId={this.props.depositId}/>
                         </Loaded>
@@ -200,13 +200,13 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    <Card title="Archaeology specific metadata"> { /* TODO */ }
+                    <Card title="Archaeology specific metadata">
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <ArchaeologySpecificMetadataForm/>
                         </Loaded>
                     </Card>
 
-                    <Card title="Temporal and spatial coverage"> { /* TODO */ }
+                    <Card title="Temporal and spatial coverage">
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <TemporalAndSpatialCoverageForm/>
                         </Loaded>
