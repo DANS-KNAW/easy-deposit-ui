@@ -27,7 +27,7 @@ import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../
 import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
-import IdentifierFieldArray from "./basicInformation/IdentifierFieldArray"
+import AlternativeIdentifierFieldArray from "./basicInformation/AlternativeIdentifierFieldArray"
 import DateFieldArray from "./basicInformation/DateFieldArray"
 import { DropdownList } from "../../../model/DropdownLists"
 import { AppState } from "../../../model/AppState"
@@ -181,7 +181,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                  (name: string) => `${name}.scheme`,
                                  (name: string) => `${name}.value`,
                              ]}
-                             component={IdentifierFieldArray(identifiers)}/>
+                             component={AlternativeIdentifierFieldArray(identifiers)}/>
         </div>
 
         <div className="row form-group input-element">

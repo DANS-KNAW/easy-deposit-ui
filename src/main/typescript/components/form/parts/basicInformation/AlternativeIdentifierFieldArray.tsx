@@ -20,10 +20,10 @@ import SchemedTextFieldArray from "../../../../lib/formComponents/SchemedTextFie
 import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
 
-const IdentifierFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
+const AlternativeIdentifierFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
     <LoadDropdownData state={state}>
         <SchemedTextFieldArray {...props} withEmptyDefault schemeValues={list}/>
     </LoadDropdownData>
 )
 
-export default IdentifierFieldArray
+export default AlternativeIdentifierFieldArray
