@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./target/dev-build/",
     "sourceMap": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
