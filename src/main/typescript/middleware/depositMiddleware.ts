@@ -35,7 +35,7 @@ const depositFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: 
                 if (state) {
                     return ({
                         depositId: input.id,
-                        title: input.title,
+                        title: input.title ? input.title : "Untitled deposit",
                         state: state,
                         stateDescription: input.stateDescription,
                         date: new Date(input.date),

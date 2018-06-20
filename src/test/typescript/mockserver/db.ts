@@ -55,7 +55,7 @@ export const getDeposit: (id: DepositId) => Deposit & { id: DepositId } | undefi
 }
 
 const newDeposit: () => Deposit = () => ({
-    title: "New Deposit",
+    title: "",
     state: "DRAFT",
     stateDescription: "",
     date: new Date().toISOString(),
