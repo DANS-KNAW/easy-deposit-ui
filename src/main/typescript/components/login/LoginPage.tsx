@@ -14,83 +14,35 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import { Redirect, RouteComponentProps } from "react-router"
-import { compose } from "redux"
-import { connect } from "react-redux"
-import { InjectedFormProps, reduxForm, Field } from "redux-form"
-import { ReduxAction } from "../../lib/redux"
-import { authenticate } from "../../actions/authenticationActions"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
+import EasyLogin from "./EasyLogin"
+import { connect } from "react-redux"
+import "../../../resources/css/login"
 
 interface LoginPageProps {
-    authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
     authenticated: boolean
-    authenticating: boolean
-    errorMessage: Error
 }
 
-interface LoginPageData {
-    loginName: string
-    loginPassword: string
-}
+type AllDemoFormProps = LoginPageProps & RouteComponentProps<any>
 
-type AllDemoFormProps = LoginPageProps & RouteComponentProps<any> & InjectedFormProps<LoginPageData>
+const LoginPage = ({ authenticated, location }: AllDemoFormProps) => {
+    const { from } = location.state || { from: { pathname: homeRoute } }
 
-class LoginPage extends Component<AllDemoFormProps> {
-    constructor(props: AllDemoFormProps) {
-        super(props)
-    }
+    return authenticated
+        ? <Redirect to={from}/>
+        : <div className="container">
+            <div className="row justify-content-around">
+                <EasyLogin/>
 
-    callAuthenticate = (formValues: LoginPageData) => {
-        this.props.authenticate(formValues.loginName, formValues.loginPassword)
-    }
-
-    render() {
-        const { authenticated, errorMessage, location, handleSubmit } = this.props
-        const { from } = location.state || { from: { pathname: homeRoute } }
-
-        return authenticated
-            ? <Redirect to={from}/>
-            :
-            <div className="row">
-                <div className={"card pl-0 pr-0 col-4 offset-md-4"}>
-                    <form onSubmit={handleSubmit(this.callAuthenticate)}>
-                        <p className={"card-header ml-0 mr-0 bg-primary text-white"}>EASY account</p>
-
-                        <div  className={"card-body pl-0 pr-2 ml-0 mr-0"}>
-                        <p className={"col-12"}>You must log in to view this page at {from.pathname}</p>
-                        <div className={"mb-1"}>
-                        <label className={"col-4"}>Username</label>
-                        <Field className={"col-8"} name="loginName" type="text" component="input" autoFocus required/>
-                        </div>
-                        <div>
-                        <label className={"col-4"}>Password</label>
-                        <Field className={"col-8"} type="password" name="loginPassword" component="input" required/>
-                        </div>
-                        <div className={"col-12"}>
-                            <button className={"btn btn-primary"} type="submit"
-                                    disabled={this.props.authenticating}>Login
-                            </button>
-                        </div>
-                        {errorMessage && <span>{errorMessage.message}<br/></span>}
-                        </div>
-                    </form>
-                </div>
+                {/* TODO other kinds of login forms here*/}
             </div>
-    }
+        </div>
 }
 
 const mapStateToProps = (state: AppState) => ({
     authenticated: state.authenticatedUser.isAuthenticated,
-    authenticating: state.authenticatedUser.isAuthenticating,
-    errorMessage: state.authenticatedUser.authenticationError,
 })
 
-const composedHOC = compose(
-    connect(mapStateToProps, { authenticate }),
-    reduxForm<LoginPageData>({ form: "login" }),
-)
-
-export default composedHOC(LoginPage)
+export default connect(mapStateToProps)(LoginPage)
