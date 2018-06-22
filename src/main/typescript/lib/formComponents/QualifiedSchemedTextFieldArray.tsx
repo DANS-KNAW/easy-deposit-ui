@@ -31,7 +31,7 @@ interface QualifiedSchemedTextFieldProps extends InnerComponentProps {
 
 const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled, qualifierValues, withEmptyQualifierDefault, schemeValues, withEmptySchemeDefault }: QualifiedSchemedTextFieldProps) => (
     <div className="form-row">
-        <div className="col col-md-4">
+        <div className="col col-md-3">
             <Field name={names[0]}
                    label="Qualifier"
                    choices={qualifierValues}
@@ -45,7 +45,7 @@ const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled
                    withEmptyDefault={withEmptySchemeDefault}
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-5">
+        <div className="col col-md-6">
             <div className="input-group mb-2 mr-2">
                 <Field name={names[2]}
                        label="Value" // TODO is label necessary anyway?

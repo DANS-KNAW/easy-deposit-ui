@@ -29,14 +29,14 @@ interface SchemedTextFieldProps extends InnerComponentProps {
 
 const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedTextFieldProps) => (
     <div className="form-row">
-        <div className="col col-md-4">
+        <div className="col col-md-3">
             <Field name={names[0]}
                    label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault={withEmptyDefault}
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-8">
+        <div className="col col-md-9">
             <div className="input-group mb-2 mr-2">
                 <Field name={names[1]}
                        label="Value"

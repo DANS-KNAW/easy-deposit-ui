@@ -29,14 +29,14 @@ interface SchemedDatePickerArrayProps extends InnerComponentProps {
 
 const SchemedDatePickerArray = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedDatePickerArrayProps) => (
     <div className="form-row">
-        <div className="col col-md-4">
+        <div className="col col-md-3">
             <Field name={names[0]}
                    label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault={withEmptyDefault}
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-8">
+        <div className="col col-md-9">
             <div className="input-group mb-2 mr-2">
                 {/*
                   * In contrast to other form fields, we have the '.form-control' wrapped around the Field
