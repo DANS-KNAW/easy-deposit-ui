@@ -23,112 +23,106 @@ const knaw = require("../../resources/img/footer/logo_KNAW.png")
 const nestor = require("../../resources/img/footer/logo_NESTOR.png")
 const nwo = require("../../resources/img/footer/logo_NWO.png")
 
-interface FooterState {
-    apiUrl?: string
+const ContactColumn = () => (
+    <ul className="contact">
+        <li>Anna van Saksenlaan 51</li>
+        <li>2593 HW Den Haag</li>
+        <li>
+            <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>
+        </li>
+        <li>
+            <a title="View how to contact" href="http://dans.knaw.nl/en/contact" target="_blank">More ›››</a>
+        </li>
+    </ul>
+)
+
+interface SocialMediaProps {
+    href: string
+    iconClass: string
+    name: string
 }
 
-const Contact = () => (
-    <div className="col-6 col-sm-3 col-md-3 col-lg-2">
-        <ul className="contact">
-            <li>Anna van Saksenlaan 51</li>
-            <li>2593 HW Den Haag</li>
-            <li>
-                <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>
-            </li>
-            <li>
-                <a title="View how to contact"
-                   href="http://dans.knaw.nl/en/contact"
-                   target="_blank">More ›››</a>
-            </li>
-        </ul>
+const SocialMedia = ({ href, iconClass, name }: SocialMediaProps) => (
+    <li>
+        <a href={href} target="_blank">
+            <i className={iconClass} aria-hidden="true"/> {name}
+        </a>
+    </li>
+)
+
+const SocialColumn = () => (
+    <ul className="social">
+        <SocialMedia href="http://dans.knaw.nl/en/@@dans_mailchimp_subscribe"
+                     iconClass="fas fa-envelope-square"
+                     name="Newsletter"/>
+        <SocialMedia href="https://twitter.com/DANSKNAW"
+                     iconClass="fab fa-twitter-square"
+                     name="Twitter"/>
+        <SocialMedia href="https://www.youtube.com/user/DANSDataArchiving"
+                     iconClass="fab fa-youtube-square"
+                     name="YouTube"/>
+        <SocialMedia href="https://www.linkedin.com/company/dans"
+                     iconClass="fab fa-linkedin"
+                     name="LinkedIn"/>
+    </ul>
+)
+
+const Link = ({ children, title, href }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <li>
+        <a title={title}
+           href={href}
+           target="_blank">{children}</a>
+    </li>
+)
+
+const LinksColumn = () => (
+    <ul className="links">
+        <Link title="View the disclaimer"
+              href="http://dans.knaw.nl/en/about/services/data-archiving-and-reuse/easy/disclaimer-easy">
+            Disclaimer
+        </Link>
+        <Link title="View the legal information"
+              href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/juridische-informatie">
+            Legal information
+        </Link>
+        <Link title="View the property right statement"
+              href="http://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement">
+            Property rights statement
+        </Link>
+        <Link title="How to cite data"
+              href="http://dans.knaw.nl/en/search/about-reusing-data">
+            How to cite data
+        </Link>
+    </ul>
+)
+
+const CertificationColumn = () => (
+    <div className="easy-Certificering-link">
+        <a href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/Certificering"
+           target="_blank"
+           title="Certificering">
+            <img src={cts}/>
+            <img src={nestor}/>
+        </a>
     </div>
 )
 
-const Social = () => (
-    <div className="col-6 col-sm-3 col-md-2 col-lg-2">
-        <ul className="social">
-            <li>
-                <a href="http://dans.knaw.nl/en/@@dans_mailchimp_subscribe" target="_blank">
-                    <i className="fas fa-envelope-square" aria-hidden="true"/> Newsletter
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="https://twitter.com/DANSKNAW">
-                    <i className="fab fa-twitter-square" aria-hidden="true"/> Twitter
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="https://www.youtube.com/user/DANSDataArchiving">
-                    <i className="fab fa-youtube-square" aria-hidden="true"/> YouTube
-                </a>
-            </li>
-            <li>
-                <a target="_blank" href="https://www.linkedin.com/company/dans">
-                    <i className="fab fa-linkedin" aria-hidden="true"/> LinkedIn
-                </a>
-            </li>
-        </ul>
-    </div>
-)
-
-const Links = () => (
-    <div className="col-12 col-sm-3 col-md-2 col-lg-2">
-        <ul>
-            <li>
-                <a title="View the disclaimer"
-                   href="http://dans.knaw.nl/en/about/services/data-archiving-and-reuse/easy/disclaimer-easy"
-                   target="_blank">Disclaimer</a>
-            </li>
-            <li>
-                <a title="View the legal information"
-                   href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/juridische-informatie"
-                   target="_blank">Legal information</a>
-            </li>
-            <li>
-                <a title="View the property right statement"
-                   href="http://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement"
-                   target="_blank">Property rights statement</a>
-            </li>
-            <li>
-                <a href="http://dans.knaw.nl/en/search/about-reusing-data" target="_blank"
-                   title="How to cite data">How to cite data</a>
-            </li>
-        </ul>
-    </div>
-)
-
-const Certification = () => (
-    <div className="col-12 col-sm-4 col-md-4 col-lg-3">
-        <div className="easy-Certificering-link">
-            <a href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/Certificering"
-               target="_blank"
-               title="Certificering">
-                <img src={cts}/>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <img src={nestor}/>
+const AboutDansColumn = () => (
+    <div className="overdans">
+        <p>DANS is an institute of KNAW and NWO</p>
+        <p>
+            <a href="http://www.knaw.nl/en" target="_blank">
+                <img height="55px" src={knaw}/>
             </a>
-        </div>
+            <a href="http://www.nwo.nl/en" target="_blank">
+                <img height="55px" src={nwo}/>
+            </a>
+        </p>
+        <p className="driven-by-data">Driven by data</p>
     </div>
 )
 
-const AboutDans = () => (
-    <div className="col-lg-3">
-        <div className="overdans">
-            <p>DANS is an institute of KNAW and NWO</p>
-            <p>
-                <a href="http://www.knaw.nl/en" target="_blank">
-                    <img height="55px" src={knaw}/>
-                </a>
-                <a href="http://www.nwo.nl/en" target="_blank">
-                    <img height="55px" src={nwo}/>
-                </a>
-            </p>
-            <p className="driven-by-data">Driven by data</p>
-        </div>
-    </div>
-)
-
-const FooterTitle = () => (
+const TitleRow = () => (
     <div className="row">
         <div className="col-12 col-sm-12 col-md-3 col-lg-2">
             <div className="h1">Contact</div>
@@ -136,13 +130,27 @@ const FooterTitle = () => (
     </div>
 )
 
-const FooterContents = () => (
+const ContentRow = () => (
     <div className="row">
-        <Contact/>
-        <Social/>
-        <Links/>
-        <Certification/>
-        <AboutDans/>
+        <div className="col-7 col-sm-4 col-md-3 col-lg-2">
+            <ContactColumn/>
+        </div>
+
+        <div className="col-5 col-sm-3 col-md-2 offset-md-2 col-lg-2 offset-lg-0">
+            <SocialColumn/>
+        </div>
+
+        <div className="col-12 col-sm-4 offset-sm-1 col-md-3 offset-md-2 col-lg-2 offset-lg-0">
+            <LinksColumn/>
+        </div>
+
+        <div className="col-12 col-sm-4 col-md-4 col-lg-3">
+            <CertificationColumn/>
+        </div>
+
+        <div className="col-sm-8 col-lg-3">
+            <AboutDansColumn/>
+        </div>
     </div>
 )
 
@@ -150,19 +158,21 @@ interface FooterBuildInfoProps {
     apiUrl?: string
 }
 
-const FooterBuildInfo = ({apiUrl}: FooterBuildInfoProps) => (
+const BuildInfoRow = ({ apiUrl }: FooterBuildInfoProps) => (
     <div className="row">
         <div className="col-12">
             <div className="version">
-                    <span>
-                        <div>Version: <span>{projectVersion}</span></div>
-                        <div>Build date: <span>{buildDate}</span></div>
-                        {inDevelopmentMode && apiUrl && <div>API base url: <span>{apiUrl}</span></div>}
-                    </span>
+                <div>Version: <span>{projectVersion}</span></div>
+                <div>Build date: <span>{buildDate}</span></div>
+                {inDevelopmentMode && apiUrl && <div>API base url: <span>{apiUrl}</span></div>}
             </div>
         </div>
     </div>
 )
+
+interface FooterState {
+    apiUrl?: string
+}
 
 class Footer extends Component<{}, FooterState> {
     constructor(props: {}) {
@@ -178,9 +188,9 @@ class Footer extends Component<{}, FooterState> {
     render() {
         return (
             <footer className="container-fluid">
-                <FooterTitle/>
-                <FooterContents/>
-                <FooterBuildInfo apiUrl={this.state.apiUrl}/>
+                <TitleRow/>
+                <ContentRow/>
+                <BuildInfoRow apiUrl={this.state.apiUrl}/>
             </footer>
         )
     }
