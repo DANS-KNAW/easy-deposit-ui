@@ -16,7 +16,7 @@
 import { ReduxAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
-import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/apiConstants"
+import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
 import { Deposit, DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 

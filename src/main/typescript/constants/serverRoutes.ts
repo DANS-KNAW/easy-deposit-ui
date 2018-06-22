@@ -16,8 +16,6 @@
 import { apiUrl } from "../lib/config"
 import { DepositId } from "../model/Deposits"
 
-// TODO rename to serverRoutes.ts
-
 const createURL = async (path: string) => {
     const url = await apiUrl()
     return url.endsWith("/") ? `${url}${path}` : `${url}/${path}`

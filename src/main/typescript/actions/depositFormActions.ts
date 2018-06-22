@@ -18,7 +18,7 @@ import { ReduxAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import axios from "axios"
-import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/apiConstants"
+import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/serverRoutes"
 import { Action } from "redux"
 
 export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
