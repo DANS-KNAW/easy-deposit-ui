@@ -16,7 +16,7 @@
 import { FieldArray, GenericFieldArray, WrappedFieldArrayProps } from "redux-form"
 
 export interface CustomFieldArrayProps<FieldValue> {
-    label: string
+    label?: string
     empty: FieldValue
     fieldNames: ((name: string) => string)[]
 }

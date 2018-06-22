@@ -192,7 +192,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <div className="row form-group input-element">
             <RepeatableField name="relatedIdentifiers"
-                             label="Related identifiers"
+                             label="Relations"
                              empty={emptyQualifiedSchemedValue}
                              fieldNames={[
                                  (name: string) => `${name}.scheme`,
@@ -204,7 +204,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <div className="row form-group input-element">
             <RepeatableField name="relations"
-                             label="Relations"
+                             label=""
                              empty={emptyRelation}
                              fieldNames={[
                                  (name: string) => `${name}.qualifier`,
