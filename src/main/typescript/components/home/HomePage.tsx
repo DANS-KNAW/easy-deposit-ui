@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import { Link } from "react-router-dom"
 import { depositOverviewRoute } from "../../constants/clientRoutes"
 
-interface HomePageProps {
-
-}
-
-class HomePage extends Component<HomePageProps> {
-    constructor(props: HomePageProps) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <>
-                <h1>Home Page</h1>
-                <Link className="btn btn-dark" to={depositOverviewRoute}>Deposit your data</Link>
-            </>
-        )
-    }
-}
+const HomePage = () => (
+    <>
+        <h1>Home Page</h1>
+        <Link className="btn btn-dark" to={depositOverviewRoute}>Deposit your data</Link>
+    </>
+)
 
 export default HomePage
