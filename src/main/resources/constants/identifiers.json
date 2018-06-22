@@ -7,10 +7,6 @@
     "title": "urn",
     "viewName": "urn"
   },
-  "id-type:MENDELEY-DATA": {
-    "title": "mendeley data",
-    "viewName": "mendeley data"
-  },
   "id-type:ISBN": {
     "title": "ISBN",
     "viewName": "ISBN"
@@ -20,11 +16,7 @@
     "viewName": "ISSN"
   },
   "id-type:NWO-PROJECTNR": {
-    "title": "NWO project number",
-    "viewName": "NWO project number"
-  },
-  "id-type:eDNA-project": {
-    "title": "eDNA project number",
-    "viewName": "eDNA project number"
+    "title": "NWO project no.",
+    "viewName": "NWO project no."
   }
 }
