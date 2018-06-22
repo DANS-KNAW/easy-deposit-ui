@@ -41,6 +41,7 @@ export default combineReducers({
     user: userReducer,
     form: formReducer.plugin({
         depositForm: changeReducer,
+        easyLogin: changeReducer,
     }),
     router: routerReducer,
     deposits: depositOverviewReducer,
