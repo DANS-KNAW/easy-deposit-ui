@@ -19,7 +19,7 @@ import { WrappedFieldProps } from "redux-form"
 
 interface InnerComponentProps {
     htmlFor: string
-    label?: string // TODO what happens when label is undefined?
+    label?: string
 }
 
 const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => (props: WrappedFieldProps & any) => {
@@ -27,7 +27,7 @@ const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => (p
 
     return (
         <>
-            <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={htmlFor}>{label}</label>
+            <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={htmlFor}>{label || ""}</label>
             <div className="col-12 col-md-8 pl-0 pr-0">
                 <InnerComponent {...props}/>
             </div>

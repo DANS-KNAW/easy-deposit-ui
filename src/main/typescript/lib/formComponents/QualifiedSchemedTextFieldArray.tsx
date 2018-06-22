@@ -21,25 +21,34 @@ import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
-interface SchemedTextFieldProps extends InnerComponentProps {
+interface QualifiedSchemedTextFieldProps extends InnerComponentProps {
     label: string
+    qualifierValues: DropdownListEntry[]
+    withEmptyQualifierDefault?: boolean
     schemeValues: DropdownListEntry[]
-    withEmptyDefault?: boolean
+    withEmptySchemeDefault?: boolean
 }
 
-const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedTextFieldProps) => (
+const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled, qualifierValues, withEmptyQualifierDefault, schemeValues, withEmptySchemeDefault }: QualifiedSchemedTextFieldProps) => (
     <div className="form-row">
         <div className="col col-md-3">
             <Field name={names[0]}
-                   label="Scheme"
-                   choices={schemeValues}
-                   withEmptyDefault={withEmptyDefault}
+                   label="Qualifier"
+                   choices={qualifierValues}
+                   withEmptyDefault={withEmptyQualifierDefault}
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-9">
+        <div className="col col-md-3">
+            <Field name={names[1]}
+                   label="Scheme"
+                   choices={schemeValues}
+                   withEmptyDefault={withEmptySchemeDefault}
+                   component={DropdownFieldInput}/>
+        </div>
+        <div className="col col-md-6">
             <div className="input-group mb-2 mr-2">
-                <Field name={names[1]}
-                       label="Value"
+                <Field name={names[2]}
+                       label="Value" // TODO is label necessary anyway?
                        placeholder={label}
                        component={TextField}/>
                 <RemoveButton onClick={onDelete}
@@ -49,4 +58,4 @@ const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues
     </div>
 )
 
-export default asFieldArray(SchemedTextField)
+export default asFieldArray(QualifiedSchemedTextFieldArray)

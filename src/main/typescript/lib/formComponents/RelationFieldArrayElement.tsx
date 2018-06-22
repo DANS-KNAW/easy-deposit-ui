@@ -43,14 +43,13 @@ interface RelationFieldArrayProps extends InnerComponentProps {
 const RelationFieldArrayElement = ({ names, onDelete, deleteDisabled, schemeValues }: RelationFieldArrayProps) => (
     <div className="relation">
         <div className="form-row">
-            <div className="col col-md-4 mb-1">
+            <div className="col col-md-3 mb-1">
                 <Field name={names[0]}
                        label="Qualifier"
                        choices={schemeValues}
-                       withEmptyDefault
                        component={DropdownFieldInput}/>
             </div>
-            <div className="col col-md-8 input-group mb-1">
+            <div className="col col-md-9 input-group mb-1">
                 <Field name={names[1]}
                        label="Title"
                        placeholder="Title"
@@ -60,8 +59,8 @@ const RelationFieldArrayElement = ({ names, onDelete, deleteDisabled, schemeValu
         </div>
 
         <div className="form-row">
-            <div className="col col-md-4 mb-2"/>
-            <div className="col col-md-8 input-group mb-2">
+            <div className="col col-md-3 mb-2"/>
+            <div className="col col-md-9 input-group mb-2">
                 <div className="input-group">
                     <Field name={names[2]}
                            label="Url"

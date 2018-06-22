@@ -21,13 +21,18 @@ import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
 import { Doi } from "../../../../../test/typescript/mockserver/metadata"
-import { emptySchemedValue, QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
+import {
+    emptyQualifiedSchemedValue,
+    emptySchemedValue,
+    QualifiedSchemedValue,
+    SchemedValue,
+} from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
-import IdentifierFieldArray from "./basicInformation/IdentifierFieldArray"
+import AlternativeIdentifierFieldArray from "./basicInformation/AlternativeIdentifierFieldArray"
 import DateFieldArray from "./basicInformation/DateFieldArray"
 import { DropdownList } from "../../../model/DropdownLists"
 import { AppState } from "../../../model/AppState"
@@ -39,6 +44,7 @@ import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
+import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -181,16 +187,24 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                  (name: string) => `${name}.scheme`,
                                  (name: string) => `${name}.value`,
                              ]}
-                             component={IdentifierFieldArray(identifiers)}/>
+                             component={AlternativeIdentifierFieldArray(identifiers)}/>
         </div>
 
         <div className="row form-group input-element">
-            <p>Related identifier</p>
+            <RepeatableField name="relatedIdentifiers"
+                             label="Relations"
+                             empty={emptyQualifiedSchemedValue}
+                             fieldNames={[
+                                 (name: string) => `${name}.qualifier`,
+                                 (name: string) => `${name}.scheme`,
+                                 (name: string) => `${name}.value`,
+                             ]}
+                             component={RelatedIdentifierFieldArray(relations, identifiers)}/>
         </div>
 
         <div className="row form-group input-element">
             <RepeatableField name="relations"
-                             label="Relations"
+                             label=""
                              empty={emptyRelation}
                              fieldNames={[
                                  (name: string) => `${name}.qualifier`,
