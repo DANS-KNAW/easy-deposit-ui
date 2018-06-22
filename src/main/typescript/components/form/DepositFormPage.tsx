@@ -28,8 +28,8 @@ interface RouterParams {
 }
 
 interface MyDepositFormPageProps {
-    registerForm: (depositId: DepositId) => ReduxAction<DepositId>
-    unregisterForm: () => Action
+    registerForm(depositId: DepositId): ReduxAction<DepositId>
+    unregisterForm(): Action
 }
 
 type DepositFormPageProps = MyDepositFormPageProps & RouteComponentProps<RouterParams>

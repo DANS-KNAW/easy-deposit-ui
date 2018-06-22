@@ -19,7 +19,7 @@ import { SFC } from "react"
 export const Alert: SFC = ({children}) => <div className="alert alert-danger" role="alert">{children}</div>
 
 interface ReloadAlertProps {
-    reload: () => any
+    reload(): any
 }
 
 export const ReloadAlert: SFC<ReloadAlertProps> = ({ reload, children }) => (

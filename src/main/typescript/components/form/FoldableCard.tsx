@@ -32,9 +32,9 @@ interface FoldableCardStoreArguments {
 }
 
 interface FoldableCardDispatchArguments {
-    registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }>
-    unregisterCard: (id: string) => ReduxAction<string>
-    toggleCard: (id: string) => ReduxAction<string>
+    registerCard(id: string, open: boolean): ReduxAction<{ id: string, open: boolean }>
+    unregisterCard(id: string): ReduxAction<string>
+    toggleCard(id: string): ReduxAction<string>
 }
 
 type FoldableCardProps = FoldableCardInputArguments & FoldableCardStoreArguments & FoldableCardDispatchArguments

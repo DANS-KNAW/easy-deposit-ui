@@ -35,7 +35,8 @@ interface DepositTableRowProps {
     depositId: DepositId
     deposit: Deposit
     deleting?: DeleteState
-    deleteDeposit: () => void
+
+    deleteDeposit(): void
 }
 
 const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
