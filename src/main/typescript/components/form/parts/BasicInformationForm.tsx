@@ -195,11 +195,11 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                              label="Relations"
                              empty={emptyQualifiedSchemedValue}
                              fieldNames={[
-                                 (name: string) => `${name}.scheme`,
                                  (name: string) => `${name}.qualifier`,
+                                 (name: string) => `${name}.scheme`,
                                  (name: string) => `${name}.value`,
                              ]}
-                             component={RelatedIdentifierFieldArray(identifiers, relations)}/>
+                             component={RelatedIdentifierFieldArray(relations, identifiers)}/>
         </div>
 
         <div className="row form-group input-element">

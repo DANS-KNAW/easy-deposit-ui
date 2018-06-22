@@ -20,13 +20,13 @@ import { QualifiedSchemedValue } from "../../../../lib/metadata/Value"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import QualifiedSchemedTextFieldArray from "../../../../lib/formComponents/QualifiedSchemedTextFieldArray"
 
-const RelatedIdentifierFieldArray = (schemes: DropdownList, qualifiers: DropdownList) => (props: FieldArrayProps<QualifiedSchemedValue>) => (
+const RelatedIdentifierFieldArray = (qualifiers: DropdownList, schemes: DropdownList) => (props: FieldArrayProps<QualifiedSchemedValue>) => (
     <LoadDropdownData state={qualifiers.state}>
         <LoadDropdownData state={schemes.state}>
             <QualifiedSchemedTextFieldArray {...props}
+                                            qualifierValues={qualifiers.list}
                                             schemeValues={schemes.list}
-                                            withEmptySchemeDefault
-                                            qualifierValues={qualifiers.list}/>
+                                            withEmptySchemeDefault/>
         </LoadDropdownData>
     </LoadDropdownData>
 )

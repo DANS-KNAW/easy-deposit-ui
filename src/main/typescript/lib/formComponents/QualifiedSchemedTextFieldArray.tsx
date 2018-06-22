@@ -23,26 +23,26 @@ import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface QualifiedSchemedTextFieldProps extends InnerComponentProps {
     label: string
-    schemeValues: DropdownListEntry[]
     qualifierValues: DropdownListEntry[]
-    withEmptySchemeDefault?: boolean
     withEmptyQualifierDefault?: boolean
+    schemeValues: DropdownListEntry[]
+    withEmptySchemeDefault?: boolean
 }
 
-const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled, schemeValues, qualifierValues, withEmptySchemeDefault, withEmptyQualifierDefault }: QualifiedSchemedTextFieldProps) => (
+const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled, qualifierValues, withEmptyQualifierDefault, schemeValues, withEmptySchemeDefault }: QualifiedSchemedTextFieldProps) => (
     <div className="form-row">
         <div className="col col-md-4">
             <Field name={names[0]}
-                   label="Scheme"
-                   choices={schemeValues}
-                   withEmptyDefault={withEmptySchemeDefault}
+                   label="Qualifier"
+                   choices={qualifierValues}
+                   withEmptyDefault={withEmptyQualifierDefault}
                    component={DropdownFieldInput}/>
         </div>
         <div className="col col-md-3">
             <Field name={names[1]}
-                   label="Qualifier"
-                   choices={qualifierValues}
-                   withEmptyDefault={withEmptyQualifierDefault}
+                   label="Scheme"
+                   choices={schemeValues}
+                   withEmptyDefault={withEmptySchemeDefault}
                    component={DropdownFieldInput}/>
         </div>
         <div className="col col-md-5">
