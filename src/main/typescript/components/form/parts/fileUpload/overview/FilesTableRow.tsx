@@ -20,7 +20,8 @@ const FilesTableRow = ({ fileInfo }: FilesTableRowProps) => {
     const deleteButton =
         <button key="delete"
                 className="close icon"
-                style={{ float: "unset" }}>
+                style={{ float: "unset" }}
+                disabled={true}>
             <i className="fas fa-trash-alt"/>
         </button>
 
