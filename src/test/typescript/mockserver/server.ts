@@ -203,6 +203,20 @@ app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
         }
     }
 })
+app.post("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
+    console.log(`POST /deposit/${req.params.id}/file${req.params.dir_path ? `/${req.params.dir_path}` : ""}`)
+
+    res.status(501)
+    res.send("not yet implemented")
+    console.log("  501")
+})
+app.put("/deposit/:id/file/:file_path", (req: Request, res: Response) => {
+    console.log(`PUT /deposit/${req.params.id}/file${req.params.file_path ? `/${req.params.file_path}` : ""}`)
+
+    res.status(501)
+    res.send("not yet implemented")
+    console.log("  501")
+})
 
 app.get("/user", (req: Request, res: Response) => {
     console.log(`GET /user`)
