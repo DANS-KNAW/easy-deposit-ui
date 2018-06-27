@@ -263,7 +263,7 @@ class DepositForm extends Component<DepositFormProps> {
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     formState: state.depositForm,
-    initialValues: { ...state.depositForm.initialState.data, ...state.depositForm.initialState.metadata },
+    initialValues: state.depositForm.initialState.metadata,
     formValues: state.form.depositForm && state.form.depositForm.values,
 })
 
