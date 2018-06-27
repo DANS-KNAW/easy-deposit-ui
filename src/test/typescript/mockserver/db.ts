@@ -136,7 +136,10 @@ export const getDoi: (id: DepositId) => Doi | undefined = id => {
                         ...data[id],
                         metadata: {
                             ...metadata,
-                            identifiers: [...metadata.identifiers, { scheme: DansIdentifierSchemeValues.DOI, value: doi }],
+                            identifiers: [...metadata.identifiers, {
+                                scheme: DansIdentifierSchemeValues.DOI,
+                                value: doi,
+                            }],
                         },
                     },
                 }
