@@ -18,6 +18,7 @@ import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
+import { Directory001, FileInfo } from "./fileinfo"
 
 interface DataPerDraft {
     deposit: Deposit
@@ -166,4 +167,7 @@ const generateNewDoi = () => `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
 
 export const getUser: () => User = () => {
     return User001
+}
+export const getDirectoryListing: () =>  FileInfo[] = () => {
+    return Directory001
 }

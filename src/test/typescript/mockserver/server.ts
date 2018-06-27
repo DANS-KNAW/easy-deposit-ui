@@ -20,7 +20,7 @@ import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
-    getDeposit, getDoi,
+    getDeposit, getDirectoryListing, getDoi,
     getMetadata,
     getState,
     getUser,
@@ -29,6 +29,7 @@ import {
     setMetadata,
     setState,
 } from "./db"
+import { Directory001 } from "./fileinfo"
 
 const app = express();
 app.use(bodyParser.json());
@@ -211,6 +212,21 @@ app.post('/auth/logout', (req: Request, res:Response) => {
     res.status(204)
     res.send()
     console.log(204)
+})
+
+app.get('/deposit/:id/file/:dirpath', (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/file/${req.params.dirpath}`)
+    res.status(200)
+    console.log(getDirectoryListing())
+    res.json(getDirectoryListing())
+    console.log(" 200 ")
+})
+
+app.delete('/deposit/:id/file/:dirpath', (req: Request, res: Response) =>{
+    console.log(`DELETE /deposit/${req.params.id}/file/${req.params.dirpath}`)
+    res.status(204)
+    res.send("Resource deleted.")
+    console.log(" 204 ")
 })
 
 app.listen(3004, () => console.log("Running on localhost:3004"))

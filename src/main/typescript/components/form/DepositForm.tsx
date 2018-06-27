@@ -37,8 +37,8 @@ import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadata
 import UploadTypeForm from "./parts/UploadTypeForm"
 import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
-import DataForm from "./parts/DataForm"
 import { depositFormName } from "../../constants/depositFormConstants"
+import DatafilesOverview from "./parts/datafiles/DatafilesOverview"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import {
     fetchAbrComplexSubjectsData,
@@ -179,7 +179,7 @@ class DepositForm extends Component<DepositFormProps> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <DataForm/>
+                        <DatafilesOverview depositId={this.props.depositId}/>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>

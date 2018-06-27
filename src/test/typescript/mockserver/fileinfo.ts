@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import { Component } from "react"
-
-export interface DataFormData {
-    // TODO not yet implemented in mock server side
+export interface FileInfo {
+    filename: string
+    dirpath: string
+    sha1sum: string
 }
 
-interface DataFormProps {
+export const File001: FileInfo = {
+    filename: "aap.txt",
+    dirpath: "leesplankje/firstrow/",
+    sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c"
 }
-
-class DataForm extends Component<DataFormProps> {
-    render() {
-        return <p>Upload your data form</p>
-    }
+export const File002: FileInfo = {
+    filename: "noot.txt",
+    dirpath: "leesplankje/firstrow/",
+    sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e"
 }
-
-export default DataForm
+export const Directory001: FileInfo[] = [File001, File002]

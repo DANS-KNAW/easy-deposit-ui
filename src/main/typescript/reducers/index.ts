@@ -23,6 +23,7 @@ import { FormState, reducer as formReducer } from "redux-form"
 import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
+import { datafilesOverviewReducer } from "./datafilesReducer"
 import { dropdownReducer } from "./dropdownReducer"
 
 function changeReducer(state: FormState, action: AnyAction) {
@@ -39,6 +40,7 @@ function changeReducer(state: FormState, action: AnyAction) {
 export default combineReducers({
     authenticatedUser: authenticationReducer,
     user: userReducer,
+    datafiles: datafilesOverviewReducer,
     form: formReducer.plugin({
         depositForm: changeReducer,
         easyLogin: changeReducer,
