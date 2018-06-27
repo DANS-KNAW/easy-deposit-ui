@@ -16,10 +16,6 @@
 import * as React from "react"
 import { Component } from "react"
 
-export interface DataFormData {
-    // TODO not yet implemented in mock server side
-}
-
 interface FileUploadProps {
 }
 
