@@ -275,5 +275,3 @@ app.post("/auth/logout", (req: Request, res: Response) => {
 })
 
 app.listen(3004, () => console.log("Running on localhost:3004"))
-
-export default app
