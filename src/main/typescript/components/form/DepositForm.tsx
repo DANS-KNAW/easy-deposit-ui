@@ -37,7 +37,7 @@ import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadata
 import UploadTypeForm from "./parts/UploadTypeForm"
 import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
-import DataForm from "./parts/DataForm"
+import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import {
@@ -181,7 +181,7 @@ class DepositForm extends Component<DepositFormProps> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <DataForm/>
+                        <FileUpload/>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>

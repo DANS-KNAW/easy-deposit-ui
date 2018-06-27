@@ -20,13 +20,13 @@ export interface DataFormData {
     // TODO not yet implemented in mock server side
 }
 
-interface DataFormProps {
+interface FileUploadProps {
 }
 
-class DataForm extends Component<DataFormProps> {
+class FileUpload extends Component<FileUploadProps> {
     render() {
         return <p>Upload your data form</p>
     }
 }
 
-export default DataForm
+export default FileUpload
