@@ -3,12 +3,16 @@
     width: 100%;
 }
 
+.file_table thead tr th {
+    border-bottom: 0;
+}
+
 .file_table tbody tr:last-child {
     border-bottom: 1px solid #dee2e6;
 }
 
 @media (max-width: 767px) {
-    thead {
+    .file_table thead {
         display: none;
     }
 
