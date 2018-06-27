@@ -20,7 +20,8 @@ import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
-    getDeposit, getDoi,
+    getDeposit,
+    getDoi,
     getFilesListing,
     getMetadata,
     getState,
@@ -31,30 +32,30 @@ import {
     setState,
 } from "./db"
 
-const app = express();
-app.use(bodyParser.json());
+const app = express()
+app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/deposit', (req: Request, res: Response) => {
+app.get("/deposit", (req: Request, res: Response) => {
     console.log("GET /deposit")
     res.status(200)
     res.json(listDeposits())
     console.log("  200")
 })
-app.post('/deposit', (req: Request, res: Response) => {
+app.post("/deposit", (req: Request, res: Response) => {
     console.log("POST /deposit")
     res.status(201)
     res.json(createDeposit())
     console.log("  201")
 })
 
-app.get('/deposit/:id', (req: Request, res: Response) => {
+app.get("/deposit/:id", (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}`)
     res.status(200)
     res.json(getDeposit(req.params.id))
     console.log("  200")
 })
-app.delete('/deposit/:id', (req: Request, res: Response) => {
+app.delete("/deposit/:id", (req: Request, res: Response) => {
     console.log(`DELETE /deposit/${req.params.id}`)
     if (deleteDeposit(req.params.id)) {
         res.status(204)
@@ -68,7 +69,7 @@ app.delete('/deposit/:id', (req: Request, res: Response) => {
     }
 })
 
-app.get('/deposit/:id/metadata', (req: Request, res: Response) => {
+app.get("/deposit/:id/metadata", (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/metadata`)
     if (hasMetadata(req.params.id)) {
         const result = getMetadata(req.params.id)
@@ -89,7 +90,7 @@ app.get('/deposit/:id/metadata', (req: Request, res: Response) => {
         console.log("  404")
     }
 })
-app.put('/deposit/:id/metadata', (req: Request, res: Response) => {
+app.put("/deposit/:id/metadata", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/metadata`)
     if (hasMetadata(req.params.id)) {
         setMetadata(req.params.id, req.body)
@@ -104,7 +105,7 @@ app.put('/deposit/:id/metadata', (req: Request, res: Response) => {
     }
 })
 
-app.get('/deposit/:id/doi', (req: Request, res: Response) => {
+app.get("/deposit/:id/doi", (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/doi`)
     if (hasMetadata(req.params.id)) {
         const doi = getDoi(req.params.id)
@@ -124,7 +125,7 @@ app.get('/deposit/:id/doi', (req: Request, res: Response) => {
     }
 })
 
-app.get('/deposit/:id/state', (req: Request, res: Response) => {
+app.get("/deposit/:id/state", (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/state`)
     const state = getState(req.params.id)
     if (state) {
@@ -138,7 +139,7 @@ app.get('/deposit/:id/state', (req: Request, res: Response) => {
         console.log("  404")
     }
 })
-app.put('/deposit/:id/state', (req: Request, res: Response) => {
+app.put("/deposit/:id/state", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/state`)
     const body = req.body
     if (Object.keys(body).filter(value => value !== "state" && value !== "stateDescription").length === 0) {
@@ -175,7 +176,6 @@ app.put('/deposit/:id/state', (req: Request, res: Response) => {
     }
 })
 
-app.get('/user', (req: Request, res: Response) => {
 app.get("/deposit/:id/file/:dir_path?", (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/file${req.params.dir_path ? `/${req.params.dir_path}` : ""}`)
     const depositId = req.params.id
@@ -201,39 +201,40 @@ app.get("/deposit/:id/file/:dir_path?", (req: Request, res: Response) => {
     }
 })
 
+app.get("/user", (req: Request, res: Response) => {
     console.log(`GET /user`)
     res.status(200)
     res.json(getUser())
     console.log("  200, ")
 })
 
-app.post('/auth/login', (req: Request, res: Response) => {
+app.post("/auth/login", (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(204)
     res.send()
     console.log("  204")
 })
-app.post('/auth/login401', (req: Request, res: Response) => {
+app.post("/auth/login401", (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(401)
     res.send("Unauthorized")
     console.log(" 401 ")
 })
-app.post('/auth/login403', (req: Request, res: Response) => {
+app.post("/auth/login403", (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(403)
     res.send("Forbidden")
     console.log(" 403 ")
 })
-app.post('/auth/login500', (req: Request, res: Response) => {
+app.post("/auth/login500", (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(500)
     res.send("Internal Server Error")
     console.log(" 500 ")
 })
 
-app.post('/auth/logout', (req: Request, res:Response) => {
-    console.log(('POST /auth/logout'))
+app.post("/auth/logout", (req: Request, res: Response) => {
+    console.log(("POST /auth/logout"))
     res.status(204)
     res.send()
     console.log(204)
@@ -241,4 +242,4 @@ app.post('/auth/logout', (req: Request, res:Response) => {
 
 app.listen(3004, () => console.log("Running on localhost:3004"))
 
-export default app;
+export default app
