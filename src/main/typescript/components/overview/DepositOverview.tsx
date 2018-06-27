@@ -107,7 +107,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { deposits: { deposits, deleting }, deleteDeposit } = this.props
 
         return (
-            <table className="table table-hover">
+            <table className="table table-hover deposit_table">
                 <DepositTableHead/>
                 <tbody>{Object.keys(deposits).map(depositId =>
                     <DepositTableRow key={depositId}
