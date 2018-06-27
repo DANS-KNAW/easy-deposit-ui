@@ -32,5 +32,3 @@ export type DepositFormMetadata =
     & MessageForDataManagerFormData
     & PrivacySensitiveDataFormData
     & DepositLicenseFormData
-
-export type DepositFormData = DataFormData & DepositFormMetadata

@@ -21,8 +21,8 @@ import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'
-import { DepositFormData } from "./parts"
+import "react-datepicker/dist/react-datepicker-cssmodules.css"
+import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
 import { ReduxAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
@@ -51,7 +51,8 @@ import {
     fetchIdentifiersData,
     fetchImtFormatsData,
     fetchLanguagesData,
-    fetchLicensesData, fetchRelationsData,
+    fetchLicensesData,
+    fetchRelationsData,
     fetchSpatialCoordinatesData,
     fetchSpatialCoveragesIsoData,
 } from "../../actions/dropdownActions"
@@ -113,10 +114,10 @@ const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
 interface DepositFormStoreArguments {
     depositId: DepositId
     formState: DepositFormState
-    formValues?: DepositFormData,
+    formValues?: DepositFormMetadata,
     fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
-    saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
-    submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }>
+    saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }>
+    submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }>
 
     fetchLanguagesData: () => ReduxAction<Promise<DropdownListEntry[]>>
     fetchContributorIdsData: () => ReduxAction<Promise<DropdownListEntry[]>>
@@ -134,7 +135,7 @@ interface DepositFormStoreArguments {
     fetchSpatialCoveragesIsoData: () => ReduxAction<Promise<DropdownListEntry[]>>
 }
 
-type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormData, DepositFormStoreArguments>
+type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
     fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
@@ -147,7 +148,7 @@ class DepositForm extends Component<DepositFormProps> {
         formValues && saveDraft(depositId, formValues)
     }
 
-    submit = (data: DepositFormData) => {
+    submit = (data: DepositFormMetadata) => {
         this.props.submitDeposit(this.props.depositId, data)
     }
 

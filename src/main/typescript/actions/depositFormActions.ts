@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DepositFormData, DepositFormMetadata } from "../components/form/parts"
+import { DepositFormMetadata } from "../components/form/parts"
 import { ReduxAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
@@ -72,7 +72,7 @@ const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
     return await axios.put(url, dataToSend)
 }
 
-export const saveDraft: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }> = (depositId, data) => ({
+export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }> = (depositId, data) => ({
     type: DepositFormConstants.SAVE_DRAFT,
     payload: { depositId: depositId, data: data },
 })
@@ -94,7 +94,7 @@ export const sendSaveDraftReset: () => Action = () => ({
     type: DepositFormConstants.SEND_SAVE_DRAFT_RESET,
 })
 
-export const submitDeposit: (depositId: DepositId, data: DepositFormData) => ReduxAction<{ depositId: DepositId, data: DepositFormData }> = (depositId, data) => ({
+export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }> = (depositId, data) => ({
     type: DepositFormConstants.SUBMIT_DEPOSIT,
     payload: { depositId: depositId, data: data },
 })
