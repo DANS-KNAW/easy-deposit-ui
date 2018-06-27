@@ -1,0 +1,27 @@
+.file_table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.file_table tbody tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
+@media (max-width: 767px) {
+    thead {
+        display: none;
+    }
+
+    .file_table td,
+    .file_table th {
+        border: 0;
+        padding-top: unset;
+        padding-bottom: unset;
+    }
+
+    .file_table tr {
+        border-top: 1px solid #dee2e6;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
