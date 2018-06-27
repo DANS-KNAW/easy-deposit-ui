@@ -18,9 +18,11 @@ import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
+import { directory1, FileInfo } from "./fileinfo"
 
 interface DataPerDraft {
     deposit: Deposit
+    files?: FileInfo[]
     metadata?: Metadata
 }
 
@@ -30,6 +32,7 @@ export type Data = { [id: string]: DataPerDraft }
 let data: Data = {
     "93674123-1699-49c5-af91-ed31db19adc9": {
         deposit: depositData1,
+        files: directory1,
         metadata: allfields,
     },
     "1d946f5b-e53b-4f71-b1f3-7481475d07db": {
@@ -166,4 +169,10 @@ const generateNewDoi = () => `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
 
 export const getUser: () => User = () => {
     return User001
+}
+
+export const getFilesListing: (id: DepositId) => FileInfo[] | undefined = id => {
+    return data[id]
+        ? data[id].files
+        : undefined
 }

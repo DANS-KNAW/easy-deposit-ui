@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 import * as express from "express"
-import {Request, Response} from "express"
+import { Request, Response } from "express"
 import * as bodyParser from "body-parser"
 import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
     getDeposit, getDoi,
+    getFilesListing,
     getMetadata,
     getState,
     getUser,
@@ -175,6 +176,31 @@ app.put('/deposit/:id/state', (req: Request, res: Response) => {
 })
 
 app.get('/user', (req: Request, res: Response) => {
+app.get("/deposit/:id/file/:dir_path?", (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/file${req.params.dir_path ? `/${req.params.dir_path}` : ""}`)
+    const depositId = req.params.id
+    const dirPath = req.params.dir_path
+
+    if (dirPath) {
+        res.status(501)
+        res.send("not yet implemented")
+        console.log("  501")
+    }
+    else {
+        const files = getFilesListing(depositId)
+        if (files) {
+            res.status(200)
+            res.json(files)
+            console.log("  200")
+        }
+        else {
+            res.status(404)
+            res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
+            console.log("  404")
+        }
+    }
+})
+
     console.log(`GET /user`)
     res.status(200)
     res.json(getUser())
