@@ -36,6 +36,8 @@ export const fetchDoiURL: (id: DepositId) => Promise<string> = (id: DepositId) =
 export const saveDraftURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/metadata`)
 export const submitDepositURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/state`)
 
+export const listFiles: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/file`)
+
 export const submitState = ({
     state: "SUBMITTED",
     stateDescription: "Deposit is ready for post-submission processing"

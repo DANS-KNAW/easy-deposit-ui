@@ -181,7 +181,7 @@ class DepositForm extends Component<DepositFormProps> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <FileUpload/>
+                        <FileUpload depositId={this.props.depositId}/>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>

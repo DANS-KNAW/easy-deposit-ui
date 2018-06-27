@@ -16,8 +16,10 @@
 import * as React from "react"
 import { Component } from "react"
 import FilesOverview from "./fileUpload/overview/FilesOverview"
+import { DepositId } from "../../../model/Deposits"
 
 interface FileUploadProps {
+    depositId: DepositId
 }
 
 class FileUpload extends Component<FileUploadProps> {
@@ -25,7 +27,7 @@ class FileUpload extends Component<FileUploadProps> {
         return (
             <>
                 <p>Upload your data form</p> {/* TODO this is a temporary header */}
-                <FilesOverview/>
+                <FilesOverview depositId={this.props.depositId}/>
             </>
         )
     }
