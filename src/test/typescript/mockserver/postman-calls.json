@@ -236,6 +236,77 @@
 			"response": []
 		},
 		{
+			"name": "delete files of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/file",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"file"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete one file of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/file/leesplankje/firstrow/aap.txt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"file",
+						"leesplankje",
+						"firstrow",
+						"aap.txt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a directory of deposit 93674123-1699-49c5-af91-ed31db19adc9",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/file/leesplankje/firstrow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"deposit",
+						"93674123-1699-49c5-af91-ed31db19adc9",
+						"file",
+						"leesplankje",
+						"firstrow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get user info",
 			"request": {
 				"method": "GET",

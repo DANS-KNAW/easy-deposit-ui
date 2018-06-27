@@ -176,3 +176,27 @@ export const getFilesListing: (id: DepositId) => FileInfo[] | undefined = id => 
         ? data[id].files
         : undefined
 }
+
+export const deleteFile: (id: DepositId, query: string) => boolean = (id, query) => {
+    const deposit = data[id]
+    const files = deposit.files
+    if (deposit && files) {
+        const fileToDelete = files.find(info => query === info.dirpath + info.filename)
+        if (fileToDelete) {
+            const remainingFiles = files.filter(info => info !== fileToDelete)
+            data = { ...data, [id]: { ...deposit, files: remainingFiles } }
+            return true
+        }
+        else {
+            const remainingFiles = files.filter(info => !info.dirpath.startsWith(query))
+            if (remainingFiles.length === files.length) // no files were deleted
+                return false
+            else {
+                data = { ...data, [id]: { ...deposit, files: remainingFiles } }
+                return true
+            }
+        }
+    }
+    else
+        return false
+}

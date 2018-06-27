@@ -217,6 +217,23 @@ app.put("/deposit/:id/file/:file_path", (req: Request, res: Response) => {
     res.send("not yet implemented")
     console.log("  501")
 })
+app.delete("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
+    const depositId = req.params.id
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : dir_path
+    console.log(`DELETE /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
+
+    if (deleteFile(depositId, dirPath ? "/" + dirPath : "/")) {
+        res.status(204)
+        console.log("  204")
+    }
+    else {
+        res.status(404)
+        res.send("Not found.")
+        console.log("  404")
+    }
+})
 
 app.get("/user", (req: Request, res: Response) => {
     console.log(`GET /user`)
