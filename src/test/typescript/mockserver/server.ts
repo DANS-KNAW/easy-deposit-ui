@@ -20,6 +20,7 @@ import * as cors from "cors"
 import {
     createDeposit,
     deleteDeposit,
+    deleteFile,
     getDeposit,
     getDoi,
     getFilesListing,
@@ -176,10 +177,12 @@ app.put("/deposit/:id/state", (req: Request, res: Response) => {
     }
 })
 
-app.get("/deposit/:id/file/:dir_path?", (req: Request, res: Response) => {
-    console.log(`GET /deposit/${req.params.id}/file${req.params.dir_path ? `/${req.params.dir_path}` : ""}`)
+app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
     const depositId = req.params.id
-    const dirPath = req.params.dir_path
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : dir_path
+    console.log(`DELETE /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
 
     if (dirPath) {
         res.status(501)
