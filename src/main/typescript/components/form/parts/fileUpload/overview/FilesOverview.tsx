@@ -11,19 +11,19 @@ export interface FileInfo {
 }
 
 const files: { [filepath: string]: FileInfo } = {
-    "/leesplankje/firstrow/aap.txt": {
+    "leesplankje/firstrow/aap.txt": {
         filename: "aap.txt",
-        dirpath: "/leesplankje/firstrow/",
+        dirpath: "leesplankje/firstrow/",
         sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c",
     },
-    "/leesplankje/firstrow/noot.txt": {
+    "leesplankje/firstrow/noot.txt": {
         filename: "noot.txt",
-        dirpath: "/leesplankje/firstrow/",
+        dirpath: "leesplankje/firstrow/",
         sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e",
     },
-    "/leesplankje/secondrow/teun.txt": {
+    "leesplankje/secondrow/teun.txt": {
         filename: "teun.txt",
-        dirpath: "/leesplankje/secondrow/",
+        dirpath: "leesplankje/secondrow/",
         sha1sum: "ef4bb1666042b9e891a0bf5c14ba6206fec1a02f",
     },
 }

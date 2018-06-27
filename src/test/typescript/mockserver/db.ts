@@ -176,7 +176,16 @@ export const getUser: () => User = () => {
 
 export const getFilesListing: (id: DepositId) => FileInfo[] | undefined = id => {
     return data[id]
-        ? data[id].files
+        ? (data[id].files || []).map(info => {
+            if (info.dirpath.startsWith("/")) {
+                return {
+                    ...info,
+                    dirpath: info.dirpath.substring(1)
+                }
+            }
+            else
+                return info
+        })
         : undefined
 }
 
