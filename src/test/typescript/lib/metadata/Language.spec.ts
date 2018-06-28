@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import {describe, it} from "mocha"
+import { describe, it } from "mocha"
 import {
     languageOfDescriptionConverter,
     languageOfDescriptionDeconverter,
@@ -182,7 +182,7 @@ describe("Language", () => {
         it("should convert a file language to the correct external model", () => {
             const input = "Flakkees"
             const expected = {
-                value: "Flakkees"
+                value: "Flakkees",
             }
             expect(languageOfFilesDeconverter(input)).to.eql(expected)
         })

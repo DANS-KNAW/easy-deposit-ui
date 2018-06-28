@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import {describe, it} from "mocha"
+import { describe, it } from "mocha"
 import {
     Contributor,
     contributorConverter,
@@ -54,7 +54,7 @@ describe("Contributor", () => {
             key: "RightsHolder",
             value: "Rightsholder",
             displayValue: "Rightsholder",
-        }
+        },
     ]
 
     describe("contributorConverter", () => {

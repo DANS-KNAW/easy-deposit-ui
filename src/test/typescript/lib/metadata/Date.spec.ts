@@ -19,7 +19,8 @@ import {
     Dates,
     QualifiedDate,
     qualifiedDateDeconverter,
-    qualifiedDatesConverter, qualifiedDateStringDeconverter,
+    qualifiedDatesConverter,
+    qualifiedDateStringDeconverter,
 } from "../../../../main/typescript/lib/metadata/Date"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 import * as dateFormat from "dateformat"

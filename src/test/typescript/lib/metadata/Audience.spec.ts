@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import {describe, it} from "mocha"
-import {
-    audienceConverter,
-    audienceDeconverter,
-} from "../../../../main/typescript/lib/metadata/Audience"
+import { describe, it } from "mocha"
+import { audienceConverter, audienceDeconverter } from "../../../../main/typescript/lib/metadata/Audience"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 
 describe("Audience", () => {
