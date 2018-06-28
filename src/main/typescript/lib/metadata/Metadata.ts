@@ -158,7 +158,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         extraClarinMetadataPresent: hasCmdiFormat,
 
         // archaeology specific metadata
-        archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value), () => emptyString),
+        archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value || emptyString).filter(v => v === emptyString), () => emptyString),
         subjectsAbrComplex: normalizeEmpty(abrSubjects, () => emptyString),
         temporalCoveragesAbr: normalizeEmpty(abrTemporalCoverages, () => emptyString),
 
