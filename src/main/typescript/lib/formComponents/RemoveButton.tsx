@@ -18,7 +18,7 @@ import * as React from "react"
 interface RemoveButtonProps {
     disabled: boolean
 
-    onClick(): void
+    onClick: () => void
 }
 
 const RemoveButton = ({ onClick, disabled }: RemoveButtonProps) => (

@@ -30,9 +30,9 @@ interface FoldableCardInputProps {
 interface FoldableCardProps {
     open: boolean
 
-    registerCard(id: string, open: boolean): ReduxAction<{ id: string, open: boolean }>
-    unregisterCard(id: string): ReduxAction<string>
-    toggleCard(id: string): ReduxAction<string>
+    registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }>
+    unregisterCard: (id: string) => ReduxAction<string>
+    toggleCard: (id: string) => ReduxAction<string>
 }
 
 class FoldableCard extends Component<FoldableCardProps & FoldableCardInputProps> {

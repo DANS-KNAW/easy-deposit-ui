@@ -24,7 +24,7 @@ interface CustomDatePickerProps {
     value?: string
     placeholder?: string
 
-    onClick?(event: any): void
+    onClick?: (event: any) => void
 }
 
 class CustomDateTextField extends Component<CustomDatePickerProps> {

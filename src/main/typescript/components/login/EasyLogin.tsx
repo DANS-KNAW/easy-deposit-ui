@@ -33,7 +33,7 @@ interface EasyLoginProps {
     authenticating: boolean
     errorMessage?: string
 
-    authenticate(username: string, password: string): ReduxAction<Promise<any>>
+    authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
 }
 
 type AllEasyLoginProps = EasyLoginProps & InjectedFormProps<EasyLoginData>

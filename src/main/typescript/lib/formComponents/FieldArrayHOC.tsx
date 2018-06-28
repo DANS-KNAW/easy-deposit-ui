@@ -22,7 +22,7 @@ export interface InnerComponentProps {
     names: string[]
     deleteDisabled: boolean
 
-    onDelete(): void
+    onDelete: () => void
 }
 
 const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => {

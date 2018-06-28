@@ -116,7 +116,7 @@ interface OrganizationProps {
     organizationName: string
     deleteDisabled: boolean
 
-    onDelete(): void
+    onDelete: () => void
 }
 
 const Organization = ({ organizationName, onDelete, deleteDisabled }: OrganizationProps) => (

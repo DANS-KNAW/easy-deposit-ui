@@ -16,7 +16,7 @@
 import * as React from "react"
 
 interface AddButtonProps {
-    onClick(): void
+    onClick: () => void
 }
 
 const AddButton = ({ onClick }: AddButtonProps) => (

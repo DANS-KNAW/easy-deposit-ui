@@ -37,7 +37,7 @@ interface RelationFieldArrayProps extends InnerComponentProps {
     label: string
     schemeValues: DropdownListEntry[]
 
-    get(index: number): any
+    get: (index: number) => any
 }
 
 const RelationFieldArrayElement = ({ names, onDelete, deleteDisabled, schemeValues }: RelationFieldArrayProps) => (

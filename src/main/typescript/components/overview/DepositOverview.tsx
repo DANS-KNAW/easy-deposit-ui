@@ -28,9 +28,9 @@ import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
 interface DepositOverviewProps {
     deposits: DepositOverviewState
 
-    fetchDeposits(): ReduxAction<Promise<any>>
-    cleanDeposits(): Action
-    deleteDeposit(depositId: DepositId): ReduxAction<Promise<void>>
+    fetchDeposits: () => ReduxAction<Promise<any>>
+    cleanDeposits: () => Action
+    deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {
