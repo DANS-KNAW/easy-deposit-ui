@@ -43,6 +43,8 @@ const metadataFetchConverter: Middleware = ({ dispatch, getState }: MiddlewareAP
             dispatch(fetchMetadataSucceeded(data))
         }
         catch (errorMessage) {
+            // TODO remove this log once the form is fully implemented.
+            console.log(action.payload)
             dispatch(fetchMetadataFailed(errorMessage))
         }
     }
@@ -61,6 +63,8 @@ const metadataSendConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI
             dispatch(sendSaveDraft(action.payload.depositId, output))
         }
         catch (errorMessage) {
+            // TODO remove this log once the form is fully implemented.
+            console.log(action.payload)
             dispatch(sendSaveDraftFailed(errorMessage))
         }
     }
@@ -74,6 +78,8 @@ const metadataSendConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI
             dispatch(sendSubmitDeposit(action.payload.depositId, output))
         }
         catch (errorMessage) {
+            // TODO remove this log once the form is fully implemented.
+            console.log(action.payload)
             dispatch(sendSubmitDepositFailed(errorMessage))
         }
     }
