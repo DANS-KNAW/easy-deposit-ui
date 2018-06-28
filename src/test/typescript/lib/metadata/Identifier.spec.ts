@@ -136,6 +136,40 @@ describe("Identifier", () => {
             expect(alternativeIdentifersConverter(identifiers)(input)).to.eql(expected)
         })
 
+        it("should succeed when a partial object provided", () => {
+            const input = [
+                {
+                    // no scheme
+                    value: "test identifier",
+                },
+                {
+                    scheme: "id-type:ISBN",
+                },
+                {
+                    scheme: "id-type:ARCHIS-ZAAK-IDENTIFICATIE",
+                },
+            ]
+            const expected = [
+                [
+                    {
+                        scheme: "id-type:ARCHIS-ZAAK-IDENTIFICATIE",
+                        value: undefined,
+                    },
+                ],
+                [
+                    {
+                        scheme: undefined,
+                        value: "test identifier",
+                    },
+                    {
+                        scheme: "id-type:ISBN",
+                        value: undefined,
+                    },
+                ],
+            ]
+            expect(alternativeIdentifersConverter(identifiers)(input)).to.eql(expected)
+        })
+
         it("should fail when an identifier is invalid", () => {
             const input = [
                 {
