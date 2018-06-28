@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import {describe, it} from "mocha"
+import { describe, it } from "mocha"
 import {
     Dates,
     QualifiedDate,
@@ -127,16 +127,33 @@ describe("Date", () => {
             expect(converter(input)).to.eql(expected)
         })
 
-        it("should fail when no qualifier is given", () => {
+        it("should succeed when no qualifier is given (default to Date)", () => {
             const input = [
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "2018-03-18",
                     // no qualifier
                 },
+                {
+                    value: "Groundhog day",
+                    // no qualifier
+                },
             ]
-            expect(() => converter(input)).to
-                .throw("Error in metadata: no such date qualifier: 'undefined'")
+            const expected: Dates = {
+                dates: [
+                    {
+                        qualifier: "dcterms:date",
+                        value: new Date("2018-03-18"),
+                    },
+                ],
+                textDates: [
+                    {
+                        qualifier: "dcterms:date",
+                        value: "Groundhog day",
+                    },
+                ],
+            }
+            expect(converter(input)).to.eql(expected)
         })
 
         it("should fail when an invalid qualifier is given", () => {
@@ -144,7 +161,7 @@ describe("Date", () => {
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "2018-03-18",
-                    qualifier: "dcterms:dateInvalid"
+                    qualifier: "dcterms:dateInvalid",
                 },
             ]
             expect(() => converter(input)).to
@@ -156,12 +173,12 @@ describe("Date", () => {
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "2018-03-18",
-                    qualifier: "dcterms:created"
+                    qualifier: "dcterms:created",
                 },
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "2018-03-19",
-                    qualifier: "dcterms:created"
+                    qualifier: "dcterms:created",
                 },
             ]
             expect(() => converter(input)).to
@@ -173,12 +190,12 @@ describe("Date", () => {
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "2018-03-18",
-                    qualifier: "dcterms:available"
+                    qualifier: "dcterms:available",
                 },
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "2018-03-19",
-                    qualifier: "dcterms:available"
+                    qualifier: "dcterms:available",
                 },
             ]
             expect(() => converter(input)).to
@@ -190,7 +207,7 @@ describe("Date", () => {
                 {
                     scheme: "dcterms:W3CDTF",
                     value: "20180318",
-                    qualifier: "dcterms:available"
+                    qualifier: "dcterms:available",
                 },
             ]
             expect(() => converter(input)).to
@@ -203,7 +220,7 @@ describe("Date", () => {
         it("should convert a QualifiedDate into the correct external model", () => {
             const input: QualifiedDate<Date> = {
                 qualifier: "dcterms:issued",
-                value: new Date("2018-03-14")
+                value: new Date("2018-03-14"),
             }
             const expected = {
                 scheme: "dcterms:W3CDTF",
