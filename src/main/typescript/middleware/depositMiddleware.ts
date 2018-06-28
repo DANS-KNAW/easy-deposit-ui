@@ -15,7 +15,7 @@
  */
 import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import { Deposit, Deposits, toDepositState } from "../model/Deposits"
+import { Deposits, toDepositState } from "../model/Deposits"
 import {
     createNewDepositFailed,
     createNewDepositSuccess,
@@ -24,38 +24,14 @@ import {
 } from "../actions/depositOverviewActions"
 import { push } from "react-router-redux"
 import { depositFormRoute } from "../constants/clientRoutes"
+import { depositsConverter } from "../lib/deposits/deposits"
 
-const depositFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
+const depositFetchConverter: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.FETCH_DEPOSITS_FULFILLED) {
         try {
-            const deposits: Deposits = action.payload.map((input: any) => {
-                const state = toDepositState(input.state)
-                if (state) {
-                    return ({
-                        depositId: input.id,
-                        title: input.title ? input.title : "Untitled deposit",
-                        state: state,
-                        stateDescription: input.stateDescription,
-                        date: new Date(input.date),
-                    })
-                }
-                else {
-                    // fail fast when an illegal deposit state is detected
-                    // error message is caught below
-                    throw `Error in deposit ${input.id}: no such deposit state: '${input.state}'`
-                }
-            }).reduce((obj: Deposits, item: Deposit & { depositId: string }) => {
-                obj[item.depositId] = ({
-                    title: item.title,
-                    state: item.state,
-                    stateDescription: item.stateDescription,
-                    date: item.date,
-                })
-                return obj
-            }, {})
-
+            const deposits: Deposits = depositsConverter(action.payload)
             dispatch(fetchDepositsSucceeded(deposits))
         }
         catch (errorMessage) {
@@ -64,27 +40,18 @@ const depositFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: 
     }
 }
 
-const newDepositResponseConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
+const newDepositResponseConverter: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
-        const { id, title, state: state_text, stateDescription, date } = action.payload
+        const { id, state } = action.payload
 
-        const state = toDepositState(state_text)
-        if (state) {
-            const deposit: { [id: string]: Deposit } = ({
-                [id]: {
-                    title: title,
-                    state: state,
-                    stateDescription: stateDescription,
-                    date: new Date(date),
-                },
-            })
-            dispatch(createNewDepositSuccess(deposit))
+        if (toDepositState(state)) {
+            dispatch(createNewDepositSuccess())
             dispatch(push(depositFormRoute(id)))
         }
         else {
-            dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state_text}'`))
+            dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state}'`))
         }
     }
 }

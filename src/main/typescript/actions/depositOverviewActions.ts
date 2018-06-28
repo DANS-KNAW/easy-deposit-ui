@@ -17,7 +17,7 @@ import { ReduxAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
-import { Deposit, DepositId, Deposits } from "../model/Deposits"
+import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 
 export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
@@ -67,9 +67,8 @@ export const createNewDeposit: () => ReduxAction<Promise<any>> = () => ({
     },
 })
 
-export const createNewDepositSuccess: (deposit: { [id: string]: Deposit }) => ReduxAction<{ [id: string]: Deposit }> = deposit => ({
+export const createNewDepositSuccess: () => Action = () => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS,
-    payload: deposit,
 })
 
 export const createNewDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
