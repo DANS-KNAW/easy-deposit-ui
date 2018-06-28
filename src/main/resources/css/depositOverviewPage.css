@@ -39,23 +39,27 @@
     visibility: hidden;
 }
 
-tbody tr:last-child {
+.deposit_table thead tr th {
+    border-bottom: 0;
+}
+
+.deposit_table tbody tr:last-child {
     border-bottom: 1px solid #dee2e6;
 }
 
 @media (max-width: 767px) {
-    thead {
+    .deposit_table thead {
         display: none;
     }
 
-    .table td,
-    .table th {
+    .deposit_table td,
+    .deposit_table th {
         border: 0;
         padding-top: unset;
         padding-bottom: unset;
     }
 
-    .table tr {
+    .deposit_table tr {
         border-top: 1px solid #dee2e6;
         padding-top: 10px;
         padding-bottom: 10px;

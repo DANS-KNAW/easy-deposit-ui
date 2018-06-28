@@ -21,7 +21,7 @@ interface LoginCardProps {
     errorMessage?: string
     header: ComponentType
 
-    onSubmit(e: SyntheticEvent): void
+    onSubmit: (e: SyntheticEvent) => void
 }
 
 const LoginCard: SFC<LoginCardProps> = ({ children, authenticating, errorMessage, header: Header, onSubmit }) => (

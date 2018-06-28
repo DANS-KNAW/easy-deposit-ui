@@ -114,8 +114,9 @@ const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProp
 
 interface OrganizationProps {
     organizationName: string
-    onDelete: () => void
     deleteDisabled: boolean
+
+    onDelete: () => void
 }
 
 const Organization = ({ organizationName, onDelete, deleteDisabled }: OrganizationProps) => (

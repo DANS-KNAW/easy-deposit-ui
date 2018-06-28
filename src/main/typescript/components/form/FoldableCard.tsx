@@ -21,26 +21,22 @@ import { AppState } from "../../model/AppState"
 import { ReduxAction } from "../../lib/redux"
 import { registerCard, toggleCard, unregisterCard } from "../../actions/foldableCardActions"
 
-interface FoldableCardInputArguments {
+interface FoldableCardInputProps {
     title: string
     required?: boolean
     defaultOpened?: boolean
 }
 
-interface FoldableCardStoreArguments {
+interface FoldableCardProps {
     open: boolean
-}
 
-interface FoldableCardDispatchArguments {
     registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }>
     unregisterCard: (id: string) => ReduxAction<string>
     toggleCard: (id: string) => ReduxAction<string>
 }
 
-type FoldableCardProps = FoldableCardInputArguments & FoldableCardStoreArguments & FoldableCardDispatchArguments
-
-class FoldableCard extends Component<FoldableCardProps> {
-    constructor(props: FoldableCardProps) {
+class FoldableCard extends Component<FoldableCardProps & FoldableCardInputProps> {
+    constructor(props: FoldableCardProps & FoldableCardInputProps) {
         super(props)
         this.props.registerCard(this.props.title, this.props.defaultOpened || false)
     }
@@ -85,11 +81,13 @@ class FoldableCard extends Component<FoldableCardProps> {
     }
 }
 
-const mapStateToProps = (state: AppState, props: FoldableCardInputArguments) => ({
-    open: state.foldableCards[props.title] ? state.foldableCards[props.title].open : props.defaultOpened || false,
+const mapStateToProps = (state: AppState, props: FoldableCardInputProps) => ({
+    open: state.foldableCards[props.title]
+        ? state.foldableCards[props.title].open
+        : props.defaultOpened || false,
 })
 
-export default connect<FoldableCardStoreArguments, FoldableCardDispatchArguments>(mapStateToProps, {
+export default connect(mapStateToProps, {
     toggleCard,
     registerCard,
     unregisterCard,

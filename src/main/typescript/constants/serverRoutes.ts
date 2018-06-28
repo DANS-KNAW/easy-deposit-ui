@@ -16,15 +16,13 @@
 import { apiUrl } from "../lib/config"
 import { DepositId } from "../model/Deposits"
 
-// TODO rename to serverRoutes.ts
-
-const createURL = async (path: string) => {
+const createURL: (path: string) => Promise<string> = async path => {
     const url = await apiUrl()
     return url.endsWith("/") ? `${url}${path}` : `${url}/${path}`
 }
 
 export const listDepositsURL: Promise<string> = createURL("deposit")
-export const deleteDepositURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}`)
+export const deleteDepositURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}`)
 
 export const loginURL: Promise<string> = createURL("auth/login")
 export const logoutURL: Promise<string> = createURL("auth/logout")
@@ -33,10 +31,12 @@ export const userURL: Promise<string> = createURL("user")
 
 export const newDepositURL: Promise<string> = createURL("deposit")
 
-export const fetchMetadataURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/metadata`)
-export const fetchDoiURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/doi`)
-export const saveDraftURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/metadata`)
-export const submitDepositURL: (id: DepositId) => Promise<string> = (id: DepositId) => createURL(`deposit/${id}/state`)
+export const fetchMetadataURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/metadata`)
+export const fetchDoiURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/doi`)
+export const saveDraftURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/metadata`)
+export const submitDepositURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/state`)
+
+export const listFiles: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/file`)
 
 export const submitState = ({
     state: "SUBMITTED",

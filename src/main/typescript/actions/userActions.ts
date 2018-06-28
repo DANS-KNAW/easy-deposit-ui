@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { ReduxAction } from "../lib/redux"
-import { userURL } from "../constants/apiConstants"
+import { userURL } from "../constants/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import axios from "axios"
 import { UserDetails } from "../model/UserDetails"

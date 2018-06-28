@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Link } from "react-router-dom"
-import { depositOverviewRoute } from "../../constants/clientRoutes"
+import { Component } from "react"
+import FilesOverview from "./fileUpload/overview/FilesOverview"
+import { DepositId } from "../../../model/Deposits"
 
-const HomePage = () => (
-    <>
-        <h1>Home Page</h1>
-        <Link className="btn btn-dark" to={depositOverviewRoute}>Deposit your data</Link>
-    </>
-)
+interface FileUploadProps {
+    depositId: DepositId
+}
 
-export default HomePage
+class FileUpload extends Component<FileUploadProps> {
+    render() {
+        return (
+            <>
+                <p>Upload your data form</p> {/* TODO this is a temporary header */}
+                <FilesOverview depositId={this.props.depositId}/>
+            </>
+        )
+    }
+}
+
+export default FileUpload

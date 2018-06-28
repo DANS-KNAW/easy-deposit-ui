@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,20 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import { Component } from "react"
-
-export interface DataFormData {
-    // TODO not yet implemented in mock server side
+.file_table {
+    table-layout: fixed;
+    width: 100%;
 }
 
-interface DataFormProps {
+.file_table thead tr th {
+    border-bottom: 0;
 }
 
-class DataForm extends Component<DataFormProps> {
-    render() {
-        return <p>Upload your data form</p>
+.file_table tbody tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
+@media (max-width: 767px) {
+    .file_table thead {
+        display: none;
+    }
+
+    .file_table td,
+    .file_table th {
+        border: 0;
+        padding-top: unset;
+        padding-bottom: unset;
+    }
+
+    .file_table tr {
+        border-top: 1px solid #dee2e6;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }
-
-export default DataForm

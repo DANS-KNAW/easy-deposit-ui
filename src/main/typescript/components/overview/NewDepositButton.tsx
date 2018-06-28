@@ -22,6 +22,7 @@ import { ReduxAction } from "../../lib/redux"
 
 interface NewDepositButtonProps {
     creatingNew: boolean
+
     createNewDeposit: () => ReduxAction<Promise<any>>
 }
 

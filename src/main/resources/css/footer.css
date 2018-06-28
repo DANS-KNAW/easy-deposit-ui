@@ -65,7 +65,7 @@ footer .overdans img {
 
 footer .version {
     text-align: right;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 footer .easy-Certificering-link {
@@ -82,18 +82,40 @@ footer .easy-Certificering-link img {
     height: 55px;
 }
 
-@media (max-width: 767px) {
-    footer .overdans,
-    footer .easy-Certificering-link,
-    footer .version {
+footer .easy-Certificering-link img:not(:first-child) {
+    margin-left: 7px;
+}
+
+footer .easy-Certificering-link img:not(:last-child) {
+    margin-right: 7px;
+}
+
+/* < sm */
+@media (max-width: 575px) {
+    footer .easy-Certificering-link {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    footer .overdans {
+        margin-top: 0;
         text-align: left;
-        padding-top: 30px;
     }
 }
 
-/* we need this one because we had to move the "DANS is an institute of KNAW and NWO" up by 30px*/
-@media (min-width: 768px) and (max-width: 991px) {
+/* <= sm */
+@media (max-width: 767px) {
+    footer .version {
+        text-align: left;
+    }
+}
+
+/* sm && md */
+@media (min-width: 576px) and (max-width: 991px) {
+    /* we need this one because we had to move the "DANS is an institute of KNAW and NWO" up by 30px*/
     footer .overdans {
         margin-top: 0;
+    }
+    footer .links {
+        text-align: right;
     }
 }

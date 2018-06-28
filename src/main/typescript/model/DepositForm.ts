@@ -15,7 +15,6 @@
  */
 import { DepositId } from "./Deposits"
 import { DepositFormMetadata } from "../components/form/parts"
-import { DataFormData } from "../components/form/parts/DataForm"
 
 export interface FetchMetadataState {
     fetching: boolean
@@ -24,7 +23,6 @@ export interface FetchMetadataState {
 }
 
 export interface InitialState {
-    data: DataFormData
     metadata: DepositFormMetadata
 }
 
@@ -61,7 +59,6 @@ export const empty: DepositFormState = {
         fetched: false,
     },
     initialState: {
-        data: {},
         metadata: {},
     },
     fetchDoi: {

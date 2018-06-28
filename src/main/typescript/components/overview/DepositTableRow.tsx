@@ -27,7 +27,7 @@ interface EnterableProps {
     title: string
 }
 
-const Enterable = ({title}: EnterableProps) => (
+const Enterable = ({ title }: EnterableProps) => (
     <><i className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</>
 )
 
@@ -35,6 +35,7 @@ interface DepositTableRowProps {
     depositId: DepositId
     deposit: Deposit
     deleting?: DeleteState
+
     deleteDeposit: () => void
 }
 

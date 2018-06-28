@@ -24,15 +24,16 @@ import { connect } from "react-redux"
 import TextField from "../../lib/formComponents/TextField"
 import LoginCard from "./LoginCard"
 
-interface EasyLoginProps {
-    authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
-    authenticating: boolean
-    errorMessage?: string
-}
-
 interface EasyLoginData {
     username: string
     password: string
+}
+
+interface EasyLoginProps {
+    authenticating: boolean
+    errorMessage?: string
+
+    authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
 }
 
 type AllEasyLoginProps = EasyLoginProps & InjectedFormProps<EasyLoginData>

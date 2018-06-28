@@ -20,8 +20,9 @@ import { FieldArrayProps } from "./RepeatableField"
 
 export interface InnerComponentProps {
     names: string[]
-    onDelete: () => void
     deleteDisabled: boolean
+
+    onDelete: () => void
 }
 
 const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => {

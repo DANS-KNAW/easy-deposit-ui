@@ -18,9 +18,11 @@ import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
+import { directory1, FileInfo } from "./fileinfo"
 
 interface DataPerDraft {
     deposit: Deposit
+    files?: FileInfo[]
     metadata?: Metadata
 }
 
@@ -30,6 +32,7 @@ export type Data = { [id: string]: DataPerDraft }
 let data: Data = {
     "93674123-1699-49c5-af91-ed31db19adc9": {
         deposit: depositData1,
+        files: directory1,
         metadata: allfields,
     },
     "1d946f5b-e53b-4f71-b1f3-7481475d07db": {
@@ -133,7 +136,10 @@ export const getDoi: (id: DepositId) => Doi | undefined = id => {
                         ...data[id],
                         metadata: {
                             ...metadata,
-                            identifiers: [...metadata.identifiers, { scheme: DansIdentifierSchemeValues.DOI, value: doi }],
+                            identifiers: [...metadata.identifiers, {
+                                scheme: DansIdentifierSchemeValues.DOI,
+                                value: doi,
+                            }],
                         },
                     },
                 }
@@ -166,4 +172,43 @@ const generateNewDoi = () => `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
 
 export const getUser: () => User = () => {
     return User001
+}
+
+export const getFilesListing: (id: DepositId) => FileInfo[] | undefined = id => {
+    return data[id]
+        ? (data[id].files || []).map(info => {
+            if (info.dirpath.startsWith("/")) {
+                return {
+                    ...info,
+                    dirpath: info.dirpath.substring(1)
+                }
+            }
+            else
+                return info
+        })
+        : undefined
+}
+
+export const deleteFile: (id: DepositId, query: string) => boolean = (id, query) => {
+    const deposit = data[id]
+    const files = deposit.files
+    if (deposit && files) {
+        const fileToDelete = files.find(info => query === info.dirpath + info.filename)
+        if (fileToDelete) {
+            const remainingFiles = files.filter(info => info !== fileToDelete)
+            data = { ...data, [id]: { ...deposit, files: remainingFiles } }
+            return true
+        }
+        else {
+            const remainingFiles = files.filter(info => !info.dirpath.startsWith(query))
+            if (remainingFiles.length === files.length) // no files were deleted
+                return false
+            else {
+                data = { ...data, [id]: { ...deposit, files: remainingFiles } }
+                return true
+            }
+        }
+    }
+    else
+        return false
 }
