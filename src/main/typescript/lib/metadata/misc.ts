@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { isEmpty, pickBy, keys, isNumber, isString, toString, isArray, isObject } from "lodash"
+import { isEmpty, pickBy, keys, isNumber, isString, isArray, isObject } from "lodash"
 
 export function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
     if (!arr || isEmpty(arr))
@@ -27,7 +27,7 @@ export function clean<T extends object>(obj: T): Partial<T> {
         if (isString(v))
             return v !== ""
         else if (isNumber(v))
-            return v === 0
+            return v !== 0
         else if (isObject(v))
             return keys(v).length !== 0
         else if (isArray(v))
@@ -36,7 +36,7 @@ export function clean<T extends object>(obj: T): Partial<T> {
 }
 
 export function nonEmptyObject<T>(obj: T): boolean {
-    return obj && !isEmpty(obj)
+    return !!obj && !isEmpty(obj)
 }
 
 export const emptyString: string = ""
