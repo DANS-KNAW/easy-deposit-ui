@@ -60,7 +60,7 @@ import {
 interface FetchMetadataErrorProps {
     fetchError?: string
 
-    reload(): any
+    reload: () => any
 }
 
 const FetchMetadataError = ({ fetchError, reload }: FetchMetadataErrorProps) => (
