@@ -90,7 +90,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         ? alternativeIdentifersConverter(dropDowns.identifiers.list)(input.alternativeIdentifiers)
         : [[], []]
     const [relatedIdentifiers, relations] = input.relations
-        ? relationsConverter(dropDowns.relations.list)(input.relations)
+        ? relationsConverter(dropDowns.relations.list, dropDowns.identifiers.list)(input.relations)
         : [[], []]
     const [isoLanguageOfFiles, languageOfFiles] = input.languagesOfFiles
         ? languagesOfFilesConverter(dropDowns.languages.list)(input.languagesOfFiles)
