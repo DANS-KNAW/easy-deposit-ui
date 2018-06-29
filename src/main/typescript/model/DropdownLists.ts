@@ -35,7 +35,7 @@ export interface DropdownList {
     state: DropdownListState
 }
 
-const emptyDropdownList: DropdownList = {
+export const emptyDropdownList: DropdownList = {
     list: [],
     state: emptyDropdownListState,
 }
