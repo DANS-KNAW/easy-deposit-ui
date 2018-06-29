@@ -26,8 +26,8 @@ describe("PrivacySensitiveData", () => {
 
         it("should convert a valid value into a PrivacySensitiveData enum value", () => {
             const input = "yes"
-            const output = PrivacySensitiveDataValue.YES
-            expect(privacySensitiveDataConverter(input)).to.eql(output)
+            const expected = PrivacySensitiveDataValue.YES
+            expect(privacySensitiveDataConverter(input)).to.eql(expected)
         })
 
         it("should fail when the input is invalid", () => {
@@ -39,16 +39,16 @@ describe("PrivacySensitiveData", () => {
 
     describe("privacySensitiveDataDeconverter", () => {
 
-        it("should deconvert a PrivacySensitiveDataValue.YES to string 'yes'", () => {
+        it("should convert a PrivacySensitiveDataValue.YES to string 'yes'", () => {
             const input = PrivacySensitiveDataValue.YES
-            const output = "yes"
-            expect(privacySensitiveDataDeconverter(input)).to.eql(output)
+            const expected = "yes"
+            expect(privacySensitiveDataDeconverter(input)).to.eql(expected)
         })
 
-        it("should deconvert a PrivacySensitiveDataValue.UNSPECIFIED to 'undefined'", () => {
+        it("should convert a PrivacySensitiveDataValue.UNSPECIFIED to 'undefined'", () => {
             const input = PrivacySensitiveDataValue.UNSPECIFIED
-            const output = undefined
-            expect(privacySensitiveDataDeconverter(input)).to.eql(output)
+            const expected = undefined
+            expect(privacySensitiveDataDeconverter(input)).to.eql(expected)
         })
     })
 })

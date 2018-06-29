@@ -281,6 +281,16 @@ describe("Relation", () => {
             }
             expect(relationDeconverter(input)).to.eql(expected)
         })
+
+        it("should convert empty fields in object into an empty object", () => {
+            const input = {
+                qualifier: "",
+                url: "",
+                title: "",
+            }
+            const expected = {}
+            expect(relationDeconverter(input)).to.eql(expected)
+        })
     })
 
     describe("relatedIdentifierDeconverter", () => {
@@ -296,6 +306,16 @@ describe("Relation", () => {
                 scheme: "id-type:ISBN",
                 value: "2123-34X",
             }
+            expect(relatedIdentifierDeconverter(input)).to.eql(expected)
+        })
+
+        it("should convert empty fields in object into an empty object", () => {
+            const input = {
+                qualifier: "",
+                scheme: "",
+                value: "",
+            }
+            const expected = {}
             expect(relatedIdentifierDeconverter(input)).to.eql(expected)
         })
     })
