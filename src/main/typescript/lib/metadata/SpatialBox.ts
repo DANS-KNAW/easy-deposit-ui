@@ -24,12 +24,23 @@ export interface Box {
     west?: string
 }
 
-export const emptyBox: Box = { scheme: "", north: undefined, east: undefined, south: undefined, west: undefined }
+export const emptyBox: Box = {
+    scheme: "",
+    north: undefined,
+    east: undefined,
+    south: undefined,
+    west: undefined,
+}
 
 export const boxConverter: (schemeValues: DropdownListEntry[]) => (b: any) => Box = schemeValues => b => {
-    if (Number.isNaN(Number(b.north)) || Number.isNaN(Number(b.east)) || Number.isNaN(Number(b.south)) || Number.isNaN(Number(b.west)))
-        throw `Error in metadata: Point ${JSON.stringify(b)} consists of something else than a Number`
-    else if (!schemeValues.find(({ key }) => key === b.scheme))
+    const validInput = b.north && Number.isNaN(Number(b.north))
+        || b.east && Number.isNaN(Number(b.east))
+        || b.south && Number.isNaN(Number(b.south))
+        || b.west && Number.isNaN(Number(b.west))
+
+    if (validInput)
+        throw `Error in metadata: Box ${JSON.stringify(b)} consists of something else than a Number`
+    else if (b.scheme && !schemeValues.find(({ key }) => key === b.scheme))
         throw `Error in metadata: unknown coordinate system: '${b.scheme}'`
     else
         return ({
