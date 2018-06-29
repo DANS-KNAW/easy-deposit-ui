@@ -43,13 +43,13 @@ export const boxConverter: (schemeValues: DropdownListEntry[]) => (b: any) => Bo
     else if (b.scheme && !schemeValues.find(({ key }) => key === b.scheme))
         throw `Error in metadata: unknown coordinate system: '${b.scheme}'`
     else
-        return ({
+        return {
             scheme: b.scheme,
             north: b.north,
             east: b.east,
             south: b.south,
             west: b.west,
-        })
+        }
 }
 
 export const boxDeconverter: (b: Box) => any = b => clean({
