@@ -27,6 +27,7 @@ import { DropdownList } from "../../../model/DropdownLists"
 import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
+import AccessRightsField from "./licenseAndAccess/AccessRightsField"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -68,7 +69,9 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         </div>
 
         <div className="row form-group input-element">
-            <p>Access rights</p>
+            <Field name="accessRights"
+                   label="Access rights"
+                   component={AccessRightsField}/>
         </div>
 
         <div className="row form-group input-element">
