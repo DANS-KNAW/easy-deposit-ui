@@ -158,7 +158,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         extraClarinMetadataPresent: hasCmdiFormat,
 
         // archaeology specific metadata
-        archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value || emptyString).filter(v => v === emptyString), () => emptyString),
+        archisNrs: normalizeEmpty(archisIdentifiers.map(sv => sv.value || emptyString).filter(v => v !== emptyString), () => emptyString),
         subjectsAbrComplex: normalizeEmpty(abrSubjects, () => emptyString),
         temporalCoveragesAbr: normalizeEmpty(abrTemporalCoverages, () => emptyString),
 
@@ -231,7 +231,7 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
             ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
             ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
         ].filter(nonEmptyObject),
-        source: data.source && data.source.split("\n\n"),
+        sources: data.source && data.source.split("\n\n"),
         instructionsForReuse: data.instructionsForReuse && data.instructionsForReuse.split("\n\n"),
 
         // license and access

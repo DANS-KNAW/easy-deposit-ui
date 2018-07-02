@@ -27,6 +27,7 @@ function toContributorRoleScheme(value: string): ContributorRoleScheme | undefin
 }
 
 const rightsholderRole = "RightsHolder"
+const rightsholderValue = "Rightsholder"
 
 export interface Contributor {
     titles?: string
@@ -88,7 +89,7 @@ const contributorRoleDeconverter: (roles: DropdownListEntry[]) => (r: string) =>
 const rightsHolderRoleDeconverter: (r: string) => any = r => clean({
     scheme: ContributorRoleScheme.DATACITE_CONTRIBUTOR,
     key: r,
-    value: "Rightsholder",
+    value: rightsholderValue,
 })
 
 export const contributorConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (c: any) => Contributor = (ids, roles) => c => {

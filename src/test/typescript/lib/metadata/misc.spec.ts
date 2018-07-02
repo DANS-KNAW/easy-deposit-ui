@@ -84,6 +84,18 @@ describe("misc", () => {
             }
             expect(clean(input)).to.eql(expected)
         })
+
+        it("should not remove a boolean field", () => {
+            const input = {
+                foo: true,
+                bar: false,
+            }
+            const expected = {
+                foo: true,
+                bar: false,
+            }
+            expect(clean(input)).to.eql(expected)
+        })
     })
 
     describe("nonEmptyObject", () => {
