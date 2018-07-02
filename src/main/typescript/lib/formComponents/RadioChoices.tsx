@@ -30,13 +30,13 @@ interface RadioProps {
 const RadioChoices = ({ input, meta, label, choices }: WrappedFieldProps & RadioProps) => (
     <>
         {choices.map(({ name, title, value }) =>
-            <div className={`form-check col-12`} key={name || title.toString()}> {/* TODO unique key */}
+            <div className="form-check col-12" key={name || title.toString()}> {/* TODO unique key */}
                 {/*
                   * Note to future developers: the order of the attributes in <input> is important!
                   * {...input} must come before value={title} and neither of them may be omitted.
                   */}
                 <input className="form-check-input" id={name || title.toString()} type="radio"
-                       {...input} value={title} defaultChecked={input.value == title}/>
+                       {...input} value={title} defaultChecked={input.value === title}/>
                 <label className="form-check-label" htmlFor={name || title.toString()}>{value}</label>
             </div>,
         )}
