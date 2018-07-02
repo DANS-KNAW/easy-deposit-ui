@@ -428,12 +428,12 @@ export const allfields: Metadata = {
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-18T01:00:00+0100",
+            value: dateFormat("2018-03-18T01:00:00+0100", "isoDateTime"),
             qualifier: DateQualifierValues.dateCopyrighted,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-17T01:00:00+0100",
+            value: dateFormat("2018-03-17T01:00:00+0100", "isoDateTime"),
             qualifier: DateQualifierValues.valid,
         },
         {
@@ -617,12 +617,12 @@ export const mandatoryOnly: Metadata = {
     dates: [
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-19T01:00:00+0100",
+            value: dateFormat("2018-03-19T01:00:00+0100", "isoDateTime"),
             qualifier: DateQualifierValues.created,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-05-14T02:00:00+0200",
+            value: dateFormat("2018-05-14T02:00:00+0200", "isoDateTime"),
             qualifier: DateQualifierValues.available,
         },
     ],
