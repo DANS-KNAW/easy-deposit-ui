@@ -458,7 +458,7 @@ export const allfields: Metadata = {
         "pub2",
     ],
     accessRights: {
-        category: AccessRightValues.OPEN_ACCESS,
+        category: AccessRightValue.OPEN_ACCESS,
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     types: [
@@ -627,7 +627,7 @@ export const mandatoryOnly: Metadata = {
         },
     ],
     accessRights: {
-        category: AccessRightValues.GROUP_ACCESS,
+        category: AccessRightValue.GROUP_ACCESS,
         group: "archaeology",
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
