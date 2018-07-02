@@ -28,7 +28,6 @@
     "history": "^4.7.2",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "monocle-ts": "^1.0.0",
     "object-path-immutable": "^1.0.2",
     "query-string": "^6.1.0",
     "react": "^16.4.0",

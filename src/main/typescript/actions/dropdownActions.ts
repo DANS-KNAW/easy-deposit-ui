@@ -26,7 +26,7 @@ const createFetchAction: (type: DropdownConstants, filename: string) => ReduxAct
     },
 })
 
-const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
+export const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
     return Object.keys(data)
         .map(key => {
             const obj = data[key]

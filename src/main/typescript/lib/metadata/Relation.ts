@@ -30,12 +30,26 @@ export const emptyRelation = ({
     title: "",
 })
 
+const relatedIdentifierConverter: (qualifiers: DropdownListEntry[], identifiers: DropdownListEntry[]) => (ri: any) => QualifiedSchemedValue = (qualifiers, identifiers) => ri => {
+    const qualifier = ri.qualifier
+    const scheme = ri.scheme
+
+    if (qualifier && qualifiers.find(({ key }) => key === qualifier) || !qualifier) {
+        if (scheme && identifiers.find(({key}) => key === scheme) || !scheme)
+            return qualifiedSchemedValueConverter(ri.qualifier || qualifiers[0].key, ri.scheme, ri.value)
+        else
+            throw `Error in metadata: no such related identifier scheme found: '${scheme}'`
+    }
+    else
+        throw `Error in metadata: no such related identifier qualifier found: '${qualifier}'`
+}
+
 const relationConverter: (qualifiers: DropdownListEntry[]) => (r: any) => Relation = qualifiers => r => {
     const qualifier = r.qualifier
 
-    if (qualifier && qualifiers.find(({ key }) => key === qualifier))
+    if (qualifier && qualifiers.find(({ key }) => key === qualifier) || !qualifier)
         return {
-            qualifier: qualifier,
+            qualifier: qualifier || qualifiers[0].key,
             url: r.url,
             title: r.title,
         }
@@ -43,13 +57,14 @@ const relationConverter: (qualifiers: DropdownListEntry[]) => (r: any) => Relati
         throw `Error in metadata: no such relation qualifier found: '${qualifier}'`
 }
 
-export const relationsConverter: (relationQualifiers: DropdownListEntry[]) => (rs: any[]) => [QualifiedSchemedValue[], Relation[]] = relationQualifiers => rs => {
+export const relationsConverter: (relationQualifiers: DropdownListEntry[], identifiers: DropdownListEntry[]) => (rs: any[]) => [QualifiedSchemedValue[], Relation[]] = (relationQualifiers, identifiers) => rs => {
     return rs.reduce(([relatedIdentifiers, relations], r) => {
         const keys = Object.keys(r)
 
-        if (isEqual(keys, ["qualifier", "scheme", "value"]))
-            return [[...relatedIdentifiers, qualifiedSchemedValueConverter(r.qualifier, r.scheme, r.value)], relations]
-        else if (!isEmpty(keys))
+        // if the object only contains a 'qualifier' is is marked as a Relation rather than a RelatedIdentifier
+        if (keys.includes("scheme") || keys.includes("value"))
+            return [[...relatedIdentifiers, relatedIdentifierConverter(relationQualifiers, identifiers)(r)], relations]
+        else if (keys.includes("qualifier") || keys.includes("title") || keys.includes("url"))
             return [relatedIdentifiers, [...relations, relationConverter(relationQualifiers)(r)]]
         else
             throw `Error in metadata: unrecognized relation: ${JSON.stringify(r)}`

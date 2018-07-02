@@ -19,7 +19,7 @@ export enum PrivacySensitiveDataValue {
     UNSPECIFIED = "unspecified"
 }
 
-export function toPrivacySensitiveData(value: string): PrivacySensitiveDataValue | undefined {
+function toPrivacySensitiveData(value: string): PrivacySensitiveDataValue | undefined {
     return Object.values(PrivacySensitiveDataValue).find(v => v === value)
 }
 

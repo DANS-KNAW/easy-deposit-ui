@@ -15,7 +15,7 @@
  */
 import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
 import * as lodash from "lodash"
-import { clean, nonEmptyObject } from "./misc"
+import { clean, emptyString, nonEmptyObject } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum ContributorRoleScheme {
@@ -27,6 +27,7 @@ function toContributorRoleScheme(value: string): ContributorRoleScheme | undefin
 }
 
 const rightsholderRole = "RightsHolder"
+const rightsholderValue = "Rightsholder"
 
 export interface Contributor {
     titles?: string
@@ -39,20 +40,20 @@ export interface Contributor {
 }
 
 export const emptyContributor: Contributor = {
-    titles: "",
-    initials: "",
-    insertions: "",
-    surname: "",
+    titles: emptyString,
+    initials: emptyString,
+    insertions: emptyString,
+    surname: emptyString,
     ids: [emptySchemedValue],
-    role: "",
-    organization: "",
+    role: emptyString,
+    organization: emptyString,
 }
 
 const contributorSchemeIdConverter: (ids: DropdownListEntry[]) => (cs: any) => SchemedValue = ids => cs => {
-    const scheme = ids.find(({ key }) => key === cs.scheme)
+    const scheme = cs.scheme && ids.find(({ key }) => key === cs.scheme)
 
-    if (scheme)
-        return schemedValueConverter(scheme.key, cs.value)
+    if (scheme || !cs.scheme)
+        return schemedValueConverter(cs.scheme, cs.value)
     else
         throw `Error in metadata: no such creator/contributor id scheme: '${cs.scheme}'`
 }
@@ -88,18 +89,18 @@ const contributorRoleDeconverter: (roles: DropdownListEntry[]) => (r: string) =>
 const rightsHolderRoleDeconverter: (r: string) => any = r => clean({
     scheme: ContributorRoleScheme.DATACITE_CONTRIBUTOR,
     key: r,
-    value: "Rightsholder",
+    value: rightsholderValue,
 })
 
 export const contributorConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (c: any) => Contributor = (ids, roles) => c => {
     return ({
-        titles: c.titles || "",
-        initials: c.initials || "",
-        insertions: c.insertions || "",
-        surname: c.surname || "",
+        titles: c.titles || emptyString,
+        initials: c.initials || emptyString,
+        insertions: c.insertions || emptyString,
+        surname: c.surname || emptyString,
         ids: c.ids ? c.ids.map(contributorSchemeIdConverter(ids)) : [emptySchemedValue],
-        role: c.role ? contributorRoleConverter(roles)(c.role) : "",
-        organization: c.organization || "",
+        role: c.role ? contributorRoleConverter(roles)(c.role) : emptyString,
+        organization: c.organization || emptyString,
     })
 }
 

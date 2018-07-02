@@ -17,6 +17,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { fetchUserFailed, fetchUserSucceeded } from "../actions/userActions"
 import { UserConstants } from "../constants/userConstants"
 import { UserDetails } from "../model/UserDetails"
+import { userConverter } from "../lib/user/user"
 
 /*
  * action.payload is type User, convert to UserDetails
@@ -26,23 +27,14 @@ const userFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dis
 
     if (action.type === UserConstants.USER_FULFILLED) {
         try {
-
-            const user: UserDetails = {
-                username: action.payload.username,
-                firstName: action.payload.firstName,
-                prefix: action.payload.prefix,
-                lastName: action.payload.lastName,
-                groups: action.payload.groups,
-                displayName: `${action.payload.firstName} ${action.payload.prefix ? action.payload.prefix+" " : ""}${action.payload.lastName}`,
-            }
-
+            const user: UserDetails = userConverter(action.payload)
             dispatch(fetchUserSucceeded(user))
         }
         catch (errorMessage) {
             dispatch(fetchUserFailed(errorMessage))
         }
     }
-    if (action.type === UserConstants.USER_REJECTED) {
+    else if (action.type === UserConstants.USER_REJECTED) {
         dispatch(fetchUserFailed(action.payload.message))
     }
 }

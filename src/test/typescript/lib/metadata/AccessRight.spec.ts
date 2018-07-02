@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import "mocha"
+import { describe, it } from "mocha"
 import {
     accessRightConverter,
     accessRightDeconverter,

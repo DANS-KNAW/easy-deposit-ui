@@ -79,11 +79,25 @@ const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => Inter
                 value: value,
             }
     else if (sd.qualifier === createdQualifier || sd.qualifier === availableQualifier)
-        return ({
+        return {
             scheme: scheme,
             qualifier: sd.qualifier,
             value: value,
-        })
+        }
+    else if (!sd.qualifier) {
+        // no qualifier
+        if (scheme && scheme === DateScheme.W3CDTF)
+            return {
+                scheme: scheme,
+                qualifier: dates[0].key,
+                value: value,
+            }
+        else
+            return {
+                qualifier: dates[0].key,
+                value: value,
+            }
+    }
     else
         throw `Error in metadata: no such date qualifier: '${sd.qualifier}'`
 }

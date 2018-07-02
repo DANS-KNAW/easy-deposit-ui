@@ -29,8 +29,11 @@ export const typesConverter: (dcmiValues: DropdownListEntry[]) => (types: any[])
     return types.reduce(([dcmiTypes, normalTypes], type) => {
         const scheme = type.scheme && toTypeScheme(type.scheme)
 
-        if (scheme && scheme == TypeScheme.dcmi && dcmiValues.find(({ key }) => key === type.value))
-            return [[...dcmiTypes, type.value], normalTypes]
+        if (scheme && scheme === TypeScheme.dcmi)
+            if (dcmiValues.find(({ key }) => key === type.value))
+                return [[...dcmiTypes, type.value], normalTypes]
+            else
+                throw `Error in metadata: no such DCMI type found: '${type.value}'`
         else if (isEqual(Object.keys(type), ["value"]))
             return [dcmiTypes, [...normalTypes, type.value]]
         else
