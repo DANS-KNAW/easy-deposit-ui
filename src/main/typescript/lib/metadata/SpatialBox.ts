@@ -33,12 +33,12 @@ export const emptyBox: Box = {
 }
 
 export const boxConverter: (schemeValues: DropdownListEntry[]) => (b: any) => Box = schemeValues => b => {
-    const validInput = b.north && Number.isNaN(Number(b.north))
+    const invalidInput = b.north && Number.isNaN(Number(b.north))
         || b.east && Number.isNaN(Number(b.east))
         || b.south && Number.isNaN(Number(b.south))
         || b.west && Number.isNaN(Number(b.west))
 
-    if (validInput)
+    if (invalidInput)
         throw `Error in metadata: Box ${JSON.stringify(b)} consists of something else than a Number`
     else if (b.scheme && !schemeValues.find(({ key }) => key === b.scheme))
         throw `Error in metadata: unknown coordinate system: '${b.scheme}'`

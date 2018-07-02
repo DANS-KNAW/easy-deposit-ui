@@ -25,10 +25,10 @@ export interface Point {
 export const emptyPoint: Point = { scheme: "", x: undefined, y: undefined }
 
 export const pointConverter: (schemeValues: DropdownListEntry[]) => (p: any) => Point = schemeValues => p => {
-    const validInput = p.x && Number.isNaN(Number(p.x))
+    const invalidInput = p.x && Number.isNaN(Number(p.x))
         || p.y && Number.isNaN(Number(p.y))
 
-    if (validInput)
+    if (invalidInput)
         throw `Error in metadata: Point ${JSON.stringify(p)} consists of something else than a Number`
     else if (p.scheme && !schemeValues.find(({ key }) => key === p.scheme))
         throw `Error in metadata: unknown coordinate system: '${p.scheme}'`
