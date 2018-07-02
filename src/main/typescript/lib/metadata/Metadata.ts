@@ -42,7 +42,7 @@ import {
     doiDeconverter,
     identifiersConverter,
 } from "./Identifier"
-import { dcmiTypeDeconverter, typeDeconverter, typesConverter } from "./Types"
+import { dcmiTypeDeconverter, typeDeconverter, typesConverter } from "./Type"
 import {
     privacySensitiveDataConverter,
     privacySensitiveDataDeconverter,
