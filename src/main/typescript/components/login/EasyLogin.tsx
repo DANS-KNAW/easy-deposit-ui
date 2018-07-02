@@ -72,6 +72,7 @@ class EasyLogin extends Component<AllEasyLoginProps> {
                             <Field name="password"
                                    label="Password"
                                    id="password"
+                                   type="password"
                                    required
                                    component={TextField}/>
                         </div>
