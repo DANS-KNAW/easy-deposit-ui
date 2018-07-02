@@ -77,7 +77,7 @@ describe("TemporalCoverage", () => {
 
     describe("abrTemporalCoverageDeconverter", () => {
 
-        it("should convert a abr temporal coverage", () => {
+        it("should convert an abr temporal coverage", () => {
             const input = "ROMLA"
             const expected = {
                 scheme: "abr:ABRperiode",
