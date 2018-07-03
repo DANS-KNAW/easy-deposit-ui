@@ -16,7 +16,7 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
-import createHistory from "history/createBrowserHistory"
+import createBrowserHistory from "history/createBrowserHistory"
 import { newStore } from "./store"
 import { ConnectedRouter } from "react-router-redux"
 
@@ -27,7 +27,7 @@ import Footer from "./components/Footer"
 import "../resources/css/styling"
 import { AppState, empty as emptyAppState } from "./model/AppState"
 
-const history = createHistory()
+const history = createBrowserHistory()
 const initialState: AppState = {
     ...emptyAppState,
     authenticatedUser: {
