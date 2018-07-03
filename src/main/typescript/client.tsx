@@ -20,6 +20,7 @@ import createBrowserHistory from "history/createBrowserHistory"
 import { newStore } from "./store"
 import { ConnectedRouter } from "react-router-redux"
 
+import ConfiguredApp from "./components/ConfiguredApp"
 import Header from "./components/Header"
 import Routes from "./Routes"
 import Footer from "./components/Footer"
@@ -46,15 +47,17 @@ const initialState: AppState = {
 
 const Main = () => (
     <Provider store={newStore(history, initialState)}>
-        <ConnectedRouter history={history}>
-            <>
-                <Header/>
-                <main role="main" className="container">
-                    <Routes/>
-                </main>
-                <Footer/>
-            </>
-        </ConnectedRouter>
+        <ConfiguredApp>
+            <ConnectedRouter history={history}>
+                <>
+                    <Header/>
+                    <main role="main" className="container">
+                        <Routes/>
+                    </main>
+                    <Footer/>
+                </>
+            </ConnectedRouter>
+        </ConfiguredApp>
     </Provider>
 )
 
