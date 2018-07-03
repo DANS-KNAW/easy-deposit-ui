@@ -33,9 +33,7 @@ const ContactColumn = () => (
         <li>
             <a title="View how to contact" href="https://dans.knaw.nl/en/contact" target="_blank">More ›››</a>
         </li>
-        <li>
-            <a title="View the Privacy Statement" href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/privacy-statement" target="_blank">Privacy Statement</a>
-        </li>
+
     </ul>
 )
 
@@ -88,8 +86,12 @@ const LinksColumn = () => (
               href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information">
             Legal information
         </Link>
+        <Link title="View the Privacy Statement"
+              href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/privacy-statement">
+            Privacy statement
+        </Link>
         <Link title="View the property rights statement"
-              href="https://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement">
+              href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement">
             Property rights statement
         </Link>
         <Link title="How to cite data"
