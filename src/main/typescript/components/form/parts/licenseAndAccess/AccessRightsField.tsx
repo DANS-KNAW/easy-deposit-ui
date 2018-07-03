@@ -4,8 +4,10 @@ import { WrappedFieldProps } from "redux-form"
 import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { WrappedFieldInputProps } from "redux-form/lib/Field"
+import { AppState } from "../../../../model/AppState"
+import { connect } from "react-redux"
+import { compose } from "redux"
 
-interface AccessRightsFieldProps {
 interface RadioButtonProps {
     choice: AccessRightValue
     choiceLabel: string
@@ -25,9 +27,11 @@ const RadioButton: SFC<RadioButtonProps> = ({ choice, choiceLabel, input, childr
     </div>
 )
 
+interface AccessRightsFieldProps {
+    userGroups: string[]
 }
 
-const AccessRightsField = ({ input, meta, label }: WrappedFieldProps & AccessRightsFieldProps) => (
+const AccessRightsField = ({ userGroups, input, meta, label }: WrappedFieldProps & AccessRightsFieldProps) => (
     <>
         <RadioButton choice={AccessRightValue.OPEN_ACCESS}
                      choiceLabel="Open Access"
@@ -37,12 +41,20 @@ const AccessRightsField = ({ input, meta, label }: WrappedFieldProps & AccessRig
                      choiceLabel="Restricted Access"
                      input={input}/>
 
-        <RadioButton choice={AccessRightValue.GROUP_ACCESS}
-                     choiceLabel="Group Access"
-                     input={input}>
-            {/* TODO dropdown here */}
-        </RadioButton>
+        {
+            userGroups.length > 0 && <RadioButton choice={AccessRightValue.GROUP_ACCESS}
+                                                  choiceLabel="Group Access"
+                                                  input={input}>
+            </RadioButton>
+        }
     </>
 )
 
-export default asField(AccessRightsField)
+const mapStateToProps = (state: AppState) => ({
+    userGroups: state.user.groups,
+})
+
+export default compose(
+    asField,
+    connect(mapStateToProps),
+)(AccessRightsField)
