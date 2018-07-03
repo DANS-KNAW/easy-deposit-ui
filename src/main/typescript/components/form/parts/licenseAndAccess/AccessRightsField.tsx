@@ -16,7 +16,7 @@ const AccessRightsField = ({ input, meta, label }: WrappedFieldProps & AccessRig
                    {...input}
                    value={AccessRightValue.OPEN_ACCESS}
                    defaultChecked={input.value.category === AccessRightValue.OPEN_ACCESS}/>
-            <label className="form-check-label" htmlFor={AccessRightValue.OPEN_ACCESS}>Open access</label>
+            <label className="form-check-label" htmlFor={AccessRightValue.OPEN_ACCESS}>Open Access</label>
         </div>
 
         <div className="form-check col-12">
@@ -26,7 +26,7 @@ const AccessRightsField = ({ input, meta, label }: WrappedFieldProps & AccessRig
                    {...input}
                    value={AccessRightValue.GROUP_ACCESS}
                    defaultChecked={input.value.category === AccessRightValue.GROUP_ACCESS}/>
-            <label className="form-check-label" htmlFor={AccessRightValue.GROUP_ACCESS}>Group access</label>
+            <label className="form-check-label" htmlFor={AccessRightValue.GROUP_ACCESS}>Group Access</label>
         </div>
 
         <div className="form-check col-12">
@@ -36,8 +36,7 @@ const AccessRightsField = ({ input, meta, label }: WrappedFieldProps & AccessRig
                    {...input}
                    value={AccessRightValue.REQUEST_PERMISSION}
                    defaultChecked={input.value.category === AccessRightValue.REQUEST_PERMISSION}/>
-            <label className="form-check-label" htmlFor={AccessRightValue.REQUEST_PERMISSION}>Restricted: request
-                permission</label>
+            <label className="form-check-label" htmlFor={AccessRightValue.REQUEST_PERMISSION}>Restricted Access</label>
         </div>
     </>
 )
