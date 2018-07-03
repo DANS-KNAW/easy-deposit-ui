@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import isEqual = require("lodash/isEqual");
+import { isEqual } from "lodash"
 import { clean } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
