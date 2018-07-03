@@ -22,25 +22,25 @@ import customMiddleware from "./middleware"
 import * as H from "history"
 import { routerMiddleware } from "react-router-redux"
 import { inDevelopmentMode } from "./lib/config"
+import { AppState, empty as emptyAppState } from "./model/AppState"
 
 // import {Action} from 'redux'
-// import {AppState} from './model/AppState'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
 
 // import {Action} from 'redux'
-// import {AppState} from './model/AppState'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
 const predicate = () => true // if you want to see all actions
 // const predicate = () => false // if you want to see no actions
 
-export const newStore = (history: H.History) => {
+export const newStore = (history: H.History, initialState: AppState = emptyAppState) => {
     if (inDevelopmentMode) {
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
         const composeEnhancers = composeWithDevTools({ predicate })
         return createStore(
             reducers,
+            initialState,
             composeEnhancers(
                 applyMiddleware(
                     ...customMiddleware,

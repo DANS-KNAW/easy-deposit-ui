@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import axios from "axios"
-import { memoize } from "lodash"
+import memoize = require("lodash/memoize");
 
 const configuration = memoize(() => axios.get(require("../../resources/application.json")).then(response => response.data))
 

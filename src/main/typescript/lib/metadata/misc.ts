@@ -13,7 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { isEmpty, pickBy, keys, isNumber, isString, isArray, isObject, isBoolean } from "lodash"
+import isEmpty = require("lodash/isEmpty");
+import pickBy = require("lodash/pickBy");
+import keys = require("lodash/keys");
+import isNumber = require("lodash/isNumber");
+import isString = require("lodash/isString");
+import isArray = require("lodash/isArray");
+import isObject = require("lodash/isObject");
+import isBoolean = require("lodash/isBoolean");
 
 export function normalizeEmpty<T>(arr: T[] | undefined, defaultValue: () => T): T[] {
     if (!arr || isEmpty(arr))
