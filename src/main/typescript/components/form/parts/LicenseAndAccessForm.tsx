@@ -69,9 +69,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         </div>
 
         <div className="row form-group input-element">
-            <Field name="accessRights"
-                   label="Access rights"
-                   component={AccessRightsField}/>
+            <AccessRightsField label="Access rights"/>
         </div>
 
         <div className="row form-group input-element">
