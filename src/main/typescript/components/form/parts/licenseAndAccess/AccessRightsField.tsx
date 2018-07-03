@@ -1,43 +1,47 @@
 import * as React from "react"
+import { SFC } from "react"
 import { WrappedFieldProps } from "redux-form"
 import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
 import asField from "../../../../lib/formComponents/FieldHOC"
+import { WrappedFieldInputProps } from "redux-form/lib/Field"
 
 interface AccessRightsFieldProps {
+interface RadioButtonProps {
+    choice: AccessRightValue
+    choiceLabel: string
+    input: WrappedFieldInputProps
+}
+
+const RadioButton: SFC<RadioButtonProps> = ({ choice, choiceLabel, input, children }) => (
+    <div className="form-check col-12">
+        <input className="form-check-input"
+               id={choice}
+               type="radio"
+               {...input}
+               value={choice}
+               defaultChecked={input.value.category === choice}/>
+        <label className="form-check-label" htmlFor={choice}>{choiceLabel}</label>
+        {children}
+    </div>
+)
 
 }
 
 const AccessRightsField = ({ input, meta, label }: WrappedFieldProps & AccessRightsFieldProps) => (
     <>
-        <div className="form-check col-12">
-            <input className="form-check-input"
-                   id={AccessRightValue.OPEN_ACCESS}
-                   type="radio"
-                   {...input}
-                   value={AccessRightValue.OPEN_ACCESS}
-                   defaultChecked={input.value.category === AccessRightValue.OPEN_ACCESS}/>
-            <label className="form-check-label" htmlFor={AccessRightValue.OPEN_ACCESS}>Open Access</label>
-        </div>
+        <RadioButton choice={AccessRightValue.OPEN_ACCESS}
+                     choiceLabel="Open Access"
+                     input={input}/>
 
-        <div className="form-check col-12">
-            <input className="form-check-input"
-                   id={AccessRightValue.GROUP_ACCESS}
-                   type="radio"
-                   {...input}
-                   value={AccessRightValue.GROUP_ACCESS}
-                   defaultChecked={input.value.category === AccessRightValue.GROUP_ACCESS}/>
-            <label className="form-check-label" htmlFor={AccessRightValue.GROUP_ACCESS}>Group Access</label>
-        </div>
+        <RadioButton choice={AccessRightValue.REQUEST_PERMISSION}
+                     choiceLabel="Restricted Access"
+                     input={input}/>
 
-        <div className="form-check col-12">
-            <input className="form-check-input"
-                   id={AccessRightValue.REQUEST_PERMISSION}
-                   type="radio"
-                   {...input}
-                   value={AccessRightValue.REQUEST_PERMISSION}
-                   defaultChecked={input.value.category === AccessRightValue.REQUEST_PERMISSION}/>
-            <label className="form-check-label" htmlFor={AccessRightValue.REQUEST_PERMISSION}>Restricted Access</label>
-        </div>
+        <RadioButton choice={AccessRightValue.GROUP_ACCESS}
+                     choiceLabel="Group Access"
+                     input={input}>
+            {/* TODO dropdown here */}
+        </RadioButton>
     </>
 )
 
