@@ -18,73 +18,48 @@ import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import axios from "axios"
-import { listFiles } from "../../../../../constants/serverRoutes"
 import { DepositId } from "../../../../../model/Deposits"
-
-// <temp>
-export interface FileInfo {
-    filename: string
-    dirpath: string
-    sha1sum: string
-}
-// </temp>
+import { FileOverviewState } from "../../../../../model/FileInfo"
+import { ReduxAction } from "../../../../../lib/redux"
+import { connect } from "react-redux"
+import { fetchFiles } from "../../../../../actions/fileOverviewActions"
+import { AppState } from "../../../../../model/AppState"
 
 interface FilesOverviewProps {
     depositId: DepositId
+    files: FileOverviewState
+
+    fetchFiles: (depositId: DepositId, dirPath: string) => ReduxAction<Promise<void>>
 }
 
-interface FilesOverviewState {
-    files: { [filepath: string]: FileInfo }
-    fetchingFiles: boolean
-    fetchedFiles: boolean
-}
-
-class FilesOverview extends Component<FilesOverviewProps, FilesOverviewState> {
+class FilesOverview extends Component<FilesOverviewProps, FileOverviewState> {
     constructor(props: FilesOverviewProps) {
         super(props)
-        this.state = {
-            files: {},
-            fetchingFiles: false,
-            fetchedFiles: false,
-        }
     }
 
     async componentDidMount() {
-        this.setState(prevState => ({ ...prevState, fetchingFiles: true }))
-
-        const url = await listFiles(this.props.depositId)
-        const response = await axios.get(url)
-
-        const data = response.data
-            .reduce((collected: { [filepath: string]: FileInfo }, info: any) => ({
-                ...collected,
-                [info.dirpath + info.filename]: {
-                    filename: info.filename,
-                    dirpath: info.dirpath,
-                    sha1sum: info.sha1sum,
-                },
-            }), {})
-
-        this.setState(prevState => ({ ...prevState, files: data, fetchedFiles: true, fetchingFiles: false }))
+        this.props.fetchFiles(this.props.depositId, "")
     }
 
     render() {
+        const { files: { loading: { loading, loaded } } } = this.props
+
         return (
             <>
-                {this.state.fetchingFiles && <p>Fetching file listing</p>}
-                {this.state.fetchedFiles && this.renderTable()}
+                {loading && <p>Fetching file listing</p>}
+                {loaded && this.renderTable()}
             </>
         )
     }
 
     private renderTable() {
+        const { files: { files } } = this.props
         return (
             <div className="container pl-0 pr-0">
                 <table className="table table-hover file_table">
                     <FilesTableHead/>
-                    <tbody>{Object.keys(this.state.files).map(filepath =>
-                        <FilesTableRow key={filepath} fileInfo={this.state.files[filepath]}/>,
+                    <tbody>{Object.keys(files).map(filePath =>
+                        <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
                     )}</tbody>
                 </table>
             </div>
@@ -92,4 +67,9 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewState> {
     }
 }
 
-export default FilesOverview
+const mapStateToProps = (state: AppState) => ({
+    depositId: state.depositForm.depositId,
+    files: state.files,
+})
+
+export default connect(mapStateToProps, { fetchFiles })(FilesOverview)

@@ -27,10 +27,11 @@ class FileUpload extends Component<FileUploadProps> {
         return (
             <>
                 <p>Upload your data form</p> {/* TODO this is a temporary header */}
-                <FilesOverview depositId={this.props.depositId}/>
+                <FilesOverview/>
             </>
         )
     }
 }
 
 export default FileUpload
+
