@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
-import partition = require("lodash/partition");
+import * as lodash from "lodash"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum IdentifierScheme {
@@ -58,7 +58,7 @@ const alternativeIdentifierConverter: (identifiers: DropdownListEntry[]) => (ai:
 export const alternativeIdentifersConverter: (identifiers: DropdownListEntry[]) => (ais: any[]) => [SchemedValue[], SchemedValue[]] = identifiers => ais => {
     const ids = ais.map(alternativeIdentifierConverter(identifiers))
 
-    return partition(ids, { scheme: archisZaakIdentificatie })
+    return lodash.partition(ids, { scheme: archisZaakIdentificatie })
 }
 
 export const alternativeIdentifierDeconverter: (ai: SchemedValue) => any = schemedValueDeconverter
