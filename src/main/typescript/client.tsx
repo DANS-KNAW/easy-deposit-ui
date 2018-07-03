@@ -39,7 +39,11 @@ const initialState: AppState = {
         firstName: "John",
         prefix: "",
         lastName: "Bunyan",
-        groups: [],
+        groups: [
+            "group001",
+            "group002",
+            "group003",
+        ],
         displayName: "John Bunyan",
     }
 }
