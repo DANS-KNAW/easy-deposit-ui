@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
-import * as lodash from "lodash"
+import partition = require("lodash/partition");
 import { clean, emptyString, nonEmptyObject } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
@@ -126,5 +126,5 @@ export const rightsHolderDeconverter: (c: Contributor) => any = c => clean({
 
 export const contributorsConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (cs: any) => [Contributor[], Contributor[]] = (ids, roles) => cs => {
     const contributors: Contributor[] = cs.map(contributorConverter(ids, roles))
-    return lodash.partition(contributors, { role: "RightsHolder" })
+    return partition(contributors, { role: "RightsHolder" })
 }

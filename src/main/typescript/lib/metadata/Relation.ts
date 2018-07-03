@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { QualifiedSchemedValue, qualifiedSchemedValueConverter, qualifiedSchemedValueDeconverter } from "./Value"
-import { isEmpty, isEqual } from "lodash"
 import { clean } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 

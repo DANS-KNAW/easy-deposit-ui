@@ -20,7 +20,7 @@ import { userReducer } from "./userReducer"
 import { foldableCardReducer } from "./foldableCardReducer"
 import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
-import { toPath } from "lodash"
+import toPath = require("lodash/toPath");
 import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
 import { allDropdownReducers } from "./dropdownReducer"
