@@ -15,6 +15,7 @@
  */
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import { Action, AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
+import { fetchConfigurationFailed } from "../actions/configurationActions"
 import { createNewDepositFailed, deleteDepositFailed, fetchDepositsFailed } from "../actions/depositOverviewActions"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import {
@@ -39,6 +40,7 @@ import {
     fetchSpatialCoordinatesDataFailed,
     fetchSpatialCoveragesIsoDataFailed,
 } from "../actions/dropdownActions"
+import {ConfigurationConstants} from "../constants/configurationConstants";
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
 
@@ -58,6 +60,8 @@ function rejectedMiddleware(type: string) {
         }
     }
 }
+
+const configFetchRejected =  rejectedMiddleware(ConfigurationConstants.FETCH_CONFIG_REJECTED)(() => fetchConfigurationFailed)
 
 const depositFetchRejected = rejectedMiddleware(DepositOverviewConstants.FETCH_DEPOSITS_REJECTED)(() => fetchDepositsFailed)
 
@@ -89,6 +93,7 @@ const fetchSpatialCoordinatesDataRejected = rejectedMiddleware(DropdownConstants
 const fetchSpatialCoveragesIsoDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED)(() => fetchSpatialCoveragesIsoDataFailed)
 
 export const rejectedRequestMiddleware = [
+    configFetchRejected,
     depositFetchRejected,
     depositDeleteRejected,
     newDepositRejected,

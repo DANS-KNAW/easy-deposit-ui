@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { apiUrl, buildDate, inDevelopmentMode, projectVersion } from "../lib/config"
+import { buildDate, inDevelopmentMode, projectVersion } from "../lib/config"
 import "../../resources/css/footer"
 import { Component } from "react"
+import {AppState} from "../model/AppState";
+import { connect } from "react-redux"
+
 
 const cts = require("../../resources/img/footer/logo_CTS.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
@@ -170,30 +173,26 @@ const BuildInfoRow = ({ apiUrl }: FooterBuildInfoProps) => (
     </div>
 )
 
-interface FooterState {
-    apiUrl?: string
+interface FooterProps {
+    apiUrl: string
 }
 
-class Footer extends Component<{}, FooterState> {
-    constructor(props: {}) {
-        super(props)
-        this.state = {}
-    }
-
-    async componentDidMount() {
-        const url = await apiUrl()
-        this.setState({ apiUrl: url })
-    }
-
+class Footer extends Component<FooterProps> {
     render() {
         return (
             <footer className="container-fluid">
                 <TitleRow/>
                 <ContentRow/>
-                <BuildInfoRow apiUrl={this.state.apiUrl}/>
+                <BuildInfoRow apiUrl={this.props.apiUrl}/>
             </footer>
         )
     }
 }
 
-export default Footer
+const mapStateToProps = (state: AppState) => {
+    return ({
+        apiUrl: state.configState.config.apiUrl
+    })
+}
+
+export default connect(mapStateToProps)(Footer)
