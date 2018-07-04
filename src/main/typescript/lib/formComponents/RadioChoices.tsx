@@ -16,11 +16,12 @@
 import * as React from "react"
 import { WrappedFieldProps } from "redux-form"
 import asField from "./FieldHOC"
+import { Component } from "react"
 
 interface RadioChoice {
     name?: string
     title: any
-    value: string
+    value: string | JSX.Element
 }
 
 interface RadioProps {

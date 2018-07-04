@@ -14,11 +14,79 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { DropdownList } from "../../../../model/DropdownLists"
+import { DropdownList, DropdownListEntry } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import DropdownField from "../../../../lib/formComponents/DropDownField"
 import { WrappedFieldProps } from "redux-form"
-import { SelectHTMLAttributes } from "react"
+import { Component, SelectHTMLAttributes } from "react"
+import asField from "../../../../lib/formComponents/FieldHOC"
+import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
+
+interface LicenseChoicesProps {
+    choices: DropdownListEntry[]
+}
+
+interface LicenseChoicesState {
+    showCount: number
+}
+
+class LicenseChoices extends Component<WrappedFieldProps & LicenseChoicesProps, LicenseChoicesState> {
+    constructor(props: WrappedFieldProps & LicenseChoicesProps) {
+        super(props)
+        this.state = {
+            showCount: 1,
+        }
+    }
+
+    showMoreLicenses: () => void = () => {
+        switch (this.state.showCount) {
+            case 1:
+                this.setState(prevState => ({ ...prevState, showCount: 3 }))
+                break
+            case 3:
+            default:
+                this.setState(prevState => ({ ...prevState, showCount: Infinity }))
+                break
+        }
+    }
+
+    radioChoice = (text: string, link: string) => (
+        <span>{text} <a href={link} target="_blank"><i className="fas fa-info-circle"/></a></span>
+    )
+
+    render() {
+        if (this.state.showCount < 1)
+            this.setState(prevState => ({ ...prevState, showCount: 1 }))
+
+        const actualChoices = this.props.choices.slice(0, this.state.showCount).map(entry => ({
+            title: entry.key,
+            value: this.radioChoice(entry.value, entry.key),
+        }))
+        const value = this.props.input.value
+        if (!actualChoices.find(({ title }) => title === value)) {
+            const original = this.props.choices.find(({ key }) => key === value)
+            if (original) {
+                actualChoices.push({
+                    title: original.key,
+                    value: this.radioChoice(original.value, original.key),
+                })
+            }
+        }
+        const containsAllChoices = this.props.choices.length < this.state.showCount
+
+        const radioChoices = <RadioChoicesInput {...this.props} choices={actualChoices}/>
+        // TODO style the <a/> properly
+        const showMore = !containsAllChoices && <a onClick={this.showMoreLicenses}>show more...</a>
+
+        return (
+            <>
+                {radioChoices}
+                {showMore}
+            </>
+        )
+    }
+}
+
+const LicenseChoicesField = asField(LicenseChoices)
 
 interface LicenseFieldInputProps {
     withLabel?: boolean
@@ -29,7 +97,7 @@ type LicenseFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElem
 
 const LicenseField = ({ state, list }: DropdownList) => (props: LicenseFieldProps) => (
     <LoadDropdownData state={state}>
-        <DropdownField {...props} choices={list}/>
+        <LicenseChoicesField {...props} choices={list}/>
     </LoadDropdownData>
 )
 

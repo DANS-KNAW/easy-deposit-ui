@@ -22,7 +22,7 @@ import { DropdownListEntry } from "../../../../model/DropdownLists"
 import { AppState } from "../../../../model/AppState"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { DropdownFieldInput } from "../../../../lib/formComponents/DropDownField"
-import {RadioChoicesInput as LibRadioChoices} from "../../../../lib/formComponents/RadioChoices"
+import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 
 interface AccessRightsFieldProps {
     userGroups: DropdownListEntry[]
@@ -53,7 +53,7 @@ const AccessRightsField = ({ userGroups, input, meta, label }: WrappedFieldProps
                 <Field name={`${input.name}.category`}
                        divClassName="radio-button"
                        choices={choices}
-                       component={LibRadioChoices}/>
+                       component={RadioChoicesInput}/>
             </div>
             {withUserGroups && <div className="col col-md-4 group-field">
                 <Field name={`${input.name}.group`}
