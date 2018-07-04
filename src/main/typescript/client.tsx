@@ -25,31 +25,11 @@ import Routes from "./Routes"
 import Footer from "./components/Footer"
 
 import "../resources/css/styling"
-import { AppState, empty as emptyAppState } from "./model/AppState"
 
 const history = createBrowserHistory()
-const initialState: AppState = {
-    ...emptyAppState,
-    authenticatedUser: {
-        isAuthenticated: true,
-        isAuthenticating: false
-    },
-    user: {
-        username: "JohnB",
-        firstName: "John",
-        prefix: "",
-        lastName: "Bunyan",
-        groups: [
-            "group001",
-            "group002",
-            "group003",
-        ],
-        displayName: "John Bunyan",
-    }
-}
 
 const Main = () => (
-    <Provider store={newStore(history, initialState)}>
+    <Provider store={newStore(history)}>
         <ConnectedRouter history={history}>
             <>
                 <Header/>
