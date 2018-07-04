@@ -191,16 +191,16 @@ enum DateSchemeValues {
 }
 
 interface AccessRight {
-    category: AccessRightValue
+    category: AccessRightValues
     group?: string
 }
 
-enum AccessRightValue {
+enum AccessRightValues {
     OPEN_ACCESS = "OPEN_ACCESS",
-    OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
+    // OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
     GROUP_ACCESS = "GROUP_ACCESS",
     REQUEST_PERMISSION = "REQUEST_PERMISSION",
-    NO_ACCESS = "NO_ACCESS",
+    // NO_ACCESS = "NO_ACCESS",
 }
 
 enum TypesSchemeValues {
@@ -458,7 +458,7 @@ export const allfields: Metadata = {
         "pub2",
     ],
     accessRights: {
-        category: AccessRightValue.OPEN_ACCESS,
+        category: AccessRightValues.OPEN_ACCESS,
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     types: [
@@ -627,7 +627,7 @@ export const mandatoryOnly: Metadata = {
         },
     ],
     accessRights: {
-        category: AccessRightValue.GROUP_ACCESS,
+        category: AccessRightValues.GROUP_ACCESS,
         group: "archaeology",
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",

@@ -25,18 +25,20 @@ interface RadioChoice {
 
 interface RadioProps {
     choices: RadioChoice[]
+    divClassName?: string
 }
 
-const RadioChoices = ({ input, meta, label, choices }: WrappedFieldProps & RadioProps) => (
+const RadioChoices = ({ input, meta, label, choices, divClassName }: WrappedFieldProps & RadioProps) => (
     <>
         {choices.map(({ name, title, value }) =>
-            <div className={`form-check col-12`} key={name || title.toString()}> {/* TODO unique key */}
+            <div className={`form-check col-12 ${divClassName || ""}`}
+                 key={name || title.toString()}>
                 {/*
                   * Note to future developers: the order of the attributes in <input> is important!
                   * {...input} must come before value={title} and neither of them may be omitted.
                   */}
                 <input className="form-check-input" id={name || title.toString()} type="radio"
-                       {...input} value={title} defaultChecked={input.value == title}/>
+                       {...input} value={title} defaultChecked={input.value === title}/>
                 <label className="form-check-label" htmlFor={name || title.toString()}>{value}</label>
             </div>,
         )}

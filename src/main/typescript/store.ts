@@ -22,8 +22,9 @@ import customMiddleware from "./middleware"
 import * as H from "history"
 import { routerMiddleware } from "react-router-redux"
 import { inDevelopmentMode } from "./lib/config"
-import { AppState, empty as emptyAppState } from "./model/AppState"
+import { AppState } from "./model/AppState"
 
+///
 // import {Action} from 'redux'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
 
@@ -33,8 +34,26 @@ import { AppState, empty as emptyAppState } from "./model/AppState"
 const predicate = () => true // if you want to see all actions
 // const predicate = () => false // if you want to see no actions
 
-export const newStore = (history: H.History, initialState: AppState = emptyAppState) => {
+export const newStore = (history: H.History) => {
     if (inDevelopmentMode) {
+        const initialState: Partial<AppState> = {
+            authenticatedUser: {
+                isAuthenticated: true,
+                isAuthenticating: false
+            },
+            user: {
+                username: "JohnB",
+                firstName: "John",
+                prefix: "",
+                lastName: "Bunyan",
+                groups: [
+                    "group001",
+                    "group002",
+                    "group003",
+                ],
+                displayName: "John Bunyan",
+            }
+        }
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
         const composeEnhancers = composeWithDevTools({ predicate })

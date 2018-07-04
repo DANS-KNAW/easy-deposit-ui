@@ -16,7 +16,9 @@
 import * as React from "react"
 import { WrappedFieldProps } from "redux-form"
 
-const Checkbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) => {
+// satisfyCompiler is used here to make sure it all compiles
+// if we leave it out, the <Field component={Checkbox}/> will fail to compile
+const Checkbox = ({ input, meta, label }: WrappedFieldProps & { satisfyCompiler?: any }) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
 
