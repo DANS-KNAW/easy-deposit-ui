@@ -95,12 +95,14 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
     }
 }
 
-const depositFetchConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
-    if (action.type === actionTypes.CHANGE &&
-        action.meta.field === "accessRights.category" &&
-        getState().form.depositForm.values.accessRights.category === AccessRightValue.GROUP_ACCESS &&
-        action.payload !== AccessRightValue.GROUP_ACCESS)
-        dispatch(change(depositFormName, "accessRights.group", ""))
+// make sure to reset the access right group when the category changes from GROUP_ACCESS to something else
+// the access right group can only be used with category=GROUP_ACCESS
+const resetAccessrightGroupOnCategoryChange: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+    if (action.type === actionTypes.CHANGE && // only trigger on a redux-form CHANGE event ...
+        action.meta.field === "accessRights.category" && // ... that is caused by an 'accessRights.category' field ...
+        getState().form.depositForm.values.accessRights.category === AccessRightValue.GROUP_ACCESS && // ... whose previous value was GROUP_ACCESS ...
+        action.payload !== AccessRightValue.GROUP_ACCESS) // ... and whose new value will be something else than GROUP_ACCESS ...
+        dispatch(change(depositFormName, "accessRights.group", "")) // ... then reset the 'accessRights.category' field
 
     next(action)
 }
@@ -125,7 +127,7 @@ export const depositFormMiddleware = [
     metadataFetchConverter,
     metadataSendConverter,
     fetchDoiProcessor,
-    depositFetchConverter,
+    resetAccessrightGroupOnCategoryChange,
     saveTimer,
     submitReroute,
 ]
