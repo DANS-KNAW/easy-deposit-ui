@@ -1,77 +1,54 @@
 import * as React from "react"
-import { SFC } from "react"
+import { compose } from "redux"
+import { connect } from "react-redux"
 import { Field, WrappedFieldProps } from "redux-form"
 import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
-import asField from "../../../../lib/formComponents/FieldHOC"
-import { WrappedFieldInputProps } from "redux-form/lib/Field"
-import { AppState } from "../../../../model/AppState"
-import { connect } from "react-redux"
-import { compose } from "redux"
-import { DropdownFieldInput } from "../../../../lib/formComponents/DropDownField"
 import { DropdownListEntry } from "../../../../model/DropdownLists"
-
-interface RadioButtonProps {
-    choice: AccessRightValue
-    choiceLabel: string
-    input: WrappedFieldInputProps
-}
-
-const RadioButton: SFC<RadioButtonProps> = ({ choice, choiceLabel, input, children }) => (
-    <div className="form-check col-12">
-        <input className="form-check-input"
-               id={choice}
-               type="radio"
-               {...input}
-               value={choice}
-               defaultChecked={input.value === choice}/>
-        <label className="form-check-label" htmlFor={choice}>{choiceLabel}</label>
-        {children}
-    </div>
-)
-
-interface RadioChoicesProps {
-    withUserGroups: boolean
-}
-
-const RadioChoices = ({ withUserGroups, input, meta, label }: WrappedFieldProps & RadioChoicesProps) => {
-    return (
-        <>
-            <RadioButton choice={AccessRightValue.OPEN_ACCESS}
-                         choiceLabel="Open Access"
-                         input={input}/>
-
-            <RadioButton choice={AccessRightValue.REQUEST_PERMISSION}
-                         choiceLabel="Restricted Access"
-                         input={input}/>
-
-            {withUserGroups && <RadioButton choice={AccessRightValue.GROUP_ACCESS}
-                                            choiceLabel="Group Access"
-                                            input={input}/>}
-        </>
-    )
-}
+import { AppState } from "../../../../model/AppState"
+import asField from "../../../../lib/formComponents/FieldHOC"
+import { DropdownFieldInput } from "../../../../lib/formComponents/DropDownField"
+import {RadioChoicesInput as LibRadioChoices} from "../../../../lib/formComponents/RadioChoices"
 
 interface AccessRightsFieldProps {
     userGroups: DropdownListEntry[]
-    label: string
 }
 
-const AccessRightsField = ({ userGroups, label }: AccessRightsFieldProps) => {
+const AccessRightsField = ({ userGroups, input, meta, label }: WrappedFieldProps & AccessRightsFieldProps) => {
     const withUserGroups = userGroups.length > 0
+
+    const choices = [
+        {
+            title: AccessRightValue.OPEN_ACCESS,
+            value: "Open Access",
+        },
+        {
+            title: AccessRightValue.REQUEST_PERMISSION,
+            value: "Restricted Access",
+        },
+    ]
+    if (withUserGroups)
+        choices.push({
+            title: AccessRightValue.GROUP_ACCESS,
+            value: "Group Access",
+        })
+
     return (
-        <>
-            <label className="col-12 col-md-3 pl-0 title-label text-array-label">{label || ""}</label>
-            <div className="col-12 col-md-8 pl-0 pr-0">
-                <Field name="accessRights.category"
-                       withUserGroups={withUserGroups}
-                       component={RadioChoices}/>
-                {/* TODO disable when GROUP_ACCESS is not selected */}
-                {withUserGroups && <Field name="accessRights.group"
-                       withEmptyDefault
-                       choices={userGroups}
-                       component={DropdownFieldInput}/>}
+        <div className="form-row accessrights-field">
+            <div className="col col-md-4 category-field">
+                <Field name={`${input.name}.category`}
+                       divClassName="radio-button"
+                       choices={choices}
+                       component={LibRadioChoices}/>
             </div>
-        </>
+            {withUserGroups && <div className="col col-md-4 group-field">
+                <Field name={`${input.name}.group`}
+                       choices={userGroups}
+                       withEmptyDefault={userGroups.length != 1}
+                       emptyDefault="Choose a group..."
+                       disabled={input.value.category !== AccessRightValue.GROUP_ACCESS}
+                       component={DropdownFieldInput}/>
+            </div>}
+        </div>
     )
 }
 
@@ -84,6 +61,6 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 export default compose(
-    // asField,
+    asField,
     connect(mapStateToProps),
 )(AccessRightsField)
