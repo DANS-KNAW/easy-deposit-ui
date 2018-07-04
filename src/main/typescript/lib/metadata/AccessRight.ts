@@ -57,7 +57,16 @@ export const accessRightConverter: (ar: any) => AccessRight = ar => {
         throw `Error in metadata: no such access category: '${ar.category}'`
 }
 
-export const accessRightDeconverter: (ar: AccessRight) => any = ar => clean({
-    category: ar.category && ar.category.toString(),
-    group: ar.group,
-})
+export const accessRightDeconverter: (ar: AccessRight) => any = ar => {
+    switch (ar.category) {
+        case AccessRightValue.GROUP_ACCESS:
+            return clean({
+                category: ar.category,
+                group: ar.group,
+            })
+        default:
+            return clean({
+                category: ar.category,
+            })
+    }
+}
