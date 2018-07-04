@@ -22,10 +22,10 @@ export interface AccessRight {
 
 export enum AccessRightValue {
     OPEN_ACCESS = "OPEN_ACCESS",
-    OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
+    // OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
     GROUP_ACCESS = "GROUP_ACCESS",
     REQUEST_PERMISSION = "REQUEST_PERMISSION",
-    NO_ACCESS = "NO_ACCESS",
+    // NO_ACCESS = "NO_ACCESS",
 }
 
 function toAccessRight(value: string): AccessRightValue | undefined {
