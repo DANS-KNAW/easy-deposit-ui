@@ -154,3 +154,12 @@
     padding-bottom: 5px;
     border: 1px solid #ced4da;
 }
+
+.input-element .accessrights-field .category-field .radio-button {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.input-element .accessrights-field .group-field {
+    align-self: flex-end;
+}
