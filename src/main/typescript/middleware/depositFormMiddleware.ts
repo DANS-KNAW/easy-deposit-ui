@@ -97,7 +97,7 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
 
 const depositFetchConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
     if (action.type === actionTypes.CHANGE &&
-        action.meta.fields === "accessRights.category" &&
+        action.meta.field === "accessRights.category" &&
         getState().form.depositForm.values.accessRights.category === AccessRightValue.GROUP_ACCESS &&
         action.payload !== AccessRightValue.GROUP_ACCESS)
         dispatch(change(depositFormName, "accessRights.group", ""))
