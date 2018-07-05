@@ -32,7 +32,6 @@ interface FilesOverviewProps {
     files: FileOverviewState
 
     fetchFiles: (depositId: DepositId, dirPath: string) => ReduxAction<Promise<void>>
-    cleanFiles: () => Action
 }
 
 class FilesOverview extends Component<FilesOverviewProps, FileOverviewState> {
@@ -42,10 +41,6 @@ class FilesOverview extends Component<FilesOverviewProps, FileOverviewState> {
 
     async componentDidMount() {
         this.props.fetchFiles(this.props.depositId, "")
-    }
-
-    componentWillUnmount() {
-        this.props.cleanFiles()
     }
 
     render() {
