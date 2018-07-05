@@ -15,6 +15,7 @@
  */
 import { AnyAction, combineReducers } from "redux"
 import { depositOverviewReducer } from "./depositOverviewReducer"
+import { fileOverviewReducer } from "./fileOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
 import { foldableCardReducer } from "./foldableCardReducer"
@@ -45,6 +46,7 @@ export default combineReducers({
     }),
     router: routerReducer,
     deposits: depositOverviewReducer,
+    files: fileOverviewReducer,
     foldableCards: foldableCardReducer,
     depositForm: depositFormReducer,
     dropDowns: allDropdownReducers,
