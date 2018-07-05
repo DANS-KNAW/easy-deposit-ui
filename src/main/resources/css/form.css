@@ -164,6 +164,10 @@
     align-self: flex-end;
 }
 
+.input-element .license-field .radio-choices .external-link {
+    color: #2125299c
+}
+
 .input-element .license-field .show-more:hover {
     cursor: pointer;
 }
