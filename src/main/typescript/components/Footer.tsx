@@ -25,14 +25,15 @@ const nwo = require("../../resources/img/footer/logo_NWO.png")
 
 const ContactColumn = () => (
     <ul className="contact">
-        <li>Anna van Saksenlaan 51</li>
-        <li>2593 HW Den Haag</li>
         <li>
+            <a href="tel:+31-703494450">+31 70 349 44 50</a>
+        </li>        <li>
             <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>
         </li>
         <li>
-            <a title="View how to contact" href="http://dans.knaw.nl/en/contact" target="_blank">More ›››</a>
+            <a title="View how to contact" href="https://dans.knaw.nl/en/contact" target="_blank">More ›››</a>
         </li>
+
     </ul>
 )
 
@@ -78,19 +79,23 @@ const Link = ({ children, title, href }: React.AnchorHTMLAttributes<HTMLAnchorEl
 const LinksColumn = () => (
     <ul className="links">
         <Link title="View the disclaimer"
-              href="http://dans.knaw.nl/en/about/services/data-archiving-and-reuse/easy/disclaimer-easy">
+              href="https://dans.knaw.nl/en/about/services/data-archiving-and-reuse/easy/disclaimer-easy">
             Disclaimer
         </Link>
         <Link title="View the legal information"
-              href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/juridische-informatie">
+              href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information">
             Legal information
         </Link>
-        <Link title="View the property right statement"
-              href="http://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement">
+        <Link title="View the Privacy Statement"
+              href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/privacy-statement">
+            Privacy statement
+        </Link>
+        <Link title="View the property rights statement"
+              href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement">
             Property rights statement
         </Link>
         <Link title="How to cite data"
-              href="http://dans.knaw.nl/en/search/about-reusing-data">
+              href="https://dans.knaw.nl/en/search/about-reusing-data">
             How to cite data
         </Link>
     </ul>
@@ -98,9 +103,9 @@ const LinksColumn = () => (
 
 const CertificationColumn = () => (
     <div className="easy-Certificering-link">
-        <a href="http://www.dans.knaw.nl/nl/over/organisatie-beleid/Certificering"
+        <a href="https://dans.knaw.nl/en/about/organisation-and-policy/certification"
            target="_blank"
-           title="Certificering">
+           title="Certification">
             <img src={cts}/>
             <img src={nestor}/>
         </a>
