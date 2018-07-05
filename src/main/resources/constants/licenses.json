@@ -3,14 +3,6 @@
     "title": "CC0-1.0",
     "viewName": "CC0-1.0"
   },
-  "http://creativecommons.org/licenses/by-nc/3.0": {
-    "title": "BY-NC-3.0",
-    "viewName": "BY-NC-3.0"
-  },
-  "http://creativecommons.org/licenses/by-nc-sa/3.0": {
-    "title": "BY-NC-SA-3.0",
-    "viewName": "BY-NC-SA-3.0"
-  },
   "http://creativecommons.org/licenses/by/4.0": {
     "title": "CC-BY-4.0",
     "viewName": "CC-BY-4.0"
@@ -34,6 +26,14 @@
   "http://creativecommons.org/licenses/by-nc-sa/4.0/": {
     "title": "CC-BY-NC-SA-4.0",
     "viewName": "CC-BY-NC-SA-4.0"
+  },
+  "http://creativecommons.org/licenses/by-nc/3.0": {
+    "title": "BY-NC-3.0",
+    "viewName": "BY-NC-3.0"
+  },
+  "http://creativecommons.org/licenses/by-nc-sa/3.0": {
+    "title": "BY-NC-SA-3.0",
+    "viewName": "BY-NC-SA-3.0"
   },
   "http://opensource.org/licenses/BSD-2-Clause": {
     "title": "BSD-2-Clause",
