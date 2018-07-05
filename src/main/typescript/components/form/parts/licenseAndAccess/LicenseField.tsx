@@ -53,15 +53,12 @@ class LicenseChoices extends Component<WrappedFieldProps & LicenseChoicesProps, 
         <span><a className="external-link" href={link} target="_blank"><i className="fas fa-external-link-square-alt"/></a> {text}</span>
     )
 
-    render() {
-        if (this.state.showCount < 1)
-            this.setState(prevState => ({ ...prevState, showCount: 1 }))
-
+    choices() {
+        const value = this.props.input.value
         const actualChoices = this.props.choices.slice(0, this.state.showCount).map(entry => ({
             title: entry.key,
             value: this.radioChoice(entry.value, entry.key),
         }))
-        const value = this.props.input.value
         if (!actualChoices.find(({ title }) => title === value)) {
             const original = this.props.choices.find(({ key }) => key === value)
             if (original) {
@@ -71,17 +68,24 @@ class LicenseChoices extends Component<WrappedFieldProps & LicenseChoicesProps, 
                 })
             }
         }
-        const containsAllChoices = this.props.choices.length < this.state.showCount
 
-        const radioChoices = <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={actualChoices}/>
-        const showMore = !containsAllChoices && <a className="show-more" onClick={this.showMoreLicenses}>show more...</a>
+        return actualChoices
+    }
+
+    render() {
+        if (this.state.showCount < 1)
+            this.setState(prevState => ({ ...prevState, showCount: 1 }))
 
         return (
             <div className="license-field">
-                {radioChoices}
-                {showMore}
+                <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={this.choices()}/>
+                {this.props.choices.length >= this.state.showCount && this.renderShowMore()}
             </div>
         )
+    }
+
+    private renderShowMore() {
+        return <a className="show-more" onClick={this.showMoreLicenses}>show more...</a>
     }
 }
 
