@@ -43,7 +43,7 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
     const editable = isEditable(deposit)
 
     const title = editable
-        ? <Link className="black-link" to={depositFormRoute(depositId)}><Enterable title={deposit.title}/></Link>
+        ? <Link style={{color: "black"}} to={depositFormRoute(depositId)}><Enterable title={deposit.title}/></Link>
         : <Enterable title={deposit.title}/>
 
     const isDeleting = deleting && deleting.deleting
