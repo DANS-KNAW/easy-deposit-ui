@@ -16,6 +16,7 @@
 import { FileOverviewState, empty } from "../model/FileInfo"
 import { Reducer } from "redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
+import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
     switch (action.type) {
@@ -27,6 +28,9 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         }
         case FileOverviewConstants.FETCH_FILES_SUCCESS: {
             return { ...state, loading: { loading: false, loaded: true }, deposits: action.payload }
+        }
+        case FileOverviewConstants.CLEAN_FILES: {
+            return empty
         }
         default:
             return state

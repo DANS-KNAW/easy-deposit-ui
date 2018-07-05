@@ -24,12 +24,15 @@ import { ReduxAction } from "../../../../../lib/redux"
 import { connect } from "react-redux"
 import { fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
+import { Action } from "redux"
+import { cleanDeposits } from "../../../../../actions/depositOverviewActions"
 
 interface FilesOverviewProps {
     depositId: DepositId
     files: FileOverviewState
 
     fetchFiles: (depositId: DepositId, dirPath: string) => ReduxAction<Promise<void>>
+    cleanFiles: () => Action
 }
 
 class FilesOverview extends Component<FilesOverviewProps, FileOverviewState> {
@@ -39,6 +42,10 @@ class FilesOverview extends Component<FilesOverviewProps, FileOverviewState> {
 
     async componentDidMount() {
         this.props.fetchFiles(this.props.depositId, "")
+    }
+
+    componentWillUnmount() {
+        this.props.cleanFiles()
     }
 
     render() {
@@ -72,4 +79,4 @@ const mapStateToProps = (state: AppState) => ({
     files: state.files,
 })
 
-export default connect(mapStateToProps, { fetchFiles })(FilesOverview)
+export default connect(mapStateToProps, { fetchFiles, cleanDeposits })(FilesOverview)
