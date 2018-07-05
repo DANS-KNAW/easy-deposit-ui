@@ -60,6 +60,6 @@ main h1 {
     font-size: 25px;
 }
 
-main a {
+main a.black-link {
     color: black;
 }

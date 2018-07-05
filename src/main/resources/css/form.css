@@ -163,3 +163,7 @@
 .input-element .accessrights-field .group-field {
     align-self: flex-end;
 }
+
+.input-element .license-field .show-more:hover {
+    cursor: pointer;
+}

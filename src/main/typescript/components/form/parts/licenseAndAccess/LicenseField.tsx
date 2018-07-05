@@ -50,7 +50,12 @@ class LicenseChoices extends Component<WrappedFieldProps & LicenseChoicesProps, 
     }
 
     radioChoice = (text: string, link: string) => (
-        <span>{text} <a href={link} target="_blank"><i className="fas fa-info-circle"/></a></span>
+        <span>{text} <a //className="black-link"
+                        href={link}
+                        target="_blank">
+            <i className="fas fa-info-circle"/>
+        </a>
+        </span>
     )
 
     render() {
@@ -75,13 +80,13 @@ class LicenseChoices extends Component<WrappedFieldProps & LicenseChoicesProps, 
 
         const radioChoices = <RadioChoicesInput {...this.props} choices={actualChoices}/>
         // TODO style the <a/> properly
-        const showMore = !containsAllChoices && <a onClick={this.showMoreLicenses}>show more...</a>
+        const showMore = !containsAllChoices && <a className="show-more" onClick={this.showMoreLicenses}>show more...</a>
 
         return (
-            <>
+            <div className="license-field">
                 {radioChoices}
                 {showMore}
-            </>
+            </div>
         )
     }
 }
