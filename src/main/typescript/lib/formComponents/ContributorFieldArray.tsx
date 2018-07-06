@@ -98,9 +98,9 @@ const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProp
                    component={TextField}/>
         </div>
         <div className="col form-group col-md-3 mb-2">
-            <label>Insertions</label>
+            <label>Prefix</label>
             <Field name={insertionsName}
-                   placeholder="insertions"
+                   placeholder="prefix"
                    component={TextField}/>
         </div>
         <div className="col form-group col-md-3 mb-2">
