@@ -1,5 +1,5 @@
 import * as React from "react"
 
-const Mandatory = () => (<span style={{ color: "red" }}>  *</span>)
+const Mandatory = () => <span className="mandatory">*</span>
 
 export default Mandatory
