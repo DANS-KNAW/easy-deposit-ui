@@ -18,7 +18,7 @@ import { Component } from "react"
 import asField from "./FieldHOC"
 import LibDatePicker, { ReactDatePickerProps } from "react-datepicker"
 import * as moment from "moment"
-import { FieldProps } from "./RepeatableField"
+import { FieldProps } from "./ReduxFormUtils"
 
 interface CustomDatePickerProps {
     value?: string

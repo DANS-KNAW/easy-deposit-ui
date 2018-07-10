@@ -17,7 +17,7 @@ import * as React from "react"
 import { TextareaHTMLAttributes } from "react"
 import TextareaAutosize from "react-textarea-autosize"
 import asField from "./FieldHOC"
-import { FieldProps } from "./RepeatableField"
+import { FieldProps } from "./ReduxFormUtils"
 
 interface TextAreaInputProps {
     maxRows?: number

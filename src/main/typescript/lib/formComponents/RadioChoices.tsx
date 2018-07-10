@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import asField from "./FieldHOC"
-import { FieldProps } from "./RepeatableField"
+import { FieldProps } from "./ReduxFormUtils"
 
 interface RadioChoice {
     name?: string

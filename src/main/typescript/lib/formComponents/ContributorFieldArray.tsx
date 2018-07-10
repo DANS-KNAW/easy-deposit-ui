@@ -20,7 +20,7 @@ import TextField from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
-import { FieldArrayProps, RepeatableField } from "./RepeatableField"
+import { FieldArrayProps, RepeatableField } from "./ReduxFormUtils"
 import { emptySchemedValue } from "../metadata/Value"
 import AddButton from "./AddButton"
 

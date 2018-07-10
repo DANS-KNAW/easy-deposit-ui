@@ -23,7 +23,7 @@ import { AppState } from "../../../../model/AppState"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { DropdownFieldInput } from "../../../../lib/formComponents/DropDownField"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
-import { FieldProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface AccessRightsFieldProps {
     userGroups: DropdownListEntry[]

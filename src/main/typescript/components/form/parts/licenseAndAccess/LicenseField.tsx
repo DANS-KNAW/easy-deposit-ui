@@ -19,7 +19,7 @@ import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { Component, SelectHTMLAttributes } from "react"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
-import { FieldProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface LicenseChoicesProps {
     choices: DropdownListEntry[]

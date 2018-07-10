@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { InputHTMLAttributes } from "react"
-import { FieldProps } from "./RepeatableField"
+import { FieldProps } from "./ReduxFormUtils"
 
 export type TextFieldProps = FieldProps & InputHTMLAttributes<HTMLInputElement>
 

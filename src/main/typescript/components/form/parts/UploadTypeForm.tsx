@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"

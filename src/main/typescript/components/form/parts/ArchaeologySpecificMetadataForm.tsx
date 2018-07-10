@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptyString } from "../../../lib/metadata/misc"
 import AbrComplexSubjectFieldArray from "./archaeologySpecificMetadata/AbrComplexSubjectFieldArray"
 import { DropdownList } from "../../../model/DropdownLists"

@@ -17,7 +17,7 @@ import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import DropdownField from "../../../../lib/formComponents/DropDownField"
-import { FieldProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface LanguageFieldInputProps {
     withLabel?: boolean

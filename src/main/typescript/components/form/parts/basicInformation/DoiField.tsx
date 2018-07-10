@@ -21,7 +21,7 @@ import { DepositId } from "../../../../model/Deposits"
 import { connect } from "react-redux"
 import { AppState } from "../../../../model/AppState"
 import { fetchDoi } from "../../../../actions/depositFormActions"
-import { FieldProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface DoiFieldInputArguments {
     depositId: string

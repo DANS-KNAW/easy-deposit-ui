@@ -16,7 +16,7 @@
 import * as React from "react"
 import AddButton from "./AddButton"
 import { ComponentType } from "react"
-import { FieldArrayProps } from "./RepeatableField"
+import { FieldArrayProps } from "./ReduxFormUtils"
 
 export interface InnerComponentProps {
     names: string[]

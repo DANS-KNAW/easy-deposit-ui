@@ -22,7 +22,7 @@ import RemoveButton from "./RemoveButton"
 import { DropdownFieldInput } from "./DropDownField"
 import { Field } from "redux-form"
 import * as validUrl from "valid-url"
-import { FieldProps } from "./RepeatableField"
+import { FieldProps } from "./ReduxFormUtils"
 
 const RelationValidateButton = ({ ...props }: FieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
     props.input.value && validUrl.isUri(props.input.value)

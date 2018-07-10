@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
 import { Relation } from "../../../../lib/metadata/Relation"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"

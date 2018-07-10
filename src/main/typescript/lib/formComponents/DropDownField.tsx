@@ -17,7 +17,7 @@ import * as React from "react"
 import { SelectHTMLAttributes } from "react"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import asField from "./FieldHOC"
-import { FieldProps } from "./RepeatableField"
+import { FieldProps } from "./ReduxFormUtils"
 
 interface DropdownFieldInputProps {
     choices: DropdownListEntry[]

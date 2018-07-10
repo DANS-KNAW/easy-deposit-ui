@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field } from "redux-form"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"

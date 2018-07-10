@@ -16,7 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import DoiField from "./basicInformation/DoiField"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
