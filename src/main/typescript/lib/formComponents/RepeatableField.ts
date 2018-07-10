@@ -13,9 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FieldArray, GenericFieldArray, WrappedFieldArrayProps } from "redux-form"
+import { FieldArray, GenericFieldArray, WrappedFieldArrayProps, WrappedFieldProps } from "redux-form"
 
-export interface CustomFieldArrayProps<FieldValue> {
+export interface CustomFieldProps {
+    mandatory?: boolean
+}
+
+export type FieldProps = WrappedFieldProps & CustomFieldProps
+
+export interface CustomFieldArrayProps<FieldValue> extends CustomFieldProps {
     label?: string
     empty: FieldValue
     fieldNames: ((name: string) => string)[]

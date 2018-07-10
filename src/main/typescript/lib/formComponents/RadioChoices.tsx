@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { WrappedFieldProps } from "redux-form"
 import asField from "./FieldHOC"
-import { Component } from "react"
+import { FieldProps } from "./RepeatableField"
 
 interface RadioChoice {
     name?: string
@@ -29,7 +28,7 @@ interface RadioProps {
     divClassName?: string
 }
 
-const RadioChoices = ({ input, meta, label, choices, divClassName }: WrappedFieldProps & RadioProps) => (
+const RadioChoices = ({ input, meta, label, choices, divClassName }: FieldProps & RadioProps) => (
     <>
         {choices.map(({ name, title, value }) =>
             <div className={`form-check col-12 ${divClassName || ""}`}

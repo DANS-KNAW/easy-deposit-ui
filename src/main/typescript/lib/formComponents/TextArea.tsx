@@ -15,16 +15,16 @@
  */
 import * as React from "react"
 import { TextareaHTMLAttributes } from "react"
-import { WrappedFieldProps } from "redux-form"
 import TextareaAutosize from "react-textarea-autosize"
 import asField from "./FieldHOC"
+import { FieldProps } from "./RepeatableField"
 
 interface TextAreaInputProps {
     maxRows?: number
     maxHeight?: number
 }
 
-type TextAreaProps = WrappedFieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaInputProps
+type TextAreaProps = FieldProps & TextareaHTMLAttributes<HTMLTextAreaElement> & TextAreaInputProps
 
 const TextArea = ({ input, label, className, rows, maxRows, style, maxHeight, ...rest }: TextAreaProps) => (
     <TextareaAutosize className={`form-control ${className || ""}`.trim()}
