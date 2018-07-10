@@ -15,24 +15,24 @@
  */
 import * as React from "react"
 import { ComponentType } from "react"
-import { WrappedFieldProps } from "redux-form"
+import { FieldProps } from "./ReduxFormUtils"
+import Mandatory from "./Mandatory"
 
 interface InnerComponentProps {
     htmlFor: string
     label?: string
 }
 
-const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => (props: WrappedFieldProps & any) => {
-    const { htmlFor, label } = props
-
-    return (
-        <>
-            <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={htmlFor}>{label || ""}</label>
-            <div className="col-12 col-md-8 pl-0 pr-0">
-                <InnerComponent {...props}/>
-            </div>
-        </>
-    )
-}
+const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, ...rest }: FieldProps & any) => (
+    <>
+        <label className="col-12 col-md-3 pl-0 title-label text-array-label">
+            {rest.label || ""}
+            {mandatory && <Mandatory/>}
+        </label>
+        <div className="col-12 col-md-8 pl-0 pr-0">
+            <InnerComponent {...rest}/>
+        </div>
+    </>
+)
 
 export default asField

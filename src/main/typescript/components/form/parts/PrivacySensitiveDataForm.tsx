@@ -17,6 +17,7 @@ import * as React from "react"
 import { Field } from "redux-form"
 import {RadioChoicesInput} from "../../../lib/formComponents/RadioChoices"
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
+import Mandatory from "../../../lib/formComponents/Mandatory"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
@@ -28,6 +29,7 @@ const oneSelected = (value?: any) => value ? undefined : "you need to select one
 const PrivacySensitiveDataForm = () => (
     <div className="container pl-0 pr-0">
         <div className="row form-group input-element">
+            <Mandatory/>
             {/* TODO provide a proper text */}
             Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.
         </div>

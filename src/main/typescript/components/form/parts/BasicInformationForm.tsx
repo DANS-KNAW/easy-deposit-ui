@@ -92,6 +92,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <Field name="languageOfDescription"
                    label="Language of description"
+                   mandatory
                    withEmptyDefault
                    component={LanguageField(languages)}/>
         </div>
@@ -99,6 +100,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <RepeatableField name="titles"
                              label="Title"
+                             mandatory
                              empty={emptyString}
                              fieldNames={[(name: string) => name]}
                              component={TextFieldArray}/>
@@ -115,6 +117,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <Field name="description"
                    label="Description"
+                   mandatory
                    rows={5}
                    maxRows={15}
                    component={TextArea}/>
@@ -123,6 +126,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <RepeatableField name="creators"
                              label="Creator"
+                             mandatory
                              empty={emptyContributor}
                              fieldNames={[
                                  (name: string) => `${name}.titles`, // 0
@@ -155,6 +159,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <Field name="dateCreated"
                    label="Date created"
+                   mandatory
                    todayButton="Today"
                    showYearDropdown
                    yearDropdownItemNumber={10}
@@ -166,6 +171,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <div className="row form-group input-element">
             <RepeatableField name="audiences"
                              label="Audience"
+                             mandatory
                              empty={emptyString}
                              fieldNames={[(name: string) => name]}
                              component={AudienceFieldArray(audiences)}/>

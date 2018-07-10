@@ -17,6 +17,7 @@ import * as React from "react"
 import AddButton from "./AddButton"
 import { ComponentType } from "react"
 import { FieldArrayProps } from "./ReduxFormUtils"
+import Mandatory from "./Mandatory"
 
 export interface InnerComponentProps {
     names: string[]
@@ -27,11 +28,14 @@ export interface InnerComponentProps {
 
 const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => {
     return function <T>(props: FieldArrayProps<T> & any) {
-        const { fields, fieldNames, empty, label } = props
+        const { fields, fieldNames, empty, label, mandatory } = props
 
         return (
             <>
-                <label className={"col-12 col-md-3 pl-0 title-label multi-field-label"}>{label || ""}</label>
+                <label className={"col-12 col-md-3 pl-0 title-label multi-field-label"}>
+                    {label || ""}
+                    {mandatory && <Mandatory/>}
+                </label>
                 <div className="col-12 col-md-8 pl-0 pr-0 text-array">
                     {fields.map((name: string, index: number) => {
                         const innerProps = {

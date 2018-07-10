@@ -71,12 +71,14 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         <div className="row form-group input-element">
             <Field name="accessRights"
                    label="Access rights"
+                   mandatory
                    component={AccessRightsField}/>
         </div>
 
         <div className="row form-group input-element">
             <Field name="license"
                    label="License"
+                   mandatory
                    withEmptyDefault
                    component={LicenseField(licenses)}/>
         </div>
