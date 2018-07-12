@@ -16,7 +16,6 @@
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
-import RemoveButton from "./RemoveButton"
 import { DatePickerInput } from "./DatePickerField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import { DropdownFieldInput } from "./DropDownField"

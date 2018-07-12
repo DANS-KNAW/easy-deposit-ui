@@ -42,7 +42,6 @@
 .input-element .remove-and-add-buttons > button {
     padding-top: 8px;
     padding-bottom: 7px;
-    /*float: right;*/
     float: left;
 }
 

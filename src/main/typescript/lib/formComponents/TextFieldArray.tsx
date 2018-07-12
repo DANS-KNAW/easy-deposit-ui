@@ -16,7 +16,6 @@
 import * as React from "react"
 import InnerTextField from "./TextField"
 import { Field } from "redux-form"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface TextFieldProps extends InnerComponentProps {
