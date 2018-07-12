@@ -81,193 +81,155 @@ interface BasicInformationFormProps {
 }
 
 const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, relations, dates }: BasicInformationFormProps) => (
-    <div className="container pl-0 pr-0">
-        <div className="row form-group input-element">
-            <Field name="doi"
-                   label="Digital Object Identifier"
-                   depositId={depositId}
-                   component={DoiField}/>
-        </div>
+    <>
+        <Field name="doi"
+               label="Digital Object Identifier"
+               depositId={depositId}
+               component={DoiField}/>
 
-        <div className="row form-group input-element">
-            <Field name="languageOfDescription"
-                   label="Language of description"
-                   withEmptyDefault
-                   component={LanguageField(languages)}/>
-        </div>
+        <Field name="languageOfDescription"
+               label="Language of description"
+               withEmptyDefault
+               component={LanguageField(languages)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="titles"
-                             label="Title"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="titles"
+                         label="Title"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="alternativeTitles"
-                             label="Alternative title"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="alternativeTitles"
+                         label="Alternative title"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <Field name="description"
-                   label="Description"
-                   rows={5}
-                   maxRows={15}
-                   component={TextArea}/>
-        </div>
+        <Field name="description"
+               label="Description"
+               rows={5}
+               maxRows={15}
+               component={TextArea}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="creators"
-                             label="Creator"
-                             empty={emptyContributor}
-                             fieldNames={[
-                                 (name: string) => `${name}.titles`, // 0
-                                 (name: string) => `${name}.initials`, // 1
-                                 (name: string) => `${name}.insertions`, // 2
-                                 (name: string) => `${name}.surname`, // 3
-                                 (name: string) => `${name}.ids`, // 4
-                                 (name: string) => `${name}.role`, // 5
-                                 (name: string) => `${name}.organization`, // 6
-                             ]}
-                             component={ContributorFields(contributorIds, contributorRoles)}/>
-        </div>
+        <RepeatableField name="creators"
+                         label="Creator"
+                         empty={emptyContributor}
+                         fieldNames={[
+                             (name: string) => `${name}.titles`, // 0
+                             (name: string) => `${name}.initials`, // 1
+                             (name: string) => `${name}.insertions`, // 2
+                             (name: string) => `${name}.surname`, // 3
+                             (name: string) => `${name}.ids`, // 4
+                             (name: string) => `${name}.role`, // 5
+                             (name: string) => `${name}.organization`, // 6
+                         ]}
+                         component={ContributorFields(contributorIds, contributorRoles)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="contributors"
-                             label="Contributors"
-                             empty={emptyContributor}
-                             fieldNames={[
-                                 (name: string) => `${name}.titles`, // 0
-                                 (name: string) => `${name}.initials`, // 1
-                                 (name: string) => `${name}.insertions`, // 2
-                                 (name: string) => `${name}.surname`, // 3
-                                 (name: string) => `${name}.ids`, // 4
-                                 (name: string) => `${name}.role`, // 5
-                                 (name: string) => `${name}.organization`, // 6
-                             ]}
-                             component={ContributorFields(contributorIds, contributorRoles)}/>
-        </div>
+        <RepeatableField name="contributors"
+                         label="Contributors"
+                         empty={emptyContributor}
+                         fieldNames={[
+                             (name: string) => `${name}.titles`, // 0
+                             (name: string) => `${name}.initials`, // 1
+                             (name: string) => `${name}.insertions`, // 2
+                             (name: string) => `${name}.surname`, // 3
+                             (name: string) => `${name}.ids`, // 4
+                             (name: string) => `${name}.role`, // 5
+                             (name: string) => `${name}.organization`, // 6
+                         ]}
+                         component={ContributorFields(contributorIds, contributorRoles)}/>
 
-        <div className="row form-group input-element">
-            <Field name="dateCreated"
-                   label="Date created"
-                   todayButton="Today"
-                   showYearDropdown
-                   yearDropdownItemNumber={10}
-                   scrollableYearDropdown
-                   maxDate={moment()}
-                   component={DatePickerField}/>
-        </div>
+        <Field name="dateCreated"
+               label="Date created"
+               todayButton="Today"
+               showYearDropdown
+               yearDropdownItemNumber={10}
+               scrollableYearDropdown
+               maxDate={moment()}
+               component={DatePickerField}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="audiences"
-                             label="Audience"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={AudienceFieldArray(audiences)}/>
-        </div>
+        <RepeatableField name="audiences"
+                         label="Audience"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={AudienceFieldArray(audiences)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="subjects"
-                             label="Subject"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="subjects"
+                         label="Subject"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="alternativeIdentifiers"
-                             label="Alternative identifier"
-                             empty={emptySchemedValue}
-                             fieldNames={[
-                                 (name: string) => `${name}.scheme`,
-                                 (name: string) => `${name}.value`,
-                             ]}
-                             component={AlternativeIdentifierFieldArray(identifiers)}/>
-        </div>
+        <RepeatableField name="alternativeIdentifiers"
+                         label="Alternative identifier"
+                         empty={emptySchemedValue}
+                         fieldNames={[
+                             (name: string) => `${name}.scheme`,
+                             (name: string) => `${name}.value`,
+                         ]}
+                         component={AlternativeIdentifierFieldArray(identifiers)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="relatedIdentifiers"
-                             label="Relations"
-                             empty={emptyQualifiedSchemedValue}
-                             fieldNames={[
-                                 (name: string) => `${name}.qualifier`,
-                                 (name: string) => `${name}.scheme`,
-                                 (name: string) => `${name}.value`,
-                             ]}
-                             component={RelatedIdentifierFieldArray(relations, identifiers)}/>
-        </div>
+        <RepeatableField name="relatedIdentifiers"
+                         label="Relations"
+                         empty={emptyQualifiedSchemedValue}
+                         fieldNames={[
+                             (name: string) => `${name}.qualifier`,
+                             (name: string) => `${name}.scheme`,
+                             (name: string) => `${name}.value`,
+                         ]}
+                         component={RelatedIdentifierFieldArray(relations, identifiers)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="relations"
-                             label=""
-                             empty={emptyRelation}
-                             fieldNames={[
-                                 (name: string) => `${name}.qualifier`,
-                                 (name: string) => `${name}.title`,
-                                 (name: string) => `${name}.url`,
-                             ]}
-                             component={RelationFieldArray(relations)}/>
-        </div>
+        <RepeatableField name="relations"
+                         label=""
+                         empty={emptyRelation}
+                         fieldNames={[
+                             (name: string) => `${name}.qualifier`,
+                             (name: string) => `${name}.title`,
+                             (name: string) => `${name}.url`,
+                         ]}
+                         component={RelationFieldArray(relations)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="languagesOfFilesIso639"
-                             label="Language of files (ISO 639)"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={LanguageFieldArray(languages)}/>
-        </div>
+        <RepeatableField name="languagesOfFilesIso639"
+                         label="Language of files (ISO 639)"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={LanguageFieldArray(languages)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="languagesOfFiles"
-                             label="Language of files"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="languagesOfFiles"
+                         label="Language of files"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="datesIso8601"
-                             label="Date (ISO 8601)"
-                             empty={emptyQualifiedDate}
-                             fieldNames={[
-                                 (name: string) => `${name}.qualifier`,
-                                 (name: string) => `${name}.value`,
-                             ]}
-                             component={IsoDateFieldArray(dates)}/>
-        </div>
+        <RepeatableField name="datesIso8601"
+                         label="Date (ISO 8601)"
+                         empty={emptyQualifiedDate}
+                         fieldNames={[
+                             (name: string) => `${name}.qualifier`,
+                             (name: string) => `${name}.value`,
+                         ]}
+                         component={IsoDateFieldArray(dates)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="dates"
-                             label="Date"
-                             empty={emptyQualifiedStringDate}
-                             fieldNames={[
-                                 (name: string) => `${name}.qualifier`,
-                                 (name: string) => `${name}.value`,
-                             ]}
-                             component={DateFieldArray(dates)}/>
-        </div>
+        <RepeatableField name="dates"
+                         label="Date"
+                         empty={emptyQualifiedStringDate}
+                         fieldNames={[
+                             (name: string) => `${name}.qualifier`,
+                             (name: string) => `${name}.value`,
+                         ]}
+                         component={DateFieldArray(dates)}/>
 
-        <div className="row form-group input-element">
-            <Field name="source"
-                   label="Source"
-                   rows={5}
-                   maxRows={15}
-                   component={TextArea}/>
-        </div>
+        <Field name="source"
+               label="Source"
+               rows={5}
+               maxRows={15}
+               component={TextArea}/>
 
-        <div className="row form-group input-element">
-            <Field name="instructionsForReuse"
-                   label="Instructions for reuse"
-                   rows={5}
-                   maxRows={15}
-                   component={TextArea}/>
-        </div>
-    </div>
+        <Field name="instructionsForReuse"
+               label="Instructions for reuse"
+               rows={5}
+               maxRows={15}
+               component={TextArea}/>
+    </>
 )
 
 const mapStateToProps = (state: AppState) => ({

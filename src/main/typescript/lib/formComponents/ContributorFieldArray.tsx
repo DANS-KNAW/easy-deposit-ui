@@ -28,52 +28,32 @@ const ContributorIdArray = (idValues: DropdownListEntry[]) => (
     function <T>({ fields, fieldNames, empty }: FieldArrayProps<T>) {
         return (
             <>
-                <div className="col-12 col-md-9 pl-0 pr-0 text-array">
-                    {fields.map((name: string, index: number) => (
-                        <div className="form-row" key={`${name}.${index}`}>
-                            <div className="col col-md-3 mb-2">
-                                <Field name={fieldNames[0](name)}
-                                       choices={idValues}
-                                       withEmptyDefault
-                                       component={DropdownFieldInput}/>
-                            </div>
-
-                            <div className="col col-md-9 mb-2">
-                                <div className="input-group">
-                                    <Field name={fieldNames[1](name)}
-                                           placeholder="ID"
-                                           component={TextField}/>
-                                    <RemoveButton onClick={() => fields.remove(index)}
-                                                  disabled={fields.length <= 1}/>
-                                </div>
-                            </div>
+                {fields.map((name, index) => (
+                    <div className="form-row mb-2" key={`${name}.${index}`}>
+                        <div className="col-12 col-md-3 pl-0">
+                            <Field name={fieldNames[0](name)}
+                                   choices={idValues}
+                                   withEmptyDefault
+                                   component={DropdownFieldInput}/>
                         </div>
-                    ))}
-                </div>
-                <AddButton onClick={() => fields.push(empty)}/>
+
+                        <div className="col-12 col-md-6 pr-2">
+                            <Field name={fieldNames[1](name)}
+                                   placeholder="ID"
+                                   component={TextField}/>
+                        </div>
+
+                        <div className="col-2 pl-0 pr-0 remove-and-add-buttons">
+                            <RemoveButton onClick={() => fields.remove(index)}
+                                          className="mr-2"
+                                          disabled={fields.length <= 1}/>
+                            {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty)}/>}
+                        </div>
+                    </div>
+                ))}
             </>
         )
     }
-)
-
-interface ContributorIdRowsProps {
-    idName: string
-    idValues: DropdownListEntry[]
-}
-
-const ContributorIdRows = ({ idName, idValues }: ContributorIdRowsProps) => (
-    <div className="container pl-0 pr-0">
-        <div className="row ml-0 mr-0">
-            <RepeatableField name={idName}
-                             label="Contributor Ids"
-                             empty={emptySchemedValue}
-                             fieldNames={[
-                                 (name: string) => `${name}.scheme`,
-                                 (name: string) => `${name}.value`,
-                             ]}
-                             component={ContributorIdArray(idValues)}/>
-        </div>
-    </div>
 )
 
 interface NameProps {
@@ -112,32 +92,12 @@ const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProp
     </>
 )
 
-interface OrganizationProps {
-    organizationName: string
-    deleteDisabled: boolean
-
-    onDelete: () => void
-}
-
-const Organization = ({ organizationName, onDelete, deleteDisabled }: OrganizationProps) => (
-    <>
-        <label>Organization</label>
-        <div className="input-group">
-            <Field name={organizationName}
-                   placeholder="organization"
-                   component={TextField}/>
-            <RemoveButton onClick={onDelete}
-                          disabled={deleteDisabled}/>
-        </div>
-    </>
-)
-
 interface ContributorFieldProps extends InnerComponentProps {
     idValues: DropdownListEntry[]
     roleValues?: DropdownListEntry[]
 }
 
-const ContributorField = ({ names, onDelete, deleteDisabled, idValues, roleValues }: ContributorFieldProps) => (
+const ContributorField = ({ names, idValues, roleValues }: ContributorFieldProps) => (
     <div className="border rounded contributor p-2 mb-4">
         <div className="form-row">
             <Name titleName={names[0]}
@@ -156,14 +116,21 @@ const ContributorField = ({ names, onDelete, deleteDisabled, idValues, roleValue
             </div>
         </div>}
 
-        <ContributorIdRows idName={names[4]}
-                           idValues={idValues}/>
+        <RepeatableField name={names[4]}
+                         label="Contributor Ids"
+                         empty={emptySchemedValue}
+                         fieldNames={[
+                             (name: string) => `${name}.scheme`,
+                             (name: string) => `${name}.value`,
+                         ]}
+                         component={ContributorIdArray(idValues)}/>
 
         <div className="form-row">
             <div className="col form-group">
-                <Organization organizationName={names[6]}
-                              onDelete={onDelete}
-                              deleteDisabled={deleteDisabled}/>
+                <label>Organization</label>
+                <Field name={names[6]}
+                       placeholder="organization"
+                       component={TextField}/>
             </div>
         </div>
     </div>

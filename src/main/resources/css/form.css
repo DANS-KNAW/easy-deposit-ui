@@ -20,16 +20,9 @@
 
 .input-element .title-label {
     padding-top: 5px;
+    margin-bottom: 0;
     font-weight: bold;
     color: #444;
-}
-
-.input-element .title-label.multi-field-label {
-    padding-top: 11px;
-}
-
-.input-element .title-label.text-array-label {
-    padding-top: 6px;
 }
 
 .input-element .value-label {
@@ -42,17 +35,18 @@
     font-size: 14px;
 }
 
-.input-element .add-button {
+.input-element .remove-and-add-buttons {
     align-self: flex-end;
 }
 
-.input-element .add-button > button {
+.input-element .remove-and-add-buttons > button {
     padding-top: 8px;
     padding-bottom: 7px;
-    float: right;
+    /*float: right;*/
+    float: left;
 }
 
-.input-element .remove-button:disabled {
+.input-element .remove-and-add-buttons > button:disabled {
     opacity: 0.25;
 }
 
@@ -82,6 +76,12 @@
 .input-element > .text-array {
     padding-top: 5px;
     color: #444;
+}
+
+.input-element > .text-array > .container,
+.input-element > .text-array > .container > .row {
+    padding: 0;
+    margin: 0;
 }
 
 .input-element .form-row {

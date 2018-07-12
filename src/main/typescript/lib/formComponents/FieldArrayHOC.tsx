@@ -17,36 +17,44 @@ import * as React from "react"
 import AddButton from "./AddButton"
 import { ComponentType } from "react"
 import { FieldArrayProps } from "./RepeatableField"
+import RemoveButton from "./RemoveButton"
 
 export interface InnerComponentProps {
     names: string[]
-    deleteDisabled: boolean
-
-    onDelete: () => void
 }
 
-const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => {
-    return function <T>(props: FieldArrayProps<T> & any) {
+const isFirstIndex: (index: number) => boolean = index => index === 0
+
+const isLastIndex: <T>(arr: T[], index: number) => boolean = (arr, index) => index === arr.length - 1
+
+const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
+    function <T>(props: FieldArrayProps<T> & any) {
         const { fields, fieldNames, empty, label } = props
 
-        return (
-            <>
-                <label className={"col-12 col-md-3 pl-0 title-label multi-field-label"}>{label || ""}</label>
-                <div className="col-12 col-md-8 pl-0 pr-0 text-array">
-                    {fields.map((name: string, index: number) => {
-                        const innerProps = {
-                            ...(props),
-                            names: fieldNames.map((f: (name: string) => string) => f(name)),
-                            onDelete: () => fields.remove(index),
-                            deleteDisabled: fields.length <= 1,
-                        }
-                        return <InnerComponent {...innerProps} key={`${name}.${index}`}/>
-                    })}
+        return fields.map((name: string, index: number) => {
+            const lastIndex = isLastIndex(fields, index)
+
+            return (
+                <div className={`row form-group input-element ${lastIndex ? "mb-4" : "mb-2"}`} key={`${name}.${index}`}>
+                    <label className="col-12 col-md-3 pl-0 pr-0 title-label">
+                        {isFirstIndex(index) && label ? label : ""}
+                    </label>
+
+                    <div className="col-12 col-md-8 pl-0 pr-2">
+                        <InnerComponent {...props}
+                                        names={fieldNames.map((f: (name: string) => string) => f(name))}/>
+                    </div>
+
+                    <div className="col-1 pl-0 pr-0 remove-and-add-buttons">
+                        <RemoveButton disabled={fields.length <= 1}
+                                      className="mr-2"
+                                      onClick={() => fields.remove(index)}/>
+                        {lastIndex && <AddButton onClick={() => fields.push(empty)}/>}
+                    </div>
                 </div>
-                <AddButton onClick={() => fields.push(empty)}/>
-            </>
-        )
+            )
+        })
     }
-}
+)
 
 export default asFieldArray
