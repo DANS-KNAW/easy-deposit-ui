@@ -34,9 +34,16 @@ const userFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dis
             dispatch(fetchUserFailed(errorMessage))
         }
     }
-    else if (action.type === UserConstants.USER_REJECTED) {
-        dispatch(fetchUserFailed(action.payload.message))
-    }
 }
 
-export const userDetailsMiddleware = [userFetchConverter]
+const userRejectedConverter: Middleware = ({dispatch}) => next => action => {
+    next(action)
+
+    if (action.type === UserConstants.USER_REJECTED)
+        dispatch(fetchUserFailed(action.payload.message))
+}
+
+export const userDetailsMiddleware: Middleware[] = [
+    userFetchConverter,
+    userRejectedConverter,
+]
