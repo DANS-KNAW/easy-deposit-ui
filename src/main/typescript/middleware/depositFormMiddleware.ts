@@ -28,7 +28,7 @@ import { actionTypes, change } from "redux-form"
 import { metadataDeconverter } from "../lib/metadata/Metadata"
 import { AccessRightValue } from "../lib/metadata/AccessRight"
 
-const metadataSendConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+const metadataSaveDraftConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.SAVE_DRAFT) {
@@ -46,7 +46,12 @@ const metadataSendConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI
             dispatch(sendSaveDraftFailed(errorMessage))
         }
     }
-    else if (action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
+}
+
+const metadataSubmitDepositConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+    next(action)
+
+    if (action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
         try {
             const output = metadataDeconverter(action.payload.data, getState().dropDowns, true)
 
@@ -99,7 +104,8 @@ const submitReroute: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
 }
 
 export const depositFormMiddleware: Middleware[] = [
-    metadataSendConverter,
+    metadataSaveDraftConverter,
+    metadataSubmitDepositConverter,
     fetchDoiProcessor,
     resetAccessrightGroupOnCategoryChange,
     saveTimer,
