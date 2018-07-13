@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 import { DepositFormMetadata } from "../components/form/parts"
-import { ReduxAction } from "../lib/redux"
+import { FetchAction, ReduxAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import axios from "axios"
 import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/serverRoutes"
 import { Action } from "redux"
+import { AppState } from "../model/AppState"
+import { metadataConverter } from "../lib/metadata/Metadata"
 
 export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
     type: DepositFormConstants.REGISTER_FORM,
@@ -30,18 +32,23 @@ export const unregisterForm: () => Action = () => ({
     type: DepositFormConstants.UNREGISTER_FORM,
 })
 
-export const fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
+export const fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMetadata, AppState> = depositId => ({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
         const url = await fetchMetadataURL(depositId)
         const response = await axios.get(url)
         return response.data
     },
-})
+    meta: {
+        transform: (input: any, getState: () => AppState) => {
+            const data = metadataConverter(input, getState().dropDowns)
 
-export const fetchMetadataSucceeded: (data: DepositFormMetadata) => ReduxAction<DepositFormMetadata> = data => ({
-    type: DepositFormConstants.FETCH_METADATA_SUCCESS,
-    payload: data,
+            // TODO remove this log once the form is fully implemented.
+            console.log(data)
+
+            return data
+        }
+    }
 })
 
 export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({

@@ -19,37 +19,15 @@ import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import {
     fetchDoiSucceeded,
-    fetchMetadataFailed,
-    fetchMetadataSucceeded,
     sendSaveDraft,
     sendSaveDraftFailed,
     sendSaveDraftReset,
     sendSubmitDeposit,
     sendSubmitDepositFailed,
 } from "../actions/depositFormActions"
-import { change, actionTypes } from "redux-form"
-import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
+import { actionTypes, change } from "redux-form"
+import { metadataDeconverter } from "../lib/metadata/Metadata"
 import { AccessRightValue } from "../lib/metadata/AccessRight"
-
-const metadataFetchConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
-    next(action)
-
-    if (action.type === DepositFormConstants.FETCH_METADATA_FULFILLED) {
-        try {
-            const data = metadataConverter(action.payload, getState().dropDowns)
-
-            // TODO remove this log once the form is fully implemented.
-            console.log(data)
-
-            dispatch(fetchMetadataSucceeded(data))
-        }
-        catch (errorMessage) {
-            // TODO remove this log once the form is fully implemented.
-            console.log(action.payload)
-            dispatch(fetchMetadataFailed(errorMessage))
-        }
-    }
-}
 
 const metadataSendConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
@@ -123,8 +101,7 @@ const submitReroute: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
     next(action)
 }
 
-export const depositFormMiddleware = [
-    metadataFetchConverter,
+export const depositFormMiddleware: Middleware[] = [
     metadataSendConverter,
     fetchDoiProcessor,
     resetAccessrightGroupOnCategoryChange,
