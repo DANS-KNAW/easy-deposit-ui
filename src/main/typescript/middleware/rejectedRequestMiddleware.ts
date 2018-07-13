@@ -39,6 +39,8 @@ import {
     fetchSpatialCoordinatesDataFailed,
     fetchSpatialCoveragesIsoDataFailed,
 } from "../actions/dropdownActions"
+import { UserConstants } from "../constants/userConstants"
+import { fetchUserFailed } from "../actions/userActions"
 
 type NewActionGenerator = (action: AnyAction) => (errorMessage: string) => Action
 
@@ -58,6 +60,8 @@ function rejectedMiddleware(type: string) {
         }
     }
 }
+
+const userDetailsFetchRejected = rejectedMiddleware(UserConstants.FETCH_USER_REJECTED)(() => fetchUserFailed)
 
 const depositFetchRejected = rejectedMiddleware(DepositOverviewConstants.FETCH_DEPOSITS_REJECTED)(() => fetchDepositsFailed)
 
@@ -88,7 +92,8 @@ const fetchAbrPeriodeTemporalsDataRejected = rejectedMiddleware(DropdownConstant
 const fetchSpatialCoordinatesDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED)(() => fetchSpatialCoordinatesDataFailed)
 const fetchSpatialCoveragesIsoDataRejected = rejectedMiddleware(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED)(() => fetchSpatialCoveragesIsoDataFailed)
 
-export const rejectedRequestMiddleware = [
+export const rejectedRequestMiddleware: Middleware[] = [
+    userDetailsFetchRejected,
     depositFetchRejected,
     depositDeleteRejected,
     newDepositRejected,
