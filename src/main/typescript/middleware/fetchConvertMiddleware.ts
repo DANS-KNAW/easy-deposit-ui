@@ -8,7 +8,9 @@ const failedPostfix = "_FAILED"
 const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
     next(action)
 
-    if (action.type.endsWith(triggerPostfix) &&
+    if (typeof action === "object" &&
+        action.type &&
+        action.type.endsWith(triggerPostfix) &&
         action.meta &&
         action.meta.transform &&
         typeof action.meta.transform === "function") {
