@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { DepositFormMetadata } from "../components/form/parts"
-import { FetchAction, ReduxAction, ReduxThunkAction } from "../lib/redux"
+import { FetchAction, ReduxAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import axios from "axios"
@@ -69,7 +69,7 @@ const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
     return await axios.put(url, dataToSend)
 }
 
-export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ReduxThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
+export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, false)
 
@@ -86,7 +86,7 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => Red
     }
 }
 
-const saveDraftAction: (depositId: DepositId, dataToSend: any) => ReduxAction<Promise<void>> = (depositId, dataToSend) => ({
+const saveDraftAction: (depositId: DepositId, dataToSend: any) => PromiseAction<void> = (depositId, dataToSend) => ({
     type: DepositFormConstants.SAVE_DRAFT,
     async payload() {
         const response = await callSaveDraft(depositId, dataToSend)
@@ -103,7 +103,7 @@ export const saveDraftResetAction: () => Action = () => ({
     type: DepositFormConstants.SAVE_DRAFT_RESET,
 })
 
-export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ReduxThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
+export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, true)
 
@@ -120,7 +120,7 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) =>
     }
 }
 
-const submitDepositAction: (depositId: DepositId, dataToSend: any) => ReduxAction<Promise<void>> = (depositId, dataToSend) => ({
+const submitDepositAction: (depositId: DepositId, dataToSend: any) => PromiseAction<void> = (depositId, dataToSend) => ({
     type: DepositFormConstants.SUBMIT_DEPOSIT,
     async payload() {
         await callSaveDraft(depositId, dataToSend)

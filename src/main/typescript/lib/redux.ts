@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 import { Action, AnyAction } from "redux"
-import { ThunkAction } from "redux-thunk"
+import { ThunkAction as LibThunkAction } from "redux-thunk"
 
 export interface ReduxAction<T> extends Action {
-    payload: T | (() => T)
+    payload: T
 }
 
-export type ReduxThunkAction<S> = ThunkAction<Action, S, {}, AnyAction>
-
-export interface FetchAction<S, State = any, T = any> extends Action {
+export interface PromiseAction<T> extends Action {
     payload: () => Promise<T>
+}
+
+export interface FetchAction<S, State = any, T = any> extends PromiseAction<T> {
     meta: {
         transform: (t: T, state: () => State) => S
     }
 }
+
+export type ThunkAction<S> = LibThunkAction<Action, S, {}, AnyAction>

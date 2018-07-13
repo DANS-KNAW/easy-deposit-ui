@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FetchAction, ReduxAction } from "../lib/redux"
+import { FetchAction, ReduxAction, PromiseAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
@@ -37,7 +37,7 @@ export const cleanDeposits: () => Action = () => ({
     type: DepositOverviewConstants.CLEAN_DEPOSITS,
 })
 
-export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>> = depositId => ({
+export const deleteDeposit: (depositId: DepositId) => PromiseAction<void> = depositId => ({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
         const url = await deleteDepositURL(depositId)

@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { ReduxAction } from "../../lib/redux"
+import { ReduxAction, PromiseAction } from "../../lib/redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Field, InjectedFormProps, reduxForm } from "redux-form"
 import { AppState } from "../../model/AppState"
@@ -33,7 +33,7 @@ interface EasyLoginProps {
     authenticating: boolean
     errorMessage?: string
 
-    authenticate: (username: string, password: string) => ReduxAction<Promise<any>>
+    authenticate: (username: string, password: string) => PromiseAction<void>
 }
 
 type AllEasyLoginProps = EasyLoginProps & InjectedFormProps<EasyLoginData>

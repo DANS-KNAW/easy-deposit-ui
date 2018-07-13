@@ -19,7 +19,7 @@ import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
 import { DepositId, DepositOverviewState, Deposits } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
-import { FetchAction, ReduxAction } from "../../lib/redux"
+import { FetchAction, PromiseAction } from "../../lib/redux"
 import { Action } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
@@ -30,7 +30,7 @@ interface DepositOverviewProps {
 
     fetchDeposits: () => FetchAction<Deposits>
     cleanDeposits: () => Action
-    deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
+    deleteDeposit: (depositId: DepositId) => PromiseAction<void>
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {

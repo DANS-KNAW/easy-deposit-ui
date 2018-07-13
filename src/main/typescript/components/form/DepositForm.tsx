@@ -24,7 +24,7 @@ import "../../../resources/css/form.css"
 import "react-datepicker/dist/react-datepicker-cssmodules.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { FetchAction, ReduxThunkAction } from "../../lib/redux"
+import { FetchAction, ThunkAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
@@ -116,8 +116,8 @@ interface DepositFormStoreArguments {
     formState: DepositFormState
     formValues?: DepositFormMetadata,
     fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMetadata, AppState>
-    saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ReduxThunkAction<AppState>
-    submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ReduxThunkAction<AppState>
+    saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState>
+    submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState>
 
     fetchLanguagesData: () => FetchAction<DropdownListEntry[]>
     fetchContributorIdsData: () => FetchAction<DropdownListEntry[]>
