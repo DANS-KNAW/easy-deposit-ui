@@ -17,36 +17,9 @@ import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
-import {
-    saveDraftAction,
-    saveDraftFailedAction,
-    saveDraftResetAction,
-    sendSubmitDeposit,
-    sendSubmitDepositFailed,
-} from "../actions/depositFormActions"
+import { saveDraftResetAction } from "../actions/depositFormActions"
 import { actionTypes, change } from "redux-form"
-import { metadataDeconverter } from "../lib/metadata/Metadata"
 import { AccessRightValue } from "../lib/metadata/AccessRight"
-
-const metadataSubmitDepositConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
-    next(action)
-
-    if (action.type === DepositFormConstants.SUBMIT_DEPOSIT) {
-        try {
-            const output = metadataDeconverter(action.payload.data, getState().dropDowns, true)
-
-            // TODO remove this log once the form is fully implemented.
-            console.log(`saving draft for ${action.payload.depositId}`, output)
-
-            dispatch(sendSubmitDeposit(action.payload.depositId, output))
-        }
-        catch (errorMessage) {
-            // TODO remove this log once the form is fully implemented.
-            console.log(action.payload)
-            dispatch(sendSubmitDepositFailed(errorMessage))
-        }
-    }
-}
 
 const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
@@ -76,15 +49,14 @@ const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) 
 }
 
 const submitReroute: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
-    if (action.type === DepositFormConstants.SEND_SUBMIT_DEPOSIT_FULFILLED) {
+    next(action)
+
+    if (action.type === DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED) {
         dispatch(push(depositOverviewRoute))
     }
-
-    next(action)
 }
 
 export const depositFormMiddleware: Middleware[] = [
-    metadataSubmitDepositConverter,
     fetchDoiProcessor,
     resetAccessrightGroupOnCategoryChange,
     saveTimer,

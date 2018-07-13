@@ -72,17 +72,17 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.SAVE_DRAFT_RESET: {
             return { ...state, saveDraft: { ...state.saveDraft, saved: false } }
         }
-        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_PENDING: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: true, submitError: undefined },
                 saveDraft: { ...state.saveDraft, saveError: undefined },
             }
         }
-        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_FULFILLED: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
             return { ...state, submit: { ...state.submit, submitting: false, submitted: true } }
         }
-        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_FAILED: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_FAILED: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },

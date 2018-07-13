@@ -21,7 +21,7 @@ import {
     fetchDoiFailed,
     fetchMetadataFailed,
     saveDraftFailedAction,
-    sendSubmitDepositFailed,
+    submitDepositFailedAction,
 } from "../actions/depositFormActions"
 import { DropdownConstants } from "../constants/dropdownConstants"
 import {
@@ -71,7 +71,7 @@ const fetchDoiRejected = rejectedMiddleware(DepositFormConstants.FETCH_DOI_REJEC
 
 const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SAVE_DRAFT_REJECTED)(() => saveDraftFailedAction)
 
-const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_SUBMIT_DEPOSIT_REJECTED)(() => sendSubmitDepositFailed)
+const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SUBMIT_DEPOSIT_REJECTED)(() => submitDepositFailedAction)
 
 const fetchLanguageDataRejected = rejectedMiddleware(DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED)(() => fetchLanguagesDataFailed)
 const fetchContributorIdDataRejected = rejectedMiddleware(DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED)(() => fetchContributorIdsDataFailed)
