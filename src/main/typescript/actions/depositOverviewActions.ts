@@ -69,10 +69,6 @@ export const createNewDeposit: () => FetchAction<DepositId> = () => ({
     },
 })
 
-export const createNewDepositSuccess: () => Action = () => ({
-    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS,
-})
-
 export const createNewDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED,
     payload: errorMessage,
