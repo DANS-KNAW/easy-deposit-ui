@@ -40,7 +40,7 @@ export const fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>> 
 })
 
 export const fetchMetadataSucceeded: (data: DepositFormMetadata) => ReduxAction<DepositFormMetadata> = data => ({
-    type: DepositFormConstants.FETCH_METADATA_SUCCEEDED,
+    type: DepositFormConstants.FETCH_METADATA_SUCCESS,
     payload: data,
 })
 
@@ -59,7 +59,7 @@ export const fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>> = dep
 })
 
 export const fetchDoiSucceeded: () => Action = () => ({
-    type: DepositFormConstants.FETCH_DOI_SUCCEEDED,
+    type: DepositFormConstants.FETCH_DOI_SUCCESS,
 })
 
 export const fetchDoiFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({

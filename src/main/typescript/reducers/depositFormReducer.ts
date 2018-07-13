@@ -34,7 +34,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                 fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: false, fetchError: action.payload },
             }
         }
-        case DepositFormConstants.FETCH_METADATA_SUCCEEDED: {
+        case DepositFormConstants.FETCH_METADATA_SUCCESS: {
             return {
                 ...state,
                 initialState: { ...state.initialState, metadata: action.payload },
@@ -44,7 +44,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.FETCH_DOI_PENDING: {
             return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: true, fetchDoiError: undefined } }
         }
-        case DepositFormConstants.FETCH_DOI_SUCCEEDED: {
+        case DepositFormConstants.FETCH_DOI_SUCCESS: {
             return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: true } }
         }
         case DepositFormConstants.FETCH_DOI_FAILED: {
