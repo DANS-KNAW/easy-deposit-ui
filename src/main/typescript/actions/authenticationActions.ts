@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReduxAction, PromiseAction } from "../lib/redux"
+import { PromiseAction } from "../lib/redux"
 import { loginURL, logoutURL } from "../constants/serverRoutes"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import axios from "axios"

@@ -21,9 +21,8 @@ import { depositFormRoute } from "../constants/clientRoutes"
 const newDepositRouteToForm: Middleware = ({ dispatch }) => next => action => {
     next(action)
 
-    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS) {
+    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS)
         dispatch(push(depositFormRoute(action.payload)))
-    }
 }
 
 export const depositOverviewMiddleware: Middleware[] = [

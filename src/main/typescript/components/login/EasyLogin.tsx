@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { ReduxAction, PromiseAction } from "../../lib/redux"
+import { PromiseAction } from "../../lib/redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Field, InjectedFormProps, reduxForm } from "redux-form"
 import { AppState } from "../../model/AppState"

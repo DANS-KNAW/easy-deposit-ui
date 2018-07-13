@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FetchAction, ReduxAction, PromiseAction } from "../lib/redux"
+import { FetchAction, PromiseAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"

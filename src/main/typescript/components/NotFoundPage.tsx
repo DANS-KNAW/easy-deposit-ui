@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 
 const NotFoundPage = () => (
     <h1>Page not found</h1>

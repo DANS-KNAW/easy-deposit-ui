@@ -43,7 +43,7 @@ const depositConverter: (input: any) => DepositWithId = input => {
         }
     else {
         // fail fast when an illegal deposit state is detected
-        // error message is caught in depositOverviewMiddleware
+        // error message is caught in fetchConvertMiddleware
         throw `Error in deposit ${input.id}: no such deposit state: '${input.state}'`
     }
 }
