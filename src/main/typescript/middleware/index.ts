@@ -17,8 +17,10 @@ import { depositMiddleware } from "./depositMiddleware"
 import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
 import { userDetailsMiddleware } from "./userDetailsMiddleware"
 import { depositFormMiddleware } from "./depositFormMiddleware"
+import fetchConvertMiddleware from "./fetchConvertMiddleware"
 
 export default [
+    ...fetchConvertMiddleware,
     ...depositMiddleware,
     ...depositFormMiddleware,
     ...rejectedRequestMiddleware,
