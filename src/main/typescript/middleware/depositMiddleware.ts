@@ -15,30 +15,13 @@
  */
 import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import { Deposits, toDepositState } from "../model/Deposits"
+import { toDepositState } from "../model/Deposits"
 import {
     createNewDepositFailed,
     createNewDepositSuccess,
-    fetchDepositsFailed,
-    fetchDepositsSucceeded,
 } from "../actions/depositOverviewActions"
 import { push } from "react-router-redux"
 import { depositFormRoute } from "../constants/clientRoutes"
-import { depositsConverter } from "../lib/deposits/deposits"
-
-const depositFetchConverter: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
-    next(action)
-
-    if (action.type === DepositOverviewConstants.FETCH_DEPOSITS_FULFILLED) {
-        try {
-            const deposits: Deposits = depositsConverter(action.payload)
-            dispatch(fetchDepositsSucceeded(deposits))
-        }
-        catch (errorMessage) {
-            dispatch(fetchDepositsFailed(errorMessage))
-        }
-    }
-}
 
 const newDepositResponseConverter: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
@@ -56,4 +39,6 @@ const newDepositResponseConverter: Middleware = ({ dispatch }: MiddlewareAPI) =>
     }
 }
 
-export const depositMiddleware = [depositFetchConverter, newDepositResponseConverter]
+export const depositMiddleware: Middleware[] = [
+    newDepositResponseConverter
+]

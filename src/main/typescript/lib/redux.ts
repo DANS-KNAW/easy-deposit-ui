@@ -18,3 +18,10 @@ import { Action } from "redux"
 export interface ReduxAction<T> extends Action {
     payload: T | (() => T)
 }
+
+export interface FetchAction<S, T = any> extends Action {
+    payload: () => Promise<T>
+    meta: {
+        transform: (t: T) => S
+    }
+}

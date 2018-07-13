@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReduxAction } from "../lib/redux"
+import { FetchAction, ReduxAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
+import { depositsConverter } from "../lib/deposits/deposits"
 
-export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
+export const fetchDeposits: () => FetchAction<Deposits> = () => ({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
         const url = await listDepositsURL
         const response = await axios.get(url)
         return response.data
     },
-})
-
-export const fetchDepositsSucceeded: (deposits: Deposits) => ReduxAction<Deposits> = deposits => ({
-    type: DepositOverviewConstants.FETCH_DEPOSITS_SUCCESS,
-    payload: deposits,
+    meta: {
+        transform: depositsConverter,
+    },
 })
 
 export const fetchDepositsFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
