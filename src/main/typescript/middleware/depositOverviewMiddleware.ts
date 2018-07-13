@@ -18,7 +18,7 @@ import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import { push } from "react-router-redux"
 import { depositFormRoute } from "../constants/clientRoutes"
 
-const newDepositGotoForm: Middleware = ({ dispatch }) => next => action => {
+const newDepositRouteToForm: Middleware = ({ dispatch }) => next => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS) {
@@ -26,6 +26,6 @@ const newDepositGotoForm: Middleware = ({ dispatch }) => next => action => {
     }
 }
 
-export const depositMiddleware: Middleware[] = [
-    newDepositGotoForm,
+export const depositOverviewMiddleware: Middleware[] = [
+    newDepositRouteToForm,
 ]
