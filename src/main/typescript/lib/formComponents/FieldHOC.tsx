@@ -23,16 +23,20 @@ interface InnerComponentProps {
     label?: string
 }
 
-const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, ...rest }: FieldProps & any) => (
-    <>
-        <label className="col-12 col-md-3 pl-0 title-label text-array-label">
-            {rest.label || ""}
-            {mandatory && <Mandatory/>}
-        </label>
-        <div className="col-12 col-md-8 pl-0 pr-0">
-            <InnerComponent {...rest}/>
+const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, ...rest }: FieldProps & any) => {
+    const { label } = rest
+
+    return (
+        <div className="row form-group input-element mb-4">
+            <label className="col-12 col-md-3 pl-0 title-label">
+                {label || ""}
+                {mandatory && <Mandatory/>}
+            </label>
+            <div className="col-12 col-md-8 pl-0 pr-2">
+                <InnerComponent {...rest}/>
+            </div>
         </div>
-    </>
-)
+    )
+}
 
 export default asField

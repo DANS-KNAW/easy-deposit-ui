@@ -18,14 +18,13 @@ import { Field } from "redux-form"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface SchemedPointProps extends InnerComponentProps {
     schemeValues: DropdownListEntry[]
 }
 
-const SchemedPoint = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedPointProps) => (
+const SchemedPoint = ({ names, schemeValues }: SchemedPointProps) => (
     <div className="form-row">
         <div className="col">
             <Field name={names[0]}
@@ -34,23 +33,19 @@ const SchemedPoint = ({ names, onDelete, deleteDisabled, schemeValues }: Schemed
                    withEmptyDefault
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col input-group mb-2">
+        <div className="col input-group">
             <Field name={names[1]}
                    label="X"
                    placeholder="coordinate"
                    type="number"
                    component={LabeledTextField}/>
         </div>
-        <div className="col">
-            <div className="input-group mb-2 mr-2">
-                <Field name={names[2]}
-                       label="Y"
-                       placeholder="coordinate"
-                       type="number"
-                       component={LabeledTextField}/>
-                <RemoveButton onClick={onDelete}
-                              disabled={deleteDisabled}/>
-            </div>
+        <div className="col input-group">
+            <Field name={names[2]}
+                   label="Y"
+                   placeholder="coordinate"
+                   type="number"
+                   component={LabeledTextField}/>
         </div>
     </div>
 )

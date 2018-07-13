@@ -34,32 +34,26 @@ interface ArchaeologySpecificMetadataFormProps {
     abrPeriodeTemporals: DropdownList
 }
 
-const ArchaeologySpecificMetadataForm = ({abrComplexSubjects, abrPeriodeTemporals} : ArchaeologySpecificMetadataFormProps) => (
-    <div className="container pl-0 pr-0">
-        <div className="row form-group input-element">
-            <RepeatableField name="archisNrs"
-                             label="Archis zaakidentificatie"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTemporals }: ArchaeologySpecificMetadataFormProps) => (
+    <>
+        <RepeatableField name="archisNrs"
+                         label="Archis zaakidentificatie"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="subjectsAbrComplex"
-                             label="Subject (ABR complex)"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={AbrComplexSubjectFieldArray(abrComplexSubjects)}/>
-        </div>
+        <RepeatableField name="subjectsAbrComplex"
+                         label="Subject (ABR complex)"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={AbrComplexSubjectFieldArray(abrComplexSubjects)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="temporalCoveragesAbr"
-                             label="Temporal (ABR period)"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={AbrPeriodeTemporalsFieldArray(abrPeriodeTemporals)}/>
-        </div>
-    </div>
+        <RepeatableField name="temporalCoveragesAbr"
+                         label="Temporal (ABR period)"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={AbrPeriodeTemporalsFieldArray(abrPeriodeTemporals)}/>
+    </>
 )
 
 const mapStateToProps = (state: AppState) => ({

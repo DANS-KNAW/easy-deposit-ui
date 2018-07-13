@@ -16,22 +16,17 @@
 import * as React from "react"
 import InnerTextField from "./TextField"
 import { Field } from "redux-form"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface TextFieldProps extends InnerComponentProps {
     label: string
 }
 
-const TextField = ({ names, label, onDelete, deleteDisabled }: TextFieldProps) => (
-    <div className="input-group mb-2 mr-2">
-        <Field name={names[0]}
-               label={label}
-               placeholder={label}
-               component={InnerTextField }/>
-        <RemoveButton onClick={onDelete}
-                      disabled={deleteDisabled}/>
-    </div>
+const TextField = ({ names, label }: TextFieldProps) => (
+    <Field name={names[0]}
+           label={label}
+           placeholder={label}
+           component={InnerTextField}/>
 )
 
 export default asFieldArray(TextField)
