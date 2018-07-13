@@ -16,7 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import DoiField from "./basicInformation/DoiField"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
@@ -89,11 +89,13 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <Field name="languageOfDescription"
                label="Language of description"
+               mandatory
                withEmptyDefault
                component={LanguageField(languages)}/>
 
         <RepeatableField name="titles"
                          label="Title"
+                         mandatory
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
@@ -106,12 +108,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <Field name="description"
                label="Description"
+               mandatory
                rows={5}
                maxRows={15}
                component={TextArea}/>
 
         <RepeatableField name="creators"
                          label="Creator"
+                         mandatory
                          empty={emptyContributor}
                          fieldNames={[
                              (name: string) => `${name}.titles`, // 0
@@ -140,6 +144,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <Field name="dateCreated"
                label="Date created"
+               mandatory
                todayButton="Today"
                showYearDropdown
                yearDropdownItemNumber={10}
@@ -149,6 +154,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableField name="audiences"
                          label="Audience"
+                         mandatory
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={AudienceFieldArray(audiences)}/>

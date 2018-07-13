@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field } from "redux-form"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
@@ -66,10 +66,12 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
 
         <Field name="accessRights"
                label="Access rights"
+               mandatory
                component={AccessRightsField}/>
 
         <Field name="license"
                label="License"
+               mandatory
                withEmptyDefault
                component={LicenseField(licenses)}/>
 

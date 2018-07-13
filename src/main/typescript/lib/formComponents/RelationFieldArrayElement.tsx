@@ -19,10 +19,11 @@ import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import { DropdownFieldInput } from "./DropDownField"
-import { Field, WrappedFieldProps } from "redux-form"
+import { Field } from "redux-form"
 import * as validUrl from "valid-url"
+import { FieldProps } from "./ReduxFormUtils"
 
-const RelationValidateButton = ({ ...props }: WrappedFieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
+const RelationValidateButton = ({ ...props }: FieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
     props.input.value && validUrl.isUri(props.input.value)
         ? <a className="btn btn-primary value-button relation-validate-button"
              href={props.input.value}

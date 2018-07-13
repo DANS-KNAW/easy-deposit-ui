@@ -20,9 +20,10 @@ import TextField from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
-import { FieldArrayProps, RepeatableField } from "./RepeatableField"
+import { FieldArrayProps, RepeatableField } from "./ReduxFormUtils"
 import { emptySchemedValue } from "../metadata/Value"
 import AddButton from "./AddButton"
+import Mandatory from "./Mandatory"
 
 const ContributorIdArray = (idValues: DropdownListEntry[]) => (
     function <T>({ fields, fieldNames, empty }: FieldArrayProps<T>) {
@@ -78,13 +79,13 @@ const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProp
                    component={TextField}/>
         </div>
         <div className="col form-group col-md-3 mb-2">
-            <label>Prefix</label>
+            <label>Prefix<Mandatory/></label>
             <Field name={insertionsName}
                    placeholder="prefix"
                    component={TextField}/>
         </div>
         <div className="col form-group col-md-3 mb-2">
-            <label>Surname</label>
+            <label>Surname<Mandatory/></label>
             <Field name={surnameName}
                    placeholder="surname"
                    component={TextField}/>

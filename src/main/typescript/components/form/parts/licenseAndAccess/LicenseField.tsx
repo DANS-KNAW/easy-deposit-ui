@@ -16,10 +16,10 @@
 import * as React from "react"
 import { DropdownList, DropdownListEntry } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { WrappedFieldProps } from "redux-form"
 import { Component, SelectHTMLAttributes } from "react"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface LicenseChoicesProps {
     choices: DropdownListEntry[]
@@ -29,8 +29,8 @@ interface LicenseChoicesState {
     showCount: number
 }
 
-class LicenseChoices extends Component<WrappedFieldProps & LicenseChoicesProps, LicenseChoicesState> {
-    constructor(props: WrappedFieldProps & LicenseChoicesProps) {
+class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, LicenseChoicesState> {
+    constructor(props: FieldProps & LicenseChoicesProps) {
         super(props)
         this.state = {
             showCount: 1,
@@ -96,7 +96,7 @@ interface LicenseFieldInputProps {
     withEmptyDefault?: boolean
 }
 
-type LicenseFieldProps = WrappedFieldProps & SelectHTMLAttributes<HTMLSelectElement> & LicenseFieldInputProps
+type LicenseFieldProps = FieldProps & SelectHTMLAttributes<HTMLSelectElement> & LicenseFieldInputProps
 
 const LicenseField = ({ state, list }: DropdownList) => (props: LicenseFieldProps) => (
     <LoadDropdownData state={state}>

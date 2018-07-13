@@ -15,21 +15,25 @@
  */
 import * as React from "react"
 import { ComponentType } from "react"
-import { WrappedFieldProps } from "redux-form"
+import { FieldProps } from "./ReduxFormUtils"
+import Mandatory from "./Mandatory"
 
 interface InnerComponentProps {
     htmlFor: string
     label?: string
 }
 
-const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => (props: WrappedFieldProps & any) => {
-    const { label } = props
+const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, ...rest }: FieldProps & any) => {
+    const { label } = rest
 
     return (
         <div className="row form-group input-element mb-4">
-            <label className="col-12 col-md-3 pl-0 title-label">{label || ""}</label>
+            <label className="col-12 col-md-3 pl-0 title-label">
+                {label || ""}
+                {mandatory && <Mandatory/>}
+            </label>
             <div className="col-12 col-md-8 pl-0 pr-2">
-                <InnerComponent {...props}/>
+                <InnerComponent {...rest}/>
             </div>
         </div>
     )

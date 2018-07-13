@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { WrappedFieldProps } from "redux-form"
 import { FetchDoiState } from "../../../../model/DepositForm"
 import { ReloadAlert } from "../../../Errors"
 import { ReduxAction } from "../../../../lib/redux"
@@ -22,6 +21,7 @@ import { DepositId } from "../../../../model/Deposits"
 import { connect } from "react-redux"
 import { AppState } from "../../../../model/AppState"
 import { fetchDoi } from "../../../../actions/depositFormActions"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface DoiFieldInputArguments {
     depositId: string
@@ -35,7 +35,7 @@ interface DoiFieldStoreFunctions {
     fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>>
 }
 
-type DoiFieldProps = WrappedFieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
+type DoiFieldProps = FieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
 
 const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fetchingDoi, fetchDoiError } }: DoiFieldProps) => (
     <div className="row form-group input-element mb-4">
@@ -60,7 +60,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const ConnectedDoiField = connect<DoiFieldStoreArguments, DoiFieldStoreFunctions, DoiFieldInputArguments>(mapStateToProps, { fetchDoi })(DoiField)
 
-const DoiFieldWrapper = ({depositId, ...rest}: WrappedFieldProps & DoiFieldInputArguments) => (
+const DoiFieldWrapper = ({depositId, ...rest}: FieldProps & DoiFieldInputArguments) => (
     <ConnectedDoiField depositId={depositId} {...rest}/>
 )
 

@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
-import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
 import { Contributor } from "../../../../lib/metadata/Contributor"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import ContributorFieldArray from "../../../../lib/formComponents/ContributorFieldArray"

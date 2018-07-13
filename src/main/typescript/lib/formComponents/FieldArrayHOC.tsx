@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 import * as React from "react"
-import AddButton from "./AddButton"
 import { ComponentType } from "react"
-import { FieldArrayProps } from "./RepeatableField"
+import { FieldArrayProps } from "./ReduxFormUtils"
+import Mandatory from "./Mandatory"
+import AddButton from "./AddButton"
 import RemoveButton from "./RemoveButton"
 
 export interface InnerComponentProps {
@@ -29,7 +30,7 @@ const isLastIndex: <T>(arr: T[], index: number) => boolean = (arr, index) => ind
 
 const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
     function <T>(props: FieldArrayProps<T> & any) {
-        const { fields, fieldNames, empty, label } = props
+        const { fields, fieldNames, empty, label, mandatory } = props
 
         return fields.map((name: string, index: number) => {
             const lastIndex = isLastIndex(fields, index)
@@ -37,7 +38,9 @@ const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
             return (
                 <div className={`row form-group input-element ${lastIndex ? "mb-4" : "mb-2"}`} key={`${name}.${index}`}>
                     <label className="col-12 col-md-3 pl-0 pr-0 title-label">
-                        {isFirstIndex(index) && label ? label : ""}
+                        {isFirstIndex(index) && label
+                            ? <>{label}{mandatory && <Mandatory/>}</>
+                            : ""}
                     </label>
 
                     <div className="col-12 col-md-8 pl-0 pr-2">

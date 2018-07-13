@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptySchemedValue } from "../../../lib/metadata/Value"
 import { emptyPoint, Point } from "../../../lib/metadata/SpatialPoint"
 import { Box, emptyBox } from "../../../lib/metadata/SpatialBox"

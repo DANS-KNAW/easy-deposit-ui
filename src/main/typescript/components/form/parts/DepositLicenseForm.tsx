@@ -16,6 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import Checkbox from "../../../lib/formComponents/Checkbox"
+import Mandatory from "../../../lib/formComponents/Mandatory"
 
 export interface DepositLicenseFormData {
     acceptLicenseAgreement?: boolean
@@ -70,9 +71,10 @@ const DepositLicenseForm = () => (
 
         <div className="row form-group input-element">
             <Field name="acceptLicenseAgreement"
-                   label="Yes, I accept and understand the terms of the Licence agreement"
                    component={Checkbox}
-                   validate={[mustBeChecked]}/>
+                   validate={[mustBeChecked]}>
+                Yes, I accept and understand the terms of the License agreement<Mandatory/>
+            </Field>
         </div>
     </>
 )
