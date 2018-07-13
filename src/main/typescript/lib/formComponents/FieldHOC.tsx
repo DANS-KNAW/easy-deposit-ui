@@ -23,15 +23,15 @@ interface InnerComponentProps {
 }
 
 const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => (props: WrappedFieldProps & any) => {
-    const { htmlFor, label } = props
+    const { label } = props
 
     return (
-        <>
-            <label className="col-12 col-md-3 pl-0 title-label text-array-label" htmlFor={htmlFor}>{label || ""}</label>
-            <div className="col-12 col-md-8 pl-0 pr-0">
+        <div className="row form-group input-element mb-4">
+            <label className="col-12 col-md-3 pl-0 title-label">{label || ""}</label>
+            <div className="col-12 col-md-8 pl-0 pr-2">
                 <InnerComponent {...props}/>
             </div>
-        </>
+        </div>
     )
 }
 

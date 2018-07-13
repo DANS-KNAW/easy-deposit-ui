@@ -27,7 +27,7 @@ const mustBeChecked = (value?: any) => value && value === true
     : "Accept the license agreement before submitting this dataset"
 
 const DepositLicenseForm = () => (
-    <div className="container pl-0 pr-0">
+    <>
         <div className="row form-group input-element mb-0">
             <p>
                 {/* TODO fill in the correct href in the <a> */}
@@ -74,7 +74,7 @@ const DepositLicenseForm = () => (
                    component={Checkbox}
                    validate={[mustBeChecked]}/>
         </div>
-    </div>
+    </>
 )
 
 export default DepositLicenseForm

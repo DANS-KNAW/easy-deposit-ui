@@ -18,14 +18,13 @@ import { Field } from "redux-form"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface SchemedBoxProps extends InnerComponentProps {
     schemeValues: DropdownListEntry[]
 }
 
-const SchemedBox = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBoxProps) => (
+const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
     <>
         <div className="form-row">
             <div className="col mb-1">
@@ -40,6 +39,7 @@ const SchemedBox = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBo
                        label="North"
                        placeholder="upper bound"
                        type="number"
+                       labelWidth={55}
                        component={LabeledTextField}/>
             </div>
             <div className="col input-group mb-1">
@@ -47,29 +47,28 @@ const SchemedBox = ({ names, onDelete, deleteDisabled, schemeValues }: SchemedBo
                        label="East"
                        placeholder="right bound"
                        type="number"
+                       labelWidth={50}
                        component={LabeledTextField}/>
             </div>
         </div>
 
         <div className="form-row">
-            <div className="col mb-2"/>
-            <div className="col input-group mb-2">
+            <div className="col"/>
+            <div className="col input-group">
                 <Field name={names[3]}
                        label="South"
                        placeholder="lower bound"
                        type="number"
+                       labelWidth={55}
                        component={LabeledTextField}/>
             </div>
-            <div className="col">
-                <div className="input-group mb-2 mr-2">
-                    <Field name={names[4]}
-                           label="West"
-                           placeholder="left bound"
-                           type="number"
-                           component={LabeledTextField}/>
-                    <RemoveButton onClick={onDelete}
-                                  disabled={deleteDisabled}/>
-                </div>
+            <div className="col input-group">
+                <Field name={names[4]}
+                       label="West"
+                       placeholder="left bound"
+                       type="number"
+                       labelWidth={50}
+                       component={LabeledTextField}/>
             </div>
         </div>
     </>
