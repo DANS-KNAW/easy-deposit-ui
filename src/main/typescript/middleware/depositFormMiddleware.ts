@@ -18,35 +18,15 @@ import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "..
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import {
-    sendSaveDraft,
-    sendSaveDraftFailed,
-    sendSaveDraftReset,
+    saveDraftAction,
+    saveDraftFailedAction,
+    saveDraftResetAction,
     sendSubmitDeposit,
     sendSubmitDepositFailed,
 } from "../actions/depositFormActions"
 import { actionTypes, change } from "redux-form"
 import { metadataDeconverter } from "../lib/metadata/Metadata"
 import { AccessRightValue } from "../lib/metadata/AccessRight"
-
-const metadataSaveDraftConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
-    next(action)
-
-    if (action.type === DepositFormConstants.SAVE_DRAFT) {
-        try {
-            const output = metadataDeconverter(action.payload.data, getState().dropDowns, false)
-
-            // TODO remove this log once the form is fully implemented.
-            console.log(`saving draft for ${action.payload.depositId}`, output)
-
-            dispatch(sendSaveDraft(action.payload.depositId, output))
-        }
-        catch (errorMessage) {
-            // TODO remove this log once the form is fully implemented.
-            console.log(action.payload)
-            dispatch(sendSaveDraftFailed(errorMessage))
-        }
-    }
-}
 
 const metadataSubmitDepositConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
@@ -90,8 +70,8 @@ const resetAccessrightGroupOnCategoryChange: Middleware = ({ dispatch, getState 
 const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
-    if (action.type === DepositFormConstants.SEND_SAVE_DRAFT_FULFILLED) {
-        setTimeout(() => dispatch(sendSaveDraftReset()), saveDraftResetTimeout * 1000)
+    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
+        setTimeout(() => dispatch(saveDraftResetAction()), saveDraftResetTimeout * 1000)
     }
 }
 
@@ -104,7 +84,6 @@ const submitReroute: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
 }
 
 export const depositFormMiddleware: Middleware[] = [
-    metadataSaveDraftConverter,
     metadataSubmitDepositConverter,
     fetchDoiProcessor,
     resetAccessrightGroupOnCategoryChange,

@@ -20,7 +20,7 @@ import { DepositFormConstants } from "../constants/depositFormConstants"
 import {
     fetchDoiFailed,
     fetchMetadataFailed,
-    sendSaveDraftFailed,
+    saveDraftFailedAction,
     sendSubmitDepositFailed,
 } from "../actions/depositFormActions"
 import { DropdownConstants } from "../constants/dropdownConstants"
@@ -69,7 +69,7 @@ const fetchMetadataRejected = rejectedMiddleware(DepositFormConstants.FETCH_META
 
 const fetchDoiRejected = rejectedMiddleware(DepositFormConstants.FETCH_DOI_REJECTED)(() => fetchDoiFailed)
 
-const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SEND_SAVE_DRAFT_REJECTED)(() => sendSaveDraftFailed)
+const sendSaveDraftRejected = rejectedMiddleware(DepositFormConstants.SAVE_DRAFT_REJECTED)(() => saveDraftFailedAction)
 
 const sendSubmitDepositRejected = rejectedMiddleware(DepositFormConstants.SEND_SUBMIT_DEPOSIT_REJECTED)(() => sendSubmitDepositFailed)
 

@@ -53,23 +53,23 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                 fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: false, fetchDoiError: action.payload },
             }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_PENDING: {
+        case DepositFormConstants.SAVE_DRAFT_PENDING: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: true, saveError: undefined },
                 submit: { ...state.submit, submitError: undefined },
             }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_FULFILLED: {
+        case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
             return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true } }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_FAILED: {
+        case DepositFormConstants.SAVE_DRAFT_FAILED: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: false, saved: false, saveError: action.payload },
             }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_RESET: {
+        case DepositFormConstants.SAVE_DRAFT_RESET: {
             return { ...state, saveDraft: { ...state.saveDraft, saved: false } }
         }
         case DepositFormConstants.SEND_SUBMIT_DEPOSIT_PENDING: {
