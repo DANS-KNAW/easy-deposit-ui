@@ -43,17 +43,15 @@ const resetAccessrightGroupOnCategoryChange: Middleware = ({ dispatch, getState 
 const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
-    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
+    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED)
         setTimeout(() => dispatch(saveDraftResetAction()), saveDraftResetTimeout * 1000)
-    }
 }
 
 const submitReroute: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
-    if (action.type === DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED) {
+    if (action.type === DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED)
         dispatch(push(depositOverviewRoute))
-    }
 }
 
 export const depositFormMiddleware: Middleware[] = [
