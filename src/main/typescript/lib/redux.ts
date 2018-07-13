@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Action } from "redux"
+import { Action, AnyAction } from "redux"
+import { ThunkAction } from "redux-thunk"
 
 export interface ReduxAction<T> extends Action {
     payload: T | (() => T)
 }
+
+export type ReduxThunkAction<S> = ThunkAction<Action, S, {}, AnyAction>
 
 export interface FetchAction<S, State = any, T = any> extends Action {
     payload: () => Promise<T>
