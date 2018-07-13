@@ -13,37 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Dispatch, Middleware, MiddlewareAPI } from "redux"
-import { fetchUserFailed, fetchUserSucceeded } from "../actions/userActions"
+import { Middleware } from "redux"
+import { fetchUserFailed } from "../actions/userActions"
 import { UserConstants } from "../constants/userConstants"
-import { UserDetails } from "../model/UserDetails"
-import { userConverter } from "../lib/user/user"
 
-/*
- * action.payload is type User, convert to UserDetails
- */
-const userFetchConverter: Middleware = ({dispatch}: MiddlewareAPI) => (next: Dispatch) => action => {
+const userRejectedConverter: Middleware = ({ dispatch }) => next => action => {
     next(action)
 
-    if (action.type === UserConstants.USER_FULFILLED) {
-        try {
-            const user: UserDetails = userConverter(action.payload)
-            dispatch(fetchUserSucceeded(user))
-        }
-        catch (errorMessage) {
-            dispatch(fetchUserFailed(errorMessage))
-        }
-    }
-}
-
-const userRejectedConverter: Middleware = ({dispatch}) => next => action => {
-    next(action)
-
-    if (action.type === UserConstants.USER_REJECTED)
+    if (action.type === UserConstants.FETCH_USER_REJECTED)
         dispatch(fetchUserFailed(action.payload.message))
 }
 
 export const userDetailsMiddleware: Middleware[] = [
-    userFetchConverter,
     userRejectedConverter,
 ]
