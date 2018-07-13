@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FetchAction, ReduxAction } from "../lib/redux"
+import { FetchAction } from "../lib/redux"
 import { userURL } from "../constants/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import axios from "axios"
@@ -30,9 +30,4 @@ export const getUser: () => FetchAction<UserDetails> = () => ({
     meta: {
         transform: userConverter
     }
-})
-
-export const fetchUserFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: UserConstants.FETCH_USER_FAILED,
-    payload: errorMessage,
 })

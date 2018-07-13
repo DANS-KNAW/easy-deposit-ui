@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 import { depositOverviewMiddleware } from "./depositOverviewMiddleware"
-import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
+import rejectedRequestMiddleware from "./rejectedRequestMiddleware"
 import { depositFormMiddleware } from "./depositFormMiddleware"
 import fetchConvertMiddleware from "./fetchConvertMiddleware"
 
 export default [
-    ...fetchConvertMiddleware,
+    fetchConvertMiddleware,
     ...depositOverviewMiddleware,
     ...depositFormMiddleware,
-    ...rejectedRequestMiddleware,
+    rejectedRequestMiddleware,
 ]

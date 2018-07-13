@@ -28,7 +28,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.FETCH_METADATA_PENDING: {
             return { ...state, fetchMetadata: { ...state.fetchMetadata, fetching: true, fetchError: undefined } }
         }
-        case DepositFormConstants.FETCH_METADATA_FAILED: {
+        case DepositFormConstants.FETCH_METADATA_REJECTED: {
             return {
                 ...state,
                 fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: false, fetchError: action.payload },
@@ -47,7 +47,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.FETCH_DOI_SUCCESS: {
             return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: true } }
         }
-        case DepositFormConstants.FETCH_DOI_FAILED: {
+        case DepositFormConstants.FETCH_DOI_REJECTED: {
             return {
                 ...state,
                 fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: false, fetchDoiError: action.payload },
@@ -63,7 +63,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
             return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true } }
         }
-        case DepositFormConstants.SAVE_DRAFT_FAILED: {
+        case DepositFormConstants.SAVE_DRAFT_REJECTED: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: false, saved: false, saveError: action.payload },
@@ -82,7 +82,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
             return { ...state, submit: { ...state.submit, submitting: false, submitted: true } }
         }
-        case DepositFormConstants.SUBMIT_DEPOSIT_FAILED: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_REJECTED: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },

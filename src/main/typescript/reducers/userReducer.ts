@@ -36,8 +36,7 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
         case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
             return empty
         }
-        case UserConstants.FETCH_USER_FAILED: {
-            //TODO: handle the USER_FAILED case
+        case UserConstants.FETCH_USER_REJECTED: {
             return { ...state, displayName: action.payload }
         }
         default:

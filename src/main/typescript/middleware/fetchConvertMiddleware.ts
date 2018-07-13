@@ -3,7 +3,7 @@ import { Middleware } from "redux"
 const triggerPostfix = "_FULFILLED"
 const triggerPostfixLength = triggerPostfix.length
 const successPostfix = "_SUCCESS"
-const failedPostfix = "_FAILED"
+const failedPostfix = "_REJECTED"
 
 const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
     next(action)
@@ -26,7 +26,7 @@ const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => a
         }
         catch (errorMessage) {
             // TODO remove this log once everything is fully implemented.
-            console.log(action.payload)
+            console.log("conversion failed, original payload:", action.payload)
 
             dispatch({
                 type: actionType + failedPostfix,
@@ -36,6 +36,4 @@ const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => a
     }
 }
 
-export default [
-    fetchConvertMiddleware,
-]
+export default fetchConvertMiddleware

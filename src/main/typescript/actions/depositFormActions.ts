@@ -52,11 +52,6 @@ export const fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMet
     },
 })
 
-export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.FETCH_METADATA_FAILED,
-    payload: errorMessage,
-})
-
 export const fetchDoi: (depositId: DepositId) => FetchAction<Doi> = depositId => ({
     type: DepositFormConstants.FETCH_DOI,
     async payload() {
@@ -67,11 +62,6 @@ export const fetchDoi: (depositId: DepositId) => FetchAction<Doi> = depositId =>
     meta: {
         transform: input => input.doi,
     },
-})
-
-export const fetchDoiFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.FETCH_DOI_FAILED,
-    payload: errorMessage,
 })
 
 const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
@@ -92,7 +82,7 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => Red
         // TODO remove this log once the form is fully implemented.
         console.log({ depositId, data })
 
-        return dispatch(saveDraftFailedAction(errorMessage))
+        return dispatch(saveDraftRejectedAction(errorMessage))
     }
 }
 
@@ -104,8 +94,8 @@ const saveDraftAction: (depositId: DepositId, dataToSend: any) => ReduxAction<Pr
     },
 })
 
-export const saveDraftFailedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.SAVE_DRAFT_FAILED,
+export const saveDraftRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositFormConstants.SAVE_DRAFT_REJECTED,
     payload: errorMessage,
 })
 
@@ -126,7 +116,7 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) =>
         // TODO remove this log once the form is fully implemented.
         console.log({ depositId, data })
 
-        return dispatch(submitDepositFailedAction(errorMessage))
+        return dispatch(submitDepositRejectedAction(errorMessage))
     }
 }
 
@@ -140,7 +130,7 @@ const submitDepositAction: (depositId: DepositId, dataToSend: any) => ReduxActio
     },
 })
 
-export const submitDepositFailedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.SUBMIT_DEPOSIT_FAILED,
+export const submitDepositRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositFormConstants.SUBMIT_DEPOSIT_REJECTED,
     payload: errorMessage,
 })

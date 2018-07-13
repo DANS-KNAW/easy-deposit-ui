@@ -33,11 +33,6 @@ export const fetchDeposits: () => FetchAction<Deposits> = () => ({
     },
 })
 
-export const fetchDepositsFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositOverviewConstants.FETCH_DEPOSITS_FAILED,
-    payload: errorMessage,
-})
-
 export const cleanDeposits: () => Action = () => ({
     type: DepositOverviewConstants.CLEAN_DEPOSITS,
 })
@@ -51,12 +46,6 @@ export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
     meta: { depositId: depositId },
 })
 
-export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: string) => ReduxAction<string> = depositId => errorMessage => ({
-    type: DepositOverviewConstants.DELETE_DEPOSIT_FAILED,
-    payload: errorMessage,
-    meta: { depositId: depositId },
-})
-
 export const createNewDeposit: () => FetchAction<DepositId> = () => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
@@ -67,9 +56,4 @@ export const createNewDeposit: () => FetchAction<DepositId> = () => ({
     meta: {
         transform: newDepositConverter,
     },
-})
-
-export const createNewDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED,
-    payload: errorMessage,
 })
