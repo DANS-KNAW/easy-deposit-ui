@@ -18,7 +18,6 @@ import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "..
 import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import {
-    fetchDoiSucceeded,
     sendSaveDraft,
     sendSaveDraftFailed,
     sendSaveDraftReset,
@@ -67,10 +66,8 @@ const metadataSendConverter: Middleware = ({ dispatch, getState }: MiddlewareAPI
 const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
-    if (action.type === DepositFormConstants.FETCH_DOI_FULFILLED) {
-        dispatch(change(depositFormName, "doi", action.payload.doi))
-        dispatch(fetchDoiSucceeded())
-    }
+    if (action.type === DepositFormConstants.FETCH_DOI_SUCCESS)
+        dispatch(change(depositFormName, "doi", action.payload))
 }
 
 // make sure to reset the access right group when the category changes from GROUP_ACCESS to something else

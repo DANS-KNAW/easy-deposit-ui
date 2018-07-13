@@ -22,6 +22,7 @@ import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitSt
 import { Action } from "redux"
 import { AppState } from "../model/AppState"
 import { metadataConverter } from "../lib/metadata/Metadata"
+import { Doi } from "../lib/metadata/Identifier"
 
 export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
     type: DepositFormConstants.REGISTER_FORM,
@@ -56,17 +57,16 @@ export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> 
     payload: errorMessage,
 })
 
-export const fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
+export const fetchDoi: (depositId: DepositId) => FetchAction<Doi> = depositId => ({
     type: DepositFormConstants.FETCH_DOI,
     async payload() {
         const url = await fetchDoiURL(depositId)
         const response = await axios.get(url)
         return response.data
     },
-})
-
-export const fetchDoiSucceeded: () => Action = () => ({
-    type: DepositFormConstants.FETCH_DOI_SUCCESS,
+    meta: {
+        transform: input => input.doi
+    }
 })
 
 export const fetchDoiFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
