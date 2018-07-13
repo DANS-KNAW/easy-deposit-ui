@@ -48,8 +48,8 @@ export const fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMet
             console.log(data)
 
             return data
-        }
-    }
+        },
+    },
 })
 
 export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
@@ -65,8 +65,8 @@ export const fetchDoi: (depositId: DepositId) => FetchAction<Doi> = depositId =>
         return response.data
     },
     meta: {
-        transform: input => input.doi
-    }
+        transform: input => input.doi,
+    },
 })
 
 export const fetchDoiFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
