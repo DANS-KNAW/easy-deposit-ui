@@ -5,7 +5,7 @@ const triggerPostfixLength = triggerPostfix.length
 const successPostfix = "_SUCCESS"
 const failedPostfix = "_FAILED"
 
-const fetchConvertMiddleware: Middleware = ({ dispatch }) => next => action => {
+const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
     next(action)
 
     if (action.type.endsWith(triggerPostfix) &&
@@ -15,7 +15,7 @@ const fetchConvertMiddleware: Middleware = ({ dispatch }) => next => action => {
 
         const actionType = action.type.slice(0, action.type.length - triggerPostfixLength)
         try {
-            const newPayload = action.meta.transform(action.payload)
+            const newPayload = action.meta.transform(action.payload, getState)
             dispatch({
                 ...action,
                 type: actionType + successPostfix,
@@ -23,6 +23,9 @@ const fetchConvertMiddleware: Middleware = ({ dispatch }) => next => action => {
             })
         }
         catch (errorMessage) {
+            // TODO remove this log once everything is fully implemented.
+            console.log(action.payload)
+
             dispatch({
                 type: actionType + failedPostfix,
                 payload: errorMessage,
