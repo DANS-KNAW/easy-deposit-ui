@@ -19,7 +19,7 @@ import axios from "axios"
 import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
-import { depositsConverter } from "../lib/deposits/deposits"
+import { depositsConverter, newDepositConverter } from "../lib/deposits/deposits"
 
 export const fetchDeposits: () => FetchAction<Deposits> = () => ({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
@@ -57,12 +57,15 @@ export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: strin
     meta: { depositId: depositId },
 })
 
-export const createNewDeposit: () => ReduxAction<Promise<any>> = () => ({
+export const createNewDeposit: () => FetchAction<DepositId> = () => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
         const url = await newDepositURL
         const response = await axios.post(url)
         return response.data
+    },
+    meta: {
+        transform: newDepositConverter,
     },
 })
 

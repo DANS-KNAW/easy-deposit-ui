@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Deposit, Deposits, toDepositState } from "../../model/Deposits"
+import { Deposit, DepositId, Deposits, toDepositState } from "../../model/Deposits"
 
 type DepositWithId = Deposit & { depositId: string }
 
@@ -46,4 +46,11 @@ const depositConverter: (input: any) => DepositWithId = input => {
         // error message is caught in depositMiddleware
         throw `Error in deposit ${input.id}: no such deposit state: '${input.state}'`
     }
+}
+
+export const newDepositConverter: (input: any) => DepositId = ({ id, state }) => {
+    if (toDepositState(state))
+        return id
+    else
+        throw `Error in deposit ${id}: no such value: '${state}'`
 }

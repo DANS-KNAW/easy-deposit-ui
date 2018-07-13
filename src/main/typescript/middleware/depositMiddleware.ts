@@ -13,32 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Dispatch, Middleware, MiddlewareAPI } from "redux"
+import { Middleware } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import { toDepositState } from "../model/Deposits"
-import {
-    createNewDepositFailed,
-    createNewDepositSuccess,
-} from "../actions/depositOverviewActions"
 import { push } from "react-router-redux"
 import { depositFormRoute } from "../constants/clientRoutes"
 
-const newDepositResponseConverter: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
+const newDepositGotoForm: Middleware = ({ dispatch }) => next => action => {
     next(action)
 
-    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_FULFILLED) {
-        const { id, state } = action.payload
-
-        if (toDepositState(state)) {
-            dispatch(createNewDepositSuccess())
-            dispatch(push(depositFormRoute(id)))
-        }
-        else {
-            dispatch(createNewDepositFailed(`Error in deposit ${id}: no such value: '${state}'`))
-        }
+    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS) {
+        dispatch(push(depositFormRoute(action.payload)))
     }
 }
 
 export const depositMiddleware: Middleware[] = [
-    newDepositResponseConverter
+    newDepositGotoForm,
 ]

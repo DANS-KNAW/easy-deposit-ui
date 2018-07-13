@@ -18,12 +18,13 @@ import { Component } from "react"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
-import { ReduxAction } from "../../lib/redux"
+import { FetchAction } from "../../lib/redux"
+import { DepositId } from "../../model/Deposits"
 
 interface NewDepositButtonProps {
     creatingNew: boolean
 
-    createNewDeposit: () => ReduxAction<Promise<any>>
+    createNewDeposit: () => FetchAction<DepositId>
 }
 
 class NewDepositButton extends Component<NewDepositButtonProps> {
