@@ -20,7 +20,7 @@ import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
-import { Doi } from "../../../../../test/typescript/mockserver/metadata"
+import { Doi } from "../../../lib/metadata/Identifier"
 import {
     emptyQualifiedSchemedValue,
     emptySchemedValue,
