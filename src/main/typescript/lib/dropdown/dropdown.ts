@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { depositOverviewMiddleware } from "./depositOverviewMiddleware"
-import rejectedRequestMiddleware from "./rejectedRequestMiddleware"
-import { depositFormMiddleware } from "./depositFormMiddleware"
-import fetchConvertMiddleware from "./fetchConvertMiddleware"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
-export default [
-    fetchConvertMiddleware,
-    ...depositOverviewMiddleware,
-    ...depositFormMiddleware,
-    rejectedRequestMiddleware,
-]
+export const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
+    return Object.keys(data)
+        .map(key => {
+            const obj = data[key]
+
+            return {
+                key: key,
+                value: obj.title,
+                displayValue: obj.viewName,
+            }
+        })
+}

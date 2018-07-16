@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { depositOverviewMiddleware } from "./depositOverviewMiddleware"
-import rejectedRequestMiddleware from "./rejectedRequestMiddleware"
-import { depositFormMiddleware } from "./depositFormMiddleware"
-import fetchConvertMiddleware from "./fetchConvertMiddleware"
+import { Middleware } from "redux"
+import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
+import { push } from "react-router-redux"
+import { depositFormRoute } from "../constants/clientRoutes"
 
-export default [
-    fetchConvertMiddleware,
-    ...depositOverviewMiddleware,
-    ...depositFormMiddleware,
-    rejectedRequestMiddleware,
+const newDepositRouteToForm: Middleware = ({ dispatch }) => next => action => {
+    next(action)
+
+    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS)
+        dispatch(push(depositFormRoute(action.payload)))
+}
+
+export const depositOverviewMiddleware: Middleware[] = [
+    newDepositRouteToForm,
 ]

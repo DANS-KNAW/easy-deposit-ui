@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import { describe, it, xit } from "mocha"
+import { describe, it } from "mocha"
 import { allfields, mandatoryOnly, newMetadata } from "../../mockserver/metadata"
 import { metadataConverter, metadataDeconverter } from "../../../../main/typescript/lib/metadata/Metadata"
-import {
-    DropdownList,
-    DropdownListEntry,
-    DropdownLists,
-    emptyDropdownList,
-} from "../../../../main/typescript/model/DropdownLists"
-import { convertDropdownData } from "../../../../main/typescript/actions/dropdownActions"
-import { isSubmitting } from "redux-form"
+import { DropdownList, DropdownLists } from "../../../../main/typescript/model/DropdownLists"
+import { convertDropdownData } from "../../../../main/typescript/lib/dropdown/dropdown"
 
 describe("Metadata", () => {
 
@@ -35,7 +29,7 @@ describe("Metadata", () => {
             state: {
                 fetchingList: false,
                 fetchedList: true,
-            }
+            },
         }
     }
 
