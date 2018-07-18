@@ -55,12 +55,12 @@ class DepositTableRow extends Component<DepositTableRowProps> {
             </button>
 
         return (
-            <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ")} onClick={enterDeposit}>
+            <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ")}>
                 {/* these column sizes need to match with the sizes in DepositTableHead */}
-                <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
-                <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
-                <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
-                <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
+                <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row" onClick={enterDeposit}>{title}</td>
+                <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2" onClick={enterDeposit}>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
+                <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3" onClick={enterDeposit}>{deposit.state}</td>
+                <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4" onClick={enterDeposit}>{deposit.stateDescription}</td>
                 <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"
                     id="actions_cell">{deleteButton}</td>
             </tr>
