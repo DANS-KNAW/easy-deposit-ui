@@ -28,8 +28,9 @@ const Enterable = ({ title }: EnterableProps) => (
 interface DepositTableRowProps {
     deposit: Deposit
     deleting?: DeleteState
-    deleteDeposit: () => void
     editable: Boolean
+
+    deleteDeposit: () => void
     enterDeposit: () => void
 }
 
