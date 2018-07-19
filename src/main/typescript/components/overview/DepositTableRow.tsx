@@ -16,7 +16,6 @@
 import * as React from "react"
 import * as dateFormat from "dateformat"
 import { DeleteState, Deposit } from "../../model/Deposits"
-import { Component } from "react"
 
 interface EnterableProps {
     title: string
@@ -31,42 +30,39 @@ interface DepositTableRowProps {
     deleting?: DeleteState
     deleteDeposit: () => void
     editable: Boolean
-    enterDeposit: () =>  void
+    enterDeposit: () => void
 }
 
-class DepositTableRow extends Component<DepositTableRowProps> {
-    constructor(props: DepositTableRowProps) {
-        super(props)
-    }
+const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDeposit }: DepositTableRowProps) => {
 
-    render() {
-        const { deposit, deleting, deleteDeposit, editable, enterDeposit } = this.props
-        const title = <Enterable title={deposit.title}/>
-        const isDeleting = deleting && deleting.deleting
-        const deleteButton = editable &&
-            <button key="delete"
-                    className="close icon"
-                    style={{ float: "unset" }}
-                    disabled={isDeleting}
-                    onClick={deleteDeposit}>
-                {isDeleting
-                    ? <i className="fas fa-sync-alt fa-spin"/>
-                    : <i className="fas fa-trash-alt"/>}
-            </button>
+    const title = <Enterable title={deposit.title}/>
+    const isDeleting = deleting && deleting.deleting
+    const deleteButton = editable &&
+        <button key="delete"
+                className="close icon"
+                style={{ float: "unset" }}
+                disabled={isDeleting}
+                onClick={deleteDeposit}>
+            {isDeleting
+                ? <i className="fas fa-sync-alt fa-spin"/>
+                : <i className="fas fa-trash-alt"/>}
+        </button>
 
-        return (
-            <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ")}>
-                {/* these column sizes need to match with the sizes in DepositTableHead */}
-                <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row" onClick={enterDeposit}>{title}</td>
-                <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2" onClick={enterDeposit}>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
-                <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3" onClick={enterDeposit}>{deposit.state}</td>
-                <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4" onClick={enterDeposit}>{deposit.stateDescription}</td>
-                <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"
-                    id="actions_cell">{deleteButton}</td>
-            </tr>
-        )
-    }
-
+    return (
+        <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ")}>
+            {/* these column sizes need to match with the sizes in DepositTableHead */}
+            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row"
+                onClick={enterDeposit}>{title}</td>
+            <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2"
+                onClick={enterDeposit}>{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
+            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3"
+                onClick={enterDeposit}>{deposit.state}</td>
+            <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4"
+                onClick={enterDeposit}>{deposit.stateDescription}</td>
+            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"
+                id="actions_cell">{deleteButton}</td>
+        </tr>
+    )
 }
 
 export default DepositTableRow
