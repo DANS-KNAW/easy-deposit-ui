@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import { Component } from "react"
-import FilesOverview from "./fileUpload/overview/FilesOverview"
-import { DepositId } from "../../../model/Deposits"
 
-interface FileUploadProps {
-    depositId: DepositId
+import { FileInfo, Files } from "../../model/FileInfo"
+
+type FileWithPath = FileInfo & { dirpath: string }
+
+export const filesConverter: (input: any) => Files = input => {
+    return input.map(fileConverter)
+        .reduce((obj: Files, item: FileWithPath) => {
+            obj[item.dirpath] = ({
+                filename: item.filename,
+                dirpath: item.dirpath,
+                sha1sum: item.sha1sum,
+            })
+            return obj
+        }, {})
 }
 
-class FileUpload extends Component<FileUploadProps> {
-    render() {
-        return (
-            <>
-                <p>Upload your data form</p> {/* TODO this is a temporary header */}
-                <FilesOverview/>
-            </>
-        )
+const fileConverter: (input: any) => FileWithPath = input => {
+    return {
+        filename: input.filename,
+        dirpath: input.dirpath,
+        sha1sum: input.sha1sum,
     }
 }
-
-export default FileUpload
-

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 import { depositMiddleware } from "./depositMiddleware"
+import { fileMiddleware } from "./fileMiddleware"
 import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
 import { userDetailsMiddleware } from "./userDetailsMiddleware"
 import { depositFormMiddleware } from "./depositFormMiddleware"
 
 export default [
+    ...fileMiddleware,
     ...depositMiddleware,
     ...depositFormMiddleware,
     ...rejectedRequestMiddleware,
