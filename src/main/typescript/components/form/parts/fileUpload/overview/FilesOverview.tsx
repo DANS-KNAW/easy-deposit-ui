@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, StatelessComponent } from "react"
+import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
 import { DepositId } from "../../../../../model/Deposits"
 import { FileOverviewState } from "../../../../../model/FileInfo"
-import { PromiseAction, ReduxAction } from "../../../../../lib/redux"
+import { PromiseAction } from "../../../../../lib/redux"
 import { connect } from "react-redux"
 import { fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"

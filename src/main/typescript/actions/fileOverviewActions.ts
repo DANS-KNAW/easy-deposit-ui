@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PromiseAction, ReduxAction } from "../lib/redux"
+import { PromiseAction } from "../lib/redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 import axios from "axios"
 import { listFilesURL} from "../constants/serverRoutes"
-import { Files } from "../model/FileInfo"
 import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
+import { filesConverter } from "../lib/files/files"
 
 export const fetchFiles: (depositId: DepositId, dirPath: string) => PromiseAction<void> = (depositId, dirPath) => ({
     type: FileOverviewConstants.FETCH_FILES,
@@ -28,16 +28,9 @@ export const fetchFiles: (depositId: DepositId, dirPath: string) => PromiseActio
         const response = await axios.get(url)
         return response.data
     },
-})
-
-export const fetchFilesSucceeded: (files: Files) => ReduxAction<Files> = files => ({
-    type: FileOverviewConstants.FETCH_FILES_SUCCESS,
-    payload: files,
-})
-
-export const fetchFilesFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: FileOverviewConstants.FETCH_FILES_FAILED,
-    payload: errorMessage,
+    meta: {
+        transform: filesConverter,
+    },
 })
 
 export const cleanFiles: () => Action = () => ({
