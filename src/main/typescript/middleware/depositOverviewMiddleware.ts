@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import InnerTextField from "./TextField"
-import { Field } from "redux-form"
-import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
+import { Middleware } from "redux"
+import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
+import { push } from "react-router-redux"
+import { depositFormRoute } from "../constants/clientRoutes"
 
-interface TextFieldProps extends InnerComponentProps {
-    label: string
+const newDepositRouteToForm: Middleware = ({ dispatch }) => next => action => {
+    next(action)
+
+    if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS)
+        dispatch(push(depositFormRoute(action.payload)))
 }
 
-const TextField = ({ names, label }: TextFieldProps) => (
-    <Field name={names[0]}
-           label={label}
-           placeholder={label}
-           component={InnerTextField}/>
-)
-
-export default asFieldArray(TextField)
+export const depositOverviewMiddleware: Middleware[] = [
+    newDepositRouteToForm,
+]

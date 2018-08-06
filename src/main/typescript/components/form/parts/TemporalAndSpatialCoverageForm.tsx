@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptySchemedValue } from "../../../lib/metadata/Value"
 import { emptyPoint, Point } from "../../../lib/metadata/SpatialPoint"
 import { Box, emptyBox } from "../../../lib/metadata/SpatialBox"
@@ -40,64 +40,54 @@ interface TemporalAndSpatialCoverageFormProps {
     spatialCoveragesIso: DropdownList
 }
 
-const TemporalAndSpatialCoverageForm = ({spatialCoordinates, spatialCoveragesIso}: TemporalAndSpatialCoverageFormProps) => (
-    <div className="container pl-0 pr-0">
-        <div className="row form-group input-element">
-            <RepeatableField name="temporalCoverages"
-                             label="Temporal coverage"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIso }: TemporalAndSpatialCoverageFormProps) => (
+    <>
+        <RepeatableField name="temporalCoverages"
+                         label="Temporal coverage"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="spatialPoints"
-                             label="Spatial point"
-                             empty={emptyPoint}
-                             fieldNames={[
-                                 (name: string) => `${name}.scheme`,
-                                 (name: string) => `${name}.x`,
-                                 (name: string) => `${name}.y`,
-                             ]}
-                             component={SpatialPointFieldArray(spatialCoordinates)}/>
-        </div>
+        <RepeatableField name="spatialPoints"
+                         label="Spatial point"
+                         empty={emptyPoint}
+                         fieldNames={[
+                             (name: string) => `${name}.scheme`,
+                             (name: string) => `${name}.x`,
+                             (name: string) => `${name}.y`,
+                         ]}
+                         component={SpatialPointFieldArray(spatialCoordinates)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="spatialBoxes"
-                             label="Spatial box"
-                             empty={emptyBox}
-                             fieldNames={[
-                                 (name: string) => `${name}.scheme`,
-                                 (name: string) => `${name}.north`,
-                                 (name: string) => `${name}.east`,
-                                 (name: string) => `${name}.south`,
-                                 (name: string) => `${name}.west`,
-                             ]}
-                             component={SpatialBoxFieldArray(spatialCoordinates)}/>
-        </div>
+        <RepeatableField name="spatialBoxes"
+                         label="Spatial box"
+                         empty={emptyBox}
+                         fieldNames={[
+                             (name: string) => `${name}.scheme`,
+                             (name: string) => `${name}.north`,
+                             (name: string) => `${name}.east`,
+                             (name: string) => `${name}.south`,
+                             (name: string) => `${name}.west`,
+                         ]}
+                         component={SpatialBoxFieldArray(spatialCoordinates)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="spatialCoverageIso3166"
-                             label="Spatial coverage (ISO 3166)"
-                             empty={emptySchemedValue}
-                             fieldNames={[
-                                 (name: string) => name,
-                             ]}
-                /*
-                 * values taken from https://nl.wikipedia.org/wiki/ISO_3166-1
-                 * use values ISO-3166-1 alpha-3
-                 */
-                             component={SpatialCoverageIso3166FieldArray(spatialCoveragesIso)}/>
-        </div>
+        <RepeatableField name="spatialCoverageIso3166"
+                         label="Spatial coverage (ISO 3166)"
+                         empty={emptySchemedValue}
+                         fieldNames={[
+                             (name: string) => name,
+                         ]}
+            /*
+             * values taken from https://nl.wikipedia.org/wiki/ISO_3166-1
+             * use values ISO-3166-1 alpha-3
+             */
+                         component={SpatialCoverageIso3166FieldArray(spatialCoveragesIso)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="spatialCoverages"
-                             label="Spatial coverage"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
-    </div>
+        <RepeatableField name="spatialCoverages"
+                         label="Spatial coverage"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
+    </>
 )
 
 const mapStateToProps = (state: AppState) => ({

@@ -17,20 +17,27 @@ import * as React from "react"
 import { Component } from "react"
 import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
-import { DepositId, DepositOverviewState } from "../../model/Deposits"
+import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
-import { ReduxAction } from "../../lib/redux"
-import { Action } from "redux"
+import { FetchAction, PromiseAction } from "../../lib/redux"
+import { Action, Dispatch } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
+import { depositFormRoute } from "../../constants/clientRoutes"
+import { push, RouterAction } from "react-router-redux"
+
+function isEditable({ state }: Deposit): boolean {
+    return state === DepositState.DRAFT || state === DepositState.REJECTED
+}
 
 interface DepositOverviewProps {
     deposits: DepositOverviewState
 
-    fetchDeposits: () => ReduxAction<Promise<any>>
+    fetchDeposits: () => FetchAction<Deposits>
     cleanDeposits: () => Action
-    deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
+    deleteDeposit: (depositId: DepositId) => PromiseAction<void>
+    enterDeposit: (editable: Boolean, depositId: DepositId) => RouterAction
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {
@@ -104,17 +111,18 @@ class DepositOverview extends Component<DepositOverviewProps> {
     }
 
     private renderTable() {
-        const { deposits: { deposits, deleting }, deleteDeposit } = this.props
+        const { deposits: { deposits, deleting }, deleteDeposit, enterDeposit } = this.props
 
         return (
             <table className="table table-hover deposit_table">
                 <DepositTableHead/>
                 <tbody>{Object.keys(deposits).map(depositId =>
                     <DepositTableRow key={depositId}
-                                     depositId={depositId}
                                      deposit={deposits[depositId]}
                                      deleting={deleting[depositId]}
-                                     deleteDeposit={() => deleteDeposit(depositId)}/>,
+                                     deleteDeposit={() => deleteDeposit(depositId)}
+                                     editable={isEditable(deposits[depositId])}
+                                     enterDeposit={() => enterDeposit(isEditable(deposits[depositId]), depositId)}/>,
                 )}</tbody>
             </table>
         )
@@ -125,4 +133,11 @@ const mapStateToProps = (state: AppState) => ({
     deposits: state.deposits,
 })
 
-export default connect(mapStateToProps, { fetchDeposits, cleanDeposits, deleteDeposit })(DepositOverview)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    fetchDeposits: () => dispatch(fetchDeposits()),
+    cleanDeposits: () => dispatch(cleanDeposits()),
+    deleteDeposit: (depositId: DepositId) => dispatch(deleteDeposit(depositId)),
+    enterDeposit: (editable: Boolean, depositId: DepositId) => editable ? dispatch(push(depositFormRoute(depositId))) : null
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DepositOverview)

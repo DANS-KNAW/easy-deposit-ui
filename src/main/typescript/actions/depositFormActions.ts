@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 import { DepositFormMetadata } from "../components/form/parts"
-import { ReduxAction } from "../lib/redux"
+import { FetchAction, ReduxAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import axios from "axios"
 import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/serverRoutes"
 import { Action } from "redux"
+import { AppState } from "../model/AppState"
+import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
+import { Doi } from "../lib/metadata/Identifier"
 
 export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
     type: DepositFormConstants.REGISTER_FORM,
@@ -30,41 +33,35 @@ export const unregisterForm: () => Action = () => ({
     type: DepositFormConstants.UNREGISTER_FORM,
 })
 
-export const fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
+export const fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMetadata, AppState> = depositId => ({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
         const url = await fetchMetadataURL(depositId)
         const response = await axios.get(url)
         return response.data
     },
+    meta: {
+        transform: (input: any, getState: () => AppState) => {
+            const data = metadataConverter(input, getState().dropDowns)
+
+            // TODO remove this log once the form is fully implemented.
+            console.log(data)
+
+            return data
+        },
+    },
 })
 
-export const fetchMetadataSucceeded: (data: DepositFormMetadata) => ReduxAction<DepositFormMetadata> = data => ({
-    type: DepositFormConstants.FETCH_METADATA_SUCCEEDED,
-    payload: data,
-})
-
-export const fetchMetadataFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.FETCH_METADATA_FAILED,
-    payload: errorMessage,
-})
-
-export const fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>> = depositId => ({
+export const fetchDoi: (depositId: DepositId) => FetchAction<Doi> = depositId => ({
     type: DepositFormConstants.FETCH_DOI,
     async payload() {
         const url = await fetchDoiURL(depositId)
         const response = await axios.get(url)
         return response.data
     },
-})
-
-export const fetchDoiSucceeded: () => Action = () => ({
-    type: DepositFormConstants.FETCH_DOI_SUCCEEDED,
-})
-
-export const fetchDoiFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.FETCH_DOI_FAILED,
-    payload: errorMessage,
+    meta: {
+        transform: input => input.doi,
+    },
 })
 
 const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
@@ -72,35 +69,59 @@ const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
     return await axios.put(url, dataToSend)
 }
 
-export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }> = (depositId, data) => ({
-    type: DepositFormConstants.SAVE_DRAFT,
-    payload: { depositId: depositId, data: data },
-})
+export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
+    try {
+        const output = metadataDeconverter(data, getState().dropDowns, false)
 
-export const sendSaveDraft: (depositId: DepositId, dataToSend: any) => ReduxAction<Promise<void>> = (depositId, dataToSend) => ({
-    type: DepositFormConstants.SEND_SAVE_DRAFT,
+        // TODO remove this log once the form is fully implemented.
+        console.log(`saving draft for ${depositId}`, output)
+
+        return dispatch(saveDraftAction(depositId, output))
+    }
+    catch (errorMessage) {
+        // TODO remove this log once the form is fully implemented.
+        console.log({ depositId, data })
+
+        return dispatch(saveDraftRejectedAction(errorMessage))
+    }
+}
+
+const saveDraftAction: (depositId: DepositId, dataToSend: any) => PromiseAction<void> = (depositId, dataToSend) => ({
+    type: DepositFormConstants.SAVE_DRAFT,
     async payload() {
         const response = await callSaveDraft(depositId, dataToSend)
         return response.data
     },
 })
 
-export const sendSaveDraftFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.SEND_SAVE_DRAFT_FAILED,
+export const saveDraftRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositFormConstants.SAVE_DRAFT_REJECTED,
     payload: errorMessage,
 })
 
-export const sendSaveDraftReset: () => Action = () => ({
-    type: DepositFormConstants.SEND_SAVE_DRAFT_RESET,
+export const saveDraftResetAction: () => Action = () => ({
+    type: DepositFormConstants.SAVE_DRAFT_RESET,
 })
 
-export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }> = (depositId, data) => ({
+export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
+    try {
+        const output = metadataDeconverter(data, getState().dropDowns, true)
+
+        // TODO remove this log once the form is fully implemented.
+        console.log(`submitting deposit for ${depositId}`, output)
+
+        return dispatch(submitDepositAction(depositId, output))
+    }
+    catch (errorMessage) {
+        // TODO remove this log once the form is fully implemented.
+        console.log({ depositId, data })
+
+        return dispatch(submitDepositRejectedAction(errorMessage))
+    }
+}
+
+const submitDepositAction: (depositId: DepositId, dataToSend: any) => PromiseAction<void> = (depositId, dataToSend) => ({
     type: DepositFormConstants.SUBMIT_DEPOSIT,
-    payload: { depositId: depositId, data: data },
-})
-
-export const sendSubmitDeposit: (depositId: DepositId, dataToSend: any) => ReduxAction<Promise<void>> = (depositId, dataToSend) => ({
-    type: DepositFormConstants.SEND_SUBMIT_DEPOSIT,
     async payload() {
         await callSaveDraft(depositId, dataToSend)
         const url = await submitDepositURL(depositId)
@@ -109,7 +130,7 @@ export const sendSubmitDeposit: (depositId: DepositId, dataToSend: any) => Redux
     },
 })
 
-export const sendSubmitDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositFormConstants.SEND_SUBMIT_DEPOSIT_FAILED,
+export const submitDepositRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
+    type: DepositFormConstants.SUBMIT_DEPOSIT_REJECTED,
     payload: errorMessage,
 })

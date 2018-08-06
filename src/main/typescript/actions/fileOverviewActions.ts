@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReduxAction } from "../lib/redux"
+import { PromiseAction, ReduxAction } from "../lib/redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 import axios from "axios"
 import { listFilesURL} from "../constants/serverRoutes"
@@ -21,7 +21,7 @@ import { Files } from "../model/FileInfo"
 import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 
-export const fetchFiles: (depositId: DepositId, dirPath: string) => ReduxAction<Promise<any>> = (depositId, dirPath) => ({
+export const fetchFiles: (depositId: DepositId, dirPath: string) => PromiseAction<void> = (depositId, dirPath) => ({
     type: FileOverviewConstants.FETCH_FILES,
     async payload() {
         const url = await listFilesURL(depositId, dirPath)

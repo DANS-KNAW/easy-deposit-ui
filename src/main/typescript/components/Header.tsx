@@ -21,7 +21,7 @@ import { connect } from "react-redux"
 import { getUser } from "../actions/userActions"
 import { signout } from "../actions/authenticationActions"
 import "../../resources/css/header"
-import { ReduxAction } from "../lib/redux"
+import { FetchAction, PromiseAction } from "../lib/redux"
 import { depositOverviewRoute, homeRoute, loginRoute } from "../constants/clientRoutes"
 import { UserDetails } from "../model/UserDetails"
 
@@ -85,8 +85,8 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
 
-    signout: () => ReduxAction<Promise<void>>
-    getUser: () => ReduxAction<Promise<UserDetails>>
+    signout: () => PromiseAction<void>
+    getUser: () => FetchAction<UserDetails>
 }
 
 class Header extends Component<HeaderProps> {

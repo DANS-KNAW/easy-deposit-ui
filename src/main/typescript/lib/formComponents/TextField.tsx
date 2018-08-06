@@ -15,9 +15,9 @@
  */
 import * as React from "react"
 import { InputHTMLAttributes } from "react"
-import { WrappedFieldProps } from "redux-form"
+import { FieldProps } from "./ReduxFormUtils"
 
-export type TextFieldProps = WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>
+export type TextFieldProps = FieldProps & InputHTMLAttributes<HTMLInputElement>
 
 const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
     <input type={type || "text"} className={`form-control ${className || ""}`.trim()} {...input} {...rest}/>

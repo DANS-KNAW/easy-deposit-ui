@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, StatelessComponent } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
 import { DepositId } from "../../../../../model/Deposits"
 import { FileOverviewState } from "../../../../../model/FileInfo"
-import { ReduxAction } from "../../../../../lib/redux"
+import { PromiseAction, ReduxAction } from "../../../../../lib/redux"
 import { connect } from "react-redux"
 import { fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
@@ -31,10 +31,10 @@ interface FilesOverviewProps {
     depositId: DepositId
     files: FileOverviewState
 
-    fetchFiles: (depositId: DepositId, dirPath: string) => ReduxAction<Promise<void>>
+    fetchFiles: (depositId: DepositId, dirPath: string) => PromiseAction<void>
 }
 
-class FilesOverview extends Component<FilesOverviewProps, FileOverviewState> {
+class FilesOverview extends Component<FilesOverviewProps> {
     constructor(props: FilesOverviewProps) {
         super(props)
     }

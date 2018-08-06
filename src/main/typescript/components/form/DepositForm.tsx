@@ -24,7 +24,7 @@ import "../../../resources/css/form.css"
 import "react-datepicker/dist/react-datepicker-cssmodules.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { ReduxAction } from "../../lib/redux"
+import { FetchAction, ThunkAction } from "../../lib/redux"
 import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
@@ -115,24 +115,24 @@ interface DepositFormStoreArguments {
     depositId: DepositId
     formState: DepositFormState
     formValues?: DepositFormMetadata,
-    fetchMetadata: (depositId: DepositId) => ReduxAction<Promise<any>>
-    saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }>
-    submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ReduxAction<{ depositId: DepositId, data: DepositFormMetadata }>
+    fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMetadata, AppState>
+    saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState>
+    submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState>
 
-    fetchLanguagesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchContributorIdsData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchContributorRolesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchAudiencesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchIdentifiersData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchRelationsData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchDatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchLicensesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchDcmiTypesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchImtFormatsData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchAbrComplexSubjectsData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchAbrPeriodeTemporalsData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchSpatialCoordinatesData: () => ReduxAction<Promise<DropdownListEntry[]>>
-    fetchSpatialCoveragesIsoData: () => ReduxAction<Promise<DropdownListEntry[]>>
+    fetchLanguagesData: () => FetchAction<DropdownListEntry[]>
+    fetchContributorIdsData: () => FetchAction<DropdownListEntry[]>
+    fetchContributorRolesData: () => FetchAction<DropdownListEntry[]>
+    fetchAudiencesData: () => FetchAction<DropdownListEntry[]>
+    fetchIdentifiersData: () => FetchAction<DropdownListEntry[]>
+    fetchRelationsData: () => FetchAction<DropdownListEntry[]>
+    fetchDatesData: () => FetchAction<DropdownListEntry[]>
+    fetchLicensesData: () => FetchAction<DropdownListEntry[]>
+    fetchDcmiTypesData: () => FetchAction<DropdownListEntry[]>
+    fetchImtFormatsData: () => FetchAction<DropdownListEntry[]>
+    fetchAbrComplexSubjectsData: () => FetchAction<DropdownListEntry[]>
+    fetchAbrPeriodeTemporalsData: () => FetchAction<DropdownListEntry[]>
+    fetchSpatialCoordinatesData: () => FetchAction<DropdownListEntry[]>
+    fetchSpatialCoveragesIsoData: () => FetchAction<DropdownListEntry[]>
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>

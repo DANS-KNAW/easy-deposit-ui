@@ -18,7 +18,6 @@ import { Field } from "redux-form"
 import TextField from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface SchemedTextFieldProps extends InnerComponentProps {
@@ -27,24 +26,20 @@ interface SchemedTextFieldProps extends InnerComponentProps {
     withEmptyDefault?: boolean
 }
 
-const SchemedTextField = ({ names, label, onDelete, deleteDisabled, schemeValues, withEmptyDefault }: SchemedTextFieldProps) => (
+const SchemedTextField = ({ names, label, schemeValues, withEmptyDefault }: SchemedTextFieldProps) => (
     <div className="form-row">
-        <div className="col col-md-3">
+        <div className="col col-md-4">
             <Field name={names[0]}
                    label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault={withEmptyDefault}
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-9">
-            <div className="input-group mb-2 mr-2">
-                <Field name={names[1]}
-                       label="Value"
-                       placeholder={label}
-                       component={TextField}/>
-                <RemoveButton onClick={onDelete}
-                              disabled={deleteDisabled}/>
-            </div>
+        <div className="col col-md-8">
+            <Field name={names[1]}
+                   label="Value"
+                   placeholder={label}
+                   component={TextField}/>
         </div>
     </div>
 )

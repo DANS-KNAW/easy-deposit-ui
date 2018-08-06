@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FieldArray, GenericFieldArray, WrappedFieldArrayProps } from "redux-form"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
-export interface CustomFieldArrayProps<FieldValue> {
-    label?: string
-    empty: FieldValue
-    fieldNames: ((name: string) => string)[]
+export const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
+    return Object.keys(data)
+        .map(key => {
+            const obj = data[key]
+
+            return {
+                key: key,
+                value: obj.title,
+                displayValue: obj.viewName,
+            }
+        })
 }
-
-export type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayProps<FieldValue>
-
-export const RepeatableField = FieldArray as new <Data>() => GenericFieldArray<Data, CustomFieldArrayProps<Data>>

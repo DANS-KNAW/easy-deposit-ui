@@ -53,11 +53,7 @@ class FoldableCard extends Component<FoldableCardProps & FoldableCardInputProps>
         const { title, required, open, children } = this.props
 
         return (
-            <div className={[
-                open ? "" : "closed",
-                "card",
-                "container pl-0 pr-0 ml-15 mr-15 mb-3",
-            ].join(" ").trim()}>
+            <div className={`${open ? "" : "closed"} card mb-3`.trim()}>
                 <h6 className="card-header row ml-0 mr-0 bg-primary text-white" onClick={this.collapseCard}>
                     <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0">{title}</div>
                     {required

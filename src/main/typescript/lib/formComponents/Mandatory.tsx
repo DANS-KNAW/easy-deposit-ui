@@ -14,16 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
-import { SchemedValue } from "../../../../lib/metadata/Value"
-import { DropdownList } from "../../../../model/DropdownLists"
-import SchemedPointArray from "../../../../lib/formComponents/SchemedPointArray"
 
-const SpatialPointFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
-    <LoadDropdownData state={state}>
-        <SchemedPointArray {...props} schemeValues={list}/>
-    </LoadDropdownData>
-)
+const Mandatory = () => <span className="mandatory">*</span>
 
-export default SpatialPointFieldArray
+export default Mandatory

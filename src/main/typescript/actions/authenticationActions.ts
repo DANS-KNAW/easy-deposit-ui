@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReduxAction } from "../lib/redux"
+import { PromiseAction } from "../lib/redux"
 import { loginURL, logoutURL } from "../constants/serverRoutes"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import axios from "axios"
 
-export const authenticate: (userName: string, password: string) => ReduxAction<Promise<void>> = (userName, password) => ({
+export const authenticate: (userName: string, password: string) => PromiseAction<void> = (userName, password) => ({
     type: AuthenticationConstants.AUTH_LOGIN,
     async payload() {
         const url = await loginURL
@@ -31,7 +31,7 @@ export const authenticate: (userName: string, password: string) => ReduxAction<P
     },
 })
 
-export const signout: () => ReduxAction<Promise<void>> = () => ({
+export const signout: () => PromiseAction<void> = () => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
         const url = await logoutURL

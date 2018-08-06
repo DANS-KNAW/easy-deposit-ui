@@ -13,37 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReduxAction } from "../lib/redux"
+import { FetchAction, PromiseAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
 import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
+import { depositsConverter, newDepositConverter } from "../lib/deposits/deposits"
 
-export const fetchDeposits: () => ReduxAction<Promise<any>> = () => ({
+export const fetchDeposits: () => FetchAction<Deposits> = () => ({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
         const url = await listDepositsURL
         const response = await axios.get(url)
         return response.data
     },
-})
-
-export const fetchDepositsSucceeded: (deposits: Deposits) => ReduxAction<Deposits> = deposits => ({
-    type: DepositOverviewConstants.FETCH_DEPOSITS_SUCCESS,
-    payload: deposits,
-})
-
-export const fetchDepositsFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositOverviewConstants.FETCH_DEPOSITS_FAILED,
-    payload: errorMessage,
+    meta: {
+        transform: depositsConverter,
+    },
 })
 
 export const cleanDeposits: () => Action = () => ({
     type: DepositOverviewConstants.CLEAN_DEPOSITS,
 })
 
-export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>> = depositId => ({
+export const deleteDeposit: (depositId: DepositId) => PromiseAction<void> = depositId => ({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
         const url = await deleteDepositURL(depositId)
@@ -52,26 +46,14 @@ export const deleteDeposit: (depositId: DepositId) => ReduxAction<Promise<void>>
     meta: { depositId: depositId },
 })
 
-export const deleteDepositFailed: (depositId: DepositId) => (errorMessage: string) => ReduxAction<string> = depositId => errorMessage => ({
-    type: DepositOverviewConstants.DELETE_DEPOSIT_FAILED,
-    payload: errorMessage,
-    meta: { depositId: depositId },
-})
-
-export const createNewDeposit: () => ReduxAction<Promise<any>> = () => ({
+export const createNewDeposit: () => FetchAction<DepositId> = () => ({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
         const url = await newDepositURL
         const response = await axios.post(url)
         return response.data
     },
-})
-
-export const createNewDepositSuccess: () => Action = () => ({
-    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS,
-})
-
-export const createNewDepositFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED,
-    payload: errorMessage,
+    meta: {
+        transform: newDepositConverter,
+    },
 })

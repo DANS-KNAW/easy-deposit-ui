@@ -20,7 +20,7 @@ import { AuthenticationConstants } from "../constants/authenticationConstants"
 
 export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
     switch (action.type) {
-        case UserConstants.USER_SUCCEEDED: {
+        case UserConstants.FETCH_USER_SUCCEEDED: {
             return { ...state,
                 displayName: action.payload.displayName,
                 firstName: action.payload.firstName,
@@ -30,14 +30,13 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
                 username: action.payload.username,
             }
         }
-        case UserConstants.USER_PENDING: {
+        case UserConstants.FETCH_USER_PENDING: {
             return { ...state, displayName: "" }
         }
         case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
             return empty
         }
-        case UserConstants.USER_FAILED: {
-            //TODO: handle the USER_FAILED case
+        case UserConstants.FETCH_USER_REJECTED: {
             return { ...state, displayName: action.payload }
         }
         default:

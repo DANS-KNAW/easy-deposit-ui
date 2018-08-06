@@ -18,7 +18,6 @@ import { Field } from "redux-form"
 import TextField from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface QualifiedSchemedTextFieldProps extends InnerComponentProps {
@@ -29,9 +28,9 @@ interface QualifiedSchemedTextFieldProps extends InnerComponentProps {
     withEmptySchemeDefault?: boolean
 }
 
-const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled, qualifierValues, withEmptyQualifierDefault, schemeValues, withEmptySchemeDefault }: QualifiedSchemedTextFieldProps) => (
+const QualifiedSchemedTextFieldArray = ({ names, label, qualifierValues, withEmptyQualifierDefault, schemeValues, withEmptySchemeDefault }: QualifiedSchemedTextFieldProps) => (
     <div className="form-row">
-        <div className="col col-md-3">
+        <div className="col col-md-4">
             <Field name={names[0]}
                    label="Qualifier"
                    choices={qualifierValues}
@@ -45,15 +44,11 @@ const QualifiedSchemedTextFieldArray = ({ names, label, onDelete, deleteDisabled
                    withEmptyDefault={withEmptySchemeDefault}
                    component={DropdownFieldInput}/>
         </div>
-        <div className="col col-md-6">
-            <div className="input-group mb-2 mr-2">
-                <Field name={names[2]}
-                       label="Value" // TODO is label necessary anyway?
-                       placeholder={label}
-                       component={TextField}/>
-                <RemoveButton onClick={onDelete}
-                              disabled={deleteDisabled}/>
-            </div>
+        <div className="col col-md-5">
+            <Field name={names[2]}
+                   label="Value" // TODO is label necessary anyway?
+                   placeholder={label}
+                   component={TextField}/>
         </div>
     </div>
 )

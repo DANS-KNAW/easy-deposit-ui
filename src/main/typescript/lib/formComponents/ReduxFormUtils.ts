@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import InnerTextField from "./TextField"
-import { Field } from "redux-form"
-import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
+import { FieldArray, GenericFieldArray, WrappedFieldArrayProps, WrappedFieldProps } from "redux-form"
 
-interface TextFieldProps extends InnerComponentProps {
-    label: string
+export interface CustomFieldProps {
+    mandatory?: boolean
 }
 
-const TextField = ({ names, label }: TextFieldProps) => (
-    <Field name={names[0]}
-           label={label}
-           placeholder={label}
-           component={InnerTextField}/>
-)
+export type FieldProps = WrappedFieldProps & CustomFieldProps
 
-export default asFieldArray(TextField)
+export interface CustomFieldArrayProps<FieldValue> extends CustomFieldProps {
+    label?: string
+    empty: FieldValue
+    fieldNames: ((name: string) => string)[]
+}
+
+export type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayProps<FieldValue>
+
+export const RepeatableField = FieldArray as new <Data>() => GenericFieldArray<Data, CustomFieldArrayProps<Data>>

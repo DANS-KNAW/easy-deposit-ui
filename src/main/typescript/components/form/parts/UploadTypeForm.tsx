@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -55,47 +55,37 @@ const clarinChoices = [
 ]
 
 const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
-    <div className="container pl-0 pr-0">
-        <div className="row form-group input-element">
-            <RepeatableField name="typesDCMI"
-                             label="Type (DCMI resource type)"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={DcmiTypesFieldArray(dcmiTypes)}/>
-        </div>
+    <>
+        <RepeatableField name="typesDCMI"
+                         label="Type (DCMI resource type)"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={DcmiTypesFieldArray(dcmiTypes)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="types"
-                             label="Types"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="types"
+                         label="Types"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="formatsMediaType"
-                             label=" Format (internet media type)"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={ImtFormatsFieldArray(imtFormats)}/>
-        </div>
+        <RepeatableField name="formatsMediaType"
+                         label=" Format (internet media type)"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={ImtFormatsFieldArray(imtFormats)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="formats"
-                             label="Formats"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="formats"
+                         label="Formats"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <Field name="extraClarinMetadataPresent"
-                   label="Contains CLARIN metadata"
-                   choices={clarinChoices}
-                   component={RadioChoices}
-                   validate={[oneSelected]}/>
-        </div>
-    </div>
+        <Field name="extraClarinMetadataPresent"
+               label="Contains CLARIN metadata"
+               choices={clarinChoices}
+               component={RadioChoices}
+               validate={[oneSelected]}/>
+    </>
 )
 
 const mapStateToProps = (state: AppState) => ({
