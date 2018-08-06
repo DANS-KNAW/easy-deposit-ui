@@ -16,7 +16,7 @@
 import { PromiseAction } from "../lib/redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 import axios from "axios"
-import { listFilesURL} from "../constants/serverRoutes"
+import { deleteFileUrl, listFilesURL } from "../constants/serverRoutes"
 import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
@@ -31,6 +31,16 @@ export const fetchFiles: (depositId: DepositId, dirPath: string) => PromiseActio
     meta: {
         transform: filesConverter,
     },
+})
+
+export const deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void> = (depositId, filePath) => ({
+    type: FileOverviewConstants.DELETE_FILE,
+    async payload() {
+        const url = await deleteFileUrl(depositId, filePath)
+        const response = await axios.delete(url)
+        return response.data
+    },
+    meta: {filePath: filePath}
 })
 
 export const cleanFiles: () => Action = () => ({

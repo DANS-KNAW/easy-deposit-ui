@@ -22,9 +22,9 @@ import { DepositId } from "../../../../../model/Deposits"
 import { FileOverviewState } from "../../../../../model/FileInfo"
 import { PromiseAction } from "../../../../../lib/redux"
 import { connect } from "react-redux"
-import { fetchFiles } from "../../../../../actions/fileOverviewActions"
+import { deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
-import { Action } from "redux"
+import { Action, Dispatch } from "redux"
 import { cleanDeposits } from "../../../../../actions/depositOverviewActions"
 
 interface FilesOverviewProps {
@@ -32,6 +32,7 @@ interface FilesOverviewProps {
     files: FileOverviewState
 
     fetchFiles: (depositId: DepositId, dirPath: string) => PromiseAction<void>
+    deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void>
 }
 
 class FilesOverview extends Component<FilesOverviewProps> {
@@ -55,13 +56,17 @@ class FilesOverview extends Component<FilesOverviewProps> {
     }
 
     private renderTable() {
-        const { files: { files } } = this.props
+        const { files: { files, deleting }, deleteFile, depositId } = this.props
         return (
             <div className="container pl-0 pr-0">
                 <table className="table table-hover file_table">
                     <FilesTableHead/>
                     <tbody>{Object.keys(files).map(filePath =>
-                        <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
+                        <FilesTableRow key={filePath}
+                                       deleting={deleting[filePath]}
+                                       fileInfo={files[filePath]}
+                                       deleteFile={() => deleteFile(depositId, filePath)}
+                        />,
                     )}</tbody>
                 </table>
             </div>
@@ -74,4 +79,5 @@ const mapStateToProps = (state: AppState) => ({
     files: state.files,
 })
 
-export default connect(mapStateToProps, { fetchFiles, cleanDeposits })(FilesOverview)
+
+export default connect(mapStateToProps, { fetchFiles, cleanDeposits, deleteFile })(FilesOverview)

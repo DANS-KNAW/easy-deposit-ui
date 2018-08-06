@@ -22,6 +22,7 @@ const createURL: (path: string) => Promise<string> = async path => {
 }
 
 export const listFilesURL: (id: DepositId, dirPath: string) => Promise<string> = (id, dirPath) =>createURL(`deposit/${id}/file/${dirPath}`)
+export const deleteFileUrl: (id: DepositId, filePath: string) => Promise<string> = (id, filePath) => createURL(`deposit/${id}/file/${filePath}`)
 export const listDepositsURL: Promise<string> = createURL("deposit")
 export const deleteDepositURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}`)
 
@@ -36,8 +37,6 @@ export const fetchMetadataURL: (id: DepositId) => Promise<string> = id => create
 export const fetchDoiURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/doi`)
 export const saveDraftURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/metadata`)
 export const submitDepositURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/state`)
-
-export const listFiles: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/file`)
 
 export const submitState = ({
     state: "SUBMITTED",
