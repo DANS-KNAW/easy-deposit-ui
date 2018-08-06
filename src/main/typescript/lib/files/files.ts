@@ -21,7 +21,7 @@ type FileWithPath = FileInfo & { dirpath: string }
 export const filesConverter: (input: any) => Files = input => {
     return input.map(fileConverter)
         .reduce((obj: Files, item: FileWithPath) => {
-            obj[item.dirpath] = ({
+            obj[item.dirpath + '/' + item.filename] = ({
                 filename: item.filename,
                 dirpath: item.dirpath,
                 sha1sum: item.sha1sum,
