@@ -24,7 +24,6 @@ import { PromiseAction } from "../../../../../lib/redux"
 import { connect } from "react-redux"
 import { deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
-import { Action, Dispatch } from "redux"
 import { cleanDeposits } from "../../../../../actions/depositOverviewActions"
 
 interface FilesOverviewProps {
