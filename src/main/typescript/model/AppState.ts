@@ -22,8 +22,10 @@ import { empty as emptyDepositForm } from "./DepositForm"
 import { DepositFormState } from "./DepositForm"
 import { FormStateMap } from "redux-form/lib/reducer"
 import { DropdownLists, emptyDropdownLists } from "./DropdownLists"
+import { empty as emptyConfig, ConfigurationState } from "./Configuration"
 
 export interface AppState {
+    configState: ConfigurationState
     authenticatedUser: Authentication
     user: UserDetails
     deposits: DepositOverviewState
@@ -34,6 +36,7 @@ export interface AppState {
 }
 
 export const empty: AppState = {
+    configState: emptyConfig,
     authenticatedUser: emptyAuthenticatedUser,
     user: emptyUser,
     deposits: emptyDeposits,
