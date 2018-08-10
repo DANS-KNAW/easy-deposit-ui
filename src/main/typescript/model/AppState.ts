@@ -25,7 +25,7 @@ import { DropdownLists, emptyDropdownLists } from "./DropdownLists"
 import { empty as emptyConfig, ConfigurationState } from "./Configuration"
 
 export interface AppState {
-    configState: ConfigurationState
+    configuration: ConfigurationState
     authenticatedUser: Authentication
     user: UserDetails
     deposits: DepositOverviewState
@@ -36,7 +36,7 @@ export interface AppState {
 }
 
 export const empty: AppState = {
-    configState: emptyConfig,
+    configuration: emptyConfig,
     authenticatedUser: emptyAuthenticatedUser,
     user: emptyUser,
     deposits: emptyDeposits,
