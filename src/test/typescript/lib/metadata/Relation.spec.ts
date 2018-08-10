@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import { describe, it, xit } from "mocha"
+import { describe, it } from "mocha"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 import {
     relatedIdentifierDeconverter,

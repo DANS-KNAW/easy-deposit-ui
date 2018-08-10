@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import { describe, it, xit } from "mocha"
+import { describe, it } from "mocha"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
-import { Box, boxConverter, boxDeconverter } from "../../../../main/typescript/lib/metadata/SpatialBox"
+import { boxConverter, boxDeconverter } from "../../../../main/typescript/lib/metadata/SpatialBox"
 
 describe("SpatialBox", () => {
 
