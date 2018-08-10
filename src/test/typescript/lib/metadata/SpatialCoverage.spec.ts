@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import { describe, it, xit } from "mocha"
+import { describe, it } from "mocha"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 import {
-    isoSpatialCoverageDeconverter, spatialCoverageDeconverter,
+    isoSpatialCoverageDeconverter,
+    spatialCoverageDeconverter,
     spatialCoveragesConverter,
 } from "../../../../main/typescript/lib/metadata/SpatialCoverage"
 
