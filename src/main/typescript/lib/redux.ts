@@ -15,6 +15,7 @@
  */
 import { Action, AnyAction } from "redux"
 import { ThunkAction as LibThunkAction } from "redux-thunk"
+import { AppState } from "../model/AppState"
 
 export interface ReduxAction<T> extends Action {
     payload: T
@@ -30,4 +31,4 @@ export interface FetchAction<S, State = any, T = any> extends PromiseAction<T> {
     }
 }
 
-export type ThunkAction<S> = LibThunkAction<Action, S, {}, AnyAction>
+export type ThunkAction<S = AppState> = LibThunkAction<Action, S, {}, AnyAction>

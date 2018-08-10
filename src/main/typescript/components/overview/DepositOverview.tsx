@@ -17,15 +17,15 @@ import * as React from "react"
 import { Component } from "react"
 import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
-import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
+import { Deposit, DepositId, DepositOverviewState, DepositState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
-import { FetchAction, PromiseAction } from "../../lib/redux"
-import { Action, Dispatch } from "redux"
+import { ThunkAction } from "../../lib/redux"
+import { Action } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
-import { depositFormRoute } from "../../constants/clientRoutes"
-import { push, RouterAction } from "react-router-redux"
+import { RouterAction } from "react-router-redux"
+import { enterDeposit } from "../../actions/routerActions"
 
 function isEditable({ state }: Deposit): boolean {
     return state === DepositState.DRAFT || state === DepositState.REJECTED
@@ -34,9 +34,9 @@ function isEditable({ state }: Deposit): boolean {
 interface DepositOverviewProps {
     deposits: DepositOverviewState
 
-    fetchDeposits: () => FetchAction<Deposits>
+    fetchDeposits: () => ThunkAction
     cleanDeposits: () => Action
-    deleteDeposit: (depositId: DepositId) => PromiseAction<void>
+    deleteDeposit: (depositId: DepositId) => ThunkAction
     enterDeposit: (editable: Boolean, depositId: DepositId) => RouterAction
 }
 
@@ -133,11 +133,9 @@ const mapStateToProps = (state: AppState) => ({
     deposits: state.deposits,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    fetchDeposits: () => dispatch(fetchDeposits()),
-    cleanDeposits: () => dispatch(cleanDeposits()),
-    deleteDeposit: (depositId: DepositId) => dispatch(deleteDeposit(depositId)),
-    enterDeposit: (editable: Boolean, depositId: DepositId) => editable ? dispatch(push(depositFormRoute(depositId))) : null
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DepositOverview)
+export default connect(mapStateToProps, {
+    fetchDeposits,
+    cleanDeposits,
+    deleteDeposit,
+    enterDeposit,
+})(DepositOverview)
