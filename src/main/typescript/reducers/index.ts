@@ -24,7 +24,7 @@ import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
 import { allDropdownReducers } from "./dropdownReducer"
-import { configurationReducer } from "./configurationReducer"
+import configurationReducer from "./configurationReducer"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {

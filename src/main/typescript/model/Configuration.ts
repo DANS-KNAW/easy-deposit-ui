@@ -1,16 +1,15 @@
+import FetchState, { empty as emptyFetchState } from "./FetchState"
+
 export interface Configuration {
     apiUrl?: string
 }
 
 export interface ConfigurationState {
-    fetchingConfig: boolean
-    fetchedConfig: boolean
-    fetchConfigError?: string
+    fetchState: FetchState
     configuration: Configuration
 }
 
 export const empty: ConfigurationState = {
-    fetchingConfig: true,
-    fetchedConfig: false,
-    configuration: {}
+    fetchState: emptyFetchState,
+    configuration: {},
 }

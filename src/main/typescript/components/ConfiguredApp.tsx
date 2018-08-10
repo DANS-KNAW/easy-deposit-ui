@@ -1,27 +1,24 @@
 import * as React from "react"
 import { SFC } from "react"
-import { Configuration, ConfigurationState } from "../model/Configuration"
-import { fetchConfiguration } from "../actions/configurationActions"
 import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
-import { FetchAction } from "../lib/redux"
+import FetchState from "../model/FetchState"
+import { getConfigurationFetchState } from "../selectors/configuration"
 
 interface ConfiguredAppProps {
-    configurationState: ConfigurationState
-
-    fetchConfiguration: () => FetchAction<Configuration>
+    configurationState: FetchState
 }
 
-const ConfiguredApp: SFC<ConfiguredAppProps> = ({ children, configurationState: { fetchingConfig, fetchedConfig, fetchConfigError } }) => (
+const ConfiguredApp: SFC<ConfiguredAppProps> = ({ children, configurationState: { fetching, fetched, fetchError } }) => (
     <>
-        {fetchingConfig && <p>Loading configuration...</p>}
-        {fetchedConfig && children}
-        {fetchConfigError && <p>Application configuration could not be loaded: {fetchConfigError}</p>}
+        {fetching && <p>Loading configuration...</p>}
+        {fetched && children}
+        {fetchError && <p>Application configuration could not be loaded: {fetchError}</p>}
     </>
 )
 
 const mapStateToProps = (state: AppState) => ({
-    configurationState: state.configuration,
+    configurationState: getConfigurationFetchState(state),
 })
 
-export default connect(mapStateToProps, { fetchConfiguration })(ConfiguredApp)
+export default connect(mapStateToProps)(ConfiguredApp)
