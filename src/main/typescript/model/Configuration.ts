@@ -6,11 +6,11 @@ export interface ConfigurationState {
     fetchingConfig: boolean
     fetchedConfig: boolean
     fetchConfigError?: string
-    config: Configuration
+    configuration: Configuration
 }
 
 export const empty: ConfigurationState = {
     fetchingConfig: true,
     fetchedConfig: false,
-    config: {}
+    configuration: {}
 }

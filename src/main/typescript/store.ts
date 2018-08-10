@@ -23,6 +23,7 @@ import * as H from "history"
 import { routerMiddleware } from "react-router-redux"
 import { inDevelopmentMode } from "./lib/config"
 import { AppState } from "./model/AppState"
+import { fetchConfiguration } from "./actions/configurationActions"
 
 ///
 // import {Action} from 'redux'
@@ -35,6 +36,14 @@ const predicate = () => true // if you want to see all actions
 // const predicate = () => false // if you want to see no actions
 
 export const newStore = (history: H.History) => {
+    const store = makeStore(history)
+
+    store.dispatch(fetchConfiguration())
+
+    return store
+}
+
+const makeStore = (history: H.History) => {
     if (inDevelopmentMode) {
         const initialState: Partial<AppState> = {
             authenticatedUser: {
