@@ -69,7 +69,7 @@ const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
     return await axios.put(url, dataToSend)
 }
 
-export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
+export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction = (depositId, data) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, false)
 
@@ -103,7 +103,7 @@ export const saveDraftResetAction: () => Action = () => ({
     type: DepositFormConstants.SAVE_DRAFT_RESET,
 })
 
-export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<AppState> = (depositId, data) => (dispatch, getState) => {
+export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction = (depositId, data) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, true)
 
