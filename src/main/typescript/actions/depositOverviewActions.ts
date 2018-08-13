@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ThunkAction } from "../lib/redux"
+import { FetchAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
-import { DepositId } from "../model/Deposits"
+import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 import { depositsConverter, newDepositConverter } from "../lib/deposits/deposits"
 import { deleteDepositUrl, listDepositUrl, newDepositUrl } from "../selectors/serverRoutes"
 
-export const fetchDeposits: () => ThunkAction = () => (dispatch, getState) => dispatch({
+export const fetchDeposits: () => ThunkAction<FetchAction<Deposits>> = () => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
         const response = await axios.get(listDepositUrl(getState()))
@@ -36,7 +36,7 @@ export const cleanDeposits: () => Action = () => ({
     type: DepositOverviewConstants.CLEAN_DEPOSITS,
 })
 
-export const deleteDeposit: (depositId: DepositId) => ThunkAction = depositId => (dispatch, getState) => dispatch({
+export const deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>> = depositId => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
         await axios.delete(deleteDepositUrl(depositId)(getState()))
@@ -44,7 +44,7 @@ export const deleteDeposit: (depositId: DepositId) => ThunkAction = depositId =>
     meta: { depositId: depositId },
 })
 
-export const createNewDeposit: () => ThunkAction = () => (dispatch, getState) => dispatch({
+export const createNewDeposit: () => ThunkAction<FetchAction<DepositId>> = () => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
         const response = await axios.post(newDepositUrl(getState()))

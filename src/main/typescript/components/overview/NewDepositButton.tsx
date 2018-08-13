@@ -24,7 +24,7 @@ import { DepositId } from "../../model/Deposits"
 interface NewDepositButtonProps {
     creatingNew: boolean
 
-    createNewDeposit: () => ThunkAction
+    createNewDeposit: () => ThunkAction<FetchAction<DepositId>>
 }
 
 class NewDepositButton extends Component<NewDepositButtonProps> {

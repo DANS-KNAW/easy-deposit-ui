@@ -17,9 +17,9 @@ import * as React from "react"
 import { Component } from "react"
 import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
-import { Deposit, DepositId, DepositOverviewState, DepositState } from "../../model/Deposits"
+import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
-import { ThunkAction } from "../../lib/redux"
+import { FetchAction, PromiseAction, ThunkAction } from "../../lib/redux"
 import { Action } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
@@ -34,9 +34,9 @@ function isEditable({ state }: Deposit): boolean {
 interface DepositOverviewProps {
     deposits: DepositOverviewState
 
-    fetchDeposits: () => ThunkAction
+    fetchDeposits: () => ThunkAction<FetchAction<Deposits>>
     cleanDeposits: () => Action
-    deleteDeposit: (depositId: DepositId) => ThunkAction
+    deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>>
     enterDeposit: (editable: Boolean, depositId: DepositId) => RouterAction
 }
 
@@ -133,9 +133,4 @@ const mapStateToProps = (state: AppState) => ({
     deposits: state.deposits,
 })
 
-export default connect(mapStateToProps, {
-    fetchDeposits,
-    cleanDeposits,
-    deleteDeposit,
-    enterDeposit,
-})(DepositOverview)
+export default connect(mapStateToProps, { fetchDeposits, cleanDeposits, deleteDeposit, enterDeposit })(DepositOverview)

@@ -31,4 +31,4 @@ export interface FetchAction<S, State = any, T = any> extends PromiseAction<T> {
     }
 }
 
-export type ThunkAction<S = AppState> = LibThunkAction<Action, S, {}, AnyAction>
+export type ThunkAction<A extends Action, S = AppState> = LibThunkAction<A, S, {}, AnyAction>
