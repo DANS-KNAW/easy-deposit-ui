@@ -11,6 +11,7 @@ interface ConfiguredAppProps {
 
 const ConfiguredApp: SFC<ConfiguredAppProps> = ({ children, configurationState: { fetching, fetched, fetchError } }) => (
     <>
+        {/* TODO we need something better here than a loading text */}
         {fetching && <p>Loading configuration...</p>}
         {fetched && children}
         {fetchError && <p>Application configuration could not be loaded: {fetchError}</p>}

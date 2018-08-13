@@ -1,12 +1,16 @@
 import { Configuration } from "../../model/Configuration"
 
-export const configurationConverter: (input: any) => Configuration = input => {
-    const apiUrl = input.apiUrl
+function hasConfiguration(obj: any): obj is { apiUrl: string } {
+    return !!obj && typeof obj === "object" &&
+        "apiUrl" in obj
+}
 
-    if (!!apiUrl)
+export const configurationConverter: (input: unknown) => Configuration = input => {
+    if (hasConfiguration(input))
         return {
-            apiUrl: apiUrl,
+            apiUrl: input.apiUrl,
         }
     else
         throw `configuration did not contain apiUrl`
+
 }
