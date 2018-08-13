@@ -12,5 +12,4 @@ export const configurationConverter: (input: unknown) => Configuration = input =
         }
     else
         throw `configuration did not contain apiUrl`
-
 }
