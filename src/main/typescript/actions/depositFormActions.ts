@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 import { DepositFormMetadata } from "../components/form/parts"
-import { FetchAction, ReduxAction, PromiseAction, ThunkAction } from "../lib/redux"
+import { FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import axios from "axios"
-import { fetchDoiURL, fetchMetadataURL, saveDraftURL, submitDepositURL, submitState } from "../constants/serverRoutes"
 import { Action } from "redux"
 import { AppState } from "../model/AppState"
 import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
 import { Doi } from "../lib/metadata/Identifier"
+import { fetchDoiUrl, fetchMetadataUrl, saveDraftUrl, submitDepositUrl } from "../selectors/serverRoutes"
 
 export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
     type: DepositFormConstants.REGISTER_FORM,
@@ -33,11 +33,10 @@ export const unregisterForm: () => Action = () => ({
     type: DepositFormConstants.UNREGISTER_FORM,
 })
 
-export const fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMetadata, AppState> = depositId => ({
+export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
-        const url = await fetchMetadataURL(depositId)
-        const response = await axios.get(url)
+        const response = await axios.get(fetchMetadataUrl(depositId)(getState()))
         return response.data
     },
     meta: {
@@ -52,22 +51,16 @@ export const fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMet
     },
 })
 
-export const fetchDoi: (depositId: DepositId) => FetchAction<Doi> = depositId => ({
+export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_DOI,
     async payload() {
-        const url = await fetchDoiURL(depositId)
-        const response = await axios.get(url)
+        const response = await axios.get(fetchDoiUrl(depositId)(getState()))
         return response.data
     },
     meta: {
-        transform: input => input.doi,
+        transform: (input: any) => input.doi,
     },
 })
-
-const callSaveDraft = async (depositId: DepositId, dataToSend: any) => {
-    const url = await saveDraftURL(depositId)
-    return await axios.put(url, dataToSend)
-}
 
 export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data) => (dispatch, getState) => {
     try {
@@ -76,7 +69,13 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => Thu
         // TODO remove this log once the form is fully implemented.
         console.log(`saving draft for ${depositId}`, output)
 
-        return dispatch(saveDraftAction(depositId, output))
+        return dispatch({
+            type: DepositFormConstants.SAVE_DRAFT,
+            async payload() {
+                const response = await axios.put(saveDraftUrl(depositId)(getState()), output)
+                return response.data
+            },
+        })
     }
     catch (errorMessage) {
         // TODO remove this log once the form is fully implemented.
@@ -85,14 +84,6 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => Thu
         return dispatch(saveDraftRejectedAction(errorMessage))
     }
 }
-
-const saveDraftAction: (depositId: DepositId, dataToSend: any) => PromiseAction<void> = (depositId, dataToSend) => ({
-    type: DepositFormConstants.SAVE_DRAFT,
-    async payload() {
-        const response = await callSaveDraft(depositId, dataToSend)
-        return response.data
-    },
-})
 
 export const saveDraftRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
     type: DepositFormConstants.SAVE_DRAFT_REJECTED,
@@ -110,7 +101,18 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) =>
         // TODO remove this log once the form is fully implemented.
         console.log(`submitting deposit for ${depositId}`, output)
 
-        return dispatch(submitDepositAction(depositId, output))
+        return dispatch({
+            type: DepositFormConstants.SUBMIT_DEPOSIT,
+            async payload() {
+                await axios.put(saveDraftUrl(depositId)(getState()), output)
+                const submitState = {
+                    state: "SUBMITTED",
+                    stateDescription: "Deposit is ready for post-submission processing",
+                }
+                const response = await axios.put(submitDepositUrl(depositId)(getState()), submitState)
+                return response.data
+            },
+        })
     }
     catch (errorMessage) {
         // TODO remove this log once the form is fully implemented.
@@ -119,16 +121,6 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) =>
         return dispatch(submitDepositRejectedAction(errorMessage))
     }
 }
-
-const submitDepositAction: (depositId: DepositId, dataToSend: any) => PromiseAction<void> = (depositId, dataToSend) => ({
-    type: DepositFormConstants.SUBMIT_DEPOSIT,
-    async payload() {
-        await callSaveDraft(depositId, dataToSend)
-        const url = await submitDepositURL(depositId)
-        const response = await axios.put(url, submitState)
-        return response.data
-    },
-})
 
 export const submitDepositRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
     type: DepositFormConstants.SUBMIT_DEPOSIT_REJECTED,

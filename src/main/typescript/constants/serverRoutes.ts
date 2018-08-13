@@ -21,19 +21,4 @@ const createURL: (path: string) => Promise<string> = async path => {
     return url.endsWith("/") ? `${url}${path}` : `${url}/${path}`
 }
 
-export const loginURL: Promise<string> = createURL("auth/login")
-export const logoutURL: Promise<string> = createURL("auth/logout")
-
-export const userURL: Promise<string> = createURL("user")
-
-export const fetchMetadataURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/metadata`)
-export const fetchDoiURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/doi`)
-export const saveDraftURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/metadata`)
-export const submitDepositURL: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/state`)
-
 export const listFiles: (id: DepositId) => Promise<string> = id => createURL(`deposit/${id}/file`)
-
-export const submitState = ({
-    state: "SUBMITTED",
-    stateDescription: "Deposit is ready for post-submission processing"
-})

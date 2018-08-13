@@ -115,7 +115,7 @@ interface DepositFormStoreArguments {
     depositId: DepositId
     formState: DepositFormState
     formValues?: DepositFormMetadata,
-    fetchMetadata: (depositId: DepositId) => FetchAction<DepositFormMetadata, AppState>
+    fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
     submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
 
