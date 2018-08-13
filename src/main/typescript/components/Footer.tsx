@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { apiUrl, buildDate, inDevelopmentMode, projectVersion } from "../lib/config"
+import { buildDate, inDevelopmentMode, projectVersion } from "../lib/config"
 import "../../resources/css/footer"
-import { Component } from "react"
+import { connect } from "react-redux"
+import { AppState } from "../model/AppState"
+import { getApiUrl } from "../selectors/configuration"
 
 const cts = require("../../resources/img/footer/logo_CTS.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
@@ -27,7 +29,8 @@ const ContactColumn = () => (
     <ul className="contact">
         <li>
             <a href="tel:+31-703494450">+31 70 349 44 50</a>
-        </li>        <li>
+        </li>
+        <li>
             <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>
         </li>
         <li>
@@ -160,7 +163,7 @@ const ContentRow = () => (
 )
 
 interface FooterBuildInfoProps {
-    apiUrl?: string
+    apiUrl: string
 }
 
 const BuildInfoRow = ({ apiUrl }: FooterBuildInfoProps) => (
@@ -169,36 +172,26 @@ const BuildInfoRow = ({ apiUrl }: FooterBuildInfoProps) => (
             <div className="version">
                 <div>Version: <span>{projectVersion}</span></div>
                 <div>Build date: <span>{buildDate}</span></div>
-                {inDevelopmentMode && apiUrl && <div>API base url: <span>{apiUrl}</span></div>}
+                {inDevelopmentMode && <div>API base url: <span>{apiUrl}</span></div>}
             </div>
         </div>
     </div>
 )
 
-interface FooterState {
-    apiUrl?: string
+interface FooterProps {
+    apiUrl: string
 }
 
-class Footer extends Component<{}, FooterState> {
-    constructor(props: {}) {
-        super(props)
-        this.state = {}
-    }
+const Footer = (props: FooterProps) => (
+    <footer className="container-fluid">
+        <TitleRow/>
+        <ContentRow/>
+        <BuildInfoRow apiUrl={props.apiUrl}/>
+    </footer>
+)
 
-    async componentDidMount() {
-        const url = await apiUrl()
-        this.setState({ apiUrl: url })
-    }
+const mapStateToProps = (state: AppState) => ({
+    apiUrl: getApiUrl(state),
+})
 
-    render() {
-        return (
-            <footer className="container-fluid">
-                <TitleRow/>
-                <ContentRow/>
-                <BuildInfoRow apiUrl={this.state.apiUrl}/>
-            </footer>
-        )
-    }
-}
-
-export default Footer
+export default connect(mapStateToProps)(Footer)
