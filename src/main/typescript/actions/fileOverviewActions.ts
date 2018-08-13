@@ -21,10 +21,10 @@ import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
 
-export const fetchFiles: (depositId: DepositId, dirPath: string) => PromiseAction<void> = (depositId, dirPath) => ({
+export const fetchFiles: (depositId: DepositId) => PromiseAction<void> = (depositId) => ({
     type: FileOverviewConstants.FETCH_FILES,
     async payload() {
-        const url = await listFilesURL(depositId, dirPath)
+        const url = await listFilesURL(depositId)
         const response = await axios.get(url)
         return response.data
     },

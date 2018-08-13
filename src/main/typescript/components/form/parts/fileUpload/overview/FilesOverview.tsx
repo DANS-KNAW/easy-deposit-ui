@@ -31,7 +31,7 @@ interface FilesOverviewProps {
     files: FileOverviewState
 
     cleanFiles: () => Action
-    fetchFiles: (depositId: DepositId, dirPath: string) => PromiseAction<void>
+    fetchFiles: (depositId: DepositId) => PromiseAction<void>
 }
 
 class FilesOverview extends Component<FilesOverviewProps> {
@@ -40,7 +40,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
     }
 
     async componentDidMount() {
-        this.props.fetchFiles(this.props.depositId, "")
+        this.props.fetchFiles(this.props.depositId)
     }
 
     componentWillUnmount(){
