@@ -15,6 +15,7 @@
  */
 import { empty as emptyAuthenticatedUser, Authentication } from "./Authentication"
 import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+import { empty as emptyFiles, FileOverviewState } from "./FileInfo"
 import { empty as emptyUser } from "./UserDetails"
 import { emptyFoldableCards, FoldableCards } from "./FoldableCards"
 import { UserDetails } from "./UserDetails"
@@ -29,6 +30,7 @@ export interface AppState {
     authenticatedUser: Authentication
     user: UserDetails
     deposits: DepositOverviewState
+    files: FileOverviewState
     foldableCards: FoldableCards,
     depositForm: DepositFormState,
     form: FormStateMap
@@ -40,6 +42,7 @@ export const empty: AppState = {
     authenticatedUser: emptyAuthenticatedUser,
     user: emptyUser,
     deposits: emptyDeposits,
+    files: emptyFiles,
     foldableCards: emptyFoldableCards,
     depositForm: emptyDepositForm,
     form: {},

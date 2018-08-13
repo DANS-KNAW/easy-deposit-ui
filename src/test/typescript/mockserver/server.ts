@@ -182,7 +182,7 @@ app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
     const dir_path = req.params.dir_path
     const restPath = req.params[0]
     const dirPath = dir_path && restPath ? dir_path + restPath : dir_path
-    console.log(`DELETE /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
+    console.log(`GET /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
 
     if (dirPath) {
         res.status(501)
