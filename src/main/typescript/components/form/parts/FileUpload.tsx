@@ -26,9 +26,7 @@ class FileUpload extends Component<FileUploadProps> {
     render() {
         return (
             <>
-                {/*<FilesOverview/>*/}
-                {/* TODO undo this change before doing a pull request!!! */}
-                <p>file upload will be added later here</p>
+                <FilesOverview/>
             </>
         )
     }
