@@ -15,14 +15,18 @@
  */
 import { UserDetails } from "../../model/UserDetails"
 
-// TODO add unit tests
 export const userConverter: (input: any) => UserDetails = input => {
+    const firstName = input.firstName ? `${input.firstName} ` : ""
+    const prefix = input.prefix ? `${input.prefix} ` : ""
+    const lastName = input.lastName || ""
+    const displayName = `${firstName}${prefix}${lastName}`
+
     return {
         username: input.username || "",
         firstName: input.firstName || "",
         prefix: input.prefix || "",
         lastName: input.lastName || "",
         groups: input.groups || [],
-        displayName: `${input.firstName} ${input.prefix ? input.prefix + " " : ""}${input.lastName}`,
+        displayName: displayName,
     }
 }
