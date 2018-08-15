@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { applyMiddleware, createStore } from "redux"
-import { createLogger } from "redux-logger"
 import thunkMiddleware from "redux-thunk"
 import promiseMiddleware from "redux-promise-middleware"
 import reducers from "./reducers/index"
