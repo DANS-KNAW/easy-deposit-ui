@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FetchAction } from "../lib/redux"
-import { userURL } from "../constants/serverRoutes"
+import { FetchAction, ThunkAction } from "../lib/redux"
 import { UserConstants } from "../constants/userConstants"
 import axios from "axios"
 import { UserDetails } from "../model/UserDetails"
 import { userConverter } from "../lib/user/user"
+import { userUrl } from "../selectors/serverRoutes"
 
-export const getUser: () => FetchAction<UserDetails> = () => ({
+export const getUser: () => ThunkAction<FetchAction<UserDetails>> = () => (dispatch, getState) => dispatch({
     type: UserConstants.FETCH_USER,
     async payload() {
-        const url = await userURL
-        const response = await axios.get(url)
+        const response = await axios.get(userUrl(getState()))
         return response.data
     },
     meta: {
-        transform: userConverter
-    }
+        transform: userConverter,
+    },
 })

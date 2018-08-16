@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Action, AnyAction } from "redux"
-import { ThunkAction as LibThunkAction } from "redux-thunk"
-import { AppState } from "../model/AppState"
+import axios from "axios"
+import { FetchAction } from "../lib/redux"
+import { ConfigurationConstants } from "../constants/configurationConstants"
+import { Configuration } from "../model/Configuration"
+import { configurationConverter } from "../lib/configuration/configuration"
 
-export interface ReduxAction<T> extends Action {
-    payload: T
-}
-
-export interface PromiseAction<T> extends Action {
-    payload: () => Promise<T>
-}
-
-export interface FetchAction<S, State = any, T = any> extends PromiseAction<T> {
+export const fetchConfiguration: () => FetchAction<Configuration> = () => ({
+    type: ConfigurationConstants.CONFIGURATION_LOADING,
+    async payload() {
+        const response = await axios.get(require(`../../resources/application.json`))
+        return response.data
+    },
     meta: {
-        transform: (t: T, state: () => State) => S
-    }
-}
-
-export type ThunkAction<A extends Action, S = AppState> = LibThunkAction<A, S, {}, AnyAction>
+        transform: configurationConverter,
+    },
+})

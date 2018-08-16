@@ -33,4 +33,3 @@ class FileUpload extends Component<FileUploadProps> {
 }
 
 export default FileUpload
-

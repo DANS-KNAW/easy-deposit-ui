@@ -13,22 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Action, AnyAction } from "redux"
-import { ThunkAction as LibThunkAction } from "redux-thunk"
-import { AppState } from "../model/AppState"
+import { DepositId } from "../model/Deposits"
+import { push, RouterAction } from "react-router-redux"
+import { depositFormRoute } from "../constants/clientRoutes"
 
-export interface ReduxAction<T> extends Action {
-    payload: T
+export const enterDeposit: (depositId: DepositId) => RouterAction = depositId => {
+    return push(depositFormRoute(depositId))
 }
-
-export interface PromiseAction<T> extends Action {
-    payload: () => Promise<T>
-}
-
-export interface FetchAction<S, State = any, T = any> extends PromiseAction<T> {
-    meta: {
-        transform: (t: T, state: () => State) => S
-    }
-}
-
-export type ThunkAction<A extends Action, S = AppState> = LibThunkAction<A, S, {}, AnyAction>

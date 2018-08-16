@@ -20,30 +20,32 @@ import { Files } from "../../../../main/typescript/model/FileInfo"
 
 describe("files", () => {
     describe("filesConverter", () => {
-        it("should convert a valid sequence of fileInfos and split them correctly into Files", () =>{
+        it("should convert a valid sequence of fileInfos and split them correctly into Files", () => {
             const input = [
                 {
                     dirpath: "leesplankje/firstrow/",
                     filename: "aap.txt",
                     sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c",
-                },{
+                },
+                {
                     dirpath: "leesplankje/firstrow/",
                     filename: "noot.txt",
                     sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e",
-                }
+                },
             ]
 
-            const expected: Files = {};
-            expected["leesplankje/firstrow/noot.txt"] = {
-                dirpath: "leesplankje/firstrow/",
-                filename: "noot.txt",
-                sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e",
+            const expected: Files = {
+                "leesplankje/firstrow/noot.txt": {
+                    dirpath: "leesplankje/firstrow/",
+                    filename: "noot.txt",
+                    sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e",
+                },
+                "leesplankje/firstrow/aap.txt": {
+                    dirpath: "leesplankje/firstrow/",
+                    filename: "aap.txt",
+                    sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c",
+                },
             }
-            expected["leesplankje/firstrow/aap.txt"] = {
-                 dirpath: "leesplankje/firstrow/",
-                 filename: "aap.txt",
-                 sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c",
-            };
 
             expect(filesConverter(input)).to.eql(expected)
         })

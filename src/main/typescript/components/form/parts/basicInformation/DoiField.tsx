@@ -16,7 +16,7 @@
 import * as React from "react"
 import { FetchDoiState } from "../../../../model/DepositForm"
 import { ReloadAlert } from "../../../Errors"
-import { FetchAction } from "../../../../lib/redux"
+import { FetchAction, ThunkAction } from "../../../../lib/redux"
 import { DepositId } from "../../../../model/Deposits"
 import { connect } from "react-redux"
 import { AppState } from "../../../../model/AppState"
@@ -33,7 +33,7 @@ interface DoiFieldStoreArguments {
 }
 
 interface DoiFieldStoreFunctions {
-    fetchDoi: (depositId: DepositId) => FetchAction<Doi>
+    fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>>
 }
 
 type DoiFieldProps = FieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions

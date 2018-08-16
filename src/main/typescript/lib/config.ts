@@ -13,16 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import axios from "axios"
-import { memoize } from "lodash"
-
-const configuration = memoize(() => axios.get(require("../../resources/application.json")).then(response => response.data))
-
-export const apiUrl: () => Promise<string> = memoize(async () => {
-    const { apiUrl } = await configuration()
-    return apiUrl
-})
-
 declare const __DEVELOPMENT__: boolean
 declare const __CLIENT_ROUTE__: string
 declare const __VERSION__: string
