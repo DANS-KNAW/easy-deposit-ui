@@ -19,8 +19,8 @@ import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
 import { DepositId } from "../../../../../model/Deposits"
-import { FileOverviewState } from "../../../../../model/FileInfo"
-import { PromiseAction } from "../../../../../lib/redux"
+import { FileOverviewState, Files } from "../../../../../model/FileInfo"
+import { FetchAction, ThunkAction } from "../../../../../lib/redux"
 import { connect } from "react-redux"
 import { cleanFiles, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
@@ -31,7 +31,7 @@ interface FilesOverviewProps {
     files: FileOverviewState
 
     cleanFiles: () => Action
-    fetchFiles: (depositId: DepositId) => PromiseAction<void>
+    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
 }
 
 class FilesOverview extends Component<FilesOverviewProps> {

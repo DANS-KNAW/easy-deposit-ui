@@ -22,6 +22,6 @@ export const userConverter: (input: any) => UserDetails = input => {
         prefix: input.prefix,
         lastName: input.lastName,
         groups: input.groups,
-        displayName: `${input.firstName} ${input.prefix ? input.prefix+" " : ""}${input.lastName}`,
+        displayName: `${input.firstName} ${input.prefix ? input.prefix + " " : ""}${input.lastName}`,
     }
 }

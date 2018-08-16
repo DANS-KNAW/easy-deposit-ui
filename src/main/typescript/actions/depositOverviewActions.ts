@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FetchAction, PromiseAction } from "../lib/redux"
+import { FetchAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
-import { deleteDepositURL, listDepositsURL, newDepositURL } from "../constants/serverRoutes"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 import { depositsConverter, newDepositConverter } from "../lib/deposits/deposits"
+import { deleteDepositUrl, listDepositUrl, newDepositUrl } from "../selectors/serverRoutes"
 
-export const fetchDeposits: () => FetchAction<Deposits> = () => ({
+export const fetchDeposits: () => ThunkAction<FetchAction<Deposits>> = () => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
-        const url = await listDepositsURL
-        const response = await axios.get(url)
+        const response = await axios.get(listDepositUrl(getState()))
         return response.data
     },
     meta: {
@@ -37,20 +36,18 @@ export const cleanDeposits: () => Action = () => ({
     type: DepositOverviewConstants.CLEAN_DEPOSITS,
 })
 
-export const deleteDeposit: (depositId: DepositId) => PromiseAction<void> = depositId => ({
+export const deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>> = depositId => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
-        const url = await deleteDepositURL(depositId)
-        await axios.delete(url)
+        await axios.delete(deleteDepositUrl(depositId)(getState()))
     },
     meta: { depositId: depositId },
 })
 
-export const createNewDeposit: () => FetchAction<DepositId> = () => ({
+export const createNewDeposit: () => ThunkAction<FetchAction<DepositId>> = () => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
-        const url = await newDepositURL
-        const response = await axios.post(url)
+        const response = await axios.post(newDepositUrl(getState()))
         return response.data
     },
     meta: {

@@ -15,14 +15,13 @@
  */
 import { Middleware } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import { push } from "react-router-redux"
-import { depositFormRoute } from "../constants/clientRoutes"
+import { enterDeposit } from "../actions/routerActions"
 
 const newDepositRouteToForm: Middleware = ({ dispatch }) => next => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS)
-        dispatch(push(depositFormRoute(action.payload)))
+        dispatch(enterDeposit(action.payload))
 }
 
 export const depositOverviewMiddleware: Middleware[] = [

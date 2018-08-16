@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Action, AnyAction } from "redux"
-import { ThunkAction as LibThunkAction } from "redux-thunk"
-import { AppState } from "../model/AppState"
-
-export interface ReduxAction<T> extends Action {
-    payload: T
+export default interface FetchState {
+    fetching: boolean
+    fetched: boolean
+    fetchError?: string
 }
 
-export interface PromiseAction<T> extends Action {
-    payload: () => Promise<T>
+export const empty: FetchState = {
+    fetching: false,
+    fetched: false,
+    fetchError: undefined,
 }
-
-export interface FetchAction<S, State = any, T = any> extends PromiseAction<T> {
-    meta: {
-        transform: (t: T, state: () => State) => S
-    }
-}
-
-export type ThunkAction<A extends Action, S = AppState> = LibThunkAction<A, S, {}, AnyAction>

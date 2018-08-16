@@ -16,7 +16,7 @@
 import { Dispatch, Middleware } from "redux"
 
 const newRejectedMiddleware: Middleware = () => (next: Dispatch) => action => {
-    if (action.type.endsWith("_REJECTED") && (!!action.payload.response || !!action.payload.message)) {
+    if (action.type && action.type.endsWith("_REJECTED") && (!!action.payload.response || !!action.payload.message)) {
         const response = action.payload.response
         const errorMessage = response
             ? `${response.status} - ${response.statusText}`
