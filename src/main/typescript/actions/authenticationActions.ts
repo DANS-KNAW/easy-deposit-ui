@@ -109,6 +109,7 @@ export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, 
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
         await axios.post(logoutUrl(getState()))
+        localStorage.removeItem("logged-in")
     },
 })
 
