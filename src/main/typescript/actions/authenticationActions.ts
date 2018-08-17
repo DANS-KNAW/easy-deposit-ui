@@ -19,6 +19,7 @@ import axios from "axios"
 import { loginUrl, logoutUrl, userUrl } from "../selectors/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import { userConverter } from "../lib/user/user"
+import LocalStorage from "../lib/LocalStorage"
 
 const authenticatePending = ({
     type: AuthenticationConstants.AUTH_LOGIN_PENDING,
@@ -83,16 +84,16 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
             dispatch(userFulfilled(userResponse.data))
             dispatch(authenticateFulfilled)
 
-            localStorage.setItem("logged-in", "true")
+            LocalStorage.setLogin()
         }
         catch (userResponse) {
-            localStorage.removeItem("logged-in")
+            LocalStorage.setLogout()
 
             dispatch(authenticateRejected({ message: `not able to fetch user details: ${userResponse.response.status} - ${userResponse.response.statusText}` }))
         }
     }
     catch (loginResponse) {
-        localStorage.removeItem("logged-in")
+        LocalStorage.setLogout()
 
         dispatch(authenticateRejected(loginResponse))
     }
@@ -102,7 +103,7 @@ export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, 
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
         await axios.post(logoutUrl(getState()))
-        localStorage.removeItem("logged-in")
+        LocalStorage.setLogout()
     },
 })
 
@@ -129,7 +130,7 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
         dispatch(userFulfilled(response.data))
     }
     catch (response) {
-        localStorage.removeItem("logged-in")
+        LocalStorage.setLogout()
 
         dispatch(signout())
     }
