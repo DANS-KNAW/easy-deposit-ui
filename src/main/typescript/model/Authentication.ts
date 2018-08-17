@@ -19,7 +19,6 @@ export interface Authentication {
     authenticationError?: string
 }
 
-export const empty = {
-    isAuthenticated: false,
-    isAuthenticating: false,
-}
+export const empty = localStorage.getItem("logged-in") == "true"
+    ? { isAuthenticated: true, isAuthenticating: false }
+    : { isAuthenticated: false, isAuthenticating: false }
