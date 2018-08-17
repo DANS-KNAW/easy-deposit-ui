@@ -47,14 +47,9 @@ const userFulfilled = (data: any) => ({
     },
 })
 
-const userRejected = (response: any) => ({
-    type: UserConstants.FETCH_USER_REJECTED,
-    payload: { response: response },
-})
-
 export const authenticate: (userName: string, password: string) => ComplexThunkAction = (userName, password) => async (dispatch, getState) => {
     /*
-     * always dispatch AUTH_LOGIN_PENDING
+     * dispatch AUTH_LOGIN_PENDING
      * call server with 'auth/login'
      *   - success:
      *       dispatch FETCH_USER_PENDING
@@ -65,7 +60,6 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
      *             local storage --> set 'logged-in: true'
      *         - failure:
      *             local storage --> remove 'logged-in'
-     *             dispatch FETCH_USER_REJECTED
      *             dispatch AUTH_LOGIN_REJECTED
      *   - failure:
      *       local storage --> remove 'logged-in'
@@ -94,7 +88,6 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
         catch (userResponse) {
             localStorage.removeItem("logged-in")
 
-            dispatch(userRejected(userResponse.response))
             dispatch(authenticateRejected({ message: `not able to fetch user details: ${userResponse.response.status} - ${userResponse.response.statusText}` }))
         }
     }
