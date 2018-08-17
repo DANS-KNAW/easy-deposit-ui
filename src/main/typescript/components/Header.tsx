@@ -100,7 +100,7 @@ class Header extends Component<HeaderProps> {
 
     render() {
         const { isLoggedIn, loginName, signout } = this.props
-        const loginNavBar = isLoggedIn
+        const loginNavBar = isLoggedIn && loginName
             ? [
                 <span key="loginName" className="navbar-text">{loginName}</span>,
                 <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
