@@ -24,6 +24,7 @@ import { DepositFormState } from "./DepositForm"
 import { FormStateMap } from "redux-form/lib/reducer"
 import { DropdownLists, emptyDropdownLists } from "./DropdownLists"
 import { empty as emptyConfig, ConfigurationState } from "./Configuration"
+import { RouterState } from "react-router-redux"
 
 export interface AppState {
     configuration: ConfigurationState
@@ -34,6 +35,7 @@ export interface AppState {
     foldableCards: FoldableCards,
     depositForm: DepositFormState,
     form: FormStateMap
+    router: RouterState,
     dropDowns: DropdownLists
 }
 
@@ -46,5 +48,6 @@ export const empty: AppState = {
     foldableCards: emptyFoldableCards,
     depositForm: emptyDepositForm,
     form: {},
+    router: { location: null },
     dropDowns: emptyDropdownLists
 }
