@@ -33,11 +33,9 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
         case UserConstants.FETCH_USER_PENDING: {
             return { ...state, displayName: "" }
         }
+        case AuthenticationConstants.AUTH_LOGIN_REJECTED:
         case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
             return empty
-        }
-        case UserConstants.FETCH_USER_REJECTED: {
-            return { ...state, displayName: action.payload }
         }
         default:
             return state

@@ -106,3 +106,31 @@ export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, 
     },
 })
 
+export const getUser: () => ComplexThunkAction = () => async (dispatch, getState) => {
+    /*
+     * this action is called when localStorage says the user is logged in
+     * if that is the case, we fetch the user data
+     * else if the user isn't logged in (a.k.a. cookie isn't present or is expired)
+     *     we correct the state and let the user login again
+     *
+     * dispatch FETCH_USER_PENDING
+     * call server with 'user'
+     *   - success:
+     *       dispatch FETCH_USER_FULFILLED
+     *   - failure:
+     *       local storage --> remove 'logged-in'
+     *       dispatch signout()
+     */
+
+    dispatch(userPending)
+
+    try {
+        const response = await axios.get(userUrl(getState()))
+        dispatch(userFulfilled(response.data))
+    }
+    catch (response) {
+        localStorage.removeItem("logged-in")
+
+        dispatch(signout())
+    }
+}
