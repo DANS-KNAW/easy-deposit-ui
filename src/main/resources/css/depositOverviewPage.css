@@ -32,7 +32,7 @@
 }
 
 .editable_table_row {
-    cursor: default;
+    cursor: pointer;
 }
 
 .not_editable_table_row {

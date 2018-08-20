@@ -20,7 +20,7 @@ import { AppState } from "../../model/AppState"
 import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
 import { FetchAction, PromiseAction, ThunkAction } from "../../lib/redux"
-import { Action, Dispatch } from "redux"
+import { Action } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
@@ -110,7 +110,10 @@ class DepositOverview extends Component<DepositOverviewProps> {
             </Alert>
     }
 
-    deleteDeposit = (depositId: DepositId) => () => this.props.deleteDeposit(depositId)
+    deleteDeposit = (depositId: DepositId) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        this.props.deleteDeposit(depositId)
+    }
 
     enterDeposit = (editable: boolean, depositId: DepositId) => () => editable && this.props.enterDeposit(depositId)
 
