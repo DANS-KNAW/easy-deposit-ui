@@ -44,30 +44,11 @@ export const newStore = (history: H.History) => {
 
 const makeStore = (history: H.History) => {
     if (inDevelopmentMode) {
-        const initialState: Partial<AppState> = {
-            authenticatedUser: {
-                isAuthenticated: true,
-                isAuthenticating: false
-            },
-            user: {
-                username: "JohnB",
-                firstName: "John",
-                prefix: "",
-                lastName: "Bunyan",
-                groups: [
-                    "group001",
-                    "group002",
-                    "group003",
-                ],
-                displayName: "John Bunyan",
-            }
-        }
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
         const composeEnhancers = composeWithDevTools({ predicate })
         return createStore(
             reducers,
-            initialState,
             composeEnhancers(
                 applyMiddleware(
                     ...customMiddleware,

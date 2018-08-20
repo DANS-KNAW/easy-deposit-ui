@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import LocalStorage from "../lib/LocalStorage"
+
 export interface Authentication {
     isAuthenticated: boolean
     isAuthenticating: boolean
     authenticationError?: string
 }
 
-export const empty = {
-    isAuthenticated: false,
-    isAuthenticating: false,
-}
+export const empty = LocalStorage.isLoggedIn()
+    ? { isAuthenticated: true, isAuthenticating: false }
+    : { isAuthenticated: false, isAuthenticating: false }

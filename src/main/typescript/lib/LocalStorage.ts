@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FetchAction, ThunkAction } from "../lib/redux"
-import { UserConstants } from "../constants/userConstants"
-import axios from "axios"
-import { UserDetails } from "../model/UserDetails"
-import { userConverter } from "../lib/user/user"
-import { userUrl } from "../selectors/serverRoutes"
+const loggedIn = "logged-in"
+const loggedInTrue = "true"
 
-export const getUser: () => ThunkAction<FetchAction<UserDetails>> = () => (dispatch, getState) => dispatch({
-    type: UserConstants.FETCH_USER,
-    async payload() {
-        const response = await axios.get(userUrl(getState()))
-        return response.data
-    },
-    meta: {
-        transform: userConverter,
-    },
+const isLoggedIn: () => boolean = () => localStorage.getItem(loggedIn) == loggedInTrue
+const setLogin = () => localStorage.setItem(loggedIn, loggedInTrue)
+const setLogout = () => localStorage.removeItem(loggedIn)
+
+export default ({
+    isLoggedIn: isLoggedIn,
+    setLogin: setLogin,
+    setLogout: setLogout,
 })
