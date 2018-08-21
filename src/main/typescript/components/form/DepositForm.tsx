@@ -24,8 +24,8 @@ import "../../../resources/css/form.css"
 import "react-datepicker/dist/react-datepicker-cssmodules.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
-import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { ComplexThunkAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
+import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
 import { Alert, ReloadAlert } from "../Errors"
@@ -101,7 +101,6 @@ interface DepositFormStoreArguments {
     formValues?: DepositFormMetadata,
 
     fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
-    fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
     submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
 }
@@ -109,7 +108,7 @@ interface DepositFormStoreArguments {
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
-    fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
+    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.depositId)
 
     save = () => {
         const { depositId, formValues, saveDraft } = this.props
@@ -124,7 +123,7 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     componentDidMount() {
-        this.props.fetchAllDropdownsAndMetadata(this.props.depositId)
+        this.fetchMetadata()
     }
 
     render() {
@@ -229,7 +228,6 @@ const composedHOC = compose(
         mapStateToProps,
         {
             fetchAllDropdownsAndMetadata,
-            fetchMetadata,
             saveDraft,
             submitDeposit,
         }),
