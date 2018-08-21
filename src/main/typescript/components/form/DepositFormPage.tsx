@@ -22,6 +22,7 @@ import { ReduxAction } from "../../lib/redux"
 import { connect } from "react-redux"
 import { registerForm, unregisterForm } from "../../actions/depositFormActions"
 import { Action } from "redux"
+import { cleanFiles } from "../../actions/fileOverviewActions"
 
 interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
@@ -30,6 +31,7 @@ interface RouterParams {
 interface MyDepositFormPageProps {
     registerForm: (depositId: DepositId) => ReduxAction<DepositId>
     unregisterForm: () => Action
+    cleanFiles: () => Action
 }
 
 type DepositFormPageProps = MyDepositFormPageProps & RouteComponentProps<RouterParams>
@@ -42,6 +44,7 @@ class DepositFormPage extends Component<DepositFormPageProps> {
 
     componentWillUnmount() {
         this.props.unregisterForm()
+        this.props.cleanFiles()
     }
 
     render() {
@@ -61,4 +64,4 @@ class DepositFormPage extends Component<DepositFormPageProps> {
     }
 }
 
-export default connect(null, { registerForm, unregisterForm })(DepositFormPage)
+export default connect(null, { registerForm, unregisterForm, cleanFiles })(DepositFormPage)

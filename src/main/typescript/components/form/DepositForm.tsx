@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Component, SFC } from "react"
-import { Action, compose } from "redux"
+import { compose } from "redux"
 import { connect } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
@@ -40,8 +40,8 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
-import { LoadingState as FileOverviewLoadingState, Files } from "../../model/FileInfo"
-import { cleanFiles, fetchFiles } from "../../actions/fileOverviewActions"
+import { Files, LoadingState as FileOverviewLoadingState } from "../../model/FileInfo"
+import { fetchFiles } from "../../actions/fileOverviewActions"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -107,7 +107,6 @@ interface DepositFormStoreArguments {
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
     submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
-    cleanFiles: () => Action
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
@@ -132,10 +131,6 @@ class DepositForm extends Component<DepositFormProps> {
     componentDidMount() {
         this.fetchMetadata()
         this.fetchFiles()
-    }
-
-    componentWillUnmount(){
-        this.props.cleanFiles()
     }
 
     render() {
@@ -246,7 +241,6 @@ const composedHOC = compose(
             fetchFiles,
             saveDraft,
             submitDeposit,
-            cleanFiles,
         }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )
