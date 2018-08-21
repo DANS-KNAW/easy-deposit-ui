@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { DepositId } from "../../../../../model/Deposits"
-import { FileOverviewState, Files } from "../../../../../model/FileInfo"
+import { Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 
@@ -27,21 +25,16 @@ interface FilesOverviewProps {
     files: Files
 }
 
-class FilesOverview extends Component<FilesOverviewProps> {
-    render() {
-        const { files } = this.props
-        return (
-            <div className="container pl-0 pr-0">
-                <table className="table table-hover file_table">
-                    <FilesTableHead/>
-                    <tbody>{Object.keys(files).map(filePath =>
-                        <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
-                    )}</tbody>
-                </table>
-            </div>
-        )
-    }
-}
+const FilesOverview = ({ files }: FilesOverviewProps) => (
+    <div className="container pl-0 pr-0">
+        <table className="table table-hover file_table">
+            <FilesTableHead/>
+            <tbody>{Object.keys(files).map(filePath =>
+                <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
+            )}</tbody>
+        </table>
+    </div>
+)
 
 const mapStateToProps = (state: AppState) => ({
     files: state.files.files,
