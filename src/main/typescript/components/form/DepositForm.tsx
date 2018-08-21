@@ -40,7 +40,7 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
-import { Files } from "../../model/FileInfo"
+import { LoadingState as FileOverviewLoadingState, Files } from "../../model/FileInfo"
 import { cleanFiles, fetchFiles } from "../../actions/fileOverviewActions"
 
 interface FetchMetadataErrorProps {
@@ -90,7 +90,7 @@ interface LoadedProps {
 const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
-            {loading && <p>loading metadata...</p>}
+            {loading && <p>Loading data...</p>}
             {error && <p><i>Cannot load data from the server.</i></p>}
             {loaded && children}
         </>
@@ -100,7 +100,8 @@ const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
 interface DepositFormStoreArguments {
     depositId: DepositId
     formState: DepositFormState
-    formValues?: DepositFormMetadata,
+    fileState: FileOverviewLoadingState
+    formValues?: DepositFormMetadata
 
     fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
@@ -139,6 +140,7 @@ class DepositForm extends Component<DepositFormProps> {
 
     render() {
         const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
+        const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = this.props.fileState
         const { saving, saved, saveError } = this.props.formState.saveDraft
         const { submitting, submitError } = this.props.formState.submit
 
@@ -147,8 +149,9 @@ class DepositForm extends Component<DepositFormProps> {
                 <FetchMetadataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
                 <form>
                     <Card title="Upload your data" defaultOpened>
-                        {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <FileUpload depositId={this.props.depositId}/>
+                        <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
+                            <FileUpload depositId={this.props.depositId}/>
+                        </Loaded>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>
@@ -230,6 +233,7 @@ class DepositForm extends Component<DepositFormProps> {
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     formState: state.depositForm,
+    fileState: state.files.loading,
     initialValues: state.depositForm.initialState.metadata,
     formValues: state.form.depositForm && state.form.depositForm.values,
 })

@@ -19,29 +19,17 @@ import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
 import { DepositId } from "../../../../../model/Deposits"
-import { FileOverviewState } from "../../../../../model/FileInfo"
+import { FileOverviewState, Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 
 interface FilesOverviewProps {
-    depositId: DepositId
-    files: FileOverviewState
+    files: Files
 }
 
 class FilesOverview extends Component<FilesOverviewProps> {
     render() {
-        const { files: { loading: { loading, loaded } } } = this.props
-
-        return (
-            <>
-                {loading && <p>Fetching file listing</p>}
-                {loaded && this.renderTable()}
-            </>
-        )
-    }
-
-    private renderTable() {
-        const { files: { files } } = this.props
+        const { files } = this.props
         return (
             <div className="container pl-0 pr-0">
                 <table className="table table-hover file_table">
@@ -56,8 +44,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    depositId: state.depositForm.depositId,
-    files: state.files,
+    files: state.files.files,
 })
 
 export default connect(mapStateToProps)(FilesOverview)
