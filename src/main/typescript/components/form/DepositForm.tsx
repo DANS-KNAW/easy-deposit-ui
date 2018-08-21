@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Component, SFC } from "react"
-import { compose } from "redux"
+import { Action, compose } from "redux"
 import { connect } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
@@ -24,7 +24,7 @@ import "../../../resources/css/form.css"
 import "react-datepicker/dist/react-datepicker-cssmodules.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { ComplexThunkAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
+import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
 import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
@@ -40,6 +40,8 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
+import { Files } from "../../model/FileInfo"
+import { cleanFiles, fetchFiles } from "../../actions/fileOverviewActions"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -101,14 +103,18 @@ interface DepositFormStoreArguments {
     formValues?: DepositFormMetadata,
 
     fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
+    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
     submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
+    cleanFiles: () => Action
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
     fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.depositId)
+
+    fetchFiles = () => this.props.fetchFiles(this.props.depositId)
 
     save = () => {
         const { depositId, formValues, saveDraft } = this.props
@@ -124,6 +130,11 @@ class DepositForm extends Component<DepositFormProps> {
 
     componentDidMount() {
         this.fetchMetadata()
+        this.fetchFiles()
+    }
+
+    componentWillUnmount(){
+        this.props.cleanFiles()
     }
 
     render() {
@@ -228,8 +239,10 @@ const composedHOC = compose(
         mapStateToProps,
         {
             fetchAllDropdownsAndMetadata,
+            fetchFiles,
             saveDraft,
             submitDeposit,
+            cleanFiles,
         }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )

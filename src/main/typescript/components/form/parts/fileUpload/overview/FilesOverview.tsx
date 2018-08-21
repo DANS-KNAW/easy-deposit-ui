@@ -19,34 +19,16 @@ import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
 import { DepositId } from "../../../../../model/Deposits"
-import { FileOverviewState, Files } from "../../../../../model/FileInfo"
-import { FetchAction, ThunkAction } from "../../../../../lib/redux"
+import { FileOverviewState } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
-import { cleanFiles, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
-import { Action } from "redux"
 
 interface FilesOverviewProps {
     depositId: DepositId
     files: FileOverviewState
-
-    cleanFiles: () => Action
-    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
 }
 
 class FilesOverview extends Component<FilesOverviewProps> {
-    constructor(props: FilesOverviewProps) {
-        super(props)
-    }
-
-    async componentDidMount() {
-        this.props.fetchFiles(this.props.depositId)
-    }
-
-    componentWillUnmount(){
-        this.props.cleanFiles()
-    }
-
     render() {
         const { files: { loading: { loading, loaded } } } = this.props
 
@@ -78,4 +60,4 @@ const mapStateToProps = (state: AppState) => ({
     files: state.files,
 })
 
-export default connect(mapStateToProps, { fetchFiles, cleanFiles })(FilesOverview)
+export default connect(mapStateToProps)(FilesOverview)
