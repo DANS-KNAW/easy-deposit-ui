@@ -14,60 +14,167 @@
  * limitations under the License.
  */
 import { DropdownConstants } from "../constants/dropdownConstants"
-import { FetchAction } from "../lib/redux"
+import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from "../lib/redux"
 import axios from "axios"
-import { DropdownListEntry } from "../model/DropdownLists"
 import { convertDropdownData } from "../lib/dropdown/dropdown"
+import { DepositId } from "../model/Deposits"
+import { Action } from "redux"
+import { fetchMetadata } from "./depositFormActions"
 
-const fetchDropdown: (type: DropdownConstants, filename: string) => FetchAction<DropdownListEntry[]> = (type, filename) => ({
+const fetchDropdownPending: (type: DropdownConstants) => Action<DropdownConstants> = type => ({
     type: type,
-    async payload() {
-        const response = await axios.get(require(`../../resources/constants/${filename}`))
-        return response.data
-    },
+})
+
+const fetchDropdownFulfilled: (type: DropdownConstants, data: any) => FetchAction<any> = (type, data) => ({
+    type: type,
+    payload: data,
     meta: {
         transform: convertDropdownData,
     },
 })
 
-export const fetchLanguagesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_LANGUAGES_DROPDOWN, "languages.json")
+const fetchDropdownRejected: <T>(type: DropdownConstants, error: T) => ReduxAction<T> = (type, error) => ({
+    type: type,
+    payload: error,
+})
 
-export const fetchContributorIdsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN, "contributorIds.json")
+const fetchDropdown: (pending: DropdownConstants, fulfilled: DropdownConstants, rejected: DropdownConstants, filename: string) => PromiseThunkAction = (pending, fulfilled, rejected, filename) => async dispatch => {
+    dispatch(fetchDropdownPending(pending))
 
-export const fetchContributorRolesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN, "contributorRoles.json")
+    try {
+        const response = await axios.get(require(`../../resources/constants/${filename}`))
+        dispatch(fetchDropdownFulfilled(fulfilled, response.data))
+    }
+    catch (e) {
+        dispatch(fetchDropdownRejected(rejected, e))
+    }
+}
 
-export const fetchAudiencesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_AUDIENCE_DROPDOWN, "audiences.json")
+const fetchLanguagesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_LANGUAGES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
+        "languages.json",
+    )
 
-export const fetchIdentifiersData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN, "identifiers.json")
+const fetchContributorIdsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
+        "contributorIds.json",
+    )
 
-export const fetchRelationsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_RELATION_DROPDOWN, "relations.json")
+const fetchContributorRolesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED,
+        "contributorRoles.json",
+    )
 
-export const fetchDatesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_DATES_DROPDOWN, "dates.json")
+const fetchAudiencesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED,
+        "audiences.json",
+    )
 
-export const fetchLicensesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_LICENSES_DROPDOWN, "licenses.json")
+const fetchIdentifiersData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
+        "identifiers.json")
 
-export const fetchDcmiTypesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN, "dcmiTypes.json")
+const fetchRelationsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_RELATION_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_RELATION_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED,
+        "relations.json")
 
-export const fetchImtFormatsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN, "imtFormats.json")
+const fetchDatesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_DATES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_DATES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED,
+        "dates.json")
 
-export const fetchAbrComplexSubjectsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN, "abrComplexSubjects.json")
+const fetchLicensesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_LICENSES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
+        "licenses.json")
 
-export const fetchAbrPeriodeTemporalsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN, "abrPeriodeTemporals.json")
+const fetchDcmiTypesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED,
+        "dcmiTypes.json")
 
-export const fetchSpatialCoordinatesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN, "spatialCoordinates.json")
+const fetchImtFormatsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED,
+        "imtFormats.json")
 
-export const fetchSpatialCoveragesIsoData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN, "spatialCoveragesIso.json")
+const fetchAbrComplexSubjectsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED,
+        "abrComplexSubjects.json",
+    )
+
+const fetchAbrPeriodeTemporalsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED,
+        "abrPeriodeTemporals.json",
+    )
+
+const fetchSpatialCoordinatesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED,
+        "spatialCoordinates.json",
+    )
+
+const fetchSpatialCoveragesIsoData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED,
+        "spatialCoveragesIso.json",
+    )
+
+export const fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction = (depositId) => async dispatch => {
+    await Promise.all(
+        [
+            fetchLanguagesData(),
+            fetchContributorIdsData(),
+            fetchContributorRolesData(),
+            fetchAudiencesData(),
+            fetchIdentifiersData(),
+            fetchRelationsData(),
+            fetchDatesData(),
+            fetchLicensesData(),
+            fetchDcmiTypesData(),
+            fetchImtFormatsData(),
+            fetchAbrComplexSubjectsData(),
+            fetchAbrPeriodeTemporalsData(),
+            fetchSpatialCoordinatesData(),
+            fetchSpatialCoveragesIsoData(),
+        ].map(dispatch),
+    )
+
+    dispatch(fetchMetadata(depositId))
+}
