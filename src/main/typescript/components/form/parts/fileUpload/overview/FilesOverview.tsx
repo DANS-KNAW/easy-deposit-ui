@@ -20,8 +20,10 @@ import "../../../../../../resources/css/filesOverviewTable.css"
 import { Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
+import { DepositId } from "../../../../../model/Deposits"
 
 interface FilesOverviewProps {
+    depositId: DepositId
     files: Files
 }
 
