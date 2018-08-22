@@ -73,13 +73,13 @@ const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProp
                    component={TextField}/>
         </div>
         <div className="col form-group col-md-3 mb-2">
-            <label>Initials</label>
+            <label>Initials<Mandatory/></label>
             <Field name={initialsName}
                    placeholder="initials"
                    component={TextField}/>
         </div>
         <div className="col form-group col-md-3 mb-2">
-            <label>Prefix<Mandatory/></label>
+            <label>Prefix</label>
             <Field name={insertionsName}
                    placeholder="prefix"
                    component={TextField}/>

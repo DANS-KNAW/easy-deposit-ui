@@ -14,68 +14,32 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { DepositId } from "../../../../../model/Deposits"
-import { FileOverviewState, Files } from "../../../../../model/FileInfo"
-import { FetchAction, ThunkAction } from "../../../../../lib/redux"
+import { Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
-import { cleanFiles, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { AppState } from "../../../../../model/AppState"
-import { Action } from "redux"
+import { DepositId } from "../../../../../model/Deposits"
 
 interface FilesOverviewProps {
     depositId: DepositId
-    files: FileOverviewState
-
-    cleanFiles: () => Action
-    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
+    files: Files
 }
 
-class FilesOverview extends Component<FilesOverviewProps> {
-    constructor(props: FilesOverviewProps) {
-        super(props)
-    }
-
-    async componentDidMount() {
-        this.props.fetchFiles(this.props.depositId)
-    }
-
-    componentWillUnmount(){
-        this.props.cleanFiles()
-    }
-
-    render() {
-        const { files: { loading: { loading, loaded } } } = this.props
-
-        return (
-            <>
-                {loading && <p>Fetching file listing</p>}
-                {loaded && this.renderTable()}
-            </>
-        )
-    }
-
-    private renderTable() {
-        const { files: { files } } = this.props
-        return (
-            <div className="container pl-0 pr-0">
-                <table className="table table-hover file_table">
-                    <FilesTableHead/>
-                    <tbody>{Object.keys(files).map(filePath =>
-                        <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
-                    )}</tbody>
-                </table>
-            </div>
-        )
-    }
-}
+const FilesOverview = ({ files }: FilesOverviewProps) => (
+    <div className="container pl-0 pr-0">
+        <table className="table table-hover file_table">
+            <FilesTableHead/>
+            <tbody>{Object.keys(files).map(filePath =>
+                <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
+            )}</tbody>
+        </table>
+    </div>
+)
 
 const mapStateToProps = (state: AppState) => ({
-    depositId: state.depositForm.depositId,
-    files: state.files,
+    files: state.files.files,
 })
 
-export default connect(mapStateToProps, { fetchFiles, cleanFiles })(FilesOverview)
+export default connect(mapStateToProps)(FilesOverview)

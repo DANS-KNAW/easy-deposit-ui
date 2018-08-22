@@ -24,8 +24,8 @@ import "../../../resources/css/form.css"
 import "react-datepicker/dist/react-datepicker-cssmodules.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
-import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
+import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
 import { Alert, ReloadAlert } from "../Errors"
@@ -39,23 +39,9 @@ import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
 import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
-import { DropdownListEntry } from "../../model/DropdownLists"
-import {
-    fetchAbrComplexSubjectsData,
-    fetchAbrPeriodeTemporalsData,
-    fetchAudiencesData,
-    fetchContributorIdsData,
-    fetchContributorRolesData,
-    fetchDatesData,
-    fetchDcmiTypesData,
-    fetchIdentifiersData,
-    fetchImtFormatsData,
-    fetchLanguagesData,
-    fetchLicensesData,
-    fetchRelationsData,
-    fetchSpatialCoordinatesData,
-    fetchSpatialCoveragesIsoData,
-} from "../../actions/dropdownActions"
+import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
+import { Files, LoadingState as FileOverviewLoadingState } from "../../model/FileInfo"
+import { fetchFiles } from "../../actions/fileOverviewActions"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -104,7 +90,7 @@ interface LoadedProps {
 const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
-            {loading && <p>loading metadata...</p>}
+            {loading && <p>Loading data...</p>}
             {error && <p><i>Cannot load data from the server.</i></p>}
             {loaded && children}
         </>
@@ -114,31 +100,21 @@ const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
 interface DepositFormStoreArguments {
     depositId: DepositId
     formState: DepositFormState
-    formValues?: DepositFormMetadata,
-    fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>>
+    fileState: FileOverviewLoadingState
+    formValues?: DepositFormMetadata
+
+    fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
+    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
     submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
-
-    fetchLanguagesData: () => FetchAction<DropdownListEntry[]>
-    fetchContributorIdsData: () => FetchAction<DropdownListEntry[]>
-    fetchContributorRolesData: () => FetchAction<DropdownListEntry[]>
-    fetchAudiencesData: () => FetchAction<DropdownListEntry[]>
-    fetchIdentifiersData: () => FetchAction<DropdownListEntry[]>
-    fetchRelationsData: () => FetchAction<DropdownListEntry[]>
-    fetchDatesData: () => FetchAction<DropdownListEntry[]>
-    fetchLicensesData: () => FetchAction<DropdownListEntry[]>
-    fetchDcmiTypesData: () => FetchAction<DropdownListEntry[]>
-    fetchImtFormatsData: () => FetchAction<DropdownListEntry[]>
-    fetchAbrComplexSubjectsData: () => FetchAction<DropdownListEntry[]>
-    fetchAbrPeriodeTemporalsData: () => FetchAction<DropdownListEntry[]>
-    fetchSpatialCoordinatesData: () => FetchAction<DropdownListEntry[]>
-    fetchSpatialCoveragesIsoData: () => FetchAction<DropdownListEntry[]>
 }
 
 type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
 
 class DepositForm extends Component<DepositFormProps> {
-    fetchMetadata = () => this.props.fetchMetadata(this.props.depositId)
+    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.depositId)
+
+    fetchFiles = () => this.props.fetchFiles(this.props.depositId)
 
     save = () => {
         const { depositId, formValues, saveDraft } = this.props
@@ -153,25 +129,13 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     componentDidMount() {
-        this.props.fetchLanguagesData()
-        this.props.fetchContributorIdsData()
-        this.props.fetchContributorRolesData()
-        this.props.fetchAudiencesData()
-        this.props.fetchIdentifiersData()
-        this.props.fetchRelationsData()
-        this.props.fetchDatesData()
-        this.props.fetchLicensesData()
-        this.props.fetchDcmiTypesData()
-        this.props.fetchImtFormatsData()
-        this.props.fetchAbrComplexSubjectsData()
-        this.props.fetchAbrPeriodeTemporalsData()
-        this.props.fetchSpatialCoordinatesData()
-        this.props.fetchSpatialCoveragesIsoData()
         this.fetchMetadata()
+        this.fetchFiles()
     }
 
     render() {
         const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
+        const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = this.props.fileState
         const { saving, saved, saveError } = this.props.formState.saveDraft
         const { submitting, submitError } = this.props.formState.submit
 
@@ -180,8 +144,9 @@ class DepositForm extends Component<DepositFormProps> {
                 <FetchMetadataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
                 <form>
                     <Card title="Upload your data" defaultOpened>
-                        {/* TODO wrap in Loading once we have this piece of state implemented */}
-                        <FileUpload depositId={this.props.depositId}/>
+                        <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
+                            <FileUpload depositId={this.props.depositId}/>
+                        </Loaded>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>
@@ -263,6 +228,7 @@ class DepositForm extends Component<DepositFormProps> {
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     formState: state.depositForm,
+    fileState: state.files.loading,
     initialValues: state.depositForm.initialState.metadata,
     formValues: state.form.depositForm && state.form.depositForm.values,
 })
@@ -271,23 +237,10 @@ const composedHOC = compose(
     connect(
         mapStateToProps,
         {
-            fetchMetadata,
+            fetchAllDropdownsAndMetadata,
+            fetchFiles,
             saveDraft,
             submitDeposit,
-            fetchLanguagesData,
-            fetchContributorRolesData,
-            fetchContributorIdsData,
-            fetchAudiencesData,
-            fetchIdentifiersData,
-            fetchRelationsData,
-            fetchDatesData,
-            fetchLicensesData,
-            fetchDcmiTypesData,
-            fetchImtFormatsData,
-            fetchAbrComplexSubjectsData,
-            fetchAbrPeriodeTemporalsData,
-            fetchSpatialCoordinatesData,
-            fetchSpatialCoveragesIsoData,
         }),
     reduxForm({ form: depositFormName, enableReinitialize: true }),
 )

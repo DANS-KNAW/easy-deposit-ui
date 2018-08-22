@@ -14,60 +14,190 @@
  * limitations under the License.
  */
 import { DropdownConstants } from "../constants/dropdownConstants"
-import { FetchAction } from "../lib/redux"
+import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from "../lib/redux"
 import axios from "axios"
-import { DropdownListEntry } from "../model/DropdownLists"
 import { convertDropdownData } from "../lib/dropdown/dropdown"
+import { DepositId } from "../model/Deposits"
+import { Action } from "redux"
+import { fetchMetadata } from "./depositFormActions"
+import { DropdownList, DropdownLists } from "../model/DropdownLists"
 
-const fetchDropdown: (type: DropdownConstants, filename: string) => FetchAction<DropdownListEntry[]> = (type, filename) => ({
+const fetchDropdownPending: (type: DropdownConstants) => Action<DropdownConstants> = type => ({
     type: type,
-    async payload() {
-        const response = await axios.get(require(`../../resources/constants/${filename}`))
-        return response.data
-    },
+})
+
+const fetchDropdownFulfilled: (type: DropdownConstants, data: any) => FetchAction<any> = (type, data) => ({
+    type: type,
+    payload: data,
     meta: {
         transform: convertDropdownData,
     },
 })
 
-export const fetchLanguagesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_LANGUAGES_DROPDOWN, "languages.json")
+const fetchDropdownRejected: <T>(type: DropdownConstants, error: T) => ReduxAction<T> = (type, error) => ({
+    type: type,
+    payload: error,
+})
 
-export const fetchContributorIdsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN, "contributorIds.json")
+const fetchDropdown: (pending: DropdownConstants, fulfilled: DropdownConstants, rejected: DropdownConstants, filename: string, storeLocation: (dropDowns: DropdownLists) => DropdownList) => PromiseThunkAction = (pending, fulfilled, rejected, filename, storeLocation) => async (dispatch, getState) => {
+    if (!storeLocation(getState().dropDowns).state.fetchedList) {
+        dispatch(fetchDropdownPending(pending))
 
-export const fetchContributorRolesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN, "contributorRoles.json")
+        try {
+            const response = await axios.get(require(`../../resources/constants/${filename}`))
+            dispatch(fetchDropdownFulfilled(fulfilled, response.data))
+        }
+        catch (e) {
+            dispatch(fetchDropdownRejected(rejected, e))
+        }
+    }
+}
 
-export const fetchAudiencesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_AUDIENCE_DROPDOWN, "audiences.json")
+const fetchLanguagesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_LANGUAGES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
+        "languages.json",
+        dds => dds.languages,
+    )
 
-export const fetchIdentifiersData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_IDENTIFIER_DROPDOWN, "identifiers.json")
+const fetchContributorIdsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
+        "contributorIds.json",
+        dds => dds.contributorIds,
+    )
 
-export const fetchRelationsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_RELATION_DROPDOWN, "relations.json")
+const fetchContributorRolesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED,
+        "contributorRoles.json",
+        dds => dds.contributorRoles,
+    )
 
-export const fetchDatesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_DATES_DROPDOWN, "dates.json")
+const fetchAudiencesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED,
+        "audiences.json",
+        dds => dds.audiences,
+    )
 
-export const fetchLicensesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_LICENSES_DROPDOWN, "licenses.json")
+const fetchIdentifiersData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
+        "identifiers.json",
+        dds => dds.identifiers,
+    )
 
-export const fetchDcmiTypesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN, "dcmiTypes.json")
+const fetchRelationsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_RELATION_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_RELATION_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED,
+        "relations.json",
+        dds => dds.relations,
+    )
 
-export const fetchImtFormatsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN, "imtFormats.json")
+const fetchDatesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_DATES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_DATES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED,
+        "dates.json",
+        dds => dds.dates,
+    )
 
-export const fetchAbrComplexSubjectsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN, "abrComplexSubjects.json")
+const fetchLicensesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_LICENSES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
+        "licenses.json",
+        dds => dds.licenses,
+    )
 
-export const fetchAbrPeriodeTemporalsData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN, "abrPeriodeTemporals.json")
+const fetchDcmiTypesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED,
+        "dcmiTypes.json",
+        dds => dds.dcmiTypes,
+    )
 
-export const fetchSpatialCoordinatesData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN, "spatialCoordinates.json")
+const fetchImtFormatsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED,
+        "imtFormats.json",
+        dds => dds.imtFormats,
+    )
 
-export const fetchSpatialCoveragesIsoData: () => FetchAction<DropdownListEntry[]> = () =>
-    fetchDropdown(DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN, "spatialCoveragesIso.json")
+const fetchAbrComplexSubjectsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED,
+        "abrComplexSubjects.json",
+        dds => dds.abrComplexSubjects,
+    )
+
+const fetchAbrPeriodeTemporalsData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED,
+        "abrPeriodeTemporals.json",
+        dds => dds.abrPeriodeTemporals,
+    )
+
+const fetchSpatialCoordinatesData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED,
+        "spatialCoordinates.json",
+        dds => dds.spatialCoordinates,
+    )
+
+const fetchSpatialCoveragesIsoData: () => PromiseThunkAction = () =>
+    fetchDropdown(
+        DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_PENDING,
+        DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_FULFILLED,
+        DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED,
+        "spatialCoveragesIso.json",
+        dds => dds.spatialCoveragesIso,
+    )
+
+export const fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction = (depositId) => async dispatch => {
+    await Promise.all(
+        [
+            fetchLanguagesData(),
+            fetchContributorIdsData(),
+            fetchContributorRolesData(),
+            fetchAudiencesData(),
+            fetchIdentifiersData(),
+            fetchRelationsData(),
+            fetchDatesData(),
+            fetchLicensesData(),
+            fetchDcmiTypesData(),
+            fetchImtFormatsData(),
+            fetchAbrComplexSubjectsData(),
+            fetchAbrPeriodeTemporalsData(),
+            fetchSpatialCoordinatesData(),
+            fetchSpatialCoveragesIsoData(),
+        ].map(dispatch),
+    )
+
+    dispatch(fetchMetadata(depositId))
+}
