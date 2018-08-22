@@ -81,6 +81,7 @@ module.exports = (env, argv) => ({
         // insert the bundled JavaScript into this file
         new HtmlWebpackPlugin({
             template: './src/main/html/index.html',
+            favicon: './src/main/html/favicon.ico',
         }),
         // Extract imported CSS into own file
         new MiniCssExtractPlugin('[name].bundle.css'),
