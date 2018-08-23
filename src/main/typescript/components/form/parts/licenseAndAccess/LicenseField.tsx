@@ -94,11 +94,12 @@ const LicenseChoicesField = asField(LicenseChoices)
 interface LicenseFieldInputProps {
     withLabel?: boolean
     withEmptyDefault?: boolean
+    dropdown: DropdownList
 }
 
 type LicenseFieldProps = FieldProps & SelectHTMLAttributes<HTMLSelectElement> & LicenseFieldInputProps
 
-const LicenseField = ({ state, list }: DropdownList) => (props: LicenseFieldProps) => (
+const LicenseField = ({ dropdown: {state, list}, ...props}: LicenseFieldProps) => (
     <LoadDropdownData state={state}>
         <LicenseChoicesField {...props} choices={list}/>
     </LoadDropdownData>

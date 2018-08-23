@@ -22,11 +22,12 @@ import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 interface LanguageFieldInputProps {
     withLabel?: boolean
     withEmptyDefault?: boolean
+    dropdown: DropdownList
 }
 
 type LanguageFieldProps = FieldProps & LanguageFieldInputProps
 
-const LanguageField = ({ state, list }: DropdownList) => (props: LanguageFieldProps) => (
+const LanguageField = ({ dropdown: {state, list}, ...props }: LanguageFieldProps) => (
     <LoadDropdownData state={state}>
         <DropdownField {...props} choices={list}/>
     </LoadDropdownData>

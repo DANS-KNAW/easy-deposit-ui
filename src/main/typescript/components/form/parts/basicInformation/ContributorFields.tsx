@@ -15,12 +15,12 @@
  */
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
+import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import { Contributor } from "../../../../lib/metadata/Contributor"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import ContributorFieldArray from "../../../../lib/formComponents/ContributorFieldArray"
 
-const ContributorFields = (ids: DropdownList, roles: DropdownList) => (props: FieldArrayProps<Contributor>) => (
+const ContributorFields = ({dropdowns: {ids, roles}, ...props}: FieldArrayPropsWithDropdown<Contributor, DropdownList>) => (
     <LoadDropdownData state={ids.state}>
         <LoadDropdownData state={roles.state}>
             <ContributorFieldArray {...props} idValues={ids.list} roleValues={roles.list}/>

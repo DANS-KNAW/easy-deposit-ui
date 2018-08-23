@@ -15,12 +15,12 @@
  */
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
-import { Contributor } from "../../../../lib/metadata/Contributor"
+import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import ContributorFieldArray from "../../../../lib/formComponents/ContributorFieldArray"
+import { SchemedValue } from "../../../../lib/metadata/Value"
 
-const RightsholderFields = (ids: DropdownList) => (props: FieldArrayProps<Contributor>) => (
+const RightsholderFields = ({ dropdowns: { ids }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
     <LoadDropdownData state={ids.state}>
         <ContributorFieldArray {...props} idValues={ids.list}/>
     </LoadDropdownData>

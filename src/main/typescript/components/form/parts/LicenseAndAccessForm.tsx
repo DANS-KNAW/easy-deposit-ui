@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
+import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field } from "redux-form"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
@@ -44,19 +44,20 @@ interface LicenseAndAccessFormProps {
 
 const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessFormProps) => (
     <>
-        <RepeatableField name="rightsHolders"
-                         label="Rightsholders"
-                         empty={emptyContributor}
-                         fieldNames={[
-                             (name: string) => `${name}.titles`, // 0
-                             (name: string) => `${name}.initials`, // 1
-                             (name: string) => `${name}.insertions`, // 2
-                             (name: string) => `${name}.surname`, // 3
-                             (name: string) => `${name}.ids`, // 4
-                             (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
-                             (name: string) => `${name}.organization`, // 6
-                         ]}
-                         component={RightsholderFields(contributorIds)}/>
+        <RepeatableFieldWithDropdown name="rightsHolders"
+                                     label="Rightsholders"
+                                     empty={emptyContributor}
+                                     fieldNames={[
+                                         (name: string) => `${name}.titles`, // 0
+                                         (name: string) => `${name}.initials`, // 1
+                                         (name: string) => `${name}.insertions`, // 2
+                                         (name: string) => `${name}.surname`, // 3
+                                         (name: string) => `${name}.ids`, // 4
+                                         (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
+                                         (name: string) => `${name}.organization`, // 6
+                                     ]}
+                                     dropdowns={{ ids: contributorIds }}
+                                     component={RightsholderFields}/>
 
         <RepeatableField name="publishers"
                          label="Publishers"
@@ -73,7 +74,8 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                label="License"
                mandatory
                withEmptyDefault
-               component={LicenseField(licenses)}/>
+               dropdown={licenses}
+               component={LicenseField}/>
 
         <Field name="dateAvailable"
                label="Date available"

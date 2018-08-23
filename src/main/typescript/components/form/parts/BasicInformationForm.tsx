@@ -16,7 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import DoiField from "./basicInformation/DoiField"
-import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
+import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
@@ -91,7 +91,8 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                label="Language of description"
                mandatory
                withEmptyDefault
-               component={LanguageField(languages)}/>
+               dropdown={languages}
+               component={LanguageField}/>
 
         <RepeatableField name="titles"
                          label="Title"
@@ -113,34 +114,39 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                maxRows={15}
                component={TextArea}/>
 
-        <RepeatableField name="creators"
-                         label="Creator"
-                         mandatory
-                         empty={emptyContributor}
-                         fieldNames={[
-                             (name: string) => `${name}.titles`, // 0
-                             (name: string) => `${name}.initials`, // 1
-                             (name: string) => `${name}.insertions`, // 2
-                             (name: string) => `${name}.surname`, // 3
-                             (name: string) => `${name}.ids`, // 4
-                             (name: string) => `${name}.role`, // 5
-                             (name: string) => `${name}.organization`, // 6
-                         ]}
-                         component={ContributorFields(contributorIds, contributorRoles)}/>
+        <RepeatableFieldWithDropdown name="creators"
+                                     label="Creator"
+                                     mandatory
+                                     empty={emptyContributor}
+                                     fieldNames={[
+                                         (name: string) => `${name}.titles`, // 0
+                                         (name: string) => `${name}.initials`, // 1
+                                         (name: string) => `${name}.insertions`, // 2
+                                         (name: string) => `${name}.surname`, // 3
+                                         (name: string) => `${name}.ids`, // 4
+                                         (name: string) => `${name}.role`, // 5
+                                         (name: string) => `${name}.organization`, // 6
+                                     ]}
+                                     dropdowns={{
+                                         ids: contributorIds,
+                                         roles: contributorRoles,
+                                     }}
+                                     component={ContributorFields}/>
 
-        <RepeatableField name="contributors"
-                         label="Contributors"
-                         empty={emptyContributor}
-                         fieldNames={[
-                             (name: string) => `${name}.titles`, // 0
-                             (name: string) => `${name}.initials`, // 1
-                             (name: string) => `${name}.insertions`, // 2
-                             (name: string) => `${name}.surname`, // 3
-                             (name: string) => `${name}.ids`, // 4
-                             (name: string) => `${name}.role`, // 5
-                             (name: string) => `${name}.organization`, // 6
-                         ]}
-                         component={ContributorFields(contributorIds, contributorRoles)}/>
+        <RepeatableFieldWithDropdown name="contributors"
+                                     label="Contributors"
+                                     empty={emptyContributor}
+                                     fieldNames={[
+                                         (name: string) => `${name}.titles`, // 0
+                                         (name: string) => `${name}.initials`, // 1
+                                         (name: string) => `${name}.insertions`, // 2
+                                         (name: string) => `${name}.surname`, // 3
+                                         (name: string) => `${name}.ids`, // 4
+                                         (name: string) => `${name}.role`, // 5
+                                         (name: string) => `${name}.organization`, // 6
+                                     ]}
+                                     dropdowns={{ ids: contributorIds, roles: contributorRoles }}
+                                     component={ContributorFields}/>
 
         <Field name="dateCreated"
                label="Date created"
@@ -152,12 +158,13 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                maxDate={moment()}
                component={DatePickerField}/>
 
-        <RepeatableField name="audiences"
-                         label="Audience"
-                         mandatory
-                         empty={emptyString}
-                         fieldNames={[(name: string) => name]}
-                         component={AudienceFieldArray(audiences)}/>
+        <RepeatableFieldWithDropdown name="audiences"
+                                     label="Audience"
+                                     mandatory
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     dropdowns={{ audiences: audiences }}
+                                     component={AudienceFieldArray}/>
 
         <RepeatableField name="subjects"
                          label="Subject"
@@ -165,40 +172,47 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <RepeatableField name="alternativeIdentifiers"
-                         label="Alternative identifier"
-                         empty={emptySchemedValue}
-                         fieldNames={[
-                             (name: string) => `${name}.scheme`,
-                             (name: string) => `${name}.value`,
-                         ]}
-                         component={AlternativeIdentifierFieldArray(identifiers)}/>
+        <RepeatableFieldWithDropdown name="alternativeIdentifiers"
+                                     label="Alternative identifier"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     dropdowns={{ schemes: identifiers }}
+                                     component={AlternativeIdentifierFieldArray}/>
 
-        <RepeatableField name="relatedIdentifiers"
-                         label="Relations"
-                         empty={emptyQualifiedSchemedValue}
-                         fieldNames={[
-                             (name: string) => `${name}.qualifier`,
-                             (name: string) => `${name}.scheme`,
-                             (name: string) => `${name}.value`,
-                         ]}
-                         component={RelatedIdentifierFieldArray(relations, identifiers)}/>
+        <RepeatableFieldWithDropdown name="relatedIdentifiers"
+                                     label="Relations"
+                                     empty={emptyQualifiedSchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.qualifier`,
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     dropdowns={{
+                                         schemes: identifiers,
+                                         qualifiers: relations,
+                                     }}
+                                     component={RelatedIdentifierFieldArray}/>
 
-        <RepeatableField name="relations"
-                         label=""
-                         empty={emptyRelation}
-                         fieldNames={[
-                             (name: string) => `${name}.qualifier`,
-                             (name: string) => `${name}.title`,
-                             (name: string) => `${name}.url`,
-                         ]}
-                         component={RelationFieldArray(relations)}/>
+        <RepeatableFieldWithDropdown name="relations"
+                                     label=""
+                                     empty={emptyRelation}
+                                     fieldNames={[
+                                         (name: string) => `${name}.qualifier`,
+                                         (name: string) => `${name}.title`,
+                                         (name: string) => `${name}.url`,
+                                     ]}
+                                     dropdowns={{ qualifiers: relations }}
+                                     component={RelationFieldArray}/>
 
-        <RepeatableField name="languagesOfFilesIso639"
-                         label="Language of files (ISO 639)"
-                         empty={emptyString}
-                         fieldNames={[(name: string) => name]}
-                         component={LanguageFieldArray(languages)}/>
+        <RepeatableFieldWithDropdown name="languagesOfFilesIso639"
+                                     label="Language of files (ISO 639)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     dropdowns={{ languages: languages }}
+                                     component={LanguageFieldArray}/>
 
         <RepeatableField name="languagesOfFiles"
                          label="Language of files"
@@ -206,23 +220,25 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <RepeatableField name="datesIso8601"
-                         label="Date (ISO 8601)"
-                         empty={emptyQualifiedDate}
-                         fieldNames={[
-                             (name: string) => `${name}.qualifier`,
-                             (name: string) => `${name}.value`,
-                         ]}
-                         component={IsoDateFieldArray(dates)}/>
+        <RepeatableFieldWithDropdown name="datesIso8601"
+                                     label="Date (ISO 8601)"
+                                     empty={emptyQualifiedDate}
+                                     fieldNames={[
+                                         (name: string) => `${name}.qualifier`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     dropdowns={{ dates: dates }}
+                                     component={IsoDateFieldArray}/>
 
-        <RepeatableField name="dates"
-                         label="Date"
-                         empty={emptyQualifiedStringDate}
-                         fieldNames={[
-                             (name: string) => `${name}.qualifier`,
-                             (name: string) => `${name}.value`,
-                         ]}
-                         component={DateFieldArray(dates)}/>
+        <RepeatableFieldWithDropdown name="dates"
+                                     label="Date"
+                                     empty={emptyQualifiedStringDate}
+                                     fieldNames={[
+                                         (name: string) => `${name}.qualifier`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     dropdowns={{ dates: dates }}
+                                     component={DateFieldArray}/>
 
         <Field name="source"
                label="Source"

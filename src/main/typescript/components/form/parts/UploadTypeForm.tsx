@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
+import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import RadioChoices from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -56,11 +56,12 @@ const clarinChoices = [
 
 const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
     <>
-        <RepeatableField name="typesDCMI"
-                         label="Type (DCMI resource type)"
-                         empty={emptyString}
-                         fieldNames={[(name: string) => name]}
-                         component={DcmiTypesFieldArray(dcmiTypes)}/>
+        <RepeatableFieldWithDropdown name="typesDCMI"
+                                     label="Type (DCMI resource type)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     dropdowns={{ types: dcmiTypes }}
+                                     component={DcmiTypesFieldArray}/>
 
         <RepeatableField name="types"
                          label="Types"
@@ -68,11 +69,12 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <RepeatableField name="formatsMediaType"
-                         label=" Format (internet media type)"
-                         empty={emptyString}
-                         fieldNames={[(name: string) => name]}
-                         component={ImtFormatsFieldArray(imtFormats)}/>
+        <RepeatableFieldWithDropdown name="formatsMediaType"
+                                     label=" Format (internet media type)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     dropdowns={{ formats: imtFormats }}
+                                     component={ImtFormatsFieldArray}/>
 
         <RepeatableField name="formats"
                          label="Formats"

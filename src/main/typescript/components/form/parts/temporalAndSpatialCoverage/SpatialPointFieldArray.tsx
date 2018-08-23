@@ -15,14 +15,14 @@
  */
 import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
+import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
 import SchemedPointArray from "../../../../lib/formComponents/SchemedPointArray"
 
-const SpatialPointFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
-    <LoadDropdownData state={state}>
-        <SchemedPointArray {...props} schemeValues={list}/>
+const SpatialPointFieldArray = ({ dropdowns: { coordinates }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+    <LoadDropdownData state={coordinates.state}>
+        <SchemedPointArray {...props} schemeValues={coordinates.list}/>
     </LoadDropdownData>
 )
 
