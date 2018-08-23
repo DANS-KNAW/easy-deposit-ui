@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { depositMiddleware } from "./depositMiddleware"
-import { rejectedRequestMiddleware } from "./rejectedRequestMiddleware"
-import { userDetailsMiddleware } from "./userDetailsMiddleware"
+import { depositOverviewMiddleware } from "./depositOverviewMiddleware"
+import rejectedRequestMiddleware from "./rejectedRequestMiddleware"
 import { depositFormMiddleware } from "./depositFormMiddleware"
+import fetchConvertMiddleware from "./fetchConvertMiddleware"
 
 export default [
-    ...depositMiddleware,
+    fetchConvertMiddleware,
+    ...depositOverviewMiddleware,
     ...depositFormMiddleware,
-    ...rejectedRequestMiddleware,
-    ...userDetailsMiddleware,
+    rejectedRequestMiddleware,
 ]

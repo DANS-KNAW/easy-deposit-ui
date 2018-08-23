@@ -109,15 +109,12 @@ footer .easy-Certificering-link img:not(:last-child) {
     footer .easy-Certificering-link {
         margin-top: 0;
         margin-bottom: 1rem;
+        text-align: left;
     }
     footer .overdans {
         margin-top: 0;
         text-align: left;
     }
-}
-
-/* <= sm */
-@media (max-width: 767px) {
     footer .version {
         text-align: left;
     }

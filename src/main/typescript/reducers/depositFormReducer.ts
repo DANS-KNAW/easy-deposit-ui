@@ -28,13 +28,13 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.FETCH_METADATA_PENDING: {
             return { ...state, fetchMetadata: { ...state.fetchMetadata, fetching: true, fetchError: undefined } }
         }
-        case DepositFormConstants.FETCH_METADATA_FAILED: {
+        case DepositFormConstants.FETCH_METADATA_REJECTED: {
             return {
                 ...state,
                 fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: false, fetchError: action.payload },
             }
         }
-        case DepositFormConstants.FETCH_METADATA_SUCCEEDED: {
+        case DepositFormConstants.FETCH_METADATA_SUCCESS: {
             return {
                 ...state,
                 initialState: { ...state.initialState, metadata: action.payload },
@@ -44,45 +44,45 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.FETCH_DOI_PENDING: {
             return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: true, fetchDoiError: undefined } }
         }
-        case DepositFormConstants.FETCH_DOI_SUCCEEDED: {
+        case DepositFormConstants.FETCH_DOI_SUCCESS: {
             return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: true } }
         }
-        case DepositFormConstants.FETCH_DOI_FAILED: {
+        case DepositFormConstants.FETCH_DOI_REJECTED: {
             return {
                 ...state,
                 fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: false, fetchDoiError: action.payload },
             }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_PENDING: {
+        case DepositFormConstants.SAVE_DRAFT_PENDING: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: true, saveError: undefined },
                 submit: { ...state.submit, submitError: undefined },
             }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_FULFILLED: {
+        case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
             return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true } }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_FAILED: {
+        case DepositFormConstants.SAVE_DRAFT_REJECTED: {
             return {
                 ...state,
                 saveDraft: { ...state.saveDraft, saving: false, saved: false, saveError: action.payload },
             }
         }
-        case DepositFormConstants.SEND_SAVE_DRAFT_RESET: {
+        case DepositFormConstants.SAVE_DRAFT_RESET: {
             return { ...state, saveDraft: { ...state.saveDraft, saved: false } }
         }
-        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_PENDING: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: true, submitError: undefined },
                 saveDraft: { ...state.saveDraft, saveError: undefined },
             }
         }
-        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_FULFILLED: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
             return { ...state, submit: { ...state.submit, submitting: false, submitted: true } }
         }
-        case DepositFormConstants.SEND_SUBMIT_DEPOSIT_FAILED: {
+        case DepositFormConstants.SUBMIT_DEPOSIT_REJECTED: {
             return {
                 ...state,
                 submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },

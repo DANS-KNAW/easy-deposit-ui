@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/RepeatableField"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field } from "redux-form"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
@@ -27,6 +27,7 @@ import { DropdownList } from "../../../model/DropdownLists"
 import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
+import AccessRightsField from "./licenseAndAccess/AccessRightsField"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -42,51 +43,45 @@ interface LicenseAndAccessFormProps {
 }
 
 const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessFormProps) => (
-    <div className="container pl-0 pr-0">
-        <div className="row form-group input-element">
-            <RepeatableField name="rightsHolders"
-                             label="Rightsholders"
-                             empty={emptyContributor}
-                             fieldNames={[
-                                 (name: string) => `${name}.titles`, // 0
-                                 (name: string) => `${name}.initials`, // 1
-                                 (name: string) => `${name}.insertions`, // 2
-                                 (name: string) => `${name}.surname`, // 3
-                                 (name: string) => `${name}.ids`, // 4
-                                 (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
-                                 (name: string) => `${name}.organization`, // 6
-                             ]}
-                             component={RightsholderFields(contributorIds)}/>
-        </div>
+    <>
+        <RepeatableField name="rightsHolders"
+                         label="Rightsholders"
+                         empty={emptyContributor}
+                         fieldNames={[
+                             (name: string) => `${name}.titles`, // 0
+                             (name: string) => `${name}.initials`, // 1
+                             (name: string) => `${name}.insertions`, // 2
+                             (name: string) => `${name}.surname`, // 3
+                             (name: string) => `${name}.ids`, // 4
+                             (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
+                             (name: string) => `${name}.organization`, // 6
+                         ]}
+                         component={RightsholderFields(contributorIds)}/>
 
-        <div className="row form-group input-element">
-            <RepeatableField name="publishers"
-                             label="Publishers"
-                             empty={emptyString}
-                             fieldNames={[(name: string) => name]}
-                             component={TextFieldArray}/>
-        </div>
+        <RepeatableField name="publishers"
+                         label="Publishers"
+                         empty={emptyString}
+                         fieldNames={[(name: string) => name]}
+                         component={TextFieldArray}/>
 
-        <div className="row form-group input-element">
-            <p>Access rights</p>
-        </div>
+        <Field name="accessRights"
+               label="Access rights"
+               mandatory
+               component={AccessRightsField}/>
 
-        <div className="row form-group input-element">
-            <Field name="license"
-                   label="License"
-                   withEmptyDefault
-                   component={LicenseField(licenses)}/>
-        </div>
+        <Field name="license"
+               label="License"
+               mandatory
+               withEmptyDefault
+               component={LicenseField(licenses)}/>
 
-        <div className="row form-group input-element">
-            <Field name="dateAvailable"
-                   label="Date available"
-                   todayButton="Today"
-                   minDate={moment()}
-                   maxDate={moment().add(2, "years")}
-                   component={DatePickerField}/>
-        </div>
-    </div>
+        <Field name="dateAvailable"
+               label="Date available"
+               todayButton="Today"
+               minDate={moment()}
+               maxDate={moment().add(2, "years")}
+               component={DatePickerField}/>
+    </>
 )
 
 const mapStateToProps = (state: AppState) => ({

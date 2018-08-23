@@ -18,12 +18,12 @@ import { AnchorHTMLAttributes } from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
-import RemoveButton from "./RemoveButton"
 import { DropdownFieldInput } from "./DropDownField"
-import { Field, WrappedFieldProps } from "redux-form"
+import { Field } from "redux-form"
 import * as validUrl from "valid-url"
+import { FieldProps } from "./ReduxFormUtils"
 
-const RelationValidateButton = ({ ...props }: WrappedFieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
+const RelationValidateButton = ({ ...props }: FieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
     props.input.value && validUrl.isUri(props.input.value)
         ? <a className="btn btn-primary value-button relation-validate-button"
              href={props.input.value}
@@ -40,16 +40,16 @@ interface RelationFieldArrayProps extends InnerComponentProps {
     get: (index: number) => any
 }
 
-const RelationFieldArrayElement = ({ names, onDelete, deleteDisabled, schemeValues }: RelationFieldArrayProps) => (
+const RelationFieldArrayElement = ({ names, schemeValues }: RelationFieldArrayProps) => (
     <div className="relation">
         <div className="form-row">
-            <div className="col col-md-3 mb-1">
+            <div className="col col-md-4 mb-1">
                 <Field name={names[0]}
                        label="Qualifier"
                        choices={schemeValues}
                        component={DropdownFieldInput}/>
             </div>
-            <div className="col col-md-9 input-group mb-1">
+            <div className="col col-md-8 input-group mb-1">
                 <Field name={names[1]}
                        label="Title"
                        placeholder="Title"
@@ -59,19 +59,16 @@ const RelationFieldArrayElement = ({ names, onDelete, deleteDisabled, schemeValu
         </div>
 
         <div className="form-row">
-            <div className="col col-md-3 mb-2"/>
-            <div className="col col-md-9 input-group mb-2">
-                <div className="input-group">
+            <div className="col col-md-4"/>
+            <div className="col col-md-8 input-group">
+                <Field name={names[2]}
+                       label="Url"
+                       placeholder="Url"
+                       labelWidth={44}
+                       component={LabeledTextField}/>
+                <div className="input-group-append">
                     <Field name={names[2]}
-                           label="Url"
-                           placeholder="Url"
-                           labelWidth={44}
-                           component={LabeledTextField}/>
-                    <div className="input-group-append">
-                        <Field name={names[2]}
-                               component={RelationValidateButton}/>
-                    </div>
-                    <RemoveButton onClick={onDelete} disabled={deleteDisabled}/>
+                           component={RelationValidateButton}/>
                 </div>
             </div>
         </div>

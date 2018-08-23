@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { WrappedFieldProps } from "redux-form"
 import { FetchDoiState } from "../../../../model/DepositForm"
 import { ReloadAlert } from "../../../Errors"
-import { ReduxAction } from "../../../../lib/redux"
+import { FetchAction, ThunkAction } from "../../../../lib/redux"
 import { DepositId } from "../../../../model/Deposits"
 import { connect } from "react-redux"
 import { AppState } from "../../../../model/AppState"
 import { fetchDoi } from "../../../../actions/depositFormActions"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
+import { Doi } from "../../../../lib/metadata/Identifier"
 
 interface DoiFieldInputArguments {
     depositId: string
@@ -32,16 +33,16 @@ interface DoiFieldStoreArguments {
 }
 
 interface DoiFieldStoreFunctions {
-    fetchDoi: (depositId: DepositId) => ReduxAction<Promise<any>>
+    fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>>
 }
 
-type DoiFieldProps = WrappedFieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
+type DoiFieldProps = FieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
 
 const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fetchingDoi, fetchDoiError } }: DoiFieldProps) => (
-    <>
-        <label className="col-12 col-md-3 pl-0 title-label" htmlFor={input.name}>{label}</label>
+    <div className="row form-group input-element mb-4">
+        <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
         {input.value
-            ? <label className="col-12 col-md-9 value-label" id={input.name}>{input.value}</label>
+            ? <label className="col-12 col-md-7 value-label" id={input.name}>{input.value}</label>
             : fetchDoiError
                 ? <ReloadAlert key="fetchMetadataError" reload={() => fetchDoi(depositId)}>
                     An error occurred: {fetchDoiError}. Cannot create a new DOI.
@@ -51,7 +52,7 @@ const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fe
                           onClick={() => fetchDoi(depositId)}
                           disabled={fetchingDoi}>Reserve DOI</button>
         }
-    </>
+    </div>
 )
 
 const mapStateToProps = (state: AppState) => ({
@@ -60,7 +61,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const ConnectedDoiField = connect<DoiFieldStoreArguments, DoiFieldStoreFunctions, DoiFieldInputArguments>(mapStateToProps, { fetchDoi })(DoiField)
 
-const DoiFieldWrapper = ({depositId, ...rest}: WrappedFieldProps & DoiFieldInputArguments) => (
+const DoiFieldWrapper = ({depositId, ...rest}: FieldProps & DoiFieldInputArguments) => (
     <ConnectedDoiField depositId={depositId} {...rest}/>
 )
 

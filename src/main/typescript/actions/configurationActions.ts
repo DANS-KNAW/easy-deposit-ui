@@ -13,27 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ReduxAction } from "../lib/redux"
-import { userURL } from "../constants/serverRoutes"
-import { UserConstants } from "../constants/userConstants"
 import axios from "axios"
-import { UserDetails } from "../model/UserDetails"
+import { FetchAction } from "../lib/redux"
+import { ConfigurationConstants } from "../constants/configurationConstants"
+import { Configuration } from "../model/Configuration"
+import { configurationConverter } from "../lib/configuration/configuration"
 
-export const getUser: () => ReduxAction<Promise<any>> = () => ({
-    type: UserConstants.USER,
+export const fetchConfiguration: () => FetchAction<Configuration> = () => ({
+    type: ConfigurationConstants.CONFIGURATION_LOADING,
     async payload() {
-        const url = await userURL
-        const response = await axios.get(url)
+        const response = await axios.get(require(`../../resources/application.json`))
         return response.data
     },
-})
-
-export const fetchUserFailed: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
-    type: UserConstants.USER_FAILED,
-    payload: errorMessage,
-})
-
-export const fetchUserSucceeded: (user: UserDetails) => ReduxAction<UserDetails> = user => ({
-    type: UserConstants.USER_SUCCEEDED,
-    payload: user,
+    meta: {
+        transform: configurationConverter,
+    },
 })

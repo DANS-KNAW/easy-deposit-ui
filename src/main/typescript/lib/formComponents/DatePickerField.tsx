@@ -18,7 +18,7 @@ import { Component } from "react"
 import asField from "./FieldHOC"
 import LibDatePicker, { ReactDatePickerProps } from "react-datepicker"
 import * as moment from "moment"
-import { WrappedFieldProps } from "redux-form"
+import { FieldProps } from "./ReduxFormUtils"
 
 interface CustomDatePickerProps {
     value?: string
@@ -41,7 +41,7 @@ class CustomDateTextField extends Component<CustomDatePickerProps> {
 // copied from https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
 const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf("IEMobile") !== -1)
 
-type DatePickerProps = WrappedFieldProps & ReactDatePickerProps
+type DatePickerProps = FieldProps & ReactDatePickerProps
 
 // See https://reactdatepicker.com/ for all kinds of options to be used on the DatePicker
 const DatePickerField = (props: DatePickerProps) => {
@@ -68,4 +68,4 @@ const DatePickerField = (props: DatePickerProps) => {
 
 export default asField(DatePickerField)
 
-export const DatePickerInput = (props: WrappedFieldProps & any) => <DatePickerField {...props}/>
+export const DatePickerInput = (props: FieldProps & any) => <DatePickerField {...props}/>

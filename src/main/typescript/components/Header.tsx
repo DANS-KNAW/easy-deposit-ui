@@ -18,12 +18,10 @@ import { Component, ImgHTMLAttributes, SFC } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
 import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
-import { getUser } from "../actions/userActions"
-import { signout } from "../actions/authenticationActions"
+import { getUser, signout } from "../actions/authenticationActions"
 import "../../resources/css/header"
-import { ReduxAction } from "../lib/redux"
+import { ComplexThunkAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { depositOverviewRoute, homeRoute, loginRoute } from "../constants/clientRoutes"
-import { UserDetails } from "../model/UserDetails"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -85,13 +83,21 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
 
-    signout: () => ReduxAction<Promise<void>>
-    getUser: () => ReduxAction<Promise<UserDetails>>
+    signout: () => ThunkAction<PromiseAction<void>>
+    getUser: () => ComplexThunkAction
 }
 
 class Header extends Component<HeaderProps> {
 
+    componentDidMount() {
+        this.getUserDetails()
+    }
+
     componentDidUpdate() {
+        this.getUserDetails()
+    }
+
+    getUserDetails = () => {
         const { isLoggedIn, loginName, getUser } = this.props
         if (isLoggedIn && !loginName) {
             getUser()
@@ -100,7 +106,7 @@ class Header extends Component<HeaderProps> {
 
     render() {
         const { isLoggedIn, loginName, signout } = this.props
-        const loginNavBar = isLoggedIn
+        const loginNavBar = isLoggedIn && loginName
             ? [
                 <span key="loginName" className="navbar-text">{loginName}</span>,
                 <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,

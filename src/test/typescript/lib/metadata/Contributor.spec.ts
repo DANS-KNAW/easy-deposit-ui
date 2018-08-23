@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import "mocha"
+import { describe, it } from "mocha"
 import {
     Contributor,
     contributorConverter,
@@ -54,7 +54,7 @@ describe("Contributor", () => {
             key: "RightsHolder",
             value: "Rightsholder",
             displayValue: "Rightsholder",
-        }
+        },
     ]
 
     describe("contributorConverter", () => {
@@ -111,6 +111,40 @@ describe("Contributor", () => {
                 insertions: "",
                 surname: "",
                 ids: [{ scheme: "", value: "" }],
+                role: "",
+                organization: "",
+            }
+            expect(contributorConverter(idChoices, roleChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert a partial contributor", () => {
+            const input = {
+                ids: [
+                    {
+                        // no scheme
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        // no value
+                    },
+                ],
+            }
+            const expected: Contributor = {
+                titles: "",
+                initials: "",
+                insertions: "",
+                surname: "",
+                ids: [
+                    {
+                        scheme: undefined,
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: undefined,
+                    },
+                ],
                 role: "",
                 organization: "",
             }

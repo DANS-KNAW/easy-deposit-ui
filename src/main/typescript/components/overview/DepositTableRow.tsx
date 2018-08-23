@@ -15,13 +15,7 @@
  */
 import * as React from "react"
 import * as dateFormat from "dateformat"
-import { DeleteState, Deposit, DepositId, DepositState } from "../../model/Deposits"
-import { Link } from "react-router-dom"
-import { depositFormRoute } from "../../constants/clientRoutes"
-
-function isEditable({ state }: Deposit): boolean {
-    return state === DepositState.DRAFT || state === DepositState.REJECTED
-}
+import { DeleteState, Deposit } from "../../model/Deposits"
 
 interface EnterableProps {
     title: string
@@ -32,20 +26,17 @@ const Enterable = ({ title }: EnterableProps) => (
 )
 
 interface DepositTableRowProps {
-    depositId: DepositId
     deposit: Deposit
     deleting?: DeleteState
+    editable: Boolean
 
-    deleteDeposit: () => void
+    deleteDeposit: (e: React.MouseEvent<HTMLButtonElement>) => void
+    enterDeposit: () => void
 }
 
-const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: DepositTableRowProps) => {
-    const editable = isEditable(deposit)
+const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDeposit }: DepositTableRowProps) => {
 
-    const title = editable
-        ? <Link to={depositFormRoute(depositId)}><Enterable title={deposit.title}/></Link>
-        : <Enterable title={deposit.title}/>
-
+    const title = <Enterable title={deposit.title}/>
     const isDeleting = deleting && deleting.deleting
     const deleteButton = editable &&
         <button key="delete"
@@ -59,10 +50,8 @@ const DepositTableRow = ({ depositId, deposit, deleting, deleteDeposit }: Deposi
         </button>
 
     return (
-        <tr className={[
-            "row",
-            editable ? "" : "not_editable_table_row",
-        ].join(" ")}>
+        <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ")}
+            onClick={enterDeposit}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
             <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>

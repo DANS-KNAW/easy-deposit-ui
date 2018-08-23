@@ -15,6 +15,7 @@
  */
 import { AnyAction, combineReducers } from "redux"
 import { depositOverviewReducer } from "./depositOverviewReducer"
+import { fileOverviewReducer } from "./fileOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
 import { foldableCardReducer } from "./foldableCardReducer"
@@ -23,7 +24,8 @@ import { FormState, reducer as formReducer } from "redux-form"
 import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
-import { dropdownReducer } from "./dropdownReducer"
+import { allDropdownReducers } from "./dropdownReducer"
+import configurationReducer from "./configurationReducer"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
@@ -37,6 +39,7 @@ function changeReducer(state: FormState, action: AnyAction) {
 }
 
 export default combineReducers({
+    configuration: configurationReducer,
     authenticatedUser: authenticationReducer,
     user: userReducer,
     form: formReducer.plugin({
@@ -45,8 +48,9 @@ export default combineReducers({
     }),
     router: routerReducer,
     deposits: depositOverviewReducer,
+    files: fileOverviewReducer,
     foldableCards: foldableCardReducer,
     depositForm: depositFormReducer,
-    dropDowns: dropdownReducer,
+    dropDowns: allDropdownReducers,
 })
 

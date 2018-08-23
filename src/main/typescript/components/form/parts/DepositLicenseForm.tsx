@@ -16,6 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import Checkbox from "../../../lib/formComponents/Checkbox"
+import Mandatory from "../../../lib/formComponents/Mandatory"
 
 export interface DepositLicenseFormData {
     acceptLicenseAgreement?: boolean
@@ -27,12 +28,12 @@ const mustBeChecked = (value?: any) => value && value === true
     : "Accept the license agreement before submitting this dataset"
 
 const DepositLicenseForm = () => (
-    <div className="container pl-0 pr-0">
+    <>
         <div className="row form-group input-element mb-0">
             <p>
                 {/* TODO fill in the correct href in the <a> */}
                 In order to deposit a dataset, you must accept and understand
-                the <a className="text-primary" href="#" target="_blank">Licence agreement</a> (PDF).
+                the <a href="#" target="_blank">Licence agreement</a> (PDF).
             </p>
         </div>
 
@@ -70,11 +71,12 @@ const DepositLicenseForm = () => (
 
         <div className="row form-group input-element">
             <Field name="acceptLicenseAgreement"
-                   label="Yes, I accept and understand the terms of the Licence agreement"
                    component={Checkbox}
-                   validate={[mustBeChecked]}/>
+                   validate={[mustBeChecked]}>
+                Yes, I accept and understand the terms of the License agreement<Mandatory/>
+            </Field>
         </div>
-    </div>
+    </>
 )
 
 export default DepositLicenseForm

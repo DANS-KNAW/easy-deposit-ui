@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { expect } from "chai"
-import "mocha"
+import { describe, it } from "mocha"
 import {
     accessRightConverter,
     accessRightDeconverter,
@@ -104,9 +104,19 @@ describe("AccessRight", () => {
                 .eql({ category: "OPEN_ACCESS" })
         })
 
-        it("should convert an AccessRight with both a category and group into the correct external model", () => {
+        it("should convert an AccessRight with both a group-access category and a group into the correct external model", () => {
+            expect(accessRightDeconverter({ category: AccessRightValue.GROUP_ACCESS, group: "my-group" })).to
+                .eql({ category: "GROUP_ACCESS", group: "my-group" })
+        })
+
+        it("should convert an AccessRight with an open-access category and a group into an external model with only the category", () => {
             expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS, group: "my-group" })).to
-                .eql({ category: "OPEN_ACCESS", group: "my-group" })
+                .eql({ category: AccessRightValue.OPEN_ACCESS })
+        })
+
+        it("should convert an AccessRight with only a group-access category into the correct external model", () => {
+            expect(accessRightDeconverter({ category: AccessRightValue.GROUP_ACCESS })).to
+                .eql({ category: AccessRightValue.GROUP_ACCESS })
         })
     })
 })

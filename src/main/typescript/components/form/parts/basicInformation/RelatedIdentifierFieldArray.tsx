@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
-import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
 import { QualifiedSchemedValue } from "../../../../lib/metadata/Value"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import QualifiedSchemedTextFieldArray from "../../../../lib/formComponents/QualifiedSchemedTextFieldArray"

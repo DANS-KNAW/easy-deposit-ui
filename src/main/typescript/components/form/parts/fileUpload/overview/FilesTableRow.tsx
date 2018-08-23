@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FileInfo } from "./FilesOverview"
+import { FileInfo } from "../../../../../model/FileInfo"
 
 interface FilesTableRowProps {
     fileInfo: FileInfo

@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { WrappedFieldProps } from "redux-form"
+import { FieldProps } from "./ReduxFormUtils"
+import { SFC } from "react"
 
-const Checkbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) => {
+// satisfyCompiler is used here to make sure it all compiles
+// if we leave it out, the <Field component={Checkbox}/> will fail to compile
+const Checkbox: SFC<FieldProps & {satisfyCompiler?: any}> = ({ input, meta, label, children }) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
 
@@ -26,7 +29,7 @@ const Checkbox = ({ input, meta, label }: WrappedFieldProps & { foo?: number }) 
             <div className="form-check col-12">
                 <input className="form-check-input" id={input.name} type="checkbox"
                        {...input} defaultChecked={input.value}/>
-                <label className="form-check-label" htmlFor={input.name}>{label}</label>
+                <label className="form-check-label" htmlFor={input.name}>{children}</label>
             </div>
         </>
     )

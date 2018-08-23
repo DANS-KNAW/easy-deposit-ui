@@ -49,7 +49,7 @@ export const doiDeconverter: (d: Doi) => any = d => ({
 const alternativeIdentifierConverter: (identifiers: DropdownListEntry[]) => (ai: any) => SchemedValue = identifiers => ai => {
     const scheme = ai.scheme && (identifiers.find(({ key }) => key === ai.scheme) || archisZaakIdentificatie === ai.scheme)
 
-    if (scheme)
+    if (scheme || !ai.scheme)
         return schemedValueConverter(ai.scheme, ai.value)
     else
         throw `Error in metadata: no such identifier: '${ai.scheme}'`

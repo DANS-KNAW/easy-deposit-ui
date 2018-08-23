@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FieldArray, GenericFieldArray, WrappedFieldArrayProps } from "redux-form"
+import { Configuration } from "../../model/Configuration"
 
-export interface CustomFieldArrayProps<FieldValue> {
-    label?: string
-    empty: FieldValue
-    fieldNames: ((name: string) => string)[]
+function hasConfiguration(obj: any): obj is { apiUrl: string } {
+    return !!obj && typeof obj === "object" &&
+        "apiUrl" in obj
 }
 
-export type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayProps<FieldValue>
-
-export const RepeatableField = FieldArray as new <Data>() => GenericFieldArray<Data, CustomFieldArrayProps<Data>>
+export const configurationConverter: (input: unknown) => Configuration = input => {
+    if (hasConfiguration(input))
+        return {
+            apiUrl: input.apiUrl,
+        }
+    else
+        throw `configuration did not contain apiUrl`
+}

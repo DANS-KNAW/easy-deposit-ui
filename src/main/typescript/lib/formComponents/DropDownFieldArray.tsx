@@ -17,7 +17,6 @@ import * as React from "react"
 import { Field } from "redux-form"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface DropdownFieldProps extends InnerComponentProps {
@@ -26,17 +25,13 @@ interface DropdownFieldProps extends InnerComponentProps {
     withEmptyDefault?: boolean
 }
 
-const DropdownField = ({ names, label, onDelete, deleteDisabled, choices, withEmptyDefault }: DropdownFieldProps) => (
-    <div className="input-group mb-2 mr-2">
-        <Field name={names[0]}
-               label={label}
-               className="custom-select"
-               choices={choices}
-               withEmptyDefault={withEmptyDefault}
-               component={DropdownFieldInput}/>
-        <RemoveButton onClick={onDelete}
-                      disabled={deleteDisabled}/>
-    </div>
+const DropdownField = ({ names, label, choices, withEmptyDefault }: DropdownFieldProps) => (
+    <Field name={names[0]}
+           label={label}
+           className="custom-select"
+           choices={choices}
+           withEmptyDefault={withEmptyDefault}
+           component={DropdownFieldInput}/>
 )
 
 export default asFieldArray(DropdownField)

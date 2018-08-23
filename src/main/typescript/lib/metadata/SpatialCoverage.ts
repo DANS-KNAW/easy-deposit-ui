@@ -25,7 +25,7 @@ function toSpatialCoverageScheme(value: string): SpatialCoverageScheme | undefin
     return Object.values(SpatialCoverageScheme).find(v => v === value)
 }
 
-export const spatialCoveragesConverter: (isoValues: DropdownListEntry[]) => (coverage: any[]) => [string[], string[]] = isoValues => coverages => {
+export const spatialCoveragesConverter: (isoValues: DropdownListEntry[]) => (coverages: any[]) => [string[], string[]] = isoValues => coverages => {
     return coverages.reduce(([isoCoverages, normalCoverages], coverage) => {
         const scheme = coverage.scheme && toSpatialCoverageScheme(coverage.scheme)
 

@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { FieldArrayProps } from "../../../../lib/formComponents/RepeatableField"
+import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
 import SchemedDatePickerArray from "../../../../lib/formComponents/SchemedDatePickerArray"
 import { DropdownList } from "../../../../model/DropdownLists"
 import { QualifiedDate } from "../../../../lib/metadata/Date"

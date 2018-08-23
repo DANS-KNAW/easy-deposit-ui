@@ -191,16 +191,16 @@ enum DateSchemeValues {
 }
 
 interface AccessRight {
-    category: AccessRightValue
+    category: AccessRightValues
     group?: string
 }
 
-enum AccessRightValue {
+enum AccessRightValues {
     OPEN_ACCESS = "OPEN_ACCESS",
-    OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
+    // OPEN_ACCESS_FOR_REGISTERED_USERS = "OPEN_ACCESS_FOR_REGISTERED_USERS",
     GROUP_ACCESS = "GROUP_ACCESS",
     REQUEST_PERMISSION = "REQUEST_PERMISSION",
-    NO_ACCESS = "NO_ACCESS",
+    // NO_ACCESS = "NO_ACCESS",
 }
 
 enum TypesSchemeValues {
@@ -266,7 +266,7 @@ export const allfields: Metadata = {
         {
             titles: "Drs.",
             initials: "D.A.",
-            insertions: "",
+            insertions: "de",
             surname: "NS",
             ids: [
                 {
@@ -306,7 +306,7 @@ export const allfields: Metadata = {
             role: {
                 scheme: ContributorRoleSchemeValues.contributorType,
                 key: ContributorRoleKeyValues.RightsHolder,
-                value: "rightsholder",
+                value: "Rightsholder",
             },
         },
         {
@@ -317,7 +317,7 @@ export const allfields: Metadata = {
             role: {
                 scheme: ContributorRoleSchemeValues.contributorType,
                 key: ContributorRoleKeyValues.RightsHolder,
-                value: "rightsholder",
+                value: "Rightsholder",
             },
         },
     ],
@@ -418,27 +418,27 @@ export const allfields: Metadata = {
     dates: [
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-18",
+            value: dateFormat(new Date().setDate(new Date().getDate() - 2), "isoDateTime"),
+            qualifier: DateQualifierValues.created,
+        },
+        {
+            scheme: DateSchemeValues.W3CDTF,
+            value: dateFormat(Date.now(), "isoDateTime"),
+            qualifier: DateQualifierValues.available,
+        },
+        {
+            scheme: DateSchemeValues.W3CDTF,
+            value: dateFormat("2018-03-18T01:00:00+0100", "isoDateTime"),
             qualifier: DateQualifierValues.dateCopyrighted,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-17",
+            value: dateFormat("2018-03-17T01:00:00+0100", "isoDateTime"),
             qualifier: DateQualifierValues.valid,
-        },
-        {
-            scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat(new Date().setDate(new Date().getDate() - 2), "yyyy-mm-dd"),
-            qualifier: DateQualifierValues.created,
         },
         {
             value: "2018-02-02",
             qualifier: DateQualifierValues.modified,
-        },
-        {
-            scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat(Date.now(), "yyyy-mm-dd"),
-            qualifier: DateQualifierValues.available,
         },
         {
             value: "Groundhog day",
@@ -458,7 +458,7 @@ export const allfields: Metadata = {
         "pub2",
     ],
     accessRights: {
-        category: AccessRightValue.OPEN_ACCESS,
+        category: AccessRightValues.OPEN_ACCESS,
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     types: [
@@ -547,7 +547,7 @@ export const allfields: Metadata = {
         {
             scheme: SpatialCoverageSchemeValues.iso3166,
             key: "NLD",
-            value: "Nederland",
+            value: "Netherlands",
         },
         {
             value: "Haringvliet",
@@ -617,22 +617,22 @@ export const mandatoryOnly: Metadata = {
     dates: [
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-03-19",
+            value: dateFormat("2018-03-19T01:00:00+0100", "isoDateTime"),
             qualifier: DateQualifierValues.created,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: "2018-05-14",
+            value: dateFormat("2018-05-14T02:00:00+0200", "isoDateTime"),
             qualifier: DateQualifierValues.available,
-        }
+        },
     ],
     accessRights: {
-        category: AccessRightValue.GROUP_ACCESS,
+        category: AccessRightValues.GROUP_ACCESS,
         group: "archaeology",
     },
-    license: "DANS-CONDITIONS-OF-USE", // TODO Linda komt met een correcte value
+    license: "http://creativecommons.org/publicdomain/zero/1.0",
     privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
-    acceptLicenseAgreement: false,
+    // acceptLicenseAgreement: false, // if not set, this value is false by default
 }
 
 export const newMetadata: () => Metadata = () => ({})

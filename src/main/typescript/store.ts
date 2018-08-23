@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { applyMiddleware, createStore } from "redux"
-import { createLogger } from "redux-logger"
 import thunkMiddleware from "redux-thunk"
 import promiseMiddleware from "redux-promise-middleware"
 import reducers from "./reducers/index"
@@ -22,19 +21,28 @@ import customMiddleware from "./middleware"
 import * as H from "history"
 import { routerMiddleware } from "react-router-redux"
 import { inDevelopmentMode } from "./lib/config"
+import { AppState } from "./model/AppState"
+import { fetchConfiguration } from "./actions/configurationActions"
 
+///
 // import {Action} from 'redux'
-// import {AppState} from './model/AppState'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
 
 // import {Action} from 'redux'
-// import {AppState} from './model/AppState'
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
 const predicate = () => true // if you want to see all actions
 // const predicate = () => false // if you want to see no actions
 
 export const newStore = (history: H.History) => {
+    const store = makeStore(history)
+
+    store.dispatch(fetchConfiguration())
+
+    return store
+}
+
+const makeStore = (history: H.History) => {
     if (inDevelopmentMode) {
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")

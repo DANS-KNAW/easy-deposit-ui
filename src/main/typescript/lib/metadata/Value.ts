@@ -16,8 +16,8 @@
 import { clean } from "./misc"
 
 export interface SchemedValue {
-    scheme: string
-    value: string
+    scheme?: string
+    value?: string
 }
 
 export const emptySchemedValue: SchemedValue = { scheme: "", value: "" }
@@ -33,9 +33,9 @@ export const schemedValueDeconverter: (sv: SchemedValue) => any = sv => clean({
 })
 
 export interface QualifiedSchemedValue {
-    qualifier: string
-    scheme: string
-    value: string
+    qualifier?: string
+    scheme?: string
+    value?: string
 }
 
 export const emptyQualifiedSchemedValue: QualifiedSchemedValue = { qualifier: "", scheme: "", value: "" }

@@ -31,8 +31,13 @@
     text-align: center;
 }
 
+.editable_table_row {
+    cursor: pointer;
+}
+
 .not_editable_table_row {
     color: #919191;
+    cursor: not-allowed;
 }
 
 .not_editable_table_row #enter_dataset {

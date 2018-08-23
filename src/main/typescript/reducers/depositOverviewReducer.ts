@@ -23,7 +23,7 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
         case DepositOverviewConstants.FETCH_DEPOSITS_PENDING: {
             return { ...state, loading: { ...state.loading, loading: true, loadingError: undefined } }
         }
-        case DepositOverviewConstants.FETCH_DEPOSITS_FAILED: {
+        case DepositOverviewConstants.FETCH_DEPOSITS_REJECTED: {
             return { ...state, loading: { ...state.loading, loading: false, loadingError: action.payload } }
         }
         case DepositOverviewConstants.FETCH_DEPOSITS_SUCCESS: {
@@ -41,7 +41,7 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
                 : { ...emptyDelete, deleting: true }
             return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState } }
         }
-        case DepositOverviewConstants.DELETE_DEPOSIT_FAILED: {
+        case DepositOverviewConstants.DELETE_DEPOSIT_REJECTED: {
             const { meta: { depositId }, payload: errorMessage } = action
 
             const deleteState: DeleteState = state.deleting[depositId]
@@ -66,7 +66,7 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
         case DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS: {
             return { ...state, creatingNew: { creating: false } }
         }
-        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_FAILED: {
+        case DepositOverviewConstants.CREATE_NEW_DEPOSIT_REJECTED: {
             return { ...state, creatingNew: { creating: false, createError: action.payload } }
         }
         default:
