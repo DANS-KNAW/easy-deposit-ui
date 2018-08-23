@@ -42,7 +42,7 @@ const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fe
     <div className="row form-group input-element mb-4">
         <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
         {input.value
-            ? <label className="col-12 col-md-7 value-label" id={input.name}>{input.value}</label>
+            ? <label className="col-12 col-md-8 value-label" id={input.name}>{input.value}</label>
             : fetchDoiError
                 ? <ReloadAlert key="fetchMetadataError" reload={() => fetchDoi(depositId)}>
                     An error occurred: {fetchDoiError}. Cannot create a new DOI.

@@ -33,7 +33,7 @@ const DepositLicenseForm = () => (
             <p>
                 {/* TODO fill in the correct href in the <a> */}
                 In order to deposit a dataset, you must accept and understand
-                the <a href="#" target="_blank">Licence agreement</a> (PDF).
+                the <a href="#" target="_blank" className="text-primary">Licence agreement</a> (PDF).
             </p>
         </div>
 

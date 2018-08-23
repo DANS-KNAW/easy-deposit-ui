@@ -1,0 +1,51 @@
+:root {
+    --primary: #00a7d4!important; /* blue, according to DANS scheme */
+    --primary-hover: #007eae!important;
+
+    --danger: #dc241f!important; /* red, according to DANS scheme */
+
+    --success: #0eab32!important;
+
+    --accent: #047d9f; /* --primary + rgba(0, 0, 0, 0.25) */
+
+    --muted: #919191;
+
+    --page-background: #e6e6e6;
+
+    --footer-background: #767676;
+    --footer-text: white;
+
+    --form-background: #f5f5f5;
+    --form-text: #444;
+    --form-field-border: #ddd;
+}
+
+.bg-primary {
+    background-color: var(--primary)!important;
+}
+
+.bg-danger {
+    background-color: var(--danger)!important;
+}
+
+.bg-success {
+    background-color: var(--success)!important;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:not(:disabled):hover, .btn-primary:not(.disabled):hover {
+    background-color: var(--primary-hover);
+}
+
+.text-primary {
+    color: var(--primary)!important;
+}

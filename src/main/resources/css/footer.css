@@ -16,8 +16,8 @@
 footer {
     bottom: 0;
     width: 100%;
-    background: #767676;
-    color: white;
+    background: var(--footer-background);
+    color: var(--footer-text);
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -40,19 +40,6 @@ footer ul li {
     margin: 5px 0;
 }
 
-:root {
-    --primary: #ffff00!important;
-}
-
-.bg-primary {
-    background-color: var(--primary)!important;
-}
-
-.btn-primary {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
 footer .h1 {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
     text-transform: uppercase;
@@ -61,7 +48,6 @@ footer .h1 {
     margin-bottom: 10px;
     line-height: 1.56em;
     letter-spacing: normal;
-    color: var(--primary)
 }
 
 footer .overdans {

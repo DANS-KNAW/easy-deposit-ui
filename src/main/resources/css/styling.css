@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@import "dansColors.css";
+
 body {
-    background: #e6e6e6;
+    background: var(--page-background);
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
     font-size: 0.75em;
 }

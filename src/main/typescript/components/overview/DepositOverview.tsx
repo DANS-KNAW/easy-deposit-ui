@@ -121,7 +121,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
         const { deposits: { deposits, deleting } } = this.props
 
         return (
-            <table className="table table-hover deposit_table">
+            <table className="table table-striped deposit_table">
                 <DepositTableHead/>
                 <tbody>{Object.keys(deposits).map(depositId => {
                     const editable = isEditable(deposits[depositId])
