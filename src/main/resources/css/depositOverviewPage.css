@@ -38,7 +38,7 @@
 #actions_cell .close:hover {
     color: var(--danger-hover)!important;
     opacity: 1!important;
-    text-shadow: 1px 1px 0 rgba(220, 36, 30, 0.18);
+    text-shadow: 1px 1px 0 rgba(148, 148, 148, 0.32);
 }
 
 .editable_table_row {
