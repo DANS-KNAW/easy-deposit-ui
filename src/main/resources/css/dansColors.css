@@ -4,7 +4,6 @@
 
     --danger: var(--button-background);
     --danger-hover: #dc241f!important; /* red, according to DANS scheme */
-    --danger-hover-shadow: rgba(220, 36, 30, 0.18); /* red, according to DANS scheme, but with lower alpha */
 
     --success: var(--button-background);
     --success-hover: var(--primary);
@@ -26,6 +25,8 @@
     --button-background-hover: #505050;
 
     --mandatory-star: var(--danger-hover);
+
+    --hover-shadow: rgba(148, 148, 148, 0.32);
 }
 
 .bg-primary {
