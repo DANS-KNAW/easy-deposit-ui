@@ -31,6 +31,16 @@
     text-align: center;
 }
 
+#actions_cell button.close {
+    text-shadow: unset;
+}
+
+#actions_cell .close:hover {
+    color: var(--danger-hover)!important;
+    opacity: 1!important;
+    text-shadow: 1px 1px 0 rgba(220, 36, 30, 0.18);
+}
+
 .editable_table_row {
     cursor: pointer;
 }

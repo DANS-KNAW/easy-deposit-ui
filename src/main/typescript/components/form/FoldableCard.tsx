@@ -63,7 +63,7 @@ class FoldableCard extends Component<FoldableCardProps & FoldableCardInputProps>
                     <div className="col-1 order-2 col-md-1 order-md-3 pl-0 pr-0 arrow">
                         <i className={[
                             "fas",
-                            open ? "fa-chevron-circle-down" : "fa-chevron-circle-left",
+                            open ? "fa-chevron-circle-down" : "fa-chevron-circle-right",
                         ].join(" ").trim()}/>
                     </div>
 

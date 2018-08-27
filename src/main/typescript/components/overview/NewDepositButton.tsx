@@ -32,7 +32,7 @@ class NewDepositButton extends Component<NewDepositButtonProps> {
 
     render() {
         return (
-            <button className="btn btn-dark"
+            <button className="btn btn-primary"
                     disabled={this.props.creatingNew}
                     title="Create new deposit..."
                     onClick={this.createNewDeposit}>{this.props.children}</button>

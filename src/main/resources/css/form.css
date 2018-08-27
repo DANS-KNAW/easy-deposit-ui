@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 .mandatory {
-    color: var(--danger);
+    color: var(--mandatory-star);
     padding-left: 5px;
 }
 
@@ -163,7 +163,7 @@
 }
 
 .input-element .license-field .radio-choices .external-link {
-    color: var(--primary-hover);
+    color: var(--button-background);
 }
 
 .input-element .license-field .show-more:hover {
