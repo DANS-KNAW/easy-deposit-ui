@@ -55,10 +55,10 @@ class DepositFormPage extends Component<DepositFormPageProps> {
                     Read the instructions
                     (<a href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
                         target="_blank"
-                        className="text-primary"><u>English</u></a>)
+                        className="text-primary">English</a>)
                     (<a href="https://dans.knaw.nl/nl/deponeren/toelichting-data-deponeren"
                         target="_blank"
-                        className="text-primary"><u>Nederlands</u></a>)
+                        className="text-primary">Nederlands</a>)
                 </p>
                 <DepositForm/>
             </>

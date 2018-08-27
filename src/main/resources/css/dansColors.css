@@ -67,6 +67,6 @@
     border-color: var(--button-background-hover);
 }
 
-.text-primary {
+.text-primary, a.text-primary:hover {
     color: var(--primary)!important;
 }
