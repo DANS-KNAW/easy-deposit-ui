@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
+import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptyString } from "../../../lib/metadata/misc"
 import AbrComplexSubjectFieldArray from "./archaeologySpecificMetadata/AbrComplexSubjectFieldArray"
 import { DropdownList } from "../../../model/DropdownLists"
@@ -42,17 +42,19 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <RepeatableField name="subjectsAbrComplex"
-                         label="Subject (ABR complex)"
-                         empty={emptyString}
-                         fieldNames={[(name: string) => name]}
-                         component={AbrComplexSubjectFieldArray(abrComplexSubjects)}/>
+        <RepeatableFieldWithDropdown name="subjectsAbrComplex"
+                                     label="Subject (ABR complex)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     dropdowns={{ subjects: abrComplexSubjects }}
+                                     component={AbrComplexSubjectFieldArray}/>
 
-        <RepeatableField name="temporalCoveragesAbr"
-                         label="Temporal (ABR period)"
-                         empty={emptyString}
-                         fieldNames={[(name: string) => name]}
-                         component={AbrPeriodeTemporalsFieldArray(abrPeriodeTemporals)}/>
+        <RepeatableFieldWithDropdown name="temporalCoveragesAbr"
+                                     label="Temporal (ABR period)"
+                                     empty={emptyString}
+                                     fieldNames={[(name: string) => name]}
+                                     dropdowns={{ periods: abrPeriodeTemporals }}
+                                     component={AbrPeriodeTemporalsFieldArray}/>
     </>
 )
 

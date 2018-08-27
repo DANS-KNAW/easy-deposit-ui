@@ -15,12 +15,12 @@
  */
 import * as React from "react"
 import { DropdownList } from "../../../../model/DropdownLists"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
-import { QualifiedSchemedValue } from "../../../../lib/metadata/Value"
+import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
+import { SchemedValue } from "../../../../lib/metadata/Value"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import QualifiedSchemedTextFieldArray from "../../../../lib/formComponents/QualifiedSchemedTextFieldArray"
 
-const RelatedIdentifierFieldArray = (qualifiers: DropdownList, schemes: DropdownList) => (props: FieldArrayProps<QualifiedSchemedValue>) => (
+const RelatedIdentifierFieldArray = ({ dropdowns: { qualifiers, schemes }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
     <LoadDropdownData state={qualifiers.state}>
         <LoadDropdownData state={schemes.state}>
             <QualifiedSchemedTextFieldArray {...props}

@@ -15,14 +15,14 @@
  */
 import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
+import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import DropdownFieldArray from "../../../../lib/formComponents/DropDownFieldArray"
 import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
 
-const DcmiTypesFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<SchemedValue>) => (
-    <LoadDropdownData state={state}>
-        <DropdownFieldArray {...props} withEmptyDefault choices={list}/>
+const DcmiTypesFieldArray = ({ dropdowns: { types }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+    <LoadDropdownData state={types.state}>
+        <DropdownFieldArray {...props} withEmptyDefault choices={types.list}/>
     </LoadDropdownData>
 )
 

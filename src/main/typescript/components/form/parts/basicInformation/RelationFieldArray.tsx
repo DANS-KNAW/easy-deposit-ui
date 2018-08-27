@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FieldArrayProps } from "../../../../lib/formComponents/ReduxFormUtils"
-import { Relation } from "../../../../lib/metadata/Relation"
+import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import RelationFieldArrayElement from "../../../../lib/formComponents/RelationFieldArrayElement"
+import { SchemedValue } from "../../../../lib/metadata/Value"
 
-const RelationFieldArray = ({ state, list }: DropdownList) => (props: FieldArrayProps<Relation>) => (
-    <LoadDropdownData state={state}>
-        <RelationFieldArrayElement {...props} schemeValues={list}/>
+const RelationFieldArray = ({ dropdowns: { qualifiers }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+    <LoadDropdownData state={qualifiers.state}>
+        <RelationFieldArrayElement {...props} schemeValues={qualifiers.list}/>
     </LoadDropdownData>
 )
 

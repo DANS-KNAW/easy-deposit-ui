@@ -30,3 +30,11 @@ export interface CustomFieldArrayProps<FieldValue> extends CustomFieldProps {
 export type FieldArrayProps<FieldValue> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayProps<FieldValue>
 
 export const RepeatableField = FieldArray as new <Data>() => GenericFieldArray<Data, CustomFieldArrayProps<Data>>
+
+export interface CustomFieldArrayPropsWithDropdownData<FieldValue, DropdownType> extends CustomFieldArrayProps<FieldValue> {
+    dropdowns: { [name: string]: DropdownType }
+}
+
+export type FieldArrayPropsWithDropdown<FieldValue, DropdownType> = WrappedFieldArrayProps<FieldValue> & CustomFieldArrayPropsWithDropdownData<FieldValue, DropdownType>
+
+export const RepeatableFieldWithDropdown = FieldArray as new <Data, DropdownType>() => GenericFieldArray<Data, CustomFieldArrayPropsWithDropdownData<Data, DropdownType>>

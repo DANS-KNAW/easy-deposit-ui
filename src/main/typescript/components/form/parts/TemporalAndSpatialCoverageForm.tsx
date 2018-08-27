@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
+import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptySchemedValue } from "../../../lib/metadata/Value"
 import { emptyPoint, Point } from "../../../lib/metadata/SpatialPoint"
 import { Box, emptyBox } from "../../../lib/metadata/SpatialBox"
@@ -48,39 +48,42 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <RepeatableField name="spatialPoints"
-                         label="Spatial point"
-                         empty={emptyPoint}
-                         fieldNames={[
-                             (name: string) => `${name}.scheme`,
-                             (name: string) => `${name}.x`,
-                             (name: string) => `${name}.y`,
-                         ]}
-                         component={SpatialPointFieldArray(spatialCoordinates)}/>
+        <RepeatableFieldWithDropdown name="spatialPoints"
+                                     label="Spatial point"
+                                     empty={emptyPoint}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.x`,
+                                         (name: string) => `${name}.y`,
+                                     ]}
+                                     dropdowns={{ coordinates: spatialCoordinates }}
+                                     component={SpatialPointFieldArray}/>
 
-        <RepeatableField name="spatialBoxes"
-                         label="Spatial box"
-                         empty={emptyBox}
-                         fieldNames={[
-                             (name: string) => `${name}.scheme`,
-                             (name: string) => `${name}.north`,
-                             (name: string) => `${name}.east`,
-                             (name: string) => `${name}.south`,
-                             (name: string) => `${name}.west`,
-                         ]}
-                         component={SpatialBoxFieldArray(spatialCoordinates)}/>
+        <RepeatableFieldWithDropdown name="spatialBoxes"
+                                     label="Spatial box"
+                                     empty={emptyBox}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.north`,
+                                         (name: string) => `${name}.east`,
+                                         (name: string) => `${name}.south`,
+                                         (name: string) => `${name}.west`,
+                                     ]}
+                                     dropdowns={{ coordinates: spatialCoordinates }}
+                                     component={SpatialBoxFieldArray}/>
 
-        <RepeatableField name="spatialCoverageIso3166"
-                         label="Spatial coverage (ISO 3166)"
-                         empty={emptySchemedValue}
-                         fieldNames={[
-                             (name: string) => name,
-                         ]}
+        <RepeatableFieldWithDropdown name="spatialCoverageIso3166"
+                                     label="Spatial coverage (ISO 3166)"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => name,
+                                     ]}
             /*
              * values taken from https://nl.wikipedia.org/wiki/ISO_3166-1
              * use values ISO-3166-1 alpha-3
              */
-                         component={SpatialCoverageIso3166FieldArray(spatialCoveragesIso)}/>
+                                     dropdowns={{ coverages: spatialCoveragesIso }}
+                                     component={SpatialCoverageIso3166FieldArray}/>
 
         <RepeatableField name="spatialCoverages"
                          label="Spatial coverage"

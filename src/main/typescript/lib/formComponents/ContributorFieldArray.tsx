@@ -20,41 +20,37 @@ import TextField from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
-import { FieldArrayProps, RepeatableField } from "./ReduxFormUtils"
-import { emptySchemedValue } from "../metadata/Value"
+import { FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
+import { emptySchemedValue, SchemedValue } from "../metadata/Value"
 import AddButton from "./AddButton"
 import Mandatory from "./Mandatory"
 
-const ContributorIdArray = (idValues: DropdownListEntry[]) => (
-    function <T>({ fields, fieldNames, empty }: FieldArrayProps<T>) {
-        return (
-            <>
-                {fields.map((name, index) => (
-                    <div className="form-row mb-2" key={`${name}.${index}`}>
-                        <div className="col-12 col-md-3 pl-0">
-                            <Field name={fieldNames[0](name)}
-                                   choices={idValues}
-                                   withEmptyDefault
-                                   component={DropdownFieldInput}/>
-                        </div>
+const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributorIds } }: FieldArrayPropsWithDropdown<SchemedValue, DropdownListEntry[]>) => (
+    <>
+        {fields.map((name, index) => (
+            <div className="form-row mb-2" key={`${name}.${index}`}>
+                <div className="col-12 col-md-3 pl-0">
+                    <Field name={fieldNames[0](name)}
+                           choices={contributorIds}
+                           withEmptyDefault
+                           component={DropdownFieldInput}/>
+                </div>
 
-                        <div className="col-12 col-md-6 pr-2">
-                            <Field name={fieldNames[1](name)}
-                                   placeholder="ID"
-                                   component={TextField}/>
-                        </div>
+                <div className="col-12 col-md-6 pr-2">
+                    <Field name={fieldNames[1](name)}
+                           placeholder="ID"
+                           component={TextField}/>
+                </div>
 
-                        <div className="col-2 pl-0 pr-0 remove-and-add-buttons">
-                            <RemoveButton onClick={() => fields.remove(index)}
-                                          className="mr-2"
-                                          disabled={fields.length <= 1}/>
-                            {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty)}/>}
-                        </div>
-                    </div>
-                ))}
-            </>
-        )
-    }
+                <div className="col-2 pl-0 pr-0 remove-and-add-buttons">
+                    <RemoveButton onClick={() => fields.remove(index)}
+                                  className="mr-2"
+                                  disabled={fields.length <= 1}/>
+                    {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty)}/>}
+                </div>
+            </div>
+        ))}
+    </>
 )
 
 interface NameProps {
@@ -117,14 +113,15 @@ const ContributorField = ({ names, idValues, roleValues }: ContributorFieldProps
             </div>
         </div>}
 
-        <RepeatableField name={names[4]}
-                         label="Contributor Ids"
-                         empty={emptySchemedValue}
-                         fieldNames={[
-                             (name: string) => `${name}.scheme`,
-                             (name: string) => `${name}.value`,
-                         ]}
-                         component={ContributorIdArray(idValues)}/>
+        <RepeatableFieldWithDropdown name={names[4]}
+                                     label="Contributor Ids"
+                                     empty={emptySchemedValue}
+                                     fieldNames={[
+                                         (name: string) => `${name}.scheme`,
+                                         (name: string) => `${name}.value`,
+                                     ]}
+                                     dropdowns={{ contributorIds: idValues }}
+                                     component={ContributorIdArray}/>
 
         <div className="form-row">
             <div className="col form-group">
