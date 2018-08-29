@@ -16,8 +16,8 @@
 footer {
     bottom: 0;
     width: 100%;
-    background: #767676;
-    color: white;
+    background: var(--footer-background);
+    color: var(--footer-text);
     padding-top: 20px;
     padding-bottom: 20px;
 }

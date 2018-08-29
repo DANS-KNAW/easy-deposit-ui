@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 .mandatory {
-    color: red;
+    color: var(--mandatory-star);
     padding-left: 5px;
 }
 
@@ -27,13 +27,13 @@
     padding-top: 5px;
     margin-bottom: 0;
     font-weight: bold;
-    color: #444;
+    color: var(--form-text);
 }
 
 .input-element .value-label {
     padding-top: 5px;
     padding-left: 0;
-    color: #444;
+    color: var(--form-text);
 }
 
 .input-element .value-button {
@@ -59,7 +59,7 @@
 .input-element select {
     /*       tb  lr*/
     padding: 5px 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--form-field-border);
     border-radius: 2px;
     font-size: 14px;
 }
@@ -74,18 +74,7 @@
 
 .input-element > .validation-error {
     /* TODO more layout */
-    color: red;
-}
-
-.input-element > .text-array {
-    padding-top: 5px;
-    color: #444;
-}
-
-.input-element > .text-array > .container,
-.input-element > .text-array > .container > .row {
-    padding: 0;
-    margin: 0;
+    color: var(--danger);
 }
 
 .input-element .form-row {
@@ -105,6 +94,11 @@
     font-size: inherit;
     /*       t   r   b   l*/
     padding: 5px 8px 5px 8px;
+    border-color: var(--form-field-border);
+}
+
+.input-element .contributor {
+    border-color: var(--form-field-border)!important;
 }
 
 .input-element .contributor:last-child,
@@ -143,12 +137,12 @@
 }
 
 .react-datepicker__close-icon:after {
-    background-color: #a9a9a9!important;
+    background-color: var(--dark)!important;
     font-size: 13px!important;
 }
 
 .react-datepicker__close-icon:hover:after {
-    background-color: #919191!important;
+    background-color: var(--dark-hover)!important;
 }
 
 .input-element .relation .relation-validate-button {
@@ -156,7 +150,7 @@
     margin-bottom: 0;
     padding-top: 5px;
     padding-bottom: 5px;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--form-field-border);
 }
 
 .input-element .accessrights-field .category-field .radio-button {
@@ -169,7 +163,11 @@
 }
 
 .input-element .license-field .radio-choices .external-link {
-    color: #2125299c
+    color: var(--dark);
+}
+
+.input-element .license-field .radio-choices .external-link:hover {
+    color: var(--dark-hover);
 }
 
 .input-element .license-field .show-more:hover {

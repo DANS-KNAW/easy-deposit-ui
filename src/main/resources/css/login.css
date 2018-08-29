@@ -16,7 +16,7 @@
 .form-group input {
     /*       tb  lr*/
     padding: 5px 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--form-field-border);
     border-radius: 2px;
     font-size: 14px;
 }

@@ -41,7 +41,6 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDepo
     const deleteButton = editable &&
         <button key="delete"
                 className="close icon"
-                style={{ float: "unset" }}
                 disabled={isDeleting}
                 onClick={deleteDeposit}>
             {isDeleting

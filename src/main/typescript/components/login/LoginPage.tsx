@@ -32,12 +32,9 @@ const LoginPage = ({ authenticated, location }: AllDemoFormProps) => {
 
     return authenticated
         ? <Redirect to={from}/>
-        : <div className="container">
-            <div className="row justify-content-around">
-                <EasyLogin/>
-
-                {/* TODO other kinds of login forms here*/}
-            </div>
+        : <div className="row justify-content-around">
+            <EasyLogin/>
+            {/* TODO other kinds of login forms here*/}
         </div>
 }
 
