@@ -33,6 +33,7 @@
 
 #actions_cell button.close {
     text-shadow: unset;
+    float: unset;
 }
 
 #actions_cell .close:hover {
@@ -46,7 +47,7 @@
 }
 
 .not_editable_table_row {
-    color: var(--muted);
+    color: var(--table-row-disabled);
     cursor: not-allowed;
 }
 
@@ -58,7 +59,7 @@
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
 
-    border-bottom: 2px solid var(--accent);
+    border-bottom: 2px solid var(--table-border-accent);
 }
 
 .deposit_table thead tr th {

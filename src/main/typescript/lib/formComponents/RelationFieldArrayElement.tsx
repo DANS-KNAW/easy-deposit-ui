@@ -25,12 +25,12 @@ import { FieldProps } from "./ReduxFormUtils"
 
 const RelationValidateButton = ({ ...props }: FieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
     props.input.value && validUrl.isUri(props.input.value)
-        ? <a className="btn btn-primary value-button relation-validate-button"
+        ? <a className="btn btn-dark value-button relation-validate-button"
              href={props.input.value}
              target="_blank">
             validate
         </a>
-        : <p className="btn btn-primary value-button relation-validate-button disabled">validate</p>
+        : <p className="btn btn-dark value-button relation-validate-button disabled">validate</p>
 )
 
 interface RelationFieldArrayProps extends InnerComponentProps {

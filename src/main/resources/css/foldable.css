@@ -19,7 +19,7 @@
 }
 
 .card .card-header {
-    border-bottom: 2px solid var(--accent);
+    border-bottom: 2px solid var(--table-border-accent);
 }
 
 .card .card-header > .required {
@@ -41,6 +41,6 @@
 }
 
 .card .card-body {
-    background-color: var(--form-background);
+    background-color: var(--form-card-background);
     border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
 }

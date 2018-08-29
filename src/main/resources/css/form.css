@@ -137,12 +137,12 @@
 }
 
 .react-datepicker__close-icon:after {
-    background-color: #a9a9a9!important;
+    background-color: var(--dark)!important;
     font-size: 13px!important;
 }
 
 .react-datepicker__close-icon:hover:after {
-    background-color: #919191!important;
+    background-color: var(--dark-hover)!important;
 }
 
 .input-element .relation .relation-validate-button {
@@ -163,7 +163,11 @@
 }
 
 .input-element .license-field .radio-choices .external-link {
-    color: var(--button-background);
+    color: var(--dark);
+}
+
+.input-element .license-field .radio-choices .external-link:hover {
+    color: var(--dark-hover);
 }
 
 .input-element .license-field .show-more:hover {
