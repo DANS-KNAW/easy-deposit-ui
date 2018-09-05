@@ -39,7 +39,7 @@ export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction
         console.log(`deleting file ${filePath} from ${depositId} `)
         await axios.delete(deleteFileUrl(depositId, filePath)(getState()))
     },
-    meta: {filePath: filePath},
+    meta: { filePath: filePath },
 })
 
 export const cleanFiles: () => Action = () => ({

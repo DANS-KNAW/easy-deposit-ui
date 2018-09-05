@@ -33,7 +33,7 @@ export interface DeleteState {
     deleteError?: string
 }
 
-export type DeletingStates = { [FileId: string]: DeleteState }
+export type DeletingStates = { [filePath: string]: DeleteState }
 
 export const emptyDelete: DeleteState = ({
     deleting: false,

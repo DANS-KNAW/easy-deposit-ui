@@ -57,8 +57,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
 
     deleteFile = (depositId: DepositId, filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        console.log(`starting delete of ${depositId}`)
-        //this.props.deleteFile(depositId, filepath)
+        this.props.deleteFile(depositId, filepath)
     }
 
     private renderTable() {
@@ -71,7 +70,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
                         <FilesTableRow
                             key={filepath}
                             deleting={deleting[filepath]}
-                            deleteFile={() => this.deleteFile(depositId, filepath)}
+                            deleteFile={this.deleteFile(depositId, filepath)}
                             fileInfo={files[filepath]}/>,
                     )}</tbody>
                 </table>
