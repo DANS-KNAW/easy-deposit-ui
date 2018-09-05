@@ -17,29 +17,71 @@ import * as React from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { Files } from "../../../../../model/FileInfo"
+import { FileOverviewState, Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
+import { Component } from "react"
+import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
+import { deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 
 interface FilesOverviewProps {
     depositId: DepositId
-    files: Files
+    files: FileOverviewState
+
+    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
+    deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>>
 }
 
-const FilesOverview = ({ files }: FilesOverviewProps) => (
-    <div className="container pl-0 pr-0">
-        <table className="table table-hover file_table">
-            <FilesTableHead/>
-            <tbody>{Object.keys(files).map(filePath =>
-                <FilesTableRow key={filePath} fileInfo={files[filePath]}/>,
-            )}</tbody>
-        </table>
-    </div>
-)
+
+class FilesOverview extends Component<FilesOverviewProps> {
+
+    constructor(props: FilesOverviewProps) {
+        super(props)
+    }
+
+    componentDidMount() {
+        this.props.fetchFiles(this.props.depositId)
+    }
+
+    render() {
+        const { files: { loading: { loading, loaded } } } = this.props
+
+        return (
+            <>
+                {loading && <p>Fetching file listing</p>}
+                {loaded && this.renderTable()}
+            </>
+        )
+    }
+
+    deleteFile = (depositId: DepositId, filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        console.log(`starting delete of ${depositId}`)
+        //this.props.deleteFile(depositId, filepath)
+    }
+
+    private renderTable() {
+        const { files: { files, deleting }, depositId } = this.props
+
+        return (
+                <table className="table table-striped file_table">
+                    <FilesTableHead/>
+                    <tbody>{Object.keys(files).map(filepath =>
+                        <FilesTableRow
+                            key={filepath}
+                            deleting={deleting[filepath]}
+                            deleteFile={() => this.deleteFile(depositId, filepath)}
+                            fileInfo={files[filepath]}/>,
+                    )}</tbody>
+                </table>
+        )
+    }
+}
 
 const mapStateToProps = (state: AppState) => ({
-    files: state.files.files,
+    depositId: state.depositForm.depositId,
+    files: state.files,
 })
 
-export default connect(mapStateToProps)(FilesOverview)
+export default connect(mapStateToProps, { fetchFiles, deleteFile })(FilesOverview)

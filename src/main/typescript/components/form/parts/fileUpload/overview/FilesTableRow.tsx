@@ -14,30 +14,25 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FileInfo } from "../../../../../model/FileInfo"
+import { DeleteState, FileInfo } from "../../../../../model/FileInfo"
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
+    deleting?: DeleteState
+    deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo }: FilesTableRowProps) => {
-    /*const deleteButton =
-        <button key="delete"
-                className="close icon"
-                style={{ float: "unset" }}
-                disabled={isDeleting}
-                onClick={deleteDatafile}>
-            {isDeleting
-                ? <i className="fas fa-sync-alt fa-spin"/>
-                : <i className="fas fa-trash-alt"/>}
-        </button>*/
-
+const FilesTableRow = ({ fileInfo, deleting, deleteFile  }: FilesTableRowProps) => {
+    const isDeleting = deleting && deleting.deleting
     const deleteButton =
         <button key="delete"
                 className="close icon"
                 style={{ float: "unset" }}
-                disabled={true}>
-            <i className="fas fa-trash-alt"/>
+                disabled={isDeleting}
+                onClick={deleteFile}>
+            {isDeleting
+                ? <i className="fas fa-sync-alt fa-spin"/>
+                : <i className="fas fa-trash-alt"/>}
         </button>
 
     return (

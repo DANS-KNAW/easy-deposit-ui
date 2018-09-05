@@ -19,7 +19,7 @@ import axios from "axios"
 import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
-import { listFilesUrl } from "../selectors/serverRoutes"
+import { listFilesUrl, deleteFileUrl } from "../selectors/serverRoutes"
 import { Files } from "../model/FileInfo"
 
 export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>> = (depositId) => (dispatch, getState) => dispatch({
@@ -31,6 +31,15 @@ export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files
     meta: {
         transform: filesConverter,
     },
+})
+
+export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>> = (depositId, filePath) => (dispatch, getState)=> dispatch({
+    type: FileOverviewConstants.DELETE_FILE,
+    async payload() {
+        console.log(`deleting file ${filePath} from ${depositId} `)
+        await axios.delete(deleteFileUrl(depositId, filePath)(getState()))
+    },
+    meta: {filePath: filePath},
 })
 
 export const cleanFiles: () => Action = () => ({
