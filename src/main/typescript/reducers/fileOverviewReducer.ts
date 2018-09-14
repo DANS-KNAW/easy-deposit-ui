@@ -54,7 +54,8 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
             const { meta: { filePath } } = action
 
             const newDeleteState: DeleteState = { deleting: false, deleted: true }
-            const newFiles: Files = immutable.del(state.files, filePath)
+            //filePath might contain a 'dot', so pass as array
+            const newFiles: Files = immutable.del(state.files, [filePath])
 
             return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState }, files: newFiles}
         }

@@ -49,7 +49,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
 
         return (
             <>
-                {loading && <p>Fetching file listing</p>}
+                {loading && <p>loading files ...</p>}
                 {loaded && this.renderTable()}
             </>
         )
