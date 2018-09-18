@@ -55,4 +55,4 @@ export const cleanFiles: () => Action = () => ({
     type: FileOverviewConstants.CLEAN_FILES,
 })
 
-// TODO delete/update not yet used (think upload)
+// TODO update not yet used (think upload)
