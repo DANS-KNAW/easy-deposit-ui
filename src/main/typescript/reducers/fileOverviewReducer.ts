@@ -59,6 +59,18 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
 
             return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState }, files: newFiles}
         }
+        case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
+            const { meta: { filePath } } = action
+
+            const newDeleteState: DeleteState = { deleting: true, deleted: false }
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+        }
+        case FileOverviewConstants.DELETE_FILE_CANCELLED: {
+            const { meta: { filePath } } = action
+
+            const newDeleteState: DeleteState = { deleting: false, deleted: false }
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+        }
         default:
             return state
     }

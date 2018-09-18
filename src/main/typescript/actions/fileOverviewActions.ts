@@ -41,6 +41,16 @@ export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction
     meta: { filePath: filePath },
 })
 
+export const cancelDeleteFile: (filePath: string) => Action =(filePath) =>({
+    type: FileOverviewConstants.DELETE_FILE_CANCELLED,
+    meta: { filePath: filePath },
+})
+
+export const askConfirmation: (filePath: string) => Action =(filePath) =>({
+    type: FileOverviewConstants.DELETE_FILE_CONFIRMATION,
+    meta: { filePath: filePath },
+})
+
 export const cleanFiles: () => Action = () => ({
     type: FileOverviewConstants.CLEAN_FILES,
 })

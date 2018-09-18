@@ -23,7 +23,8 @@ import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
 import { Component } from "react"
 import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
-import { deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
+import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
+import { Action } from "redux"
 
 interface FilesOverviewProps {
     depositId: DepositId
@@ -31,6 +32,8 @@ interface FilesOverviewProps {
 
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>>
+    askConfirmation: (filePath: string) => Action
+    cancelDeleteFile: (filePath: string) => Action
 }
 
 
@@ -59,6 +62,14 @@ class FilesOverview extends Component<FilesOverviewProps> {
         e.stopPropagation()
         this.props.deleteFile(depositId, filepath)
     }
+    askConfirmation = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        this.props.askConfirmation(filepath)
+    }
+    cancelDeleteFile = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        this.props.cancelDeleteFile(filepath)
+    }
 
     private renderTable() {
         const { files: { files, deleting }, depositId } = this.props
@@ -71,7 +82,10 @@ class FilesOverview extends Component<FilesOverviewProps> {
                             key={filepath}
                             deleting={deleting[filepath]}
                             deleteFile={this.deleteFile(depositId, filepath)}
-                            fileInfo={files[filepath]}/>,
+                            fileInfo={files[filepath]}
+                            askConfirmation = {this.askConfirmation(filepath)}
+                            cancelDeleteFile={this.cancelDeleteFile(filepath)}
+                        />,
                     )}</tbody>
                 </table>
         )
@@ -83,4 +97,4 @@ const mapStateToProps = (state: AppState) => ({
     files: state.files,
 })
 
-export default connect(mapStateToProps, { fetchFiles, deleteFile })(FilesOverview)
+export default connect(mapStateToProps, { fetchFiles, deleteFile, askConfirmation, cancelDeleteFile })(FilesOverview)

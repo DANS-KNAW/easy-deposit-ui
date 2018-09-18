@@ -18,28 +18,39 @@ import { DeleteState, FileInfo } from "../../../../../model/FileInfo"
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
-    deleting?: DeleteState
+    deleting: DeleteState
+    askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
+    cancelDeleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
     deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo, deleting, deleteFile  }: FilesTableRowProps) => {
+const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
     const isDeleting = deleting && deleting.deleting
+
+
     const deleteButton =
         <button key="delete"
                 className="close icon"
                 style={{ float: "unset" }}
                 disabled={isDeleting}
-                onClick={deleteFile}>
+                onClick={askConfirmation}>
             {isDeleting
                 ? <i className="fas fa-sync-alt fa-spin"/>
                 : <i className="fas fa-trash-alt"/>}
         </button>
+    const confirmButtons = deleting && deleting.deleting
+        ? <div>
+            <button onClick={deleteFile}>Confirm Deletion</button>
+            <button onClick={cancelDeleteFile}>Cancel</button>
+          </div>
+        : ""
 
     return (
         <tr className="row ml-0 mr-0">
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-5 order-md-1" scope="row">
                 {fileInfo.dirpath + fileInfo.filename}
+                {confirmButtons}
             </td>
             <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-6 order-md-3">
                 {fileInfo.sha1sum}
