@@ -26,7 +26,6 @@ export const userConverter: (input: any) => UserDetails = input => {
         firstName: input.firstName || "",
         prefix: input.prefix || "",
         lastName: input.lastName || "",
-        groups: input.groups || [],
         displayName: displayName,
     }
 }

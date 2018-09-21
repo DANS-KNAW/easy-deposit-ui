@@ -18,7 +18,6 @@ export interface User {
     firstName: string
     prefix?: string
     lastName: string
-    groups: string[]
 }
 
 export const User001: User = {
@@ -26,5 +25,4 @@ export const User001: User = {
     firstName: "First",
     prefix: undefined,
     lastName: "Namen",
-    groups: [ "group001", "group002"]
 }
