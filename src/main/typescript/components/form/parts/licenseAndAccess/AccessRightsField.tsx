@@ -15,21 +15,13 @@
  */
 import * as React from "react"
 import { compose } from "redux"
-import { connect } from "react-redux"
 import { Field } from "redux-form"
 import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
-import { DropdownListEntry } from "../../../../model/DropdownLists"
-import { AppState } from "../../../../model/AppState"
 import asField from "../../../../lib/formComponents/FieldHOC"
-import { DropdownFieldInput } from "../../../../lib/formComponents/DropDownField"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
-interface AccessRightsFieldProps {
-    userGroups: DropdownListEntry[]
-}
-
-const AccessRightsField = ({ userGroups, input, meta, label }: FieldProps & AccessRightsFieldProps) => {
+const AccessRightsField = ({ input }: FieldProps ) => {
 
     const choices = [
         {
