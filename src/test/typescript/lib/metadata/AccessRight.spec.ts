@@ -35,49 +35,9 @@ describe("AccessRight", () => {
             expect(accessRightConverter(input)).to.eql(expected)
         })
 
-        it("should fail when given an open-access with a group", () => {
-            const input = {
-                category: "OPEN_ACCESS",
-                group: "an unexpected group",
-            }
-            expect(() => accessRightConverter(input)).to
-                .throw("Error in metadata: access right is not GROUP_ACCESS but has a 'group' defined")
-        })
-
-        it("should convert a valid group-access", () => {
-            const input = {
-                category: "GROUP_ACCESS",
-                group: "my-group",
-            }
-            const expected = {
-                category: "GROUP_ACCESS",
-                group: "my-group",
-            }
-            expect(accessRightConverter(input)).to.eql(expected)
-        })
-
-        it("should fail when given a group-access without a group", () => {
-            const input = {
-                category: "GROUP_ACCESS",
-                // no group here
-            }
-            expect(() => accessRightConverter(input)).to
-                .throw("Error in metadata: access right GROUP_ACCESS has no 'group' defined")
-        })
-
-        it("should fail when no category is given", () => {
-            const input = {
-                // no category here
-                group: "my-group",
-            }
-            expect(() => accessRightConverter(input)).to
-                .throw("Error in metadata: no such access category: 'undefined'")
-        })
-
         it("should fail when an unknown category is given", () => {
             const input = {
                 category: "unknown-category",
-                group: "my-group",
             }
             expect(() => accessRightConverter(input)).to
                 .throw("Error in metadata: no such access category: 'unknown-category'")
@@ -86,7 +46,6 @@ describe("AccessRight", () => {
         it("should fail when an empty object is given", () => {
             const input = {
                 // no category here
-                // no group here
             }
             expect(() => accessRightConverter(input)).to
                 .throw("Error in metadata: no such access category: 'undefined'")
@@ -102,21 +61,6 @@ describe("AccessRight", () => {
         it("should convert an AccessRight with only a category into the correct external model", () => {
             expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS })).to
                 .eql({ category: "OPEN_ACCESS" })
-        })
-
-        it("should convert an AccessRight with both a group-access category and a group into the correct external model", () => {
-            expect(accessRightDeconverter({ category: AccessRightValue.GROUP_ACCESS, group: "my-group" })).to
-                .eql({ category: "GROUP_ACCESS", group: "my-group" })
-        })
-
-        it("should convert an AccessRight with an open-access category and a group into an external model with only the category", () => {
-            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS, group: "my-group" })).to
-                .eql({ category: AccessRightValue.OPEN_ACCESS })
-        })
-
-        it("should convert an AccessRight with only a group-access category into the correct external model", () => {
-            expect(accessRightDeconverter({ category: AccessRightValue.GROUP_ACCESS })).to
-                .eql({ category: AccessRightValue.GROUP_ACCESS })
         })
     })
 })

@@ -26,7 +26,6 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
                 firstName: action.payload.firstName,
                 lastName: action.payload.lastName,
                 prefix: action.payload.prefix,
-                groups: action.payload.groups,
                 username: action.payload.username,
             }
         }

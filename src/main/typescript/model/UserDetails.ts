@@ -19,7 +19,6 @@ export interface UserDetails {
     firstName: string,
     prefix: string,
     lastName: string,
-    groups: string[],
     displayName: string,
 }
 
@@ -28,6 +27,5 @@ export const empty = {
     firstName: "",
     prefix: "",
     lastName: "",
-    groups: [],
     displayName: "",
 }

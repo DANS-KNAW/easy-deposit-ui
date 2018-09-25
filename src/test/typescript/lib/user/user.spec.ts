@@ -28,14 +28,12 @@ describe("user", () => {
                 firstName: "First",
                 prefix: "the",
                 lastName: "Name",
-                groups: [ "group001", "group002"]
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "First",
                 prefix: "the",
                 lastName: "Name",
-                groups: [ "group001", "group002" ],
                 displayName: "First the Name",
             }
 
@@ -48,14 +46,12 @@ describe("user", () => {
                 firstName: undefined,
                 prefix: undefined,
                 lastName: undefined,
-                groups: undefined
             }
             const expected: UserDetails = {
                 username: "",
                 firstName: "",
                 prefix: "",
                 lastName: "",
-                groups: [],
                 displayName: "",
             }
 
@@ -68,14 +64,12 @@ describe("user", () => {
                 firstName: "",
                 prefix: "the",
                 lastName: "Name",
-                groups: [ "group001", "group002"]
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "",
                 prefix: "the",
                 lastName: "Name",
-                groups: [ "group001", "group002" ],
                 displayName: "the Name",
             }
 
@@ -88,14 +82,12 @@ describe("user", () => {
                 firstName: "First",
                 prefix: undefined,
                 lastName: "Name",
-                groups: [ "group001", "group002"]
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "First",
                 prefix: "",
                 lastName: "Name",
-                groups: [ "group001", "group002" ],
                 displayName: "First Name",
             }
 
@@ -108,14 +100,12 @@ describe("user", () => {
                 firstName: "First",
                 prefix: "the",
                 lastName: undefined,
-                groups: [ "group001", "group002"]
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "First",
                 prefix: "the",
                 lastName: "",
-                groups: [ "group001", "group002" ],
                 displayName: "First the ",
             }
 
