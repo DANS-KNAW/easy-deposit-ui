@@ -46,6 +46,4 @@ const AccessRightsField = ({ input }: FieldProps ) => {
     )
 }
 
-export default compose(
-    asField
-)(AccessRightsField)
+export default asField(AccessRightsField)
