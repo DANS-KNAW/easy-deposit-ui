@@ -18,6 +18,14 @@
     padding-left: 5px;
 }
 
+.help {
+    color: var(--info-button);
+    padding-left: 5px;
+}
+.help:hover {
+    color: var(--info-button-hover);
+}
+
 .input-element {
     margin-left: 0;
     margin-right: 0;

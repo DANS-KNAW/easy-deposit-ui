@@ -51,6 +51,8 @@
     --form-text: #444;
     --form-field-border: #ddd;
     --mandatory-star: var(--danger-hover);
+    --info-button: var(--dans-blue);
+    --info-button-hover: var(--dans-red);
 
     --hover-shadow: rgba(148, 148, 148, 0.32);
 }
