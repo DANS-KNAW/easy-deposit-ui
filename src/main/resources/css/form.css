@@ -146,11 +146,14 @@
 }
 
 .input-element .relation .relation-validate-button {
-    margin-top: 0;
-    margin-bottom: 0;
     padding-top: 5px;
     padding-bottom: 5px;
     border: 1px solid var(--form-field-border);
+}
+
+.input-element .relation .relation-validate-button.disabled,
+.input-element .relation .relation-validate-button:disabled {
+    margin-bottom: 0;
 }
 
 .input-element .accessrights-field .category-field .radio-button {

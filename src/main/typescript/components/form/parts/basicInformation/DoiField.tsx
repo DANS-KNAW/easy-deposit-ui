@@ -48,7 +48,7 @@ const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fe
                     An error occurred: {fetchDoiError}. Cannot create a new DOI.
                 </ReloadAlert>
                 : <button type="button"
-                          className="btn btn-dark mb-0 mt-0 value-button"
+                          className="btn btn-dark value-button"
                           onClick={() => fetchDoi(depositId)}
                           disabled={fetchingDoi}>Reserve DOI</button>
         }

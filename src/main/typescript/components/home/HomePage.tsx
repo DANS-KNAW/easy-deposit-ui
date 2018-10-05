@@ -20,7 +20,7 @@ import { depositOverviewRoute } from "../../constants/clientRoutes"
 const HomePage = () => (
     <>
         <h1>Home Page</h1>
-        <Link className="btn btn-dark" to={depositOverviewRoute}>Deposit your data</Link>
+        <Link className="btn btn-dark margin-top-bottom" to={depositOverviewRoute}>Deposit your data</Link>
     </>
 )
 
