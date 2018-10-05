@@ -218,16 +218,16 @@ enum SpatialSchemeValues {
 
 interface Point {
     scheme: SpatialSchemeValues
-    x: number
-    y: number
+    x: string
+    y: string
 }
 
 interface Box {
     scheme: SpatialSchemeValues
-    north: number
-    east: number
-    south: number
-    west: number
+    north: string
+    east: string
+    south: string
+    west: string
 }
 
 enum SpatialCoverageSchemeValues {
@@ -514,29 +514,29 @@ export const allfields: Metadata = {
     spatialPoints: [
         {
             scheme: SpatialSchemeValues.RD,
-            x: 12,
-            y: 34,
+            x: "12",
+            y: "34",
         },
         {
             scheme: SpatialSchemeValues.degrees,
-            x: 56,
-            y: 78,
+            x: "56",
+            y: "78",
         },
     ],
     spatialBoxes: [
         {
             scheme: SpatialSchemeValues.RD,
-            north: 1,
-            east: 2,
-            south: 3,
-            west: 4,
+            north: "1",
+            east: "2",
+            south: "3",
+            west: "4",
         },
         {
             scheme: SpatialSchemeValues.degrees,
-            north: 5,
-            east: 6,
-            south: 7,
-            west: 8,
+            north: "5",
+            east: "6",
+            south: "7",
+            west: "8",
         },
     ],
     spatialCoverages: [
