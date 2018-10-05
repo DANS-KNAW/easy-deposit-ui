@@ -17,20 +17,22 @@ import * as React from "react"
 import { ComponentType } from "react"
 import { FieldProps } from "./ReduxFormUtils"
 import Mandatory from "./Mandatory"
+import HelpButton from "./HelpButton"
 
 interface InnerComponentProps {
     htmlFor: string
     label?: string
 }
 
-const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, ...rest }: FieldProps & any) => {
-    const { label } = rest
+const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, helpText, ...rest }: FieldProps & any) => {
+    const { label, input: { name } } = rest
 
     return (
         <div className="row form-group input-element mb-4">
             <label className="col-12 col-md-3 pl-0 title-label">
                 {label || ""}
                 {mandatory && <Mandatory/>}
+                {helpText && <HelpButton textFor={typeof helpText == "string" ? helpText : name}/>}
             </label>
             <div className="col-12 col-md-8 pl-0 pr-2">
                 <InnerComponent {...rest}/>

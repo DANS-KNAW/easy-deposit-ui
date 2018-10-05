@@ -90,6 +90,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <Field name="languageOfDescription"
                label="Language of description"
                mandatory
+               helpText
                withEmptyDefault
                dropdown={languages}
                component={LanguageField}/>
@@ -97,18 +98,21 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableField name="titles"
                          label="Title"
                          mandatory
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableField name="alternativeTitles"
                          label="Alternative title"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <Field name="description"
                label="Description"
+               helpText
                mandatory
                rows={5}
                maxRows={15}
@@ -116,6 +120,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="creators"
                                      label="Creator"
+                                     helpText
                                      mandatory
                                      empty={emptyContributor}
                                      fieldNames={[
@@ -135,6 +140,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="contributors"
                                      label="Contributors"
+                                     helpText
                                      empty={emptyContributor}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
@@ -151,6 +157,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <Field name="dateCreated"
                label="Date created"
                mandatory
+               helpText
                todayButton="Today"
                showYearDropdown
                yearDropdownItemNumber={10}
@@ -161,6 +168,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableFieldWithDropdown name="audiences"
                                      label="Audience"
                                      mandatory
+                                     helpText
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ audiences: audiences }}
@@ -168,12 +176,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableField name="subjects"
                          label="Subject"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="alternativeIdentifiers"
                                      label="Alternative identifier"
+                                     helpText
                                      empty={emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
@@ -184,6 +194,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="relatedIdentifiers"
                                      label="Relations"
+                                     helpText
                                      empty={emptyQualifiedSchemedValue}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
@@ -198,6 +209,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="relations"
                                      label=""
+                                     helpText
                                      empty={emptyRelation}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
@@ -209,6 +221,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="languagesOfFilesIso639"
                                      label="Language of files (ISO 639)"
+                                     helpText
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ languages: languages }}
@@ -216,12 +229,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableField name="languagesOfFiles"
                          label="Language of files"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="datesIso8601"
                                      label="Date (ISO 8601)"
+                                     helpText
                                      empty={emptyQualifiedDate}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
@@ -232,6 +247,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="dates"
                                      label="Date"
+                                     helpText
                                      empty={emptyQualifiedStringDate}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
@@ -242,12 +258,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <Field name="source"
                label="Source"
+               helpText
                rows={5}
                maxRows={15}
                component={TextArea}/>
 
         <Field name="instructionsForReuse"
                label="Instructions for reuse"
+               helpText
                rows={5}
                maxRows={15}
                component={TextArea}/>

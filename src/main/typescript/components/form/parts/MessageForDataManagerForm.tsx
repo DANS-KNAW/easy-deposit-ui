@@ -26,6 +26,7 @@ const MessageForDataManagerForm = () => (
         {/* TODO this field must be wider */}
         <Field name="messageForDataManager"
                rows={10}
+               helpText
                maxRows={20}
                maxHeight={500}
                label="Message for the data manager"
