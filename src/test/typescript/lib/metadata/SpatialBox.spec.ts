@@ -118,10 +118,10 @@ describe("SpatialBox", () => {
             }
             const expected = {
                 scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
-                north: 1,
-                east: 2,
-                south: 3,
-                west: 4,
+                north: "1",
+                east: "2",
+                south: "3",
+                west: "4",
             }
             expect(boxDeconverter(input)).to.eql(expected)
         })

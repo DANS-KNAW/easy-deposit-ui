@@ -104,8 +104,8 @@ describe("SpatialPoint", () => {
             }
             const expected = {
                 scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
-                x: 1,
-                y: 2,
+                x: "1",
+                y: "2",
             }
             expect(pointDeconverter(input)).to.eql(expected)
         })

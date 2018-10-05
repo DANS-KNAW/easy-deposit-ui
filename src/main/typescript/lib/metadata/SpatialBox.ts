@@ -54,8 +54,8 @@ export const boxConverter: (schemeValues: DropdownListEntry[]) => (b: any) => Bo
 
 export const boxDeconverter: (b: Box) => any = b => clean({
     scheme: b.scheme,
-    north: b.north && Number(b.north),
-    east: b.east && Number(b.east),
-    south: b.south && Number(b.south),
-    west: b.west && Number(b.west),
+    north: b.north,
+    east: b.east,
+    south: b.south,
+    west: b.west,
 })
