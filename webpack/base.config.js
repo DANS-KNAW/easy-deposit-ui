@@ -16,6 +16,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 const config = require('./config.json');
 const dateFormat = require('dateformat');
 
@@ -64,6 +65,18 @@ module.exports = (env, argv) => ({
                         loader: 'file-loader',
                         options: {
                             name: 'app/[name].[ext]',
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(html)$/i,
+                include: path.resolve(process.cwd(), 'src/main/resources/helptexts/'),
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'app/helptexts/[name].[ext]',
                         }
                     }
                 ]
