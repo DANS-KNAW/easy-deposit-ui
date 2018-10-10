@@ -42,6 +42,6 @@ export const pointConverter: (schemeValues: DropdownListEntry[]) => (p: any) => 
 
 export const pointDeconverter: (p: Point) => any = p => clean({
     scheme: p.scheme,
-    x: p.x && Number(p.x),
-    y: p.y && Number(p.y),
+    x: p.x,
+    y: p.y,
 })
