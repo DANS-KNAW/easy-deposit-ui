@@ -37,13 +37,16 @@ interface FilesOverviewProps {
     cancelDeleteFile: (filePath: string) => Action
 }
 
+interface FilesOverviewLocalState {
+    uploadingFile?: object
+}
 
-class FilesOverview extends Component<FilesOverviewProps> {
+class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalState> {
 
     constructor(props: FilesOverviewProps) {
         super(props)
         this.state = {
-            file: null
+            uploadingFile: undefined,
         }
 
     }
@@ -72,8 +75,8 @@ class FilesOverview extends Component<FilesOverviewProps> {
         this.props.cancelDeleteFile(filepath)
     }
 
-    uploadFile (e: ChangeEvent) {
-        this.setState({file: e.target.files[0]})
+    uploadFile (e: ChangeEvent<HTMLInputElement>) {
+        this.setState(prevState => ({ ...prevState, uploadingFile: e.target.files[0]}))
     }
 
     private renderTable() {
@@ -86,7 +89,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
                 <input type='file' onChange={(e) => this.uploadFile(e)} />
                 <FileLoader
                     showCancelBtn
-                    file={this.state.file || null}
+                    file={this.state.uploadingFile || null}
                     requestSuccessParam='status'
                     requestSuccessVal='ok'
                     url='#' />
