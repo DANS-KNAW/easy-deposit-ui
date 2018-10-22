@@ -18,6 +18,17 @@
     padding-left: 5px;
 }
 
+.help {
+    color: var(--help-button);
+    padding-left: 5px;
+}
+.help:hover {
+    color: var(--help-button-hover);
+}
+.help.toggled {
+    color: var(--help-button-toggled);
+}
+
 .input-element {
     margin-left: 0;
     margin-right: 0;
@@ -142,11 +153,14 @@
 }
 
 .input-element .relation .relation-validate-button {
-    margin-top: 0;
-    margin-bottom: 0;
     padding-top: 5px;
     padding-bottom: 5px;
     border: 1px solid var(--form-field-border);
+}
+
+.input-element .relation .relation-validate-button.disabled,
+.input-element .relation .relation-validate-button:disabled {
+    margin-bottom: 0;
 }
 
 .input-element .accessrights-field .category-field .radio-button {

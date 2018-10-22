@@ -38,12 +38,14 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
     <>
         <RepeatableField name="archisNrs"
                          label="Archis zaakidentificatie"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="subjectsAbrComplex"
                                      label="Subject (ABR complex)"
+                                     helpText
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ subjects: abrComplexSubjects }}
@@ -51,6 +53,7 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
 
         <RepeatableFieldWithDropdown name="temporalCoveragesAbr"
                                      label="Temporal (ABR period)"
+                                     helpText
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ periods: abrPeriodeTemporals }}

@@ -44,12 +44,14 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
     <>
         <RepeatableField name="temporalCoverages"
                          label="Temporal coverage"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="spatialPoints"
                                      label="Spatial point"
+                                     helpText
                                      empty={emptyPoint}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
@@ -61,6 +63,7 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
 
         <RepeatableFieldWithDropdown name="spatialBoxes"
                                      label="Spatial box"
+                                     helpText
                                      empty={emptyBox}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
@@ -74,6 +77,7 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
 
         <RepeatableFieldWithDropdown name="spatialCoverageIso3166"
                                      label="Spatial coverage (ISO 3166)"
+                                     helpText
                                      empty={emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => name,
@@ -87,6 +91,7 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
 
         <RepeatableField name="spatialCoverages"
                          label="Spatial coverage"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>

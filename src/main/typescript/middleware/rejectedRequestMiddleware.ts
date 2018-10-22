@@ -20,7 +20,7 @@ import { AuthenticationConstants } from "../constants/authenticationConstants"
 const newRejectedMiddleware: Middleware = ({ dispatch, getState }) => (next: Dispatch) => action => {
     if (action.type && action.type.endsWith("_REJECTED") && action.payload) {
         const { router } = getState()
-        const { type, payload } = action
+        const { payload } = action
 
         if (payload.response && payload.response.status === 401
             && router.location && router.location.pathname !== "/login" // discard any FETCH_XXX_REJECTED actions with 401 status
@@ -37,7 +37,7 @@ const newRejectedMiddleware: Middleware = ({ dispatch, getState }) => (next: Dis
                 ? `${response.status} - ${response.statusText}`
                 : payload.message
 
-            next({ type: type, payload: errorMessage })
+            next({ ...action, payload: errorMessage })
         }
         else
             next(action)

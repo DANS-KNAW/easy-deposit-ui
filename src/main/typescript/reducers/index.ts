@@ -26,6 +26,7 @@ import { depositFormReducer } from "./depositFormReducer"
 import { routerReducer } from "react-router-redux"
 import { allDropdownReducers } from "./dropdownReducer"
 import configurationReducer from "./configurationReducer"
+import { helpTextReducer } from "./helpTextReducer"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
@@ -50,6 +51,7 @@ export default combineReducers({
     deposits: depositOverviewReducer,
     files: fileOverviewReducer,
     foldableCards: foldableCardReducer,
+    helpTexts: helpTextReducer,
     depositForm: depositFormReducer,
     dropDowns: allDropdownReducers,
 })

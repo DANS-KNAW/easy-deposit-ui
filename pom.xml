@@ -166,6 +166,7 @@
                         <exclude>Vagrantfile</exclude>
                         <exclude>src/main/ansible/ansible.cfg</exclude>
                         <exclude>**/*.txt</exclude>
+                        <exclude>src/main/resources/helptexts/</exclude>
                     </excludes>
                     <includes>
                         <include>src/</include>

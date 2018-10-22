@@ -21,6 +21,7 @@ import { InjectedFormProps, reduxForm } from "redux-form"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
+import "../../../resources/css/helptext.css"
 import "react-datepicker/dist/react-datepicker-cssmodules.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
@@ -202,13 +203,13 @@ class DepositForm extends Component<DepositFormProps> {
 
                     <div className="buttons">
                         <button type="button"
-                                className="btn btn-dark mb-0"
+                                className="btn btn-dark margin-top-bottom"
                                 onClick={this.save}
                                 disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
                             Save draft
                         </button>
                         <button type="button"
-                                className="btn btn-dark mb-0"
+                                className="btn btn-dark margin-top-bottom"
                                 onClick={this.props.handleSubmit(this.submit)}
                                 disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
                             Submit deposit
