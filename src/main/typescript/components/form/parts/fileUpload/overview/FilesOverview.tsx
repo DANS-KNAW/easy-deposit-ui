@@ -43,10 +43,6 @@ class FilesOverview extends Component<FilesOverviewProps> {
         super(props)
     }
 
-    componentDidMount() {
-        this.props.fetchFiles(this.props.depositId)
-    }
-
     render() {
         const { files: { loading: { loading, loaded } } } = this.props
 
