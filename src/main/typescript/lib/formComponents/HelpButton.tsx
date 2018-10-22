@@ -17,19 +17,31 @@ import * as React from "react"
 import { connect } from "react-redux"
 import { toggleHelpText } from "../../actions/helpTextActions"
 import { ReduxAction } from "../redux"
+import { AppState } from "../../model/AppState"
+
+interface HelpButtonInputProps {
+    textFor: string
+}
 
 interface HelpButtonProps {
-    textFor: string
+    toggled: boolean
 
     toggleHelpText: (fieldName: string) => ReduxAction<string>
 }
 
-class HelpButton extends React.Component<HelpButtonProps> {
+class HelpButton extends React.Component<HelpButtonProps & HelpButtonInputProps> {
     toggleHelpText = () => this.props.toggleHelpText(this.props.textFor)
 
     render() {
-        return <i className="fas fa-info-circle help" onClick={this.toggleHelpText}/>
+        const className = "fas fa-info-circle help" + (this.props.toggled ? " toggled" : "")
+        return <i className={className} onClick={this.toggleHelpText}/>
     }
 }
 
-export default connect(null, { toggleHelpText })(HelpButton)
+const mapStateToProps = (state: AppState, props: HelpButtonInputProps) => ({
+    toggled: state.helpTexts[props.textFor]
+        ? state.helpTexts[props.textFor].visible
+        : false,
+})
+
+export default connect(mapStateToProps, { toggleHelpText })(HelpButton)

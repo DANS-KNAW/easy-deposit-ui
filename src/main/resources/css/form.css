@@ -19,11 +19,14 @@
 }
 
 .help {
-    color: var(--info-button);
+    color: var(--help-button);
     padding-left: 5px;
 }
 .help:hover {
-    color: var(--info-button-hover);
+    color: var(--help-button-hover);
+}
+.help.toggled {
+    color: var(--help-button-toggled);
 }
 
 .input-element {

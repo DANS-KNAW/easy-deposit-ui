@@ -51,8 +51,9 @@
     --form-text: #444;
     --form-field-border: #ddd;
     --mandatory-star: var(--danger-hover);
-    --info-button: var(--dans-blue);
-    --info-button-hover: var(--dans-red);
+    --help-button: var(--dans-blue);
+    --help-button-hover: var(--dans-red);
+    --help-button-toggled: var(--primary-hover);
 
     --hover-shadow: rgba(148, 148, 148, 0.32);
 }
