@@ -16,6 +16,7 @@
 import { FieldArray, GenericFieldArray, WrappedFieldArrayProps, WrappedFieldProps } from "redux-form"
 
 export interface CustomFieldProps {
+    label?: string
     mandatory?: boolean
     helpText?: boolean | string
 }
