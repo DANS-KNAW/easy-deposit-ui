@@ -226,6 +226,7 @@ app.delete("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
 
     if (deleteFile(depositId, dirPath ? "/" + dirPath : "/")) {
         res.status(204)
+        res.send("Resource deleted.")
         console.log("  204")
     }
     else {

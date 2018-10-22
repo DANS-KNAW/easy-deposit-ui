@@ -19,7 +19,7 @@ import axios from "axios"
 import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
-import { listFilesUrl } from "../selectors/serverRoutes"
+import { listFilesUrl, deleteFileUrl } from "../selectors/serverRoutes"
 import { Files } from "../model/FileInfo"
 
 export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>> = (depositId) => (dispatch, getState) => dispatch({
@@ -33,8 +33,26 @@ export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files
     },
 })
 
+export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>> = (depositId, filePath) => (dispatch, getState)=> dispatch({
+    type: FileOverviewConstants.DELETE_FILE,
+    async payload() {
+        await axios.delete(deleteFileUrl(depositId, filePath)(getState()))
+    },
+    meta: { filePath: filePath },
+})
+
+export const cancelDeleteFile: (filePath: string) => Action =(filePath) =>({
+    type: FileOverviewConstants.DELETE_FILE_CANCELLED,
+    meta: { filePath: filePath },
+})
+
+export const askConfirmation: (filePath: string) => Action =(filePath) =>({
+    type: FileOverviewConstants.DELETE_FILE_CONFIRMATION,
+    meta: { filePath: filePath },
+})
+
 export const cleanFiles: () => Action = () => ({
     type: FileOverviewConstants.CLEAN_FILES,
 })
 
-// TODO delete/update not yet used (think upload)
+// TODO update not yet used (think upload)

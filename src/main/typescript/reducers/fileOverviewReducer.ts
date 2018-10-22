@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FileOverviewState, empty } from "../model/FileInfo"
+import { FileOverviewState, empty, DeleteState, emptyDelete, Files } from "../model/FileInfo"
 import { Reducer } from "redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
+import immutable from "object-path-immutable"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
     switch (action.type) {
@@ -30,6 +31,52 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         }
         case FileOverviewConstants.CLEAN_FILES: {
             return empty
+        }
+        case FileOverviewConstants.DELETE_FILE_PENDING : {
+            const { meta: { filePath }} = action
+
+            const deleteState: DeleteState = state.deleting[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: true}
+                : { ...emptyDelete, deleting: true}
+            return { ...state, deleting: {...state.deleting, [filePath]: newDeleteState}}
+        }
+        case FileOverviewConstants.DELETE_FILE_REJECTED: {
+            const { meta: { filePath }, payload: errorMessage } = action
+
+            const deleteState: DeleteState = state.deleting[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: false, deleteError: errorMessage}
+                : { ...emptyDelete, deleteError: errorMessage}
+            return {  ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+        }
+        case FileOverviewConstants.DELETE_FILE_FULFILLED: {
+            const { meta: { filePath } } = action
+
+            const newDeleteState: DeleteState = { deleting: false, deleted: true }
+            //filePath might contain a 'dot', so pass as array
+            const newFiles: Files = immutable.del(state.files, [filePath])
+
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState }, files: newFiles}
+        }
+        case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
+            const { meta: { filePath } } = action
+
+            const deleteState: DeleteState = state.deleting[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: true}
+                : { ...emptyDelete, deleting: true}
+
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+        }
+        case FileOverviewConstants.DELETE_FILE_CANCELLED: {
+            const { meta: { filePath } } = action
+
+            const deleteState: DeleteState = state.deleting[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: false}
+                : { ...emptyDelete, deleting: false}
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
         }
         default:
             return state
