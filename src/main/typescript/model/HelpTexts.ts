@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import { connect } from "react-redux"
-import { toggleHelpText } from "../../actions/helpTextActions"
-import { ReduxAction } from "../redux"
-
-interface HelpButtonProps {
-    textFor: string
-
-    toggleHelpText: (fieldName: string) => ReduxAction<string>
+export interface HelpTextsState {
+    visible: boolean
+    fetching: boolean,
+    fetched: boolean,
+    text: string,
+    fetchError?: string
 }
 
-class HelpButton extends React.Component<HelpButtonProps> {
-    toggleHelpText = () => this.props.toggleHelpText(this.props.textFor)
+export type HelpTexts = { [fieldName: string]: HelpTextsState }
 
-    render() {
-        return <i className="fas fa-info-circle help" onClick={this.toggleHelpText}/>
-    }
-}
-
-export default connect(null, { toggleHelpText })(HelpButton)
+export const emptyHelpTexts = {}

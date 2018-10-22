@@ -20,6 +20,7 @@ import Mandatory from "./Mandatory"
 import AddButton from "./AddButton"
 import RemoveButton from "./RemoveButton"
 import HelpButton from "./HelpButton"
+import HelpText from "./HelpText"
 
 export interface InnerComponentProps {
     names: string[]
@@ -36,12 +37,14 @@ const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
         const { fields, fieldNames, empty, label, mandatory, helpText } = props
 
         return fields.map((name: string, index: number) => {
+            const firstIndex = isFirstIndex(index)
             const lastIndex = isLastIndex(fields, index)
+            const fieldName = extractNameFromFirstIndex(name)
 
             return (
                 <div className={`row form-group input-element ${lastIndex ? "mb-4" : "mb-2"}`} key={`${name}.${index}`}>
                     <label className="col-12 col-md-3 pl-0 pr-0 title-label">
-                        {isFirstIndex(index) && label
+                        {firstIndex && label
                             ? <>
                                 {label}
                                 {mandatory && <Mandatory/>}
@@ -51,6 +54,7 @@ const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
                     </label>
 
                     <div className="col-12 col-md-8 pl-0 pr-2">
+                        {firstIndex && helpText && <HelpText textFor={fieldName}/>}
                         <InnerComponent {...props}
                                         names={fieldNames.map((f: (name: string) => string) => f(name))}/>
                     </div>

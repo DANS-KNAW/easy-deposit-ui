@@ -18,6 +18,7 @@ import { ComponentType } from "react"
 import { FieldProps } from "./ReduxFormUtils"
 import Mandatory from "./Mandatory"
 import HelpButton from "./HelpButton"
+import HelpText from "./HelpText"
 
 interface InnerComponentProps {
     htmlFor: string
@@ -35,6 +36,7 @@ const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({
                 {helpText && <HelpButton textFor={typeof helpText == "string" ? helpText : name}/>}
             </label>
             <div className="col-12 col-md-8 pl-0 pr-2">
+                {helpText && <HelpText textFor={name}/>}
                 <InnerComponent {...rest}/>
             </div>
         </div>
