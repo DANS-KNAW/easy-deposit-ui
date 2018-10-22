@@ -36,10 +36,6 @@
     color: var(--form-text);
 }
 
-.input-element .value-button {
-    font-size: 14px;
-}
-
 .input-element .remove-and-add-buttons {
     align-self: flex-end;
 }

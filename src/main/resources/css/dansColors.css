@@ -20,6 +20,8 @@
     --dans-dark-gray: #767676;
     --dans-light-gray: #e6e6e6;
     --dans-white: white;
+    --dans-gray: #5b5b5b;
+    --dans-button-text: #bcbcbc;
 
     /* Bootstrap overrides + hover derivatives */
     --primary: var(--dans-blue)!important;
@@ -96,7 +98,14 @@
 
 .btn-dark {
     background-color: var(--dark);
+    background-image: linear-gradient(to bottom, var(--dans-gray),#000000);
     border-color: var(--dark);
+    color: var(--dans-button-text);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height: 1.83em;
 }
 
 .btn-dark.disabled, .btn-dark:disabled {
@@ -110,4 +119,9 @@
 
 .text-primary, a.text-primary:hover {
     color: var(--primary)!important;
+}
+
+thead tr {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
 }

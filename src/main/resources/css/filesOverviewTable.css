@@ -20,10 +20,11 @@
 
 .file_table thead tr th {
     border-bottom: 0;
+    color: var(--dans-gray);
 }
 
 .file_table tbody tr:last-child {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid  var(--dans-gray);
 }
 
 @media (max-width: 767px) {

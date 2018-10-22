@@ -19,6 +19,7 @@
 }
 
 .card .card-header {
+    background-image: linear-gradient(to right, #2a9dd3,#248bb8);
     border-bottom: 2px solid var(--table-border-accent);
 }
 

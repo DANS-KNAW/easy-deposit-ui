@@ -56,10 +56,7 @@
 }
 
 .deposit_table thead tr {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-
-    border-bottom: 2px solid var(--table-border-accent);
+    background-image: linear-gradient(to right, #2a9dd3,#248bb8);
 }
 
 .deposit_table thead tr th {
