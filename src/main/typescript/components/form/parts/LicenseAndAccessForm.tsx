@@ -46,6 +46,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
     <>
         <RepeatableFieldWithDropdown name="rightsHolders"
                                      label="Rightsholders"
+                                     helpText
                                      empty={emptyContributor}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
@@ -61,6 +62,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
 
         <RepeatableField name="publishers"
                          label="Publishers"
+                         helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
@@ -68,17 +70,20 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         <Field name="accessRights"
                label="Access rights"
                mandatory
+               helpText
                component={AccessRightsField}/>
 
         <Field name="license"
                label="License"
                mandatory
+               helpText
                withEmptyDefault
                dropdown={licenses}
                component={LicenseField}/>
 
         <Field name="dateAvailable"
                label="Date available"
+               helpText
                todayButton="Today"
                minDate={moment()}
                maxDate={moment().add(2, "years")}

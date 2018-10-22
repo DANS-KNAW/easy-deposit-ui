@@ -17,6 +17,7 @@ import { FieldArray, GenericFieldArray, WrappedFieldArrayProps, WrappedFieldProp
 
 export interface CustomFieldProps {
     mandatory?: boolean
+    helpText?: boolean | string
 }
 
 export type FieldProps = WrappedFieldProps & CustomFieldProps
