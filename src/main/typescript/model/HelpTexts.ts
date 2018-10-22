@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface HelpTextsState {
+export interface HelpTextState {
     visible: boolean
     fetching: boolean,
     fetched: boolean,
@@ -21,6 +21,6 @@ export interface HelpTextsState {
     fetchError?: string
 }
 
-export type HelpTexts = { [fieldName: string]: HelpTextsState }
+export type HelpTexts = { [fieldName: string]: HelpTextState }
 
 export const emptyHelpTexts = {}

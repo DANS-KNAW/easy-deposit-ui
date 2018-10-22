@@ -18,6 +18,7 @@ import { connect } from "react-redux"
 import { AppState } from "../../model/AppState"
 import { PromiseAction, ReduxAction } from "../redux"
 import { fetchHelpText, registerHelpText, unregisterHelpText } from "../../actions/helpTextActions"
+import { getHelpTextState } from "../../selectors/helpTexts"
 
 interface HelpTextInputProps {
     textFor: string
@@ -52,7 +53,7 @@ class HelpText extends React.Component<HelpTextProps & HelpTextInputProps> {
     render() {
         const loading = <i>Loading help text...</i>
         const helpText = <div className="help-text" dangerouslySetInnerHTML={{ __html: this.props.helpText }}/>
-        const error = <i style={{color: "red"}}>{this.props.helpTextFetchError}</i>
+        const error = <i style={{ color: "red" }}>{this.props.helpTextFetchError}</i>
 
         return this.props.helpTextVisible
             ? <>
@@ -65,21 +66,15 @@ class HelpText extends React.Component<HelpTextProps & HelpTextInputProps> {
 }
 
 const mapStateToProps = (state: AppState, props: HelpTextInputProps) => {
-    return state.helpTexts[props.textFor]
-        ? ({
-            helpTextVisible: state.helpTexts[props.textFor].visible,
-            helpTextFetching: state.helpTexts[props.textFor].fetching,
-            helpTextFetched: state.helpTexts[props.textFor].fetched,
-            helpText: state.helpTexts[props.textFor].text,
-            helpTextFetchError: state.helpTexts[props.textFor].fetchError,
-        })
-        : ({
-            helpTextVisible: false,
-            helpTextFetching: false,
-            helpTextFetched: false,
-            helpText: "",
-            helpTextFetchError: undefined,
-        })
+    const { visible, fetching, fetched, text, fetchError } = getHelpTextState(props.textFor)(state)
+
+    return {
+        helpTextVisible: visible,
+        helpTextFetching: fetching,
+        helpTextFetched: fetched,
+        helpText: text,
+        helpTextFetchError: fetchError,
+    }
 }
 
 export default connect(mapStateToProps, {
