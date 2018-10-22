@@ -16,7 +16,8 @@
 :root {
     /* DANS color scheme */
     --dans-blue: #00a7d4;
-    --dans-red: #dc241f;
+    /*--dans-red: #dc241f;*/
+    --dans-red: #dd291e;
     --dans-dark-gray: #767676;
     --dans-light-gray: #e6e6e6;
     --dans-white: white;
@@ -24,7 +25,7 @@
     --dans-button-text: #bcbcbc;
 
     /* Bootstrap overrides + hover derivatives */
-    --primary: var(--dans-blue)!important;
+    --primary: var(--dans-red)!important;
     --primary-hover: #007eae!important;
 
     /*--danger: #dc7376!important;*/ /* alternative for --danger below*/
