@@ -21,10 +21,11 @@ import { FileOverviewState, Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
-import { Component } from "react"
+import { ChangeEvent, Component } from "react"
 import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
+import FileLoader from "react-file-loader"
 
 interface FilesOverviewProps {
     depositId: DepositId
@@ -41,6 +42,10 @@ class FilesOverview extends Component<FilesOverviewProps> {
 
     constructor(props: FilesOverviewProps) {
         super(props)
+        this.state = {
+            file: null
+        }
+
     }
 
     render() {
@@ -67,10 +72,25 @@ class FilesOverview extends Component<FilesOverviewProps> {
         this.props.cancelDeleteFile(filepath)
     }
 
+    uploadFile (e: ChangeEvent) {
+        this.setState({file: e.target.files[0]})
+    }
+
     private renderTable() {
         const { files: { files, deleting }, depositId } = this.props
 
         return (
+
+            <div style={{width: '500px', margin: '0 auto'}}>
+                <h2 style={{textAlign: 'center'}}>Demo Of File Loader</h2>
+                <input type='file' onChange={(e) => this.uploadFile(e)} />
+                <FileLoader
+                    showCancelBtn
+                    file={this.state.file || null}
+                    requestSuccessParam='status'
+                    requestSuccessVal='ok'
+                    url='#' />
+
                 <table className="table table-striped file_table">
                     <FilesTableHead/>
                     <tbody>{Object.keys(files).map(filepath =>
@@ -84,6 +104,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
                         />,
                     )}</tbody>
                 </table>
+            </div>
         )
     }
 }
