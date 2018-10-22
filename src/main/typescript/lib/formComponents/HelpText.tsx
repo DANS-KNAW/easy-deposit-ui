@@ -51,7 +51,7 @@ class HelpText extends React.Component<HelpTextProps & HelpTextInputProps> {
 
     render() {
         const loading = <i>Loading help text...</i>
-        const helpText = <div dangerouslySetInnerHTML={{ __html: this.props.helpText }}/>
+        const helpText = <div className="help-text" dangerouslySetInnerHTML={{ __html: this.props.helpText }}/>
         const error = <i style={{color: "red"}}>{this.props.helpTextFetchError}</i>
 
         return this.props.helpTextVisible
