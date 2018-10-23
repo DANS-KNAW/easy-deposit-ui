@@ -39,6 +39,7 @@
 
     --dark: var(--dans-dark-gray)!important;
     --dark-hover: #505050!important;
+    --dark-gradient: linear-gradient(to bottom, var(--dans-gray), #000000);
 
     /* semantic color scheme */
     --table-border-accent: #047d9f; /* --dans-blue + rgba(0, 0, 0, 0.25) */
@@ -101,8 +102,7 @@
 }
 
 .btn-dark {
-    background-color: var(--dark);
-    background-image: linear-gradient(to bottom, var(--dans-gray),#000000);
+    background: var(--dark) var(--dark-gradient);
     border-color: var(--dark);
     color: var(--dans-button-text);
     font-weight: bold;
@@ -119,6 +119,7 @@
 
 .btn-dark:not(:disabled):hover, .btn-dark:not(.disabled):hover {
     background-color: var(--dark-hover);
+    border-color: var(--dark);
 }
 
 .text-primary, a.text-primary:hover {
