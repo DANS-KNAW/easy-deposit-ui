@@ -111,6 +111,7 @@
 .btn-dark.disabled, .btn-dark:disabled {
     background-color: var(--dark);
     border-color: var(--dark);
+    opacity: 0.25;
 }
 
 .btn-dark:not(:disabled):hover, .btn-dark:not(.disabled):hover {
