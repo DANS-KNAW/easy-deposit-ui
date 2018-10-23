@@ -64,23 +64,23 @@
 }
 
 .bg-danger {
-    background-color: var(--danger)!important;
+    background: var(--dark) var(--dark-gradient);
 }
 .bg-danger.disabled:hover, .bg-danger:disabled:hover {
-    background-color: var(--danger)!important;
+    background: var(--danger)!important;
 }
 .bg-danger:not(:disabled):not(.disabled):hover {
-    background-color: var(--danger-hover)!important;
+    background: var(--danger-hover)!important;
 }
 
 .bg-success {
-    background-color: var(--success)!important;
+    background: var(--dark) var(--dark-gradient);
 }
 .bg-success.disabled:hover, .bg-success:disabled:hover {
-    background-color: var(--success)!important;
+    background: var(--success)!important;
 }
 .bg-success:not(:disabled):not(.disabled):hover {
-    background-color: var(--success-hover)!important;
+    background: var(--success-hover)!important;
 }
 
 .btn-primary {
