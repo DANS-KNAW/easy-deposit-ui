@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { ChangeEvent, Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
@@ -21,15 +22,16 @@ import { FileOverviewState, Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
-import { ChangeEvent, Component } from "react"
 import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
-import FileLoader from "react-file-loader"
+import FileLoader from "./FileLoader"
+import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 
 interface FilesOverviewProps {
     depositId: DepositId
     files: FileOverviewState
+    fileUploadUrl: (filePath: string) => string
 
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>>
@@ -38,7 +40,7 @@ interface FilesOverviewProps {
 }
 
 interface FilesOverviewLocalState {
-    uploadingFile?: object
+    uploadingFile?: File | null
 }
 
 class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalState> {
@@ -46,7 +48,7 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
     constructor(props: FilesOverviewProps) {
         super(props)
         this.state = {
-            uploadingFile: undefined,
+            uploadingFile: null,
         }
 
     }
@@ -75,24 +77,24 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
         this.props.cancelDeleteFile(filepath)
     }
 
-    uploadFile (e: ChangeEvent<HTMLInputElement>) {
-        this.setState(prevState => ({ ...prevState, uploadingFile: e.target.files[0]}))
+    uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files && e.target.files[0]
+        this.setState(prevState => ({ ...prevState, uploadingFile: file }))
     }
 
     private renderTable() {
         const { files: { files, deleting }, depositId } = this.props
 
         return (
-
-            <div style={{width: '500px', margin: '0 auto'}}>
-                <h2 style={{textAlign: 'center'}}>Demo Of File Loader</h2>
-                <input type='file' onChange={(e) => this.uploadFile(e)} />
+            <div>
+                <h2 style={{ textAlign: "center" }}>Demo Of File Loader</h2>
+                <input type="file" onChange={this.uploadFile}/>
                 <FileLoader
-                    showCancelBtn
                     file={this.state.uploadingFile || null}
-                    requestSuccessParam='status'
-                    requestSuccessVal='ok'
-                    url='#' />
+                    url={this.state.uploadingFile ? this.props.fileUploadUrl(this.state.uploadingFile.name) : "#"}
+                    preventReload
+                    showCancelBtn
+                />
 
                 <table className="table table-striped file_table">
                     <FilesTableHead/>
@@ -102,7 +104,7 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
                             deleting={deleting[filepath]}
                             deleteFile={this.deleteFile(depositId, filepath)}
                             fileInfo={files[filepath]}
-                            askConfirmation = {this.askConfirmation(filepath)}
+                            askConfirmation={this.askConfirmation(filepath)}
                             cancelDeleteFile={this.cancelDeleteFile(filepath)}
                         />,
                     )}</tbody>
@@ -115,6 +117,7 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     files: state.files,
+    fileUploadUrl: (filePath: string) => uploadFileUrl(state.depositForm.depositId!, filePath)(state),
 })
 
 export default connect(mapStateToProps, { fetchFiles, deleteFile, askConfirmation, cancelDeleteFile })(FilesOverview)

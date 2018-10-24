@@ -17,6 +17,8 @@ import * as express from "express"
 import { Request, Response } from "express"
 import * as bodyParser from "body-parser"
 import * as cors from "cors"
+import * as fileUpload from "express-fileupload"
+import { UploadedFile } from "express-fileupload"
 import {
     createDeposit,
     deleteDeposit,
@@ -36,6 +38,44 @@ import {
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())
+app.use(fileUpload())
+
+// TODO this POST is just a temporary demo. Remove before merging into master!
+app.post("/upload", function (req, res) {
+    console.log(`POST /upload`)
+    console.log("headers", req.headers)
+    console.log("originalUrl", req.originalUrl)
+    console.log("files", req.files)
+    console.log("body", req.body)
+
+    if (!req.files)
+        return res.status(400).send("No files were uploaded.")
+
+    let response = {}
+
+    Object.values(req.files)
+        .map(file => file as UploadedFile)
+        .forEach(file => {
+            file.mv(`./target/build-mockserver/${file.name}`, err => {
+                if (err)
+                    return res.status(500).send(err)
+            })
+        })
+
+    res.status(200).send(`Files uploaded: ${Object.values(req.files).map(file => (file as UploadedFile).name)}!`)
+
+
+    // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    // let sampleFile1: UploadedFile = req.files.sampleFile1 as UploadedFile
+    //
+    // // Use the mv() method to place the file somewhere on your server
+    // sampleFile1.mv(`./target/build-mockserver/${sampleFile1.name}`, (err) => {
+    //     if (err)
+    //         return res.status(500).send(err)
+    //
+    //     res.send("File uploaded!")
+    // })
+})
 
 app.get("/deposit", (req: Request, res: Response) => {
     console.log("GET /deposit")

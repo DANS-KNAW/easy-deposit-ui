@@ -40,3 +40,5 @@ export const submitDepositUrl = (id: DepositId) => createUrl(`deposit/${id}/stat
 
 export const listFilesUrl = (id: DepositId) => createUrl(`deposit/${id}/file`)
 export const deleteFileUrl = (id: DepositId, filePath: string) => createUrl(`deposit/${id}/file/${filePath}`)
+// export const uploadFileUrl = (id: DepositId, filePath: string) => createUrl(`deposit/${id}/file/${filePath}`)
+export const uploadFileUrl = (id: DepositId, filePath: string) => createUrl(`upload`) // TODO this url is temporary
