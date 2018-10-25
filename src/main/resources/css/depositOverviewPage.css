@@ -36,7 +36,7 @@
     float: unset;
 }
 
-#actions_cell .close:hover {
+#actions_cell .close:not(:disabled):not(.disabled):hover {
     color: var(--danger-hover)!important;
     opacity: 1!important;
     text-shadow: 1px 1px 0 var(--hover-shadow);
