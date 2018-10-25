@@ -22,11 +22,11 @@
     color: var(--help-button);
     padding-left: 5px;
 }
-.help:hover {
-    color: var(--help-button-hover);
-}
 .help.toggled {
     color: var(--help-button-toggled);
+}
+.help:hover {
+    color: var(--help-button-hover);
 }
 
 .input-element {

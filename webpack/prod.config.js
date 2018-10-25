@@ -71,6 +71,10 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
                 },
                 extractComments: true,
             })
-        ]
+        ],
+        splitChunks: {
+            chunks: 'all',
+            name: 'vendor',
+        },
     },
 });
