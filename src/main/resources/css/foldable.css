@@ -19,16 +19,16 @@
 }
 
 .card .card-header {
-    background-image: linear-gradient(to right, #2a9dd3,#248bb8);
+    background-image: var(--table-header-gradient);
     font-family: "Glegoo", "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 13px;
+    font-size: 0.9rem;
     text-transform: uppercase;
 }
 
 .card .card-header > .required {
     text-align: right;
     align-self: flex-start;
-    font-size: 0.9rem;
+    font-size: 13px;
 }
 
 .card .card-header > .arrow {

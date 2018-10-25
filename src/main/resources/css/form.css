@@ -163,6 +163,10 @@
     margin-bottom: 0;
 }
 
+.input-element .relation .relation-validate-button:hover {
+    border: 1px solid var(--form-field-border);
+}
+
 .input-element .accessrights-field .category-field .radio-button {
     margin-top: 6px;
     margin-bottom: 6px;
