@@ -56,7 +56,7 @@
 }
 
 .deposit_table thead tr {
-    background-image: linear-gradient(to right, #2a9dd3,#248bb8);
+    background-image: var(--table-header-gradient);
 }
 
 .deposit_table thead tr th {
