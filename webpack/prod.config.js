@@ -17,7 +17,7 @@ const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const baseConfig = require('./base.config.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -51,24 +51,27 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
         new CleanWebpackPlugin(['target/build'], {
             root: process.cwd(),
         }),
-        // Minify JS
-        new UglifyJsPlugin({
-            test: /\.[j|t]sx?($|\?)/i,
-            sourceMap: true,
-            parallel: true,
-            uglifyOptions: {
-                ecma: 6,
-                compress: true,
-                mangle: true,
-            },
-            extractComments: true,
-        }),
         // Minify CSS
         new webpack.LoaderOptionsPlugin({
             minimize: true,
         }),
     ],
+
     optimization: {
+        minimizer: [
+            // Minify JS
+            new TerserPlugin({
+                test: /\.[j|t]sx?($|\?)/i,
+                sourceMap: true,
+                parallel: true,
+                terserOptions: {
+                    ecma: 6,
+                    compress: true,
+                    mangle: true,
+                },
+                extractComments: true,
+            })
+        ],
         splitChunks: {
             chunks: 'all',
             name: 'vendor',
