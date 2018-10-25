@@ -68,4 +68,10 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
             minimize: true,
         }),
     ],
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            name: 'vendor',
+        },
+    },
 });

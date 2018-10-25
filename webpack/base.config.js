@@ -97,6 +97,6 @@ module.exports = (env, argv) => ({
             favicon: './src/main/html/favicon.ico',
         }),
         // Extract imported CSS into own file
-        new MiniCssExtractPlugin('[name].bundle.css'),
+        new MiniCssExtractPlugin('[name].bundle.[chunkhash].css'),
     ],
 });
