@@ -74,6 +74,7 @@
 }
 .bg-danger:not(:disabled):not(.disabled):hover {
     background-color: var(--danger-hover)!important;
+    background-image: linear-gradient(to bottom, var(--dans-red),#dc241f) !important;
 }
 
 .bg-success {
