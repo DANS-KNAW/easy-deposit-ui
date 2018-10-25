@@ -36,7 +36,7 @@
     float: unset;
 }
 
-#actions_cell .close:hover {
+#actions_cell .close:not(:disabled):not(.disabled):hover {
     color: var(--danger-hover)!important;
     opacity: 1!important;
     text-shadow: 1px 1px 0 var(--hover-shadow);
@@ -56,10 +56,7 @@
 }
 
 .deposit_table thead tr {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-
-    border-bottom: 2px solid var(--table-border-accent);
+    background-image: var(--table-header-gradient);
 }
 
 .deposit_table thead tr th {

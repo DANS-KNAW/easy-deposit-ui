@@ -16,30 +16,32 @@
 :root {
     /* DANS color scheme */
     --dans-blue: #00a7d4;
-    --dans-red: #dc241f;
+    --dans-red: #dd291e;
     --dans-dark-gray: #767676;
     --dans-light-gray: #e6e6e6;
     --dans-white: white;
+    --dans-gray: #5b5b5b;
+    --dans-button-text: white;
+    --dans-button-text-hover: #bcbcbc;
 
     /* Bootstrap overrides + hover derivatives */
-    --primary: var(--dans-blue)!important;
+    --primary: var(--dans-red)!important;
     --primary-hover: #007eae!important;
 
-    /*--danger: #dc7376!important;*/ /* alternative for --danger below*/
     --danger: var(--dans-dark-gray)!important;
     --danger-hover: var(--dans-red)!important;
+    --danger-gradient: linear-gradient(to bottom, var(--dans-red), #dc241f);
 
-    /*--success: #9fdf8c!important;*/ /* alternative for --success below*/
     --success: var(--dans-dark-gray)!important;
-    /*--success-hover: #0eab32!important;*/ /* alternative for --success-hover below*/
     --success-hover: var(--dans-blue)!important;
 
     --dark: var(--dans-dark-gray)!important;
     --dark-hover: #505050!important;
+    --dark-gradient: linear-gradient(to bottom, var(--dans-gray), #000000);
 
     /* semantic color scheme */
-    --table-border-accent: #047d9f; /* --dans-blue + rgba(0, 0, 0, 0.25) */
     --table-row-disabled: #919191;
+    --table-header-gradient: linear-gradient(to right, #2a9dd3,#248bb8);
 
     --page-background: var(--dans-light-gray);
     --app-background: var(--dans-white);
@@ -64,23 +66,25 @@
 }
 
 .bg-danger {
-    background-color: var(--danger)!important;
+    background: var(--dark) var(--dark-gradient);
 }
 .bg-danger.disabled:hover, .bg-danger:disabled:hover {
-    background-color: var(--danger)!important;
+    background: var(--danger)!important;
 }
 .bg-danger:not(:disabled):not(.disabled):hover {
-    background-color: var(--danger-hover)!important;
+    background: var(--dans-red) var(--danger-gradient)!important;
+    color: var(--dans-white);
+    border-color: var(--dans-red);
 }
 
 .bg-success {
-    background-color: var(--success)!important;
+    background: var(--dark) var(--dark-gradient);
 }
 .bg-success.disabled:hover, .bg-success:disabled:hover {
-    background-color: var(--success)!important;
+    background: var(--success)!important;
 }
 .bg-success:not(:disabled):not(.disabled):hover {
-    background-color: var(--success-hover)!important;
+    background: var(--success-hover)!important;
 }
 
 .btn-primary {
@@ -98,19 +102,33 @@
 }
 
 .btn-dark {
-    background-color: var(--dark);
+    background: var(--dark) var(--dark-gradient);
     border-color: var(--dark);
+    color: var(--dans-button-text);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height: 1.83em;
 }
 
 .btn-dark.disabled, .btn-dark:disabled {
     background-color: var(--dark);
     border-color: var(--dark);
+    opacity: 0.25;
 }
 
 .btn-dark:not(:disabled):hover, .btn-dark:not(.disabled):hover {
     background-color: var(--dark-hover);
+    border-color: var(--dark);
+    color: var(--dans-button-text-hover);
 }
 
 .text-primary, a.text-primary:hover {
     color: var(--primary)!important;
+}
+
+thead tr {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
 }

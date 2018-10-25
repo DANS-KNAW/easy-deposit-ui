@@ -47,10 +47,6 @@
     color: var(--form-text);
 }
 
-.input-element .value-button {
-    font-size: 14px;
-}
-
 .input-element .remove-and-add-buttons {
     align-self: flex-end;
 }
@@ -165,6 +161,10 @@
 .input-element .relation .relation-validate-button.disabled,
 .input-element .relation .relation-validate-button:disabled {
     margin-bottom: 0;
+}
+
+.input-element .relation .relation-validate-button:hover {
+    border: 1px solid var(--form-field-border);
 }
 
 .input-element .accessrights-field .category-field .radio-button {
