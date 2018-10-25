@@ -150,7 +150,7 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    {/*<Card title="Basic information" required defaultOpened>
+                    <Card title="Basic information" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <BasicInformationForm depositId={this.props.depositId}/>
                         </Loaded>
@@ -197,7 +197,7 @@ class DepositForm extends Component<DepositFormProps> {
                             <DepositLicenseForm/>
                         </Loaded>
                     </Card>
-*/}
+
                     <SaveDraftError saveError={saveError}/>
                     <SubmitError submitError={submitError}/>
 
