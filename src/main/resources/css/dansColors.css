@@ -21,7 +21,8 @@
     --dans-light-gray: #e6e6e6;
     --dans-white: white;
     --dans-gray: #5b5b5b;
-    --dans-button-text: #bcbcbc;
+    --dans-button-text: white;
+    --dans-button-text-hover: #bcbcbc;
 
     /* Bootstrap overrides + hover derivatives */
     --primary: var(--dans-red)!important;
@@ -117,6 +118,7 @@
 .btn-dark:not(:disabled):hover, .btn-dark:not(.disabled):hover {
     background-color: var(--dark-hover);
     border-color: var(--dark);
+    color: var(--dans-button-text-hover);
 }
 
 .text-primary, a.text-primary:hover {
