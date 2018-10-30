@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Redirect, RouteComponentProps } from "react-router"
+import { Redirect, RouteComponentProps } from "react-router-dom"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
 import EasyLogin from "./EasyLogin"

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Route, Switch } from "react-router"
+import { Route, Switch } from "react-router-dom"
 import HomePage from "./components/home/HomePage"
 import PrivateRoute from "./components/PrivateRoute"
 import LoginPage from "./components/login/LoginPage"

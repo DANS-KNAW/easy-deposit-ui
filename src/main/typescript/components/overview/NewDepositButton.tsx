@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import * as H from "history"
 import { Component } from "react"
+import { compose } from "redux"
+import { RouteComponentProps, withRouter } from "react-router-dom"
+import * as H from "history"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
 import { FetchAction, ThunkAction } from "../../lib/redux"
 import { DepositId } from "../../model/Deposits"
-import { compose } from "redux"
-import { RouteComponentProps, withRouter } from "react-router"
 
 interface NewDepositButtonProps extends RouteComponentProps<{}> {
     creatingNew: boolean

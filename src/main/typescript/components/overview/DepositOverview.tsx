@@ -15,16 +15,16 @@
  */
 import * as React from "react"
 import { Component } from "react"
+import { Action, compose } from "redux"
 import { connect } from "react-redux"
+import { RouteComponentProps, withRouter } from "react-router-dom"
 import { AppState } from "../../model/AppState"
 import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
 import { FetchAction, PromiseAction, ThunkAction } from "../../lib/redux"
-import { Action, compose } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
-import { RouteComponentProps, withRouter } from "react-router"
 import { depositFormRoute } from "../../constants/clientRoutes"
 
 function isEditable({ state }: Deposit): boolean {

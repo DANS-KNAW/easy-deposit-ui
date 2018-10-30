@@ -16,9 +16,9 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
+import { Router } from "react-router-dom"
 import createBrowserHistory from "history/createBrowserHistory"
 import { newStore } from "./store"
-import { Router } from "react-router"
 
 import Header from "./components/Header"
 import Routes from "./Routes"

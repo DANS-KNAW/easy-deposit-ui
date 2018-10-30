@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { connect } from "react-redux"
-import { Redirect, Route, RouteProps } from "react-router"
+import { Redirect, Route, RouteProps } from "react-router-dom"
 import { AppState } from "../model/AppState"
 
 interface PrivateRouteProps {
