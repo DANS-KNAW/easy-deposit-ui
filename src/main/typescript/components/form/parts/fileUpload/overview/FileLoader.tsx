@@ -19,30 +19,32 @@ import "../../../../../../resources/css/fileLoader.css"
 
 interface FileLoaderProps {
     file?: File | null
-    url: string
+    fileMaxSize?: number
     preventReload?: boolean
     showCancelBtn?: boolean
+    url: string
     validFileTypes?: string[]
-    fileMaxSize?: number
 }
 
 interface FileLoaderState {
-    loading?: boolean
-    percentage?: number
     error?: boolean
     errorMessage?: string
-    uploaded?: boolean
+    loading?: boolean
+    percentage?: number
+    request?: XMLHttpRequest
     uploadStatus?: string
+    uploaded?: boolean
 }
 
 class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
     constructor(props: FileLoaderProps) {
         super(props)
         this.state = {
-            loading: false,
-            percentage: 0,
             error: false,
             errorMessage: "",
+            loading: false,
+            percentage: 0,
+            request: undefined,
             uploaded: false,
             uploadStatus: "",
         }
@@ -95,11 +97,11 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
 
         request.addEventListener("load", e => {
             const uploadStatus = request.status === 200 ? "done" : "error"
-            this.uploadFinished({ uploaded: true, uploadStatus: uploadStatus })
+            this.uploadFinished({ uploaded: true, uploadStatus: uploadStatus, request: undefined })
         }, false)
 
         request.addEventListener("error", e => {
-            this.uploadFinished({ uploaded: true, uploadStatus: "failed" })
+            this.uploadFinished({ uploaded: true, uploadStatus: "failed", request: undefined })
         }, false)
 
         request.upload.addEventListener("progress", e => {
@@ -121,33 +123,55 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
         this.setState({ percentage })
     }
 
-    cancelUpload = () => {
-        this.uploadFile(undefined, undefined).abort()
-        this.uploadFinished({ uploaded: true, uploadStatus: "canceled" })
-    }
-
     uploadFinished: (data: FileLoaderState) => void = data => {
         this.setState({ ...data })
         if (this.props.preventReload)
             window.removeEventListener("beforeunload", this.beforeUnloadFn)
     }
 
-    componentDidMount() {
-        console.log("componentDidMount props", this.props)
-        console.log("componentDidMount state", this.state)
-        if (this.props.file && this.validateFile(this.props.file))
-            this.uploadFile(this.props.file, this.props.url)
+    cancelUpload = () => {
+        if (this.state.request)
+            this.state.request.abort()
+        this.uploadFinished({ uploaded: true, uploadStatus: "canceled", request: undefined })
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: FileLoaderProps) {
-        console.log("UNSAFE_componentWillReceiveProps nextProps", nextProps)
-        if (nextProps.file && this.validateFile(nextProps.file))
-            this.uploadFile(nextProps.file, nextProps.url)
+    componentDidMount() {
+        if (!this.state.request
+            && this.props.file
+            && this.validateFile(this.props.file)) {
+            const request = this.uploadFile(this.props.file, this.props.url)
+            this.setState({
+                error: false,
+                errorMessage: "",
+                loading: true,
+                percentage: 0,
+                request: request,
+                uploaded: false,
+                uploadStatus: "",
+            })
+        }
+    }
+
+    componentDidUpdate(prevProps: FileLoaderProps, prevState: FileLoaderState) {
+        if (!this.state.request
+            && this.props.file
+            && prevProps.file != this.props.file
+            && this.validateFile(this.props.file)) {
+            const request = this.uploadFile(this.props.file, this.props.url)
+            this.setState({
+                error: false,
+                errorMessage: "",
+                loading: true,
+                percentage: 0,
+                request: request,
+                uploaded: false,
+                uploadStatus: "",
+            })
+        }
     }
 
     render() {
-        console.log("render props", this.props)
-        console.log("render state", this.state)
+        console.log("state", this.state)
         return this.props.file ? this.showLoader() : null
     }
 
@@ -163,7 +187,7 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
                         {this.loadingProcess()}
                     </span>
                     </div>
-                    {this.props.showCancelBtn ? this.showCancelBtn() : ""}
+                    {this.props.showCancelBtn && this.state.uploadStatus !== "done" ? this.showCancelBtn() : ""}
                 </div>
             )
     }
