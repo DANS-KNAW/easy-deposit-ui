@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 import * as React from "react"
+import * as H from "history"
 import { Component } from "react"
 import { AppState } from "../../model/AppState"
 import { connect } from "react-redux"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
 import { FetchAction, ThunkAction } from "../../lib/redux"
 import { DepositId } from "../../model/Deposits"
+import { compose } from "redux"
+import { RouteComponentProps, withRouter } from "react-router"
 
-interface NewDepositButtonProps {
+interface NewDepositButtonProps extends RouteComponentProps<{}> {
     creatingNew: boolean
 
-    createNewDeposit: () => ThunkAction<FetchAction<DepositId>>
+    createNewDeposit: (history: H.History) => ThunkAction<FetchAction<DepositId>>
 }
 
 class NewDepositButton extends Component<NewDepositButtonProps> {
-    createNewDeposit = () => this.props.createNewDeposit()
+    createNewDeposit = () => this.props.createNewDeposit(this.props.history)
 
     render() {
         return (
@@ -44,4 +47,7 @@ const mapStateToProps = (state: AppState) => ({
     creatingNew: state.deposits.creatingNew.creating,
 })
 
-export default connect(mapStateToProps, { createNewDeposit })(NewDepositButton)
+export default compose(
+    withRouter,
+    connect(mapStateToProps, { createNewDeposit })
+)(NewDepositButton)

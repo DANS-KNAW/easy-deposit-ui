@@ -18,7 +18,7 @@ import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import createBrowserHistory from "history/createBrowserHistory"
 import { newStore } from "./store"
-import { ConnectedRouter } from "react-router-redux"
+import { Router } from "react-router"
 
 import Header from "./components/Header"
 import Routes from "./Routes"
@@ -27,12 +27,10 @@ import ConfiguredApp from "./components/ConfiguredApp"
 
 import "../resources/css/styling"
 
-const history = createBrowserHistory()
-
 const Main = () => (
-    <Provider store={newStore(history)}>
+    <Provider store={newStore()}>
         <ConfiguredApp>
-            <ConnectedRouter history={history}>
+            <Router history={createBrowserHistory()}>
                 <>
                     <Header/>
                     <main role="main" className="container">
@@ -40,7 +38,7 @@ const Main = () => (
                     </main>
                     <Footer/>
                 </>
-            </ConnectedRouter>
+            </Router>
         </ConfiguredApp>
     </Provider>
 )

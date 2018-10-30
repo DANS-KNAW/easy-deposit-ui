@@ -25,7 +25,7 @@ interface LoginPageProps {
     authenticated: boolean
 }
 
-type AllDemoFormProps = LoginPageProps & RouteComponentProps<any>
+type AllDemoFormProps = LoginPageProps & RouteComponentProps<{}>
 
 const LoginPage = ({ authenticated, location }: AllDemoFormProps) => {
     const { from } = location.state || { from: { pathname: homeRoute } }

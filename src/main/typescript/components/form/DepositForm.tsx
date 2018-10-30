@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
+import * as H from "history"
 import { Component, SFC } from "react"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
+import { RouteComponentProps, withRouter } from "react-router"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
@@ -107,10 +109,13 @@ interface DepositFormStoreArguments {
     fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
-    submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
+    submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
 }
 
-type DepositFormProps = DepositFormStoreArguments & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
+type DepositFormProps =
+    & DepositFormStoreArguments
+    & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
+    & RouteComponentProps<{}>
 
 class DepositForm extends Component<DepositFormProps> {
     fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.depositId)
@@ -126,7 +131,7 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     submit = (data: DepositFormMetadata) => {
-        this.props.submitDeposit(this.props.depositId, data)
+        this.props.submitDeposit(this.props.depositId, data, this.props.history)
     }
 
     componentDidMount() {
@@ -156,7 +161,7 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    <Card title="License and access" required defaultOpened> { /* TODO */ }
+                    <Card title="License and access" required defaultOpened> {/* TODO */}
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <LicenseAndAccessForm/>
                         </Loaded>
@@ -235,6 +240,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const composedHOC = compose(
+    withRouter,
     connect(
         mapStateToProps,
         {

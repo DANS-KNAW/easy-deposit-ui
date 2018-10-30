@@ -18,31 +18,30 @@ import thunkMiddleware from "redux-thunk"
 import promiseMiddleware from "redux-promise-middleware"
 import reducers from "./reducers/index"
 import customMiddleware from "./middleware"
-import * as H from "history"
-import { routerMiddleware } from "react-router-redux"
 import { inDevelopmentMode } from "./lib/config"
-import { AppState } from "./model/AppState"
 import { fetchConfiguration } from "./actions/configurationActions"
 
 ///
 // import {Action} from 'redux'
+// import { AppState } from "./model/AppState"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
 
 // import {Action} from 'redux'
+// import { AppState } from "./model/AppState"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
 const predicate = () => true // if you want to see all actions
 // const predicate = () => false // if you want to see no actions
 
-export const newStore = (history: H.History) => {
-    const store = makeStore(history)
+export const newStore = () => {
+    const store = makeStore()
 
     store.dispatch(fetchConfiguration())
 
     return store
 }
 
-const makeStore = (history: H.History) => {
+const makeStore = () => {
     if (inDevelopmentMode) {
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
@@ -54,7 +53,6 @@ const makeStore = (history: H.History) => {
                     ...customMiddleware,
                     thunkMiddleware,
                     promiseMiddleware(),
-                    routerMiddleware(history),
                     createLogger({ predicate }),
                 ),
             ),
@@ -66,7 +64,6 @@ const makeStore = (history: H.History) => {
             applyMiddleware(
                 ...customMiddleware,
                 thunkMiddleware,
-                routerMiddleware(history),
                 promiseMiddleware(),
             ),
         )

@@ -20,24 +20,23 @@ import { AppState } from "../../model/AppState"
 import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
 import { cleanDeposits, deleteDeposit, fetchDeposits } from "../../actions/depositOverviewActions"
 import { FetchAction, PromiseAction, ThunkAction } from "../../lib/redux"
-import { Action } from "redux"
+import { Action, compose } from "redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
-import { RouterAction } from "react-router-redux"
-import { enterDeposit } from "../../actions/routerActions"
+import { RouteComponentProps, withRouter } from "react-router"
+import { depositFormRoute } from "../../constants/clientRoutes"
 
 function isEditable({ state }: Deposit): boolean {
     return state === DepositState.DRAFT || state === DepositState.REJECTED
 }
 
-interface DepositOverviewProps {
+interface DepositOverviewProps extends RouteComponentProps<{}> {
     deposits: DepositOverviewState
 
     fetchDeposits: () => ThunkAction<FetchAction<Deposits>>
     cleanDeposits: () => Action
     deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>>
-    enterDeposit: (depositId: DepositId) => RouterAction
 }
 
 class DepositOverview extends Component<DepositOverviewProps> {
@@ -115,7 +114,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
         this.props.deleteDeposit(depositId)
     }
 
-    enterDeposit = (editable: boolean, depositId: DepositId) => () => editable && this.props.enterDeposit(depositId)
+    enterDeposit = (editable: boolean, depositId: DepositId) => () => editable && this.props.history.push(depositFormRoute(depositId))
 
     private renderTable() {
         const { deposits: { deposits, deleting } } = this.props
@@ -126,11 +125,11 @@ class DepositOverview extends Component<DepositOverviewProps> {
                 <tbody>{Object.keys(deposits).map(depositId => {
                     const editable = isEditable(deposits[depositId])
                     return <DepositTableRow key={depositId}
-                                     deposit={deposits[depositId]}
-                                     deleting={deleting[depositId]}
-                                     deleteDeposit={this.deleteDeposit(depositId)}
-                                     editable={editable}
-                                     enterDeposit={this.enterDeposit(editable, depositId)}/>
+                                            deposit={deposits[depositId]}
+                                            deleting={deleting[depositId]}
+                                            deleteDeposit={this.deleteDeposit(depositId)}
+                                            editable={editable}
+                                            enterDeposit={this.enterDeposit(editable, depositId)}/>
                 })}</tbody>
             </table>
         )
@@ -141,4 +140,7 @@ const mapStateToProps = (state: AppState) => ({
     deposits: state.deposits,
 })
 
-export default connect(mapStateToProps, { fetchDeposits, cleanDeposits, deleteDeposit, enterDeposit })(DepositOverview)
+export default compose(
+    withRouter,
+    connect(mapStateToProps, { fetchDeposits, cleanDeposits, deleteDeposit }),
+)(DepositOverview)
