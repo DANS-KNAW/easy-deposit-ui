@@ -22,11 +22,11 @@
     color: var(--help-button);
     padding-left: 5px;
 }
-.help:hover {
-    color: var(--help-button-hover);
-}
 .help.toggled {
     color: var(--help-button-toggled);
+}
+.help:hover {
+    color: var(--help-button-hover);
 }
 
 .input-element {
@@ -45,10 +45,6 @@
     padding-top: 5px;
     padding-left: 0;
     color: var(--form-text);
-}
-
-.input-element .value-button {
-    font-size: 14px;
 }
 
 .input-element .remove-and-add-buttons {
@@ -165,6 +161,10 @@
 .input-element .relation .relation-validate-button.disabled,
 .input-element .relation .relation-validate-button:disabled {
     margin-bottom: 0;
+}
+
+.input-element .relation .relation-validate-button:hover {
+    border: 1px solid var(--form-field-border);
 }
 
 .input-element .accessrights-field .category-field .radio-button {

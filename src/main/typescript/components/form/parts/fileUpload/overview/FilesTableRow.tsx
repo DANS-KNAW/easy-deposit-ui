@@ -40,7 +40,7 @@ const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancel
         </button>
     const confirmButtons = deleting && deleting.deleting
         ? <div>
-            <button type="button" className="btn btn-dark mb-0 mr-1" onClick={deleteFile}>Confirm Deletion</button>
+            <button type="button" className="btn btn-dark bg-danger mb-0 mr-1" onClick={deleteFile}>Delete File</button>
             <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteFile}>Cancel</button>
           </div>
         : ""
