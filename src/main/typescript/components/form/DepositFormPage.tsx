@@ -16,7 +16,7 @@
 import * as React from "react"
 import { Component } from "react"
 import { DepositId } from "../../model/Deposits"
-import { RouteComponentProps } from "react-router"
+import { RouteComponentProps } from "react-router-dom"
 import DepositForm from "./DepositForm"
 import { ReduxAction } from "../../lib/redux"
 import { connect } from "react-redux"

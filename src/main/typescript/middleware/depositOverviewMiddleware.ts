@@ -15,13 +15,13 @@
  */
 import { Middleware } from "redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import { enterDeposit } from "../actions/routerActions"
+import { depositFormRoute } from "../constants/clientRoutes"
 
-const newDepositRouteToForm: Middleware = ({ dispatch }) => next => action => {
+const newDepositRouteToForm: Middleware = () => next => action => {
     next(action)
 
     if (action.type === DepositOverviewConstants.CREATE_NEW_DEPOSIT_SUCCESS)
-        dispatch(enterDeposit(action.payload))
+        action.meta.history.push(depositFormRoute(action.payload))
 }
 
 export const depositOverviewMiddleware: Middleware[] = [

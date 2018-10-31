@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as H from "history"
 import { DepositFormMetadata } from "../components/form/parts"
 import { FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
@@ -94,7 +95,7 @@ export const saveDraftResetAction: () => Action = () => ({
     type: DepositFormConstants.SAVE_DRAFT_RESET,
 })
 
-export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data) => (dispatch, getState) => {
+export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data, history) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, true)
 
@@ -112,6 +113,9 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata) =>
                 const response = await axios.put(submitDepositUrl(depositId)(getState()), submitState)
                 return response.data
             },
+            meta: {
+                history: history
+            }
         })
     }
     catch (errorMessage) {

@@ -23,7 +23,6 @@ import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
 import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
-import { routerReducer } from "react-router-redux"
 import { allDropdownReducers } from "./dropdownReducer"
 import configurationReducer from "./configurationReducer"
 import { helpTextReducer } from "./helpTextReducer"
@@ -47,7 +46,6 @@ export default combineReducers({
         depositForm: changeReducer,
         easyLogin: changeReducer,
     }),
-    router: routerReducer,
     deposits: depositOverviewReducer,
     files: fileOverviewReducer,
     foldableCards: foldableCardReducer,

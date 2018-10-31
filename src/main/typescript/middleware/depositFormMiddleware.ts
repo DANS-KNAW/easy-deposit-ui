@@ -15,7 +15,6 @@
  */
 import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
-import { push } from "react-router-redux"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import { saveDraftResetAction } from "../actions/depositFormActions"
 import { change } from "redux-form"
@@ -34,11 +33,11 @@ const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) 
         setTimeout(() => dispatch(saveDraftResetAction()), saveDraftResetTimeout * 1000)
 }
 
-const submitReroute: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
+const submitReroute: Middleware = () => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED)
-        dispatch(push(depositOverviewRoute))
+        action.meta.history.push(depositOverviewRoute)
 }
 
 export const depositFormMiddleware: Middleware[] = [
