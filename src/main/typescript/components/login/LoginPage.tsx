@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Redirect, RouteComponentProps } from "react-router"
+import { Redirect, RouteComponentProps } from "react-router-dom"
 import { AppState } from "../../model/AppState"
 import { homeRoute } from "../../constants/clientRoutes"
 import EasyLogin from "./EasyLogin"
@@ -25,7 +25,7 @@ interface LoginPageProps {
     authenticated: boolean
 }
 
-type AllDemoFormProps = LoginPageProps & RouteComponentProps<any>
+type AllDemoFormProps = LoginPageProps & RouteComponentProps<{}>
 
 const LoginPage = ({ authenticated, location }: AllDemoFormProps) => {
     const { from } = location.state || { from: { pathname: homeRoute } }

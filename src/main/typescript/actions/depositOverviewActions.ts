@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as H from "history"
 import { FetchAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 import axios from "axios"
@@ -44,7 +45,7 @@ export const deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<
     meta: { depositId: depositId },
 })
 
-export const createNewDeposit: () => ThunkAction<FetchAction<DepositId>> = () => (dispatch, getState) => dispatch({
+export const createNewDeposit: (history: H.History) => ThunkAction<FetchAction<DepositId>> = history => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
         const response = await axios.post(newDepositUrl(getState()))
@@ -52,5 +53,6 @@ export const createNewDeposit: () => ThunkAction<FetchAction<DepositId>> = () =>
     },
     meta: {
         transform: newDepositConverter,
+        history: history,
     },
 })
