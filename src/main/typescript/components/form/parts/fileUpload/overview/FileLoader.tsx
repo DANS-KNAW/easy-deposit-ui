@@ -24,13 +24,17 @@ enum UploadStatus {
     FAILED = "failed",
 }
 
-interface FileLoaderProps {
+interface FileLoaderProps<Response> {
     file?: File | null
     preventReload?: boolean
     showCancelBtn?: boolean
     url: string
     validFileTypes?: string[]
     invalidFileTypes?: string[]
+    onUploadFinished?: {
+        responseParser: (raw: any) => Response
+        uploadFinishedCallback: (file: File, response: Response) => void
+    }
 }
 
 interface FileLoaderState {
@@ -39,12 +43,12 @@ interface FileLoaderState {
     loading?: boolean
     percentage?: number
     request?: XMLHttpRequest
-    uploadStatus?: UploadStatus
     uploaded?: boolean
+    uploadStatus?: UploadStatus
 }
 
-class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
-    constructor(props: FileLoaderProps) {
+class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoaderState> {
+    constructor(props: FileLoaderProps<Response>) {
         super(props)
         this.state = {
             error: false,
@@ -82,25 +86,30 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
         return true
     }
 
-    uploadFile: (file: File | undefined, url: string | undefined) => XMLHttpRequest = (file, url) => {
-        const { preventReload } = this.props
+    uploadFile: (file: File, url: string) => XMLHttpRequest = (file, url) => {
+        const { preventReload, onUploadFinished } = this.props
 
         if (preventReload)
             window.addEventListener("beforeunload", this.beforeUnloadFn)
         this.setState(prevState => ({ ...prevState, loading: true }))
 
         const formData = new FormData()
-        file && formData.append("files", file)
+        formData.append("files", file)
 
         const request = new XMLHttpRequest()
         url && request.open("POST", url)
 
-        request.addEventListener("load", e => {
+        request.addEventListener("load", () => {
             const uploadStatus = request.status === 200 ? UploadStatus.DONE : UploadStatus.ERROR
+
+            if (onUploadFinished) {
+                const response = onUploadFinished.responseParser(request.response)
+                onUploadFinished.uploadFinishedCallback(file, response)
+            }
             this.uploadFinished({ uploaded: true, uploadStatus: uploadStatus, request: undefined })
         }, false)
 
-        request.addEventListener("error", e => {
+        request.addEventListener("error", () => {
             this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.FAILED, request: undefined })
         }, false)
 
@@ -152,7 +161,7 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
         }
     }
 
-    componentDidUpdate(prevProps: FileLoaderProps) {
+    componentDidUpdate(prevProps: FileLoaderProps<Response>) {
         if (!this.state.request
             && this.props.file
             && prevProps.file != this.props.file

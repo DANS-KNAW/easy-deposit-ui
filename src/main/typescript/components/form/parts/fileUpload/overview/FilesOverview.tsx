@@ -82,6 +82,18 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
         this.setState(prevState => ({ ...prevState, uploadingFile: file }))
     }
 
+    // TODO implement proper response parser
+    uploadResponseParser = (raw: any) => {
+        return raw
+    }
+
+    uploadFinished = (file: File, response: any) => {
+        console.log("file uploaded", file)
+        console.log("response", response)
+        this.setState(prevState => ({ ...prevState, uploadingFile: undefined }))
+        // TODO update file table Redux state
+    }
+
     private renderTable() {
         const { files: { files, deleting }, depositId } = this.props
 
@@ -96,6 +108,10 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
                     showCancelBtn
                     // validFileTypes={["image/jpeg", "image/png", "video/mp4"]}
                     // invalidFileTypes={["image/jpeg", "image/png", "video/mp4"]}
+                    onUploadFinished={{
+                        responseParser: this.uploadResponseParser,
+                        uploadFinishedCallback: this.uploadFinished,
+                    }}
                 />
 
                 <table className="table table-striped file_table">
