@@ -106,8 +106,11 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
                     url={this.state.uploadingFile ? this.props.fileUploadUrl(this.state.uploadingFile.name) : "#"}
                     preventReload
                     showCancelBtn
-                    // validFileTypes={["image/jpeg", "image/png", "video/mp4"]}
-                    // invalidFileTypes={["image/jpeg", "image/png", "video/mp4"]}
+                    // validFileTypes={{
+                    //     blacklist: ["image/jpeg", "image/png", "video/mp4"],
+                    //     whitelist: ["image/jpeg", "image/png", "video/mp4"],
+                    //     errorMessage: "This type of file is not allowed.",
+                    // }}
                     onUploadFinished={{
                         responseParser: this.uploadResponseParser,
                         uploadFinishedCallback: this.uploadFinished,

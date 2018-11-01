@@ -29,8 +29,11 @@ interface FileLoaderProps<Response> {
     preventReload?: boolean
     showCancelBtn?: boolean
     url: string
-    validFileTypes?: string[]
-    invalidFileTypes?: string[]
+    validFileTypes?: {
+        whitelist?: string[],
+        blacklist?: string[],
+        errorMessage: string,
+    }
     onUploadFinished?: {
         responseParser: (raw: any) => Response
         uploadFinishedCallback: (file: File, response: Response) => void
@@ -62,18 +65,21 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     }
 
     validateFile: (file: File) => boolean = ({ type }) => {
-        const { validFileTypes, invalidFileTypes } = this.props
+        const { validFileTypes } = this.props
 
-        const invalidFile = validFileTypes && validFileTypes.indexOf(type) < 0
-            || invalidFileTypes && invalidFileTypes.indexOf(type) >= 0
+        if (validFileTypes) {
+            // functions to ensure lazy evaluation
+            const typeOnWhitelist = () => validFileTypes.whitelist ? validFileTypes.whitelist.indexOf(type) >= 0 : true
+            const typeOnBlacklist = () => validFileTypes.blacklist ? validFileTypes.blacklist.indexOf(type) >= 0 : false
 
-        if (invalidFile) {
-            this.setState(prevState => ({
-                ...prevState,
-                error: true,
-                errorMessage: "Not a valid file type!",
-            }))
-            return false
+            if (!typeOnWhitelist() || typeOnBlacklist()) {
+                this.setState(prevState => ({
+                    ...prevState,
+                    error: true,
+                    errorMessage: validFileTypes.errorMessage,
+                }))
+                return false
+            }
         }
 
         this.setState(prevState => ({
