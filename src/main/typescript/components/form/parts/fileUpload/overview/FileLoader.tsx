@@ -17,6 +17,13 @@ import * as React from "react"
 import { Component } from "react"
 import "../../../../../../resources/css/fileLoader.css"
 
+enum UploadStatus {
+    DONE = "done",
+    CANCELED = "canceled",
+    ERROR = "error",
+    FAILED = "failed",
+}
+
 interface FileLoaderProps {
     file?: File | null
     preventReload?: boolean
@@ -32,7 +39,7 @@ interface FileLoaderState {
     loading?: boolean
     percentage?: number
     request?: XMLHttpRequest
-    uploadStatus?: string
+    uploadStatus?: UploadStatus
     uploaded?: boolean
 }
 
@@ -46,11 +53,11 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
             percentage: 0,
             request: undefined,
             uploaded: false,
-            uploadStatus: "",
+            uploadStatus: undefined,
         }
     }
 
-    validateFile: (file: File) => boolean = ({type}) => {
+    validateFile: (file: File) => boolean = ({ type }) => {
         const { validFileTypes, invalidFileTypes } = this.props
 
         const invalidFile = validFileTypes && validFileTypes.indexOf(type) < 0
@@ -89,12 +96,12 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
         url && request.open("POST", url)
 
         request.addEventListener("load", e => {
-            const uploadStatus = request.status === 200 ? "done" : "error"
+            const uploadStatus = request.status === 200 ? UploadStatus.DONE : UploadStatus.ERROR
             this.uploadFinished({ uploaded: true, uploadStatus: uploadStatus, request: undefined })
         }, false)
 
         request.addEventListener("error", e => {
-            this.uploadFinished({ uploaded: true, uploadStatus: "failed", request: undefined })
+            this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.FAILED, request: undefined })
         }, false)
 
         request.upload.addEventListener("progress", e => {
@@ -125,7 +132,7 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
     cancelUpload = () => {
         if (this.state.request)
             this.state.request.abort()
-        this.uploadFinished({ uploaded: true, uploadStatus: "canceled", request: undefined })
+        this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.CANCELED, request: undefined })
     }
 
     componentDidMount() {
@@ -140,7 +147,7 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
                 percentage: 0,
                 request: request,
                 uploaded: false,
-                uploadStatus: "",
+                uploadStatus: undefined,
             })
         }
     }
@@ -158,71 +165,63 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
                 percentage: 0,
                 request: request,
                 uploaded: false,
-                uploadStatus: "",
+                uploadStatus: undefined,
             })
+        }
+    }
+
+    generateStatusClassName = () => {
+        const { loading, uploaded, uploadStatus } = this.state
+        const defaultClassName = "file_progress-status"
+
+        if (!loading)
+            return defaultClassName
+
+        if (!uploaded)
+            return `${defaultClassName} show`
+
+        switch (uploadStatus) {
+            case UploadStatus.DONE:
+                return `${defaultClassName} show finished success`
+            case UploadStatus.FAILED:
+                return `${defaultClassName} show finished failed`
+            case UploadStatus.ERROR:
+                return `${defaultClassName} show finished error`
+            case UploadStatus.CANCELED:
+                return `${defaultClassName} show finished canceled`
         }
     }
 
     render() {
         console.log("state", this.state)
-        return this.props.file ? this.showLoader() : null
-    }
 
-    showLoader() {
-        const { percentage, error } = this.state
+        const { file, showCancelBtn } = this.props
+        const { percentage, uploaded, uploadStatus, error, errorMessage } = this.state
 
-        return error
-            ? this.showErrorMessage()
-            : (
-                <div className="file_progress-wrapper">
-                    <div className="file_progress" style={{ width: percentage + "%" }}>
-                    <span className={"file_progress-status " + this.generateStatusClassName()}>
-                        {this.loadingProcess()}
-                    </span>
+        if (file)
+            if (error)
+                return <div className='error_msg'>{errorMessage}</div>
+            else {
+                const progressStatus = uploaded ? uploadStatus : `${percentage}%`
+                const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE
+                    ? (
+                        <div className='cancel_btn-wrapper'>
+                            <button type='button' className='cancel_btn' onClick={this.cancelUpload}>Cancel</button>
+                        </div>
+                    )
+                    : ""
+
+                return (
+                    <div className="file_progress-wrapper">
+                        <div className="file_progress" style={{ width: percentage + "%" }}>
+                            <span className={this.generateStatusClassName()}>{progressStatus}</span>
+                        </div>
+                        {cancel}
                     </div>
-                    {this.props.showCancelBtn && this.state.uploadStatus !== "done" ? this.showCancelBtn() : ""}
-                </div>
-            )
-    }
-
-    showErrorMessage() {
-        const { errorMessage } = this.state
-        return (
-            <div className='error_msg'>{errorMessage}</div>
-        )
-    }
-
-    generateStatusClassName() {
-        const { loading, uploaded, uploadStatus } = this.state
-        if (!loading)
-            return ""
-
-        if (!uploaded)
-            return "show"
-
-        switch (uploadStatus) {
-            case "done":
-                return "show finished success"
-            case "failed":
-                return "show finished failed"
-            case "error":
-                return "show finished error"
-            case "canceled":
-                return "show finished canceled"
-        }
-    }
-
-    loadingProcess() {
-        const { uploaded, uploadStatus, percentage } = this.state
-        return uploaded ? uploadStatus : `${percentage}%`
-    }
-
-    showCancelBtn() {
-        return (
-            <div className='cancel_btn-wrapper'>
-                <button type='button' className='cancel_btn' onClick={this.cancelUpload}>Cancel</button>
-            </div>
-        )
+                )
+            }
+        else
+            return null
     }
 }
 
