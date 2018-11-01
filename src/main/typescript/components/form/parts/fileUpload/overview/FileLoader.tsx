@@ -19,11 +19,11 @@ import "../../../../../../resources/css/fileLoader.css"
 
 interface FileLoaderProps {
     file?: File | null
-    fileMaxSize?: number
     preventReload?: boolean
     showCancelBtn?: boolean
     url: string
     validFileTypes?: string[]
+    invalidFileTypes?: string[]
 }
 
 interface FileLoaderState {
@@ -50,35 +50,28 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
         }
     }
 
-    static defaultValidFileTypes = ["image/jpeg", "image/png", "video/mp4"]
-    static defaultFileMaxSize = 1024
+    validateFile: (file: File) => boolean = ({type}) => {
+        const { validFileTypes, invalidFileTypes } = this.props
 
-    validateFile: (file: File) => boolean = file => {
-        const validFileTypes = this.props.validFileTypes || FileLoader.defaultValidFileTypes
-        if (validFileTypes.indexOf(file.type) < 0) {
-            this.setState({
+        const invalidFile = validFileTypes && validFileTypes.indexOf(type) < 0
+            || invalidFileTypes && invalidFileTypes.indexOf(type) >= 0
+
+        if (invalidFile) {
+            this.setState(prevState => ({
+                ...prevState,
                 error: true,
                 errorMessage: "Not a valid file type!",
-            })
+            }))
             return false
         }
 
-        // TODO is this <= correct?
-        const fileMaxSize = this.props.fileMaxSize || FileLoader.defaultFileMaxSize
-        if (file.size <= fileMaxSize) {
-            this.setState({
-                error: true,
-                errorMessage: "File size is too big!",
-            })
-            return false
-        }
-
-        this.setState({
+        this.setState(prevState => ({
+            ...prevState,
             error: false,
             errorMessage: "",
             uploaded: false,
             loading: false,
-        })
+        }))
         return true
     }
 
@@ -87,7 +80,7 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
 
         if (preventReload)
             window.addEventListener("beforeunload", this.beforeUnloadFn)
-        this.setState({ loading: true })
+        this.setState(prevState => ({ ...prevState, loading: true }))
 
         const formData = new FormData()
         file && formData.append("files", file)
@@ -120,11 +113,11 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
     }
 
     setUploadedPercentage = (percentage: number) => {
-        this.setState({ percentage })
+        this.setState(prevState => ({ ...prevState, percentage }))
     }
 
     uploadFinished: (data: FileLoaderState) => void = data => {
-        this.setState({ ...data })
+        this.setState(prevState => ({ ...prevState, ...data }))
         if (this.props.preventReload)
             window.removeEventListener("beforeunload", this.beforeUnloadFn)
     }
@@ -152,7 +145,7 @@ class FileLoader extends Component<FileLoaderProps, FileLoaderState> {
         }
     }
 
-    componentDidUpdate(prevProps: FileLoaderProps, prevState: FileLoaderState) {
+    componentDidUpdate(prevProps: FileLoaderProps) {
         if (!this.state.request
             && this.props.file
             && prevProps.file != this.props.file

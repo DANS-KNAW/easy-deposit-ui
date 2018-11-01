@@ -94,6 +94,8 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
                     url={this.state.uploadingFile ? this.props.fileUploadUrl(this.state.uploadingFile.name) : "#"}
                     preventReload
                     showCancelBtn
+                    // validFileTypes={["image/jpeg", "image/png", "video/mp4"]}
+                    // invalidFileTypes={["image/jpeg", "image/png", "video/mp4"]}
                 />
 
                 <table className="table table-striped file_table">
