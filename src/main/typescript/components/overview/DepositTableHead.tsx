@@ -17,7 +17,7 @@ import * as React from "react"
 
 const DepositTableHead = () => (
     <thead>
-    <tr className="row text-light">
+    <tr className="row text-light ml-0 mr-0">
         {/* these column sizes need to match with the sizes in DepositTableRow */}
         <th className="col-10 col-sm-11 col-md-3" scope="col">Dataset</th>
         <th className="col-12 col-sm-12 col-md-2" scope="col">Date</th>
