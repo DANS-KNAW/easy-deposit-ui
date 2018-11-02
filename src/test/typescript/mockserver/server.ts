@@ -20,6 +20,7 @@ import * as cors from "cors"
 import * as fileUpload from "express-fileupload"
 import { UploadedFile } from "express-fileupload"
 import {
+    addFile,
     createDeposit,
     deleteDeposit,
     deleteFile,
@@ -39,43 +40,6 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 app.use(fileUpload())
-
-// TODO this POST is just a temporary demo. Remove before merging into master!
-app.post("/upload", function (req, res) {
-    console.log(`POST /upload`)
-    console.log("headers", req.headers)
-    console.log("originalUrl", req.originalUrl)
-    console.log("files", req.files)
-    console.log("body", req.body)
-
-    if (!req.files)
-        return res.status(400).send("No files were uploaded.")
-
-    let response = {}
-
-    Object.values(req.files)
-        .map(file => file as UploadedFile)
-        .forEach(file => {
-            file.mv(`./target/build-mockserver/${file.name}`, err => {
-                if (err)
-                    return res.status(500).send(err)
-            })
-        })
-
-    res.status(200).send(`Files uploaded: ${Object.values(req.files).map(file => (file as UploadedFile).name)}!`)
-
-
-    // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    // let sampleFile1: UploadedFile = req.files.sampleFile1 as UploadedFile
-    //
-    // // Use the mv() method to place the file somewhere on your server
-    // sampleFile1.mv(`./target/build-mockserver/${sampleFile1.name}`, (err) => {
-    //     if (err)
-    //         return res.status(500).send(err)
-    //
-    //     res.send("File uploaded!")
-    // })
-})
 
 app.get("/deposit", (req: Request, res: Response) => {
     console.log("GET /deposit")
@@ -243,12 +207,46 @@ app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
         }
     }
 })
-app.post("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
-    console.log(`POST /deposit/${req.params.id}/file${req.params.dir_path ? `/${req.params.dir_path}` : ""}`)
+// TODO This implementation is not according to the specs!!!
+app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) => {
+    const depositId = req.params.id
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : dir_path
+    console.log(`POST /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
 
-    res.status(501)
-    res.send("not yet implemented")
-    console.log("  501")
+    if (!req.files)
+        return res.status(400).send("No files were uploaded.")
+
+    try {
+        const promises: Promise<string>[] = Object.values(req.files)
+            .map(file => {
+                const uploadedFile = file as UploadedFile
+
+                return new Promise<string>((resolve, reject) => {
+                    const dirPartOfDirPath = dirPath.replace(new RegExp(`/${uploadedFile.name}$`), "/")
+
+                    uploadedFile.mv(`./target/build-mockserver/${uploadedFile.name}`, err => {
+                        if (err)
+                            return reject(err)
+                        else if (addFile(depositId, "/" + dirPartOfDirPath, uploadedFile.name))
+                            resolve(uploadedFile.name)
+                        else
+                            return reject(err)
+                    })
+                })
+            })
+
+        const newFiles = await Promise.all(promises)
+
+        res.status(200)
+        res.send(`Files uploaded: [${newFiles.join(", ")}]!`)
+        console.log("  200")
+    }
+    catch (err) {
+        res.status(500).send(err)
+        console.log("  500")
+    }
 })
 app.put("/deposit/:id/file/:file_path", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/file${req.params.file_path ? `/${req.params.file_path}` : ""}`)
