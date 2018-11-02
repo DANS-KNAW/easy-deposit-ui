@@ -91,7 +91,7 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
         console.log("file uploaded", file)
         console.log("response", response)
         this.setState(prevState => ({ ...prevState, uploadingFile: undefined }))
-        // TODO update file table Redux state
+        this.props.fetchFiles(this.props.depositId)
     }
 
     private renderTable() {
