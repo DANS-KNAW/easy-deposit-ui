@@ -49,7 +49,7 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDepo
         </button>
 
     return (
-        <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ")}
+        <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ") + " ml-0 mr-0"}
             onClick={enterDeposit}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
