@@ -213,26 +213,25 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         const { file, showCancelBtn } = this.props
         const { percentage, uploaded, uploadStatus, error, errorMessage } = this.state
 
-        if (file)
-            if (error)
-                return <div className='file-upload-error-msg'>{errorMessage}</div>
-            else {
-                const progressStatus = uploaded ? uploadStatus : `${percentage}%`
-                const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && (
-                    <div className='file-upload-cancel-wrapper'>
-                        <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
-                    </div>
-                )
+        if (file && error)
+            return <div className='file-upload-error-msg'>{errorMessage}</div>
+        else if (file) {
+            const progressStatus = uploaded ? uploadStatus : `${percentage}%`
+            const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && (
+                <div className='file-upload-cancel-wrapper'>
+                    <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
+                </div>
+            )
 
-                return (
-                    <div className="file-upload-progress-bar">
-                        <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
-                            <span className={this.generateStatusClassName()}>{progressStatus}</span>
-                        </div>
-                        {cancel}
+            return (
+                <div className="file-upload-progress-bar">
+                    <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
+                        <span className={this.generateStatusClassName()}>{progressStatus}</span>
                     </div>
-                )
-            }
+                    {cancel}
+                </div>
+            )
+        }
         else
             return null
     }
