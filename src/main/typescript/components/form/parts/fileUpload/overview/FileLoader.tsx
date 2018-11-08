@@ -217,7 +217,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
             return <div className='file-upload-error-msg'>{errorMessage}</div>
         else if (file) {
             const progressStatus = uploaded ? uploadStatus : `${percentage}%`
-            const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && (
+            const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && uploadStatus !== UploadStatus.CANCELED && (
                 <div className='file-upload-cancel-wrapper'>
                     <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
                 </div>
