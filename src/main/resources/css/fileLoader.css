@@ -89,7 +89,7 @@
 }
 
 .file-upload-status.finished.error:after {
-    border-top-color: var(--dans-red);
+    border-top-color: var(--file-upload-error-BG);
 }
 
 .file-upload-status.finished.failed {
