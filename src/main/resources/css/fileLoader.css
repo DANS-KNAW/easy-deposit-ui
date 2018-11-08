@@ -28,7 +28,7 @@
 
 .file-upload-completed-progress-bar,
 .file-upload-status {
-    transition: all .5s; /* TODO kan dit nog beter/anders */
+    transition: all .5s;
 }
 
 .file-upload-completed-progress-bar {
