@@ -58,6 +58,13 @@
     --help-button-toggled: var(--primary-hover);
 
     --hover-shadow: rgba(148, 148, 148, 0.32);
+
+    --file-upload-remaining-progress: #e4e2e2;
+    --file-upload-remaining-progress-shadow: rgba(0, 0, 0, 0.1);
+    --file-upload-progress: var(--dans-blue);
+    --file-upload-status-BG: #CDDC39; /* TODO other color green, please! */
+    --file-upload-failed-BG: #9E9E9E; /* TODO other color please! */
+    --file-upload-canceled-BG: #FFC107; /* TODO other color please! */
 }
 
 /* Bootstrap overrides */

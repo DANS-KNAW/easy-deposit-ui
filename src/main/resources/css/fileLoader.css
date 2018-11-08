@@ -13,125 +13,107 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:root {
-    --white: #fff;
-    --background: lightblue;
-    --wrapperColor: #e4e2e2;
-    --wrapperShadow: rgba(0, 0, 0, 0.1);
-    --progressBG: #00BCD4;
-    --statusBG: #CDDC39;
-    --errorColor: #F44336;
-    --failedColor: #9E9E9E;
-    --canceledColor: #FFC107;
-    --cancelButtonTextColor: #646464;
-    --cancelButtonBackgroundColor: #eee;
-    --cancelButtonShadowColor: rgba(0, 0, 0, 0.26);
+.file-upload-progress-bar,
+.file-upload-completed-progress-bar {
+    height: 20px;
+    border-radius: 4px;
 }
 
-.file_progress-wrapper {
-    height: 20px;
+.file-upload-progress-bar {
     margin-bottom: 50px;
-    background-color: var(--wrapperColor);
-    border-radius: 4px;
-    box-shadow: inset 0 1px 2px var(--wrapperShadow);
     margin-top: 50px;
+    background-color: var(--file-upload-remaining-progress);
+    box-shadow: inset 0 1px 2px var(--file-upload-remaining-progress-shadow);
 }
 
-.file_progress {
+.file-upload-completed-progress-bar,
+.file-upload-status {
+    transition: all .5s; /* TODO kan dit nog beter/anders */
+}
+
+.file-upload-completed-progress-bar {
     width: 12%;
-    background: var(--progressBG);
+    background: var(--file-upload-progress);
     position: relative;
-    height: 20px;
-    transition: all .5s;
-    border-radius: 4px;
 }
 
-.file_progress-status {
+.file-upload-status {
+    /* how does the box look */
     display: block;
     position: absolute;
-    right: -37px;
-    background: var(--statusBG);
-    color: var(--white);
-    top: -35px;
     width: 74px;
-    text-align: center;
     padding: 5px;
-    box-sizing: border-box;
-    transform-style: preserve-3d;
-    transition: all .5s;
-    transform: rotateY(90deg);
-    text-transform: capitalize;
-    font-size: 15px;
     border-radius: 4px;
+    box-sizing: border-box;
+    background: var(--file-upload-status-BG);
+
+    /* where is the box placed */
+    right: -37px;
+    top: -37px;
+
+    /* how does the text look */
+    font-size: 15px;
+    color: var(--dans-white);
+    text-align: center;
+    text-transform: capitalize;
+
+    /* animation */
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
 }
 
-.file_progress-status:after {
+/* triangle below the upload status */
+.file-upload-status:after {
     content: "";
     position: absolute;
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid var(--statusBG);
+    border-top: 5px solid var(--file-upload-status-BG);
     bottom: -5px;
     left: 32px;
 }
 
-.file_progress-status.show {
+/* animation when upload status appears */
+.file-upload-status.show {
     transform: rotateY(360deg);
 }
 
-.file_progress-status.finished {
+.file-upload-status.finished {
     transform: rotateY(0deg);
 }
 
-.file_progress-status.finished.error {
-    background: var(--errorColor);
+.file-upload-status.finished.error {
+    background: var(--dans-red);
 }
 
-.file_progress-status.finished.error:after {
-    border-top: 5px solid var(--errorColor);
+.file-upload-status.finished.error:after {
+    border-top-color: var(--dans-red);
 }
 
-.file_progress-status.finished.failed {
-    background: var(--failedColor);
+.file-upload-status.finished.failed {
+    background: var(--file-upload-failed-BG);
 }
 
-.file_progress-status.finished.failed:after {
-    border-top: 5px solid var(--failedColor);
+.file-upload-status.finished.failed:after {
+    border-top-color: var(--file-upload-failed-BG);
 }
 
-.file_progress-status.finished.canceled {
-    background: var(--canceledColor);
+.file-upload-status.finished.canceled {
+    background: var(--file-upload-canceled-BG);
 }
 
-.file_progress-status.finished.canceled:after {
-    border-top: 5px solid var(--canceledColor);
+.file-upload-status.finished.canceled:after {
+    border-top-color: var(--file-upload-canceled-BG);
 }
 
-.cancel_btn-wrapper {
+.file-upload-cancel-wrapper {
     width: 100%;
     text-align: center;
     margin-top: 10px;
 }
 
-.cancel_btn-wrapper .cancel_btn {
-    border: none;
-    cursor: pointer;
-    border-radius: 2px;
-    font-size: 0.9em;
-    color: var(--cancelButtonTextColor);
-    background-color: var(--cancelButtonBackgroundColor);
-    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 5px 0 var(--cancelButtonShadowColor);
-    padding: 5px 10px;
-    outline: none;
-}
-
-.cancel_btn-wrapper .cancel_btn:hover {
-    box-shadow: none;
-}
-
-.error_msg {
-    color: var(--errorColor);
+.file-upload-error-msg {
+    color: var(--dans-red);
 }
