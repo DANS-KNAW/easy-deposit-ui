@@ -68,7 +68,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
         const { files: { files, deleting }, depositId } = this.props
 
         return (
-            <div>
+            <>
                 <FileLoaderDemo/>
 
                 <table className="table table-striped file_table">
@@ -84,7 +84,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
                         />,
                     )}</tbody>
                 </table>
-            </div>
+            </>
         )
     }
 }
