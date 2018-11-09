@@ -42,3 +42,5 @@ export const directory1: FileInfo[] = [
     file2,
     file3,
 ]
+
+export const newFileInfos: () => FileInfo[] = () => []

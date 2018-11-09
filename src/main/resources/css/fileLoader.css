@@ -1,0 +1,119 @@
+/**
+ * Copyright (C) 2018 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.file-upload-progress-bar,
+.file-upload-completed-progress-bar {
+    height: 20px;
+    border-radius: 4px;
+}
+
+.file-upload-progress-bar {
+    margin-top: 37px;
+    margin-bottom: 35px;
+    background-color: var(--file-upload-remaining-progress);
+    box-shadow: inset 0 1px 2px var(--file-upload-remaining-progress-shadow);
+}
+
+.file-upload-completed-progress-bar,
+.file-upload-status {
+    transition: all .5s;
+}
+
+.file-upload-completed-progress-bar {
+    width: 12%;
+    background: var(--file-upload-progress);
+    position: relative;
+}
+
+.file-upload-status {
+    /* how does the box look */
+    display: block;
+    position: absolute;
+    width: 74px;
+    padding: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: var(--file-upload-status-BG);
+
+    /* where is the box placed */
+    right: -37px;
+    top: -37px;
+
+    /* how does the text look */
+    font-size: 15px;
+    color: var(--dans-white);
+    text-align: center;
+    text-transform: capitalize;
+
+    /* animation */
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
+}
+
+/* triangle below the upload status */
+.file-upload-status:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--file-upload-status-BG);
+    bottom: -5px;
+    left: 32px;
+}
+
+/* animation when upload status appears */
+.file-upload-status.show {
+    transform: rotateY(360deg);
+}
+
+.file-upload-status.finished {
+    transform: rotateY(0deg);
+}
+
+.file-upload-status.finished.error {
+    background: var(--dans-red);
+}
+
+.file-upload-status.finished.error:after {
+    border-top-color: var(--file-upload-error-BG);
+}
+
+.file-upload-status.finished.failed {
+    background: var(--file-upload-failed-BG);
+}
+
+.file-upload-status.finished.failed:after {
+    border-top-color: var(--file-upload-failed-BG);
+}
+
+.file-upload-status.finished.cancelled {
+    background: var(--file-upload-cancelled-BG);
+}
+
+.file-upload-status.finished.cancelled:after {
+    border-top-color: var(--file-upload-cancelled-BG);
+}
+
+.file-upload-cancel-wrapper {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.file-upload-error-msg {
+    color: var(--dans-red);
+}

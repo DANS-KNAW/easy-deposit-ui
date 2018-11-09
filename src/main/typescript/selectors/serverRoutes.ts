@@ -38,5 +38,6 @@ export const fetchDoiUrl = (id: DepositId) => createUrl(`deposit/${id}/doi`)
 export const saveDraftUrl = (id: DepositId) => createUrl(`deposit/${id}/metadata`)
 export const submitDepositUrl = (id: DepositId) => createUrl(`deposit/${id}/state`)
 
-export const listFilesUrl = (id: DepositId) => createUrl(`deposit/${id}/file`)
+export const listFilesUrl = (id: DepositId) => createUrl(`deposit/${id}/file/`)
 export const deleteFileUrl = (id: DepositId, filePath: string) => createUrl(`deposit/${id}/file/${filePath}`)
+export const uploadFileUrl = (id: DepositId, filePath: string) => createUrl(`deposit/${id}/file/${filePath}`)

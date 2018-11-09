@@ -18,7 +18,7 @@ import immutable from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
-import { directory1, FileInfo } from "./fileinfo"
+import { directory1, FileInfo, newFileInfos } from "./fileinfo"
 
 interface DataPerDraft {
     deposit: Deposit
@@ -67,7 +67,8 @@ export const createDeposit: () => Deposit & { id: DepositId } = () => {
     const id = uuid()
     const deposit = newDeposit()
     const metadata = newMetadata()
-    data = { ...data, [id]: { deposit, metadata } }
+    const files = newFileInfos()
+    data = { ...data, [id]: { deposit, metadata, files } }
     return { id, ...deposit }
 }
 
@@ -180,13 +181,29 @@ export const getFilesListing: (id: DepositId) => FileInfo[] | undefined = id => 
             if (info.dirpath.startsWith("/")) {
                 return {
                     ...info,
-                    dirpath: info.dirpath.substring(1)
+                    dirpath: info.dirpath.substring(1),
                 }
             }
             else
                 return info
         })
         : undefined
+}
+
+export const addFile: (id: DepositId, dirPath: string, filename: string) => boolean = (id, dirPath, filename) => {
+    const deposit = data[id]
+    const files = deposit.files
+
+    if (deposit && files) {
+        const newFile: FileInfo = {
+            filename: filename,
+            dirpath: dirPath,
+            sha1sum: "unknown",
+        }
+        data = { ...data, [id]: { ...deposit, files: [...files, newFile] } }
+        return true
+    }
+    return false
 }
 
 export const deleteFile: (id: DepositId, query: string) => boolean = (id, query) => {

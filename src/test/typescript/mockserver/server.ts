@@ -17,7 +17,10 @@ import * as express from "express"
 import { Request, Response } from "express"
 import * as bodyParser from "body-parser"
 import * as cors from "cors"
+import * as fileUpload from "express-fileupload"
+import { UploadedFile } from "express-fileupload"
 import {
+    addFile,
     createDeposit,
     deleteDeposit,
     deleteFile,
@@ -36,6 +39,7 @@ import {
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())
+app.use(fileUpload())
 
 app.get("/deposit", (req: Request, res: Response) => {
     console.log("GET /deposit")
@@ -203,12 +207,48 @@ app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
         }
     }
 })
-app.post("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
-    console.log(`POST /deposit/${req.params.id}/file${req.params.dir_path ? `/${req.params.dir_path}` : ""}`)
+// TODO This implementation is not according to the specs!!!
+app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) => {
+    const depositId = req.params.id
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : dir_path
+    console.log(`POST /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
 
-    res.status(501)
-    res.send("not yet implemented")
-    console.log("  501")
+    if (!req.files)
+        return res.status(400).send("No files were uploaded.")
+
+    try {
+        const promises: Promise<string>[] = Object.values(req.files)
+            .map(file => {
+                const uploadedFile = file as UploadedFile
+
+                return new Promise<string>((resolve, reject) => {
+                    const dirPartOfDirPath = dirPath === uploadedFile.name // if it is uploaded to the root directory
+                        ? ""
+                        : dirPath.replace(new RegExp(`/${uploadedFile.name}$`), "/")
+
+                    uploadedFile.mv(`./target/build-mockserver/${uploadedFile.name}`, err => {
+                        if (err)
+                            return reject(err)
+                        else if (addFile(depositId, "/" + dirPartOfDirPath, uploadedFile.name))
+                            resolve(uploadedFile.name)
+                        else
+                            return reject(err)
+                    })
+                })
+            })
+
+        const newFiles = await Promise.all(promises)
+
+        res.status(200)
+        res.send(`Files uploaded: [${newFiles.join(", ")}]!`)
+        console.log("  200")
+    }
+    catch (err) {
+        res.status(500).send(err)
+        console.log("  500")
+    }
 })
 app.put("/deposit/:id/file/:file_path", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/file${req.params.file_path ? `/${req.params.file_path}` : ""}`)

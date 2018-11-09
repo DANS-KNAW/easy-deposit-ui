@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
@@ -21,14 +22,16 @@ import { FileOverviewState, Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
-import { Component } from "react"
 import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
+import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
+import FileLoaderDemo from "./FileLoaderDemo"
 
 interface FilesOverviewProps {
     depositId: DepositId
     files: FileOverviewState
+    fileUploadUrl: (filePath: string) => string
 
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>>
@@ -36,13 +39,7 @@ interface FilesOverviewProps {
     cancelDeleteFile: (filePath: string) => Action
 }
 
-
 class FilesOverview extends Component<FilesOverviewProps> {
-
-    constructor(props: FilesOverviewProps) {
-        super(props)
-    }
-
     render() {
         const { files: { loading: { loading, loaded } } } = this.props
 
@@ -71,6 +68,9 @@ class FilesOverview extends Component<FilesOverviewProps> {
         const { files: { files, deleting }, depositId } = this.props
 
         return (
+            <>
+                <FileLoaderDemo/>
+
                 <table className="table table-striped file_table">
                     <FilesTableHead/>
                     <tbody>{Object.keys(files).map(filepath =>
@@ -79,11 +79,12 @@ class FilesOverview extends Component<FilesOverviewProps> {
                             deleting={deleting[filepath]}
                             deleteFile={this.deleteFile(depositId, filepath)}
                             fileInfo={files[filepath]}
-                            askConfirmation = {this.askConfirmation(filepath)}
+                            askConfirmation={this.askConfirmation(filepath)}
                             cancelDeleteFile={this.cancelDeleteFile(filepath)}
                         />,
                     )}</tbody>
                 </table>
+            </>
         )
     }
 }
@@ -91,6 +92,7 @@ class FilesOverview extends Component<FilesOverviewProps> {
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
     files: state.files,
+    fileUploadUrl: (filePath: string) => uploadFileUrl(state.depositForm.depositId!, filePath)(state),
 })
 
 export default connect(mapStateToProps, { fetchFiles, deleteFile, askConfirmation, cancelDeleteFile })(FilesOverview)
