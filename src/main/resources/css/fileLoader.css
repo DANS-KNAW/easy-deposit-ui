@@ -52,7 +52,7 @@
     top: -37px;
 
     /* how does the text look */
-    font-size: 15px;
+    font-size: 14px;
     color: var(--dans-white);
     text-align: center;
     text-transform: capitalize;
@@ -116,4 +116,12 @@
 
 .file-upload-error-msg {
     color: var(--dans-red);
+    position: absolute;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    top: 37px;
+    width: 100%;
+    height: 100%;
 }
