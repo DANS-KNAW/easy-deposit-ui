@@ -139,7 +139,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         }
     }
 
-    uploadFinished: (data: FileLoaderState) => void = data => {
+    uploadFinished: (data: Partial<FileLoaderState>) => void = data => {
         this.setState(prevState => ({ ...prevState, ...data }))
         if (this.props.preventReload)
             window.removeEventListener("beforeunload", this.beforeUnloadFn)
