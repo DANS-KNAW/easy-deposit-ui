@@ -20,8 +20,8 @@
 }
 
 .file-upload-progress-bar {
-    margin-bottom: 50px;
-    margin-top: 50px;
+    margin-top: 37px;
+    margin-bottom: 35px;
     background-color: var(--file-upload-remaining-progress);
     box-shadow: inset 0 1px 2px var(--file-upload-remaining-progress-shadow);
 }

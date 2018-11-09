@@ -65,7 +65,7 @@ class FileLoaderDemo extends Component<FileLoaderDemoProps, FileLoaderDemoState>
                     preventReload
                     showCancelBtn
                     validFileTypes={{
-                    //     blacklist: ["image/jpeg", "image/png", "video/mp4"],
+                        // blacklist: ["image/jpeg", "image/png", "video/mp4"],
                         whitelist: ["image/jpeg", "image/png", "video/mp4"],
                         errorMessage: "This type of file is not allowed.",
                     }}
