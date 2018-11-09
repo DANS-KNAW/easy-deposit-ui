@@ -17,6 +17,7 @@ import * as React from "react"
 import { Component } from "react"
 import FilesOverview from "./fileUpload/overview/FilesOverview"
 import { DepositId } from "../../../model/Deposits"
+import FileUploader from "./fileUpload/upload/FileUploader"
 
 interface FileUploadProps {
     depositId: DepositId
@@ -26,7 +27,8 @@ class FileUpload extends Component<FileUploadProps> {
     render() {
         return (
             <>
-                <FilesOverview />
+                <FilesOverview/>
+                <FileUploader/>
             </>
         )
     }

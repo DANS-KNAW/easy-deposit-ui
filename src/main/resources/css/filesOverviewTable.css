@@ -24,7 +24,7 @@
 }
 
 .file_table tbody tr:last-child {
-    border-bottom: 1px solid  var(--dans-gray);
+    border-bottom: 1px solid var(--dans-gray);
 }
 
 @media (max-width: 767px) {
@@ -44,4 +44,33 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
+}
+
+#upload-row {
+    height: 92px;
+}
+
+#upload-row .input-file {
+    /*
+     * Setting the property values to zero ends up throwing the element out of tab party in some browsers.
+     * https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+     */
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    cursor: pointer;
+}
+
+#upload-row .input-file + label.btn {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 29px;
+}
+
+#upload-row .input-file + label.btn svg {
+    fill: currentColor;
 }

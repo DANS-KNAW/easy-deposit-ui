@@ -26,7 +26,6 @@ import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redu
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
-import FileLoaderDemo from "./FileLoaderDemo"
 
 interface FilesOverviewProps {
     depositId: DepositId
@@ -68,23 +67,19 @@ class FilesOverview extends Component<FilesOverviewProps> {
         const { files: { files, deleting }, depositId } = this.props
 
         return (
-            <>
-                <FileLoaderDemo/>
-
-                <table className="table table-striped file_table">
-                    <FilesTableHead/>
-                    <tbody>{Object.keys(files).map(filepath =>
-                        <FilesTableRow
-                            key={filepath}
-                            deleting={deleting[filepath]}
-                            deleteFile={this.deleteFile(depositId, filepath)}
-                            fileInfo={files[filepath]}
-                            askConfirmation={this.askConfirmation(filepath)}
-                            cancelDeleteFile={this.cancelDeleteFile(filepath)}
-                        />,
-                    )}</tbody>
-                </table>
-            </>
+            <table className="table table-striped file_table">
+                <FilesTableHead/>
+                <tbody>{Object.keys(files).map(filepath =>
+                    <FilesTableRow
+                        key={filepath}
+                        deleting={deleting[filepath]}
+                        deleteFile={this.deleteFile(depositId, filepath)}
+                        fileInfo={files[filepath]}
+                        askConfirmation={this.askConfirmation(filepath)}
+                        cancelDeleteFile={this.cancelDeleteFile(filepath)}
+                    />,
+                )}</tbody>
+            </table>
         )
     }
 }
