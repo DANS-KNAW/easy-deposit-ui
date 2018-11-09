@@ -47,6 +47,11 @@ interface FileLoaderState {
     uploadStatus?: UploadStatus
 }
 
+/*
+ * this class was taken and modified from https://github.com/Ggayane/react-file-loader/
+ * the original library seemed abandoned, did not support newer versions of React,
+ * did not have TypeScript definitions and used React's deprecated life cycle methods (see React v16.3)
+ */
 class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoaderState> {
     constructor(props: FileLoaderProps<Response>) {
         super(props)
