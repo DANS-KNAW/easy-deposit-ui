@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { ChangeEvent, Component } from "react"
+import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
@@ -25,8 +25,8 @@ import { DepositId } from "../../../../../model/Deposits"
 import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
-import FileLoader from "./FileLoader"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
+import FileLoaderDemo from "./FileLoaderDemo"
 
 interface FilesOverviewProps {
     depositId: DepositId
@@ -39,20 +39,7 @@ interface FilesOverviewProps {
     cancelDeleteFile: (filePath: string) => Action
 }
 
-interface FilesOverviewLocalState {
-    uploadingFile?: File | null
-}
-
-class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalState> {
-
-    constructor(props: FilesOverviewProps) {
-        super(props)
-        this.state = {
-            uploadingFile: null,
-        }
-
-    }
-
+class FilesOverview extends Component<FilesOverviewProps> {
     render() {
         const { files: { loading: { loading, loaded } } } = this.props
 
@@ -77,36 +64,12 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
         this.props.cancelDeleteFile(filepath)
     }
 
-    uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files && e.target.files[0]
-        this.setState(prevState => ({ ...prevState, uploadingFile: file }))
-    }
-
-    uploadFinished = (file: File) => {
-        console.log("file uploaded", file)
-        this.setState(prevState => ({ ...prevState, uploadingFile: undefined }))
-        this.props.fetchFiles(this.props.depositId)
-    }
-
     private renderTable() {
         const { files: { files, deleting }, depositId } = this.props
 
         return (
             <div>
-                <h2 style={{ textAlign: "center" }}>Demo Of File Loader</h2>
-                <input type="file" onChange={this.uploadFile}/>
-                <FileLoader
-                    file={this.state.uploadingFile || null}
-                    url={this.state.uploadingFile ? this.props.fileUploadUrl(this.state.uploadingFile.name) : "#"}
-                    preventReload
-                    showCancelBtn
-                    // validFileTypes={{
-                    //     blacklist: ["image/jpeg", "image/png", "video/mp4"],
-                    //     whitelist: ["image/jpeg", "image/png", "video/mp4"],
-                    //     errorMessage: "This type of file is not allowed.",
-                    // }}
-                    onUploadFinished={this.uploadFinished}
-                />
+                <FileLoaderDemo/>
 
                 <table className="table table-striped file_table">
                     <FilesTableHead/>
