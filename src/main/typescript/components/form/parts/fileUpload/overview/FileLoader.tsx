@@ -19,7 +19,7 @@ import "../../../../../../resources/css/fileLoader.css"
 
 enum UploadStatus {
     DONE = "done",
-    CANCELED = "canceled",
+    CANCELLED = "cancelled",
     ERROR = "error",
     FAILED = "failed",
 }
@@ -148,7 +148,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     cancelUpload = () => {
         if (this.state.request)
             this.state.request.abort()
-        this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.CANCELED, request: undefined })
+        this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.CANCELLED, request: undefined })
     }
 
     componentDidMount() {
@@ -203,8 +203,8 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
                 return `${defaultClassName} show finished failed`
             case UploadStatus.ERROR:
                 return `${defaultClassName} show finished error`
-            case UploadStatus.CANCELED:
-                return `${defaultClassName} show finished canceled`
+            case UploadStatus.CANCELLED:
+                return `${defaultClassName} show finished cancelled`
         }
     }
 
@@ -216,7 +216,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
             return <div className='file-upload-error-msg'>{errorMessage}</div>
         else if (file) {
             const progressStatus = uploaded ? uploadStatus : `${percentage}%`
-            const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && uploadStatus !== UploadStatus.CANCELED && (
+            const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && uploadStatus !== UploadStatus.CANCELLED && (
                 <div className='file-upload-cancel-wrapper'>
                     <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
                 </div>

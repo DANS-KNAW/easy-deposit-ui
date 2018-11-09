@@ -68,7 +68,7 @@
     --file-upload-status-BG: var(--dans-green);
     --file-upload-error-BG: var(--dans-red);
     --file-upload-failed-BG: var(--dans-red);
-    --file-upload-canceled-BG: #FFC107; /* TODO other color please! */
+    --file-upload-cancelled-BG: #FFC107; /* TODO other color please! */
 }
 
 /* Bootstrap overrides */

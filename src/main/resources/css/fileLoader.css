@@ -100,12 +100,12 @@
     border-top-color: var(--file-upload-failed-BG);
 }
 
-.file-upload-status.finished.canceled {
-    background: var(--file-upload-canceled-BG);
+.file-upload-status.finished.cancelled {
+    background: var(--file-upload-cancelled-BG);
 }
 
-.file-upload-status.finished.canceled:after {
-    border-top-color: var(--file-upload-canceled-BG);
+.file-upload-status.finished.cancelled:after {
+    border-top-color: var(--file-upload-cancelled-BG);
 }
 
 .file-upload-cancel-wrapper {
