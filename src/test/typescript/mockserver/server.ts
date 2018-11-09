@@ -224,7 +224,9 @@ app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) =>
                 const uploadedFile = file as UploadedFile
 
                 return new Promise<string>((resolve, reject) => {
-                    const dirPartOfDirPath = dirPath.replace(new RegExp(`/${uploadedFile.name}$`), "/")
+                    const dirPartOfDirPath = dirPath === uploadedFile.name // if it is uploaded to the root directory
+                        ? ""
+                        : dirPath.replace(new RegExp(`/${uploadedFile.name}$`), "/")
 
                     uploadedFile.mv(`./target/build-mockserver/${uploadedFile.name}`, err => {
                         if (err)
