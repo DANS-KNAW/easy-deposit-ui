@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ChangeEvent, Component } from "react"
-import FileLoader from "../overview/FileLoader"
+import FileLoader from "./FileLoader"
 import { AppState } from "../../../../../model/AppState"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import { connect } from "react-redux"
