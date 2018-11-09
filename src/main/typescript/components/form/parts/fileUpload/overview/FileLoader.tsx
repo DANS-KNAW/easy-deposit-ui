@@ -209,8 +209,6 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     }
 
     render() {
-        console.log("state", this.state)
-
         const { file, showCancelBtn } = this.props
         const { percentage, uploaded, uploadStatus, error, errorMessage } = this.state
 
