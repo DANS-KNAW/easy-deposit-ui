@@ -34,10 +34,7 @@ interface FileLoaderProps<Response> {
         blacklist?: string[],
         errorMessage: string,
     }
-    onUploadFinished?: {
-        responseParser: (raw: any) => Response
-        uploadFinishedCallback: (file: File, response: Response) => void
-    }
+    onUploadFinished?: (file: File) => void
 }
 
 interface FileLoaderState {
@@ -93,10 +90,9 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     }
 
     uploadFile: (file: File, url: string) => XMLHttpRequest = (file, url) => {
-        const { preventReload, onUploadFinished } = this.props
-
-        if (preventReload)
+        if (this.props.preventReload)
             window.addEventListener("beforeunload", this.beforeUnloadFn)
+
         this.setState(prevState => ({ ...prevState, loading: true }))
 
         const formData = new FormData()
@@ -106,13 +102,8 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         url && request.open("POST", url)
 
         request.addEventListener("load", () => {
-            const uploadStatus = request.status === 200 ? UploadStatus.DONE : UploadStatus.ERROR
-
-            if (onUploadFinished) {
-                const response = onUploadFinished.responseParser(request.response)
-                onUploadFinished.uploadFinishedCallback(file, response)
-            }
-            this.uploadFinished({ uploaded: true, uploadStatus: uploadStatus, request: undefined })
+            const uploadStatus = this.handleResponse(file, request)
+            this.uploadFinished({ ...uploadStatus, uploaded: true, request: undefined })
         }, false)
 
         request.addEventListener("error", () => {
@@ -136,6 +127,16 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
 
     setUploadedPercentage = (percentage: number) => {
         this.setState(prevState => ({ ...prevState, percentage }))
+    }
+
+    handleResponse: (file: File, request: XMLHttpRequest) => Partial<FileLoaderState> = (file, request) => {
+        if (request.status == 200) {
+            this.props.onUploadFinished && this.props.onUploadFinished(file)
+            return { uploadStatus: UploadStatus.DONE }
+        }
+        else {
+            return { uploadStatus: UploadStatus.ERROR, error: true, errorMessage: request.response }
+        }
     }
 
     uploadFinished: (data: FileLoaderState) => void = data => {

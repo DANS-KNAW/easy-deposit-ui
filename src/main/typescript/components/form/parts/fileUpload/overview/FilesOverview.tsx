@@ -82,14 +82,8 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
         this.setState(prevState => ({ ...prevState, uploadingFile: file }))
     }
 
-    // TODO implement proper response parser
-    uploadResponseParser = (raw: any) => {
-        return raw
-    }
-
-    uploadFinished = (file: File, response: any) => {
+    uploadFinished = (file: File) => {
         console.log("file uploaded", file)
-        console.log("response", response)
         this.setState(prevState => ({ ...prevState, uploadingFile: undefined }))
         this.props.fetchFiles(this.props.depositId)
     }
@@ -111,10 +105,7 @@ class FilesOverview extends Component<FilesOverviewProps, FilesOverviewLocalStat
                     //     whitelist: ["image/jpeg", "image/png", "video/mp4"],
                     //     errorMessage: "This type of file is not allowed.",
                     // }}
-                    onUploadFinished={{
-                        responseParser: this.uploadResponseParser,
-                        uploadFinishedCallback: this.uploadFinished,
-                    }}
+                    onUploadFinished={this.uploadFinished}
                 />
 
                 <table className="table table-striped file_table">
