@@ -37,6 +37,7 @@ export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction
     type: FileOverviewConstants.DELETE_FILE,
     async payload() {
         await axios.delete(deleteFileUrl(depositId, filePath)(getState()))
+        dispatch(fetchFiles(depositId))
     },
     meta: { filePath: filePath },
 })
