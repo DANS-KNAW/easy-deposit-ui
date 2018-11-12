@@ -61,6 +61,7 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
                     <input type="file"
                            onChange={this.uploadFile}
                            id="file-upload"
+                           disabled={!!this.state.uploadingFile}
                            className="input-file"/>
                     <label className="btn btn-dark mb-0" htmlFor="file-upload">
                         {/* SVG taken from https://tympanus.net/Tutorials/CustomFileInputs/ */}

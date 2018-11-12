@@ -71,6 +71,17 @@
     margin-top: 29px;
 }
 
+#upload-row .input-file:disabled + label.btn,
+#upload-row .input-file:disabled + label.btn:hover,
+#upload-row .input-file.disabled + label.btn,
+#upload-row .input-file.disabled + label.btn:hover {
+    background-color: var(--dark);
+    border-color: var(--dark);
+    color: var(--dans-button-text-hover);
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
 #upload-row .input-file + label.btn svg {
     fill: currentColor;
 }
