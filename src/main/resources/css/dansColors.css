@@ -33,10 +33,12 @@
 
     --danger: var(--dans-dark-gray)!important;
     --danger-hover: var(--dans-red)!important;
-    --danger-gradient: linear-gradient(to bottom, var(--dans-red), #dc241f);
+    --danger-border: #ed5a5a;
+    --danger-gradient: linear-gradient(to bottom, var(--dans-red), #ac241f);
 
     --success: var(--dans-dark-gray)!important;
     --success-hover: var(--dans-green)!important;
+    --success-gradient: linear-gradient(to bottom, var(--dans-green), #005100);
 
     --dark: var(--dans-dark-gray)!important;
     --dark-hover: #505050!important;
@@ -79,35 +81,26 @@
 .bg-danger {
     background: var(--dark) var(--dark-gradient);
 }
-.bg-danger.disabled:hover, .bg-danger:disabled:hover {
-    background: var(--danger)!important;
-}
 .bg-danger:not(:disabled):not(.disabled):hover {
     background: var(--dans-red) var(--danger-gradient)!important;
     color: var(--dans-white);
-    border-color: var(--dans-red);
 }
 
 .bg-success {
     background: var(--dark) var(--dark-gradient);
 }
-.bg-success.disabled:hover, .bg-success:disabled:hover {
-    background: var(--success)!important;
-}
 .bg-success:not(:disabled):not(.disabled):hover {
-    background: var(--success-hover)!important;
+    background: var(--success-gradient)!important;
 }
 
 .btn-primary {
     background-color: var(--primary);
     border-color: var(--primary);
 }
-
 .btn-primary.disabled, .btn-primary:disabled {
     background-color: var(--primary);
     border-color: var(--primary);
 }
-
 .btn-primary:not(:disabled):not(.disabled):hover {
     background-color: var(--primary-hover);
 }
@@ -122,17 +115,19 @@
     letter-spacing: 1px;
     line-height: 1.83em;
 }
-
 .btn-dark.disabled, .btn-dark:disabled {
     background-color: var(--dark);
     border-color: var(--dark);
     opacity: 0.25;
 }
-
 .btn-dark:not(:disabled):hover, .btn-dark:not(.disabled):hover {
     background-color: var(--dark-hover);
     border-color: var(--dark);
     color: var(--dans-button-text-hover);
+}
+
+.btn-dark.bg-danger:not(:disabled):hover, .btn-dark.bg-danger:not(.disabled):hover {
+    border-color: var(--danger-border);
 }
 
 .text-primary, a.text-primary:hover {

@@ -57,7 +57,8 @@
     float: left;
 }
 
-.input-element .remove-and-add-buttons > button:disabled {
+.input-element .remove-and-add-buttons > button:disabled,
+.input-element .remove-and-add-buttons > button.disabled {
     opacity: 0.25;
 }
 
