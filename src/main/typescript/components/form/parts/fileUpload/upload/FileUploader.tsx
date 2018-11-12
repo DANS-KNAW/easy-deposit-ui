@@ -56,7 +56,6 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
     render() {
         return (
             <div id="upload-row" className="row">
-                {/* these column sizes need to match with the sizes in FilesTableHead and FilesTableRow */}
                 <div className="col col-10 col-sm-11 col-md-3">
                     <input type="file"
                            onChange={this.uploadFile}

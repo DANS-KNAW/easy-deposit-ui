@@ -47,7 +47,7 @@ const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancel
 
     return (
         <tr className="row ml-0 mr-0">
-            {/* these column sizes need to match with the sizes in FilesTableHead and FileLoaderRow */}
+            {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 {fileInfo.dirpath + fileInfo.filename}
                 {confirmButtons}
