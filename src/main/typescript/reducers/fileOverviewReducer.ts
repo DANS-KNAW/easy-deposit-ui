@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FileOverviewState, empty, DeleteState, emptyDelete, Files } from "../model/FileInfo"
+import { FileOverviewState, empty, DeleteState, emptyDelete } from "../model/FileInfo"
 import { Reducer } from "redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
-import immutable from "object-path-immutable"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
     switch (action.type) {
@@ -54,10 +53,8 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
             const { meta: { filePath } } = action
 
             const newDeleteState: DeleteState = { deleting: false, deleted: true }
-            //filePath might contain a 'dot', so pass as array
-            const newFiles: Files = immutable.del(state.files, [filePath])
 
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState }, files: newFiles}
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState }}
         }
         case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
             const { meta: { filePath } } = action
