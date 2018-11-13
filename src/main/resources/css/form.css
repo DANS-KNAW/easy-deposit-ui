@@ -47,10 +47,6 @@
     color: var(--form-text);
 }
 
-.input-element .remove-and-add-buttons {
-    align-self: flex-end;
-}
-
 .input-element .remove-and-add-buttons > button {
     padding-top: 8px;
     padding-bottom: 7px;
