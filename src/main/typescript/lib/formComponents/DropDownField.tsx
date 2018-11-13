@@ -27,13 +27,24 @@ interface DropdownFieldInputProps {
 
 export type DropdownFieldProps = FieldProps & SelectHTMLAttributes<HTMLSelectElement> & DropdownFieldInputProps
 
-const DropdownField = ({ input, withEmptyDefault, emptyDefault, choices, className, ...rest }: DropdownFieldProps) => (
-    <select className={`form-control ${className}`} {...input} {...rest}>
-        {withEmptyDefault ? [<option key="empty choice" value="">{emptyDefault || "Choose..."}</option>] : []}
-        {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
-                                                               value={key}>{displayValue}</option>)}
-    </select>
-)
+const DropdownField = ({ input, withEmptyDefault, emptyDefault, choices, className, ...rest }: DropdownFieldProps) => {
+    const { meta } = rest
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    const totalClassName = `form-control ${className || ""} ${hasError ? "is-invalid" : ""}`
+
+    return (
+        <>
+            <select className={totalClassName} {...input} {...rest}>
+                {withEmptyDefault ? [<option key="empty choice" value="">{emptyDefault || "Choose..."}</option>] : []}
+                {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
+                                                                       value={key}>{displayValue}</option>)}
+            </select>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}
 
 export default asField(DropdownField)
 

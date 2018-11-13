@@ -80,6 +80,10 @@ interface BasicInformationFormProps {
     dates: DropdownList
 }
 
+const mandatoryFieldValidator = (value: string, allValues: any, props: any, name: any) => {
+    return value && value.trim() !== "" ? undefined : "error text"
+}
+
 const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, relations, dates }: BasicInformationFormProps) => (
     <>
         <Field name="doi"
@@ -93,6 +97,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                helpText
                withEmptyDefault
                dropdown={languages}
+               validate={[mandatoryFieldValidator]}
                component={LanguageField}/>
 
         <RepeatableField name="titles"
