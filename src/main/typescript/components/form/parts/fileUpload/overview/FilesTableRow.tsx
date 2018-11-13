@@ -48,16 +48,12 @@ const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancel
     return (
         <tr className="row ml-0 mr-0">
             {/* these column sizes need to match with the sizes in FilesTableHead */}
-            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-5 order-md-1" scope="row">
+            <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 {fileInfo.dirpath + fileInfo.filename}
                 {confirmButtons}
             </td>
-            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-6 order-md-3">
-                {fileInfo.sha1sum}
-            </td>
-            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">
-                {deleteButton}
-            </td>
+            <td className="col col-12 col-sm-12 col-md-6">{fileInfo.sha1sum}</td>
+            <td className="col col-2 col-sm-1 col-md-1" id="actions_cell">{deleteButton}</td>
         </tr>
     )
 }

@@ -191,7 +191,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         }
     }
 
-    generateStatusClassName = () => {
+    statusClassName = () => {
         const { loading, uploaded, uploadStatus } = this.state
         const defaultClassName = "file-upload-status"
 
@@ -217,22 +217,18 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         const { file, showCancelBtn } = this.props
         const { percentage, uploaded, uploadStatus, error, errorMessage } = this.state
 
-        if (file && error)
-            return <div className='file-upload-error-msg'>{errorMessage}</div>
-        else if (file) {
-            const progressStatus = uploaded ? uploadStatus : `${percentage}%`
-            const cancel = showCancelBtn && uploadStatus !== UploadStatus.DONE && uploadStatus !== UploadStatus.CANCELLED && (
-                <div className='file-upload-cancel-wrapper'>
-                    <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
-                </div>
-            )
-
+        if (file) {
             return (
                 <div className="file-upload-progress-bar">
                     <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
-                        <span className={this.generateStatusClassName()}>{progressStatus}</span>
+                        <span className={this.statusClassName()}>{uploaded ? uploadStatus : `${percentage}%`}</span>
                     </div>
-                    {cancel}
+                    {error && <div className='file-upload-error-msg'>{errorMessage}</div>}
+                    {showCancelBtn && !error && !uploadStatus && (
+                        <div className='file-upload-cancel-wrapper'>
+                            <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
+                        </div>
+                    )}
                 </div>
             )
         }

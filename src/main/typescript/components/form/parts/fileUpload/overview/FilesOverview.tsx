@@ -26,7 +26,7 @@ import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redu
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
-import FileLoaderDemo from "./FileLoaderDemo"
+import EmptyFileTableRow from "./EmptyFileTableRow"
 
 interface FilesOverviewProps {
     depositId: DepositId
@@ -66,14 +66,14 @@ class FilesOverview extends Component<FilesOverviewProps> {
 
     private renderTable() {
         const { files: { files, deleting }, depositId } = this.props
+        const filePaths = Object.keys(files)
 
         return (
-            <>
-                <FileLoaderDemo/>
-
-                <table className="table table-striped file_table">
-                    <FilesTableHead/>
-                    <tbody>{Object.keys(files).map(filepath =>
+            <table className="table table-striped file_table">
+                <FilesTableHead/>
+                <tbody>{filePaths.length == 0
+                    ? <EmptyFileTableRow/>
+                    : filePaths.map(filepath =>
                         <FilesTableRow
                             key={filepath}
                             deleting={deleting[filepath]}
@@ -82,9 +82,9 @@ class FilesOverview extends Component<FilesOverviewProps> {
                             askConfirmation={this.askConfirmation(filepath)}
                             cancelDeleteFile={this.cancelDeleteFile(filepath)}
                         />,
-                    )}</tbody>
-                </table>
-            </>
+                    )
+                }</tbody>
+            </table>
         )
     }
 }

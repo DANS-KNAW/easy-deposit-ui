@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum FileOverviewConstants {
-    FETCH_FILES = "FETCH_FILES",
-    FETCH_FILES_PENDING = "FETCH_FILES_PENDING",
-    FETCH_FILES_REJECTED = "FETCH_FILES_REJECTED",
-    FETCH_FILES_SUCCESS = "FETCH_FILES_SUCCESS",
+import * as React from "react"
 
-    CLEAN_FILES = "CLEAN_FILES",
+const EmptyFileTableRow = () => (
+    <tr className="row ml-0 mr-0">
+        <td className="col col-12" scope="row" colSpan={3}>No files uploaded</td>
+    </tr>
+)
 
-    DELETE_FILE_CONFIRMATION = "DELETE_FILE_CONFIRMATION",
-    DELETE_FILE_CANCELLED = "DELETE_FILE_CANCELLED",
-    DELETE_FILE = "DELETE_FILE",
-    DELETE_FILE_PENDING = "DELETE_FILE_PENDING",
-    DELETE_FILE_FULFILLED = "DELETE_FILE_FULFILLED",
-    DELETE_FILE_REJECTED = "DELETE_FILE_REJECTED",
-}
+export default EmptyFileTableRow
