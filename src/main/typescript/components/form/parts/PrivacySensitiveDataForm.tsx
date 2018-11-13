@@ -29,7 +29,7 @@ const oneSelected = (value?: any) => value ? undefined : "you need to select one
 const PrivacySensitiveDataForm = () => (
     <>
         <div className="row form-group input-element">
-            <Mandatory/>
+            <Mandatory style={{ paddingLeft: "unset", paddingRight: "5px" }}/>
             {/* TODO provide a proper text */}
             Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.
         </div>

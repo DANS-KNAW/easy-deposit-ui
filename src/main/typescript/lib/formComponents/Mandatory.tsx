@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { HTMLAttributes } from "react"
 
-const Mandatory = () => <span className="mandatory">*</span>
+const Mandatory = ({ className, ...rest }: HTMLAttributes<HTMLSpanElement>) => (
+    <span className={["mandatory", className || ""].join(" ")} {...rest}>*</span>
+)
 
 export default Mandatory
