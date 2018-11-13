@@ -84,6 +84,12 @@ const mandatoryFieldValidator = (value: string, allValues: any, props: any, name
     return value && value.trim() !== "" ? undefined : "error text"
 }
 
+const mandatoryFieldArrayValidator = (values: string[], allValues: any, props: any, name: any) => {
+    return values && (values.length == 0 || values.filter(value => value.trim() !== "").length === 0)
+        ? `no ${name} were provided`
+        : undefined
+}
+
 const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, relations, dates }: BasicInformationFormProps) => (
     <>
         <Field name="doi"
@@ -106,6 +112,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                          helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
+                         validate={[mandatoryFieldArrayValidator]}
                          component={TextFieldArray}/>
 
         <RepeatableField name="alternativeTitles"
