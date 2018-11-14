@@ -28,6 +28,7 @@ import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
 import AccessRightsField from "./licenseAndAccess/AccessRightsField"
+import { mandatoryFieldValidator, mandatoryRadioButtonValidator } from "../Validation"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -71,6 +72,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                label="Access rights"
                mandatory
                helpText
+               validate={[mandatoryRadioButtonValidator]}
                component={AccessRightsField}/>
 
         <Field name="license"
@@ -79,6 +81,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                helpText
                withEmptyDefault
                dropdown={licenses}
+               validate={[mandatoryRadioButtonValidator]}
                component={LicenseField}/>
 
         <Field name="dateAvailable"

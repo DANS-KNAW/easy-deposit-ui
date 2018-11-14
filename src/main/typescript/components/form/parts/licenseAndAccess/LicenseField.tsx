@@ -23,6 +23,7 @@ import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface LicenseChoicesProps {
     choices: DropdownListEntry[]
+    className: string
 }
 
 interface LicenseChoicesState {
@@ -77,7 +78,7 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
             this.setState(prevState => ({ ...prevState, showCount: 1 }))
 
         return (
-            <div className="license-field">
+            <div className={`license-field ${this.props.className || ""}`}>
                 <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={this.choices()}/>
                 {this.props.choices.length >= this.state.showCount && this.renderShowMore()}
             </div>

@@ -141,7 +141,7 @@
 }
 
 .date-picker.is-invalid .react-datepicker__input-field {
-    border-color: red;
+    border-color: #dc3545; /* TODO var(--dans-red) */
 }
 
 .date-picker ~ .invalid-feedback {
@@ -175,6 +175,16 @@
 .input-element .accessrights-field .category-field .radio-button {
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+.input-element .accessrights-field.is-invalid label,
+.input-element .license-field.is-invalid label {
+    color: #dc3545; /* TODO var(--dans-red) */
+}
+
+.input-element .accessrights-field.is-invalid ~ .invalid-feedback,
+.input-element .license-field.is-invalid ~ .invalid-feedback {
+    display: block;
 }
 
 .input-element .license-field .radio-choices .external-link {

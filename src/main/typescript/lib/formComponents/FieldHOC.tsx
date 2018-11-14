@@ -20,7 +20,8 @@ import Mandatory from "./Mandatory"
 import HelpButton from "./HelpButton"
 import HelpText from "./HelpText"
 
-interface InnerComponentProps {
+export interface InnerComponentProps {
+    className: string
     htmlFor: string
     label?: string
 }

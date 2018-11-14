@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { compose } from "redux"
 import { Field } from "redux-form"
 import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
-import asField from "../../../../lib/formComponents/FieldHOC"
+import asField, { InnerComponentProps } from "../../../../lib/formComponents/FieldHOC"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
-const AccessRightsField = ({ input }: FieldProps ) => {
+const AccessRightsField = ({ input, className }: FieldProps & InnerComponentProps ) => {
 
     const choices = [
         {
@@ -35,7 +34,7 @@ const AccessRightsField = ({ input }: FieldProps ) => {
     ]
 
     return (
-        <div className="form-row accessrights-field">
+        <div className={`form-row accessrights-field ${className || ""}`}>
             <div className="col col-md-4 category-field">
                 <Field name={`${input.name}.category`}
                        divClassName="radio-button"
