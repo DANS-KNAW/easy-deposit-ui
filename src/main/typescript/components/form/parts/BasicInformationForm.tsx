@@ -45,6 +45,7 @@ import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
 import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
+import { mandatoryFieldArrayValidator, mandatoryFieldValidator } from "../Validation"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -78,16 +79,6 @@ interface BasicInformationFormProps {
     identifiers: DropdownList
     relations: DropdownList
     dates: DropdownList
-}
-
-const mandatoryFieldValidator = (value: any, allValues: any, props: any, name: any) => {
-    return !value || typeof value == "string" && value.trim() === "" ? `no ${name} was provided` : undefined
-}
-
-const mandatoryFieldArrayValidator = (values: any[], allValues: any, props: any, name: any) => {
-    return !values || (values && (values.length == 0 || values.filter(value => value && value.trim() !== "").length === 0))
-        ? `no ${name} were provided`
-        : undefined
 }
 
 const BasicInformationForm = ({ depositId, languages, contributorIds, contributorRoles, audiences, identifiers, relations, dates }: BasicInformationFormProps) => (
