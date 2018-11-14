@@ -80,12 +80,12 @@ interface BasicInformationFormProps {
     dates: DropdownList
 }
 
-const mandatoryFieldValidator = (value: string, allValues: any, props: any, name: any) => {
-    return value && value.trim() !== "" ? undefined : `no ${name} was provided`
+const mandatoryFieldValidator = (value: any, allValues: any, props: any, name: any) => {
+    return !value || typeof value == "string" && value.trim() === "" ? `no ${name} was provided` : undefined
 }
 
-const mandatoryFieldArrayValidator = (values: string[], allValues: any, props: any, name: any) => {
-    return values && (values.length == 0 || values.filter(value => value.trim() !== "").length === 0)
+const mandatoryFieldArrayValidator = (values: any[], allValues: any, props: any, name: any) => {
+    return !values || (values && (values.length == 0 || values.filter(value => value && value.trim() !== "").length === 0))
         ? `no ${name} were provided`
         : undefined
 }
