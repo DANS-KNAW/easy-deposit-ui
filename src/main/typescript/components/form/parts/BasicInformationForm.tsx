@@ -128,6 +128,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                mandatory
                rows={5}
                maxRows={15}
+               validate={[mandatoryFieldValidator]}
                component={TextArea}/>
 
         <RepeatableFieldWithDropdown name="creators"
