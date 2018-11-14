@@ -186,6 +186,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ audiences: audiences }}
+                                     validate={[mandatoryFieldArrayValidator]}
                                      component={AudienceFieldArray}/>
 
         <RepeatableField name="subjects"
