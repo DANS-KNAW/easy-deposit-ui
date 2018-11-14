@@ -81,7 +81,7 @@ interface BasicInformationFormProps {
 }
 
 const mandatoryFieldValidator = (value: string, allValues: any, props: any, name: any) => {
-    return value && value.trim() !== "" ? undefined : "error text"
+    return value && value.trim() !== "" ? undefined : `no ${name} was provided`
 }
 
 const mandatoryFieldArrayValidator = (values: string[], allValues: any, props: any, name: any) => {
