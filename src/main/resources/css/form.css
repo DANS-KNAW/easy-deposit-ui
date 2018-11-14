@@ -116,7 +116,7 @@
 }
 
 /*
- * These 4 '.date-picker-field' rules make sure that the DatePickerField is displayed correctly
+ * These 4 '.date-picker-field' rules make sure that the SchemedDatePickerArray is displayed correctly
  * Since this is a component not managed by us, we have to change some of this predefined rules
  * to make it fit with our look and feel.
  *
