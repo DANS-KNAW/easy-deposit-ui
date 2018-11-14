@@ -1,4 +1,5 @@
 import { Validator } from "redux-form"
+import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 
 export const mandatoryFieldValidator: Validator = (value, allValues, props, name) => {
     return !value || typeof value == "string" && value.trim() === "" ? `no ${name} was provided` : undefined
@@ -14,4 +15,15 @@ export const mandatoryRadioButtonValidator: Validator = (value, allValues, props
     return !value || typeof value === "object" && Object.keys(value).filter(key => value[key] && value[key].trim() !== "").length === 0
         ? `no ${name} was provided`
         : undefined
+}
+
+export const mandatoryPrivacySensitiveDataValidator: Validator = (value, allValues, props, name) => {
+    if (!value)
+        return `no ${name} was provided`
+    else if (typeof value === "string" && (value.trim() === "" || value.trim() === PrivacySensitiveDataValue.UNSPECIFIED))
+        return `no ${name} was provided`
+    else if (typeof value === "object" && Object.keys(value).filter(key => value[key] && value[key].trim() !== "").length === 0)
+        return `no ${name} was provided`
+    else
+        return undefined
 }

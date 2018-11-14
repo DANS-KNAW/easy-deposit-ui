@@ -178,12 +178,14 @@
 }
 
 .input-element .accessrights-field.is-invalid label,
-.input-element .license-field.is-invalid label {
+.input-element .license-field.is-invalid label,
+.privacy-sensitive-data-field.is-invalid label {
     color: #dc3545; /* TODO var(--dans-red) */
 }
 
 .input-element .accessrights-field.is-invalid ~ .invalid-feedback,
-.input-element .license-field.is-invalid ~ .invalid-feedback {
+.input-element .license-field.is-invalid ~ .invalid-feedback,
+.privacy-sensitive-data-field.is-invalid ~ .invalid-feedback {
     display: block;
 }
 
