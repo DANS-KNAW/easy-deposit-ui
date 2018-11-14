@@ -140,6 +140,14 @@
     width: 100%;
 }
 
+.date-picker.is-invalid .react-datepicker__input-field {
+    border-color: red;
+}
+
+.date-picker ~ .invalid-feedback {
+    display: block;
+}
+
 .react-datepicker__close-icon:after {
     background-color: var(--dark)!important;
     font-size: 13px!important;

@@ -176,6 +176,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                yearDropdownItemNumber={10}
                scrollableYearDropdown
                maxDate={moment()}
+               validate={[mandatoryFieldValidator]}
                component={DatePickerField}/>
 
         <RepeatableFieldWithDropdown name="audiences"
