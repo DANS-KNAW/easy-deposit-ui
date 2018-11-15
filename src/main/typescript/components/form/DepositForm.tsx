@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
-import * as H from "history"
 import { Component, SFC } from "react"
+import * as H from "history"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
