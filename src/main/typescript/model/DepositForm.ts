@@ -44,10 +44,6 @@ export interface SubmitState {
     submitError?: string
 }
 
-export interface ValidationState {
-    failed: boolean
-}
-
 export interface DepositFormState {
     depositId?: DepositId
     fetchMetadata: FetchMetadataState
@@ -55,7 +51,6 @@ export interface DepositFormState {
     fetchDoi: FetchDoiState
     saveDraft: SaveDraftState
     submit: SubmitState
-    validation: ValidationState
 }
 
 export const empty: DepositFormState = {
@@ -78,7 +73,4 @@ export const empty: DepositFormState = {
         submitting: false,
         submitted: false,
     },
-    validation: {
-        failed: false,
-    }
 }

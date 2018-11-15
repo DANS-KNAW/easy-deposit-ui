@@ -16,7 +16,6 @@
 import { DepositFormState, empty } from "../model/DepositForm"
 import { Reducer } from "redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
-import { actionTypes } from "redux-form"
 
 export const depositFormReducer: Reducer<DepositFormState> = (state = empty, action) => {
     switch (action.type) {
@@ -87,22 +86,6 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             return {
                 ...state,
                 submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },
-            }
-        }
-        case actionTypes.SET_SUBMIT_SUCCEEDED: {
-            return {
-                ...state,
-                validation: {
-                    failed: false,
-                },
-            }
-        }
-        case actionTypes.SET_SUBMIT_FAILED: {
-            return {
-                ...state,
-                validation: {
-                    failed: true,
-                },
             }
         }
         default:
