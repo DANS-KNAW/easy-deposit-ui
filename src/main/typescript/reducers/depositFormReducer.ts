@@ -90,7 +90,6 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             }
         }
         case actionTypes.SET_SUBMIT_SUCCEEDED: {
-            console.log("in success")
             return {
                 ...state,
                 validation: {
@@ -99,7 +98,6 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             }
         }
         case actionTypes.SET_SUBMIT_FAILED: {
-            console.log("in failed")
             return {
                 ...state,
                 validation: {
