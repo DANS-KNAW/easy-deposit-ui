@@ -26,13 +26,9 @@ export interface PrivacySensitiveDataFormData {
 }
 
 const PrivacySensitiveRadioChoices = (props: FieldProps & RadioProps) => {
-
     const { meta } = props
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
-
-    console.log("meta", meta)
-    console.log("hasError", hasError)
 
     return (
         <>
