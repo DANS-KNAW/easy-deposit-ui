@@ -17,15 +17,11 @@ import * as React from "react"
 import { Field } from "redux-form"
 import Checkbox from "../../../lib/formComponents/Checkbox"
 import Mandatory from "../../../lib/formComponents/Mandatory"
+import { checkboxMustBeChecked } from "../Validation"
 
 export interface DepositLicenseFormData {
     acceptLicenseAgreement?: boolean
 }
-
-// validation rules
-const mustBeChecked = (value?: any) => value && value === true
-    ? undefined
-    : "Accept the license agreement before submitting this dataset"
 
 const DepositLicenseForm = () => (
     <>
@@ -71,8 +67,8 @@ const DepositLicenseForm = () => (
 
         <div className="row form-group input-element">
             <Field name="acceptLicenseAgreement"
-                   component={Checkbox}
-                   validate={[mustBeChecked]}>
+                   validate={[checkboxMustBeChecked]}
+                   component={Checkbox}>
                 Yes, I accept and understand the terms of the License agreement<Mandatory/>
             </Field>
         </div>

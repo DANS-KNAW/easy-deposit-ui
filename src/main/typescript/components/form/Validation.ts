@@ -27,3 +27,10 @@ export const mandatoryPrivacySensitiveDataValidator: Validator = (value, allValu
     else
         return undefined
 }
+
+export const checkboxMustBeChecked = (value?: any) => {
+    console.log("value", value)
+    return value && value === true
+        ? undefined
+        : "Accept the license agreement before submitting this dataset"
+}
