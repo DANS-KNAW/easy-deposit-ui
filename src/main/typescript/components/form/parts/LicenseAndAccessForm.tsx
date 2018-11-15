@@ -28,7 +28,7 @@ import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
 import AccessRightsField from "./licenseAndAccess/AccessRightsField"
-import { mandatoryFieldValidator, mandatoryRadioButtonValidator } from "../Validation"
+import { dateAvailableMustBeAfterDateCreated, mandatoryRadioButtonValidator } from "../Validation"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -90,6 +90,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                todayButton="Today"
                minDate={moment()}
                maxDate={moment().add(2, "years")}
+               validate={[dateAvailableMustBeAfterDateCreated]}
                component={DatePickerField}/>
     </>
 )

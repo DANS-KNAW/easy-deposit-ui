@@ -1,5 +1,6 @@
 import { Validator } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
+import { DepositFormMetadata } from "./parts"
 
 export const mandatoryFieldValidator: Validator = (value, allValues, props, name) => {
     return !value || typeof value == "string" && value.trim() === "" ? `no ${name} was provided` : undefined
@@ -33,4 +34,10 @@ export const checkboxMustBeChecked = (value?: any) => {
     return value && value === true
         ? undefined
         : "Accept the license agreement before submitting this dataset"
+}
+
+export const dateAvailableMustBeAfterDateCreated: Validator = (value, { dateCreated, dateAvailable }: DepositFormMetadata) => {
+    return dateCreated && dateAvailable && dateAvailable < dateCreated
+        ? "'Date available' cannot be a date earlier than 'Date created'"
+        : undefined
 }
