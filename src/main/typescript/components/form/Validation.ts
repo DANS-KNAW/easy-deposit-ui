@@ -3,7 +3,9 @@ import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveDa
 import { DepositFormMetadata } from "./parts"
 
 export const mandatoryFieldValidator: Validator = (value, allValues, props, name) => {
-    return !value || typeof value == "string" && value.trim() === "" ? `no ${name} was provided` : undefined
+    return !value || typeof value == "string" && value.trim() === ""
+        ? `no ${name} was provided`
+        : undefined
 }
 
 export const mandatoryFieldArrayValidator: Validator = (values: any[], allValues, props, name) => {
@@ -30,10 +32,9 @@ export const mandatoryPrivacySensitiveDataValidator: Validator = (value, allValu
 }
 
 export const checkboxMustBeChecked = (value?: any) => {
-    console.log("value", value)
-    return value && value === true
-        ? undefined
-        : "Accept the license agreement before submitting this dataset"
+    return !value || value !== true
+        ? "Accept the license agreement before submitting this dataset"
+        : undefined
 }
 
 export const dateAvailableMustBeAfterDateCreated: Validator = (value, { dateCreated, dateAvailable }: DepositFormMetadata) => {
