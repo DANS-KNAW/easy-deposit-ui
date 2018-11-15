@@ -141,7 +141,7 @@
 }
 
 .date-picker.is-invalid .react-datepicker__input-field {
-    border-color: #dc3545; /* TODO var(--dans-red) */
+    border-color: var(--dans-red);
 }
 
 .date-picker ~ .invalid-feedback {
@@ -180,7 +180,7 @@
 .input-element .accessrights-field.is-invalid label,
 .input-element .license-field.is-invalid label,
 .privacy-sensitive-data-field.is-invalid label {
-    color: #dc3545; /* TODO var(--dans-red) */
+    color: var(--dans-red);
 }
 
 .input-element .accessrights-field.is-invalid ~ .invalid-feedback,
