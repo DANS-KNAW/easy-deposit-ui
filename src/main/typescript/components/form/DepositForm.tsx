@@ -84,6 +84,8 @@ const SubmitError = ({ submitError }: SubmitErrorProps) => (
         : null
 )
 
+const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>
+
 interface LoadedProps {
     loading: boolean
     loaded: boolean
@@ -105,6 +107,7 @@ interface DepositFormStoreArguments {
     formState: DepositFormState
     fileState: FileOverviewLoadingState
     formValues?: DepositFormMetadata
+    formValidationFailed: boolean
 
     fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
@@ -205,6 +208,7 @@ class DepositForm extends Component<DepositFormProps> {
 
                     <SaveDraftError saveError={saveError}/>
                     <SubmitError submitError={submitError}/>
+                    {this.props.formValidationFailed && <ValidationError/>}
 
                     <div className="buttons">
                         <button type="button"
@@ -237,6 +241,7 @@ const mapStateToProps = (state: AppState) => ({
     fileState: state.files.loading,
     initialValues: state.depositForm.initialState.metadata,
     formValues: state.form.depositForm && state.form.depositForm.values,
+    formValidationFailed: state.depositForm.validation.failed,
 })
 
 const composedHOC = compose(
