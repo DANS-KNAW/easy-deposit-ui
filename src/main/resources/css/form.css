@@ -47,6 +47,10 @@
     color: var(--form-text);
 }
 
+.input-element .remove-and-add-buttons {
+    align-self: flex-end;
+}
+
 .input-element .value-label.is-invalid ~ .invalid-feedback,
 .input-element .value-button.is-invalid ~ .invalid-feedback {
     display: block;
