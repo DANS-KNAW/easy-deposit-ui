@@ -16,7 +16,7 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
-    checkboxMustBeChecked, dateAvailableMustBeAfterDateCreated, doiMustBeRequested,
+    checkboxMustBeChecked, dateAvailableMustBeAfterDateCreated,
     mandatoryFieldArrayValidator,
     mandatoryFieldValidator, mandatoryPrivacySensitiveDataValidator, mandatoryRadioButtonValidator,
 } from "../../../../main/typescript/components/form/Validation"
