@@ -23,6 +23,9 @@ import { AppState } from "../../../../model/AppState"
 import { fetchDoi } from "../../../../actions/depositFormActions"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 import { Doi } from "../../../../lib/metadata/Identifier"
+import Mandatory from "../../../../lib/formComponents/Mandatory"
+import HelpButton from "../../../../lib/formComponents/HelpButton"
+import HelpText from "../../../../lib/formComponents/HelpText"
 
 interface DoiFieldInputArguments {
     depositId: string
@@ -38,14 +41,19 @@ interface DoiFieldStoreFunctions {
 
 type DoiFieldProps = FieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
 
-const DoiField = ({ input, meta, label, depositId, fetchDoi, fetchDoiState: { fetchingDoi, fetchDoiError } }: DoiFieldProps) => {
+const DoiField = ({ input, meta, label, depositId, fetchDoi, mandatory, helpText, fetchDoiState: { fetchingDoi, fetchDoiError } }: DoiFieldProps) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
 
     return (
         <div className="row form-group input-element mb-4">
-            <label className="col-12 col-md-3 pl-0 title-label">{label}</label>
+            <label className="col-12 col-md-3 pl-0 title-label">
+                {label}
+                {mandatory && <Mandatory/>}
+                {helpText && <HelpButton textFor={typeof helpText == "string" ? helpText : input.name}/>}
+            </label>
             <div className="col-12 col-md-8 pl-0 pr-2">
+                {helpText && <HelpText textFor={input.name}/>}
                 {input.value
                     ? <label className={`value-label ${hasError ? "is-invalid" : ""}`.trim()}
                              id={input.name}>{input.value}</label>

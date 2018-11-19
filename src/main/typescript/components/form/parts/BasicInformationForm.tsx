@@ -85,6 +85,8 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
     <>
         <Field name="doi"
                label="Digital Object Identifier"
+               mandatory
+               helpText
                depositId={depositId}
                validate={[mandatoryFieldValidator]}
                component={DoiField}/>
