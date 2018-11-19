@@ -16,9 +16,12 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
-    checkboxMustBeChecked, dateAvailableMustBeAfterDateCreated,
+    checkboxMustBeChecked,
+    dateAvailableMustBeAfterDateCreated,
     mandatoryFieldArrayValidator,
-    mandatoryFieldValidator, mandatoryPrivacySensitiveDataValidator, mandatoryRadioButtonValidator,
+    mandatoryFieldValidator,
+    mandatoryPrivacySensitiveDataValidator,
+    mandatoryRadioButtonValidator,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 
