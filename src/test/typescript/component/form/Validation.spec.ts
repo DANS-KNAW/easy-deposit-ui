@@ -16,7 +16,7 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
-    checkboxMustBeChecked, dateAvailableMustBeAfterDateCreated,
+    checkboxMustBeChecked, dateAvailableMustBeAfterDateCreated, doiMustBeRequested,
     mandatoryFieldArrayValidator,
     mandatoryFieldValidator, mandatoryPrivacySensitiveDataValidator, mandatoryRadioButtonValidator,
 } from "../../../../main/typescript/components/form/Validation"
@@ -119,6 +119,17 @@ describe("Validation", () => {
 
         it("should return an error when the value is undefined", () => {
             expect(mandatoryPrivacySensitiveDataValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+        })
+    })
+
+    describe("doiMustBeRequested", () => {
+
+        it("should return undefined when the value is given", () => {
+            expect(doiMustBeRequested("hello")).to.be.undefined
+        })
+
+        it("should return an error when the value is undefined", () => {
+            expect(doiMustBeRequested(undefined)).to.eql("no DOI has been requested yet")
         })
     })
 

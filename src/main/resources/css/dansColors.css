@@ -130,6 +130,14 @@
     border-color: var(--danger-border);
 }
 
+.btn-danger {
+    background: var(--dans-red) var(--danger-gradient);
+    color: var(--dans-white);
+}
+.btn-danger:not(.disabled):hover, .btn-danger:not(:disabled):hover {
+    color: var(--dans-button-text-hover);
+}
+
 .text-primary, a.text-primary:hover {
     color: var(--primary)!important;
 }
