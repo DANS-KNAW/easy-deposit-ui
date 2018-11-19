@@ -45,7 +45,7 @@ import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
 import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
-import { doiMustBeRequested, mandatoryFieldArrayValidator, mandatoryFieldValidator } from "../Validation"
+import { mandatoryFieldArrayValidator, mandatoryFieldValidator } from "../Validation"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -86,7 +86,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <Field name="doi"
                label="Digital Object Identifier"
                depositId={depositId}
-               validate={[doiMustBeRequested]}
+               validate={[mandatoryFieldValidator]}
                component={DoiField}/>
 
         <Field name="languageOfDescription"

@@ -122,17 +122,6 @@ describe("Validation", () => {
         })
     })
 
-    describe("doiMustBeRequested", () => {
-
-        it("should return undefined when the value is given", () => {
-            expect(doiMustBeRequested("hello")).to.be.undefined
-        })
-
-        it("should return an error when the value is undefined", () => {
-            expect(doiMustBeRequested(undefined)).to.eql("no DOI has been requested yet")
-        })
-    })
-
     describe("checkboxMustBeChecked", () => {
 
         it("should return undefined when the value is true", () => {

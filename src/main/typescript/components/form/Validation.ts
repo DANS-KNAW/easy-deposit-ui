@@ -46,13 +46,6 @@ export const mandatoryPrivacySensitiveDataValidator: Validator = (value, allValu
         return undefined
 }
 
-export const doiMustBeRequested: Validator = value => {
-    if (!value)
-        return "no DOI has been requested yet"
-    else
-        return undefined
-}
-
 export const checkboxMustBeChecked: Validator = (value?: any) => {
     return !value || value !== true
         ? "Accept the license agreement before submitting this dataset"
