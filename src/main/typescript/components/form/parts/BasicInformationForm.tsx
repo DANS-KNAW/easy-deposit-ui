@@ -27,7 +27,7 @@ import {
     QualifiedSchemedValue,
     SchemedValue,
 } from "../../../lib/metadata/Value"
-import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
+import { Contributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -53,7 +53,6 @@ export interface BasicInformationFormData {
     titles?: string[]
     alternativeTitles?: string[]
     description?: string
-    creators?: Contributor[]
     contributors?: Contributor[]
     dateCreated?: Date
     audiences?: string[]
@@ -125,30 +124,10 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                validate={[mandatoryFieldValidator]}
                component={TextArea}/>
 
-        <RepeatableFieldWithDropdown name="creators"
-                                     label="Creator"
+        <RepeatableFieldWithDropdown name="contributors"
+                                     label="People & organisations"
                                      helpText
                                      mandatory
-                                     empty={emptyContributor}
-                                     fieldNames={[
-                                         (name: string) => `${name}.titles`, // 0
-                                         (name: string) => `${name}.initials`, // 1
-                                         (name: string) => `${name}.insertions`, // 2
-                                         (name: string) => `${name}.surname`, // 3
-                                         (name: string) => `${name}.ids`, // 4
-                                         (name: string) => `${name}.role`, // 5
-                                         (name: string) => `${name}.organization`, // 6
-                                     ]}
-                                     dropdowns={{
-                                         ids: contributorIds,
-                                         roles: contributorRoles,
-                                     }}
-                                     component={ContributorFields}/>
-
-        <RepeatableFieldWithDropdown name="contributors"
-                                     label="Contributors"
-                                     helpText
-                                     empty={emptyContributor}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
                                          (name: string) => `${name}.initials`, // 1

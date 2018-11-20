@@ -274,11 +274,6 @@ export const allfields: Metadata = {
                     value: "abcdef",
                 },
             ],
-            role: {
-                scheme: ContributorRoleSchemeValues.contributorType,
-                key: ContributorRoleKeyValues.DataCollector,
-                value: "Data collector",
-            },
             organization: "KNAW",
         },
         {

@@ -59,11 +59,15 @@ import {
     temporalCoveragesConverter,
 } from "./TemporalCoverage"
 import {
-    contributorConverter,
+    Contributor,
     contributorDeconverter,
     contributorsConverter,
+    creatorConverter,
+    creatorDeconverter,
     emptyContributor,
+    emptyCreator,
     rightsHolderDeconverter,
+    splitCreatorsAndContributors,
 } from "./Contributor"
 import { subjectAbrDeconverter, subjectConverter, subjectDeconverter } from "./Subject"
 import { audienceConverter, audienceDeconverter } from "./Audience"
@@ -75,7 +79,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
     const languageOfDescription = input.languageOfDescription
         ? languageOfDescriptionConverter(dropDowns.languages.list)(input.languageOfDescription)
         : emptyString
-    const creators = input.creators && input.creators.map(contributorConverter(dropDowns.contributorIds.list, dropDowns.contributorRoles.list))
+    const creators = input.creators && input.creators.map(creatorConverter(dropDowns.contributorIds.list))
     const [rightsHolders, normalContributors] = input.contributors
         ? contributorsConverter(dropDowns.contributorIds.list, dropDowns.contributorRoles.list)(input.contributors)
         : [[], []]
@@ -128,8 +132,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         titles: normalizeEmpty(input.titles, () => emptyString),
         alternativeTitles: normalizeEmpty(input.alternativeTitles, () => emptyString),
         description: input.descriptions && input.descriptions.join("\n\n"),
-        creators: normalizeEmpty(creators, () => emptyContributor),
-        contributors: normalizeEmpty(normalContributors, () => emptyContributor),
+        contributors: normalizeEmpty([...(creators || []), ...(normalContributors || [])], () => emptyCreator),
         dateCreated: dateCreated && dateCreated.value,
         audiences: normalizeEmpty(audiences, () => emptyString),
         subjects: normalizeEmpty(subjects, () => emptyString),
@@ -181,6 +184,10 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
 }
 
 export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: DropdownLists, isSubmitting: boolean) => any = (data, dropDowns, isSubmitting) => {
+    const [creators, contributors]: [Contributor[], Contributor[]] = data.contributors
+        ? splitCreatorsAndContributors(data.contributors)
+        : [[], []]
+
     return clean({
         // basic info
         identifiers: [data.doi && doiDeconverter(data.doi)].filter(obj => obj !== undefined),
@@ -188,9 +195,9 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
         titles: data.titles && data.titles.filter(t => !isEmptyString(t)),
         alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyString(at)),
         descriptions: data.description && data.description.split("\n\n"),
-        creators: data.creators && data.creators.map(contributorDeconverter(dropDowns.contributorRoles.list)).filter(nonEmptyObject),
+        creators: creators.map(creatorDeconverter).filter(nonEmptyObject),
         contributors: [
-            ...(data.contributors ? data.contributors.map(contributorDeconverter(dropDowns.contributorRoles.list)) : []),
+            ...(contributors ? contributors.map(contributorDeconverter(dropDowns.contributorRoles.list)) : []),
             ...(data.rightsHolders ? data.rightsHolders.map(rightsHolderDeconverter) : []),
         ].filter(nonEmptyObject),
         audiences: data.audiences && data.audiences
