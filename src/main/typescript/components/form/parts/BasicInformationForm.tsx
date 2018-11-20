@@ -45,7 +45,7 @@ import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
 import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
-import { mandatoryFieldArrayValidator, mandatoryFieldValidator } from "../Validation"
+import { atLeastOneContributor, mandatoryFieldArrayValidator, mandatoryFieldValidator } from "../Validation"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -138,6 +138,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                          (name: string) => `${name}.organization`, // 6
                                      ]}
                                      dropdowns={{ ids: contributorIds, roles: contributorRoles }}
+                                     validate={[atLeastOneContributor]}
                                      component={ContributorFields}/>
 
         <Field name="dateCreated"

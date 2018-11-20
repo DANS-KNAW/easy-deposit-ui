@@ -16,6 +16,7 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
+    atLeastOneContributor,
     checkboxMustBeChecked,
     dateAvailableMustBeAfterDateCreated,
     mandatoryFieldArrayValidator,
@@ -24,6 +25,7 @@ import {
     mandatoryRadioButtonValidator,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
+import { Contributor, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
 
 describe("Validation", () => {
 
@@ -179,6 +181,45 @@ describe("Validation", () => {
                 dateCreated: new Date(2018, 11, 16),
                 dateAvailable: new Date(2018, 11, 15),
             })).to.eql("'Date available' cannot be a date earlier than 'Date created'")
+        })
+    })
+
+    describe("atLeastOneContributor", () => {
+        const contributor1: Contributor = {
+            initials: "D.A.",
+            surname: "N.S.",
+            ids: [
+                {
+                    scheme: "test",
+                    value: "foobar",
+                },
+                {
+                    scheme: "",
+                    value: "",
+                },
+                {},
+            ],
+        }
+        const contributor2: Contributor = {
+            organization: "K.N.A.W.",
+        }
+        const contributor3: Contributor = emptyContributor
+        const contributor4: Contributor = {}
+
+        it("should return undefined when at least one Contributor is not empty", () => {
+            expect(atLeastOneContributor([contributor1, contributor2, contributor3, contributor4])).to.be.undefined
+        })
+
+        it("should return an error when undefined is given", () => {
+            expect(atLeastOneContributor(undefined)).to.eql("no contributors were provided")
+        })
+
+        it("should return an error when an empty list is given", () => {
+            expect(atLeastOneContributor([])).to.eql("no contributors were provided")
+        })
+
+        it("should return an error when only empty Contributors are given", () => {
+            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("no contributors were provided")
         })
     })
 })

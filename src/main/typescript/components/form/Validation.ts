@@ -16,6 +16,7 @@
 import { Validator } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
+import { Contributor } from "../../lib/metadata/Contributor"
 
 export const mandatoryFieldValidator: Validator = (value, allValues, props, name) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -56,4 +57,34 @@ export const dateAvailableMustBeAfterDateCreated: Validator = (value, { dateCrea
     return dateCreated && dateAvailable && dateAvailable < dateCreated
         ? "'Date available' cannot be a date earlier than 'Date created'"
         : undefined
+}
+
+export const atLeastOneContributor: Validator = (contributors: Contributor[]) => {
+    const checkEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== "" : false
+
+    const nonEmptyContributors = () => contributors.map(contributor => {
+        const nonEmptyOrganization = checkEmpty(contributor.organization)
+        const nonEmptyTitles = checkEmpty(contributor.titles)
+        const nonEmptyInitials = checkEmpty(contributor.initials)
+        const nonEmptyInsertions = checkEmpty(contributor.insertions)
+        const nonEmptySurname = checkEmpty(contributor.surname)
+        const nonEmptyIdentifiers = contributor.ids
+            ? contributor.ids.map(id => {
+                const nonEmptyIdScheme = checkEmpty(id.scheme)
+                const nonEmptyIdValue = checkEmpty(id.value)
+
+                return nonEmptyIdScheme || nonEmptyIdValue
+            }).reduce((prev, curr) => prev || curr, false)
+            : false
+        // note that 'role' is not part of this validation, as it defaults to 'Creator'
+
+        return nonEmptyOrganization || nonEmptyTitles || nonEmptyInitials || nonEmptyInsertions || nonEmptySurname || nonEmptyIdentifiers
+    }).reduce((prev, curr) => prev || curr, false)
+
+    if (!contributors)
+        return "no contributors were provided"
+    else if (!nonEmptyContributors())
+        return "no contributors were provided"
+    else
+        return undefined
 }
