@@ -27,7 +27,7 @@ import {
     QualifiedSchemedValue,
     SchemedValue,
 } from "../../../lib/metadata/Value"
-import { Contributor } from "../../../lib/metadata/Contributor"
+import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -128,6 +128,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      label="People & organisations"
                                      helpText
                                      mandatory
+                                     empty={emptyContributor}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
                                          (name: string) => `${name}.initials`, // 1
