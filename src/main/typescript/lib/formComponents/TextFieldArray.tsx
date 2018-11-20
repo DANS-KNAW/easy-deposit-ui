@@ -22,10 +22,11 @@ interface TextFieldProps extends InnerComponentProps {
     label: string
 }
 
-const TextField = ({ names, label }: TextFieldProps) => (
+const TextField = ({ className, names, label }: TextFieldProps) => (
     <Field name={names[0]}
            label={label}
            placeholder={label}
+           className={className}
            component={InnerTextField}/>
 )
 

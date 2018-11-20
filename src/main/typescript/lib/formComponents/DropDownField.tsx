@@ -28,8 +28,8 @@ interface DropdownFieldInputProps {
 export type DropdownFieldProps = FieldProps & SelectHTMLAttributes<HTMLSelectElement> & DropdownFieldInputProps
 
 const DropdownField = ({ input, withEmptyDefault, emptyDefault, choices, className, ...rest }: DropdownFieldProps) => (
-    <select className={`form-control ${className}`} {...input} {...rest}>
-        {withEmptyDefault ? [<option key="empty choice" value="">{emptyDefault || "Choose..."}</option>] : []}
+    <select className={`form-control ${className || ""}`} {...input} {...rest}>
+        {withEmptyDefault && <option key="empty choice" value="">{emptyDefault || "Choose..."}</option>}
         {choices.map(({ key, displayValue }, index) => <option key={`${key}${index}`}
                                                                value={key}>{displayValue}</option>)}
     </select>

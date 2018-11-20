@@ -45,6 +45,7 @@ import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
 import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
+import { mandatoryFieldArrayValidator, mandatoryFieldValidator } from "../Validation"
 
 export interface BasicInformationFormData {
     doi?: Doi
@@ -84,7 +85,10 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
     <>
         <Field name="doi"
                label="Digital Object Identifier"
+               mandatory
+               helpText
                depositId={depositId}
+               validate={[mandatoryFieldValidator]}
                component={DoiField}/>
 
         <Field name="languageOfDescription"
@@ -93,6 +97,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                helpText
                withEmptyDefault
                dropdown={languages}
+               validate={[mandatoryFieldValidator]}
                component={LanguageField}/>
 
         <RepeatableField name="titles"
@@ -101,6 +106,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                          helpText
                          empty={emptyString}
                          fieldNames={[(name: string) => name]}
+                         validate={[mandatoryFieldArrayValidator]}
                          component={TextFieldArray}/>
 
         <RepeatableField name="alternativeTitles"
@@ -116,6 +122,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                mandatory
                rows={5}
                maxRows={15}
+               validate={[mandatoryFieldValidator]}
                component={TextArea}/>
 
         <RepeatableFieldWithDropdown name="creators"
@@ -163,6 +170,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                yearDropdownItemNumber={10}
                scrollableYearDropdown
                maxDate={moment()}
+               validate={[mandatoryFieldValidator]}
                component={DatePickerField}/>
 
         <RepeatableFieldWithDropdown name="audiences"
@@ -172,6 +180,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      empty={emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ audiences: audiences }}
+                                     validate={[mandatoryFieldArrayValidator]}
                                      component={AudienceFieldArray}/>
 
         <RepeatableField name="subjects"

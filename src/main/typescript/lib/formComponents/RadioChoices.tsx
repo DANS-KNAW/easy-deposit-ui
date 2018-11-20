@@ -17,13 +17,13 @@ import * as React from "react"
 import asField from "./FieldHOC"
 import { FieldProps } from "./ReduxFormUtils"
 
-interface RadioChoice {
+export interface RadioChoice {
     name?: string
     title: any
     value: string | JSX.Element
 }
 
-interface RadioProps {
+export interface RadioProps {
     choices: RadioChoice[]
     divClassName?: string
 }

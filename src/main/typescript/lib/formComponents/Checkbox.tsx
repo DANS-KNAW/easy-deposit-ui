@@ -25,11 +25,11 @@ const Checkbox: SFC<FieldProps & {satisfyCompiler?: any}> = ({ input, meta, labe
 
     return (
         <>
-            {hasError && <span className="validation-error">{meta.error}</span>}
             <div className="form-check col-12">
-                <input className="form-check-input" id={input.name} type="checkbox"
+                <input className={`form-check-input ${hasError ? "is-invalid" : ""}`} id={input.name} type="checkbox"
                        {...input} defaultChecked={input.value}/>
                 <label className="form-check-label" htmlFor={input.name}>{children}</label>
+                {hasError && <span className="invalid-feedback">{meta.error}</span>}
             </div>
         </>
     )

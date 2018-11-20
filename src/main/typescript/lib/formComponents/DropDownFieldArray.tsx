@@ -25,10 +25,10 @@ interface DropdownFieldProps extends InnerComponentProps {
     withEmptyDefault?: boolean
 }
 
-const DropdownField = ({ names, label, choices, withEmptyDefault }: DropdownFieldProps) => (
+const DropdownField = ({ className, names, label, choices, withEmptyDefault }: DropdownFieldProps) => (
     <Field name={names[0]}
            label={label}
-           className="custom-select"
+           className={`custom-select ${className}`}
            choices={choices}
            withEmptyDefault={withEmptyDefault}
            component={DropdownFieldInput}/>
