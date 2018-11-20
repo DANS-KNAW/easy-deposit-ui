@@ -244,7 +244,7 @@ export const allfields: Metadata = {
     identifiers: [
         {
             scheme: DansIdentifierSchemeValues.DOI,
-            value: "doi:10.17632/DANS.6wg5xccnjd.1",
+            value: "10.17632/DANS.6wg5xccnjd.1",
         },
     ],
     languageOfDescription: {
@@ -577,7 +577,7 @@ export const mandatoryOnly: Metadata = {
     identifiers: [
         {
             scheme: DansIdentifierSchemeValues.DOI,
-            value: "doi:10.17632/DANS.6wg5xccnjd.2",
+            value: "10.17632/DANS.6wg5xccnjd.2",
         },
     ],
     languageOfDescription: {

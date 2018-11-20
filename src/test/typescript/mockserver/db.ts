@@ -168,7 +168,7 @@ export const getDoi: (id: DepositId) => Doi | undefined = id => {
         return undefined
 }
 
-const generateNewDoi = () => `doi:10.17632/DANS.${uuid().substr(0, 10)}.1`
+const generateNewDoi = () => `10.17632/DANS.${uuid().substr(0, 10)}.1`
 
 export const getUser: () => User = () => {
     return User001
