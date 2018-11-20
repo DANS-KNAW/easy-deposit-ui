@@ -84,12 +84,12 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             </div>
             {/* TODO these fields need to be added later. they do not yet occur in the UI model, nor in the API */}
             {/*<div className="col form-group col-md-3 mb-1">
-            <label>Identifier</label>
-            <Field name={""}
-                   choices={idValues}
-                   withEmptyDefault
-                   emptyDefault="Choose..."
-                   component={DropdownFieldInput}/>
+                <label>Identifier</label>
+                <Field name={""}
+                       choices={idValues}
+                       withEmptyDefault
+                       emptyDefault="Choose..."
+                       component={DropdownFieldInput}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label/>
