@@ -17,6 +17,7 @@ import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
     atLeastOneContributor,
+    atLeastOneCreator,
     checkboxMustBeChecked,
     dateAvailableMustBeAfterDateCreated,
     mandatoryFieldArrayValidator,
@@ -25,7 +26,7 @@ import {
     mandatoryRadioButtonValidator,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
-import { Contributor, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
+import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
 
 describe("Validation", () => {
 
@@ -201,6 +202,52 @@ describe("Validation", () => {
 
         it("should return an error when only empty Contributors are given", () => {
             expect(atLeastOneContributor([contributor3, contributor4])).to.eql("no contributors were provided")
+        })
+    })
+
+    describe("atLeastOneCreator", () => {
+        const contributor1: Contributor = {
+            initials: "D.A.",
+            surname: "N.S.",
+            ids: [
+                {
+                    scheme: "test",
+                    value: "foobar",
+                },
+                {
+                    scheme: "",
+                    value: "",
+                },
+                {},
+            ],
+        }
+        const contributor2: Contributor = {
+            organization: "K.N.A.W.",
+        }
+        const contributor3: Contributor = emptyContributor
+        const contributor4: Contributor = {}
+        const creator: Contributor = {
+            initials: "my",
+            surname: "name",
+            role: creatorRole,
+        }
+
+        it("should return undefined when at least one Contributor has role 'Creator'", () => {
+            expect(atLeastOneCreator([contributor1, contributor2, contributor3, contributor4, creator]))
+                .to.be.undefined
+        })
+
+        it("should return an error when undefined is given", () => {
+            expect(atLeastOneCreator(undefined)).to.eql("at least one creator is required")
+        })
+
+        it("should return an error when an empty list is given", () => {
+            expect(atLeastOneCreator([])).to.eql("at least one creator is required")
+        })
+
+        it("should return an error when no Contributor has role 'Creator'", () => {
+            expect(atLeastOneCreator([contributor1, contributor2, contributor3, contributor4]))
+                .to.eql("at least one creator is required")
         })
     })
 })

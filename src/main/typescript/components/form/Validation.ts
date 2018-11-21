@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormErrors, Validator } from "redux-form"
+import { FormErrors } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
 import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
@@ -60,43 +60,48 @@ export const dateAvailableMustBeAfterDateCreated = (dateCreated?: Date, dateAvai
 
 const checkNonEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== "" : false
 
-export const atLeastOneContributor: Validator = (contributors: Contributor[]) => {
-    const nonEmptyContributors = () => contributors.map(contributor => {
-        const nonEmptyOrganization = checkNonEmpty(contributor.organization)
-        const nonEmptyTitles = checkNonEmpty(contributor.titles)
-        const nonEmptyInitials = checkNonEmpty(contributor.initials)
-        const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
-        const nonEmptySurname = checkNonEmpty(contributor.surname)
-        const nonEmptyIdentifiers = contributor.ids
-            ? contributor.ids.map(id => {
-                const nonEmptyIdScheme = checkNonEmpty(id.scheme)
-                const nonEmptyIdValue = checkNonEmpty(id.value)
-
-                return nonEmptyIdScheme || nonEmptyIdValue
-            }).reduce((prev, curr) => prev || curr, false)
-            : false
-        // note that 'role' is not part of this validation, as it defaults to 'Creator'
-
-        return nonEmptyOrganization || nonEmptyTitles || nonEmptyInitials || nonEmptyInsertions || nonEmptySurname || nonEmptyIdentifiers
-    }).reduce((prev, curr) => prev || curr, false)
-
+export const atLeastOneContributor = (contributors?: Contributor[]) => {
     if (!contributors)
         return "no contributors were provided"
-    else if (!nonEmptyContributors())
-        return "no contributors were provided"
-    else
-        return undefined
+    else {
+        const nonEmptyContributors = contributors.map(contributor => {
+            const nonEmptyOrganization = checkNonEmpty(contributor.organization)
+            const nonEmptyTitles = checkNonEmpty(contributor.titles)
+            const nonEmptyInitials = checkNonEmpty(contributor.initials)
+            const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
+            const nonEmptySurname = checkNonEmpty(contributor.surname)
+            const nonEmptyIdentifiers = contributor.ids
+                ? contributor.ids.map(id => {
+                    const nonEmptyIdScheme = checkNonEmpty(id.scheme)
+                    const nonEmptyIdValue = checkNonEmpty(id.value)
+
+                    return nonEmptyIdScheme || nonEmptyIdValue
+                }).reduce((prev, curr) => prev || curr, false)
+                : false
+            // note that 'role' is not part of this validation, as it defaults to 'Creator'
+
+            return nonEmptyOrganization || nonEmptyTitles || nonEmptyInitials || nonEmptyInsertions || nonEmptySurname || nonEmptyIdentifiers
+        }).reduce((prev, curr) => prev || curr, false)
+
+        if (!nonEmptyContributors)
+            return "no contributors were provided"
+        else
+            return undefined
+    }
 }
 
-// TODO test
-const atLeastOneCreator: Validator = (contributors: Contributor[]) => {
-    const containsCreator = contributors.map(contributor => contributor.role === creatorRole)
-        .reduce((prev, curr) => prev || curr, false)
-
-    if (!containsCreator)
+export const atLeastOneCreator = (contributors?: Contributor[]) => {
+    if (!contributors)
         return "at least one creator is required"
-    else
-        return undefined
+    else {
+        const containsCreator = contributors.map(contributor => contributor.role === creatorRole)
+            .reduce((prev, curr) => prev || curr, false)
+
+        if (!containsCreator)
+            return "at least one creator is required"
+        else
+            return undefined
+    }
 }
 
 // TODO test
