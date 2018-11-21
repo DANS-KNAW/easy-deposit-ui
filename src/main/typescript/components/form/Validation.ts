@@ -30,9 +30,9 @@ export const mandatoryFieldArrayValidator = (values: any[] | undefined, name: st
         : undefined
 }
 
-export const mandatoryRadioButtonValidator: Validator = (value, allValues, props, name) => {
+export const mandatoryRadioButtonValidator = (value: any, name: string) => {
     return !value || typeof value === "object" && Object.keys(value).filter(key => value[key] && value[key].trim() !== "").length === 0
-        ? `no ${name} was provided`
+        ? `no ${name} was chosen`
         : undefined
 }
 
@@ -53,7 +53,7 @@ export const checkboxMustBeChecked: Validator = (value?: any) => {
         : undefined
 }
 
-export const dateAvailableMustBeAfterDateCreated: Validator = (value, { dateCreated, dateAvailable }: DepositFormMetadata) => {
+export const dateAvailableMustBeAfterDateCreated = (dateCreated?: Date, dateAvailable?: Date) => {
     return dateCreated && dateAvailable && dateAvailable < dateCreated
         ? "'Date available' cannot be a date earlier than 'Date created'"
         : undefined
@@ -127,14 +127,11 @@ const validateContributors: (contributors: Contributor[]) => Contributor[] = con
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
-    errors.doi = { _error: mandatoryFieldValidator(values.doi, "doi") }
-
-    errors.languageOfDescription = { _error: mandatoryFieldValidator(values.languageOfDescription, "language of description") }
-
+    // basic information form
+    errors.doi = mandatoryFieldValidator(values.doi, "doi")
+    errors.languageOfDescription = mandatoryFieldValidator(values.languageOfDescription, "language of description")
     errors.titles = { _error: mandatoryFieldArrayValidator(values.titles, "titles") }
-
-    errors.description = { _error: mandatoryFieldValidator(values.description, "description") }
-
+    errors.description = mandatoryFieldValidator(values.description, "description")
     if (values.contributors) {
         const oneContributor = atLeastOneContributor(values.contributors)
         const oneCreator = atLeastOneCreator(values.contributors)
@@ -146,10 +143,13 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
         else
             errors.contributors = validateContributors(values.contributors)
     }
-
-    errors.dateCreated = { _error: mandatoryFieldValidator(values.dateCreated, "date created") }
-
+    errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
+
+    // license and access form
+    errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
+    errors.license = mandatoryRadioButtonValidator(values.license, "license")
+    errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)
 
     console.log("errors", errors)
 

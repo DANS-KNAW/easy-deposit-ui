@@ -78,22 +78,22 @@ describe("Validation", () => {
     describe("mandatoryRadioButtonValidator", () => {
 
         it("should return undefined when the value is present", () => {
-            expect(mandatoryRadioButtonValidator({ "hello": "world" }, allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryRadioButtonValidator({ "hello": "world" }, fieldName)).to.be.undefined
         })
 
         it("should return undefined when the object contains a mix of empty and non-empty values", () => {
             expect(mandatoryRadioButtonValidator({
                 "hello1": "world",
                 "hello2": "",
-            }, allValues, props, fieldName)).to.be.undefined
+            }, fieldName)).to.be.undefined
         })
 
         it("should return an error when the object contains only empty values", () => {
-            expect(mandatoryRadioButtonValidator({ "hello": "" }, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryRadioButtonValidator({ "hello": "" }, fieldName)).to.eql(`no ${fieldName} was chosen`)
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryRadioButtonValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryRadioButtonValidator(undefined, fieldName)).to.eql(`no ${fieldName} was chosen`)
         })
     })
 
@@ -149,38 +149,24 @@ describe("Validation", () => {
     describe("dateAvailableMustBeAfterDateCreated", () => {
 
         it("should return undefined when dateCreated and dateAvailable are given and the latter is later than the former", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: new Date(2018, 11, 15),
-                dateAvailable: new Date(2018, 11, 16),
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(new Date(2018, 11, 15), new Date(2018, 11, 16))).to.be.undefined
         })
 
         it("should return undefined when dateCreated is undefined", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: undefined,
-                dateAvailable: new Date(2018, 11, 16),
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(undefined, new Date(2018, 11, 16))).to.be.undefined
         })
 
         it("should return undefined when dateAvailable is undefined", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: new Date(2018, 11, 15),
-                dateAvailable: undefined,
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(new Date(2018, 11, 15), undefined)).to.be.undefined
         })
 
         it("should return undefined when both dateCreated and dateAvailable are undefined", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: undefined,
-                dateAvailable: undefined,
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(undefined, undefined)).to.be.undefined
         })
 
         it("should return an error when dateCreated is later than dateAvailable", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: new Date(2018, 11, 16),
-                dateAvailable: new Date(2018, 11, 15),
-            })).to.eql("'Date available' cannot be a date earlier than 'Date created'")
+            expect(dateAvailableMustBeAfterDateCreated(new Date(2018, 11, 16), new Date(2018, 11, 15)))
+                .to.eql("'Date available' cannot be a date earlier than 'Date created'")
         })
     })
 
