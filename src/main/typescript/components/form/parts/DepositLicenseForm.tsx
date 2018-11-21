@@ -67,7 +67,6 @@ const DepositLicenseForm = () => (
 
         <div className="row form-group input-element">
             <Field name="acceptLicenseAgreement"
-                   validate={[checkboxMustBeChecked]}
                    component={Checkbox}>
                 Yes, I accept and understand the terms of the License agreement<Mandatory/>
             </Field>

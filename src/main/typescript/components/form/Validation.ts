@@ -48,10 +48,8 @@ export const mandatoryPrivacySensitiveDataValidator = (value: any) => {
         return undefined
 }
 
-export const checkboxMustBeChecked: Validator = (value?: any) => {
-    return !value || value !== true
-        ? "Accept the license agreement before submitting this dataset"
-        : undefined
+export const checkboxMustBeChecked = (value: boolean | undefined, msg: string) => {
+    return !value ? msg : undefined
 }
 
 export const dateAvailableMustBeAfterDateCreated = (dateCreated?: Date, dateAvailable?: Date) => {
@@ -154,6 +152,9 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
 
     // privacy sensitive data form
     errors.privacySensitiveDataPresent = mandatoryPrivacySensitiveDataValidator(values.privacySensitiveDataPresent)
+
+    // accept license agreement
+    errors.acceptLicenseAgreement = checkboxMustBeChecked(values.acceptLicenseAgreement, "Accept the license agreement before submitting this dataset")
 
     console.log("errors", errors)
 

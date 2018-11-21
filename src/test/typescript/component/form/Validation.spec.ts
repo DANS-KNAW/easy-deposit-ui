@@ -129,19 +129,15 @@ describe("Validation", () => {
     describe("checkboxMustBeChecked", () => {
 
         it("should return undefined when the value is true", () => {
-            expect(checkboxMustBeChecked(true)).to.be.undefined
+            expect(checkboxMustBeChecked(true, "hello world")).to.be.undefined
         })
 
         it("should return an error when the value is false", () => {
-            expect(checkboxMustBeChecked(false)).to.eql("Accept the license agreement before submitting this dataset")
-        })
-
-        it("should return an error when the value is something else than true", () => {
-            expect(checkboxMustBeChecked("hello")).to.eql("Accept the license agreement before submitting this dataset")
+            expect(checkboxMustBeChecked(false, "hello world")).to.eql("hello world")
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(checkboxMustBeChecked(undefined)).to.eql("Accept the license agreement before submitting this dataset")
+            expect(checkboxMustBeChecked(undefined, "hello world")).to.eql("hello world")
         })
     })
 
