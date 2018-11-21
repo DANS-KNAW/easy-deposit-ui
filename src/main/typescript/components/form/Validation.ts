@@ -36,13 +36,14 @@ export const mandatoryRadioButtonValidator = (value: any, name: string) => {
         : undefined
 }
 
-export const mandatoryPrivacySensitiveDataValidator: Validator = (value, allValues, props, name) => {
+export const mandatoryPrivacySensitiveDataValidator = (value: any) => {
+    const errMsg = "please determine whether privacy sensitive data is present in this deposit"
     if (!value)
-        return `no ${name} was provided`
+        return errMsg
     else if (typeof value === "string" && (value.trim() === "" || value.trim() === PrivacySensitiveDataValue.UNSPECIFIED))
-        return `no ${name} was provided`
+        return errMsg
     else if (typeof value === "object" && Object.keys(value).filter(key => value[key] && value[key].trim() !== "").length === 0)
-        return `no ${name} was provided`
+        return errMsg
     else
         return undefined
 }
@@ -150,6 +151,9 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
     errors.license = mandatoryRadioButtonValidator(values.license, "license")
     errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)
+
+    // privacy sensitive data form
+    errors.privacySensitiveDataPresent = mandatoryPrivacySensitiveDataValidator(values.privacySensitiveDataPresent)
 
     console.log("errors", errors)
 

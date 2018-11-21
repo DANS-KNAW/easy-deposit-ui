@@ -29,8 +29,6 @@ import { Contributor, emptyContributor } from "../../../../main/typescript/lib/m
 
 describe("Validation", () => {
 
-    const allValues = {}
-    const props = {}
     const fieldName = "my-field-name"
 
     describe("mandatoryFieldValidator", () => {
@@ -100,30 +98,31 @@ describe("Validation", () => {
     describe("mandatoryPrivacySensitiveDataValidator", () => {
 
         it("should return undefined when the value is a non-empty string", () => {
-            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.YES, allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.YES)).to.be.undefined
         })
 
         it("should return undefined when the value is an object with a mix of empty and non-empty values", () => {
-            expect(mandatoryPrivacySensitiveDataValidator({
-                "hello1": "world",
-                "hello2": "",
-            }, allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryPrivacySensitiveDataValidator({ "hello1": "world", "hello2": "", })).to.be.undefined
         })
 
         it("should return an error when the value is a string that is empty", () => {
-            expect(mandatoryPrivacySensitiveDataValidator("", allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator(""))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is a string that represents PrivacySensitiveDataValue.UNSPECIFIED", () => {
-            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.UNSPECIFIED, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.UNSPECIFIED))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is an object with only empty values", () => {
-            expect(mandatoryPrivacySensitiveDataValidator({ "hello": "" }, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator({ "hello": "" }))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryPrivacySensitiveDataValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator(undefined))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
     })
 
