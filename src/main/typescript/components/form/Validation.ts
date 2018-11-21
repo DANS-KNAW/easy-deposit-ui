@@ -126,7 +126,6 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
     })
 }
 
-// TODO test
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
