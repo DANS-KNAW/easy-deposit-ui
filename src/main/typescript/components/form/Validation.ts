@@ -16,7 +16,7 @@
 import { FormErrors, Validator } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
-import { Contributor } from "../../lib/metadata/Contributor"
+import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
 
 export const mandatoryFieldValidator: Validator = (value, allValues, props, name) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -89,6 +89,18 @@ export const atLeastOneContributor: Validator = (contributors: Contributor[]) =>
         return undefined
 }
 
+// TODO test
+const atLeastOneCreator: Validator = (contributors: Contributor[]) => {
+    const containsCreator = contributors.map(contributor => contributor.role === creatorRole)
+        .reduce((prev, curr) => prev || curr, false)
+
+    if (!containsCreator)
+        return "at least one creator is required"
+    else
+        return undefined
+}
+
+// TODO test
 const validateContributors: (contributors: Contributor[]) => Contributor[] = contributors => {
     // validate that mandatory fields are filled in for each contributor
     return contributors.map((contributor: Contributor) => {
@@ -111,13 +123,20 @@ const validateContributors: (contributors: Contributor[]) => Contributor[] = con
     })
 }
 
+// TODO test
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
     if (values.contributors) {
         const oneContributor = atLeastOneContributor(values.contributors)
-        // TODO validate that at least one creator is given
-        errors.contributors = oneContributor ? { _error: oneContributor } : validateContributors(values.contributors)
+        const oneCreator = atLeastOneCreator(values.contributors)
+
+        if (oneContributor)
+            errors.contributors = { _error: oneContributor }
+        else if (oneCreator)
+            errors.contributors = { _error: oneCreator }
+        else
+            errors.contributors = validateContributors(values.contributors)
     }
 
     return errors

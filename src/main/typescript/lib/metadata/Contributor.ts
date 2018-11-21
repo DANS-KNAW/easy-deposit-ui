@@ -26,7 +26,7 @@ function toContributorRoleScheme(value: string): ContributorRoleScheme | undefin
     return Object.values(ContributorRoleScheme).find(v => v === value)
 }
 
-const creatorRole = "Creator"
+export const creatorRole = "Creator"
 const rightsholderRole = "RightsHolder"
 const rightsholderValue = "Rightsholder"
 
