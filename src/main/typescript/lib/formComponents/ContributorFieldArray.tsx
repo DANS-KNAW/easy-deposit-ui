@@ -16,7 +16,7 @@
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
-import TextField from "./TextField"
+import TextField, { TextFieldProps } from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
@@ -80,7 +80,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                 <label>Organization</label>
                 <Field name={names[6]}
                        placeholder="organization"
-                       component={TextField}/>
+                       component={TextFieldWrapper}/>
             </div>
             {/* TODO these fields need to be added later. they do not yet occur in the UI model, nor in the API */}
             {/*<div className="col form-group col-md-3 mb-1">
@@ -110,7 +110,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                 <label>Initials<Mandatory/></label>
                 <Field name={names[1]}
                        placeholder="initials"
-                       component={TextField}/>
+                       component={TextFieldWrapper}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Prefix</label>
@@ -122,7 +122,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                 <label>Surname<Mandatory/></label>
                 <Field name={names[3]}
                        placeholder="surname"
-                       component={TextField}/>
+                       component={TextFieldWrapper}/>
             </div>
         </div>
 
@@ -137,5 +137,19 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                                      component={ContributorIdArray}/>
     </div>
 )
+
+const TextFieldWrapper = (props: TextFieldProps) => {
+    const { meta } = props
+
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    return (
+        <>
+            <TextField {...props} className={hasError ? "is-invalid" : ""}/>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}
 
 export default asFieldArray(ContributorField)

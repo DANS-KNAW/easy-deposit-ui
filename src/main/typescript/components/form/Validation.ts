@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Validator } from "redux-form"
+import { FormErrors, Validator } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
 import { Contributor } from "../../lib/metadata/Contributor"
@@ -59,19 +59,19 @@ export const dateAvailableMustBeAfterDateCreated: Validator = (value, { dateCrea
         : undefined
 }
 
-export const atLeastOneContributor: Validator = (contributors: Contributor[]) => {
-    const checkEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== "" : false
+const checkNonEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== "" : false
 
+export const atLeastOneContributor: Validator = (contributors: Contributor[]) => {
     const nonEmptyContributors = () => contributors.map(contributor => {
-        const nonEmptyOrganization = checkEmpty(contributor.organization)
-        const nonEmptyTitles = checkEmpty(contributor.titles)
-        const nonEmptyInitials = checkEmpty(contributor.initials)
-        const nonEmptyInsertions = checkEmpty(contributor.insertions)
-        const nonEmptySurname = checkEmpty(contributor.surname)
+        const nonEmptyOrganization = checkNonEmpty(contributor.organization)
+        const nonEmptyTitles = checkNonEmpty(contributor.titles)
+        const nonEmptyInitials = checkNonEmpty(contributor.initials)
+        const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
+        const nonEmptySurname = checkNonEmpty(contributor.surname)
         const nonEmptyIdentifiers = contributor.ids
             ? contributor.ids.map(id => {
-                const nonEmptyIdScheme = checkEmpty(id.scheme)
-                const nonEmptyIdValue = checkEmpty(id.value)
+                const nonEmptyIdScheme = checkNonEmpty(id.scheme)
+                const nonEmptyIdValue = checkNonEmpty(id.value)
 
                 return nonEmptyIdScheme || nonEmptyIdValue
             }).reduce((prev, curr) => prev || curr, false)
@@ -87,4 +87,38 @@ export const atLeastOneContributor: Validator = (contributors: Contributor[]) =>
         return "no contributors were provided"
     else
         return undefined
+}
+
+const validateContributors: (contributors: Contributor[]) => Contributor[] = contributors => {
+    // validate that mandatory fields are filled in for each contributor
+    return contributors.map((contributor: Contributor) => {
+        const nonEmptyOrganization = checkNonEmpty(contributor.organization)
+        const nonEmptyInitials = checkNonEmpty(contributor.initials)
+        const nonEmptySurname = checkNonEmpty(contributor.surname)
+        const nonEmptyContributor = nonEmptyOrganization || nonEmptyInitials && nonEmptySurname
+
+        const contribError: Contributor = {}
+
+        if (!nonEmptyContributor) {
+            if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
+                contribError.organization = "no organization given"
+            if (!nonEmptyInitials)
+                contribError.initials = "no initials given"
+            if (!nonEmptySurname)
+                contribError.surname = "no surname given"
+        }
+        return contribError
+    })
+}
+
+export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
+    const errors: any = {}
+
+    if (values.contributors) {
+        const oneContributor = atLeastOneContributor(values.contributors)
+        // TODO validate that at least one creator is given
+        errors.contributors = oneContributor ? { _error: oneContributor } : validateContributors(values.contributors)
+    }
+
+    return errors
 }

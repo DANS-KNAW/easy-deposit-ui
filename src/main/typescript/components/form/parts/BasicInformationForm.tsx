@@ -139,7 +139,6 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                          (name: string) => `${name}.organization`, // 6
                                      ]}
                                      dropdowns={{ ids: contributorIds, roles: contributorRoles }}
-                                     validate={[atLeastOneContributor]}
                                      component={ContributorFields}/>
 
         <Field name="dateCreated"
