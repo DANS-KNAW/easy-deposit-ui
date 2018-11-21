@@ -36,42 +36,42 @@ describe("Validation", () => {
     describe("mandatoryFieldValidator", () => {
 
         it("should return undefined when value is present", () => {
-            expect(mandatoryFieldValidator("hello", allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldValidator("hello", fieldName)).to.be.undefined
         })
 
         it("should return undefined when value is anything else than a string", () => {
-            expect(mandatoryFieldValidator(["hello", "array"], allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldValidator(["hello", "array"], fieldName)).to.be.undefined
         })
 
         it("should return an error when the value is empty", () => {
-            expect(mandatoryFieldValidator("", allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryFieldValidator("", fieldName)).to.eql(`no ${fieldName} was provided`)
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryFieldValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryFieldValidator(undefined, fieldName)).to.eql(`no ${fieldName} was provided`)
         })
     })
 
     describe("mandatoryFieldArrayValidator", () => {
 
         it("should return undefined when values are present", () => {
-            expect(mandatoryFieldArrayValidator(["hello", "array"], allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldArrayValidator(["hello", "array"], fieldName)).to.be.undefined
         })
 
         it("should return undefined when the array contains a mix of empty and non-empty values", () => {
-            expect(mandatoryFieldArrayValidator(["hello", "", "array"], allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldArrayValidator(["hello", "", "array"], fieldName)).to.be.undefined
         })
 
         it("should return an error when the array is empty", () => {
-            expect(mandatoryFieldArrayValidator([], allValues, props, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator([], fieldName)).to.eql(`no ${fieldName} were provided`)
         })
 
         it("should return an error when the array only contains empty values", () => {
-            expect(mandatoryFieldArrayValidator(["", "", ""], allValues, props, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator(["", "", ""], fieldName)).to.eql(`no ${fieldName} were provided`)
         })
 
         it("should return an error when the array is undefined", () => {
-            expect(mandatoryFieldArrayValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator(undefined, fieldName)).to.eql(`no ${fieldName} were provided`)
         })
     })
 

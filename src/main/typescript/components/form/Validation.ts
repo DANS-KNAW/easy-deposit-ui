@@ -18,13 +18,13 @@ import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveDa
 import { DepositFormMetadata } from "./parts"
 import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
 
-export const mandatoryFieldValidator: Validator = (value, allValues, props, name) => {
+export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
         ? `no ${name} was provided`
         : undefined
 }
 
-export const mandatoryFieldArrayValidator: Validator = (values: any[], allValues, props, name) => {
+export const mandatoryFieldArrayValidator = (values: any[] | undefined, name: string) => {
     return !values || (values && (values.length == 0 || values.filter(value => value && value.trim() !== "").length === 0))
         ? `no ${name} were provided`
         : undefined
@@ -127,6 +127,14 @@ const validateContributors: (contributors: Contributor[]) => Contributor[] = con
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
+    errors.doi = { _error: mandatoryFieldValidator(values.doi, "doi") }
+
+    errors.languageOfDescription = { _error: mandatoryFieldValidator(values.languageOfDescription, "language of description") }
+
+    errors.titles = { _error: mandatoryFieldArrayValidator(values.titles, "titles") }
+
+    errors.description = { _error: mandatoryFieldValidator(values.description, "description") }
+
     if (values.contributors) {
         const oneContributor = atLeastOneContributor(values.contributors)
         const oneCreator = atLeastOneCreator(values.contributors)
@@ -138,6 +146,12 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
         else
             errors.contributors = validateContributors(values.contributors)
     }
+
+    errors.dateCreated = { _error: mandatoryFieldValidator(values.dateCreated, "date created") }
+
+    errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
+
+    console.log("errors", errors)
 
     return errors
 }
