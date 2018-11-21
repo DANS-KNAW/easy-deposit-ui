@@ -104,8 +104,7 @@ export const atLeastOneCreator = (contributors?: Contributor[]) => {
     }
 }
 
-// TODO test
-const validateContributors: (contributors: Contributor[]) => Contributor[] = contributors => {
+export const validateContributors: (contributors: Contributor[]) => Contributor[] = contributors => {
     // validate that mandatory fields are filled in for each contributor
     return contributors.map((contributor: Contributor) => {
         const nonEmptyOrganization = checkNonEmpty(contributor.organization)

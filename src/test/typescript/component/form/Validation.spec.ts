@@ -24,6 +24,7 @@ import {
     mandatoryFieldValidator,
     mandatoryPrivacySensitiveDataValidator,
     mandatoryRadioButtonValidator,
+    validateContributors,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
@@ -248,6 +249,62 @@ describe("Validation", () => {
         it("should return an error when no Contributor has role 'Creator'", () => {
             expect(atLeastOneCreator([contributor1, contributor2, contributor3, contributor4]))
                 .to.eql("at least one creator is required")
+        })
+    })
+
+    describe("validateContributors", () => {
+        const contributor1: Contributor = {
+            initials: "D.A.",
+            surname: "N.S.",
+        }
+        const contributor2: Contributor = {
+            organization: "K.N.A.W.",
+        }
+        const contributor3: Contributor = emptyContributor
+        const contributor4: Contributor = {}
+
+        it("should return an empty array when an empty list is provided", () => {
+            expect(validateContributors([])).to.eql([])
+        })
+
+        it("should return empty objects when for each Contributor at least 'initials' and 'surname' are provided", () => {
+            expect(validateContributors([contributor1, contributor1])).to.eql([{}, {}])
+        })
+
+        it("should return empty objects when for each Contributor at least the 'organization' is provided", () => {
+            expect(validateContributors([contributor2, contributor2])).to.eql([{}, {}])
+        })
+
+        it("should return empty objects when for each Contributor at least either 'initials' and 'surname' or 'organization' are/is provided", () => {
+            expect(validateContributors([contributor1, contributor2])).to.eql([{}, {}])
+        })
+
+        it("should return an error object when 'initials', 'surname' and 'organization' are not provided", () => {
+            expect(validateContributors([contributor3])).to.eql([{
+                organization: "no organization given",
+                initials: "no initials given",
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object when an empty object is given", () => {
+            expect(validateContributors([contributor4])).to.eql([{
+                organization: "no organization given",
+                initials: "no initials given",
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object with only field 'surname' when only 'initials' is provided", () => {
+            expect(validateContributors([{initials: "D.A."}])).to.eql([{
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object with only field 'initials' when only 'surname' is provided", () => {
+            expect(validateContributors([{surname: "N.S."}])).to.eql([{
+                initials: "no initials given",
+            }])
         })
     })
 })
