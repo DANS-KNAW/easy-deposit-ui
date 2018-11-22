@@ -45,24 +45,26 @@ type DatePickerProps = FieldProps & ReactDatePickerProps
 
 // See https://reactdatepicker.com/ for all kinds of options to be used on the DatePicker
 const DatePickerField = (props: DatePickerProps) => {
-    const { input: { value, onChange }, children } = props
+    const { className, input: { value, onChange }, children } = props
     const dateFormat = "DD-MM-YYYY"
 
     return (
-        <LibDatePicker {...props}
-                       dateFormat={dateFormat}
+        <div className={`date-picker ${className || ""}`}>
+            <LibDatePicker {...props}
+                           dateFormat={dateFormat}
 
-                       customInput={<CustomDateTextField/>}
-                       isClearable={true}
-                       withPortal={isMobileDevice()}
-                       placeholderText="Choose a date..."
+                           customInput={<CustomDateTextField/>}
+                           isClearable={true}
+                           withPortal={isMobileDevice()}
+                           placeholderText="Choose a date..."
 
-                       className="react-datepicker__input-field"
+                           className="react-datepicker__input-field"
 
-                       selected={value ? moment(value, dateFormat) : null}
-                       onChange={date => onChange(date ? moment(date).toDate() : "")}>
-            {children}
-        </LibDatePicker>
+                           selected={value ? moment(value, dateFormat) : null}
+                           onChange={date => onChange(date ? moment(date).toDate() : "")}>
+                {children}
+            </LibDatePicker>
+        </div>
     )
 }
 

@@ -23,6 +23,7 @@ import HelpButton from "./HelpButton"
 import HelpText from "./HelpText"
 
 export interface InnerComponentProps {
+    className: string
     names: string[]
 }
 
@@ -34,7 +35,9 @@ const extractNameFromFirstIndex: (string: string) => string = string => string.s
 
 const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
     function <T>(props: FieldArrayProps<T> & any) {
-        const { fields, fieldNames, empty, label, mandatory, helpText } = props
+        const { fields, fieldNames, empty, label, mandatory, helpText, meta } = props
+        const changed = (meta as any).changed
+        const hasError = meta.error && (changed || meta.submitFailed)
 
         return fields.map((name: string, index: number) => {
             const firstIndex = isFirstIndex(index)
@@ -56,7 +59,9 @@ const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
                     <div className="col-12 col-md-8 pl-0 pr-2">
                         {firstIndex && helpText && <HelpText textFor={fieldName}/>}
                         <InnerComponent {...props}
+                                        className={hasError ? "is-invalid" : ""}
                                         names={fieldNames.map((f: (name: string) => string) => f(name))}/>
+                        {lastIndex && hasError && <span className="invalid-feedback">{meta.error}</span>}
                     </div>
 
                     <div className="col-1 pl-0 pr-0 remove-and-add-buttons">

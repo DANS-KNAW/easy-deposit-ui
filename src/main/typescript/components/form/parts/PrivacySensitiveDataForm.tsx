@@ -15,21 +15,35 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import { RadioChoicesInput } from "../../../lib/formComponents/RadioChoices"
+import { RadioChoicesInput, RadioProps } from "../../../lib/formComponents/RadioChoices"
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
 import Mandatory from "../../../lib/formComponents/Mandatory"
+import { mandatoryPrivacySensitiveDataValidator } from "../Validation"
+import { FieldProps } from "../../../lib/formComponents/ReduxFormUtils"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
 }
 
-// validation rules
-const oneSelected = (value?: any) => value ? undefined : "you need to select one of these choices"
+const PrivacySensitiveRadioChoices = (props: FieldProps & RadioProps) => {
+    const { meta } = props
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    return (
+        <>
+            <div className={`privacy-sensitive-data-field ${hasError ? "is-invalid" : ""}`}>
+                <RadioChoicesInput choices={props.choices} {...props}/>
+            </div>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}
 
 const PrivacySensitiveDataForm = () => (
     <>
         <div className="row form-group input-element">
-            <Mandatory/>
+            <Mandatory style={{ paddingLeft: "unset", paddingRight: "5px" }}/>
             {/* TODO provide a proper text */}
             Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.
         </div>
@@ -45,8 +59,8 @@ const PrivacySensitiveDataForm = () => (
                        value: "NO, this dataset does not contain personal data",
                    },
                ]}
-               component={RadioChoicesInput}
-               validate={[oneSelected]}/>
+               validate={[mandatoryPrivacySensitiveDataValidator]}
+               component={PrivacySensitiveRadioChoices}/>
     </>
 )
 

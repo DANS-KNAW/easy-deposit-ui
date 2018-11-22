@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
-import * as H from "history"
 import { Component, SFC } from "react"
+import * as H from "history"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
@@ -83,6 +83,8 @@ const SubmitError = ({ submitError }: SubmitErrorProps) => (
         </Alert>
         : null
 )
+
+const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>
 
 interface LoadedProps {
     loading: boolean
@@ -205,6 +207,7 @@ class DepositForm extends Component<DepositFormProps> {
 
                     <SaveDraftError saveError={saveError}/>
                     <SubmitError submitError={submitError}/>
+                    {this.props.submitFailed && <ValidationError/>}
 
                     <div className="buttons">
                         <button type="button"

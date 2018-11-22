@@ -51,6 +51,11 @@
     align-self: flex-end;
 }
 
+.input-element .value-label.is-invalid ~ .invalid-feedback,
+.input-element .value-button.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
 .input-element .remove-and-add-buttons > button {
     padding-top: 8px;
     padding-bottom: 7px;
@@ -120,7 +125,7 @@
 }
 
 /*
- * These 4 '.date-picker-field' rules make sure that the DatePickerField is displayed correctly
+ * These 4 '.date-picker-field' rules make sure that the SchemedDatePickerArray is displayed correctly
  * Since this is a component not managed by us, we have to change some of this predefined rules
  * to make it fit with our look and feel.
  *
@@ -142,6 +147,14 @@
 .input-group > .form-control.date-picker-field input.react-datepicker__input-field {
     border: 0;
     width: 100%;
+}
+
+.date-picker.is-invalid .react-datepicker__input-field {
+    border-color: var(--dans-red);
+}
+
+.date-picker ~ .invalid-feedback {
+    display: block;
 }
 
 .react-datepicker__close-icon:after {
@@ -171,6 +184,18 @@
 .input-element .accessrights-field .category-field .radio-button {
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+.input-element .accessrights-field.is-invalid label,
+.input-element .license-field.is-invalid label,
+.privacy-sensitive-data-field.is-invalid label {
+    color: var(--dans-red);
+}
+
+.input-element .accessrights-field.is-invalid ~ .invalid-feedback,
+.input-element .license-field.is-invalid ~ .invalid-feedback,
+.privacy-sensitive-data-field.is-invalid ~ .invalid-feedback {
+    display: block;
 }
 
 .input-element .license-field .radio-choices .external-link {

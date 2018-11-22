@@ -46,11 +46,11 @@ describe("Identifier", () => {
             const input = [
                 {
                     scheme: "id-type:DOI",
-                    value: "doi:10.17632/DANS.6wg5xccnjd.1",
+                    value: "10.17632/DANS.6wg5xccnjd.1",
                 },
             ]
             const expected = {
-                "id-type:DOI": "doi:10.17632/DANS.6wg5xccnjd.1",
+                "id-type:DOI": "10.17632/DANS.6wg5xccnjd.1",
             }
             expect(identifiersConverter(input)).to.eql(expected)
         })
@@ -71,9 +71,9 @@ describe("Identifier", () => {
 
         it("should extract the DOI from the input object", () => {
             const input = {
-                "id-type:DOI": "doi:10.17632/DANS.6wg5xccnjd.1",
+                "id-type:DOI": "10.17632/DANS.6wg5xccnjd.1",
             }
-            const expected = "doi:10.17632/DANS.6wg5xccnjd.1"
+            const expected = "10.17632/DANS.6wg5xccnjd.1"
             expect(doiConverter(input)).to.eql(expected)
         })
     })
@@ -81,10 +81,10 @@ describe("Identifier", () => {
     describe("doiDeconverter", () => {
 
         it("should convert a DOI into the correct external model", () => {
-            const input = "doi:10.17632/DANS.6wg5xccnjd.1"
+            const input = "10.17632/DANS.6wg5xccnjd.1"
             const expected = {
                 scheme: "id-type:DOI",
-                value: "doi:10.17632/DANS.6wg5xccnjd.1",
+                value: "10.17632/DANS.6wg5xccnjd.1",
             }
             expect(doiDeconverter(input)).to.eql(expected)
         })

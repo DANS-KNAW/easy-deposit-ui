@@ -20,13 +20,16 @@ import Mandatory from "./Mandatory"
 import HelpButton from "./HelpButton"
 import HelpText from "./HelpText"
 
-interface InnerComponentProps {
+export interface InnerComponentProps {
+    className: string
     htmlFor: string
     label?: string
 }
 
 const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({ mandatory, helpText, ...rest }: FieldProps & any) => {
-    const { label, input: { name } } = rest
+    const { label, input: { name }, meta } = rest
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
 
     return (
         <div className="row form-group input-element mb-4">
@@ -37,7 +40,8 @@ const asField = (InnerComponent: ComponentType<InnerComponentProps & any>) => ({
             </label>
             <div className="col-12 col-md-8 pl-0 pr-2">
                 {helpText && <HelpText textFor={name}/>}
-                <InnerComponent {...rest}/>
+                <InnerComponent className={hasError ? "is-invalid" : ""} {...rest}/>
+                {hasError && <span className="invalid-feedback">{meta.error}</span>}
             </div>
         </div>
     )
