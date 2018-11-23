@@ -114,6 +114,13 @@
     border-color: var(--form-field-border)!important;
 }
 
+.input-element .contributor.is-invalid {
+    border-color: var(--dans-red)!important;
+}
+.input-element .contributor.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
 .input-element .contributor:last-child,
 .input-element .contributor > .form-row:last-child > .form-group {
     margin-bottom: 0!important;

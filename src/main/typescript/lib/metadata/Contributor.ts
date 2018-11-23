@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
-import * as lodash from "lodash"
+import { partition } from "lodash"
 import { clean, emptyString, nonEmptyObject } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
@@ -26,6 +26,7 @@ function toContributorRoleScheme(value: string): ContributorRoleScheme | undefin
     return Object.values(ContributorRoleScheme).find(v => v === value)
 }
 
+export const creatorRole = "Creator"
 const rightsholderRole = "RightsHolder"
 const rightsholderValue = "Rightsholder"
 
@@ -46,6 +47,16 @@ export const emptyContributor: Contributor = {
     surname: emptyString,
     ids: [emptySchemedValue],
     role: emptyString,
+    organization: emptyString,
+}
+
+export const emptyCreator: Contributor = {
+    titles: emptyString,
+    initials: emptyString,
+    insertions: emptyString,
+    surname: emptyString,
+    ids: [emptySchemedValue],
+    role: creatorRole,
     organization: emptyString,
 }
 
@@ -92,6 +103,8 @@ const rightsHolderRoleDeconverter: (r: string) => any = r => clean({
     value: rightsholderValue,
 })
 
+export const splitCreatorsAndContributors: (cs: Contributor[]) => [Contributor[], Contributor[]] = cs => partition(cs, { role: creatorRole })
+
 export const contributorConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (c: any) => Contributor = (ids, roles) => c => {
     return ({
         titles: c.titles || emptyString,
@@ -114,6 +127,27 @@ export const contributorDeconverter: (roles: DropdownListEntry[]) => (c: Contrib
     organization: c.organization,
 })
 
+export const creatorConverter: (ids: DropdownListEntry[]) => (c: any) => Contributor = ids => c => {
+    return ({
+        titles: c.titles || emptyString,
+        initials: c.initials || emptyString,
+        insertions: c.insertions || emptyString,
+        surname: c.surname || emptyString,
+        ids: c.ids ? c.ids.map(contributorSchemeIdConverter(ids)) : [emptySchemedValue],
+        role: creatorRole,
+        organization: c.organization || emptyString
+    })
+}
+
+export const creatorDeconverter: (c: Contributor) => any = c => clean({
+    titles: c.titles,
+    initials: c.initials,
+    insertions: c.insertions,
+    surname: c.surname,
+    ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
+    organization: c.organization,
+})
+
 export const rightsHolderDeconverter: (c: Contributor) => any = c => clean({
     titles: c.titles,
     initials: c.initials,
@@ -126,5 +160,5 @@ export const rightsHolderDeconverter: (c: Contributor) => any = c => clean({
 
 export const contributorsConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (cs: any) => [Contributor[], Contributor[]] = (ids, roles) => cs => {
     const contributors: Contributor[] = cs.map(contributorConverter(ids, roles))
-    return lodash.partition(contributors, { role: "RightsHolder" })
+    return partition(contributors, { role: "RightsHolder" })
 }

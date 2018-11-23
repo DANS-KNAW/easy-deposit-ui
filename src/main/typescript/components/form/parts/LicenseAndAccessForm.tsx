@@ -72,7 +72,6 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                label="Access rights"
                mandatory
                helpText
-               validate={[mandatoryRadioButtonValidator]}
                component={AccessRightsField}/>
 
         <Field name="license"
@@ -81,7 +80,6 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                helpText
                withEmptyDefault
                dropdown={licenses}
-               validate={[mandatoryRadioButtonValidator]}
                component={LicenseField}/>
 
         <Field name="dateAvailable"
@@ -90,7 +88,6 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                todayButton="Today"
                minDate={moment()}
                maxDate={moment().add(2, "years")}
-               validate={[dateAvailableMustBeAfterDateCreated]}
                component={DatePickerField}/>
     </>
 )

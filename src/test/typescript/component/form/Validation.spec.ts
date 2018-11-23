@@ -16,169 +16,295 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
+    atLeastOneContributor,
+    atLeastOneCreator,
     checkboxMustBeChecked,
     dateAvailableMustBeAfterDateCreated,
     mandatoryFieldArrayValidator,
     mandatoryFieldValidator,
     mandatoryPrivacySensitiveDataValidator,
     mandatoryRadioButtonValidator,
+    validateContributors,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
+import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
 
 describe("Validation", () => {
 
-    const allValues = {}
-    const props = {}
     const fieldName = "my-field-name"
 
     describe("mandatoryFieldValidator", () => {
 
         it("should return undefined when value is present", () => {
-            expect(mandatoryFieldValidator("hello", allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldValidator("hello", fieldName)).to.be.undefined
         })
 
         it("should return undefined when value is anything else than a string", () => {
-            expect(mandatoryFieldValidator(["hello", "array"], allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldValidator(["hello", "array"], fieldName)).to.be.undefined
         })
 
         it("should return an error when the value is empty", () => {
-            expect(mandatoryFieldValidator("", allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryFieldValidator("", fieldName)).to.eql(`no ${fieldName} was provided`)
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryFieldValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryFieldValidator(undefined, fieldName)).to.eql(`no ${fieldName} was provided`)
         })
     })
 
     describe("mandatoryFieldArrayValidator", () => {
 
         it("should return undefined when values are present", () => {
-            expect(mandatoryFieldArrayValidator(["hello", "array"], allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldArrayValidator(["hello", "array"], fieldName)).to.be.undefined
         })
 
         it("should return undefined when the array contains a mix of empty and non-empty values", () => {
-            expect(mandatoryFieldArrayValidator(["hello", "", "array"], allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryFieldArrayValidator(["hello", "", "array"], fieldName)).to.be.undefined
         })
 
         it("should return an error when the array is empty", () => {
-            expect(mandatoryFieldArrayValidator([], allValues, props, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator([], fieldName)).to.eql(`no ${fieldName} were provided`)
         })
 
         it("should return an error when the array only contains empty values", () => {
-            expect(mandatoryFieldArrayValidator(["", "", ""], allValues, props, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator(["", "", ""], fieldName)).to.eql(`no ${fieldName} were provided`)
         })
 
         it("should return an error when the array is undefined", () => {
-            expect(mandatoryFieldArrayValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator(undefined, fieldName)).to.eql(`no ${fieldName} were provided`)
         })
     })
 
     describe("mandatoryRadioButtonValidator", () => {
 
         it("should return undefined when the value is present", () => {
-            expect(mandatoryRadioButtonValidator({ "hello": "world" }, allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryRadioButtonValidator({ "hello": "world" }, fieldName)).to.be.undefined
         })
 
         it("should return undefined when the object contains a mix of empty and non-empty values", () => {
             expect(mandatoryRadioButtonValidator({
                 "hello1": "world",
                 "hello2": "",
-            }, allValues, props, fieldName)).to.be.undefined
+            }, fieldName)).to.be.undefined
         })
 
         it("should return an error when the object contains only empty values", () => {
-            expect(mandatoryRadioButtonValidator({ "hello": "" }, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryRadioButtonValidator({ "hello": "" }, fieldName)).to.eql(`no ${fieldName} was chosen`)
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryRadioButtonValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryRadioButtonValidator(undefined, fieldName)).to.eql(`no ${fieldName} was chosen`)
         })
     })
 
     describe("mandatoryPrivacySensitiveDataValidator", () => {
 
         it("should return undefined when the value is a non-empty string", () => {
-            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.YES, allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.YES)).to.be.undefined
         })
 
         it("should return undefined when the value is an object with a mix of empty and non-empty values", () => {
-            expect(mandatoryPrivacySensitiveDataValidator({
-                "hello1": "world",
-                "hello2": "",
-            }, allValues, props, fieldName)).to.be.undefined
+            expect(mandatoryPrivacySensitiveDataValidator({ "hello1": "world", "hello2": "", })).to.be.undefined
         })
 
         it("should return an error when the value is a string that is empty", () => {
-            expect(mandatoryPrivacySensitiveDataValidator("", allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator(""))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is a string that represents PrivacySensitiveDataValue.UNSPECIFIED", () => {
-            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.UNSPECIFIED, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.UNSPECIFIED))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is an object with only empty values", () => {
-            expect(mandatoryPrivacySensitiveDataValidator({ "hello": "" }, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator({ "hello": "" }))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryPrivacySensitiveDataValidator(undefined, allValues, props, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryPrivacySensitiveDataValidator(undefined))
+                .to.eql("please determine whether privacy sensitive data is present in this deposit")
         })
     })
 
     describe("checkboxMustBeChecked", () => {
 
         it("should return undefined when the value is true", () => {
-            expect(checkboxMustBeChecked(true)).to.be.undefined
+            expect(checkboxMustBeChecked(true, "hello world")).to.be.undefined
         })
 
         it("should return an error when the value is false", () => {
-            expect(checkboxMustBeChecked(false)).to.eql("Accept the license agreement before submitting this dataset")
-        })
-
-        it("should return an error when the value is something else than true", () => {
-            expect(checkboxMustBeChecked("hello")).to.eql("Accept the license agreement before submitting this dataset")
+            expect(checkboxMustBeChecked(false, "hello world")).to.eql("hello world")
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(checkboxMustBeChecked(undefined)).to.eql("Accept the license agreement before submitting this dataset")
+            expect(checkboxMustBeChecked(undefined, "hello world")).to.eql("hello world")
         })
     })
 
     describe("dateAvailableMustBeAfterDateCreated", () => {
 
         it("should return undefined when dateCreated and dateAvailable are given and the latter is later than the former", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: new Date(2018, 11, 15),
-                dateAvailable: new Date(2018, 11, 16),
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(new Date(2018, 11, 15), new Date(2018, 11, 16))).to.be.undefined
         })
 
         it("should return undefined when dateCreated is undefined", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: undefined,
-                dateAvailable: new Date(2018, 11, 16),
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(undefined, new Date(2018, 11, 16))).to.be.undefined
         })
 
         it("should return undefined when dateAvailable is undefined", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: new Date(2018, 11, 15),
-                dateAvailable: undefined,
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(new Date(2018, 11, 15), undefined)).to.be.undefined
         })
 
         it("should return undefined when both dateCreated and dateAvailable are undefined", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: undefined,
-                dateAvailable: undefined,
-            })).to.be.undefined
+            expect(dateAvailableMustBeAfterDateCreated(undefined, undefined)).to.be.undefined
         })
 
         it("should return an error when dateCreated is later than dateAvailable", () => {
-            expect(dateAvailableMustBeAfterDateCreated({}, {
-                dateCreated: new Date(2018, 11, 16),
-                dateAvailable: new Date(2018, 11, 15),
-            })).to.eql("'Date available' cannot be a date earlier than 'Date created'")
+            expect(dateAvailableMustBeAfterDateCreated(new Date(2018, 11, 16), new Date(2018, 11, 15)))
+                .to.eql("'Date available' cannot be a date earlier than 'Date created'")
+        })
+    })
+
+    describe("atLeastOneContributor", () => {
+        const contributor1: Contributor = {
+            initials: "D.A.",
+            surname: "N.S.",
+            ids: [
+                {
+                    scheme: "test",
+                    value: "foobar",
+                },
+                {
+                    scheme: "",
+                    value: "",
+                },
+                {},
+            ],
+        }
+        const contributor2: Contributor = {
+            organization: "K.N.A.W.",
+        }
+        const contributor3: Contributor = emptyContributor
+        const contributor4: Contributor = {}
+
+        it("should return undefined when at least one Contributor is not empty", () => {
+            expect(atLeastOneContributor([contributor1, contributor2, contributor3, contributor4])).to.be.undefined
+        })
+
+        it("should return an error when undefined is given", () => {
+            expect(atLeastOneContributor(undefined)).to.eql("no contributors were provided")
+        })
+
+        it("should return an error when an empty list is given", () => {
+            expect(atLeastOneContributor([])).to.eql("no contributors were provided")
+        })
+
+        it("should return an error when only empty Contributors are given", () => {
+            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("no contributors were provided")
+        })
+    })
+
+    describe("atLeastOneCreator", () => {
+        const contributor1: Contributor = {
+            initials: "D.A.",
+            surname: "N.S.",
+            ids: [
+                {
+                    scheme: "test",
+                    value: "foobar",
+                },
+                {
+                    scheme: "",
+                    value: "",
+                },
+                {},
+            ],
+        }
+        const contributor2: Contributor = {
+            organization: "K.N.A.W.",
+        }
+        const contributor3: Contributor = emptyContributor
+        const contributor4: Contributor = {}
+        const creator: Contributor = {
+            initials: "my",
+            surname: "name",
+            role: creatorRole,
+        }
+
+        it("should return undefined when at least one Contributor has role 'Creator'", () => {
+            expect(atLeastOneCreator([contributor1, contributor2, contributor3, contributor4, creator]))
+                .to.be.undefined
+        })
+
+        it("should return an error when undefined is given", () => {
+            expect(atLeastOneCreator(undefined)).to.eql("at least one creator is required")
+        })
+
+        it("should return an error when an empty list is given", () => {
+            expect(atLeastOneCreator([])).to.eql("at least one creator is required")
+        })
+
+        it("should return an error when no Contributor has role 'Creator'", () => {
+            expect(atLeastOneCreator([contributor1, contributor2, contributor3, contributor4]))
+                .to.eql("at least one creator is required")
+        })
+    })
+
+    describe("validateContributors", () => {
+        const contributor1: Contributor = {
+            initials: "D.A.",
+            surname: "N.S.",
+        }
+        const contributor2: Contributor = {
+            organization: "K.N.A.W.",
+        }
+        const contributor3: Contributor = emptyContributor
+        const contributor4: Contributor = {}
+
+        it("should return an empty array when an empty list is provided", () => {
+            expect(validateContributors([])).to.eql([])
+        })
+
+        it("should return empty objects when for each Contributor at least 'initials' and 'surname' are provided", () => {
+            expect(validateContributors([contributor1, contributor1])).to.eql([{}, {}])
+        })
+
+        it("should return empty objects when for each Contributor at least the 'organization' is provided", () => {
+            expect(validateContributors([contributor2, contributor2])).to.eql([{}, {}])
+        })
+
+        it("should return empty objects when for each Contributor at least either 'initials' and 'surname' or 'organization' are/is provided", () => {
+            expect(validateContributors([contributor1, contributor2])).to.eql([{}, {}])
+        })
+
+        it("should return an error object when 'initials', 'surname' and 'organization' are not provided", () => {
+            expect(validateContributors([contributor3])).to.eql([{
+                organization: "no organization given",
+                initials: "no initials given",
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object when an empty object is given", () => {
+            expect(validateContributors([contributor4])).to.eql([{
+                organization: "no organization given",
+                initials: "no initials given",
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object with only field 'surname' when only 'initials' is provided", () => {
+            expect(validateContributors([{initials: "D.A."}])).to.eql([{
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object with only field 'initials' when only 'surname' is provided", () => {
+            expect(validateContributors([{surname: "N.S."}])).to.eql([{
+                initials: "no initials given",
+            }])
         })
     })
 })
