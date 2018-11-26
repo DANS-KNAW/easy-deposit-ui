@@ -200,7 +200,7 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    <Card title="Deposit license" required defaultOpened>
+                    <Card title="Depositor agreement" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <DepositLicenseForm/>
                         </Loaded>
