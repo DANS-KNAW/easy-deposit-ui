@@ -178,7 +178,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         // privacy sensitive data
         privacySensitiveDataPresent: privacySensitiveDataPresent,
 
-        // depositor agreement
+        // deposit agreement
         acceptLicenseAgreement: input.acceptLicenseAgreement || false,
     }
 }
