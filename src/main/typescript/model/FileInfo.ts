@@ -18,6 +18,7 @@ export type Files = { [filepath: string]: FileInfo }
 export interface FileInfo {
     filename: string
     dirpath: string
+    fullpath: string
     sha1sum: string
 }
 

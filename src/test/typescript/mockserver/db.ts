@@ -210,7 +210,11 @@ export const deleteFile: (id: DepositId, query: string) => boolean = (id, query)
     const deposit = data[id]
     const files = deposit.files
     if (deposit && files) {
-        const fileToDelete = files.find(info => query === info.dirpath + info.filename)
+        const queryMatcher = (info: FileInfo) => info.dirpath && info.dirpath !== "" && info.dirpath !== "/"
+            ? info.dirpath + "/" + info.filename
+            : "/" + info.filename
+
+        const fileToDelete = files.find(info => query === queryMatcher(info))
         if (fileToDelete) {
             const remainingFiles = files.filter(info => info !== fileToDelete)
             data = { ...data, [id]: { ...deposit, files: remainingFiles } }
