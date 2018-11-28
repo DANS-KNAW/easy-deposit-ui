@@ -208,27 +208,31 @@ export const addFile: (id: DepositId, dirPath: string, filename: string) => bool
 
 export const deleteFile: (id: DepositId, query: string) => boolean = (id, query) => {
     const deposit = data[id]
-    const files = deposit.files
-    if (deposit && files) {
-        const queryMatcher = (info: FileInfo) => info.dirpath && info.dirpath !== "" && info.dirpath !== "/"
-            ? info.dirpath + "/" + info.filename
-            : "/" + info.filename
+    if (deposit) {
+        const files = deposit.files
+        if (files) {
+            const queryMatcher = (info: FileInfo) => info.dirpath && info.dirpath !== "" && info.dirpath !== "/"
+                ? info.dirpath + "/" + info.filename
+                : "/" + info.filename
 
-        const fileToDelete = files.find(info => query === queryMatcher(info))
-        if (fileToDelete) {
-            const remainingFiles = files.filter(info => info !== fileToDelete)
-            data = { ...data, [id]: { ...deposit, files: remainingFiles } }
-            return true
-        }
-        else {
-            const remainingFiles = files.filter(info => !info.dirpath.startsWith(query))
-            if (remainingFiles.length === files.length) // no files were deleted
-                return false
-            else {
+            const fileToDelete = files.find(info => query === queryMatcher(info))
+            if (fileToDelete) {
+                const remainingFiles = files.filter(info => info !== fileToDelete)
                 data = { ...data, [id]: { ...deposit, files: remainingFiles } }
                 return true
             }
+            else {
+                const remainingFiles = files.filter(info => !info.dirpath.startsWith(query))
+                if (remainingFiles.length === files.length) // no files were deleted
+                    return false
+                else {
+                    data = { ...data, [id]: { ...deposit, files: remainingFiles } }
+                    return true
+                }
+            }
         }
+        else
+            return false
     }
     else
         return false
