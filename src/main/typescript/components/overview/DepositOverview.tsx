@@ -26,6 +26,7 @@ import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
 import { depositFormRoute } from "../../constants/clientRoutes"
+import EmptyDepositTableRow from "./EmptyDepositTableRow"
 
 function isEditable({ state }: Deposit): boolean {
     return state === DepositState.DRAFT || state === DepositState.REJECTED
@@ -118,19 +119,22 @@ class DepositOverview extends Component<DepositOverviewProps> {
 
     private renderTable() {
         const { deposits: { deposits, deleting } } = this.props
+        const depositIds = Object.keys(deposits)
 
         return (
             <table className="table table-striped deposit_table">
                 <DepositTableHead/>
-                <tbody>{Object.keys(deposits).map(depositId => {
-                    const editable = isEditable(deposits[depositId])
-                    return <DepositTableRow key={depositId}
-                                            deposit={deposits[depositId]}
-                                            deleting={deleting[depositId]}
-                                            deleteDeposit={this.deleteDeposit(depositId)}
-                                            editable={editable}
-                                            enterDeposit={this.enterDeposit(editable, depositId)}/>
-                })}</tbody>
+                <tbody>{depositIds.length == 0
+                    ? <EmptyDepositTableRow/>
+                    : depositIds.map(depositId => {
+                        const editable = isEditable(deposits[depositId])
+                        return <DepositTableRow key={depositId}
+                                                deposit={deposits[depositId]}
+                                                deleting={deleting[depositId]}
+                                                deleteDeposit={this.deleteDeposit(depositId)}
+                                                editable={editable}
+                                                enterDeposit={this.enterDeposit(editable, depositId)}/>
+                    })}</tbody>
             </table>
         )
     }
