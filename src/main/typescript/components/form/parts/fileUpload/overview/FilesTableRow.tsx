@@ -24,9 +24,8 @@ interface FilesTableRowProps {
     deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
+const FilesTableRow = ({ fileInfo: {fullpath, sha1sum}, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
     const isDeleting = deleting && deleting.deleting
-
 
     const deleteButton =
         <button key="delete"
@@ -49,10 +48,10 @@ const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancel
         <tr className="row ml-0 mr-0">
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
-                {fileInfo.dirpath + fileInfo.filename}
+                {fullpath}
                 {confirmButtons}
             </td>
-            <td className="col col-12 col-sm-12 col-md-6">{fileInfo.sha1sum}</td>
+            <td className="col col-12 col-sm-12 col-md-6">{sha1sum}</td>
             <td className="col col-2 col-sm-1 col-md-1" id="actions_cell">{deleteButton}</td>
         </tr>
     )

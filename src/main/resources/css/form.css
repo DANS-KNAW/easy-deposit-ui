@@ -213,6 +213,7 @@
     color: var(--dark-hover);
 }
 
-.input-element .license-field .show-more:hover {
+.input-element .license-field .show-more:hover,
+.input-element .license-field .show-less:hover {
     cursor: pointer;
 }

@@ -23,12 +23,12 @@ describe("files", () => {
         it("should convert a valid sequence of fileInfos and split them correctly into Files", () => {
             const input = [
                 {
-                    dirpath: "leesplankje/firstrow/",
+                    dirpath: "leesplankje/firstrow",
                     filename: "aap.txt",
                     sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c",
                 },
                 {
-                    dirpath: "leesplankje/firstrow/",
+                    dirpath: "leesplankje/firstrow",
                     filename: "noot.txt",
                     sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e",
                 },
@@ -36,13 +36,15 @@ describe("files", () => {
 
             const expected: Files = {
                 "leesplankje/firstrow/noot.txt": {
-                    dirpath: "leesplankje/firstrow/",
+                    dirpath: "leesplankje/firstrow",
                     filename: "noot.txt",
+                    fullpath: "leesplankje/firstrow/noot.txt",
                     sha1sum: "de3aa0555f31a8d7809fae4b03a95195edb09f1e",
                 },
                 "leesplankje/firstrow/aap.txt": {
-                    dirpath: "leesplankje/firstrow/",
+                    dirpath: "leesplankje/firstrow",
                     filename: "aap.txt",
+                    fullpath: "leesplankje/firstrow/aap.txt",
                     sha1sum: "ab3aa0555f31a8d7809fae4b03a95195edb01f5c",
                 },
             }

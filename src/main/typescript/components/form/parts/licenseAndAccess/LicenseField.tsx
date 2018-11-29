@@ -50,6 +50,19 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
         }
     }
 
+    showLessLicenses: () => void = () => {
+        switch (this.state.showCount) {
+            case 1:
+                break
+            case 3:
+                this.setState(prevState => ({ ...prevState, showCount: 1 }))
+                break
+            default:
+                this.setState(prevState => ({ ...prevState, showCount: 3 }))
+                break
+        }
+    }
+
     radioChoice = (text: string, link: string) => (
         <span><a className="external-link" href={link} target="_blank"><i className="fas fa-external-link-square-alt"/></a> {text}</span>
     )
@@ -81,12 +94,17 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
             <div className={`license-field ${this.props.className || ""}`}>
                 <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={this.choices()}/>
                 {this.props.choices.length >= this.state.showCount && this.renderShowMore()}
+                {this.props.choices.length <= this.state.showCount && this.renderShowLess()}
             </div>
         )
     }
 
     private renderShowMore() {
         return <a className="show-more" onClick={this.showMoreLicenses}>show more...</a>
+    }
+
+    private renderShowLess() {
+        return <a className="show-less" onClick={this.showLessLicenses}>show less...</a>
     }
 }
 
