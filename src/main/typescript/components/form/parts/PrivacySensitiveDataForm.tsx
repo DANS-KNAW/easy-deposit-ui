@@ -59,7 +59,6 @@ const PrivacySensitiveDataForm = () => (
                        value: "NO, this dataset does not contain personal data",
                    },
                ]}
-               validate={[mandatoryPrivacySensitiveDataValidator]}
                component={PrivacySensitiveRadioChoices}/>
     </>
 )

@@ -1,4 +1,12 @@
 {
+  "Creator": {
+    "title": "Creator",
+    "viewName": "Creator"
+  },
+  "": {
+    "title": "",
+    "viewName": "No role"
+  },
   "DataCollector": {
     "title": "Data collector",
     "viewName": "Data collector"

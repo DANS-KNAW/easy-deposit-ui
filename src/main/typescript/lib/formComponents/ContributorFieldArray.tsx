@@ -16,33 +16,40 @@
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
-import TextField from "./TextField"
+import TextField, { TextFieldProps } from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
-import { FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
+import { FieldArrayProps, FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
 import { emptySchemedValue, SchemedValue } from "../metadata/Value"
 import AddButton from "./AddButton"
 import Mandatory from "./Mandatory"
+import { Contributor } from "../metadata/Contributor"
 
 const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributorIds } }: FieldArrayPropsWithDropdown<SchemedValue, DropdownListEntry[]>) => (
     <>
+        <div className="form-row">
+            <div className="col form-group col-12 col-md-3 pl-0 mb-0">
+                <label>Identifier</label>
+            </div>
+        </div>
+
         {fields.map((name, index) => (
             <div className="form-row mb-2" key={`${name}.${index}`}>
-                <div className="col-12 col-md-3 pl-0">
+                <div className="col col-12 col-md-3 pl-0">
                     <Field name={fieldNames[0](name)}
                            choices={contributorIds}
                            withEmptyDefault
                            component={DropdownFieldInput}/>
                 </div>
 
-                <div className="col-12 col-md-6 pr-2">
+                <div className="col col-12 col-md-6">
                     <Field name={fieldNames[1](name)}
                            placeholder="ID"
                            component={TextField}/>
                 </div>
 
-                <div className="col-2 pl-0 pr-0 remove-and-add-buttons">
+                <div className="col col-2 remove-and-add-buttons">
                     <RemoveButton onClick={() => fields.remove(index)}
                                   className="mr-2"
                                   disabled={fields.length <= 1}/>
@@ -53,65 +60,71 @@ const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributo
     </>
 )
 
-interface NameProps {
-    titleName: string
-    initialsName: string
-    insertionsName: string
-    surnameName: string
-}
-
-const Name = ({ titleName, initialsName, insertionsName, surnameName }: NameProps) => (
-    <>
-        <div className="col form-group col-md-3 mb-2">
-            <label>Titles</label>
-            <Field name={titleName}
-                   placeholder="(acadamic) title(s)"
-                   component={TextField}/>
-        </div>
-        <div className="col form-group col-md-3 mb-2">
-            <label>Initials<Mandatory/></label>
-            <Field name={initialsName}
-                   placeholder="initials"
-                   component={TextField}/>
-        </div>
-        <div className="col form-group col-md-3 mb-2">
-            <label>Prefix</label>
-            <Field name={insertionsName}
-                   placeholder="prefix"
-                   component={TextField}/>
-        </div>
-        <div className="col form-group col-md-3 mb-2">
-            <label>Surname<Mandatory/></label>
-            <Field name={surnameName}
-                   placeholder="surname"
-                   component={TextField}/>
-        </div>
-    </>
-)
-
-interface ContributorFieldProps extends InnerComponentProps {
+interface ContributorFieldProps extends InnerComponentProps, FieldArrayProps<Contributor> {
     idValues: DropdownListEntry[]
     roleValues?: DropdownListEntry[]
 }
 
-const ContributorField = ({ names, idValues, roleValues }: ContributorFieldProps) => (
-    <div className="border rounded contributor p-2 mb-4">
-        <div className="form-row">
-            <Name titleName={names[0]}
-                  initialsName={names[1]}
-                  insertionsName={names[2]}
-                  surnameName={names[3]}/>
-        </div>
-
+const ContributorField = ({ names, idValues, roleValues, className }: ContributorFieldProps) => (
+    <div className={`border rounded contributor pt-2 pl-2 pr-2 pb-0 ${className || ""}`}>
         {roleValues && <div className="form-row">
-            <div className="col mb-2">
+            <div className="col form-group col-md-6 mb-1">
                 <Field name={names[5]}
                        choices={roleValues || []}
-                       withEmptyDefault
-                       emptyDefault="Choose role..."
                        component={DropdownFieldInput}/>
             </div>
         </div>}
+
+        <div className="form-row">
+            <div className="col form-group col-md-6 mb-1">
+                <label>Organization</label>
+                <Field name={names[6]}
+                       placeholder="organization"
+                       component={TextFieldWrapper}/>
+            </div>
+            {/* TODO these fields need to be added later. they do not yet occur in the UI model, nor in the API */}
+            {/*<div className="col form-group col-md-3 mb-1">
+                <label>Identifier</label>
+                <Field name={""}
+                       choices={idValues}
+                       withEmptyDefault
+                       emptyDefault="Choose..."
+                       component={DropdownFieldInput}/>
+            </div>
+            <div className="col form-group col-md-3 mb-1">
+                <label/>
+                <Field name={"abc"}
+                       placeholder="identifier"
+                       component={TextField}/>
+            </div>*/}
+        </div>
+
+        <div className="form-row">
+            <div className="col form-group col-md-3 mb-1">
+                <label>Titles</label>
+                <Field name={names[0]}
+                       placeholder="(acadamic) title(s)"
+                       component={TextField}/>
+            </div>
+            <div className="col form-group col-md-3 mb-1">
+                <label>Initials<Mandatory/></label>
+                <Field name={names[1]}
+                       placeholder="initials"
+                       component={TextFieldWrapper}/>
+            </div>
+            <div className="col form-group col-md-3 mb-1">
+                <label>Prefix</label>
+                <Field name={names[2]}
+                       placeholder="prefix"
+                       component={TextField}/>
+            </div>
+            <div className="col form-group col-md-3 mb-1">
+                <label>Surname<Mandatory/></label>
+                <Field name={names[3]}
+                       placeholder="surname"
+                       component={TextFieldWrapper}/>
+            </div>
+        </div>
 
         <RepeatableFieldWithDropdown name={names[4]}
                                      label="Contributor Ids"
@@ -122,16 +135,21 @@ const ContributorField = ({ names, idValues, roleValues }: ContributorFieldProps
                                      ]}
                                      dropdowns={{ contributorIds: idValues }}
                                      component={ContributorIdArray}/>
-
-        <div className="form-row">
-            <div className="col form-group">
-                <label>Organization</label>
-                <Field name={names[6]}
-                       placeholder="organization"
-                       component={TextField}/>
-            </div>
-        </div>
     </div>
 )
+
+const TextFieldWrapper = (props: TextFieldProps) => {
+    const { meta } = props
+
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    return (
+        <>
+            <TextField {...props} className={hasError ? "is-invalid" : ""}/>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}
 
 export default asFieldArray(ContributorField)

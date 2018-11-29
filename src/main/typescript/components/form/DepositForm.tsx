@@ -45,6 +45,7 @@ import { depositFormName } from "../../constants/depositFormConstants"
 import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
 import { Files, LoadingState as FileOverviewLoadingState } from "../../model/FileInfo"
 import { fetchFiles } from "../../actions/fileOverviewActions"
+import { formValidate } from "./Validation"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -199,7 +200,7 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    <Card title="Deposit license" required defaultOpened>
+                    <Card title="Deposit agreement" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                             <DepositLicenseForm/>
                         </Loaded>
@@ -252,7 +253,11 @@ const composedHOC = compose(
             saveDraft,
             submitDeposit,
         }),
-    reduxForm({ form: depositFormName, enableReinitialize: true }),
+    reduxForm({
+        form: depositFormName,
+        enableReinitialize: true,
+        validate: formValidate
+    }),
 )
 
 export default composedHOC(DepositForm)

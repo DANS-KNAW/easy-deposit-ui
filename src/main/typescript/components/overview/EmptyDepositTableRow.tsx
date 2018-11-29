@@ -13,21 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FileInfo, Files } from "../../model/FileInfo"
+import * as React from "react"
 
-export const filesConverter: (input: any) => Files = input => {
-    return input.map(fileConverter)
-        .reduce((obj: Files, item: FileInfo) => {
-            obj[item.fullpath] = item
-            return obj
-        }, {})
-}
+const EmptyDepositTableRow = () => (
+    <tr className="row ml-0 mr-0">
+        <td className="col col-12" scope="row" colSpan={5}>No deposits yet</td>
+    </tr>
+)
 
-const fileConverter: (input: any) => FileInfo = input => {
-    return {
-        filename: input.filename,
-        dirpath: input.dirpath,
-        sha1sum: input.sha1sum,
-        fullpath: input.dirpath && input.dirpath !== "" ? input.dirpath + "/" + input.filename : input.filename
-    }
-}
+export default EmptyDepositTableRow

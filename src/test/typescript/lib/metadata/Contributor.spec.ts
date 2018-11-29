@@ -19,8 +19,8 @@ import {
     Contributor,
     contributorConverter,
     contributorDeconverter,
-    contributorsConverter,
-    rightsHolderDeconverter,
+    contributorsConverter, creatorConverter, creatorDeconverter,
+    rightsHolderDeconverter, splitCreatorsAndContributors,
 } from "../../../../main/typescript/lib/metadata/Contributor"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 
@@ -56,6 +56,36 @@ describe("Contributor", () => {
             displayValue: "Rightsholder",
         },
     ]
+
+    describe("splitCreatorsAndContributors", () => {
+
+        it("should separate contributors with role 'Creator' from the rest", () => {
+            const c1: Contributor = {
+                initials: "D.A.",
+                surname: "N.S.",
+                role: "Creator",
+            }
+            const c2: Contributor = {
+                organization: "DANS",
+                role: "Creator",
+            }
+            const c3: Contributor = {
+                initials: "K.N.",
+                surname: "A.W.",
+                role: "RightsHolder",
+            }
+            const c4: Contributor = {
+                initials: "no",
+                surname: "role",
+                role: undefined,
+            }
+
+            expect(splitCreatorsAndContributors([c1, c2, c3, c4])).to.eql([
+                [c1, c2],
+                [c3, c4],
+            ])
+        })
+    })
 
     describe("contributorConverter", () => {
 
@@ -311,6 +341,173 @@ describe("Contributor", () => {
                 organization: "KNAW",
             }
             expect(contributorDeconverter(roleChoices)(input)).to.eql(expected)
+        })
+
+        it("should fail when an invalid role is used", () => {
+            const input: Contributor = {
+                role: "invalid",
+            }
+            expect(() => contributorDeconverter(roleChoices)(input)).to
+                .throw("Error in metadata: no valid role found for key 'invalid'")
+        })
+    })
+
+    describe("creatorConverter", () => {
+
+        it("should convert a valid creator", () => {
+            const input = {
+                titles: "Drs.",
+                initials: "D.A.",
+                insertions: "",
+                surname: "NS",
+                ids: [
+                    {
+                        scheme: "id-type:DAI",
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: "abcdef",
+                    },
+                ],
+                organization: "KNAW",
+            }
+            const expected: Contributor = {
+                titles: "Drs.",
+                initials: "D.A.",
+                insertions: "",
+                surname: "NS",
+                ids: [
+                    {
+                        scheme: "id-type:DAI",
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: "abcdef",
+                    },
+                ],
+                role: "Creator",
+                organization: "KNAW",
+            }
+            expect(creatorConverter(idChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert an empty input to an internal representation with empty strings", () => {
+            const input = {}
+            const expected: Contributor = {
+                titles: "",
+                initials: "",
+                insertions: "",
+                surname: "",
+                ids: [{ scheme: "", value: "" }],
+                role: "Creator",
+                organization: "",
+            }
+            expect(creatorConverter(idChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert a partial creator", () => {
+            const input = {
+                ids: [
+                    {
+                        // no scheme
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        // no value
+                    },
+                ],
+            }
+            const expected: Contributor = {
+                titles: "",
+                initials: "",
+                insertions: "",
+                surname: "",
+                ids: [
+                    {
+                        scheme: undefined,
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: undefined,
+                    },
+                ],
+                role: "Creator",
+                organization: "",
+            }
+            expect(creatorConverter(idChoices)(input)).to.eql(expected)
+        })
+
+        it("should fail when using an invalid creator scheme id", () => {
+            const input = {
+                ids: [
+                    {
+                        scheme: "id-type:invalid",
+                        value: "123456",
+                    },
+                ],
+            }
+            expect(() => creatorConverter(idChoices)(input)).to
+                .throw("Error in metadata: no such creator/contributor id scheme: 'id-type:invalid'")
+        })
+    })
+
+    describe("creatorDeconverter", () => {
+
+        it("should convert an empty creator to an empty object", () => {
+            const input: Contributor = {
+                titles: "",
+                initials: "",
+                insertions: "",
+                surname: "",
+                ids: [{ scheme: "", value: "" }],
+                role: "",
+                organization: "",
+            }
+            const expected = {}
+            expect(creatorDeconverter(input)).to.eql(expected)
+        })
+
+        it("should convert a creator into the correct external model", () => {
+            const input: Contributor = {
+                titles: "Drs.",
+                initials: "D.A.",
+                insertions: "van",
+                surname: "NS",
+                ids: [
+                    {
+                        scheme: "id-type:DAI",
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: "abcdef",
+                    },
+                ],
+                role: "Creator",
+                organization: "KNAW",
+            }
+            const expected = {
+                titles: "Drs.",
+                initials: "D.A.",
+                insertions: "van",
+                surname: "NS",
+                ids: [
+                    {
+                        scheme: "id-type:DAI",
+                        value: "123456",
+                    },
+                    {
+                        scheme: "id-type:ISNI",
+                        value: "abcdef",
+                    },
+                ],
+                organization: "KNAW",
+            }
+            expect(creatorDeconverter(input)).to.eql(expected)
         })
 
         it("should fail when an invalid role is used", () => {

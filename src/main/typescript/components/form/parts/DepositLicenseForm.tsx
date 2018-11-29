@@ -29,7 +29,7 @@ const DepositLicenseForm = () => (
             <p>
                 {/* TODO fill in the correct href in the <a> */}
                 In order to deposit a dataset, you must accept and understand
-                the <a href="#" target="_blank" className="text-primary">Licence agreement</a> (PDF).
+                the <a href="#" target="_blank" className="text-primary">DANS Deposit agreement</a> (PDF).
             </p>
         </div>
 
@@ -67,7 +67,6 @@ const DepositLicenseForm = () => (
 
         <div className="row form-group input-element">
             <Field name="acceptLicenseAgreement"
-                   validate={[checkboxMustBeChecked]}
                    component={Checkbox}>
                 Yes, I accept and understand the terms of the License agreement<Mandatory/>
             </Field>
