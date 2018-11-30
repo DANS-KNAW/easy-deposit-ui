@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
+import { ChangeEvent } from "react"
+import { EventWithDataHandler, Field } from "redux-form"
 import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
 import asField, { InnerComponentProps } from "../../../../lib/formComponents/FieldHOC"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
-const AccessRightsField = ({ input, className }: FieldProps & InnerComponentProps ) => {
+interface AccessRightsFieldOwnProps {
+    onAccessRightChange: EventWithDataHandler<ChangeEvent<any>>
+}
 
+type AccessRightsFieldProps = FieldProps & InnerComponentProps & AccessRightsFieldOwnProps
+
+const AccessRightsField = ({ input, className, onAccessRightChange }: AccessRightsFieldProps) => {
     const choices = [
         {
             title: AccessRightValue.OPEN_ACCESS,
@@ -39,6 +45,7 @@ const AccessRightsField = ({ input, className }: FieldProps & InnerComponentProp
                 <Field name={`${input.name}.category`}
                        divClassName="radio-button"
                        choices={choices}
+                       onChange={onAccessRightChange}
                        component={RadioChoicesInput}/>
             </div>
         </div>

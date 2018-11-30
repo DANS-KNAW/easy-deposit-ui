@@ -18,6 +18,12 @@ import { emptyString } from "./misc"
 
 export const emptyLicense = emptyString
 
+export const dansLicense: DropdownListEntry = {
+    key: "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf",
+    value: "DANS LICENSE",
+    displayValue: "DANS LICENSE",
+}
+
 export const licenseConverter: (licenses: DropdownListEntry[]) => (l: any) => string = licenses => l => {
     const validLicense = licenses.find(({ key }) => key === l)
 
@@ -28,7 +34,7 @@ export const licenseConverter: (licenses: DropdownListEntry[]) => (l: any) => st
 }
 
 export const licenseDeconverter: (licenses: DropdownListEntry[]) => (l: string) => any = licenses => l => {
-    const validLicense = licenses.find(({key}) => key === l)
+    const validLicense = dansLicense.key === l || licenses.find(({ key }) => key === l)
 
     if (validLicense)
         return l
