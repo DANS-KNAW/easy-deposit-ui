@@ -159,7 +159,5 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     // accept license agreement
     errors.acceptLicenseAgreement = checkboxMustBeChecked(values.acceptLicenseAgreement, "Accept the license agreement before submitting this dataset")
 
-    console.log("errors", errors)
-
     return errors
 }
