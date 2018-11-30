@@ -18,8 +18,8 @@ import { Component, SFC } from "react"
 import * as H from "history"
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { InjectedFormProps, reduxForm } from "redux-form"
-import { RouteComponentProps, withRouter } from "react-router-dom"
+import { initialize, InjectedFormProps, reduxForm } from "redux-form"
+import { Prompt, RouteComponentProps, withRouter } from "react-router-dom"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
@@ -46,6 +46,7 @@ import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
 import { Files, LoadingState as FileOverviewLoadingState } from "../../model/FileInfo"
 import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
+import { inDevelopmentMode } from "../../lib/config"
 
 interface FetchMetadataErrorProps {
     fetchError?: string
@@ -113,6 +114,7 @@ interface DepositFormStoreArguments {
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
     saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
     submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
+    setUndirty: (data: any) => void
 }
 
 type DepositFormProps =
@@ -131,15 +133,29 @@ class DepositForm extends Component<DepositFormProps> {
         console.log(`saving draft for ${depositId}`, formValues)
 
         formValues && saveDraft(depositId, formValues)
+
+        this.props.setUndirty(formValues)
     }
 
     submit = (data: DepositFormMetadata) => {
         this.props.submitDeposit(this.props.depositId, data, this.props.history)
     }
 
+    shouldBlockNavigation = () => this.props.dirty
+
+    static leaveMessage = "You did not save your work before leaving this page.\n" +
+        "Are you sure you want to go without saving?"
+
     componentDidMount() {
         this.fetchMetadata()
         this.fetchFiles()
+    }
+
+    componentDidUpdate() {
+        if (!inDevelopmentMode && this.shouldBlockNavigation())
+            window.onbeforeunload = () => true
+        else
+            window.onbeforeunload = null
     }
 
     render() {
@@ -150,6 +166,9 @@ class DepositForm extends Component<DepositFormProps> {
 
         return (
             <>
+                <Prompt when={this.shouldBlockNavigation()}
+                        message={DepositForm.leaveMessage}/>
+
                 <FetchMetadataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
                 <form>
                     <Card title="Upload your data" defaultOpened>
@@ -252,11 +271,12 @@ const composedHOC = compose(
             fetchFiles,
             saveDraft,
             submitDeposit,
+            setUndirty: (data: any) => initialize(depositFormName, data, false),
         }),
     reduxForm({
         form: depositFormName,
         enableReinitialize: true,
-        validate: formValidate
+        validate: formValidate,
     }),
 )
 
