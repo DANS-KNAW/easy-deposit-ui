@@ -98,14 +98,14 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
             this.setState(prevState => ({ ...prevState, showCount: 1 }))
 
         const choices = this.choices()
-        return choices.length === 0 ? this.renderNoLicenses() : this.renderLicenses(choices)
+        return choices.length === 0 ? LicenseChoices.renderNoLicenses() : this.renderLicenses(choices)
     }
 
-    private renderNoLicenses() {
+    private static renderNoLicenses() {
         return (
-            <div className={`license-field ${this.props.className || ""}`}>
+            <label className="mb-0" style={{ paddingTop: "5px" }}>
                 <i>Choose an accessright first</i>
-            </div>
+            </label>
         )
     }
 
