@@ -49,7 +49,7 @@ import {
     PrivacySensitiveDataValue,
 } from "./PrivacySensitiveData"
 import { emptyQualifiedSchemedValue, emptySchemedValue } from "./Value"
-import { licenseConverter, licenseDeconverter } from "./License"
+import { emptyLicense, licenseConverter, licenseDeconverter } from "./License"
 import { emptyRelation, relatedIdentifierDeconverter, relationDeconverter, relationsConverter } from "./Relation"
 import { clean, emptyString, isEmptyString, nonEmptyObject, normalizeEmpty } from "./misc"
 import { cmdiFormatDeconverter, formatDeconverter, formatsConverter, imtFormatDeconverter } from "./Format"
@@ -106,7 +106,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         : { category: undefined }
     const license = input.license
         ? licenseConverter(dropDowns.licenses.list)(input.license)
-        : emptyString
+        : emptyLicense
     const [dcmiTypes, normalTypes] = input.types
         ? typesConverter(dropDowns.dcmiTypes.list)(input.types)
         : [[], []]

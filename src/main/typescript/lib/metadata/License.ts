@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 import { DropdownListEntry } from "../../model/DropdownLists"
+import { emptyString } from "./misc"
+
+export const emptyLicense = emptyString
 
 export const licenseConverter: (licenses: DropdownListEntry[]) => (l: any) => string = licenses => l => {
     const validLicense = licenses.find(({ key }) => key === l)
