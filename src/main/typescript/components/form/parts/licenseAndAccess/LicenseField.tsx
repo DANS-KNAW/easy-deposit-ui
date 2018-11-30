@@ -93,8 +93,8 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
         return (
             <div className={`license-field ${this.props.className || ""}`}>
                 <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={this.choices()}/>
-                {this.props.choices.length >= this.state.showCount && this.renderShowMore()}
-                {this.props.choices.length <= this.state.showCount && this.renderShowLess()}
+                {this.props.choices.length > this.state.showCount && this.renderShowMore()}
+                {this.props.choices.length < this.state.showCount && this.renderShowLess()}
             </div>
         )
     }
