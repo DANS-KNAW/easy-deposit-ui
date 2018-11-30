@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import * as dateFormat from "dateformat"
+import { dateFormat } from "../../lib/metadata/Date"
 import { DeleteState, Deposit } from "../../model/Deposits"
 
 interface EnterableProps {
@@ -35,7 +35,6 @@ interface DepositTableRowProps {
 }
 
 const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDeposit }: DepositTableRowProps) => {
-
     const title = <Enterable title={deposit.title}/>
     const isDeleting = deleting && deleting.deleting
     const deleteButton = editable &&
@@ -53,7 +52,7 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDepo
             onClick={enterDeposit}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
-            <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date, "yyyy-mm-dd")}</td>
+            <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date)}</td>
             <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
             <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
             <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"

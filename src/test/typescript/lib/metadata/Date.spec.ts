@@ -23,7 +23,6 @@ import {
     qualifiedDateStringDeconverter,
 } from "../../../../main/typescript/lib/metadata/Date"
 import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
-import * as dateFormat from "dateformat"
 
 describe("Date", () => {
 
@@ -223,12 +222,11 @@ describe("Date", () => {
                 qualifier: "dcterms:issued",
                 value: new Date("2018-03-14"),
             }
-            const expected = {
-                scheme: "dcterms:W3CDTF",
-                value: dateFormat(new Date("2018-03-14"), "isoDateTime"), // don't just match against the String, because of time zone issues
-                qualifier: "dcterms:issued",
-            }
-            expect(qualifiedDateDeconverter(input)).to.eql(expected)
+            const result = qualifiedDateDeconverter(input)
+            expect(Object.keys(result)).to.eql(["scheme", "value", "qualifier"])
+            expect(result.scheme).to.eql("dcterms:W3CDTF")
+            expect(result.value).to.match(/^2018-03-14T\d{2}:\d{2}:00[-+]\d{2}:\d{2}$/) // don't just match against the String, because of time zone issues
+            expect(result.qualifier).to.eql("dcterms:issued")
         })
 
         it("should convert a QualifiedDate without a value into an empty object", () => {
