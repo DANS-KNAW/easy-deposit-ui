@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { clean } from "./misc"
-import * as dateFormat from "dateformat"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum DateScheme {
@@ -59,7 +58,40 @@ const dateConverter: (d: any) => Date = d => {
         return date
 }
 
-const dateDeconverter: (d: Date) => any = d => dateFormat(d, "isoDateTime")
+const pad = (input: number, length?: number) => {
+    let val = String(input)
+    const len = length || 2
+    while (val.length < len)
+        val = "0" + val
+
+    return val
+}
+
+const isoDateTimeFormat = (date: Date) => {
+    const split2 = (val: string) => `${val.slice(0, 2)}:${val.slice(2, 4)}`
+    const timezone = (val: number) => {
+        const converted = Math.floor(Math.abs(val) / 60) * 100 + Math.abs(val) % 60
+        return (val > 0 ? "-" : "+") + split2(pad(converted, 4))
+    }
+
+    const y = date.getFullYear()
+    const m = pad(date.getMonth() + 1)
+    const d = pad(date.getDate())
+    const H = pad(date.getHours())
+    const M = pad(date.getMinutes())
+    const s = pad(date.getSeconds())
+    const o = timezone(date.getTimezoneOffset())
+
+    return `${y}-${m}-${d}T${H}:${M}:${s}${o}`
+}
+
+export const dateFormat = (date: Date) => {
+    const y = date.getFullYear()
+    const m = pad(date.getMonth() + 1)
+    const d = pad(date.getDate())
+
+    return `${y}-${m}-${d}`
+}
 
 const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => InternalDate = dates => sd => {
     const scheme = sd.scheme && toDateScheme(sd.scheme)
@@ -142,7 +174,7 @@ export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => {
     if (d.value)
         return {
             scheme: DateScheme.W3CDTF,
-            value: dateDeconverter(d.value),
+            value: isoDateTimeFormat(d.value),
             qualifier: d.qualifier,
         }
     else
