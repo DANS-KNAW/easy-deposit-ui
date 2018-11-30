@@ -25,7 +25,7 @@ export const dansLicense: DropdownListEntry = {
 }
 
 export const licenseConverter: (licenses: DropdownListEntry[]) => (l: any) => string = licenses => l => {
-    const validLicense = licenses.find(({ key }) => key === l)
+    const validLicense = dansLicense.key === l || licenses.find(({ key }) => key === l)
 
     if (validLicense)
         return l
