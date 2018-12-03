@@ -13,7 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as dateFormat from "dateformat"
+
+// copied from lib/metadata/Date.ts, since dependencies don't work over main/test here
+const isoDateTimeFormat = (date: Date) => {
+    const pad = (input: number, length?: number) => {
+        let val = String(input)
+        const len = length || 2
+        while (val.length < len)
+            val = "0" + val
+
+        return val
+    }
+    const split2 = (val: string) => `${val.slice(0, 2)}:${val.slice(2, 4)}`
+    const timezone = (val: number) => {
+        const converted = Math.floor(Math.abs(val) / 60) * 100 + Math.abs(val) % 60
+        return (val > 0 ? "-" : "+") + split2(pad(converted, 4))
+    }
+
+    const y = date.getFullYear()
+    const m = pad(date.getMonth() + 1)
+    const d = pad(date.getDate())
+    const H = pad(date.getHours())
+    const M = pad(date.getMinutes())
+    const s = pad(date.getSeconds())
+    const o = timezone(date.getTimezoneOffset())
+
+    return `${y}-${m}-${d}T${H}:${M}:${s}${o}`
+}
 
 export type Doi = string
 
@@ -409,22 +435,22 @@ export const allfields: Metadata = {
     dates: [
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat(new Date().setDate(new Date().getDate() - 2), "isoDateTime"),
+            value: isoDateTimeFormat(new Date(new Date().setDate(new Date().getDate() - 2))),
             qualifier: DateQualifierValues.created,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat(Date.now(), "isoDateTime"),
+            value: isoDateTimeFormat(new Date(Date.now())),
             qualifier: DateQualifierValues.available,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat("2018-03-18T01:00:00+0100", "isoDateTime"),
+            value: isoDateTimeFormat(new Date("2018-03-18T01:00:00+01:00")),
             qualifier: DateQualifierValues.dateCopyrighted,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat("2018-03-17T01:00:00+0100", "isoDateTime"),
+            value: isoDateTimeFormat(new Date("2018-03-17T01:00:00+01:00")),
             qualifier: DateQualifierValues.valid,
         },
         {
@@ -608,12 +634,12 @@ export const mandatoryOnly: Metadata = {
     dates: [
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat("2018-03-19T01:00:00+0100", "isoDateTime"),
+            value: isoDateTimeFormat(new Date("2018-03-19T01:00:00+01:00")),
             qualifier: DateQualifierValues.created,
         },
         {
             scheme: DateSchemeValues.W3CDTF,
-            value: dateFormat("2018-05-14T02:00:00+0200", "isoDateTime"),
+            value: isoDateTimeFormat(new Date("2018-05-14T02:00:00+02:00")),
             qualifier: DateQualifierValues.available,
         },
     ],

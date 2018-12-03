@@ -16,19 +16,17 @@
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
-import { Field } from "redux-form"
+import { Field, Fields } from "redux-form"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
-import LicenseField from "./licenseAndAccess/LicenseField"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
 import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import * as moment from "moment"
-import AccessRightsField from "./licenseAndAccess/AccessRightsField"
-import { dateAvailableMustBeAfterDateCreated, mandatoryRadioButtonValidator } from "../Validation"
+import AccessRightsAndLicenseFields from "./licenseAndAccess/AccessRightsAndLicenseFields"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -68,19 +66,9 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <Field name="accessRights"
-               label="Access rights"
-               mandatory
-               helpText
-               component={AccessRightsField}/>
-
-        <Field name="license"
-               label="License"
-               mandatory
-               helpText
-               withEmptyDefault
-               dropdown={licenses}
-               component={LicenseField}/>
+        <Fields names={["accessRights", "license"]}
+                dropDown={{ licenses: licenses }}
+                component={AccessRightsAndLicenseFields}/>
 
         <Field name="dateAvailable"
                label="Date available"

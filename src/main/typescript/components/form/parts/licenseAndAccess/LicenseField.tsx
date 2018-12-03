@@ -30,6 +30,8 @@ interface LicenseChoicesState {
     showCount: number
 }
 
+type Choice = { title: string, value: any }
+
 class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, LicenseChoicesState> {
     constructor(props: FieldProps & LicenseChoicesProps) {
         super(props)
@@ -67,7 +69,7 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
         <span><a className="external-link" href={link} target="_blank"><i className="fas fa-external-link-square-alt"/></a> {text}</span>
     )
 
-    choices() {
+    choices(): Choice[] {
         const value = this.props.input.value
         const actualChoices = this.props.choices.slice(0, this.state.showCount).map(entry => ({
             title: entry.key,
@@ -86,15 +88,33 @@ class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, License
         return actualChoices
     }
 
+    componentDidUpdate(prevProps: FieldProps & LicenseChoicesProps) {
+        if (prevProps.choices !== this.props.choices)
+            this.setState(prevState => ({ ...prevState, showCount: 1 }))
+    }
+
     render() {
         if (this.state.showCount < 1)
             this.setState(prevState => ({ ...prevState, showCount: 1 }))
 
+        const choices = this.choices()
+        return choices.length === 0 ? LicenseChoices.renderNoLicenses() : this.renderLicenses(choices)
+    }
+
+    private static renderNoLicenses() {
+        return (
+            <label className="mb-0" style={{ paddingTop: "5px" }}>
+                <i>Choose an accessright first</i>
+            </label>
+        )
+    }
+
+    private renderLicenses(choices: Choice[]) {
         return (
             <div className={`license-field ${this.props.className || ""}`}>
-                <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={this.choices()}/>
-                {this.props.choices.length >= this.state.showCount && this.renderShowMore()}
-                {this.props.choices.length <= this.state.showCount && this.renderShowLess()}
+                <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={choices}/>
+                {this.props.choices.length > this.state.showCount && this.renderShowMore()}
+                {this.props.choices.length < this.state.showCount && this.renderShowLess()}
             </div>
         )
     }
@@ -118,7 +138,7 @@ interface LicenseFieldInputProps {
 
 type LicenseFieldProps = FieldProps & SelectHTMLAttributes<HTMLSelectElement> & LicenseFieldInputProps
 
-const LicenseField = ({ dropdown: {state, list}, ...props}: LicenseFieldProps) => (
+const LicenseField = ({ dropdown: { state, list }, ...props }: LicenseFieldProps) => (
     <LoadDropdownData state={state}>
         <LicenseChoicesField {...props} choices={list}/>
     </LoadDropdownData>
