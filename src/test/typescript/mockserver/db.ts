@@ -192,16 +192,18 @@ export const getFilesListing: (id: DepositId) => FileInfo[] | undefined = id => 
 
 export const addFile: (id: DepositId, dirPath: string, filename: string) => boolean = (id, dirPath, filename) => {
     const deposit = data[id]
-    const files = deposit.files
+    if (deposit) {
+        const files = deposit.files
 
-    if (deposit && files) {
-        const newFile: FileInfo = {
-            filename: filename,
-            dirpath: dirPath,
-            sha1sum: "unknown",
+        if (files) {
+            const newFile: FileInfo = {
+                filename: filename,
+                dirpath: dirPath,
+                sha1sum: "unknown",
+            }
+            data = { ...data, [id]: { ...deposit, files: [...files, newFile] } }
+            return true
         }
-        data = { ...data, [id]: { ...deposit, files: [...files, newFile] } }
-        return true
     }
     return false
 }
