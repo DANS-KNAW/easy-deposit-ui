@@ -26,7 +26,7 @@ import { Files } from "../../../../../model/FileInfo"
 
 interface FileUploaderProps {
     depositId: DepositId
-    fileUploadUrl: (filePath: string) => string
+    fileUploadUrl: string
 
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
 }
@@ -74,7 +74,7 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
                 </div>
                 <div className="col col-12 col-sm-12 col-md-9">
                     <FileLoader file={this.state.uploadingFile || null}
-                                url={this.state.uploadingFile ? this.props.fileUploadUrl(this.state.uploadingFile.name) : "#"}
+                                url={this.props.fileUploadUrl}
                                 preventReload
                                 showCancelBtn
                                 onUploadFinished={this.uploadFinished}/>
@@ -86,7 +86,7 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
 
 const mapStateToProps = (state: AppState) => ({
     depositId: state.depositForm.depositId,
-    fileUploadUrl: (filePath: string) => uploadFileUrl(state.depositForm.depositId!, filePath)(state),
+    fileUploadUrl: uploadFileUrl(state.depositForm.depositId!, "")(state),
 })
 
 export default connect(mapStateToProps, { fetchFiles })(FileUploader)

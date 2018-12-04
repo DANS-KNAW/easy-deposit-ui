@@ -207,13 +207,12 @@ app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
         }
     }
 })
-// TODO This implementation is not according to the specs!!!
 app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) => {
     const depositId = req.params.id
     const dir_path = req.params.dir_path
     const restPath = req.params[0]
-    const dirPath = dir_path && restPath ? dir_path + restPath : dir_path
-    console.log(`POST /deposit/${depositId}/file${dirPath ? `/${dirPath}` : ""}`)
+    const dirPath = dir_path && restPath ? dir_path + restPath : (dir_path || "")
+    console.log(`POST /deposit/${depositId}/file/${dirPath}`)
 
     if (!req.files)
         return res.status(400).send("No files were uploaded.")
@@ -224,14 +223,10 @@ app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) =>
                 const uploadedFile = file as UploadedFile
 
                 return new Promise<string>((resolve, reject) => {
-                    const dirPartOfDirPath = dirPath === uploadedFile.name // if it is uploaded to the root directory
-                        ? ""
-                        : dirPath.replace(new RegExp(`/${uploadedFile.name}$`), "")
-
                     uploadedFile.mv(`./target/build-mockserver/${uploadedFile.name}`, err => {
                         if (err)
                             return reject(err)
-                        else if (addFile(depositId, "/" + dirPartOfDirPath, uploadedFile.name))
+                        else if (addFile(depositId, "/" + dirPath, uploadedFile.name))
                             resolve(uploadedFile.name)
                         else
                             return reject(err)
