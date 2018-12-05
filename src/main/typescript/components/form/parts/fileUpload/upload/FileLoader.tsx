@@ -36,7 +36,8 @@ interface FileLoaderProps<Response> {
         blacklist?: string[],
         errorMessage: string,
     }
-    onUploadFinished?: (file: File) => void
+    onUploadFinished?: () => void
+    onUploadCanceled?: () => void
 }
 
 interface FileLoaderState {
@@ -109,7 +110,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         url && request.open("POST", url)
 
         request.addEventListener("load", () => {
-            const uploadStatus = this.handleResponse(file, request)
+            const uploadStatus = this.handleResponse(request)
             this.uploadFinished({ ...uploadStatus, uploaded: true, request: undefined })
         }, false)
 
@@ -136,9 +137,9 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         this.setState(prevState => ({ ...prevState, percentage }))
     }
 
-    handleResponse: (file: File, request: XMLHttpRequest) => Partial<FileLoaderState> = (file, request) => {
+    handleResponse: (request: XMLHttpRequest) => Partial<FileLoaderState> = (request) => {
         if (request.status == 200) {
-            this.props.onUploadFinished && this.props.onUploadFinished(file)
+            this.props.onUploadFinished && this.props.onUploadFinished()
             return { uploadStatus: UploadStatus.DONE }
         }
         else {
@@ -156,6 +157,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         if (this.state.request)
             this.state.request.abort()
         this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.CANCELLED, request: undefined })
+        this.props.onUploadCanceled && this.props.onUploadCanceled()
     }
 
     componentDidMount() {

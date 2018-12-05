@@ -48,8 +48,8 @@ class FileLoaderDemo extends Component<FileLoaderDemoProps, FileLoaderDemoState>
         this.setState(prevState => ({ ...prevState, uploadingFile: file }))
     }
 
-    uploadFinished = (file: File) => {
-        console.log("file uploaded", file)
+    uploadFinished = () => {
+        console.log("file uploaded")
         this.setState(prevState => ({ ...prevState, uploadingFile: undefined }))
         this.props.fetchFiles(this.props.depositId)
     }

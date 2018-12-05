@@ -53,6 +53,10 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
         this.props.fetchFiles(this.props.depositId)
     }
 
+    uploadCanceled = () => {
+        this.setState(prevState => ({ ...prevState, uploadingFile: undefined }))
+    }
+
     render() {
         return (
             <div id="upload-row" className="row">
@@ -77,7 +81,8 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
                                 url={this.props.fileUploadUrl}
                                 preventReload
                                 showCancelBtn
-                                onUploadFinished={this.uploadFinished}/>
+                                onUploadFinished={this.uploadFinished}
+                                onUploadCanceled={this.uploadCanceled}/>
                 </div>
             </div>
         )
