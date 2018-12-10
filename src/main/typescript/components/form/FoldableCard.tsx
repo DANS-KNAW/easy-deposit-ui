@@ -16,10 +16,6 @@
 import * as React from "react"
 import { Component } from "react"
 import "../../../resources/css/foldable"
-import { connect } from "react-redux"
-import { AppState } from "../../model/AppState"
-import { ReduxAction } from "../../lib/redux"
-import { registerCard, toggleCard, unregisterCard } from "../../actions/foldableCardActions"
 
 interface FoldableCardInputProps {
     title: string
@@ -27,34 +23,25 @@ interface FoldableCardInputProps {
     defaultOpened?: boolean
 }
 
-interface FoldableCardProps {
+interface FolableCardState {
     open: boolean
-
-    registerCard: (id: string, open: boolean) => ReduxAction<{ id: string, open: boolean }>
-    unregisterCard: (id: string) => ReduxAction<string>
-    toggleCard: (id: string) => ReduxAction<string>
 }
 
-class FoldableCard extends Component<FoldableCardProps & FoldableCardInputProps> {
-    constructor(props: FoldableCardProps & FoldableCardInputProps) {
+class FoldableCard extends Component<FoldableCardInputProps, FolableCardState> {
+    constructor(props: FoldableCardInputProps) {
         super(props)
-        this.props.registerCard(this.props.title, this.props.defaultOpened || false)
+        this.state = { open: this.props.defaultOpened || false }
     }
 
-    componentWillUnmount() {
-        this.props.unregisterCard(this.props.title)
-    }
-
-    collapseCard = () => {
-        this.props.toggleCard(this.props.title)
-    }
+    toggleCard = () => this.setState(currentState => ({ open: !currentState.open }))
 
     render() {
-        const { title, required, open, children } = this.props
+        const { title, required, children } = this.props
+        const { open } = this.state
 
         return (
             <div className={`${open ? "" : "closed"} card mb-3`.trim()}>
-                <h6 className="card-header row ml-0 mr-0 bg-primary text-white" onClick={this.collapseCard}>
+                <h6 className="card-header row ml-0 mr-0 bg-primary text-white" onClick={this.toggleCard}>
                     <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0 font-weight-bold">{title}</div>
                     {required
                         ? <div
@@ -77,14 +64,4 @@ class FoldableCard extends Component<FoldableCardProps & FoldableCardInputProps>
     }
 }
 
-const mapStateToProps = (state: AppState, props: FoldableCardInputProps) => ({
-    open: state.foldableCards[props.title]
-        ? state.foldableCards[props.title].open
-        : props.defaultOpened || false,
-})
-
-export default connect(mapStateToProps, {
-    toggleCard,
-    registerCard,
-    unregisterCard,
-})(FoldableCard)
+export default FoldableCard
