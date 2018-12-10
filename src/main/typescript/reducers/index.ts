@@ -18,7 +18,6 @@ import { depositOverviewReducer } from "./depositOverviewReducer"
 import { fileOverviewReducer } from "./fileOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
-import { foldableCardReducer } from "./foldableCardReducer"
 import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
 import { toPath } from "lodash"
@@ -48,7 +47,6 @@ export default combineReducers({
     }),
     deposits: depositOverviewReducer,
     files: fileOverviewReducer,
-    foldableCards: foldableCardReducer,
     helpTexts: helpTextReducer,
     depositForm: depositFormReducer,
     dropDowns: allDropdownReducers,
