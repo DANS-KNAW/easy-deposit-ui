@@ -179,7 +179,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         privacySensitiveDataPresent: privacySensitiveDataPresent,
 
         // deposit agreement
-        acceptLicenseAgreement: input.acceptLicenseAgreement || false,
+        acceptDepositAgreement: input.acceptDepositAgreement || false,
     }
 }
 
@@ -276,6 +276,6 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
         privacySensitiveDataPresent: data.privacySensitiveDataPresent && privacySensitiveDataDeconverter(data.privacySensitiveDataPresent),
 
         // deposit license
-        acceptLicenseAgreement: data.acceptLicenseAgreement || undefined,
+        acceptDepositAgreement: data.acceptDepositAgreement || undefined,
     })
 }
