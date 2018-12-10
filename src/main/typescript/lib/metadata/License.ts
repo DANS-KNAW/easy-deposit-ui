@@ -19,7 +19,7 @@ import { emptyString } from "./misc"
 export const emptyLicense = emptyString
 
 export const dansLicense: DropdownListEntry = {
-    key: "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf",
+    key: "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf",//TODO DepositAgreement
     value: "DANS LICENSE",
     displayValue: "DANS LICENSE",
 }

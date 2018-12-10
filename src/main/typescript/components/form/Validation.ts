@@ -156,8 +156,8 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     // privacy sensitive data form
     errors.privacySensitiveDataPresent = mandatoryPrivacySensitiveDataValidator(values.privacySensitiveDataPresent)
 
-    // accept license agreement
-    errors.acceptLicenseAgreement = checkboxMustBeChecked(values.acceptLicenseAgreement, "Accept the license agreement before submitting this dataset")
+    // accept deposit agreement
+    errors.acceptDepositAgreement = checkboxMustBeChecked(values.acceptDepositAgreement, "Accept the deposit agreement before submitting this dataset")
 
     return errors
 }
