@@ -45,8 +45,8 @@ interface NavBarButtonProps {
 }
 
 const NavBarButton = ({ dataTarget }: NavBarButtonProps) => (
-    <button className="navbar-toggler"
-            type="button"
+    <button type="button"
+            className="navbar-toggler"
             data-toggle="collapse"
             data-target={`#${dataTarget}`}
             aria-controls={dataTarget}

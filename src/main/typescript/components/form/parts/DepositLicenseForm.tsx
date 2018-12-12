@@ -20,7 +20,7 @@ import Mandatory from "../../../lib/formComponents/Mandatory"
 import { checkboxMustBeChecked } from "../Validation"
 
 export interface DepositLicenseFormData {
-    acceptLicenseAgreement?: boolean
+    acceptDepositAgreement?: boolean
 }
 
 const DepositLicenseForm = () => (
@@ -66,9 +66,9 @@ const DepositLicenseForm = () => (
         </div>
 
         <div className="row form-group input-element">
-            <Field name="acceptLicenseAgreement"
+            <Field name="acceptDepositAgreement"
                    component={Checkbox}>
-                Yes, I accept and understand the terms of the License agreement<Mandatory/>
+                Yes, I accept and understand the terms of the Deposit agreement<Mandatory/>
             </Field>
         </div>
     </>

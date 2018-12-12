@@ -38,7 +38,8 @@ const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDepo
     const title = <Enterable title={deposit.title}/>
     const isDeleting = deleting && deleting.deleting
     const deleteButton = editable &&
-        <button key="delete"
+        <button type="button"
+                key="delete"
                 className="close icon"
                 disabled={isDeleting}
                 onClick={deleteDeposit}>

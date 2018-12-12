@@ -121,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"doi\": \"doi:10.17632/DANS.6wg5xccnjd.2\",\n    \"languageOfDescription\": \"English\",\n    \"titles\": [\n    \t\"title1\"\n\t],\n    \"descriptions\": [\n        \"description1\",\n        \"description2\"\n    ],\n    \"creators\": [\n        {\n            \"initials\": \"A.S.\",\n            \"surname\": \"Terix\"\n        }\n    ],\n    \"dateCreated\": \"2018-03-19\",\n    \"audiences\": [\n        \"audience1\",\n        \"audience2\"\n    ],\n    \"accessRights\": {\n        \"category\": \"restricted_group\",\n        \"group\": \"archaeology\"\n    },\n    \"license\": \"CC-BY-NC-SA\",\n    \"extraClarinMetadataPresent\": true,\n    \"privacySensitiveDataPresent\": \"yes\",\n    \"acceptLicenseAgreement\": true\n}"
+					"raw": "{\n    \"doi\": \"doi:10.17632/DANS.6wg5xccnjd.2\",\n    \"languageOfDescription\": \"English\",\n    \"titles\": [\n    \t\"title1\"\n\t],\n    \"descriptions\": [\n        \"description1\",\n        \"description2\"\n    ],\n    \"creators\": [\n        {\n            \"initials\": \"A.S.\",\n            \"surname\": \"Terix\"\n        }\n    ],\n    \"dateCreated\": \"2018-03-19\",\n    \"audiences\": [\n        \"audience1\",\n        \"audience2\"\n    ],\n    \"accessRights\": {\n        \"category\": \"restricted_group\",\n        \"group\": \"archaeology\"\n    },\n    \"license\": \"CC-BY-NC-SA\",\n    \"extraClarinMetadataPresent\": true,\n    \"privacySensitiveDataPresent\": \"yes\",\n    \"acceptDepositAgreement\": true\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3004/deposit/93674123-1699-49c5-af91-ed31db19adc9/metadata",

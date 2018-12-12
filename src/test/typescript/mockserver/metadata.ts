@@ -83,7 +83,7 @@ export interface Metadata {
     privacySensitiveDataPresent?: PrivacySensitiveDataValues
 
     // Deposit License
-    acceptLicenseAgreement?: boolean
+    acceptDepositAgreement?: boolean
 }
 
 interface SchemedValue<Scheme = string, Value = string> {
@@ -591,7 +591,7 @@ export const allfields: Metadata = {
         "Suspendisse ornare quis nunc sit amet tristique. Nam sed libero mauris. Duis scelerisque tortor non purus " +
         "porttitor interdum.",
     privacySensitiveDataPresent: PrivacySensitiveDataValues.NO,
-    acceptLicenseAgreement: true,
+    acceptDepositAgreement: true,
 }
 
 export const mandatoryOnly: Metadata = {
@@ -648,7 +648,7 @@ export const mandatoryOnly: Metadata = {
     },
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
-    // acceptLicenseAgreement: false, // if not set, this value is false by default
+    // acceptDepositAgreement: false, // if not set, this value is false by default
 }
 
 export const newMetadata: () => Metadata = () => ({})
