@@ -32,8 +32,8 @@ const LoginCard: SFC<LoginCardProps> = ({ children, authenticating, errorMessage
             </div>
             <div className="card-body pl-0 pr-0 pb-0 ml-0 mr-0">
                 {children}
-                <button className="btn btn-dark ml-3 margin-top-bottom"
-                        type="submit"
+                <button type="submit"
+                        className="btn btn-dark ml-3 margin-top-bottom"
                         disabled={authenticating}>Login</button>
             </div>
             {errorMessage && <span>{errorMessage}<br/></span>}
