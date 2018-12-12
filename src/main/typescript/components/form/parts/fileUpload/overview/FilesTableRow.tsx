@@ -28,7 +28,8 @@ const FilesTableRow = ({ fileInfo: {fullpath, sha1sum}, deleting, deleteFile, as
     const isDeleting = deleting && deleting.deleting
 
     const deleteButton =
-        <button key="delete"
+        <button type="button"
+                key="delete"
                 className="close icon"
                 style={{ float: "unset" }}
                 disabled={isDeleting}
