@@ -236,9 +236,9 @@ app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) =>
 
         const newFiles = await Promise.all(promises)
 
-        res.status(200)
+        res.status(201)
         res.send(`Files uploaded: [${newFiles.join(", ")}]!`)
-        console.log("  200")
+        console.log("  201")
     }
     catch (err) {
         res.status(500).send(err)

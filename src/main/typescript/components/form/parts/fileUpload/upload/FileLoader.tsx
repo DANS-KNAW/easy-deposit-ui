@@ -135,7 +135,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     }
 
     handleResponse: (file: File, request: XMLHttpRequest) => Partial<FileLoaderState> = (file, request) => {
-        if (request.status == 200) {
+        if (request.status == 201) {
             this.props.onUploadFinished && this.props.onUploadFinished(file)
             return { uploadStatus: UploadStatus.DONE }
         }
