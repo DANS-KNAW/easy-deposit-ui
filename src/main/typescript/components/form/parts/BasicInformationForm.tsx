@@ -191,7 +191,6 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="relations"
                                      label=""
-                                     helpText
                                      empty={emptyRelation}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
