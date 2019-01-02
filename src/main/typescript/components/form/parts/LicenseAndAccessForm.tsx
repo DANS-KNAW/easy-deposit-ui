@@ -25,7 +25,6 @@ import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
 import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
-import * as moment from "moment"
 import AccessRightsAndLicenseFields from "./licenseAndAccess/AccessRightsAndLicenseFields"
 
 export interface LicenseAndAccessFormData {
@@ -74,11 +73,16 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                label="Date available"
                helpText
                todayButton="Today"
-               minDate={moment()}
-               maxDate={moment().add(2, "years")}
+               minDate={new Date()}
+               maxDate={twoYearsFromNow()}
                component={DatePickerField}/>
     </>
 )
+
+const twoYearsFromNow = () => {
+    const now = new Date()
+    return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
+}
 
 const mapStateToProps = (state: AppState) => ({
     contributorIds: state.dropDowns.contributorIds,

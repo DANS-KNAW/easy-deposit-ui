@@ -17,7 +17,6 @@ import * as React from "react"
 import { Component } from "react"
 import asField from "./FieldHOC"
 import LibDatePicker, { ReactDatePickerProps } from "react-datepicker"
-import * as moment from "moment"
 import { FieldProps } from "./ReduxFormUtils"
 
 interface CustomDatePickerProps {
@@ -46,7 +45,7 @@ type DatePickerProps = FieldProps & ReactDatePickerProps
 // See https://reactdatepicker.com/ for all kinds of options to be used on the DatePicker
 const DatePickerField = (props: DatePickerProps) => {
     const { className, input: { value, onChange }, children } = props
-    const dateFormat = "DD-MM-YYYY"
+    const dateFormat = "dd-MM-YYYY"
 
     return (
         <div className={`date-picker ${className || ""}`}>
@@ -60,8 +59,8 @@ const DatePickerField = (props: DatePickerProps) => {
 
                            className="react-datepicker__input-field"
 
-                           selected={value ? moment(value, dateFormat) : null}
-                           onChange={date => onChange(date ? moment(date).toDate() : "")}>
+                           selected={value ? new Date(value) : null}
+                           onChange={date => onChange(date || "")}>
                 {children}
             </LibDatePicker>
         </div>
