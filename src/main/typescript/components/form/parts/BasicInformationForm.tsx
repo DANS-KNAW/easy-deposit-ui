@@ -41,7 +41,6 @@ import LanguageField from "./basicInformation/LanguageField"
 import LanguageFieldArray from "./basicInformation/LanguageFieldArray"
 import ContributorFields from "./basicInformation/ContributorFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
-import * as moment from "moment"
 import IsoDateFieldArray from "./basicInformation/IsoDateFieldArray"
 import RelationFieldArray from "./basicInformation/RelationFieldArray"
 import RelatedIdentifierFieldArray from "./basicInformation/RelatedIdentifierFieldArray"
@@ -144,7 +143,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                showYearDropdown
                yearDropdownItemNumber={10}
                scrollableYearDropdown
-               maxDate={moment()}
+               maxDate={new Date()}
                component={DatePickerField}/>
 
         <RepeatableFieldWithDropdown name="audiences"
