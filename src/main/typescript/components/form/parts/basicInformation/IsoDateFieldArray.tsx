@@ -18,9 +18,9 @@ import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import SchemedDatePickerArray from "../../../../lib/formComponents/SchemedDatePickerArray"
 import { DropdownList } from "../../../../model/DropdownLists"
-import { SchemedValue } from "../../../../lib/metadata/Value"
+import { QualifiedDate } from "../../../../lib/metadata/Date"
 
-const IsoDateFieldArray = ({ dropdowns: { dates }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+const IsoDateFieldArray = ({ dropdowns: { dates }, ...props }: FieldArrayPropsWithDropdown<QualifiedDate<Date>, DropdownList>) => (
     <LoadDropdownData state={dates.state}>
         <SchemedDatePickerArray {...props} schemeValues={dates.list}/>
     </LoadDropdownData>

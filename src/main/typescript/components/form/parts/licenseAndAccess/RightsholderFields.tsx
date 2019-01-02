@@ -18,9 +18,9 @@ import { DropdownList } from "../../../../model/DropdownLists"
 import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import ContributorFieldArray from "../../../../lib/formComponents/ContributorFieldArray"
-import { SchemedValue } from "../../../../lib/metadata/Value"
+import { Contributor } from "../../../../lib/metadata/Contributor"
 
-const RightsholderFields = ({ dropdowns: { ids }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+const RightsholderFields = ({ dropdowns: { ids }, ...props }: FieldArrayPropsWithDropdown<Contributor, DropdownList>) => (
     <LoadDropdownData state={ids.state}>
         <ContributorFieldArray {...props} idValues={ids.list}/>
     </LoadDropdownData>

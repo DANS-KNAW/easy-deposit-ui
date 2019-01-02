@@ -18,9 +18,9 @@ import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/Redu
 import { DropdownList } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import RelationFieldArrayElement from "../../../../lib/formComponents/RelationFieldArrayElement"
-import { SchemedValue } from "../../../../lib/metadata/Value"
+import { Relation } from "../../../../lib/metadata/Relation"
 
-const RelationFieldArray = ({ dropdowns: { qualifiers }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+const RelationFieldArray = ({ dropdowns: { qualifiers }, ...props }: FieldArrayPropsWithDropdown<Relation, DropdownList>) => (
     <LoadDropdownData state={qualifiers.state}>
         <RelationFieldArrayElement {...props} schemeValues={qualifiers.list}/>
     </LoadDropdownData>

@@ -18,7 +18,6 @@ import { Field } from "redux-form"
 import { RadioChoicesInput, RadioProps } from "../../../lib/formComponents/RadioChoices"
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
 import Mandatory from "../../../lib/formComponents/Mandatory"
-import { mandatoryPrivacySensitiveDataValidator } from "../Validation"
 import { FieldProps } from "../../../lib/formComponents/ReduxFormUtils"
 
 export interface PrivacySensitiveDataFormData {
