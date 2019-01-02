@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { SFC } from "react"
+import { FC } from "react"
 import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
 import FetchState from "../model/FetchState"
@@ -24,7 +24,7 @@ interface ConfiguredAppProps {
     configurationState: FetchState
 }
 
-const ConfiguredApp: SFC<ConfiguredAppProps> = ({ children, configurationState: { fetching, fetched, fetchError } }) => (
+const ConfiguredApp: FC<ConfiguredAppProps> = ({ children, configurationState: { fetching, fetched, fetchError } }) => (
     <>
         {/* TODO we need something better here than a loading text */}
         {fetching && <p>Loading configuration...</p>}

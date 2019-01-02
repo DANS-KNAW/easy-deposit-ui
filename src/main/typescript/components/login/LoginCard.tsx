@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { ComponentType, SFC, SyntheticEvent } from "react"
+import { ComponentType, FC, SyntheticEvent } from "react"
 
 interface LoginCardProps {
     authenticating: boolean
@@ -24,7 +24,7 @@ interface LoginCardProps {
     onSubmit: (e: SyntheticEvent) => void
 }
 
-const LoginCard: SFC<LoginCardProps> = ({ children, authenticating, errorMessage, header: Header, onSubmit }) => (
+const LoginCard: FC<LoginCardProps> = ({ children, authenticating, errorMessage, header: Header, onSubmit }) => (
     <div className="card pl-0 pr-0 mb-4 mb-md-0 col col-12 col-md-5">
         <form onSubmit={onSubmit}>
             <div className="card-header bg-primary text-white">

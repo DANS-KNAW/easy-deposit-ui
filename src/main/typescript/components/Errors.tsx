@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { SFC } from "react"
+import { FC } from "react"
 
-export const Alert: SFC = ({ children }) => <div className="alert alert-danger" role="alert">{children}</div>
+export const Alert: FC = ({ children }) => <div className="alert alert-danger" role="alert">{children}</div>
 
 interface ReloadAlertProps {
     reload: () => any
 }
 
-export const ReloadAlert: SFC<ReloadAlertProps> = ({ reload, children }) => (
+export const ReloadAlert: FC<ReloadAlertProps> = ({ reload, children }) => (
     <div className="alert alert-danger alert-dismissible" role="alert">
         {children}
         <button type="button" className="close icon" onClick={reload}>
@@ -31,7 +31,7 @@ export const ReloadAlert: SFC<ReloadAlertProps> = ({ reload, children }) => (
     </div>
 )
 
-export const CloseableWarning: SFC = ({ children }) => (
+export const CloseableWarning: FC = ({ children }) => (
     <div className="alert alert-warning alert-dismissible fade show"
          role="alert">
         {children}

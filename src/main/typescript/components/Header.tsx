@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, ImgHTMLAttributes, SFC } from "react"
+import { Component, ImgHTMLAttributes, FC } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
 import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
@@ -34,7 +34,7 @@ const BrandLogo = ({ className, id, ...imgProps }: ImgHTMLAttributes<HTMLImageEl
     </div>
 )
 
-const LogosHeaders: SFC = ({ children }) => (
+const LogosHeaders: FC = ({ children }) => (
     <div className="row" id="header-logos">
         {children}
     </div>
@@ -63,7 +63,7 @@ const NavBarLink = ({ to, title, children, className, ...rest }: NavLinkProps) =
           title={title}>{children}</Link>
 )
 
-const NavBar: SFC = ({ children }) => (
+const NavBar: FC = ({ children }) => (
     <div className="row">
         <nav className="navbar navbar-expand-lg navbar-light admin-nav" role="navigation">
             <a className="navbar-brand" href="#"/> {/* this one is here to move the button to the right */}
