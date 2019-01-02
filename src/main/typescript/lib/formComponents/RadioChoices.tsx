@@ -38,7 +38,7 @@ const RadioChoices = ({ input, meta, label, choices, divClassName }: FieldProps 
                   * {...input} must come before value={title} and neither of them may be omitted.
                   */}
                 <input className="form-check-input" id={name || title.toString()} type="radio"
-                       {...input} value={title} defaultChecked={input.value === title}/>
+                       {...input} value={title} checked={input.value === title}/>
                 <label className="form-check-label" htmlFor={name || title.toString()}>{value}</label>
             </div>,
         )}
