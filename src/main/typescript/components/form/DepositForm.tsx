@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, SFC } from "react"
+import { Component, FC } from "react"
 import * as H from "history"
 import { compose } from "redux"
 import { connect } from "react-redux"
@@ -94,7 +94,7 @@ interface LoadedProps {
     error?: string
 }
 
-const Loaded: SFC<LoadedProps> = ({ loading, loaded, error, children }) => {
+const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
             {loading && <p>Loading data...</p>}
