@@ -24,6 +24,7 @@ import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
 import { AppState } from "../../../model/AppState"
 import { connect } from "react-redux"
 import { DropdownList } from "../../../model/DropdownLists"
+import { emptySchemedValue } from "../../../lib/metadata/Value"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -59,7 +60,7 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
         <RepeatableFieldWithDropdown name="typesDCMI"
                                      label="Type (DCMI resource type)"
                                      helpText
-                                     empty={emptyString}
+                                     empty={emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ types: dcmiTypes }}
                                      component={DcmiTypesFieldArray}/>
@@ -74,7 +75,7 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
         <RepeatableFieldWithDropdown name="formatsMediaType"
                                      label=" Format (internet media type)"
                                      helpText
-                                     empty={emptyString}
+                                     empty={emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ formats: imtFormats }}
                                      component={ImtFormatsFieldArray}/>

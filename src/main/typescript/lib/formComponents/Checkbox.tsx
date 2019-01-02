@@ -15,11 +15,11 @@
  */
 import * as React from "react"
 import { FieldProps } from "./ReduxFormUtils"
-import { SFC } from "react"
+import { ReactNode } from "react"
 
-// satisfyCompiler is used here to make sure it all compiles
-// if we leave it out, the <Field component={Checkbox}/> will fail to compile
-const Checkbox: SFC<FieldProps & {satisfyCompiler?: any}> = ({ input, meta, label, children }) => {
+type CheckboxProps = FieldProps & { children?: ReactNode }
+
+const Checkbox = ({ input, meta, label, children }: CheckboxProps) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
 

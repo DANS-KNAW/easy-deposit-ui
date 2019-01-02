@@ -150,7 +150,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      label="Audience"
                                      mandatory
                                      helpText
-                                     empty={emptyString}
+                                     empty={emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ audiences: audiences }}
                                      component={AudienceFieldArray}/>
@@ -202,7 +202,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableFieldWithDropdown name="languagesOfFilesIso639"
                                      label="Language of files (ISO 639)"
                                      helpText
-                                     empty={emptyString}
+                                     empty={emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ languages: languages }}
                                      component={LanguageFieldArray}/>

@@ -17,6 +17,7 @@ import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptyString } from "../../../lib/metadata/misc"
+import { emptySchemedValue } from "../../../lib/metadata/Value"
 import AbrComplexSubjectFieldArray from "./archaeologySpecificMetadata/AbrComplexSubjectFieldArray"
 import { DropdownList } from "../../../model/DropdownLists"
 import { AppState } from "../../../model/AppState"
@@ -46,7 +47,7 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
         <RepeatableFieldWithDropdown name="subjectsAbrComplex"
                                      label="Subject (ABR complex)"
                                      helpText
-                                     empty={emptyString}
+                                     empty={emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ subjects: abrComplexSubjects }}
                                      component={AbrComplexSubjectFieldArray}/>
@@ -54,7 +55,7 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
         <RepeatableFieldWithDropdown name="temporalCoveragesAbr"
                                      label="Temporal (ABR period)"
                                      helpText
-                                     empty={emptyString}
+                                     empty={emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ periods: abrPeriodeTemporals }}
                                      component={AbrPeriodeTemporalsFieldArray}/>
