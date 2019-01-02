@@ -19,9 +19,6 @@ import { DepositFormConstants } from "../constants/depositFormConstants"
 
 export const depositFormReducer: Reducer<DepositFormState> = (state = empty, action) => {
     switch (action.type) {
-        case DepositFormConstants.REGISTER_FORM: {
-            return { ...state, depositId: action.payload }
-        }
         case DepositFormConstants.UNREGISTER_FORM: {
             return empty
         }

@@ -86,7 +86,8 @@ const SubmitError = ({ submitError }: SubmitErrorProps) => (
         : null
 )
 
-const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>
+const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in
+    correctly.</Alert>
 
 interface LoadedProps {
     loading: boolean
@@ -105,7 +106,6 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
 }
 
 interface DepositFormStoreArguments {
-    depositId: DepositId
     formState: DepositFormState
     fileState: FileOverviewLoadingState
     formValues?: DepositFormMetadata
@@ -117,28 +117,43 @@ interface DepositFormStoreArguments {
     setUndirty: (data: any) => void
 }
 
+interface RouterParams {
+    depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
+}
+
 type DepositFormProps =
     & DepositFormStoreArguments
     & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
-    & RouteComponentProps<{}>
+    & RouteComponentProps<RouterParams>
 
-class DepositForm extends Component<DepositFormProps> {
-    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.depositId)
+interface DepositIdFormState {
+    depositId: DepositId
+}
 
-    fetchFiles = () => this.props.fetchFiles(this.props.depositId)
+class DepositForm extends Component<DepositFormProps, DepositIdFormState> {
+    constructor(props: DepositFormProps) {
+        super(props)
+        this.state = {
+            depositId: this.props.match.params.depositId,
+        }
+    }
+
+    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.state.depositId)
+
+    fetchFiles = () => this.props.fetchFiles(this.state.depositId)
 
     save = () => {
-        const { depositId, formValues, saveDraft } = this.props
+        const { formValues, saveDraft } = this.props
         // TODO remove this log once the form is fully implemented.
-        console.log(`saving draft for ${depositId}`, formValues)
+        console.log(`saving draft for ${this.state.depositId}`, formValues)
 
-        formValues && saveDraft(depositId, formValues)
+        formValues && saveDraft(this.state.depositId, formValues)
 
         this.props.setUndirty(formValues)
     }
 
     submit = (data: DepositFormMetadata) => {
-        this.props.submitDeposit(this.props.depositId, data, this.props.history)
+        this.props.submitDeposit(this.state.depositId, data, this.props.history)
     }
 
     shouldBlockNavigation = () => this.props.dirty
@@ -173,13 +188,13 @@ class DepositForm extends Component<DepositFormProps> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
-                            <FileUpload depositId={this.props.depositId}/>
+                            <FileUpload depositId={this.state.depositId}/>
                         </Loaded>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <BasicInformationForm depositId={this.props.depositId}/>
+                            <BasicInformationForm depositId={this.state.depositId}/>
                         </Loaded>
                     </Card>
 
@@ -255,7 +270,6 @@ class DepositForm extends Component<DepositFormProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    depositId: state.depositForm.depositId,
     formState: state.depositForm,
     fileState: state.files.loading,
     initialValues: state.depositForm.initialState.metadata,

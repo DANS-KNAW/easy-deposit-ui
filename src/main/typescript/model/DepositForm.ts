@@ -45,7 +45,6 @@ export interface SubmitState {
 }
 
 export interface DepositFormState {
-    depositId?: DepositId
     fetchMetadata: FetchMetadataState
     initialState: InitialState
     fetchDoi: FetchDoiState
