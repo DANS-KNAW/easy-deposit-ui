@@ -24,8 +24,11 @@ import { DepositId } from "../../../../../model/Deposits"
 import { FetchAction, ThunkAction } from "../../../../../lib/redux"
 import { Files } from "../../../../../model/FileInfo"
 
-interface FileUploaderProps {
+interface FileUploaderInputProps {
     depositId: DepositId
+}
+
+interface FileUploaderProps {
     fileUploadUrl: string
 
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
@@ -35,8 +38,8 @@ interface FileUploaderState {
     uploadingFile?: File | null
 }
 
-class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
-    constructor(props: FileUploaderProps) {
+class FileUploader extends Component<FileUploaderProps & FileUploaderInputProps, FileUploaderState> {
+    constructor(props: FileUploaderProps & FileUploaderInputProps) {
         super(props)
         this.state = {
             uploadingFile: null,
@@ -89,9 +92,8 @@ class FileUploader extends Component<FileUploaderProps, FileUploaderState> {
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    depositId: state.depositForm.depositId,
-    fileUploadUrl: uploadFileUrl(state.depositForm.depositId!, "")(state),
+const mapStateToProps = (state: AppState, ownProps: FileUploaderInputProps) => ({
+    fileUploadUrl: uploadFileUrl(ownProps.depositId, "")(state),
 })
 
 export default connect(mapStateToProps, { fetchFiles })(FileUploader)

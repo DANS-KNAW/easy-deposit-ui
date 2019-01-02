@@ -28,8 +28,11 @@ import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import EmptyFileTableRow from "./EmptyFileTableRow"
 
-interface FilesOverviewProps {
+interface FilesOverviewInputProps {
     depositId: DepositId
+}
+
+interface FilesOverviewProps {
     files: FileOverviewState
     fileUploadUrl: (filePath: string) => string
 
@@ -39,7 +42,7 @@ interface FilesOverviewProps {
     cancelDeleteFile: (filePath: string) => Action
 }
 
-class FilesOverview extends Component<FilesOverviewProps> {
+class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputProps> {
     render() {
         const { files: { loading: { loading, loaded } } } = this.props
 
@@ -89,10 +92,9 @@ class FilesOverview extends Component<FilesOverviewProps> {
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    depositId: state.depositForm.depositId,
+const mapStateToProps = (state: AppState, ownProps: FilesOverviewInputProps) => ({
     files: state.files,
-    fileUploadUrl: (filePath: string) => uploadFileUrl(state.depositForm.depositId!, filePath)(state),
+    fileUploadUrl: (filePath: string) => uploadFileUrl(ownProps.depositId, filePath)(state),
 })
 
 export default connect(mapStateToProps, { fetchFiles, deleteFile, askConfirmation, cancelDeleteFile })(FilesOverview)

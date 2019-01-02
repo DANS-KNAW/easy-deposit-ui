@@ -25,11 +25,6 @@ import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata
 import { Doi } from "../lib/metadata/Identifier"
 import { fetchDoiUrl, fetchMetadataUrl, saveDraftUrl, submitDepositUrl } from "../selectors/serverRoutes"
 
-export const registerForm: (depositId: DepositId) => ReduxAction<DepositId> = depositId => ({
-    type: DepositFormConstants.REGISTER_FORM,
-    payload: depositId,
-})
-
 export const unregisterForm: () => Action = () => ({
     type: DepositFormConstants.UNREGISTER_FORM,
 })

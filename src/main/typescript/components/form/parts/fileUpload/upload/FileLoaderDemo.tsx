@@ -24,8 +24,11 @@ import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import { connect } from "react-redux"
 import { fetchFiles } from "../../../../../actions/fileOverviewActions"
 
-interface FileLoaderDemoProps {
+interface FileLoaderDemoInputProps {
     depositId: DepositId
+}
+
+interface FileLoaderDemoProps {
     fileUploadUrl: (filePath: string) => string
 
     fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
@@ -35,8 +38,8 @@ interface FileLoaderDemoState {
     uploadingFile?: File | null
 }
 
-class FileLoaderDemo extends Component<FileLoaderDemoProps, FileLoaderDemoState> {
-    constructor(props: FileLoaderDemoProps) {
+class FileLoaderDemo extends Component<FileLoaderDemoProps & FileLoaderDemoInputProps, FileLoaderDemoState> {
+    constructor(props: FileLoaderDemoProps & FileLoaderDemoInputProps) {
         super(props)
         this.state = {
             uploadingFile: null,
@@ -76,9 +79,8 @@ class FileLoaderDemo extends Component<FileLoaderDemoProps, FileLoaderDemoState>
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    depositId: state.depositForm.depositId,
-    fileUploadUrl: (filePath: string) => uploadFileUrl(state.depositForm.depositId!, filePath)(state),
+const mapStateToProps = (state: AppState, ownProps: FileLoaderDemoInputProps) => ({
+    fileUploadUrl: (filePath: string) => uploadFileUrl(ownProps.depositId, filePath)(state),
 })
 
 export default connect(mapStateToProps, { fetchFiles })(FileLoaderDemo)
