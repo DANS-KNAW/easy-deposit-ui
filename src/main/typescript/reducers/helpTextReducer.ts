@@ -29,7 +29,7 @@ export const helpTextReducer: Reducer<HelpTexts> = (state = {}, action) => {
                     visible: false,
                     fetching: false,
                     fetched: false,
-                    helpText: "",
+                    text: "",
                 },
             }
         }
