@@ -21,7 +21,7 @@ import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import { connect } from "react-redux"
 import { fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { DepositId } from "../../../../../model/Deposits"
-import { FetchAction, ThunkAction } from "../../../../../lib/redux"
+import { FetchAction } from "../../../../../lib/redux"
 import { Files } from "../../../../../model/FileInfo"
 
 interface FileUploaderInputProps {
@@ -31,7 +31,7 @@ interface FileUploaderInputProps {
 interface FileUploaderProps {
     fileUploadUrl: string
 
-    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
+    fetchFiles: (depositId: DepositId) => FetchAction<Files>
 }
 
 interface FileUploaderState {
