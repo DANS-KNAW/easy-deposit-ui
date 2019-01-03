@@ -15,24 +15,16 @@
  */
 import * as React from "react"
 import { Component } from "react"
-import { DepositId } from "../../model/Deposits"
-import { RouteComponentProps } from "react-router-dom"
 import DepositForm from "./DepositForm"
 import { connect } from "react-redux"
 import { unregisterForm } from "../../actions/depositFormActions"
 import { Action } from "redux"
 import { cleanFiles } from "../../actions/fileOverviewActions"
 
-interface RouterParams {
-    depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
-}
-
-interface DepositFormPageFunctionProps {
+interface DepositFormPageProps {
     unregisterForm: () => Action
     cleanFiles: () => Action
 }
-
-type DepositFormPageProps = DepositFormPageFunctionProps & RouteComponentProps<RouterParams>
 
 class DepositFormPage extends Component<DepositFormPageProps> {
     componentWillUnmount() {
