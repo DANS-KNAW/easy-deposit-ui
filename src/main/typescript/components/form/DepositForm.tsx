@@ -126,34 +126,23 @@ type DepositFormProps =
     & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
     & RouteComponentProps<RouterParams>
 
-interface DepositIdFormState {
-    depositId: DepositId
-}
+class DepositForm extends Component<DepositFormProps> {
+    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.match.params.depositId)
 
-class DepositForm extends Component<DepositFormProps, DepositIdFormState> {
-    constructor(props: DepositFormProps) {
-        super(props)
-        this.state = {
-            depositId: this.props.match.params.depositId,
-        }
-    }
-
-    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.state.depositId)
-
-    fetchFiles = () => this.props.fetchFiles(this.state.depositId)
+    fetchFiles = () => this.props.fetchFiles(this.props.match.params.depositId)
 
     save = () => {
         const { formValues, saveDraft } = this.props
         // TODO remove this log once the form is fully implemented.
-        console.log(`saving draft for ${this.state.depositId}`, formValues)
+        console.log(`saving draft for ${this.props.match.params.depositId}`, formValues)
 
-        formValues && saveDraft(this.state.depositId, formValues)
+        formValues && saveDraft(this.props.match.params.depositId, formValues)
 
         this.props.setUndirty(formValues)
     }
 
     submit = (data: DepositFormMetadata) => {
-        this.props.submitDeposit(this.state.depositId, data, this.props.history)
+        this.props.submitDeposit(this.props.match.params.depositId, data, this.props.history)
     }
 
     shouldBlockNavigation = () => this.props.dirty
@@ -188,13 +177,13 @@ class DepositForm extends Component<DepositFormProps, DepositIdFormState> {
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
-                            <FileUpload depositId={this.state.depositId}/>
+                            <FileUpload depositId={this.props.match.params.depositId}/>
                         </Loaded>
                     </Card>
 
                     <Card title="Basic information" required defaultOpened>
                         <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <BasicInformationForm depositId={this.state.depositId}/>
+                            <BasicInformationForm depositId={this.props.match.params.depositId}/>
                         </Loaded>
                     </Card>
 
