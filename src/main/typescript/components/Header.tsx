@@ -20,7 +20,7 @@ import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
 import { getUser, signout } from "../actions/authenticationActions"
 import "../../resources/css/header"
-import { ComplexThunkAction, PromiseAction, ThunkAction } from "../lib/redux"
+import { ComplexThunkAction, PromiseAction } from "../lib/redux"
 import { depositOverviewRoute, homeRoute, loginRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
@@ -83,7 +83,7 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
 
-    signout: () => ThunkAction<PromiseAction<void>>
+    signout: () => PromiseAction<void>
     getUser: () => ComplexThunkAction
 }
 

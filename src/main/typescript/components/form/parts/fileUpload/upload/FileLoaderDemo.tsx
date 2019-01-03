@@ -17,7 +17,7 @@ import * as React from "react"
 import { ChangeEvent, Component } from "react"
 import FileLoader from "./FileLoader"
 import { DepositId } from "../../../../../model/Deposits"
-import { FetchAction, ThunkAction } from "../../../../../lib/redux"
+import { FetchAction } from "../../../../../lib/redux"
 import { Files } from "../../../../../model/FileInfo"
 import { AppState } from "../../../../../model/AppState"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
@@ -31,7 +31,7 @@ interface FileLoaderDemoInputProps {
 interface FileLoaderDemoProps {
     fileUploadUrl: (filePath: string) => string
 
-    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
+    fetchFiles: (depositId: DepositId) => FetchAction<Files>
 }
 
 interface FileLoaderDemoState {

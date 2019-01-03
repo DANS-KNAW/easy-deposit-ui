@@ -22,7 +22,7 @@ import { FileOverviewState, Files } from "../../../../../model/FileInfo"
 import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
-import { FetchAction, PromiseAction, ThunkAction } from "../../../../../lib/redux"
+import { FetchAction, PromiseAction } from "../../../../../lib/redux"
 import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
@@ -36,8 +36,8 @@ interface FilesOverviewProps {
     files: FileOverviewState
     fileUploadUrl: (filePath: string) => string
 
-    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
-    deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>>
+    fetchFiles: (depositId: DepositId) => FetchAction<Files>
+    deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void>
     askConfirmation: (filePath: string) => Action
     cancelDeleteFile: (filePath: string) => Action
 }
