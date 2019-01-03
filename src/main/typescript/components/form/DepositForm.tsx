@@ -86,8 +86,7 @@ const SubmitError = ({ submitError }: SubmitErrorProps) => (
         : null
 )
 
-const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in
-    correctly.</Alert>
+const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>
 
 interface LoadedProps {
     loading: boolean
