@@ -49,6 +49,7 @@ class FileUploader extends Component<FileUploaderProps & FileUploaderInputProps,
     uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0]
         this.setState(prevState => ({ ...prevState, uploadingFile: file }))
+        e.target.value = ""
     }
 
     uploadFinished = () => {
