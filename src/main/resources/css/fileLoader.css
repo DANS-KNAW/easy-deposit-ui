@@ -92,6 +92,41 @@
     border-top-color: var(--file-upload-error-BG);
 }
 
+/* css copied and modified from react-datepicker.css */
+.file-upload-status.finished.error > .close_button {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: 0;
+    padding: 0;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+    top: 25%;
+    right: 2px;
+}
+
+/* css copied and modified from react-datepicker.css */
+.file-upload-status.finished.error > .close_button::after {
+    background-color: var(--dark);
+    border-radius: 50%;
+    bottom: 0;
+    box-sizing: border-box;
+    color: #fff;
+    content: "\00d7";
+    cursor: pointer;
+    font-size: 12px;
+    height: 16px;
+    width: 16px;
+    line-height: 1;
+    margin: -7px -4px 0;
+    padding: 2px;
+    position: absolute;
+    top: 15px;
+    right: 12px;
+    text-align: center;
+}
+
 .file-upload-status.finished.failed {
     background: var(--file-upload-failed-BG);
 }

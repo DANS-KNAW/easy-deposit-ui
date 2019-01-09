@@ -58,15 +58,17 @@ interface FileLoaderState {
 class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoaderState> {
     constructor(props: FileLoaderProps<Response>) {
         super(props)
-        this.state = {
-            error: false,
-            errorMessage: "",
-            loading: false,
-            percentage: 0,
-            request: undefined,
-            uploaded: false,
-            uploadStatus: undefined,
-        }
+        this.state = this.initialState
+    }
+
+    initialState = {
+        error: false,
+        errorMessage: "",
+        loading: false,
+        percentage: 0,
+        request: undefined,
+        uploaded: false,
+        uploadStatus: undefined,
     }
 
     validateFile: (file: File) => boolean = ({ type }) => {
@@ -110,8 +112,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         url && request.open("POST", url)
 
         request.addEventListener("load", () => {
-            const uploadStatus = this.handleResponse(request)
-            this.uploadFinished({ ...uploadStatus, uploaded: true, request: undefined })
+            this.uploadFinished(this.handleResponse(request))
         }, false)
 
         request.addEventListener("error", () => {
@@ -140,10 +141,21 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     handleResponse: (request: XMLHttpRequest) => Partial<FileLoaderState> = (request) => {
         if (request.status == 201) {
             this.props.onUploadFinished && this.props.onUploadFinished()
-            return { uploadStatus: UploadStatus.DONE }
+            return {
+                percentage: 0,
+                request: undefined,
+                uploadStatus: UploadStatus.DONE,
+                uploaded: true,
+            }
         }
         else {
-            return { uploadStatus: UploadStatus.ERROR, error: true, errorMessage: request.response }
+            return {
+                uploadStatus: UploadStatus.ERROR,
+                error: true,
+                errorMessage: request.response,
+                uploaded: true,
+                request: undefined,
+            }
         }
     }
 
@@ -156,7 +168,18 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     cancelUpload = () => {
         if (this.state.request)
             this.state.request.abort()
-        this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.CANCELLED, request: undefined })
+        this.uploadFinished({
+            loading: false,
+            percentage: 0,
+            request: undefined,
+            uploadStatus: UploadStatus.CANCELLED,
+            uploaded: true,
+        })
+        this.props.onUploadCanceled && this.props.onUploadCanceled()
+    }
+
+    discardError = () => {
+        this.uploadFinished(this.initialState)
         this.props.onUploadCanceled && this.props.onUploadCanceled()
     }
 
@@ -243,7 +266,8 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
 
                     <div className="file-upload-progress-bar">
                         <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
-                            <span className={this.statusClassName()}>{uploaded ? uploadStatus : `${percentage}%`}</span>
+                            <span
+                                className={this.statusClassName()}>{uploaded ? this.renderUploadStatus() : `${percentage}%`}</span>
                         </div>
                         {error && <div className='file-upload-error-msg'>{errorMessage}</div>}
                         {showCancelBtn && !error && !uploadStatus && (
@@ -257,6 +281,24 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         }
         else
             return null
+    }
+
+    renderUploadStatus() {
+        const { uploadStatus } = this.state
+
+        switch (uploadStatus) {
+            case UploadStatus.ERROR: {
+                return (
+                    <>
+                        {uploadStatus}
+                        <button type='button' className="close_button" onClick={this.discardError}/>
+                    </>
+                )
+            }
+            default: {
+                return uploadStatus
+            }
+        }
     }
 }
 
