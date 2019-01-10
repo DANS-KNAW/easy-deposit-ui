@@ -83,7 +83,7 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         uploadStatus: UploadStatus.CANCELLED,
     }
 
-    static uploadError: FileLoaderState = {
+    static uploadError: Partial<FileLoaderState> = {
         percentage: 100,
         request: undefined,
         uploaded: true,
