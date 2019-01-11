@@ -27,7 +27,7 @@ enum UploadStatus {
 }
 
 interface FileLoaderProps<Response> {
-    file?: File | null
+    file: File
     preventReload?: boolean
     showCancelBtn?: boolean
     url: string
@@ -38,12 +38,10 @@ interface FileLoaderProps<Response> {
     }
     onUploadFinished?: () => void
     onUploadCanceled?: () => void
+    onUploadFailed?: (msg?: string) => void
 }
 
 interface FileLoaderState {
-    error?: boolean
-    errorMessage?: string
-    loading?: boolean
     percentage?: number
     request?: XMLHttpRequest
     uploaded?: boolean
@@ -58,15 +56,45 @@ interface FileLoaderState {
 class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoaderState> {
     constructor(props: FileLoaderProps<Response>) {
         super(props)
-        this.state = {
-            error: false,
-            errorMessage: "",
-            loading: false,
-            percentage: 0,
-            request: undefined,
-            uploaded: false,
-            uploadStatus: undefined,
-        }
+        this.state = FileLoader.initialState
+    }
+
+    static initialState: FileLoaderState = {
+        percentage: 0,
+        request: undefined,
+        uploaded: false,
+        uploadStatus: undefined,
+    }
+
+    static uploadingState: (request: XMLHttpRequest) => FileLoaderState = request => ({
+        ...FileLoader.initialState,
+        request: request,
+    })
+
+    static uploadDone: Partial<FileLoaderState> = {
+        request: undefined,
+        uploaded: true,
+        uploadStatus: UploadStatus.DONE,
+    }
+
+    static uploadCanceled: Partial<FileLoaderState> = {
+        request: undefined,
+        uploaded: true,
+        uploadStatus: UploadStatus.CANCELLED,
+    }
+
+    static uploadError: Partial<FileLoaderState> = {
+        percentage: 100,
+        request: undefined,
+        uploaded: true,
+        uploadStatus: UploadStatus.ERROR,
+    }
+
+    static uploadFailed: Partial<FileLoaderState> = {
+        percentage: 100,
+        request: undefined,
+        uploaded: true,
+        uploadStatus: UploadStatus.FAILED,
     }
 
     validateFile: (file: File) => boolean = ({ type }) => {
@@ -78,22 +106,12 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
             const typeOnBlacklist = () => validFileTypes.blacklist ? validFileTypes.blacklist.indexOf(type) >= 0 : false
 
             if (!typeOnWhitelist() || typeOnBlacklist()) {
-                this.setState(prevState => ({
-                    ...prevState,
-                    error: true,
-                    errorMessage: validFileTypes.errorMessage,
-                }))
+                this.props.onUploadFailed && this.props.onUploadFailed(validFileTypes.errorMessage)
                 return false
             }
         }
 
-        this.setState(prevState => ({
-            ...prevState,
-            error: false,
-            errorMessage: "",
-            uploaded: false,
-            loading: false,
-        }))
+        this.setState(prevState => ({ ...prevState, uploaded: false }))
         return true
     }
 
@@ -101,22 +119,15 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         if (this.props.preventReload)
             window.addEventListener("beforeunload", this.beforeUnloadFn)
 
-        this.setState(prevState => ({ ...prevState, loading: true }))
-
         const formData = new FormData()
         formData.append("files", file)
 
         const request = new XMLHttpRequest()
         url && request.open("POST", url)
 
-        request.addEventListener("load", () => {
-            const uploadStatus = this.handleResponse(request)
-            this.uploadFinished({ ...uploadStatus, uploaded: true, request: undefined })
-        }, false)
+        request.addEventListener("load", () => this.handleResponse(request), false)
 
-        request.addEventListener("error", () => {
-            this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.FAILED, request: undefined })
-        }, false)
+        request.addEventListener("error", this.handleFailedUpload, false)
 
         request.upload.addEventListener("progress", e => {
             const percentage = parseInt(`${(e.loaded / e.total) * 100}`, 10)
@@ -137,14 +148,28 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
         this.setState(prevState => ({ ...prevState, percentage }))
     }
 
-    handleResponse: (request: XMLHttpRequest) => Partial<FileLoaderState> = (request) => {
+    handleResponse: (request: XMLHttpRequest) => void = request => {
         if (request.status == 201) {
+            this.uploadFinished(FileLoader.uploadDone)
             this.props.onUploadFinished && this.props.onUploadFinished()
-            return { uploadStatus: UploadStatus.DONE }
         }
         else {
-            return { uploadStatus: UploadStatus.ERROR, error: true, errorMessage: request.response }
+            this.uploadFinished(FileLoader.uploadError)
+            this.props.onUploadFailed && this.props.onUploadFailed(request.response)
         }
+    }
+
+    handleFailedUpload = () => {
+        this.uploadFinished(FileLoader.uploadFailed)
+        this.props.onUploadFailed && this.props.onUploadFailed()
+    }
+
+    cancelUpload = () => {
+        if (this.state.request)
+            this.state.request.abort()
+
+        this.uploadFinished(FileLoader.uploadCanceled)
+        this.props.onUploadCanceled && this.props.onUploadCanceled()
     }
 
     uploadFinished: (data: Partial<FileLoaderState>) => void = data => {
@@ -153,27 +178,12 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
             window.removeEventListener("beforeunload", this.beforeUnloadFn)
     }
 
-    cancelUpload = () => {
-        if (this.state.request)
-            this.state.request.abort()
-        this.uploadFinished({ uploaded: true, uploadStatus: UploadStatus.CANCELLED, request: undefined })
-        this.props.onUploadCanceled && this.props.onUploadCanceled()
-    }
-
     componentDidMount() {
         if (!this.state.request
             && this.props.file
             && this.validateFile(this.props.file)) {
             const request = this.uploadFile(this.props.file, this.props.url)
-            this.setState({
-                error: false,
-                errorMessage: "",
-                loading: true,
-                percentage: 0,
-                request: request,
-                uploaded: false,
-                uploadStatus: undefined,
-            })
+            this.setState(FileLoader.uploadingState(request))
         }
     }
 
@@ -183,17 +193,10 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
             && prevProps.file != this.props.file
             && this.validateFile(this.props.file)) {
             const request = this.uploadFile(this.props.file, this.props.url)
-            this.setState({
-                error: false,
-                errorMessage: "",
-                loading: true,
-                percentage: 0,
-                request: request,
-                uploaded: false,
-                uploadStatus: undefined,
-            })
+            this.setState(FileLoader.uploadingState(request))
         }
 
+        // https://stackoverflow.com/questions/32841757/detecting-user-leaving-page-with-react-router
         if (!inDevelopmentMode && this.shouldBlockNavigation())
             window.onbeforeunload = () => true
         else
@@ -206,11 +209,8 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     }
 
     statusClassName = () => {
-        const { loading, uploaded, uploadStatus } = this.state
+        const { uploaded, uploadStatus } = this.state
         const defaultClassName = "file-upload-status"
-
-        if (!loading)
-            return defaultClassName
 
         if (!uploaded)
             return `${defaultClassName} show`
@@ -232,31 +232,25 @@ class FileLoader<Response> extends Component<FileLoaderProps<Response>, FileLoad
     static leaveMessage = "A file is being uploaded right now. Please don't leave the page yet."
 
     render() {
-        const { file, showCancelBtn } = this.props
-        const { percentage, uploaded, uploadStatus, error, errorMessage } = this.state
+        const { percentage, uploaded, uploadStatus } = this.state
 
-        if (file) {
-            return (
-                <>
-                    <Prompt when={this.shouldBlockNavigation()}
-                            message={FileLoader.leaveMessage}/>
+        return (
+            <>
+                <Prompt when={this.shouldBlockNavigation()}
+                        message={FileLoader.leaveMessage}/>
 
-                    <div className="file-upload-progress-bar">
-                        <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
-                            <span className={this.statusClassName()}>{uploaded ? uploadStatus : `${percentage}%`}</span>
-                        </div>
-                        {error && <div className='file-upload-error-msg'>{errorMessage}</div>}
-                        {showCancelBtn && !error && !uploadStatus && (
-                            <div className='file-upload-cancel-wrapper'>
-                                <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
-                            </div>
-                        )}
+                <div className="file-upload-progress-bar">
+                    <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
+                        <span className={this.statusClassName()}>{uploaded ? uploadStatus : `${percentage}%`}</span>
                     </div>
-                </>
-            )
-        }
-        else
-            return null
+                    {this.props.showCancelBtn && !uploadStatus && (
+                        <div className='file-upload-cancel-wrapper'>
+                            <button type='button' className='btn-dark' onClick={this.cancelUpload}>Cancel</button>
+                        </div>
+                    )}
+                </div>
+            </>
+        )
     }
 }
 

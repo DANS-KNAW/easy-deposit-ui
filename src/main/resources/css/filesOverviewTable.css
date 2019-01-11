@@ -46,6 +46,10 @@
     }
 }
 
+#upload-error-row .alert {
+    margin-bottom: 0;
+}
+
 #upload-row {
     height: 92px;
 }

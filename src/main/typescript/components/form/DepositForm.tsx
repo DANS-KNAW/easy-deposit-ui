@@ -155,6 +155,7 @@ class DepositForm extends Component<DepositFormProps> {
     }
 
     componentDidUpdate() {
+        // https://stackoverflow.com/questions/32841757/detecting-user-leaving-page-with-react-router
         if (!inDevelopmentMode && this.shouldBlockNavigation())
             window.onbeforeunload = () => true
         else

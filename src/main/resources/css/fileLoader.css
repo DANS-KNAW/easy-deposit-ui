@@ -113,15 +113,3 @@
     text-align: center;
     margin-top: 10px;
 }
-
-.file-upload-error-msg {
-    color: var(--dans-red);
-    position: absolute;
-    text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    top: 37px;
-    width: 100%;
-    height: 100%;
-}
