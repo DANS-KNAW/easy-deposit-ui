@@ -144,7 +144,7 @@ class DepositForm extends Component<DepositFormProps> {
         this.props.submitDeposit(this.props.match.params.depositId, data, this.props.history)
     }
 
-    shouldBlockNavigation = () => this.props.dirty
+    shouldBlockNavigation = () => this.props.dirty && !this.props.submitSucceeded
 
     static leaveMessage = "You did not save your work before leaving this page.\n" +
         "Are you sure you want to go without saving?"
