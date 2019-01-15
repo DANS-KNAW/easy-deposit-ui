@@ -274,7 +274,10 @@ const composedHOC = compose(
             fetchFiles,
             saveDraft,
             submitDeposit,
-            setUndirty: (data: any) => initialize(depositFormName, data, false),
+            setUndirty: (data: any) => initialize(depositFormName, data, {
+                keepDirty: false,
+                keepValues: true,
+            }),
         }),
     reduxForm({
         form: depositFormName,
