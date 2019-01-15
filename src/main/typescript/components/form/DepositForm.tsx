@@ -231,7 +231,7 @@ class DepositForm extends Component<DepositFormProps> {
 
                     <SaveDraftError saveError={saveError}/>
                     <SubmitError submitError={submitError}/>
-                    {this.props.submitFailed && <ValidationError/>}
+                    {this.props.submitFailed && this.props.invalid && <ValidationError/>}
 
                     <div className="buttons">
                         <button type="button"
