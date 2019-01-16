@@ -26,7 +26,7 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
         dispatch(change(depositFormName, "doi", action.payload))
 }
 
-const saveTimer: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
     if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED)
