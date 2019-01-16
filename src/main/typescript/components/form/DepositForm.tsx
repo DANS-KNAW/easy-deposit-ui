@@ -136,8 +136,6 @@ class DepositForm extends Component<DepositFormProps> {
         console.log(`saving draft for ${this.props.match.params.depositId}`, formValues)
 
         formValues && saveDraft(this.props.match.params.depositId, formValues)
-
-        this.props.setUndirty(formValues)
     }
 
     submit = (data: DepositFormMetadata) => {
@@ -274,10 +272,6 @@ const composedHOC = compose(
             fetchFiles,
             saveDraft,
             submitDeposit,
-            setUndirty: (data: any) => initialize(depositFormName, data, {
-                keepDirty: false,
-                keepValues: true,
-            }),
         }),
     reduxForm({
         form: depositFormName,
