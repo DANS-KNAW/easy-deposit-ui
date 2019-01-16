@@ -142,6 +142,17 @@ class DepositForm extends Component<DepositFormProps> {
         this.props.submitDeposit(this.props.match.params.depositId, data, this.props.history)
     }
 
+    /*
+     * TODO this is not entirely correct, but I don't know how to fix this;
+     *   the following sequence should show a bug in this logic:
+     *   1. create a new deposit
+     *   2. edit 1 field
+     *   3. save the draft
+     *   4. tough a field (NO editting!)
+     *   5. on top of the page, click on 'my datasets' to leave the page
+     *   6. while the form was saved and nothing was editted afterwards,
+     *      it still shows a warning saying the user did not save all changes
+     */
     shouldBlockNavigation = () => this.props.dirty && this.props.anyTouched && !this.props.submitSucceeded
 
     static leaveMessage = "You did not save your work before leaving this page.\n" +
