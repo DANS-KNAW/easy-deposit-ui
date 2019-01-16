@@ -29,6 +29,13 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
 const saveTimer: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
 
+    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED)
+        setTimeout(() => dispatch(saveDraftResetAction()), saveDraftResetTimeout * 1000)
+}
+
+const initializeFormAfterSaveDraft: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+    next(action)
+
     if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
         const state = getState()
         const data = state && state.form && state.form.depositForm && state.form.depositForm.values
@@ -38,8 +45,6 @@ const saveTimer: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: 
             updateUnregisteredFields: true,
             keepValues: true,
         }))
-
-        setTimeout(() => dispatch(saveDraftResetAction()), saveDraftResetTimeout * 1000)
     }
 }
 
@@ -53,5 +58,6 @@ const submitReroute: Middleware = () => (next: Dispatch) => action => {
 export const depositFormMiddleware: Middleware[] = [
     fetchDoiProcessor,
     saveTimer,
+    initializeFormAfterSaveDraft,
     submitReroute,
 ]
