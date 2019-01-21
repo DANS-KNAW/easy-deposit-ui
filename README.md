@@ -65,5 +65,5 @@ Update dependencies
 Tested using BrowserStack
 -------------------------
 
-<img src="browserstack-logo-600x315.png" width="25%" height="25%" />
+<a href="https://www.browserstack.com/"><img src="browserstack-logo-600x315.png" width="25%" height="25%" /></a>
 
