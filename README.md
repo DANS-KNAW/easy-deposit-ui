@@ -61,3 +61,9 @@ Update dependencies
     npm install -g npm-check-updates
     ncu -u
     npm install
+
+Tested using BrowserStack
+-------------------------
+
+<img src="browserstack-logo-600x315.png" width="25%" height="25%" />
+
