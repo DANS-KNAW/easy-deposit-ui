@@ -18,7 +18,7 @@ import { Component, FC } from "react"
 import * as H from "history"
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { initialize, InjectedFormProps, reduxForm } from "redux-form"
+import { InjectedFormProps, reduxForm } from "redux-form"
 import { Prompt, RouteComponentProps, withRouter } from "react-router-dom"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
@@ -136,15 +136,24 @@ class DepositForm extends Component<DepositFormProps> {
         console.log(`saving draft for ${this.props.match.params.depositId}`, formValues)
 
         formValues && saveDraft(this.props.match.params.depositId, formValues)
-
-        this.props.setUndirty(formValues)
     }
 
     submit = (data: DepositFormMetadata) => {
         this.props.submitDeposit(this.props.match.params.depositId, data, this.props.history)
     }
 
-    shouldBlockNavigation = () => this.props.dirty
+    /*
+     * TODO this is not entirely correct, but I don't know how to fix this;
+     *   the following sequence should show a bug in this logic:
+     *   1. create a new deposit
+     *   2. edit 1 field
+     *   3. save the draft
+     *   4. tough a field (NO editting!)
+     *   5. on top of the page, click on 'my datasets' to leave the page
+     *   6. while the form was saved and nothing was editted afterwards,
+     *      it still shows a warning saying the user did not save all changes
+     */
+    shouldBlockNavigation = () => this.props.dirty && this.props.anyTouched && !this.props.submitSucceeded
 
     static leaveMessage = "You did not save your work before leaving this page.\n" +
         "Are you sure you want to go without saving?"
@@ -231,7 +240,7 @@ class DepositForm extends Component<DepositFormProps> {
 
                     <SaveDraftError saveError={saveError}/>
                     <SubmitError submitError={submitError}/>
-                    {this.props.submitFailed && <ValidationError/>}
+                    {this.props.submitFailed && this.props.invalid && <ValidationError/>}
 
                     <div className="buttons">
                         <button type="button"
@@ -274,7 +283,6 @@ const composedHOC = compose(
             fetchFiles,
             saveDraft,
             submitDeposit,
-            setUndirty: (data: any) => initialize(depositFormName, data, false),
         }),
     reduxForm({
         form: depositFormName,

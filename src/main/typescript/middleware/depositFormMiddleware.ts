@@ -17,7 +17,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import { saveDraftResetAction } from "../actions/depositFormActions"
-import { change } from "redux-form"
+import { change, initialize } from "redux-form"
 
 const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
@@ -33,6 +33,21 @@ const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) 
         setTimeout(() => dispatch(saveDraftResetAction()), saveDraftResetTimeout * 1000)
 }
 
+const initializeFormAfterSaveDraft: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+    next(action)
+
+    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED) {
+        const state = getState()
+        const data = state && state.form && state.form.depositForm && state.form.depositForm.values
+
+        dispatch(initialize(depositFormName, data, {
+            keepDirty: false,
+            updateUnregisteredFields: true,
+            keepValues: true,
+        }))
+    }
+}
+
 const submitReroute: Middleware = () => (next: Dispatch) => action => {
     next(action)
 
@@ -43,5 +58,6 @@ const submitReroute: Middleware = () => (next: Dispatch) => action => {
 export const depositFormMiddleware: Middleware[] = [
     fetchDoiProcessor,
     saveTimer,
+    initializeFormAfterSaveDraft,
     submitReroute,
 ]
