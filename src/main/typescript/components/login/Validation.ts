@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum AuthenticationConstants {
-    AUTH_LOGIN = "AUTH_LOGIN",
-    AUTH_LOGIN_PENDING = "AUTH_LOGIN_PENDING",
-    AUTH_LOGIN_REJECTED ="AUTH_LOGIN_REJECTED",
-    AUTH_LOGIN_FULFILLED = "AUTH_LOGIN_FULFILLED",
+import { FormErrors } from "redux-form"
+import { EasyLoginData } from "./index"
+import { mandatoryFieldValidator } from "../form/Validation"
 
-    AUTH_LOGOUT = "AUTH_LOGOUT",
-    AUTH_LOGOUT_FULFILLED = "AUTH_LOGOUT_FULFILLED",
+export const formValidate: (values: EasyLoginData) => FormErrors<EasyLoginData> = values => {
+    const errors: FormErrors<EasyLoginData> = {}
+
+    errors.username = mandatoryFieldValidator(values.username, "username")
+    errors.password = mandatoryFieldValidator(values.password, "password")
+
+    return errors
 }
-
-export const loginFormName = "easyLogin"

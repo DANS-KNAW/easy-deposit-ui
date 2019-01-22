@@ -63,7 +63,6 @@ class EasyLogin extends Component<AllEasyLoginProps> {
     render() {
         const { authenticating, errorMessage, handleSubmit } = this.props
 
-        // TODO add form validation
         return (
             <LoginCard headerName="EASY account">
                 <form>
@@ -100,7 +99,10 @@ const mapEasyLoginStateToProps = (state: AppState) => ({
 
 const composedEasyLoginHOC = compose(
     connect(mapEasyLoginStateToProps, { authenticate }),
-    reduxForm<EasyLoginData>({ form: "easyLogin" }),
+    reduxForm<EasyLoginData>({
+        form: loginFormName,
+        validate: formValidate,
+    }),
 )
 
 export default composedEasyLoginHOC(EasyLogin)
