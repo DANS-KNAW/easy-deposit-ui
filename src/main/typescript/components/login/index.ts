@@ -13,22 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import { ComponentType, FC } from "react"
-
-interface LoginCardProps {
-    headerName: string
+export interface EasyLoginData {
+    username: string
+    password: string
 }
-
-const LoginCard: FC<LoginCardProps> = ({ children, headerName }) => (
-    <div className="card pl-0 pr-0 mb-4 mb-md-0 col col-12 col-md-5">
-        <div className="card-header bg-primary text-white">
-            {headerName}
-        </div>
-        <div className="card-body pl-0 pr-0 pb-0 ml-0 mr-0">
-            {children}
-        </div>
-    </div>
-)
-
-export default LoginCard
