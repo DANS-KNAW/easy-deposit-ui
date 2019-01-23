@@ -306,5 +306,11 @@ app.post("/auth/logout", (req: Request, res: Response) => {
     res.send()
     console.log("  204")
 })
+app.post("/auth/logout401", (req: Request, res: Response) => {
+    console.log("POST /auth/logout")
+    res.status(401)
+    res.send("you are not authorized")
+    console.log("  401")
+})
 
 app.listen(3004, () => console.log("Running on localhost:3004"))

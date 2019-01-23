@@ -100,8 +100,14 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
 export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, getState) => dispatch({
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
-        await axios.post(logoutUrl(getState()))
-        LocalStorage.setLogout()
+        try {
+            await axios.post(logoutUrl(getState()))
+            LocalStorage.setLogout()
+        }
+        catch (logoutResponse) {
+            LocalStorage.setLogout()
+            throw logoutResponse
+        }
     },
 })
 
