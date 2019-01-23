@@ -293,12 +293,6 @@ app.post("/auth/login401", async (req: Request, res: Response) => {
     res.send("A message identifying the reason for not being allowed to login")
     console.log("  401")
 })
-app.post("/auth/login403", (req: Request, res: Response) => {
-    console.log(`POST /auth/login`)
-    res.status(403)
-    res.send("Forbidden")
-    console.log("  403")
-})
 app.post("/auth/login500", (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
     res.status(500)
