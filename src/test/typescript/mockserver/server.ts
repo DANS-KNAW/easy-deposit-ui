@@ -284,10 +284,13 @@ app.post("/auth/login", (req: Request, res: Response) => {
     res.send()
     console.log("  204")
 })
-app.post("/auth/login401", (req: Request, res: Response) => {
+app.post("/auth/login401", async (req: Request, res: Response) => {
     console.log(`POST /auth/login`)
+
+    await new Promise(resolve => setTimeout(resolve, 3000))
+
     res.status(401)
-    res.send("Unauthorized")
+    res.send("A message identifying the reason for not being allowed to login")
     console.log("  401")
 })
 app.post("/auth/login403", (req: Request, res: Response) => {
