@@ -96,7 +96,7 @@ class DepositOverview extends Component<DepositOverviewProps> {
                         ? `Cannot delete deposit '${deposit.title}'. An error occurred: ${deleteError}.`
                         : `Cannot delete a deposit. An error occurred: ${deleteError}.`
 
-                    return <CloseableWarning>{errorText}</CloseableWarning>
+                    return <CloseableWarning key={`deleteError.${depositId}`}>{errorText}</CloseableWarning>
                 }
             })
     }
