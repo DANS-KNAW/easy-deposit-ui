@@ -14,26 +14,14 @@
  * limitations under the License.
  */
 import { Dispatch, Middleware } from "redux"
-import LocalStorage from "../lib/LocalStorage"
-import { AuthenticationConstants } from "../constants/authenticationConstants"
 
-const newRejectedMiddleware: Middleware = ({ dispatch }) => (next: Dispatch) => action => {
+const newRejectedMiddleware: Middleware = () => (next: Dispatch) => action => {
     if (action.type && action.type.endsWith("_REJECTED") && action.payload) {
-        const { payload, meta } = action
+        const { payload } = action
 
-        if (payload.response && payload.response.status === 401 &&
-            // discard any FETCH_XXX_REJECTED actions with 401 status, except if we're on the login page
-            meta && meta.location && meta.location.pathname !== "/login") {
-            LocalStorage.setLogout()
-            dispatch({
-                type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
-            })
-            next(action)
-        }
-        else if (!!payload.response || !!payload.message) {
-            const response = payload.response
-            const errorMessage = response
-                ? response.data
+        if (!!payload.response || !!payload.message) {
+            const errorMessage = payload.response
+                ? payload.response.data
                 : payload.message
 
             next({ ...action, payload: errorMessage })
