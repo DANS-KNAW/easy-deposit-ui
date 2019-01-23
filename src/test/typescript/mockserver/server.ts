@@ -47,11 +47,23 @@ app.get("/deposit", (req: Request, res: Response) => {
     res.json(listDeposits())
     console.log("  200")
 })
+app.get("/deposit401", (req: Request, res: Response) => {
+    console.log("GET /deposit")
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
+})
 app.post("/deposit", (req: Request, res: Response) => {
     console.log("POST /deposit")
     res.status(201)
     res.json(createDeposit())
     console.log("  201")
+})
+app.post("/deposit401", (req: Request, res: Response) => {
+    console.log("POST /deposit")
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
 })
 
 app.get("/deposit/:id", (req: Request, res: Response) => {
@@ -59,6 +71,12 @@ app.get("/deposit/:id", (req: Request, res: Response) => {
     res.status(200)
     res.json(getDeposit(req.params.id))
     console.log("  200")
+})
+app.get("/deposit401/:id", (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
 })
 app.delete("/deposit/:id", (req: Request, res: Response) => {
     console.log(`DELETE /deposit/${req.params.id}`)
@@ -72,6 +90,12 @@ app.delete("/deposit/:id", (req: Request, res: Response) => {
         res.send("Not found.")
         console.log("  404")
     }
+})
+app.delete("/deposit401/:id", (req: Request, res: Response) => {
+    console.log(`DELETE /deposit/${req.params.id}`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
 })
 
 app.get("/deposit/:id/metadata", (req: Request, res: Response) => {
@@ -95,6 +119,12 @@ app.get("/deposit/:id/metadata", (req: Request, res: Response) => {
         console.log("  404")
     }
 })
+app.get("/deposit401/:id/metadata", (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/metadata`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
+})
 app.put("/deposit/:id/metadata", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/metadata`)
     if (hasMetadata(req.params.id)) {
@@ -108,6 +138,12 @@ app.put("/deposit/:id/metadata", (req: Request, res: Response) => {
         res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
         console.log("  404")
     }
+})
+app.put("/deposit401/:id/metadata", (req: Request, res: Response) => {
+    console.log(`PUT /deposit/${req.params.id}/metadata`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
 })
 
 app.get("/deposit/:id/doi", (req: Request, res: Response) => {
@@ -129,6 +165,12 @@ app.get("/deposit/:id/doi", (req: Request, res: Response) => {
         res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
     }
 })
+app.get("/deposit401/:id/doi", (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/doi`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
+})
 
 app.get("/deposit/:id/state", (req: Request, res: Response) => {
     console.log(`GET /deposit/${req.params.id}/state`)
@@ -143,6 +185,12 @@ app.get("/deposit/:id/state", (req: Request, res: Response) => {
         res.send("Not found. The client may derive from this response that the containing deposit does not exist, either.")
         console.log("  404")
     }
+})
+app.get("/deposit401/:id/state", (req: Request, res: Response) => {
+    console.log(`GET /deposit/${req.params.id}/state`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
 })
 app.put("/deposit/:id/state", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/state`)
@@ -180,6 +228,12 @@ app.put("/deposit/:id/state", (req: Request, res: Response) => {
         console.log("  400")
     }
 })
+app.put("/deposit401/:id/state", (req: Request, res: Response) => {
+    console.log(`PUT /deposit/${req.params.id}/state`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
+})
 
 app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
     const depositId = req.params.id
@@ -206,6 +260,15 @@ app.get("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
             console.log("  404")
         }
     }
+})
+app.get("/deposit401/:id/file/:dir_path*?", (req: Request, res: Response) => {
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : (dir_path || "")
+    console.log(`GET /deposit/${req.params.id}/file/${dirPath}`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
 })
 app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) => {
     const depositId = req.params.id
@@ -245,6 +308,15 @@ app.post("/deposit/:id/file/:dir_path*?", async (req: Request, res: Response) =>
         console.log("  500")
     }
 })
+app.post("/deposit401/:id/file/:dir_path*?", (req: Request, res: Response) => {
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : (dir_path || "")
+    console.log(`POST /deposit/${req.params.id}/file/${dirPath}`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
+})
 app.put("/deposit/:id/file/:file_path", (req: Request, res: Response) => {
     console.log(`PUT /deposit/${req.params.id}/file${req.params.file_path ? `/${req.params.file_path}` : ""}`)
 
@@ -270,12 +342,27 @@ app.delete("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
         console.log("  404")
     }
 })
+app.delete("/deposit401/:id/file/:dir_path*?", (req: Request, res: Response) => {
+    const dir_path = req.params.dir_path
+    const restPath = req.params[0]
+    const dirPath = dir_path && restPath ? dir_path + restPath : (dir_path || "")
+    console.log(`DELETE /deposit/${req.params.id}/file/${dirPath}`)
+    res.status(401)
+    res.send("You are not authorized")
+    console.log("  401")
+})
 
 app.get("/user", (req: Request, res: Response) => {
     console.log("GET /user")
     res.status(200)
     res.json(getUser())
     console.log("  200")
+})
+app.get("/user401", (req: Request, res: Response) => {
+    console.log("GET /user")
+    res.status(401)
+    res.send("you are not authorized")
+    console.log("  401")
 })
 
 app.post("/auth/login", (req: Request, res: Response) => {
