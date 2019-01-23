@@ -17,14 +17,13 @@ import { Dispatch, Middleware } from "redux"
 import LocalStorage from "../lib/LocalStorage"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 
-const newRejectedMiddleware: Middleware = ({ dispatch, getState }) => (next: Dispatch) => action => {
+const newRejectedMiddleware: Middleware = ({ dispatch }) => (next: Dispatch) => action => {
     if (action.type && action.type.endsWith("_REJECTED") && action.payload) {
-        const { router } = getState()
-        const { payload } = action
+        const { payload, meta } = action
 
-        if (payload.response && payload.response.status === 401
-            && router.location && router.location.pathname !== "/login" // discard any FETCH_XXX_REJECTED actions with 401 status
-        ) {
+        if (payload.response && payload.response.status === 401 &&
+            // discard any FETCH_XXX_REJECTED actions with 401 status, except if we're on the login page
+            meta && meta.location && meta.location.pathname !== "/login") {
             LocalStorage.setLogout()
             dispatch({
                 type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
@@ -34,7 +33,7 @@ const newRejectedMiddleware: Middleware = ({ dispatch, getState }) => (next: Dis
         else if (!!payload.response || !!payload.message) {
             const response = payload.response
             const errorMessage = response
-                ? `${response.status} - ${response.statusText}`
+                ? response.data
                 : payload.message
 
             next({ ...action, payload: errorMessage })

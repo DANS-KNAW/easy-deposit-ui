@@ -15,6 +15,8 @@
  */
 import * as React from "react"
 import { Component, ComponentType } from "react"
+import * as H from "history"
+import { RouteComponentProps, withRouter } from "react-router"
 import { ComplexThunkAction } from "../../lib/redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Field, InjectedFormProps, reduxForm } from "redux-form"
@@ -50,14 +52,14 @@ interface EasyLoginProps {
     authenticating: boolean
     errorMessage?: string
 
-    authenticate: (username: string, password: string) => ComplexThunkAction
+    authenticate: (location: H.Location, username: string, password: string) => ComplexThunkAction
 }
 
-type AllEasyLoginProps = EasyLoginProps & InjectedFormProps<EasyLoginData>
+type AllEasyLoginProps = EasyLoginProps & InjectedFormProps<EasyLoginData> & RouteComponentProps<{}>
 
 class EasyLogin extends Component<AllEasyLoginProps> {
     callAuthenticate = (formValues: EasyLoginData) => {
-        this.props.authenticate(formValues.username, formValues.password)
+        this.props.authenticate(this.props.location, formValues.username, formValues.password)
     }
 
     render() {
@@ -98,6 +100,7 @@ const mapEasyLoginStateToProps = (state: AppState) => ({
 })
 
 const composedEasyLoginHOC = compose(
+    withRouter,
     connect(mapEasyLoginStateToProps, { authenticate }),
     reduxForm<EasyLoginData>({
         form: loginFormName,

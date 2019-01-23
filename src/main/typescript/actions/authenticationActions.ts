@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as H from "history"
 import { ComplexThunkAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import axios from "axios"
@@ -29,11 +30,14 @@ const authenticateFulfilled = ({
     type: AuthenticationConstants.AUTH_LOGIN_FULFILLED,
 })
 
-const authenticateRejected = (response: any) => ({
+const authenticateRejected = (location: H.Location) => (response: any) => ({
     type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
     payload: response.response
         ? { response: response.response } // when received error code (401, etc.)
         : { message: response.message }, // when network error occurs (no internet?) or user data could not be fetched
+    meta: {
+        location: location
+    }
 })
 
 const userPending = ({
@@ -48,7 +52,7 @@ const userFulfilled = (data: any) => ({
     },
 })
 
-export const authenticate: (userName: string, password: string) => ComplexThunkAction = (userName, password) => async (dispatch, getState) => {
+export const authenticate: (location: H.Location, userName: string, password: string) => ComplexThunkAction = (location, userName, password) => async (dispatch, getState) => {
     /*
      * dispatch AUTH_LOGIN_PENDING
      * call server with 'auth/login'
@@ -69,7 +73,7 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
     dispatch(authenticatePending)
 
     try {
-        await axios.post(loginUrl(getState()), {}, {
+        const loginResponse = await axios.post(loginUrl(getState()), {}, {
             auth: {
                 password: password,
                 username: userName,
@@ -89,13 +93,13 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
         catch (userResponse) {
             LocalStorage.setLogout()
 
-            dispatch(authenticateRejected({ message: `not able to fetch user details: ${userResponse.response.status} - ${userResponse.response.statusText}` }))
+            dispatch(authenticateRejected(location)({ message: `not able to fetch user details: ${userResponse.response.status} - ${userResponse.response.statusText}` }))
         }
     }
     catch (loginResponse) {
         LocalStorage.setLogout()
 
-        dispatch(authenticateRejected(loginResponse))
+        dispatch(authenticateRejected(location)(loginResponse))
     }
 }
 
