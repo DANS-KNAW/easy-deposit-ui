@@ -272,20 +272,20 @@ app.delete("/deposit/:id/file/:dir_path*?", (req: Request, res: Response) => {
 })
 
 app.get("/user", (req: Request, res: Response) => {
-    console.log(`GET /user`)
+    console.log("GET /user")
     res.status(200)
     res.json(getUser())
     console.log("  200")
 })
 
 app.post("/auth/login", (req: Request, res: Response) => {
-    console.log(`POST /auth/login`)
+    console.log("POST /auth/login")
     res.status(204)
     res.send()
     console.log("  204")
 })
 app.post("/auth/login401", async (req: Request, res: Response) => {
-    console.log(`POST /auth/login`)
+    console.log("POST /auth/login")
 
     await new Promise(resolve => setTimeout(resolve, 3000))
 
@@ -294,14 +294,14 @@ app.post("/auth/login401", async (req: Request, res: Response) => {
     console.log("  401")
 })
 app.post("/auth/login500", (req: Request, res: Response) => {
-    console.log(`POST /auth/login`)
+    console.log("POST /auth/login")
     res.status(500)
     res.send("Internal Server Error")
     console.log("  500")
 })
 
 app.post("/auth/logout", (req: Request, res: Response) => {
-    console.log(("POST /auth/logout"))
+    console.log("POST /auth/logout")
     res.status(204)
     res.send()
     console.log("  204")
