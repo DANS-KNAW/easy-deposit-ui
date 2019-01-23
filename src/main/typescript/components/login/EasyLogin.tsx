@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, ComponentType } from "react"
+import { Component, ComponentType, FC, HTMLAttributes } from "react"
 import * as H from "history"
 import { RouteComponentProps, withRouter } from "react-router"
 import { ComplexThunkAction } from "../../lib/redux"
@@ -29,6 +29,7 @@ import { formValidate } from "./Validation"
 import { EasyLoginData } from "./index"
 import { loginFormName } from "../../constants/authenticationConstants"
 import { FieldProps } from "../../lib/formComponents/ReduxFormUtils"
+import { Alert } from "../Errors"
 
 const asField = (InnerComponent: ComponentType<any>) => (props: FieldProps) => {
     const { label, input: { name }, meta: { error, submitFailed } } = props
@@ -47,6 +48,10 @@ const asField = (InnerComponent: ComponentType<any>) => (props: FieldProps) => {
 }
 
 const LoginTextField = asField(TextField)
+
+const LoginError: FC<HTMLAttributes<HTMLDivElement>> = ({ children, ...rest }) => (
+    <div {...rest}><Alert>{children}</Alert></div>
+)
 
 interface EasyLoginProps {
     authenticating: boolean
@@ -80,7 +85,7 @@ class EasyLogin extends Component<AllEasyLoginProps> {
                            required
                            component={LoginTextField}/>
 
-                    {errorMessage && <span>{errorMessage}<br/></span>}
+                    {errorMessage && <LoginError className="mt-3 ml-3 mr-3">{errorMessage}</LoginError>}
 
                     <button type="button"
                             className="btn btn-dark ml-3 margin-top-bottom"
