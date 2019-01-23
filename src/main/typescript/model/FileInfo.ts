@@ -41,6 +41,8 @@ export const emptyDelete: DeleteState = ({
     deleted: false,
 })
 
+export const emptyDeleteStates: DeletingStates = {}
+
 export interface NewFileState {
     creating: boolean
     createError?: string
