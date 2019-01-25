@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { clean } from "./misc"
-import { DropdownList, DropdownListEntry } from "../../model/DropdownLists"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 export interface SchemedValue {
     scheme?: string
