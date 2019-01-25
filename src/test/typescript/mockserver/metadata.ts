@@ -110,7 +110,7 @@ interface PossiblySchemedKeyValue<Scheme = string, Key = string, Value = string>
 
 interface QualifiedSchemedValue<Qualifier = string, Scheme = string, Value = string> {
     scheme?: Scheme
-    value: Value
+    value?: Value
     qualifier: Qualifier
 }
 
@@ -631,6 +631,14 @@ export const mandatoryOnly: Metadata = {
             value: "Theoretical computer science",
         },
     ],
+    relations: [
+        {
+            qualifier: RelationQualifierValues.relation,
+        },
+        {
+            qualifier: RelationQualifierValues.relation,
+        },
+    ],
     dates: [
         {
             scheme: DateSchemeValues.W3CDTF,
@@ -641,6 +649,13 @@ export const mandatoryOnly: Metadata = {
             scheme: DateSchemeValues.W3CDTF,
             value: isoDateTimeFormat(new Date("2018-05-14T02:00:00+02:00")),
             qualifier: DateQualifierValues.available,
+        },
+        {
+            scheme: DateSchemeValues.W3CDTF,
+            qualifier: DateQualifierValues.date,
+        },
+        {
+            qualifier: DateQualifierValues.date,
         },
     ],
     accessRights: {

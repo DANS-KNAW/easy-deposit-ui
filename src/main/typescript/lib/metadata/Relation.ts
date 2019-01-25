@@ -34,7 +34,7 @@ const relatedIdentifierConverter: (qualifiers: DropdownListEntry[], identifiers:
     const scheme = ri.scheme
 
     if (qualifier && qualifiers.find(({ key }) => key === qualifier) || !qualifier) {
-        if (scheme && identifiers.find(({key}) => key === scheme) || !scheme)
+        if (scheme && identifiers.find(({ key }) => key === scheme) || !scheme)
             return qualifiedSchemedValueConverter(ri.qualifier || qualifiers[0].key, ri.scheme, ri.value)
         else
             throw `Error in metadata: no such related identifier scheme found: '${scheme}'`
@@ -76,4 +76,11 @@ export const relationDeconverter: (r: Relation) => any = r => clean({
     title: r.title,
 })
 
-export const relatedIdentifierDeconverter: (ri: QualifiedSchemedValue) => any = qualifiedSchemedValueDeconverter
+export const relatedIdentifierDeconverter: (ri: QualifiedSchemedValue) => any = ri => {
+    // since we can't distinguish between Relation and RelatedIdentifier,
+    // we favor Relation and discard RelatedIdentifiers that only have a qualifier defined
+    if (ri.qualifier && !ri.scheme && !ri.value)
+        return {}
+    else
+        return qualifiedSchemedValueDeconverter(ri)
+}

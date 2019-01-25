@@ -67,10 +67,26 @@ describe("Metadata", () => {
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for newMetadata example", () => {
-        const input = newMetadata()
+        const input = {}
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
+        const expectedOutput = {
+            relations: [
+                {
+                    qualifier: "dcterms:relation",
+                },
+            ],
+            dates: [
+                {
+                    scheme: "dcterms:W3CDTF",
+                    qualifier: "dcterms:date",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+        }
 
-        expect(deconverted).to.eql(input)
+        expect(deconverted).to.eql(expectedOutput)
     })
 })
