@@ -54,13 +54,16 @@ export interface Dates {
     textDates: QualifiedDate<string>[]
 }
 
-const dateConverter: (d: any) => Date = d => {
-    const date: Date = new Date(d)
+const dateConverter: (d: any) => Date | undefined = d => {
+    if (d) {
+        const date: Date = new Date(d)
 
-    if (isNaN(date.getTime()))
-        throw `Error in metadata: invalid date found: '${d}'`
-    else
-        return date
+        if (isNaN(date.getTime()))
+            throw `Error in metadata: invalid date found: '${d}'`
+        else
+            return date
+    }
+    return undefined
 }
 
 const pad = (input: number, length?: number) => {
@@ -142,8 +145,8 @@ const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => Inter
 export const emptyDates: Dates = ({
     dateCreated: { qualifier: createdQualifier, value: undefined },
     dateAvailable: { qualifier: availableQualifier, value: undefined },
-    dates: [{ qualifier: undefined, value: undefined }],
-    textDates: [{ qualifier: undefined, value: "" }],
+    dates: [],
+    textDates: [],
 })
 
 export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any) => Dates = dates => sds => {
@@ -183,7 +186,10 @@ export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => {
             qualifier: d.qualifier,
         }
     else
-        return {}
+        return {
+            scheme: DateScheme.W3CDTF,
+            qualifier: d.qualifier,
+        }
 }
 
 export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => clean({

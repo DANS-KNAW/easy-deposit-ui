@@ -135,6 +135,11 @@ describe("Date", () => {
                     // no qualifier
                 },
                 {
+                    scheme: "dcterms:W3CDTF",
+                    // no value
+                    qualifier: "dcterms:date",
+                },
+                {
                     value: "Groundhog day",
                     // no qualifier
                 },
@@ -144,6 +149,10 @@ describe("Date", () => {
                     {
                         qualifier: "dcterms:date",
                         value: new Date("2018-03-18"),
+                    },
+                    {
+                        qualifier: "dcterms:date",
+                        value: undefined,
                     },
                 ],
                 textDates: [
@@ -233,7 +242,10 @@ describe("Date", () => {
             const input: QualifiedDate<Date> = {
                 qualifier: "dcterms:issued",
             }
-            const expected = {}
+            const expected = {
+                scheme: "dcterms:W3CDTF",
+                qualifier: "dcterms:issued",
+            }
             expect(qualifiedDateDeconverter(input)).to.eql(expected)
         })
     })
