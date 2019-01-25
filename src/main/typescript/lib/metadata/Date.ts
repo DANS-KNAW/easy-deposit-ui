@@ -32,8 +32,13 @@ export interface QualifiedDate<Value> {
     value?: Value
 }
 
-export const emptyQualifiedDate: QualifiedDate<Date> = {}
-export const emptyQualifiedStringDate: QualifiedDate<string> = {}
+export const emptyQualifiedDate: (qualifiers: DropdownListEntry[]) => QualifiedDate<Date> = qs => ({
+    qualifier: qs[0].key,
+})
+
+export const emptyQualifiedStringDate: (qualifiers: DropdownListEntry[]) => QualifiedDate<string> = qs => ({
+    qualifier: qs[0].key,
+})
 
 interface InternalDate {
     scheme?: DateScheme,

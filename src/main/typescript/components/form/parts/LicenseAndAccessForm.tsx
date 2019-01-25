@@ -45,7 +45,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         <RepeatableFieldWithDropdown name="rightsHolders"
                                      label="Rightsholders"
                                      helpText
-                                     empty={emptyContributor}
+                                     empty={() => emptyContributor}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
                                          (name: string) => `${name}.initials`, // 1
@@ -61,7 +61,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         <RepeatableField name="publishers"
                          label="Publishers"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 

@@ -53,7 +53,7 @@ const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributo
                     <RemoveButton onClick={() => fields.remove(index)}
                                   className="mr-2"
                                   disabled={fields.length <= 1}/>
-                    {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty)}/>}
+                    {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty())}/>}
                 </div>
             </div>
         ))}
@@ -128,7 +128,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
 
         <RepeatableFieldWithDropdown name={names[4]}
                                      label="Contributor Ids"
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,

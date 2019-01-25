@@ -17,7 +17,6 @@ import * as React from "react"
 import { Field } from "redux-form"
 import Checkbox from "../../../lib/formComponents/Checkbox"
 import Mandatory from "../../../lib/formComponents/Mandatory"
-import { checkboxMustBeChecked } from "../Validation"
 
 export interface DepositLicenseFormData {
     acceptDepositAgreement?: boolean

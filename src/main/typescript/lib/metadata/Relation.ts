@@ -23,8 +23,8 @@ export interface Relation {
     title?: string
 }
 
-export const emptyRelation = ({
-    qualifier: "",
+export const emptyRelation: (qualifiers: DropdownListEntry[]) => Relation = qs => ({
+    qualifier: qs[0].key,
     url: "",
     title: "",
 })
