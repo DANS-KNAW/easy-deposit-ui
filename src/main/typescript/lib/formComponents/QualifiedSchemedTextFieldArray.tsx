@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import TextField from "./TextField"
+import ErrorHandlingTextField from "./ErrorHandlingTextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
@@ -48,7 +48,7 @@ const QualifiedSchemedTextFieldArray = ({ names, label, qualifierValues, withEmp
             <Field name={names[2]}
                    label="Value" // TODO is label necessary anyway?
                    placeholder={label}
-                   component={TextField}/>
+                   component={ErrorHandlingTextField}/>
         </div>
     </div>
 )

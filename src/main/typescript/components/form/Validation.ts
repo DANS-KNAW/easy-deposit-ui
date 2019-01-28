@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as validUrl from "valid-url"
 import { FormErrors } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
 import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
+import { Relation } from "../../lib/metadata/Relation"
+import { QualifiedSchemedValue } from "../../lib/metadata/Value"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -126,6 +129,47 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
     })
 }
 
+export const validateQualifiedSchemedValue: (relatedIdentifiers: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = relatedIdentifiers => {
+    return relatedIdentifiers.map(relatedIdentifier => {
+        const nonEmptyScheme = checkNonEmpty(relatedIdentifier.scheme)
+        const nonEmptyValue = checkNonEmpty(relatedIdentifier.value)
+
+        const relatedIdentifierError: QualifiedSchemedValue = {}
+
+        if (!nonEmptyScheme)
+            relatedIdentifierError.scheme = "no scheme given"
+        if (!nonEmptyValue)
+            relatedIdentifierError.value = "no value given"
+
+        return relatedIdentifierError
+    })
+}
+
+export const validateRelations: (relations: Relation[]) => Relation[] = relations => {
+    return relations.map(relation => {
+        const nonEmptyQualifier = checkNonEmpty(relation.qualifier)
+        const nonEmptyTitle = checkNonEmpty(relation.title)
+        const nonEmptyUrl = checkNonEmpty(relation.url)
+
+        const relationError: Relation = {}
+
+        // validation rules copied from easy-split-multi-deposit
+        if (nonEmptyQualifier && !nonEmptyTitle && !nonEmptyUrl) {
+            relationError.title = "no title given"
+            relationError.url = "no url given"
+        }
+        else if (!nonEmptyTitle && nonEmptyUrl) {
+            relationError.title = "no title given"
+        }
+
+        if (nonEmptyUrl && !validUrl.isUri(relation.url)) {
+            relationError.url = "no valid url given"
+        }
+
+        return relationError
+    })
+}
+
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
@@ -147,6 +191,8 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     }
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
+    errors.relatedIdentifiers = validateQualifiedSchemedValue(values.relatedIdentifiers || [])
+    errors.relations = validateRelations(values.relations || [])
 
     // license and access form
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
@@ -158,6 +204,8 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
 
     // accept deposit agreement
     errors.acceptDepositAgreement = checkboxMustBeChecked(values.acceptDepositAgreement, "Accept the deposit agreement before submitting this dataset")
+
+    console.log("validation errors", errors)
 
     return errors
 }
