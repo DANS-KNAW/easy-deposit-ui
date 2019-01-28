@@ -186,13 +186,15 @@ export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => {
             qualifier: d.qualifier,
         }
     else
-        return {
-            scheme: DateScheme.W3CDTF,
-            qualifier: d.qualifier,
-        }
+        return {}
 }
 
-export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => clean({
-    value: d.value,
-    qualifier: d.qualifier,
-})
+export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => {
+    if (d.value)
+        return clean({
+            value: d.value,
+            qualifier: d.qualifier,
+        })
+    else
+        return {}
+}

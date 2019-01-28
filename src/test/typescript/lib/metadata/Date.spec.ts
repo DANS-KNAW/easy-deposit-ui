@@ -242,10 +242,7 @@ describe("Date", () => {
             const input: QualifiedDate<Date> = {
                 qualifier: "dcterms:issued",
             }
-            const expected = {
-                scheme: "dcterms:W3CDTF",
-                qualifier: "dcterms:issued",
-            }
+            const expected = {}
             expect(qualifiedDateDeconverter(input)).to.eql(expected)
         })
     })
@@ -261,6 +258,14 @@ describe("Date", () => {
                 value: "today",
                 qualifier: "dcterms:issued",
             }
+            expect(qualifiedDateStringDeconverter(input)).to.eql(expected)
+        })
+
+        it("should convert a QualifiedDate without value into an empty object", () => {
+            const input: QualifiedDate<string> = {
+                qualifier: "dcterms:issued",
+            }
+            const expected = {}
             expect(qualifiedDateStringDeconverter(input)).to.eql(expected)
         })
     })

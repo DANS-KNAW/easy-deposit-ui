@@ -291,6 +291,16 @@ describe("Relation", () => {
             const expected = {}
             expect(relationDeconverter(input)).to.eql(expected)
         })
+
+        it("should convert an object with only a qualifier into an empty object", () => {
+            const input = {
+                qualifier: "dcterms:relation",
+                url: "",
+                title: "",
+            }
+            const expected = {}
+            expect(relationDeconverter(input)).to.eql(expected)
+        })
     })
 
     describe("relatedIdentifierDeconverter", () => {

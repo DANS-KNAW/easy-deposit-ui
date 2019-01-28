@@ -70,11 +70,16 @@ export const relationsConverter: (relationQualifiers: DropdownListEntry[], ident
     }, [[], []])
 }
 
-export const relationDeconverter: (r: Relation) => any = r => clean({
-    qualifier: r.qualifier,
-    url: r.url,
-    title: r.title,
-})
+export const relationDeconverter: (r: Relation) => any = r => {
+    if (!r.url && !r.title)
+        return {}
+    else
+        return clean({
+            qualifier: r.qualifier,
+            url: r.url,
+            title: r.title,
+        })
+}
 
 export const relatedIdentifierDeconverter: (ri: QualifiedSchemedValue) => any = ri => {
     // since we can't distinguish between Relation and RelatedIdentifier,
