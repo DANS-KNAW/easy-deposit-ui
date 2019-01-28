@@ -32,21 +32,18 @@ const QualifiedSchemedTextFieldArray = ({ names, label, qualifierValues, withEmp
     <div className="form-row">
         <div className="col col-md-4">
             <Field name={names[0]}
-                   label="Qualifier"
                    choices={qualifierValues}
                    withEmptyDefault={withEmptyQualifierDefault}
                    component={DropdownFieldInput}/>
         </div>
         <div className="col col-md-3">
             <Field name={names[1]}
-                   label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault={withEmptySchemeDefault}
                    component={DropdownFieldInput}/>
         </div>
         <div className="col col-md-5">
             <Field name={names[2]}
-                   label="Value" // TODO is label necessary anyway?
                    placeholder={label}
                    component={ErrorHandlingTextField}/>
         </div>
