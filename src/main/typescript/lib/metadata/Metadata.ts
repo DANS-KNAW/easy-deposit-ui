@@ -213,30 +213,30 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
         ].filter(nonEmptyObject),
         relations: [
             ...(data.relatedIdentifiers ? data.relatedIdentifiers.map(relatedIdentifierDeconverter) : []),
-            ...(data.relations ? data.relations.map(relationDeconverter) : []),
+            ...(data.relations ? data.relations.map(relationDeconverter(dropDowns.relations.list)) : []),
         ].filter(nonEmptyObject),
         languagesOfFiles: [
             ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter(dropDowns.languages.list)) : []),
             ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : []),
         ].filter(nonEmptyObject),
         dates: [
-            (data.dateCreated && qualifiedDateDeconverter({
+            (data.dateCreated && qualifiedDateDeconverter(dropDowns.dates.list)({
                 qualifier: createdQualifier,
                 value: data.dateCreated,
             })),
             (data.dateAvailable
-                ? qualifiedDateDeconverter({
+                ? qualifiedDateDeconverter(dropDowns.dates.list)({
                     qualifier: availableQualifier,
                     value: data.dateAvailable,
                 })
                 : isSubmitting
-                    ? qualifiedDateDeconverter({
+                    ? qualifiedDateDeconverter(dropDowns.dates.list)({
                         qualifier: availableQualifier,
                         value: new Date(),
                     })
                     : {}),
-            ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
-            ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
+            ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter(dropDowns.dates.list)) : []),
+            ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter(dropDowns.dates.list)) : []),
         ].filter(nonEmptyObject),
         sources: data.source && data.source.split("\n\n"),
         instructionsForReuse: data.instructionsForReuse && data.instructionsForReuse.split("\n\n"),

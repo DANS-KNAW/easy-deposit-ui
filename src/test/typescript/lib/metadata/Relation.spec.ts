@@ -279,7 +279,17 @@ describe("Relation", () => {
                 url: "http://bit.ly/react-deposit-ui",
                 title: "title1",
             }
-            expect(relationDeconverter(input)).to.eql(expected)
+            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
+        })
+
+        it("should convert an object with only a qualifier into the correct external model", () => {
+            const input = {
+                qualifier: "dcterms:relation",
+                url: "",
+                title: "",
+            }
+            const expected = {}
+            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
         })
 
         it("should convert empty fields in object into an empty object", () => {
@@ -289,17 +299,17 @@ describe("Relation", () => {
                 title: "",
             }
             const expected = {}
-            expect(relationDeconverter(input)).to.eql(expected)
+            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
         })
 
-        it("should convert an object with only a qualifier into an empty object", () => {
+        it("should convert an object with only a dcterms:relation qualifier into an empty object", () => {
             const input = {
                 qualifier: "dcterms:relation",
                 url: "",
                 title: "",
             }
             const expected = {}
-            expect(relationDeconverter(input)).to.eql(expected)
+            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
         })
     })
 
