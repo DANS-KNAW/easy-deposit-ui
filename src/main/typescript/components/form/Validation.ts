@@ -114,23 +114,33 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
     // validate that mandatory fields are filled in for each contributor
     return contributors.map((contributor: Contributor) => {
         const nonEmptyOrganization = checkNonEmpty(contributor.organization)
+        const nonEmptyTitles = checkNonEmpty(contributor.titles)
         const nonEmptyInitials = checkNonEmpty(contributor.initials)
+        const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
         const nonEmptySurname = checkNonEmpty(contributor.surname)
-        const nonEmptyContributor = nonEmptyOrganization || nonEmptyInitials && nonEmptySurname
+        const nonEmptyIdentifiers = (contributor.ids || []).reduce(((p, id) => p || checkNonEmpty(id.scheme) || checkNonEmpty(id.value)), false)
+        const nonEmptyContributor = nonEmptyOrganization
+            || nonEmptyTitles
+            || nonEmptyInitials
+            || nonEmptyInsertions
+            || nonEmptySurname
+            || nonEmptyIdentifiers
 
         const contribError: Contributor = {}
 
-        if (!nonEmptyContributor) {
-            if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
-                contribError.organization = "no organization given"
-            if (!nonEmptyInitials)
-                contribError.initials = "no initials given"
-            if (!nonEmptySurname)
-                contribError.surname = "no surname given"
-        }
+        if (nonEmptyContributor) {
+            if (!nonEmptyOrganization && (!nonEmptyInitials || !nonEmptySurname)) {
+                if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
+                    contribError.organization = "no organization given"
+                if (!nonEmptyInitials)
+                    contribError.initials = "no initials given"
+                if (!nonEmptySurname)
+                    contribError.surname = "no surname given"
+            }
 
-        if (contributor.ids)
-            contribError.ids = validateSchemedValue(contributor.ids)
+            if (contributor.ids)
+                contribError.ids = validateSchemedValue(contributor.ids)
+        }
 
         return contribError
     })
@@ -153,10 +163,10 @@ export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedVal
     })
 }
 
-export const validateQualifiedSchemedValue: (relatedIdentifiers: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = relatedIdentifiers => {
-    return relatedIdentifiers.map(relatedIdentifier => {
-        const nonEmptyScheme = checkNonEmpty(relatedIdentifier.scheme)
-        const nonEmptyValue = checkNonEmpty(relatedIdentifier.value)
+export const validateQualifiedSchemedValues: (qsvs: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = qsvs => {
+    function validateQualifiedSchemedValue(qsv: QualifiedSchemedValue): QualifiedSchemedValue {
+        const nonEmptyScheme = checkNonEmpty(qsv.scheme)
+        const nonEmptyValue = checkNonEmpty(qsv.value)
 
         const relatedIdentifierError: QualifiedSchemedValue = {}
 
@@ -166,18 +176,31 @@ export const validateQualifiedSchemedValue: (relatedIdentifiers: QualifiedScheme
             relatedIdentifierError.value = "no value given"
 
         return relatedIdentifierError
-    })
+    }
+
+    switch (qsvs.length) {
+        case 0:
+            return []
+        case 1:
+            const qsv = qsvs[0]
+
+            if (checkNonEmpty(qsv.scheme) || checkNonEmpty(qsv.value))
+                return [validateQualifiedSchemedValue(qsv)]
+            else
+                return [{}]
+        default:
+            return qsvs.map(validateQualifiedSchemedValue)
+    }
 }
 
 export const validateRelations: (relations: Relation[]) => Relation[] = relations => {
-    return relations.map(relation => {
+    function validateRelation(relation: Relation): Relation {
         const nonEmptyQualifier = checkNonEmpty(relation.qualifier)
         const nonEmptyTitle = checkNonEmpty(relation.title)
         const nonEmptyUrl = checkNonEmpty(relation.url)
 
         const relationError: Relation = {}
 
-        // validation rules copied from easy-split-multi-deposit
         if (nonEmptyQualifier && !nonEmptyTitle && !nonEmptyUrl) {
             relationError.title = "no title given"
             relationError.url = "no url given"
@@ -191,7 +214,21 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
         }
 
         return relationError
-    })
+    }
+
+    switch (relations.length) {
+        case 0:
+            return []
+        case 1:
+            const relation = relations[0]
+
+            if (checkNonEmpty(relation.title) || checkNonEmpty(relation.url))
+                return [validateRelation(relation)]
+            else
+                return [{}]
+        default:
+            return relations.map(validateRelation)
+    }
 }
 
 export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
@@ -288,7 +325,7 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
     errors.alternativeIdentifiers = validateSchemedValue(values.alternativeIdentifiers || [])
-    errors.relatedIdentifiers = validateQualifiedSchemedValue(values.relatedIdentifiers || [])
+    errors.relatedIdentifiers = validateQualifiedSchemedValues(values.relatedIdentifiers || [])
     errors.relations = validateRelations(values.relations || [])
     errors.datesIso8601 = validateDates(values.datesIso8601 || [])
     errors.dates = validateDates(values.dates || [])
