@@ -16,7 +16,7 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import { ErrorHandlingTextField } from "./TextField"
-import { DropdownFieldInput } from "./DropDownField"
+import { ErrorHandlingDropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
@@ -33,7 +33,7 @@ const SchemedTextField = ({ names, label, schemeValues, withEmptyDefault }: Sche
                    label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault={withEmptyDefault}
-                   component={DropdownFieldInput}/>
+                   component={ErrorHandlingDropdownFieldInput}/>
         </div>
         <div className="col col-md-8">
             <Field name={names[1]}

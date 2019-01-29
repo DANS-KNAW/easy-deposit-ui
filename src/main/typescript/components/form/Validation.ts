@@ -128,22 +128,26 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
         }
 
         if (contributor.ids)
-            contribError.ids = contributor.ids.map(id => {
-                const nonEmptyScheme = checkNonEmpty(id.scheme)
-                const nonEmptyValue = checkNonEmpty(id.value)
-
-                const idError: SchemedValue = {}
-
-                if (!nonEmptyScheme && nonEmptyValue)
-                    idError.scheme = "no scheme defined"
-
-                if (nonEmptyScheme && !nonEmptyValue)
-                    idError.value = "no identifier defined"
-
-                return idError
-            })
+            contribError.ids = validateSchemedValue(contributor.ids)
 
         return contribError
+    })
+}
+
+export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedValue[] = schemedValues => {
+    return schemedValues.map(id => {
+        const nonEmptyScheme = checkNonEmpty(id.scheme)
+        const nonEmptyValue = checkNonEmpty(id.value)
+
+        const idError: SchemedValue = {}
+
+        if (!nonEmptyScheme && nonEmptyValue)
+            idError.scheme = "no scheme defined"
+
+        if (nonEmptyScheme && !nonEmptyValue)
+            idError.value = "no identifier defined"
+
+        return idError
     })
 }
 
@@ -229,6 +233,7 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     }
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
+    errors.alternativeIdentifiers = validateSchemedValue(values.alternativeIdentifiers || [])
     errors.relatedIdentifiers = validateQualifiedSchemedValue(values.relatedIdentifiers || [])
     errors.relations = validateRelations(values.relations || [])
     errors.datesIso8601 = validateDates(values.datesIso8601 || [])
