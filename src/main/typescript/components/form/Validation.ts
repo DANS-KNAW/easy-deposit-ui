@@ -240,6 +240,7 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.dates = validateDates(values.dates || [])
 
     // license and access form
+    errors.rightsHolders = validateContributors(values.rightsHolders || [])
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
     errors.license = mandatoryRadioButtonValidator(values.license, "license")
     errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)
