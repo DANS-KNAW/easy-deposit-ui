@@ -18,6 +18,7 @@ import { FormErrors } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
 import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
+import { QualifiedDate } from "../../lib/metadata/Date"
 import { Relation } from "../../lib/metadata/Relation"
 import { QualifiedSchemedValue } from "../../lib/metadata/Value"
 
@@ -170,6 +171,23 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
     })
 }
 
+export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
+    switch (dates.length) {
+        case 0: return []
+        case 1: return [{}]
+        default: return dates.map(date => {
+            const nonEmptyValue = checkNonEmpty(date.value && date.value.toString())
+
+            const dateError: QualifiedDate<string> = {}
+
+            if (!nonEmptyValue)
+                dateError.value = "no date given"
+
+            return dateError
+        })
+    }
+}
+
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
@@ -193,6 +211,8 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
     errors.relatedIdentifiers = validateQualifiedSchemedValue(values.relatedIdentifiers || [])
     errors.relations = validateRelations(values.relations || [])
+    errors.datesIso8601 = validateDates(values.datesIso8601 || [])
+    errors.dates = validateDates(values.dates || [])
 
     // license and access form
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
