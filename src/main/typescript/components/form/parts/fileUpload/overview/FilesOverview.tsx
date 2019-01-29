@@ -27,6 +27,7 @@ import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../..
 import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import EmptyFileTableRow from "./EmptyFileTableRow"
+import { CloseableWarning } from "../../../../Errors"
 
 interface FilesOverviewInputProps {
     depositId: DepositId
@@ -49,6 +50,7 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
         return (
             <>
                 {loading && <p>loading files ...</p>}
+                {this.renderDeleteError()}
                 {loaded && this.renderTable()}
             </>
         )
@@ -65,6 +67,21 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
     cancelDeleteFile = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
         this.props.cancelDeleteFile(filepath)
+    }
+
+    private renderDeleteError() {
+        const { files: { deleting } } = this.props
+
+        return Object.keys(deleting)
+            .map(fileId => {
+                const { deleteError } = deleting[fileId]
+
+                if (deleteError) {
+                    const errorText = `Cannot delete file '${fileId}'. An error occurred: ${deleteError}.`
+
+                    return <CloseableWarning key={`deleteError.${fileId}`}>{errorText}</CloseableWarning>
+                }
+            })
     }
 
     private renderTable() {

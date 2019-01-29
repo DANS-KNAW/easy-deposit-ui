@@ -48,13 +48,13 @@ import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
 
-interface FetchMetadataErrorProps {
+interface FetchDataErrorProps {
     fetchError?: string
 
     reload: () => any
 }
 
-const FetchMetadataError = ({ fetchError, reload }: FetchMetadataErrorProps) => (
+const FetchDataError = ({ fetchError, reload }: FetchDataErrorProps) => (
     fetchError
         ? <ReloadAlert key="fetchMetadataError" reload={reload}>
             An error occurred: {fetchError}. Cannot load metadata from the server.
@@ -182,7 +182,9 @@ class DepositForm extends Component<DepositFormProps> {
                 <Prompt when={this.shouldBlockNavigation()}
                         message={DepositForm.leaveMessage}/>
 
-                <FetchMetadataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
+                <FetchDataError fetchError={fetchedFilesError} reload={this.fetchFiles}/>
+                <FetchDataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
+
                 <form>
                     <Card title="Upload your data" defaultOpened>
                         <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>

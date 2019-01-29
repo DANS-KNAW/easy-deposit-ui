@@ -13,24 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Dispatch, Middleware } from "redux"
-
-const newRejectedMiddleware: Middleware = () => (next: Dispatch) => action => {
-    if (action.type && action.type.endsWith("_REJECTED") && action.payload) {
-        const { payload } = action
-
-        if (!!payload.response || !!payload.message) {
-            const errorMessage = payload.response
-                ? payload.response.data
-                : payload.message
-
-            next({ ...action, payload: errorMessage })
-        }
-        else
-            next(action)
-    }
-    else
-        next(action)
+export interface EasyLoginData {
+    username: string
+    password: string
 }
-
-export default newRejectedMiddleware

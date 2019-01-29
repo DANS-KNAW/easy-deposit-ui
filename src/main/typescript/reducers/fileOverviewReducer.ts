@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FileOverviewState, empty, DeleteState, emptyDelete } from "../model/FileInfo"
 import { Reducer } from "redux"
+import {
+    DeleteState,
+    DeletingStates,
+    empty,
+    emptyDelete,
+    emptyDeleteStates,
+    FileOverviewState,
+} from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
@@ -52,9 +59,14 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         case FileOverviewConstants.DELETE_FILE_FULFILLED: {
             const { meta: { filePath } } = action
 
-            const newDeleteState: DeleteState = { deleting: false, deleted: true }
+            const newDeleteState = Object.keys(state.deleting)
+                .filter(value => value !== filePath)
+                .reduce((obj: DeletingStates) => {
+                    obj[filePath] = state.deleting[filePath]
+                    return obj
+                }, emptyDeleteStates)
 
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState }}
+            return { ...state, deleting: newDeleteState }
         }
         case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
             const { meta: { filePath } } = action
@@ -69,11 +81,14 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         case FileOverviewConstants.DELETE_FILE_CANCELLED: {
             const { meta: { filePath } } = action
 
-            const deleteState: DeleteState = state.deleting[filePath]
-            const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: false}
-                : { ...emptyDelete, deleting: false}
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+            const newDeleteState = Object.keys(state.deleting)
+                .filter(value => value !== filePath)
+                .reduce((obj: DeletingStates) => {
+                    obj[filePath] = state.deleting[filePath]
+                    return obj
+                }, emptyDeleteStates)
+
+            return { ...state, deleting: newDeleteState }
         }
         default:
             return state

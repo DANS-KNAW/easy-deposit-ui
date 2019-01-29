@@ -14,30 +14,20 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { ComponentType, FC, SyntheticEvent } from "react"
+import { ComponentType, FC } from "react"
 
 interface LoginCardProps {
-    authenticating: boolean
-    errorMessage?: string
-    header: ComponentType
-
-    onSubmit: (e: SyntheticEvent) => void
+    headerName: string
 }
 
-const LoginCard: FC<LoginCardProps> = ({ children, authenticating, errorMessage, header: Header, onSubmit }) => (
+const LoginCard: FC<LoginCardProps> = ({ children, headerName }) => (
     <div className="card pl-0 pr-0 mb-4 mb-md-0 col col-12 col-md-5">
-        <form onSubmit={onSubmit}>
-            <div className="card-header bg-primary text-white">
-                <Header/>
-            </div>
-            <div className="card-body pl-0 pr-0 pb-0 ml-0 mr-0">
-                {children}
-                <button type="submit"
-                        className="btn btn-dark ml-3 margin-top-bottom"
-                        disabled={authenticating}>Login</button>
-            </div>
-            {errorMessage && <span>{errorMessage}<br/></span>}
-        </form>
+        <div className="card-header bg-primary text-white">
+            {headerName}
+        </div>
+        <div className="card-body pl-0 pr-0 pb-0 ml-0 mr-0">
+            {children}
+        </div>
     </div>
 )
 

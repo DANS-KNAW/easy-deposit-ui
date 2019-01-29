@@ -29,11 +29,9 @@ const authenticateFulfilled = ({
     type: AuthenticationConstants.AUTH_LOGIN_FULFILLED,
 })
 
-const authenticateRejected = (response: any) => ({
+const authenticateRejected = (message: string) => ({
     type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
-    payload: response.response
-        ? { response: response.response } // when received error code (401, etc.)
-        : { message: response.message }, // when network error occurs (no internet?) or user data could not be fetched
+    payload: message, // when network error occurs (no internet?) or user data could not be fetched
 })
 
 const userPending = ({
@@ -89,21 +87,27 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
         catch (userResponse) {
             LocalStorage.setLogout()
 
-            dispatch(authenticateRejected({ message: `not able to fetch user details: ${userResponse.response.status} - ${userResponse.response.statusText}` }))
+            dispatch(authenticateRejected(`not able to fetch user details: ${userResponse.response.data}`))
         }
     }
     catch (loginResponse) {
         LocalStorage.setLogout()
 
-        dispatch(authenticateRejected(loginResponse))
+        dispatch(authenticateRejected(`not able to login: ${loginResponse.response.data}`))
     }
 }
 
 export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, getState) => dispatch({
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
-        await axios.post(logoutUrl(getState()))
-        LocalStorage.setLogout()
+        try {
+            await axios.post(logoutUrl(getState()))
+            LocalStorage.setLogout()
+        }
+        catch (logoutResponse) {
+            LocalStorage.setLogout()
+            throw logoutResponse
+        }
     },
 })
 
