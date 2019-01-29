@@ -21,6 +21,8 @@ import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
 import { QualifiedDate } from "../../lib/metadata/Date"
 import { Relation } from "../../lib/metadata/Relation"
 import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
+import { Point } from "../../lib/metadata/SpatialPoint"
+import { Box } from "../../lib/metadata/SpatialBox"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -212,6 +214,58 @@ export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<strin
     }
 }
 
+export const validateSpatialPoints: (spatialPoints: Point[]) => Point[] = spatialPoints => {
+    return spatialPoints.map(point => {
+        const nonEmptyScheme = checkNonEmpty(point.scheme)
+        const nonEmptyX = checkNonEmpty(point.x)
+        const nonEmptyY = checkNonEmpty(point.y)
+
+        const pointError: Point = {}
+
+        if (nonEmptyScheme || nonEmptyX || nonEmptyY) {
+            if (!nonEmptyScheme)
+                pointError.scheme = "no scheme given"
+            if (!nonEmptyX)
+                pointError.x = "no x coordinate given"
+            if (!nonEmptyY)
+                pointError.y = "no y coordinate given"
+        }
+
+        // TODO validate coordinate w.r.t. the scheme
+
+        return pointError
+    })
+}
+
+export const validateSpatialBoxes: (spatialBoxes: Box[]) => Box[] = spatialBoxes => {
+    return spatialBoxes.map(box => {
+        const nonEmptyScheme = checkNonEmpty(box.scheme)
+        const nonEmptyNorth = checkNonEmpty(box.north)
+        const nonEmptyEast = checkNonEmpty(box.east)
+        const nonEmptySouth = checkNonEmpty(box.south)
+        const nonEmptyWest = checkNonEmpty(box.west)
+
+        const boxError: Box = {}
+
+        if (nonEmptyScheme || nonEmptyNorth || nonEmptyEast || nonEmptySouth || nonEmptyWest) {
+            if (!nonEmptyScheme)
+                boxError.scheme = "no scheme given"
+            if (!nonEmptyNorth)
+                boxError.north = "no north coordinate given"
+            if (!nonEmptyEast)
+                boxError.east = "no east coordinate given"
+            if (!nonEmptySouth)
+                boxError.south = "no south coordinate given"
+            if (!nonEmptyWest)
+                boxError.west = "no west coordinate given"
+        }
+
+        // TODO validate coordinates w.r.t. the scheme
+
+        return boxError
+    })
+}
+
 export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
     const errors: any = {}
 
@@ -244,6 +298,10 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
     errors.license = mandatoryRadioButtonValidator(values.license, "license")
     errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)
+
+    // temporal and spatial coverage form
+    errors.spatialPoints = validateSpatialPoints(values.spatialPoints || [])
+    errors.spatialBoxes = validateSpatialBoxes(values.spatialBoxes || [])
 
     // privacy sensitive data form
     errors.privacySensitiveDataPresent = mandatoryPrivacySensitiveDataValidator(values.privacySensitiveDataPresent)

@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import { DropdownFieldInput } from "./DropDownField"
+import { ErrorHandlingDropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
@@ -25,16 +25,16 @@ interface SchemedBoxProps extends InnerComponentProps {
 }
 
 const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
-    <>
+    <div className="spatialBox">
         <div className="form-row">
-            <div className="col mb-1">
+            <div className="col col-md-4 mb-1">
                 <Field name={names[0]}
                        label="Scheme"
                        choices={schemeValues}
                        withEmptyDefault
-                       component={DropdownFieldInput}/>
+                       component={ErrorHandlingDropdownFieldInput}/>
             </div>
-            <div className="col input-group mb-1">
+            <div className="col col-md-4 mb-1">
                 <Field name={names[1]}
                        label="North"
                        placeholder="upper bound"
@@ -42,7 +42,7 @@ const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
                        labelWidth={55}
                        component={LabeledTextField}/>
             </div>
-            <div className="col input-group mb-1">
+            <div className="col col-md-4 mb-1">
                 <Field name={names[2]}
                        label="East"
                        placeholder="right bound"
@@ -53,8 +53,8 @@ const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
         </div>
 
         <div className="form-row">
-            <div className="col"/>
-            <div className="col input-group">
+            <div className="col col-md-4"/>
+            <div className="col col-md-4">
                 <Field name={names[3]}
                        label="South"
                        placeholder="lower bound"
@@ -62,7 +62,7 @@ const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
                        labelWidth={55}
                        component={LabeledTextField}/>
             </div>
-            <div className="col input-group">
+            <div className="col col-md-4">
                 <Field name={names[4]}
                        label="West"
                        placeholder="left bound"
@@ -71,7 +71,7 @@ const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
                        component={LabeledTextField}/>
             </div>
         </div>
-    </>
+    </div>
 )
 
 export default asFieldArray(SchemedBox)

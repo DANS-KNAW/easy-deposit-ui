@@ -52,7 +52,7 @@ const RelationFieldArrayElement = ({ names, schemeValues }: RelationFieldArrayPr
                        choices={schemeValues}
                        component={DropdownFieldInput}/>
             </div>
-            <div className="col col-md-8 input-group mb-1">
+            <div className="col col-md-8 mb-1">
                 <Field name={names[1]}
                        label="Title"
                        placeholder="Title"
@@ -63,7 +63,7 @@ const RelationFieldArrayElement = ({ names, schemeValues }: RelationFieldArrayPr
 
         <div className="form-row">
             <div className="col col-md-4"/>
-            <div className="col col-md-8 input-group">
+            <div className="col col-md-8">
                 <Field name={names[2]}
                        label="Url"
                        placeholder="Url"

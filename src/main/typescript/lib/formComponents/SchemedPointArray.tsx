@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import { DropdownFieldInput } from "./DropDownField"
+import { ErrorHandlingDropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
@@ -25,26 +25,28 @@ interface SchemedPointProps extends InnerComponentProps {
 }
 
 const SchemedPoint = ({ names, schemeValues }: SchemedPointProps) => (
-    <div className="form-row">
-        <div className="col">
+    <div className="form-row spatialPoint">
+        <div className="col col-md-4">
             <Field name={names[0]}
                    label="Scheme"
                    choices={schemeValues}
                    withEmptyDefault
-                   component={DropdownFieldInput}/>
+                   component={ErrorHandlingDropdownFieldInput}/>
         </div>
-        <div className="col input-group">
+        <div className="col col-md-4">
             <Field name={names[1]}
                    label="X"
                    placeholder="coordinate"
                    type="number"
+                   labelWidth={28}
                    component={LabeledTextField}/>
         </div>
-        <div className="col input-group">
+        <div className="col col-md-4">
             <Field name={names[2]}
                    label="Y"
                    placeholder="coordinate"
                    type="number"
+                   labelWidth={28}
                    component={LabeledTextField}/>
         </div>
     </div>

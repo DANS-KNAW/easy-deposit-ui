@@ -32,14 +32,14 @@ const LabeledTextField = ({ label, labelWidth, appendElem, ...rest }: LabeledTex
     const hasError = meta.error && (changed || meta.submitFailed)
 
     return (
-        <>
+        <div className="input-group">
             <div className="input-group-prepend">
                 <span className="input-group-text" style={labelWidth ? { width: `${labelWidth}px` } : {}}>{label}</span>
             </div>
             <TextField className={hasError ? "is-invalid" : ""} {...rest}/>
             {appendElem && <div className="input-group-append">{appendElem(rest)}</div>}
             {hasError && <span className="invalid-feedback">{meta.error}</span>}
-        </>
+        </div>
     )
 }
 
