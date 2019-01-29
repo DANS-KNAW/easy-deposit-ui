@@ -13,24 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Dispatch, Middleware } from "redux"
+import { FormErrors } from "redux-form"
+import { EasyLoginData } from "./index"
+import { mandatoryFieldValidator } from "../form/Validation"
 
-const newRejectedMiddleware: Middleware = () => (next: Dispatch) => action => {
-    if (action.type && action.type.endsWith("_REJECTED") && action.payload) {
-        const { payload } = action
+export const formValidate: (values: EasyLoginData) => FormErrors<EasyLoginData> = values => {
+    const errors: FormErrors<EasyLoginData> = {}
 
-        if (!!payload.response || !!payload.message) {
-            const errorMessage = payload.response
-                ? payload.response.data
-                : payload.message
+    errors.username = mandatoryFieldValidator(values.username, "username")
+    errors.password = mandatoryFieldValidator(values.password, "password")
 
-            next({ ...action, payload: errorMessage })
-        }
-        else
-            next(action)
-    }
-    else
-        next(action)
+    return errors
 }
-
-export default newRejectedMiddleware

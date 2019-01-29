@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
-import { ComplexThunkAction, PromiseAction, ThunkAction } from "../../lib/redux"
+import { Component, ComponentType, FC, HTMLAttributes } from "react"
+import { ComplexThunkAction } from "../../lib/redux"
 import { authenticate } from "../../actions/authenticationActions"
 import { Field, InjectedFormProps, reduxForm } from "redux-form"
 import { AppState } from "../../model/AppState"
@@ -23,11 +23,33 @@ import { compose } from "redux"
 import { connect } from "react-redux"
 import TextField from "../../lib/formComponents/TextField"
 import LoginCard from "./LoginCard"
+import { formValidate } from "./Validation"
+import { EasyLoginData } from "./index"
+import { loginFormName } from "../../constants/authenticationConstants"
+import { FieldProps } from "../../lib/formComponents/ReduxFormUtils"
+import { Alert } from "../Errors"
 
-interface EasyLoginData {
-    username: string
-    password: string
+const asField = (InnerComponent: ComponentType<any>) => (props: FieldProps) => {
+    const { label, input: { name }, meta: { error, submitFailed } } = props
+    const hasError = error && submitFailed
+
+    return (
+        <div className="row ml-0 mr-0 mb-1 form-group">
+            <label htmlFor={name}
+                   className="col-12 col-md-4 col-lg-3 col-form-label">{label}</label>
+            <div className="col-12 col-md-8 col-lg-9">
+                <InnerComponent className={hasError ? "is-invalid" : ""} id={name} {...props} />
+                {hasError && <span className="invalid-feedback">{error}</span>}
+            </div>
+        </div>
+    )
 }
+
+const LoginTextField = asField(TextField)
+
+const LoginError: FC<HTMLAttributes<HTMLDivElement>> = ({ children, ...rest }) => (
+    <div {...rest}><Alert>{children}</Alert></div>
+)
 
 interface EasyLoginProps {
     authenticating: boolean
@@ -44,40 +66,32 @@ class EasyLogin extends Component<AllEasyLoginProps> {
     }
 
     render() {
-        const {authenticating, errorMessage, handleSubmit} = this.props
+        const { authenticating, errorMessage, handleSubmit } = this.props
 
-        // TODO add form validation
         return (
-            <LoginCard authenticating={authenticating}
-                       errorMessage={errorMessage}
-                       onSubmit={handleSubmit(this.callAuthenticate)}
-                       header={() => <>EASY account</>}>
-                <div className="container pl-0 pr-0 pb-0 ml-0 mr-0">
-                    <div className="row ml-0 mr-0 mb-1 form-group">
-                        <label htmlFor="username"
-                               className="col-12 col-md-5 col-lg-4 col-form-label">Username</label>
-                        <div className="col-12 col-md-7 col-lg-8">
-                            <Field name="username"
-                                   label="Username"
-                                   id="username"
-                                   autoFocus
-                                   required
-                                   component={TextField}/>
-                        </div>
-                    </div>
-                    <div className="form-group row ml-0 mr-0 mb-0">
-                        <label htmlFor="password"
-                               className="col-12 col-md-5 col-lg-4 col-form-label">Password</label>
-                        <div className="col-12 col-md-7 col-lg-8">
-                            <Field name="password"
-                                   label="Password"
-                                   id="password"
-                                   type="password"
-                                   required
-                                   component={TextField}/>
-                        </div>
-                    </div>
-                </div>
+            <LoginCard headerName="EASY account">
+                <form>
+                    <Field name="username"
+                           label="Username"
+                           autoFocus
+                           required
+                           component={LoginTextField}/>
+
+                    <Field name="password"
+                           label="Password"
+                           type="password"
+                           required
+                           component={LoginTextField}/>
+
+                    {errorMessage && <LoginError className="mt-3 ml-3 mr-3">{errorMessage}</LoginError>}
+
+                    <button type="button"
+                            className="btn btn-dark ml-3 margin-top-bottom"
+                            onClick={handleSubmit(this.callAuthenticate)}
+                            disabled={authenticating}>
+                        Login
+                    </button>
+                </form>
             </LoginCard>
         )
     }
@@ -90,7 +104,10 @@ const mapEasyLoginStateToProps = (state: AppState) => ({
 
 const composedEasyLoginHOC = compose(
     connect(mapEasyLoginStateToProps, { authenticate }),
-    reduxForm<EasyLoginData>({ form: "easyLogin" }),
+    reduxForm<EasyLoginData>({
+        form: loginFormName,
+        validate: formValidate,
+    }),
 )
 
 export default composedEasyLoginHOC(EasyLogin)
