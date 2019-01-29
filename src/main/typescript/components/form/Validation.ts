@@ -190,18 +190,21 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
 
 export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
     switch (dates.length) {
-        case 0: return []
-        case 1: return [{}]
-        default: return dates.map(date => {
-            const nonEmptyValue = checkNonEmpty(date.value && date.value.toString())
+        case 0:
+            return []
+        case 1:
+            return [{}]
+        default:
+            return dates.map(date => {
+                const nonEmptyValue = checkNonEmpty(date.value && date.value.toString())
 
-            const dateError: QualifiedDate<string> = {}
+                const dateError: QualifiedDate<string> = {}
 
-            if (!nonEmptyValue)
-                dateError.value = "no date given"
+                if (!nonEmptyValue)
+                    dateError.value = "no date given"
 
-            return dateError
-        })
+                return dateError
+            })
     }
 }
 
