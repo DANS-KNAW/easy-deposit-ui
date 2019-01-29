@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { Field } from "redux-form"
-import ErrorHandlingTextField from "./ErrorHandlingTextField"
+import { ErrorHandlingTextField } from "./TextField"
 import { DropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
