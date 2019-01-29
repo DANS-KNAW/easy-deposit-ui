@@ -20,7 +20,7 @@ import { DepositFormMetadata } from "./parts"
 import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
 import { QualifiedDate } from "../../lib/metadata/Date"
 import { Relation } from "../../lib/metadata/Relation"
-import { QualifiedSchemedValue } from "../../lib/metadata/Value"
+import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -126,6 +126,23 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
             if (!nonEmptySurname)
                 contribError.surname = "no surname given"
         }
+
+        if (contributor.ids)
+            contribError.ids = contributor.ids.map(id => {
+                const nonEmptyScheme = checkNonEmpty(id.scheme)
+                const nonEmptyValue = checkNonEmpty(id.value)
+
+                const idError: SchemedValue = {}
+
+                if (!nonEmptyScheme && nonEmptyValue)
+                    idError.scheme = "no scheme defined"
+
+                if (nonEmptyScheme && !nonEmptyValue)
+                    idError.value = "no identifier defined"
+
+                return idError
+            })
+
         return contribError
     })
 }

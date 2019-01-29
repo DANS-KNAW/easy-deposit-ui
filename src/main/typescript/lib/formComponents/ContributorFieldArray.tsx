@@ -17,7 +17,7 @@ import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
 import TextField, { ErrorHandlingTextField } from "./TextField"
-import { DropdownFieldInput } from "./DropDownField"
+import { DropdownFieldInput, ErrorHandlingDropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
 import { FieldArrayProps, FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
@@ -40,13 +40,13 @@ const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributo
                     <Field name={fieldNames[0](name)}
                            choices={contributorIds}
                            withEmptyDefault
-                           component={DropdownFieldInput}/>
+                           component={ErrorHandlingDropdownFieldInput}/>
                 </div>
 
                 <div className="col col-12 col-md-6">
                     <Field name={fieldNames[1](name)}
                            placeholder="ID"
-                           component={TextField}/>
+                           component={ErrorHandlingTextField}/>
                 </div>
 
                 <div className="col col-2 remove-and-add-buttons">
