@@ -24,7 +24,10 @@ import {
     mandatoryFieldValidator,
     mandatoryPrivacySensitiveDataValidator,
     mandatoryRadioButtonValidator,
-    validateContributors,
+    validateContributors, validateDates,
+    validateQualifiedSchemedValues,
+    validateRelations,
+    validateSchemedValue, validateSpatialBoxes, validateSpatialPoints,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
@@ -104,7 +107,7 @@ describe("Validation", () => {
         })
 
         it("should return undefined when the value is an object with a mix of empty and non-empty values", () => {
-            expect(mandatoryPrivacySensitiveDataValidator({ "hello1": "world", "hello2": "", })).to.be.undefined
+            expect(mandatoryPrivacySensitiveDataValidator({ "hello1": "world", "hello2": "" })).to.be.undefined
         })
 
         it("should return an error when the value is a string that is empty", () => {
@@ -262,6 +265,23 @@ describe("Validation", () => {
         }
         const contributor3: Contributor = emptyContributor
         const contributor4: Contributor = {}
+        const contributor5: Contributor = {
+            ...contributor1,
+            ids: [
+                {
+                    scheme: "test",
+                    // no value
+                },
+                {
+                    scheme: "foo",
+                    value: "bar",
+                },
+                {
+                    // no scheme
+                    value: "def",
+                },
+            ],
+        }
 
         it("should return an empty array when an empty list is provided", () => {
             expect(validateContributors([])).to.eql([])
@@ -279,31 +299,346 @@ describe("Validation", () => {
             expect(validateContributors([contributor1, contributor2])).to.eql([{}, {}])
         })
 
-        it("should return an error object when 'initials', 'surname' and 'organization' are not provided", () => {
-            expect(validateContributors([contributor3])).to.eql([{
-                organization: "no organization given",
-                initials: "no initials given",
-                surname: "no surname given",
-            }])
+        it("should return an empty object when the contributor is completely empty", () => {
+            expect(validateContributors([contributor3])).to.eql([{}])
         })
 
-        it("should return an error object when an empty object is given", () => {
-            expect(validateContributors([contributor4])).to.eql([{
-                organization: "no organization given",
-                initials: "no initials given",
-                surname: "no surname given",
-            }])
+        it("should return an empty object when an empty object is given", () => {
+            expect(validateContributors([contributor4])).to.eql([{}])
         })
 
         it("should return an error object with only field 'surname' when only 'initials' is provided", () => {
-            expect(validateContributors([{initials: "D.A."}])).to.eql([{
+            expect(validateContributors([{ initials: "D.A." }])).to.eql([{
                 surname: "no surname given",
             }])
         })
 
         it("should return an error object with only field 'initials' when only 'surname' is provided", () => {
-            expect(validateContributors([{surname: "N.S."}])).to.eql([{
+            expect(validateContributors([{ surname: "N.S." }])).to.eql([{
                 initials: "no initials given",
+            }])
+        })
+
+        it("should return an error object with all of 'initials', 'surname' and 'organization' when only an insertion is given", () => {
+            expect(validateContributors([{ insertions: "van" }])).to.eql([{
+                organization: "no organization given",
+                initials: "no initials given",
+                surname: "no surname given",
+            }])
+        })
+
+        it("should return an error object when for any id, only the scheme or value is given", () => {
+            expect(validateContributors([contributor5])).to.eql([{
+                ids: [
+                    {
+                        value: "no identifier given",
+                    },
+                    {},
+                    {
+                        scheme: "no scheme given",
+                    },
+                ],
+            }])
+        })
+    })
+
+    describe("validateSchemedValue", () => {
+        it("should return empty objects when all SchemedValues are valid", () => {
+            expect(validateSchemedValue([
+                {
+                    scheme: "foo",
+                    value: "bar",
+                },
+                {
+                    scheme: "abc",
+                    value: "def",
+                }])).to.eql([{}, {}])
+        })
+
+        it("should return empty objects when the SchemedValues are empty", () => {
+            expect(validateSchemedValue([{ scheme: "", value: "" }, {}])).to.eql([{}, {}])
+        })
+
+        it("should return an empty list when no SchemedValues are given", () => {
+            expect(validateSchemedValue([])).to.eql([])
+        })
+
+        it("should return an error object when only the scheme is given", () => {
+            expect(validateSchemedValue([{ scheme: "foo" }])).to.eql([{
+                value: "no identifier given",
+            }])
+        })
+
+        it("should return an error object when only the value is given", () => {
+            expect(validateSchemedValue([{ value: "bar" }])).to.eql([{
+                scheme: "no scheme given",
+            }])
+        })
+    })
+
+    describe("validateQualifiedSchemedValue", () => {
+        it("should return an empty list when no QualifiedSchemedValues are given", () => {
+            expect(validateQualifiedSchemedValues([])).to.eql([])
+        })
+
+        it("should return an empty object when one empty QualifiedSchemedValue is given", () => {
+            expect(validateQualifiedSchemedValues([{}])).to.eql([{}])
+        })
+
+        it("should return an empty object when one QualifiedSchemedValue is given with only a qualifier", () => {
+            expect(validateQualifiedSchemedValues([{ qualifier: "q" }])).to.eql([{}])
+        })
+
+        it("should return an empty object when one QualifiedSchemedValue is given with all fields filled in", () => {
+            expect(validateQualifiedSchemedValues([{ qualifier: "q", scheme: "s", value: "v" }])).to.eql([{}])
+        })
+
+        it("should return an error object when one QualifiedSchemedValue is given with 'scheme' missing", () => {
+            expect(validateQualifiedSchemedValues([{
+                qualifier: "q",
+                // no scheme
+                value: "v",
+            }])).to.eql([{ scheme: "no scheme given" }])
+        })
+
+        it("should return an error object when one QualifiedSchemedValue is given with 'value' missing", () => {
+            expect(validateQualifiedSchemedValues([{
+                qualifier: "q",
+                scheme: "s",
+                // no value
+            }])).to.eql([{ value: "no value given" }])
+        })
+
+        it("should return error objects when multiple (some incomplete) QualifiedSchemedValues are given", () => {
+            expect(validateQualifiedSchemedValues([
+                {
+                    qualifier: "q",
+                    scheme: "s",
+                    value: "v",
+                },
+                {
+                    qualifier: "q",
+                    // no scheme
+                    value: "v",
+                },
+                {
+                    qualifier: "q",
+                    scheme: "s",
+                    // no value
+                },
+                {
+                    qualifier: "q",
+                    // no scheme
+                    // no value
+                },
+            ])).to.eql([
+                {},
+                {
+                    scheme: "no scheme given",
+                },
+                {
+                    value: "no value given",
+                },
+                {
+                    scheme: "no scheme given",
+                    value: "no value given",
+                },
+            ])
+        })
+    })
+
+    describe("validateRelations", () => {
+        it("should return an empty list when no Relations are given", () => {
+            expect(validateRelations([])).to.eql([])
+        })
+
+        it("should return an empty object when one empty Relation is given", () => {
+            expect(validateRelations([{}])).to.eql([{}])
+        })
+
+        it("should return an empty object when one Relation is given with only a qualifier", () => {
+            expect(validateRelations([{ qualifier: "q" }])).to.eql([{}])
+        })
+
+        it("should return an empty object when one Relation is given with all fields filled in", () => {
+            expect(validateRelations([{ qualifier: "q", title: "t", url: "http://easy.dans.knaw.nl/" }])).to.eql([{}])
+        })
+
+        it("should return an error object when one Relation is given with 'title' missing", () => {
+            expect(validateRelations([{
+                qualifier: "q",
+                // no title
+                url: "http://easy.dans.knaw.nl/",
+            }])).to.eql([{ title: "no title given" }])
+        })
+
+        it("should return an empty object when one Relation is given with 'url' missing", () => {
+            expect(validateRelations([{
+                qualifier: "q",
+                title: "t",
+                // no url
+            }])).to.eql([{}])
+        })
+
+        it("should return an error object when one Relation is given with an invalid 'url'", () => {
+            expect(validateRelations([{
+                qualifier: "q",
+                title: "t",
+                url: "invalid",
+            }])).to.eql([{ url: "no valid url given" }])
+        })
+
+        it("should return error objects when multiple (some incomplete) Relations are given", () => {
+            expect(validateRelations([
+                {
+                    qualifier: "q",
+                    title: "t",
+                    url: "http://easy.dans.knaw.nl/",
+                },
+                {
+                    qualifier: "q",
+                    // no title
+                    url: "http://easy.dans.knaw.nl/",
+                },
+                {
+                    qualifier: "q",
+                    title: "t",
+                    // no url
+                },
+                {
+                    qualifier: "q",
+                    // no title
+                    // no url
+                },
+                {
+                    qualifier: "q",
+                    title: "t",
+                    url: "invalid",
+                },
+            ])).to.eql([
+                {},
+                {
+                    title: "no title given",
+                },
+                {},
+                {
+                    title: "no title given",
+                    url: "no url given",
+                },
+                {
+                    url: "no valid url given",
+                },
+            ])
+        })
+    })
+
+    describe("validateDates", () => {
+        it("should return an empty list when no dates are given", () => {
+            expect(validateDates([])).to.eql([])
+        })
+
+        it("should return an empty object when only one date is given", () => {
+            expect(validateDates([{ qualifier: "q", value: Date.now() }])).to.eql([{}])
+        })
+
+        it("should return empty objects when multiple valid dates are given", () => {
+            expect(validateDates([
+                {
+                    qualifier: "q",
+                    value: "tomorrow",
+                },
+                {
+                    qualifier: "q",
+                    value: "yesterweek",
+                },
+            ])).to.eql([{}, {}])
+        })
+
+        it("should return error objects when invalid dates are given", () => {
+            expect(validateDates([
+                {
+                    qualifier: "q",
+                    value: Date.now(),
+                },
+                {
+                    qualifier: "q",
+                    // no value
+                },
+            ])).to.eql([{}, { value: "no date given" }])
+        })
+    })
+
+    describe("validateSpatialPoints", () => {
+        it("should return an empty list when no SpatialPoints are given", () => {
+            expect(validateSpatialPoints([])).to.eql([])
+        })
+
+        it("should return empty objects when valid SpatialPoints are given", () => {
+            expect(validateSpatialPoints([
+                {},
+                {
+                    scheme: "RD",
+                    x: "12",
+                    y: "15",
+                },
+            ])).to.eql([{}, {}])
+        })
+
+        it("should return error objects when invalid SpatialPoints are given", () => {
+            expect(validateSpatialPoints([
+                {
+                    scheme: "",
+                    x: "12",
+                    y: "15",
+                },
+                {
+                    scheme: "RD",
+                    x: "",
+                    y: "",
+                },
+            ])).to.eql([{ scheme: "no scheme given" }, { x: "no x coordinate given", y: "no y coordinate given" }])
+        })
+    })
+
+    describe("validateSpatialBoxes", () => {
+        it("should return an empty list when no SpatialBoxes are given", () => {
+            expect(validateSpatialBoxes([])).to.eql([])
+        })
+
+        it("should return empty objects when valid SpatialBoxes are given", () => {
+            expect(validateSpatialBoxes([
+                {},
+                {
+                    scheme: "RD",
+                    north: "12",
+                    east: "15",
+                    south: "26",
+                    west: "52",
+                },
+            ])).to.eql([{}, {}])
+        })
+
+        it("should return error objects when invalid SpatialBoxes are given", () => {
+            expect(validateSpatialBoxes([
+                {
+                    scheme: "",
+                    north: "12",
+                    east: "15",
+                    south: "26",
+                    west: "52",
+                },
+                {
+                    scheme: "RD",
+                    north: "",
+                    east: "",
+                    south: "",
+                    west: "",
+                },
+            ])).to.eql([{ scheme: "no scheme given" }, {
+                north: "no north coordinate given",
+                east: "no east coordinate given",
+                south: "no south coordinate given",
+                west: "no west coordinate given",
             }])
         })
     })

@@ -154,10 +154,10 @@ export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedVal
         const idError: SchemedValue = {}
 
         if (!nonEmptyScheme && nonEmptyValue)
-            idError.scheme = "no scheme defined"
+            idError.scheme = "no scheme given"
 
         if (nonEmptyScheme && !nonEmptyValue)
-            idError.value = "no identifier defined"
+            idError.value = "no identifier given"
 
         return idError
     })
@@ -205,13 +205,11 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
             relationError.title = "no title given"
             relationError.url = "no url given"
         }
-        else if (!nonEmptyTitle && nonEmptyUrl) {
+        else if (!nonEmptyTitle && nonEmptyUrl)
             relationError.title = "no title given"
-        }
 
-        if (nonEmptyUrl && !validUrl.isUri(relation.url)) {
+        if (nonEmptyUrl && !validUrl.isUri(relation.url))
             relationError.url = "no valid url given"
-        }
 
         return relationError
     }
@@ -345,8 +343,6 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
 
     // accept deposit agreement
     errors.acceptDepositAgreement = checkboxMustBeChecked(values.acceptDepositAgreement, "Accept the deposit agreement before submitting this dataset")
-
-    console.log("validation errors", errors)
 
     return errors
 }
