@@ -16,8 +16,8 @@
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
-import TextField, { TextFieldProps } from "./TextField"
-import { DropdownFieldInput } from "./DropDownField"
+import TextField, { ErrorHandlingTextField } from "./TextField"
+import { DropdownFieldInput, ErrorHandlingDropdownFieldInput } from "./DropDownField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
 import { FieldArrayProps, FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
@@ -40,20 +40,20 @@ const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributo
                     <Field name={fieldNames[0](name)}
                            choices={contributorIds}
                            withEmptyDefault
-                           component={DropdownFieldInput}/>
+                           component={ErrorHandlingDropdownFieldInput}/>
                 </div>
 
                 <div className="col col-12 col-md-6">
                     <Field name={fieldNames[1](name)}
                            placeholder="ID"
-                           component={TextField}/>
+                           component={ErrorHandlingTextField}/>
                 </div>
 
                 <div className="col col-2 remove-and-add-buttons">
                     <RemoveButton onClick={() => fields.remove(index)}
                                   className="mr-2"
                                   disabled={fields.length <= 1}/>
-                    {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty)}/>}
+                    {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty())}/>}
                 </div>
             </div>
         ))}
@@ -80,7 +80,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                 <label>Organization</label>
                 <Field name={names[6]}
                        placeholder="organization"
-                       component={TextFieldWrapper}/>
+                       component={ErrorHandlingTextField}/>
             </div>
             {/* TODO these fields need to be added later. they do not yet occur in the UI model, nor in the API */}
             {/*<div className="col form-group col-md-3 mb-1">
@@ -110,7 +110,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                 <label>Initials<Mandatory/></label>
                 <Field name={names[1]}
                        placeholder="initials"
-                       component={TextFieldWrapper}/>
+                       component={ErrorHandlingTextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Prefix</label>
@@ -122,13 +122,13 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                 <label>Surname<Mandatory/></label>
                 <Field name={names[3]}
                        placeholder="surname"
-                       component={TextFieldWrapper}/>
+                       component={ErrorHandlingTextField}/>
             </div>
         </div>
 
         <RepeatableFieldWithDropdown name={names[4]}
                                      label="Contributor Ids"
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
@@ -137,19 +137,5 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
                                      component={ContributorIdArray}/>
     </div>
 )
-
-const TextFieldWrapper = (props: TextFieldProps) => {
-    const { meta } = props
-
-    const changed = (meta as any).changed
-    const hasError = meta.error && (changed || meta.submitFailed)
-
-    return (
-        <>
-            <TextField {...props} className={hasError ? "is-invalid" : ""}/>
-            {hasError && <span className="invalid-feedback">{meta.error}</span>}
-        </>
-    )
-}
 
 export default asFieldArray(ContributorField)

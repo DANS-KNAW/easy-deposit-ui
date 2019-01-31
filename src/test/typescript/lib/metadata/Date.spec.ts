@@ -135,6 +135,11 @@ describe("Date", () => {
                     // no qualifier
                 },
                 {
+                    scheme: "dcterms:W3CDTF",
+                    // no value
+                    qualifier: "dcterms:date",
+                },
+                {
                     value: "Groundhog day",
                     // no qualifier
                 },
@@ -144,6 +149,10 @@ describe("Date", () => {
                     {
                         qualifier: "dcterms:date",
                         value: new Date("2018-03-18"),
+                    },
+                    {
+                        qualifier: "dcterms:date",
+                        value: undefined,
                     },
                 ],
                 textDates: [
@@ -222,19 +231,39 @@ describe("Date", () => {
                 qualifier: "dcterms:issued",
                 value: new Date("2018-03-14"),
             }
-            const result = qualifiedDateDeconverter(input)
-            expect(Object.keys(result)).to.eql(["scheme", "value", "qualifier"])
+            const result = qualifiedDateDeconverter(dateChoices)(input)
+            expect(Object.keys(result)).to.eql(["qualifier", "scheme", "value"])
+            expect(result.qualifier).to.eql("dcterms:issued")
             expect(result.scheme).to.eql("dcterms:W3CDTF")
             expect(result.value).to.match(/^2018-03-14T\d{2}:\d{2}:00[-+]\d{2}:\d{2}$/) // don't just match against the String, because of time zone issues
-            expect(result.qualifier).to.eql("dcterms:issued")
+        })
+
+        it("should convert a QualifiedDate with only a qualifier into the correct external model", () => {
+            const input: QualifiedDate<Date> = {
+                qualifier: "dcterms:issued",
+            }
+            const expected = {
+                qualifier: "dcterms:issued",
+                scheme: "dcterms:W3CDTF",
+                value: "",
+            }
+            expect(qualifiedDateDeconverter(dateChoices)(input)).to.eql(expected)
         })
 
         it("should convert a QualifiedDate without a value into an empty object", () => {
             const input: QualifiedDate<Date> = {
-                qualifier: "dcterms:issued",
+                qualifier: "dcterms:date",
             }
             const expected = {}
-            expect(qualifiedDateDeconverter(input)).to.eql(expected)
+            expect(qualifiedDateDeconverter(dateChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert a QualifiedDate with empty fields into an empty object", () => {
+            const input: QualifiedDate<Date> = {
+                qualifier: "",
+            }
+            const expected = {}
+            expect(qualifiedDateDeconverter(dateChoices)(input)).to.eql(expected)
         })
     })
 
@@ -249,7 +278,33 @@ describe("Date", () => {
                 value: "today",
                 qualifier: "dcterms:issued",
             }
-            expect(qualifiedDateStringDeconverter(input)).to.eql(expected)
+            expect(qualifiedDateStringDeconverter(dateChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert a QualifiedDate with only a qualifier into the correct external model", () => {
+            const input: QualifiedDate<string> = {
+                qualifier: "dcterms:issued",
+            }
+            const expected = {
+                qualifier: "dcterms:issued",
+            }
+            expect(qualifiedDateStringDeconverter(dateChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert a QualifiedDate without a value into an empty object", () => {
+            const input: QualifiedDate<string> = {
+                qualifier: "dcterms:date",
+            }
+            const expected = {}
+            expect(qualifiedDateStringDeconverter(dateChoices)(input)).to.eql(expected)
+        })
+
+        it("should convert a QualifiedDate with empty fields into an empty object", () => {
+            const input: QualifiedDate<string> = {
+                qualifier: "",
+            }
+            const expected = {}
+            expect(qualifiedDateStringDeconverter(dateChoices)(input)).to.eql(expected)
         })
     })
 })

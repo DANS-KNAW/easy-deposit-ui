@@ -45,14 +45,14 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
         <RepeatableField name="temporalCoverages"
                          label="Temporal coverage"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="spatialPoints"
                                      label="Spatial point"
                                      helpText
-                                     empty={emptyPoint}
+                                     empty={() => emptyPoint}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.x`,
@@ -64,7 +64,7 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
         <RepeatableFieldWithDropdown name="spatialBoxes"
                                      label="Spatial box"
                                      helpText
-                                     empty={emptyBox}
+                                     empty={() => emptyBox}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.north`,
@@ -78,7 +78,7 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
         <RepeatableFieldWithDropdown name="spatialCoverageIso3166"
                                      label="Spatial coverage (ISO 3166)"
                                      helpText
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => name,
                                      ]}
@@ -92,7 +92,7 @@ const TemporalAndSpatialCoverageForm = ({ spatialCoordinates, spatialCoveragesIs
         <RepeatableField name="spatialCoverages"
                          label="Spatial coverage"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
     </>

@@ -23,4 +23,17 @@ const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
     <input type={type || "text"} className={`form-control ${className || ""}`.trim()} {...input} {...rest}/>
 )
 
+export const ErrorHandlingTextField = (props: TextFieldProps) => {
+    const { meta } = props
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    return (
+        <>
+            <TextField {...props} className={hasError ? "is-invalid" : ""}/>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}
+
 export default TextField

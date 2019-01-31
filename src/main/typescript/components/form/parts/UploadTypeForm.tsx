@@ -60,7 +60,7 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
         <RepeatableFieldWithDropdown name="typesDCMI"
                                      label="Type (DCMI resource type)"
                                      helpText
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ types: dcmiTypes }}
                                      component={DcmiTypesFieldArray}/>
@@ -68,14 +68,14 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
         <RepeatableField name="types"
                          label="Types"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="formatsMediaType"
                                      label=" Format (internet media type)"
                                      helpText
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ formats: imtFormats }}
                                      component={ImtFormatsFieldArray}/>
@@ -83,7 +83,7 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
         <RepeatableField name="formats"
                          label="Formats"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 

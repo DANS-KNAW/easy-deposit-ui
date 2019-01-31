@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { AnchorHTMLAttributes } from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
@@ -23,10 +22,14 @@ import { Field } from "redux-form"
 import * as validUrl from "valid-url"
 import { FieldProps } from "./ReduxFormUtils"
 
-const RelationValidateButton = ({ ...props }: FieldProps & AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    props.input.value && validUrl.isUri(props.input.value)
+interface RelationValidateButtonProps {
+    value?: string
+}
+
+const RelationValidateButton = ({ value }: RelationValidateButtonProps) => (
+    value && validUrl.isUri(value)
         ? <a className="btn btn-dark value-button relation-validate-button"
-             href={props.input.value}
+             href={value}
              target="_blank">
             validate
         </a>
@@ -49,7 +52,7 @@ const RelationFieldArrayElement = ({ names, schemeValues }: RelationFieldArrayPr
                        choices={schemeValues}
                        component={DropdownFieldInput}/>
             </div>
-            <div className="col col-md-8 input-group mb-1">
+            <div className="col col-md-8 mb-1">
                 <Field name={names[1]}
                        label="Title"
                        placeholder="Title"
@@ -60,16 +63,13 @@ const RelationFieldArrayElement = ({ names, schemeValues }: RelationFieldArrayPr
 
         <div className="form-row">
             <div className="col col-md-4"/>
-            <div className="col col-md-8 input-group">
+            <div className="col col-md-8">
                 <Field name={names[2]}
                        label="Url"
                        placeholder="Url"
                        labelWidth={44}
+                       appendElem={({input}: FieldProps) => <RelationValidateButton value={input.value}/>}
                        component={LabeledTextField}/>
-                <div className="input-group-append">
-                    <Field name={names[2]}
-                           component={RelationValidateButton}/>
-                </div>
             </div>
         </div>
     </div>

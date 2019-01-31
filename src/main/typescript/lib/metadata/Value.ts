@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { clean } from "./misc"
+import { DropdownListEntry } from "../../model/DropdownLists"
 
 export interface SchemedValue {
     scheme?: string
@@ -38,7 +39,11 @@ export interface QualifiedSchemedValue {
     value?: string
 }
 
-export const emptyQualifiedSchemedValue: QualifiedSchemedValue = { qualifier: "", scheme: "", value: "" }
+export const emptyQualifiedSchemedValue: (qualifiers: DropdownListEntry[]) => QualifiedSchemedValue = qs => ({
+    qualifier: qs[0].key,
+    scheme: "",
+    value: "",
+})
 
 export const qualifiedSchemedValueConverter: (qualifier: any, scheme: any, value: any) => QualifiedSchemedValue = (qualifier, scheme, value) => ({
     qualifier: qualifier,

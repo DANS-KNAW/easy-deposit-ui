@@ -69,4 +69,15 @@ const DatePickerField = (props: DatePickerProps) => {
 
 export default asField(DatePickerField)
 
-export const DatePickerInput = (props: FieldProps & any) => <DatePickerField {...props}/>
+export const ErrorHandlingDatePickerInputField = (props: DatePickerProps & any) => {
+    const { meta } = props
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    return (
+        <>
+            <DatePickerField {...props} className={`form-control date-picker-field ${hasError ? "is-invalid" : ""}`.trim()}/>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}

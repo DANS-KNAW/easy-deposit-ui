@@ -48,7 +48,21 @@
 }
 
 .input-element .remove-and-add-buttons {
-    align-self: flex-end;
+    padding-top: 2px;
+    align-self: flex-start;
+}
+
+.invalid-feedback {
+    margin-left: 8px;
+}
+.input-element .relation .input-group-prepend ~ .invalid-feedback {
+    margin-left: 52px; /* 44 + 8 */
+}
+.input-element .spatialPoint .input-group-prepend ~ .invalid-feedback {
+    margin-left: 36px; /* 28 + 8 */
+}
+.input-element .spatialBox .input-group-prepend ~ .invalid-feedback {
+    margin-left: 63px; /* 55 + 8 */
 }
 
 .input-element .value-label.is-invalid ~ .invalid-feedback,

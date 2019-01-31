@@ -35,6 +35,19 @@ const DropdownField = ({ input, withEmptyDefault, emptyDefault, choices, classNa
     </select>
 )
 
-export default asField(DropdownField)
-
 export const DropdownFieldInput = DropdownField
+
+export const ErrorHandlingDropdownFieldInput = (props: DropdownFieldProps) => {
+    const { meta } = props
+    const changed = (meta as any).changed
+    const hasError = meta.error && (changed || meta.submitFailed)
+
+    return (
+        <>
+            <DropdownField {...props} className={hasError ? "is-invalid" : ""}/>
+            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+        </>
+    )
+}
+
+export default asField(DropdownField)

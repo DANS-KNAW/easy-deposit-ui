@@ -16,7 +16,7 @@
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
-import { DatePickerInput } from "./DatePickerField"
+import { ErrorHandlingDatePickerInputField } from "./DatePickerField"
 import { DropdownListEntry } from "../../model/DropdownLists"
 import { DropdownFieldInput } from "./DropDownField"
 
@@ -43,7 +43,6 @@ const SchemedDatePickerArray = ({ names, label, schemeValues, withEmptyDefault }
               * Wrapping the Field in this way, together with the '.date-picker-field' allows us to
               * change some rules in form.css such that this field matches our overall look-and-feel.
               */}
-            <div className="form-control date-picker-field">
                 <Field name={names[1]}
                        label="Value"
                        todayButton="Today"
@@ -51,8 +50,7 @@ const SchemedDatePickerArray = ({ names, label, schemeValues, withEmptyDefault }
                        yearDropdownItemNumber={5}
                        scrollableYearDropdown
                        placeholder={label}
-                       component={DatePickerInput}/>
-            </div>
+                       component={ErrorHandlingDatePickerInputField}/>
         </div>
     </div>
 )

@@ -23,8 +23,8 @@ export interface Relation {
     title?: string
 }
 
-export const emptyRelation = ({
-    qualifier: "",
+export const emptyRelation: (qualifiers: DropdownListEntry[]) => Relation = qs => ({
+    qualifier: qs[0].key,
     url: "",
     title: "",
 })
@@ -34,7 +34,7 @@ const relatedIdentifierConverter: (qualifiers: DropdownListEntry[], identifiers:
     const scheme = ri.scheme
 
     if (qualifier && qualifiers.find(({ key }) => key === qualifier) || !qualifier) {
-        if (scheme && identifiers.find(({key}) => key === scheme) || !scheme)
+        if (scheme && identifiers.find(({ key }) => key === scheme) || !scheme)
             return qualifiedSchemedValueConverter(ri.qualifier || qualifiers[0].key, ri.scheme, ri.value)
         else
             throw `Error in metadata: no such related identifier scheme found: '${scheme}'`
@@ -70,10 +70,21 @@ export const relationsConverter: (relationQualifiers: DropdownListEntry[], ident
     }, [[], []])
 }
 
-export const relationDeconverter: (r: Relation) => any = r => clean({
-    qualifier: r.qualifier,
-    url: r.url,
-    title: r.title,
-})
+export const relationDeconverter: (relationQualifiers: DropdownListEntry[]) => (r: Relation) => any = relationQualifiers => r => {
+    if (r.qualifier !== relationQualifiers[0].key || r.url || r.title)
+        return clean({
+            qualifier: r.qualifier,
+            url: r.url,
+            title: r.title,
+        })
+    else
+        return {}
+}
 
-export const relatedIdentifierDeconverter: (ri: QualifiedSchemedValue) => any = qualifiedSchemedValueDeconverter
+export const relatedIdentifierDeconverter: (ri: QualifiedSchemedValue) => any = ri => {
+    // since we can't distinguish between Relation and RelatedIdentifier,
+    // we favor Relation and discard RelatedIdentifiers that only have a qualifier defined
+    if (!ri.qualifier || ri.scheme || ri.value)
+        return qualifiedSchemedValueDeconverter(ri)
+    return {}
+}

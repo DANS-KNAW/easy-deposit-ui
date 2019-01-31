@@ -99,14 +99,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                          label="Title"
                          mandatory
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableField name="alternativeTitles"
                          label="Alternative title"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
@@ -122,7 +122,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      label="People & organisations"
                                      helpText
                                      mandatory
-                                     empty={emptyContributor}
+                                     empty={() => emptyContributor}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
                                          (name: string) => `${name}.initials`, // 1
@@ -150,7 +150,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      label="Audience"
                                      mandatory
                                      helpText
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ audiences: audiences }}
                                      component={AudienceFieldArray}/>
@@ -158,14 +158,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableField name="subjects"
                          label="Subject"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="alternativeIdentifiers"
                                      label="Alternative identifier"
                                      helpText
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[
                                          (name: string) => `${name}.scheme`,
                                          (name: string) => `${name}.value`,
@@ -176,7 +176,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableFieldWithDropdown name="relatedIdentifiers"
                                      label="Relations"
                                      helpText
-                                     empty={emptyQualifiedSchemedValue}
+                                     empty={() => emptyQualifiedSchemedValue(relations.list)}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
                                          (name: string) => `${name}.scheme`,
@@ -190,7 +190,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
 
         <RepeatableFieldWithDropdown name="relations"
                                      label=""
-                                     empty={emptyRelation}
+                                     empty={() => emptyRelation(relations.list)}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
                                          (name: string) => `${name}.title`,
@@ -202,7 +202,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableFieldWithDropdown name="languagesOfFilesIso639"
                                      label="Language of files (ISO 639)"
                                      helpText
-                                     empty={emptySchemedValue}
+                                     empty={() => emptySchemedValue}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ languages: languages }}
                                      component={LanguageFieldArray}/>
@@ -210,14 +210,14 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableField name="languagesOfFiles"
                          label="Language of files"
                          helpText
-                         empty={emptyString}
+                         empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="datesIso8601"
                                      label="Date (ISO 8601)"
                                      helpText
-                                     empty={emptyQualifiedDate}
+                                     empty={() => emptyQualifiedDate(dates.list)}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
                                          (name: string) => `${name}.value`,
@@ -228,7 +228,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
         <RepeatableFieldWithDropdown name="dates"
                                      label="Date"
                                      helpText
-                                     empty={emptyQualifiedStringDate}
+                                     empty={() => emptyQualifiedStringDate(dates.list)}
                                      fieldNames={[
                                          (name: string) => `${name}.qualifier`,
                                          (name: string) => `${name}.value`,

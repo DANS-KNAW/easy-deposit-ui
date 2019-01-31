@@ -32,8 +32,13 @@ export interface QualifiedDate<Value> {
     value?: Value
 }
 
-export const emptyQualifiedDate: QualifiedDate<Date> = {}
-export const emptyQualifiedStringDate: QualifiedDate<string> = {}
+export const emptyQualifiedDate: (qualifiers: DropdownListEntry[]) => QualifiedDate<Date> = qs => ({
+    qualifier: qs[0].key,
+})
+
+export const emptyQualifiedStringDate: (qualifiers: DropdownListEntry[]) => QualifiedDate<string> = qs => ({
+    qualifier: qs[0].key,
+})
 
 interface InternalDate {
     scheme?: DateScheme,
@@ -49,13 +54,16 @@ export interface Dates {
     textDates: QualifiedDate<string>[]
 }
 
-const dateConverter: (d: any) => Date = d => {
-    const date: Date = new Date(d)
+const dateConverter: (d: any) => Date | undefined = d => {
+    if (d) {
+        const date: Date = new Date(d)
 
-    if (isNaN(date.getTime()))
-        throw `Error in metadata: invalid date found: '${d}'`
-    else
-        return date
+        if (isNaN(date.getTime()))
+            throw `Error in metadata: invalid date found: '${d}'`
+        else
+            return date
+    }
+    return undefined
 }
 
 const pad = (input: number, length?: number) => {
@@ -137,8 +145,8 @@ const qualifiedDateConverter: (dates: DropdownListEntry[]) => (sd: any) => Inter
 export const emptyDates: Dates = ({
     dateCreated: { qualifier: createdQualifier, value: undefined },
     dateAvailable: { qualifier: availableQualifier, value: undefined },
-    dates: [{ qualifier: undefined, value: undefined }],
-    textDates: [{ qualifier: undefined, value: "" }],
+    dates: [],
+    textDates: [],
 })
 
 export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any) => Dates = dates => sds => {
@@ -170,18 +178,21 @@ export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any)
     }, empty)
 }
 
-export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => {
-    if (d.value)
+export const qualifiedDateDeconverter: (dates: DropdownListEntry[]) => (d: QualifiedDate<Date>) => any = dates => d => {
+    if ((d.qualifier && d.qualifier !== dates[0].key) || d.value)
         return {
-            scheme: DateScheme.W3CDTF,
-            value: isoDateTimeFormat(d.value),
             qualifier: d.qualifier,
+            scheme: DateScheme.W3CDTF,
+            value: d.value ? isoDateTimeFormat(d.value) : "",
         }
-    else
-        return {}
+    return {}
 }
 
-export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => clean({
-    value: d.value,
-    qualifier: d.qualifier,
-})
+export const qualifiedDateStringDeconverter: (dates: DropdownListEntry[]) => (d: QualifiedDate<string>) => any = dates => d => {
+    if ((d.qualifier && d.qualifier !== dates[0].key) || d.value)
+        return clean({
+            qualifier: d.qualifier,
+            value: d.value,
+        })
+    return {}
+}

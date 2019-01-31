@@ -24,7 +24,7 @@ export interface CustomFieldProps {
 export type FieldProps = WrappedFieldProps & CustomFieldProps
 
 export interface CustomFieldArrayProps<FieldValue> extends CustomFieldProps {
-    empty: FieldValue
+    empty: () => FieldValue
     fieldNames: ((name: string) => string)[]
 }
 
