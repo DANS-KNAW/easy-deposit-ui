@@ -29,7 +29,9 @@ import { loginFormName } from "../../constants/authenticationConstants"
 import { FieldProps } from "../../lib/formComponents/ReduxFormUtils"
 import { Alert } from "../Errors"
 
-const asField = (InnerComponent: ComponentType<any>) => (props: FieldProps) => {
+type InnerComponentProps = FieldProps & HTMLAttributes<HTMLDivElement>
+
+const asField = (InnerComponent: ComponentType<InnerComponentProps>) => (props: FieldProps) => {
     const { label, input: { name }, meta: { error, submitFailed } } = props
     const hasError = error && submitFailed
 
