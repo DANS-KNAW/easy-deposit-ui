@@ -87,7 +87,7 @@ class EasyLogin extends Component<AllEasyLoginProps> {
 
                     {errorMessage && <LoginError className="mt-3 ml-3 mr-3">{errorMessage}</LoginError>}
 
-                    <button type="button"
+                    <button type="submit"
                             className="btn btn-dark ml-3 margin-top-bottom"
                             onClick={handleSubmit(this.callAuthenticate)}
                             disabled={authenticating}>
