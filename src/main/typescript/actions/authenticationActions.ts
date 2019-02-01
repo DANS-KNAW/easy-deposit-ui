@@ -87,13 +87,13 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
         catch (userResponse) {
             LocalStorage.setLogout()
 
-            dispatch(authenticateRejected(`not able to fetch user details: ${userResponse.response.data}`))
+            dispatch(authenticateRejected(`Not able to fetch user details: ${userResponse.response.data}`))
         }
     }
     catch (loginResponse) {
         LocalStorage.setLogout()
 
-        dispatch(authenticateRejected(`not able to login: ${loginResponse.response.data}`))
+        dispatch(authenticateRejected(`Not able to login: ${loginResponse.response.data}`))
     }
 }
 
