@@ -135,7 +135,7 @@ export const creatorConverter: (ids: DropdownListEntry[]) => (c: any) => Contrib
         surname: c.surname || emptyString,
         ids: c.ids ? c.ids.map(contributorSchemeIdConverter(ids)) : [emptySchemedValue],
         role: creatorRole,
-        organization: c.organization || emptyString
+        organization: c.organization || emptyString,
     })
 }
 
@@ -148,15 +148,20 @@ export const creatorDeconverter: (c: Contributor) => any = c => clean({
     organization: c.organization,
 })
 
-export const rightsHolderDeconverter: (c: Contributor) => any = c => clean({
-    titles: c.titles,
-    initials: c.initials,
-    insertions: c.insertions,
-    surname: c.surname,
-    ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
-    role: c.role && rightsHolderRoleDeconverter(c.role),
-    organization: c.organization,
-})
+export const rightsHolderDeconverter: (c: Contributor) => any = c => {
+    const rh = clean({
+        titles: c.titles,
+        initials: c.initials,
+        insertions: c.insertions,
+        surname: c.surname,
+        ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
+        organization: c.organization,
+    })
+
+    return Object.keys(rh).length !== 0
+        ? { ...rh, role: c.role && rightsHolderRoleDeconverter(c.role) }
+        : rh
+}
 
 export const contributorsConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (cs: any) => [Contributor[], Contributor[]] = (ids, roles) => cs => {
     const contributors: Contributor[] = cs.map(contributorConverter(ids, roles))
