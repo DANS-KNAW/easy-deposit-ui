@@ -91,7 +91,7 @@ class EasyLogin extends Component<AllEasyLoginProps> {
                             className="btn btn-dark ml-3 margin-top-bottom"
                             onClick={handleSubmit(this.callAuthenticate)}
                             disabled={authenticating}>
-                        Login
+                        Log in
                     </button>
                 </form>
             </LoginCard>
