@@ -51,13 +51,13 @@ export const emptyContributor: Contributor = {
 }
 
 export const emptyCreator: Contributor = {
-    titles: emptyString,
-    initials: emptyString,
-    insertions: emptyString,
-    surname: emptyString,
-    ids: [emptySchemedValue],
+    ...emptyContributor,
     role: creatorRole,
-    organization: emptyString,
+}
+
+export const emptyRightsholder: Contributor = {
+    ...emptyContributor,
+    role: rightsholderRole,
 }
 
 const contributorSchemeIdConverter: (ids: DropdownListEntry[]) => (cs: any) => SchemedValue = ids => cs => {
