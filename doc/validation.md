@@ -34,15 +34,17 @@ Deposit form
   * mandatory field
     * _error text:_ "no description was provided"
 * **contributors**
-  * mandatory field array
-    * _error text:_ "no contributors were provided"
-  * one creator minimum
+  * mandatory field array: at least one person or organization must be added to the form
+    * _error text:_ "no person or organization details were provided"
+  * one creator minimum: at least one contributor must have the role 'Creator'
     * _error text:_ "at least one creator is required"
-  * every nonempty contributor must have either an organization or {initial, surname}
+  * every contributor must have at least either an organization or {initial, surname}. All three
+    errors are given when only non-required fields are filled in; the second error is shown when
+    'surname' is provided, but 'initials' is not (and vise versa regarding the third error)
     * _error text:_ "no organization given"
     * _error text:_ "no initials given"
     * _error text:_ "no surname given"
-  * no partially filled in identifiers
+  * no partial identifiers
     * _error text:_ "no scheme given"
     * _error text:_ "no identifier given"
 * **dateCreated**
@@ -81,11 +83,13 @@ Deposit form
 ### License and access form
 
 * **rightsHolders**
-  * every nonempty contributor must have either an organization or {initial, surname}
+  * every contributor must have at least either an organization or {initial, surname}. All three
+    errors are given when only non-required fields are filled in; the second error is shown when
+    'surname' is provided, but 'initials' is not (and vise versa regarding the third error)
     * _error text:_ "no organization given"
     * _error text:_ "no initials given"
     * _error text:_ "no surname given"
-  * every nonempty contributor must have no partially filled in identifiers
+  * no partial identifiers
     * _error text:_ "no scheme given"
     * _error text:_ "no identifier given"
 * **accessRights**

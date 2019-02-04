@@ -68,7 +68,7 @@ const checkNonEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== 
 
 export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => {
     if (!contributors)
-        return "no contributors were provided"
+        return "no person or organization details were provided"
     else {
         const nonEmptyContributors = contributors.map(contributor => {
             const nonEmptyOrganization = checkNonEmpty(contributor.organization)
@@ -90,7 +90,7 @@ export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => 
         }).reduce((prev, curr) => prev || curr, false)
 
         if (!nonEmptyContributors)
-            return "no contributors were provided"
+            return "no person or organization details were provided"
         else
             return undefined
     }
