@@ -58,12 +58,14 @@ Deposit form
     * _error text:_ "no scheme given"
     * _error text:_ "no identifier given"
 * **relatedIdentifiers**
-  * if it has one element, only validate if either `scheme` or `value` is filled in
+  * if it has one element, only validate iff either `scheme` or `value` is filled in;
+    validate always when multiple elements are given
   * no partially filled in identifiers
     * _error text:_ "no scheme given"
     * _error text:_ "no identifier given"
 * **relations**
-  * if it has one element, only validate if either `title` or `url` is filled in
+  * if it has one element, only validate iff either `title` or `url` is filled in;
+    validate always when multiple elements are given
   * only a qualifier is selected
     * _error text:_ "no title given"
     * _error text:_ "no url given"
