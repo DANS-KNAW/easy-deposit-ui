@@ -26,24 +26,24 @@ import { Box } from "../../lib/metadata/SpatialBox"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
-        ? `no ${name} was provided`
+        ? `No ${name} was provided`
         : undefined
 }
 
 export const mandatoryFieldArrayValidator = (values: any[] | undefined, name: string) => {
     return !values || (values && (values.length == 0 || values.filter(value => value && value.trim() !== "").length === 0))
-        ? `no ${name} were provided`
+        ? `No ${name} were provided`
         : undefined
 }
 
 export const mandatoryRadioButtonValidator = (value: any, name: string) => {
     return !value || typeof value === "object" && Object.keys(value).filter(key => value[key] && value[key].trim() !== "").length === 0
-        ? `no ${name} was chosen`
+        ? `No ${name} was chosen`
         : undefined
 }
 
 export const mandatoryPrivacySensitiveDataValidator = (value: any) => {
-    const errMsg = "please determine whether privacy sensitive data is present in this deposit"
+    const errMsg = "Please determine whether privacy sensitive data is present in this deposit"
     if (!value)
         return errMsg
     else if (typeof value === "string" && (value.trim() === "" || value.trim() === PrivacySensitiveDataValue.UNSPECIFIED))
@@ -68,7 +68,7 @@ const checkNonEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== 
 
 export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => {
     if (!contributors)
-        return "no person or organization details were provided"
+        return "No person or organization details were provided"
     else {
         const nonEmptyContributors = contributors.map(contributor => {
             const nonEmptyOrganization = checkNonEmpty(contributor.organization)
@@ -90,7 +90,7 @@ export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => 
         }).reduce((prev, curr) => prev || curr, false)
 
         if (!nonEmptyContributors)
-            return "no person or organization details were provided"
+            return "No person or organization details were provided"
         else
             return undefined
     }
@@ -98,13 +98,13 @@ export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => 
 
 export const atLeastOneCreator = (contributors?: Contributor[]) => {
     if (!contributors)
-        return "at least one creator is required"
+        return "At least one creator is required"
     else {
         const containsCreator = contributors.map(contributor => contributor.role === creatorRole)
             .reduce((prev, curr) => prev || curr, false)
 
         if (!containsCreator)
-            return "at least one creator is required"
+            return "At least one creator is required"
         else
             return undefined
     }
@@ -133,11 +133,11 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
         if (nonEmptyContributor) {
             if (!nonEmptyOrganization && (!nonEmptyInitials || !nonEmptySurname)) {
                 if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
-                    contribError.organization = "no organization given"
+                    contribError.organization = "No organization given"
                 if (!nonEmptyInitials)
-                    contribError.initials = "no initials given"
+                    contribError.initials = "No initials given"
                 if (!nonEmptySurname)
-                    contribError.surname = "no surname given"
+                    contribError.surname = "No surname given"
             }
 
             if (contributor.ids)
@@ -156,10 +156,10 @@ export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedVal
         const idError: SchemedValue = {}
 
         if (!nonEmptyScheme && nonEmptyValue)
-            idError.scheme = "no scheme given"
+            idError.scheme = "No scheme given"
 
         if (nonEmptyScheme && !nonEmptyValue)
-            idError.value = "no identifier given"
+            idError.value = "No identifier given"
 
         return idError
     })
@@ -173,9 +173,9 @@ export const validateQualifiedSchemedValues: (qsvs: QualifiedSchemedValue[]) => 
         const relatedIdentifierError: QualifiedSchemedValue = {}
 
         if (!nonEmptyScheme)
-            relatedIdentifierError.scheme = "no scheme given"
+            relatedIdentifierError.scheme = "No scheme given"
         if (!nonEmptyValue)
-            relatedIdentifierError.value = "no value given"
+            relatedIdentifierError.value = "No value given"
 
         return relatedIdentifierError
     }
@@ -204,14 +204,14 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
         const relationError: Relation = {}
 
         if (nonEmptyQualifier && !nonEmptyTitle && !nonEmptyUrl) {
-            relationError.title = "no title given"
-            relationError.url = "no url given"
+            relationError.title = "No title given"
+            relationError.url = "No url given"
         }
         else if (!nonEmptyTitle && nonEmptyUrl)
-            relationError.title = "no title given"
+            relationError.title = "No title given"
 
         if (nonEmptyUrl && !validUrl.isUri(relation.url))
-            relationError.url = "no valid url given"
+            relationError.url = "No valid url given"
 
         return relationError
     }
@@ -244,7 +244,7 @@ export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<strin
                 const dateError: QualifiedDate<string> = {}
 
                 if (!nonEmptyValue)
-                    dateError.value = "no date given"
+                    dateError.value = "No date given"
 
                 return dateError
             })
@@ -261,11 +261,11 @@ export const validateSpatialPoints: (spatialPoints: Point[]) => Point[] = spatia
 
         if (nonEmptyScheme || nonEmptyX || nonEmptyY) {
             if (!nonEmptyScheme)
-                pointError.scheme = "no scheme given"
+                pointError.scheme = "No scheme given"
             if (!nonEmptyX)
-                pointError.x = "no x coordinate given"
+                pointError.x = "No x coordinate given"
             if (!nonEmptyY)
-                pointError.y = "no y coordinate given"
+                pointError.y = "No y coordinate given"
         }
 
         // TODO validate coordinate w.r.t. the scheme
@@ -286,15 +286,15 @@ export const validateSpatialBoxes: (spatialBoxes: Box[]) => Box[] = spatialBoxes
 
         if (nonEmptyScheme || nonEmptyNorth || nonEmptyEast || nonEmptySouth || nonEmptyWest) {
             if (!nonEmptyScheme)
-                boxError.scheme = "no scheme given"
+                boxError.scheme = "No scheme given"
             if (!nonEmptyNorth)
-                boxError.north = "no north coordinate given"
+                boxError.north = "No north coordinate given"
             if (!nonEmptyEast)
-                boxError.east = "no east coordinate given"
+                boxError.east = "No east coordinate given"
             if (!nonEmptySouth)
-                boxError.south = "no south coordinate given"
+                boxError.south = "No south coordinate given"
             if (!nonEmptyWest)
-                boxError.west = "no west coordinate given"
+                boxError.west = "No west coordinate given"
         }
 
         // TODO validate coordinates w.r.t. the scheme
