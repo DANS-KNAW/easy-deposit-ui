@@ -116,7 +116,7 @@ class Header extends Component<HeaderProps> {
                       to={homeRoute}
                       title="Log out">Log out</Link>,
             ]
-            : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Login</NavBarLink>]
+            : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Log in</NavBarLink>]
 
         return (
             <header className="container-fluid">
