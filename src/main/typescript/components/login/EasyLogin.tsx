@@ -29,7 +29,9 @@ import { loginFormName } from "../../constants/authenticationConstants"
 import { FieldProps } from "../../lib/formComponents/ReduxFormUtils"
 import { Alert } from "../Errors"
 
-const asField = (InnerComponent: ComponentType<any>) => (props: FieldProps) => {
+type InnerComponentProps = FieldProps & HTMLAttributes<HTMLDivElement>
+
+const asField = (InnerComponent: ComponentType<InnerComponentProps>) => (props: FieldProps) => {
     const { label, input: { name }, meta: { error, submitFailed } } = props
     const hasError = error && submitFailed
 
@@ -85,11 +87,11 @@ class EasyLogin extends Component<AllEasyLoginProps> {
 
                     {errorMessage && <LoginError className="mt-3 ml-3 mr-3">{errorMessage}</LoginError>}
 
-                    <button type="button"
+                    <button type="submit"
                             className="btn btn-dark ml-3 margin-top-bottom"
                             onClick={handleSubmit(this.callAuthenticate)}
                             disabled={authenticating}>
-                        Login
+                        Log in
                     </button>
                 </form>
             </LoginCard>

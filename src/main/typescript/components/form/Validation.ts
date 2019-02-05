@@ -66,9 +66,9 @@ export const dateAvailableMustBeAfterDateCreated = (dateCreated?: Date, dateAvai
 
 const checkNonEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== "" : false
 
-export const atLeastOneContributor = (contributors?: Contributor[]) => {
+export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => {
     if (!contributors)
-        return "No contributors were provided"
+        return "No person or organization details were provided"
     else {
         const nonEmptyContributors = contributors.map(contributor => {
             const nonEmptyOrganization = checkNonEmpty(contributor.organization)
@@ -90,7 +90,7 @@ export const atLeastOneContributor = (contributors?: Contributor[]) => {
         }).reduce((prev, curr) => prev || curr, false)
 
         if (!nonEmptyContributors)
-            return "No contributors were provided"
+            return "No person or organization details were provided"
         else
             return undefined
     }
@@ -119,12 +119,14 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
         const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
         const nonEmptySurname = checkNonEmpty(contributor.surname)
         const nonEmptyIdentifiers = (contributor.ids || []).reduce(((p, id) => p || checkNonEmpty(id.scheme) || checkNonEmpty(id.value)), false)
+        const nonEmptyRole = checkNonEmpty(contributor.role)
         const nonEmptyContributor = nonEmptyOrganization
             || nonEmptyTitles
             || nonEmptyInitials
             || nonEmptyInsertions
             || nonEmptySurname
             || nonEmptyIdentifiers
+            || nonEmptyRole
 
         const contribError: Contributor = {}
 
@@ -310,7 +312,7 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.titles = { _error: mandatoryFieldArrayValidator(values.titles, "titles") }
     errors.description = mandatoryFieldValidator(values.description, "description")
     if (values.contributors) {
-        const oneContributor = atLeastOneContributor(values.contributors)
+        const oneContributor = atLeastOnePersonOrOrganization(values.contributors)
         const oneCreator = atLeastOneCreator(values.contributors)
 
         if (oneContributor)

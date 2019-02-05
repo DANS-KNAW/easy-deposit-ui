@@ -119,7 +119,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                component={TextArea}/>
 
         <RepeatableFieldWithDropdown name="contributors"
-                                     label="People & organisations"
+                                     label="People & organizations"
                                      helpText
                                      mandatory
                                      empty={() => emptyContributor}

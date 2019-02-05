@@ -16,7 +16,7 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
-    atLeastOneContributor,
+    atLeastOnePersonOrOrganization,
     atLeastOneCreator,
     checkboxMustBeChecked,
     dateAvailableMustBeAfterDateCreated,
@@ -193,19 +193,19 @@ describe("Validation", () => {
         const contributor4: Contributor = {}
 
         it("should return undefined when at least one Contributor is not empty", () => {
-            expect(atLeastOneContributor([contributor1, contributor2, contributor3, contributor4])).to.be.undefined
+            expect(atLeastOnePersonOrOrganization([contributor1, contributor2, contributor3, contributor4])).to.be.undefined
         })
 
         it("should return an error when undefined is given", () => {
-            expect(atLeastOneContributor(undefined)).to.eql("No contributors were provided")
+            expect(atLeastOneContributor(undefined)).to.eql("No person or organization details were provided")
         })
 
         it("should return an error when an empty list is given", () => {
-            expect(atLeastOneContributor([])).to.eql("No contributors were provided")
+            expect(atLeastOneContributor([])).to.eql("No person or organization details were provided")
         })
 
         it("should return an error when only empty Contributors are given", () => {
-            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("No contributors were provided")
+            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("No person or organization details were provided")
         })
     })
 
