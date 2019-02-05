@@ -64,8 +64,8 @@ import {
     contributorsConverter,
     creatorConverter,
     creatorDeconverter,
-    emptyContributor,
     emptyCreator,
+    emptyRightsholder,
     rightsHolderDeconverter,
     splitCreatorsAndContributors,
 } from "./Contributor"
@@ -147,7 +147,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         instructionsForReuse: instructionsForReuse,
 
         // license and access
-        rightsHolders: normalizeEmpty(rightsHolders, () => emptyContributor),
+        rightsHolders: normalizeEmpty(rightsHolders, () => emptyRightsholder),
         publishers: normalizeEmpty(input.publishers, () => emptyString),
         accessRights: accessRights,
         license: license,

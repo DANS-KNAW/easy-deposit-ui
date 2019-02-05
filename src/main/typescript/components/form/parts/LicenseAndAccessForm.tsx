@@ -17,7 +17,7 @@ import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field, Fields } from "redux-form"
-import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
+import { Contributor, emptyContributor, emptyRightsholder } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
 import { AppState } from "../../../model/AppState"
@@ -45,7 +45,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         <RepeatableFieldWithDropdown name="rightsHolders"
                                      label="Rightsholders"
                                      helpText
-                                     empty={() => emptyContributor}
+                                     empty={() => emptyRightsholder}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
                                          (name: string) => `${name}.initials`, // 1
