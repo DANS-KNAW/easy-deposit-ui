@@ -197,15 +197,15 @@ describe("Validation", () => {
         })
 
         it("should return an error when undefined is given", () => {
-            expect(atLeastOneContributor(undefined)).to.eql("No person or organization details were provided")
+            expect(atLeastOnePersonOrOrganization(undefined)).to.eql("No person or organization details were provided")
         })
 
         it("should return an error when an empty list is given", () => {
-            expect(atLeastOneContributor([])).to.eql("No person or organization details were provided")
+            expect(atLeastOnePersonOrOrganization([])).to.eql("No person or organization details were provided")
         })
 
         it("should return an error when only empty Contributors are given", () => {
-            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("No person or organization details were provided")
+            expect(atLeastOnePersonOrOrganization([contributor3, contributor4])).to.eql("No person or organization details were provided")
         })
     })
 
