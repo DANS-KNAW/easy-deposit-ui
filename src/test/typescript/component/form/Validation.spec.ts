@@ -47,11 +47,11 @@ describe("Validation", () => {
         })
 
         it("should return an error when the value is empty", () => {
-            expect(mandatoryFieldValidator("", fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryFieldValidator("", fieldName)).to.eql(`No ${fieldName} was provided`)
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryFieldValidator(undefined, fieldName)).to.eql(`no ${fieldName} was provided`)
+            expect(mandatoryFieldValidator(undefined, fieldName)).to.eql(`No ${fieldName} was provided`)
         })
     })
 
@@ -66,15 +66,15 @@ describe("Validation", () => {
         })
 
         it("should return an error when the array is empty", () => {
-            expect(mandatoryFieldArrayValidator([], fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator([], fieldName)).to.eql(`No ${fieldName} were provided`)
         })
 
         it("should return an error when the array only contains empty values", () => {
-            expect(mandatoryFieldArrayValidator(["", "", ""], fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator(["", "", ""], fieldName)).to.eql(`No ${fieldName} were provided`)
         })
 
         it("should return an error when the array is undefined", () => {
-            expect(mandatoryFieldArrayValidator(undefined, fieldName)).to.eql(`no ${fieldName} were provided`)
+            expect(mandatoryFieldArrayValidator(undefined, fieldName)).to.eql(`No ${fieldName} were provided`)
         })
     })
 
@@ -92,11 +92,11 @@ describe("Validation", () => {
         })
 
         it("should return an error when the object contains only empty values", () => {
-            expect(mandatoryRadioButtonValidator({ "hello": "" }, fieldName)).to.eql(`no ${fieldName} was chosen`)
+            expect(mandatoryRadioButtonValidator({ "hello": "" }, fieldName)).to.eql(`No ${fieldName} was chosen`)
         })
 
         it("should return an error when the value is undefined", () => {
-            expect(mandatoryRadioButtonValidator(undefined, fieldName)).to.eql(`no ${fieldName} was chosen`)
+            expect(mandatoryRadioButtonValidator(undefined, fieldName)).to.eql(`No ${fieldName} was chosen`)
         })
     })
 
@@ -112,22 +112,22 @@ describe("Validation", () => {
 
         it("should return an error when the value is a string that is empty", () => {
             expect(mandatoryPrivacySensitiveDataValidator(""))
-                .to.eql("please determine whether privacy sensitive data is present in this deposit")
+                .to.eql("Please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is a string that represents PrivacySensitiveDataValue.UNSPECIFIED", () => {
             expect(mandatoryPrivacySensitiveDataValidator(PrivacySensitiveDataValue.UNSPECIFIED))
-                .to.eql("please determine whether privacy sensitive data is present in this deposit")
+                .to.eql("Please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is an object with only empty values", () => {
             expect(mandatoryPrivacySensitiveDataValidator({ "hello": "" }))
-                .to.eql("please determine whether privacy sensitive data is present in this deposit")
+                .to.eql("Please determine whether privacy sensitive data is present in this deposit")
         })
 
         it("should return an error when the value is undefined", () => {
             expect(mandatoryPrivacySensitiveDataValidator(undefined))
-                .to.eql("please determine whether privacy sensitive data is present in this deposit")
+                .to.eql("Please determine whether privacy sensitive data is present in this deposit")
         })
     })
 
@@ -197,15 +197,15 @@ describe("Validation", () => {
         })
 
         it("should return an error when undefined is given", () => {
-            expect(atLeastOneContributor(undefined)).to.eql("no contributors were provided")
+            expect(atLeastOneContributor(undefined)).to.eql("No contributors were provided")
         })
 
         it("should return an error when an empty list is given", () => {
-            expect(atLeastOneContributor([])).to.eql("no contributors were provided")
+            expect(atLeastOneContributor([])).to.eql("No contributors were provided")
         })
 
         it("should return an error when only empty Contributors are given", () => {
-            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("no contributors were provided")
+            expect(atLeastOneContributor([contributor3, contributor4])).to.eql("No contributors were provided")
         })
     })
 
@@ -242,16 +242,16 @@ describe("Validation", () => {
         })
 
         it("should return an error when undefined is given", () => {
-            expect(atLeastOneCreator(undefined)).to.eql("at least one creator is required")
+            expect(atLeastOneCreator(undefined)).to.eql("At least one creator is required")
         })
 
         it("should return an error when an empty list is given", () => {
-            expect(atLeastOneCreator([])).to.eql("at least one creator is required")
+            expect(atLeastOneCreator([])).to.eql("At least one creator is required")
         })
 
         it("should return an error when no Contributor has role 'Creator'", () => {
             expect(atLeastOneCreator([contributor1, contributor2, contributor3, contributor4]))
-                .to.eql("at least one creator is required")
+                .to.eql("At least one creator is required")
         })
     })
 
@@ -309,21 +309,21 @@ describe("Validation", () => {
 
         it("should return an error object with only field 'surname' when only 'initials' is provided", () => {
             expect(validateContributors([{ initials: "D.A." }])).to.eql([{
-                surname: "no surname given",
+                surname: "No surname given",
             }])
         })
 
         it("should return an error object with only field 'initials' when only 'surname' is provided", () => {
             expect(validateContributors([{ surname: "N.S." }])).to.eql([{
-                initials: "no initials given",
+                initials: "No initials given",
             }])
         })
 
         it("should return an error object with all of 'initials', 'surname' and 'organization' when only an insertion is given", () => {
             expect(validateContributors([{ insertions: "van" }])).to.eql([{
-                organization: "no organization given",
-                initials: "no initials given",
-                surname: "no surname given",
+                organization: "No organization given",
+                initials: "No initials given",
+                surname: "No surname given",
             }])
         })
 
@@ -331,11 +331,11 @@ describe("Validation", () => {
             expect(validateContributors([contributor5])).to.eql([{
                 ids: [
                     {
-                        value: "no identifier given",
+                        value: "No identifier given",
                     },
                     {},
                     {
-                        scheme: "no scheme given",
+                        scheme: "No scheme given",
                     },
                 ],
             }])
@@ -365,13 +365,13 @@ describe("Validation", () => {
 
         it("should return an error object when only the scheme is given", () => {
             expect(validateSchemedValue([{ scheme: "foo" }])).to.eql([{
-                value: "no identifier given",
+                value: "No identifier given",
             }])
         })
 
         it("should return an error object when only the value is given", () => {
             expect(validateSchemedValue([{ value: "bar" }])).to.eql([{
-                scheme: "no scheme given",
+                scheme: "No scheme given",
             }])
         })
     })
@@ -398,7 +398,7 @@ describe("Validation", () => {
                 qualifier: "q",
                 // no scheme
                 value: "v",
-            }])).to.eql([{ scheme: "no scheme given" }])
+            }])).to.eql([{ scheme: "No scheme given" }])
         })
 
         it("should return an error object when one QualifiedSchemedValue is given with 'value' missing", () => {
@@ -406,7 +406,7 @@ describe("Validation", () => {
                 qualifier: "q",
                 scheme: "s",
                 // no value
-            }])).to.eql([{ value: "no value given" }])
+            }])).to.eql([{ value: "No value given" }])
         })
 
         it("should return error objects when multiple (some incomplete) QualifiedSchemedValues are given", () => {
@@ -434,14 +434,14 @@ describe("Validation", () => {
             ])).to.eql([
                 {},
                 {
-                    scheme: "no scheme given",
+                    scheme: "No scheme given",
                 },
                 {
-                    value: "no value given",
+                    value: "No value given",
                 },
                 {
-                    scheme: "no scheme given",
-                    value: "no value given",
+                    scheme: "No scheme given",
+                    value: "No value given",
                 },
             ])
         })
@@ -469,7 +469,7 @@ describe("Validation", () => {
                 qualifier: "q",
                 // no title
                 url: "http://easy.dans.knaw.nl/",
-            }])).to.eql([{ title: "no title given" }])
+            }])).to.eql([{ title: "No title given" }])
         })
 
         it("should return an empty object when one Relation is given with 'url' missing", () => {
@@ -485,7 +485,7 @@ describe("Validation", () => {
                 qualifier: "q",
                 title: "t",
                 url: "invalid",
-            }])).to.eql([{ url: "no valid url given" }])
+            }])).to.eql([{ url: "No valid url given" }])
         })
 
         it("should return error objects when multiple (some incomplete) Relations are given", () => {
@@ -518,15 +518,15 @@ describe("Validation", () => {
             ])).to.eql([
                 {},
                 {
-                    title: "no title given",
+                    title: "No title given",
                 },
                 {},
                 {
-                    title: "no title given",
-                    url: "no url given",
+                    title: "No title given",
+                    url: "No url given",
                 },
                 {
-                    url: "no valid url given",
+                    url: "No valid url given",
                 },
             ])
         })
@@ -564,7 +564,7 @@ describe("Validation", () => {
                     qualifier: "q",
                     // no value
                 },
-            ])).to.eql([{}, { value: "no date given" }])
+            ])).to.eql([{}, { value: "No date given" }])
         })
     })
 
@@ -596,7 +596,7 @@ describe("Validation", () => {
                     x: "",
                     y: "",
                 },
-            ])).to.eql([{ scheme: "no scheme given" }, { x: "no x coordinate given", y: "no y coordinate given" }])
+            ])).to.eql([{ scheme: "No scheme given" }, { x: "No x coordinate given", y: "No y coordinate given" }])
         })
     })
 
@@ -634,11 +634,11 @@ describe("Validation", () => {
                     south: "",
                     west: "",
                 },
-            ])).to.eql([{ scheme: "no scheme given" }, {
-                north: "no north coordinate given",
-                east: "no east coordinate given",
-                south: "no south coordinate given",
-                west: "no west coordinate given",
+            ])).to.eql([{ scheme: "No scheme given" }, {
+                north: "No north coordinate given",
+                east: "No east coordinate given",
+                south: "No south coordinate given",
+                west: "No west coordinate given",
             }])
         })
     })
