@@ -16,7 +16,7 @@
 import * as React from "react"
 import { DropdownList, DropdownListEntry } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { Component, SelectHTMLAttributes } from "react"
+import { Component, SelectHTMLAttributes, useEffect, useState } from "react"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
@@ -26,106 +26,80 @@ interface LicenseChoicesProps {
     className: string
 }
 
-interface LicenseChoicesState {
-    showCount: number
-}
-
 type Choice = { title: string, value: any }
 
-class LicenseChoices extends Component<FieldProps & LicenseChoicesProps, LicenseChoicesState> {
-    constructor(props: FieldProps & LicenseChoicesProps) {
-        super(props)
-        this.state = {
-            showCount: 1,
-        }
-    }
+const LicenseChoices = (props: FieldProps & LicenseChoicesProps) => {
+    const [showCount, setShowCount] = useState(1)
 
-    showMoreLicenses: () => void = () => {
-        switch (this.state.showCount) {
+    useEffect(() => setShowCount(1), [props.choices])
+
+    const showMoreLicenses = () => {
+        switch (showCount) {
             case 1:
-                this.setState(prevState => ({ ...prevState, showCount: 3 }))
+                setShowCount(3)
                 break
             case 3:
             default:
-                this.setState(prevState => ({ ...prevState, showCount: Infinity }))
+                setShowCount(Infinity)
                 break
         }
     }
 
-    showLessLicenses: () => void = () => {
-        switch (this.state.showCount) {
+    const showLessLicenses = () => {
+        switch (showCount) {
             case 1:
                 break
             case 3:
-                this.setState(prevState => ({ ...prevState, showCount: 1 }))
+                setShowCount(1)
                 break
             default:
-                this.setState(prevState => ({ ...prevState, showCount: 3 }))
+                setShowCount(3)
                 break
         }
     }
 
-    radioChoice = (text: string, link: string) => (
+    const radioChoice = (text: string, link: string) => (
         <span><a className="external-link" href={link} target="_blank"><i className="fas fa-external-link-square-alt"/></a> {text}</span>
     )
 
-    choices(): Choice[] {
-        const value = this.props.input.value
-        const actualChoices = this.props.choices.slice(0, this.state.showCount).map(entry => ({
-            title: entry.key,
-            value: this.radioChoice(entry.value, entry.key),
-        }))
-        if (!actualChoices.find(({ title }) => title === value)) {
-            const original = this.props.choices.find(({ key }) => key === value)
-            if (original) {
-                actualChoices.push({
-                    title: original.key,
-                    value: this.radioChoice(original.value, original.key),
-                })
-            }
+    const renderNoLicenses = () => (
+        <label className="mb-0" style={{ paddingTop: "5px" }}>
+            <i>Choose an accessright first</i>
+        </label>
+    )
+
+    const renderLicenses = (choices: Choice[]) => (
+        <div className={`license-field ${props.className || ""}`}>
+            <RadioChoicesInput {...props} divClassName="radio-choices" choices={choices}/>
+            {props.choices.length > showCount && renderShowMore()}
+            {props.choices.length < showCount && renderShowLess()}
+        </div>
+    )
+
+    const renderShowMore = () => <a className="show-more" onClick={showMoreLicenses}>show more...</a>
+
+    const renderShowLess = () => <a className="show-less" onClick={showLessLicenses}>show less...</a>
+
+    if (showCount < 1)
+        setShowCount(1)
+
+    const value = props.input.value
+    const choices = props.choices.slice(0, showCount).map(entry => ({
+        title: entry.key,
+        value: radioChoice(entry.value, entry.key),
+    }))
+
+    if (showCount !== Infinity && !choices.find(({ title }) => title === value)) {
+        const original = props.choices.find(({ key }) => key === value)
+        if (original) {
+            choices.push({
+                title: original.key,
+                value: radioChoice(original.value, original.key),
+            })
         }
-
-        return actualChoices
     }
 
-    componentDidUpdate(prevProps: FieldProps & LicenseChoicesProps) {
-        if (prevProps.choices !== this.props.choices)
-            this.setState(prevState => ({ ...prevState, showCount: 1 }))
-    }
-
-    render() {
-        if (this.state.showCount < 1)
-            this.setState(prevState => ({ ...prevState, showCount: 1 }))
-
-        const choices = this.choices()
-        return choices.length === 0 ? LicenseChoices.renderNoLicenses() : this.renderLicenses(choices)
-    }
-
-    private static renderNoLicenses() {
-        return (
-            <label className="mb-0" style={{ paddingTop: "5px" }}>
-                <i>Choose an accessright first</i>
-            </label>
-        )
-    }
-
-    private renderLicenses(choices: Choice[]) {
-        return (
-            <div className={`license-field ${this.props.className || ""}`}>
-                <RadioChoicesInput {...this.props} divClassName="radio-choices" choices={choices}/>
-                {this.props.choices.length > this.state.showCount && this.renderShowMore()}
-                {this.props.choices.length < this.state.showCount && this.renderShowLess()}
-            </div>
-        )
-    }
-
-    private renderShowMore() {
-        return <a className="show-more" onClick={this.showMoreLicenses}>show more...</a>
-    }
-
-    private renderShowLess() {
-        return <a className="show-less" onClick={this.showLessLicenses}>show less...</a>
-    }
+    return choices.length === 0 ? renderNoLicenses() : renderLicenses(choices)
 }
 
 const LicenseChoicesField = asField(LicenseChoices)

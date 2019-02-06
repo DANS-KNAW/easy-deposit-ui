@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import FilesOverview from "./fileUpload/overview/FilesOverview"
 import { DepositId } from "../../../model/Deposits"
 import FileUploader from "./fileUpload/upload/FileUploader"
@@ -23,15 +22,11 @@ interface FileUploadProps {
     depositId: DepositId
 }
 
-class FileUpload extends Component<FileUploadProps> {
-    render() {
-        return (
-            <>
-                <FilesOverview depositId={this.props.depositId}/>
-                <FileUploader depositId={this.props.depositId}/>
-            </>
-        )
-    }
-}
+const FileUpload = (props: FileUploadProps) => (
+    <>
+        <FilesOverview depositId={props.depositId}/>
+        <FileUploader depositId={props.depositId}/>
+    </>
+)
 
 export default FileUpload

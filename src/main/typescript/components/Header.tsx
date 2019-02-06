@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, ImgHTMLAttributes, FC } from "react"
+import { FC, ImgHTMLAttributes, useEffect } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
 import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
@@ -87,60 +87,48 @@ interface HeaderProps {
     getUser: () => ComplexThunkAction
 }
 
-class Header extends Component<HeaderProps> {
-
-    componentDidMount() {
-        this.getUserDetails()
-    }
-
-    componentDidUpdate() {
-        this.getUserDetails()
-    }
-
-    getUserDetails = () => {
-        const { isLoggedIn, loginName, getUser } = this.props
-        if (isLoggedIn && !loginName) {
+const Header = ({ isLoggedIn, loginName, signout, getUser }: HeaderProps) => {
+    useEffect(() => {
+        if (isLoggedIn && !loginName)
             getUser()
-        }
-    }
+    })
 
-    render() {
-        const { isLoggedIn, loginName, signout } = this.props
-        const loginNavBar = isLoggedIn && loginName
-            ? [
-                <span key="loginName" className="navbar-text">{loginName}</span>,
-                <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-                <Link onClick={signout}
-                      className="nav-link logoff"
-                      key="log out"
-                      to={homeRoute}
-                      title="Log out">Log out</Link>,
-            ]
-            : [<NavBarLink key="login" to={loginRoute} title="Login to EASY">Log in</NavBarLink>]
+    const loginNavBar = isLoggedIn && loginName
+        ? [
+            <span key="loginName" className="navbar-text">{loginName}</span>,
+            <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
+            <Link onClick={signout}
+                  className="nav-link logoff"
+                  key="log out"
+                  to={homeRoute}
+                  title="Log out">Log out</Link>,
+        ]
+        : [
+            <NavBarLink key="login" to={loginRoute} title="Login to EASY">Log in</NavBarLink>,
+        ]
 
-        return (
-            <header className="container-fluid">
-                <NavBar>
-                    <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                    {...loginNavBar}
-                </NavBar>
+    return (
+        <header className="container-fluid">
+            <NavBar>
+                <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
+                {...loginNavBar}
+            </NavBar>
 
-                <LogosHeaders>
-                    <BrandLogo className="col-6 col-md-3 col-lg-2"
-                               id="dans-logo"
-                               src={logo_dans}
-                               alt="DANS - Data Archiving and Networked Services"/>
-                    <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
-                               id="easy-logo"
-                               height="25px"
-                               src={logo_easy}
-                               alt="EASY"/>
-                </LogosHeaders>
-                {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
-                <hr/>
-            </header>
-        )
-    }
+            <LogosHeaders>
+                <BrandLogo className="col-6 col-md-3 col-lg-2"
+                           id="dans-logo"
+                           src={logo_dans}
+                           alt="DANS - Data Archiving and Networked Services"/>
+                <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
+                           id="easy-logo"
+                           height="25px"
+                           src={logo_easy}
+                           alt="EASY"/>
+            </LogosHeaders>
+            {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
+            <hr/>
+        </header>
+    )
 }
 
 const mapStateToProps = (state: AppState) => {

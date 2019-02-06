@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, useEffect } from "react"
 import { Action, compose } from "redux"
 import { connect } from "react-redux"
 import { RouteComponentProps, withRouter } from "react-router-dom"
@@ -40,58 +40,28 @@ interface DepositOverviewProps extends RouteComponentProps<{}> {
     deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>>
 }
 
-class DepositOverview extends Component<DepositOverviewProps> {
-    constructor(props: DepositOverviewProps) {
-        super(props)
-    }
+const DepositOverview = (props: DepositOverviewProps) => {
+    useEffect(() => {
+        props.fetchDeposits()
+        return function cleanup() {
+            props.cleanDeposits()
+        }
+    }, [])
 
-    componentDidMount() {
-        this.props.fetchDeposits()
-    }
+    const renderLoadingError = () => props.deposits.loading.loadingError && (
+        <ReloadAlert key="loadingError"
+                     reload={props.fetchDeposits}>
+            An error occurred: {props.deposits.loading.loadingError}. Cannot load data from the server.
+        </ReloadAlert>
+    )
 
-    componentWillUnmount() {
-        this.props.cleanDeposits()
-    }
-
-    render() {
-        const { deposits: { loading: { loading, loaded } } } = this.props
-
-        return (
-            <>
-                {this.renderAlerts()}
-                {loading && <p>loading data...</p>}
-                {loaded && this.renderTable()}
-            </>
-        )
-    }
-
-    private renderAlerts() {
-        return [
-            this.renderLoadingError(),
-            this.renderDeleteError(),
-            this.renderCreateNewError(),
-        ]
-    }
-
-    private renderLoadingError() {
-        const { fetchDeposits, deposits: { loading: { loadingError } } } = this.props
-
-        return loadingError &&
-            <ReloadAlert key="loadingError"
-                         reload={fetchDeposits}>
-                An error occurred: {loadingError}. Cannot load data from the server.
-            </ReloadAlert>
-    }
-
-    private renderDeleteError() {
-        const { deposits: { deleting, deposits } } = this.props
-
-        return Object.keys(deleting)
+    const renderDeleteError = () => {
+        return Object.keys(props.deposits.deleting)
             .map(depositId => {
-                const { deleteError } = deleting[depositId]
+                const { deleteError } = props.deposits.deleting[depositId]
 
                 if (deleteError) {
-                    const deposit = deposits[depositId]
+                    const deposit = props.deposits.deposits[depositId]
                     const errorText = deposit
                         ? `Cannot delete deposit '${deposit.title}'. An error occurred: ${deleteError}.`
                         : `Cannot delete a deposit. An error occurred: ${deleteError}.`
@@ -101,25 +71,20 @@ class DepositOverview extends Component<DepositOverviewProps> {
             })
     }
 
-    private renderCreateNewError() {
-        const { deposits: { creatingNew: { createError } } } = this.props
+    const renderCreateNewError = () => props.deposits.creatingNew.createError && (
+        <Alert key="createNewError">
+            An error occurred: {props.deposits.creatingNew.createError}. Cannot create a new dataset. Please try again.
+        </Alert>
+    )
 
-        return createError &&
-            <Alert key="createNewError">
-                An error occurred: {createError}. Cannot create a new dataset. Please try again.
-            </Alert>
-    }
+    const renderAlerts = () => [
+        renderLoadingError(),
+        renderDeleteError(),
+        renderCreateNewError(),
+    ]
 
-    deleteDeposit = (depositId: DepositId) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.deleteDeposit(depositId)
-    }
-
-    enterDeposit = (editable: boolean, depositId: DepositId) => () => editable && this.props.history.push(depositFormRoute(depositId))
-
-    private renderTable() {
-        const { deposits: { deposits, deleting } } = this.props
-        const depositIds = Object.keys(deposits)
+    const renderTable = () => {
+        const depositIds = Object.keys(props.deposits.deposits)
 
         return (
             <table className="table table-striped deposit_table">
@@ -127,17 +92,25 @@ class DepositOverview extends Component<DepositOverviewProps> {
                 <tbody>{depositIds.length == 0
                     ? <EmptyDepositTableRow/>
                     : depositIds.map(depositId => {
-                        const editable = isEditable(deposits[depositId])
+                        const editable = isEditable(props.deposits.deposits[depositId])
                         return <DepositTableRow key={depositId}
-                                                deposit={deposits[depositId]}
-                                                deleting={deleting[depositId]}
-                                                deleteDeposit={this.deleteDeposit(depositId)}
+                                                deposit={props.deposits.deposits[depositId]}
+                                                deleting={props.deposits.deleting[depositId]}
+                                                deleteDeposit={e => { e.stopPropagation(); props.deleteDeposit(depositId) }}
                                                 editable={editable}
-                                                enterDeposit={this.enterDeposit(editable, depositId)}/>
+                                                enterDeposit={() => editable && props.history.push(depositFormRoute(depositId))}/>
                     })}</tbody>
             </table>
         )
     }
+
+    return (
+        <>
+            {renderAlerts()}
+            {props.deposits.loading.loading && <p>loading data...</p>}
+            {props.deposits.loading.loaded && renderTable()}
+        </>
+    )
 }
 
 const mapStateToProps = (state: AppState) => ({

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, useEffect } from "react"
 import DepositForm from "./DepositForm"
 import { connect } from "react-redux"
 import { unregisterForm } from "../../actions/depositFormActions"
@@ -26,29 +26,29 @@ interface DepositFormPageProps {
     cleanFiles: () => Action
 }
 
-class DepositFormPage extends Component<DepositFormPageProps> {
-    componentWillUnmount() {
-        this.props.unregisterForm()
-        this.props.cleanFiles()
-    }
+const DepositFormPage = ({unregisterForm, cleanFiles}: DepositFormPageProps) => {
+    useEffect(() => {
+        return function cleanup() {
+            unregisterForm()
+            cleanFiles()
+        }
+    })
 
-    render() {
-        return (
-            <>
-                <h1>Deposit your data</h1>
-                <p>
-                    Read the instructions
-                    (<a href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
-                        target="_blank"
-                        className="text-primary">English</a>)
-                    (<a href="https://dans.knaw.nl/nl/deponeren/toelichting-data-deponeren"
-                        target="_blank"
-                        className="text-primary">Nederlands</a>)
-                </p>
-                <DepositForm/>
-            </>
-        )
-    }
+    return (
+        <>
+            <h1>Deposit your data</h1>
+            <p>
+                Read the instructions
+                (<a href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
+                    target="_blank"
+                    className="text-primary">English</a>)
+                (<a href="https://dans.knaw.nl/nl/deponeren/toelichting-data-deponeren"
+                    target="_blank"
+                    className="text-primary">Nederlands</a>)
+            </p>
+            <DepositForm/>
+        </>
+    )
 }
 
 export default connect(null, { unregisterForm, cleanFiles })(DepositFormPage)
