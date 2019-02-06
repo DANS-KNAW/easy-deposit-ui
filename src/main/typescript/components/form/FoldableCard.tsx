@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { FC, useState } from "react"
 import "../../../resources/css/foldable"
 
 interface FoldableCardInputProps {
@@ -23,45 +23,31 @@ interface FoldableCardInputProps {
     defaultOpened?: boolean
 }
 
-interface FolableCardState {
-    open: boolean
-}
+const FoldableCard: FC<FoldableCardInputProps> = ({ title, required, defaultOpened, children }) => {
+    const [open, setOpen] = useState(defaultOpened || false)
 
-class FoldableCard extends Component<FoldableCardInputProps, FolableCardState> {
-    constructor(props: FoldableCardInputProps) {
-        super(props)
-        this.state = { open: this.props.defaultOpened || false }
-    }
+    return (
+        <div className={`${open ? "" : "closed"} card mb-3`.trim()}>
+            <h6 className="card-header row ml-0 mr-0 bg-primary text-white"
+                onClick={() => setOpen(currentOpenState => !currentOpenState)}>
+                <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0 font-weight-bold">{title}</div>
+                {required
+                    ? <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0 font-italic required">Required</div>
+                    : <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0"/>}
+                <div className="col-1 order-2 col-md-1 order-md-3 pl-0 pr-0 arrow">
+                    <i className={[
+                        "fas",
+                        open ? "fa-chevron-circle-down" : "fa-chevron-circle-right",
+                    ].join(" ").trim()}/>
+                </div>
 
-    toggleCard = () => this.setState(currentState => ({ open: !currentState.open }))
-
-    render() {
-        const { title, required, children } = this.props
-        const { open } = this.state
-
-        return (
-            <div className={`${open ? "" : "closed"} card mb-3`.trim()}>
-                <h6 className="card-header row ml-0 mr-0 bg-primary text-white" onClick={this.toggleCard}>
-                    <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0 font-weight-bold">{title}</div>
-                    {required
-                        ? <div
-                            className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0 font-italic required">Required</div>
-                        : <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0"/>}
-                    <div className="col-1 order-2 col-md-1 order-md-3 pl-0 pr-0 arrow">
-                        <i className={[
-                            "fas",
-                            open ? "fa-chevron-circle-down" : "fa-chevron-circle-right",
-                        ].join(" ").trim()}/>
-                    </div>
-
-                </h6>
-                <div className={[
-                    open ? "" : "collapse",
-                    "card-body ml-0 mr-0",
-                ].join(" ").trim()}>{children}</div>
-            </div>
-        )
-    }
+            </h6>
+            <div className={[
+                open ? "" : "collapse",
+                "card-body ml-0 mr-0",
+            ].join(" ").trim()}>{children}</div>
+        </div>
+    )
 }
 
 export default FoldableCard
