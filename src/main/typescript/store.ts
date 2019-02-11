@@ -52,7 +52,7 @@ const makeStore = () => {
                 applyMiddleware(
                     ...customMiddleware,
                     thunkMiddleware,
-                    promiseMiddleware(),
+                    promiseMiddleware,
                     createLogger({ predicate }),
                 ),
             ),
@@ -64,7 +64,7 @@ const makeStore = () => {
             applyMiddleware(
                 ...customMiddleware,
                 thunkMiddleware,
-                promiseMiddleware(),
+                promiseMiddleware,
             ),
         )
 }

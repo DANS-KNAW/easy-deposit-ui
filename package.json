@@ -38,7 +38,7 @@
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "^5.1.1",
+    "redux-promise-middleware": "^6.0.1",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2",
     "valid-url": "^1.0.9"
@@ -62,7 +62,6 @@
     "@types/react-textarea-autosize": "^4.3.3",
     "@types/redux-form": "^7.4.16",
     "@types/redux-logger": "^3.0.6",
-    "@types/redux-promise-middleware": "0.0.11",
     "@types/uuid": "^3.4.4",
     "@types/valid-url": "^1.0.2",
     "@types/webpack-env": "^1.13.7",
