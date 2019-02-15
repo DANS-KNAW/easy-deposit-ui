@@ -34,7 +34,10 @@ const LabeledTextField = ({ label, labelWidth, appendElem, ...rest }: LabeledTex
     return (
         <div className="input-group">
             <div className="input-group-prepend">
-                <span className="input-group-text" style={labelWidth ? { width: `${labelWidth}px` } : {}}>{label}</span>
+                <span className="input-group-text"
+                      style={labelWidth ? { width: `${labelWidth}px`, display: "block", textAlign: "center" } : {}}>
+                    {label}
+                </span>
             </div>
             <TextField className={hasError ? "is-invalid" : ""} {...rest}/>
             {appendElem && <div className="input-group-append">{appendElem(rest)}</div>}
