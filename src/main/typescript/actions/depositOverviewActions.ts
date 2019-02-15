@@ -45,6 +45,16 @@ export const deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<
     meta: { depositId: depositId },
 })
 
+export const cancelDeleteDeposit: (depositId: DepositId) => Action = depositId => ({
+    type: DepositOverviewConstants.DELETE_DEPOSIT_CANCELLED,
+    meta: { depositId: depositId },
+})
+
+export const askConfirmationToDeleteDeposit: (depositId: DepositId) => Action = depositId => ({
+    type: DepositOverviewConstants.DELETE_DEPOSIT_CONFIRMATION,
+    meta: { depositId: depositId },
+})
+
 export const createNewDeposit: (history: H.History) => ThunkAction<FetchAction<DepositId>> = history => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {

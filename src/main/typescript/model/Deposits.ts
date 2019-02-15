@@ -61,6 +61,8 @@ export const emptyDelete: DeleteState = ({
     deleted: false,
 })
 
+export const emptyDeleteStates: DeletingStates = {}
+
 export interface NewDepositState {
     creating: boolean
     createError?: string
