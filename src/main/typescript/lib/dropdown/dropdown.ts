@@ -39,6 +39,10 @@ export const convertSpatialCoordinatesDropdownData: (data: any) => SpatialCoordi
                 displayValue: obj.viewName,
                 xLabel: obj["x-label"],
                 yLabel: obj["y-label"],
+                xMin: obj["x-min"],
+                xMax: obj["x-max"],
+                yMin: obj["y-min"],
+                yMax: obj["y-max"],
             }
         })
 }

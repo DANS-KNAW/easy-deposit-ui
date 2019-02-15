@@ -33,6 +33,10 @@ export interface DropdownListEntry {
 export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {
     xLabel: string
     yLabel: string
+    xMin: number
+    xMax: number
+    yMin: number
+    yMax: number
 }
 
 export interface DropdownList<Entry extends DropdownListEntry = DropdownListEntry> {
