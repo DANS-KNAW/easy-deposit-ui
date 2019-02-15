@@ -39,22 +39,22 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
             return empty
         }
         case FileOverviewConstants.DELETE_FILE_PENDING : {
-            const { meta: { filePath }} = action
+            const { meta: { filePath } } = action
 
             const deleteState: DeleteState = state.deleting[filePath]
             const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: true}
-                : { ...emptyDelete, deleting: true}
-            return { ...state, deleting: {...state.deleting, [filePath]: newDeleteState}}
+                ? { ...deleteState, deleting: true }
+                : { ...emptyDelete, deleting: true }
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState } }
         }
         case FileOverviewConstants.DELETE_FILE_REJECTED: {
             const { meta: { filePath }, payload: errorMessage } = action
 
             const deleteState: DeleteState = state.deleting[filePath]
             const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: false, deleteError: errorMessage}
-                : { ...emptyDelete, deleteError: errorMessage}
-            return {  ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+                ? { ...deleteState, deleting: false, deleteError: errorMessage }
+                : { ...emptyDelete, deleteError: errorMessage }
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState } }
         }
         case FileOverviewConstants.DELETE_FILE_FULFILLED: {
             const { meta: { filePath } } = action
@@ -73,10 +73,10 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
 
             const deleteState: DeleteState = state.deleting[filePath]
             const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: true}
-                : { ...emptyDelete, deleting: true}
+                ? { ...deleteState, deleting: true }
+                : { ...emptyDelete, deleting: true }
 
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState}}
+            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState } }
         }
         case FileOverviewConstants.DELETE_FILE_CANCELLED: {
             const { meta: { filePath } } = action
