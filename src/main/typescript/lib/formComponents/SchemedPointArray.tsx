@@ -26,7 +26,7 @@ interface SchemedPointProps extends InnerComponentProps<Point> {
 }
 
 const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
-    const choice = schemeValues.find(value => value.key == itemData.scheme)
+    const choice = schemeValues.find(value => value.key === itemData.scheme)
 
     return (
         <div className="form-row spatialPoint">
