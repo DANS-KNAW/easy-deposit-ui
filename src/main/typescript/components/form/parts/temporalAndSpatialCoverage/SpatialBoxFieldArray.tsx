@@ -17,10 +17,12 @@ import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import { SchemedValue } from "../../../../lib/metadata/Value"
-import { DropdownList } from "../../../../model/DropdownLists"
+import { DropdownList, SpatialCoordinatesDropdownListEntry } from "../../../../model/DropdownLists"
 import SchemedBoxArray from "../../../../lib/formComponents/SchemedBoxArray"
 
-const SpatialBoxFieldArray = ({ dropdowns: { coordinates }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+type SpatialBoxFieldArrayProps = FieldArrayPropsWithDropdown<SchemedValue, DropdownList<SpatialCoordinatesDropdownListEntry>>
+
+const SpatialBoxFieldArray = ({ dropdowns: { coordinates }, ...props }: SpatialBoxFieldArrayProps) => (
     <LoadDropdownData state={coordinates.state}>
         <SchemedBoxArray {...props} schemeValues={coordinates.list}/>
     </LoadDropdownData>

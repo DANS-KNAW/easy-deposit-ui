@@ -30,14 +30,21 @@ export interface DropdownListEntry {
     displayValue: string
 }
 
-export interface DropdownList {
-    list: DropdownListEntry[]
+export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {
+    xLabel: string
+    yLabel: string
+}
+
+export interface DropdownList<Entry extends DropdownListEntry = DropdownListEntry> {
+    list: Entry[]
     state: DropdownListState
 }
 
-export const emptyDropdownList: DropdownList = {
-    list: [],
-    state: emptyDropdownListState,
+export function emptyDropdownList<Entry extends DropdownListEntry>(): DropdownList<Entry> {
+    return {
+        list: [],
+        state: emptyDropdownListState,
+    }
 }
 
 export interface DropdownLists {
@@ -53,24 +60,24 @@ export interface DropdownLists {
     imtFormats: DropdownList
     abrComplexSubjects: DropdownList
     abrPeriodeTemporals: DropdownList
-    spatialCoordinates: DropdownList
+    spatialCoordinates: DropdownList<SpatialCoordinatesDropdownListEntry>
     spatialCoveragesIso: DropdownList
     // TODO add others
 }
 
 export const emptyDropdownLists: DropdownLists = {
-    languages: emptyDropdownList,
-    contributorIds: emptyDropdownList,
-    contributorRoles: emptyDropdownList,
-    audiences: emptyDropdownList,
-    identifiers: emptyDropdownList,
-    relations: emptyDropdownList,
-    dates: emptyDropdownList,
-    licenses: emptyDropdownList,
-    dcmiTypes: emptyDropdownList,
-    imtFormats: emptyDropdownList,
-    abrComplexSubjects: emptyDropdownList,
-    abrPeriodeTemporals: emptyDropdownList,
-    spatialCoordinates: emptyDropdownList,
-    spatialCoveragesIso: emptyDropdownList,
+    languages: emptyDropdownList(),
+    contributorIds: emptyDropdownList(),
+    contributorRoles: emptyDropdownList(),
+    audiences: emptyDropdownList(),
+    identifiers: emptyDropdownList(),
+    relations: emptyDropdownList(),
+    dates: emptyDropdownList(),
+    licenses: emptyDropdownList(),
+    dcmiTypes: emptyDropdownList(),
+    imtFormats: emptyDropdownList(),
+    abrComplexSubjects: emptyDropdownList(),
+    abrPeriodeTemporals: emptyDropdownList(),
+    spatialCoordinates: emptyDropdownList(),
+    spatialCoveragesIso: emptyDropdownList(),
 }

@@ -16,12 +16,12 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import { ErrorHandlingDropdownFieldInput } from "./DropDownField"
-import { DropdownListEntry } from "../../model/DropdownLists"
+import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 
 interface SchemedBoxProps extends InnerComponentProps {
-    schemeValues: DropdownListEntry[]
+    schemeValues: SpatialCoordinatesDropdownListEntry[]
 }
 
 const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (

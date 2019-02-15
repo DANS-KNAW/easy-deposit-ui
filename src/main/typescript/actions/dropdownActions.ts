@@ -16,39 +16,49 @@
 import { DropdownConstants } from "../constants/dropdownConstants"
 import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from "../lib/redux"
 import axios from "axios"
-import { convertDropdownData } from "../lib/dropdown/dropdown"
+import { convertDropdownData, convertSpatialCoordinatesDropdownData } from "../lib/dropdown/dropdown"
 import { DepositId } from "../model/Deposits"
 import { Action } from "redux"
 import { fetchMetadata } from "./depositFormActions"
-import { DropdownList, DropdownLists } from "../model/DropdownLists"
+import { DropdownList, DropdownListEntry, DropdownLists } from "../model/DropdownLists"
 
 const fetchDropdownPending: (type: DropdownConstants) => Action<DropdownConstants> = type => ({
     type: type,
 })
 
-const fetchDropdownFulfilled: (type: DropdownConstants, data: any) => FetchAction<any> = (type, data) => ({
-    type: type,
-    payload: data,
-    meta: {
-        transform: convertDropdownData,
-    },
-})
+function fetchDropdownFulfilled<Entry extends DropdownListEntry>(type: DropdownConstants,
+                                                                 data: any,
+                                                                 convertData: (data: any) => Entry[]): FetchAction<any> {
+    return {
+        type: type,
+        payload: data,
+        meta: {
+            transform: convertData,
+        },
+    }
+}
 
 const fetchDropdownRejected: <T>(type: DropdownConstants, error: T) => ReduxAction<T> = (type, error) => ({
     type: type,
     payload: error,
 })
 
-const fetchDropdown: (pending: DropdownConstants, fulfilled: DropdownConstants, rejected: DropdownConstants, filename: string, storeLocation: (dropDowns: DropdownLists) => DropdownList) => PromiseThunkAction = (pending, fulfilled, rejected, filename, storeLocation) => async (dispatch, getState) => {
-    if (!storeLocation(getState().dropDowns).state.fetchedList) {
-        dispatch(fetchDropdownPending(pending))
+function fetchDropdown<Entry extends DropdownListEntry>(pending: DropdownConstants,
+                                                        fulfilled: DropdownConstants,
+                                                        rejected: DropdownConstants,
+                                                        filename: string,
+                                                        storeLocation: (dropDowns: DropdownLists) => DropdownList,
+                                                        convertData: (data: any) => Entry[]): PromiseThunkAction {
+    return async (dispatch, getState) => {
+        if (!storeLocation(getState().dropDowns).state.fetchedList) {
+            dispatch(fetchDropdownPending(pending))
 
-        try {
-            const response = await axios.get(require(`../../resources/constants/${filename}`))
-            dispatch(fetchDropdownFulfilled(fulfilled, response.data))
-        }
-        catch (e) {
-            dispatch(fetchDropdownRejected(rejected, e))
+            try {
+                const response = await axios.get(require(`../../resources/constants/${filename}`))
+                dispatch(fetchDropdownFulfilled(fulfilled, response.data, convertData))
+            } catch (e) {
+                dispatch(fetchDropdownRejected(rejected, e))
+            }
         }
     }
 }
@@ -59,6 +69,7 @@ const fetchLanguagesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
     "languages.json",
     dds => dds.languages,
+    convertDropdownData,
 )
 
 const fetchContributorIdsData: PromiseThunkAction = fetchDropdown(
@@ -67,6 +78,7 @@ const fetchContributorIdsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
     "contributorIds.json",
     dds => dds.contributorIds,
+    convertDropdownData,
 )
 
 const fetchContributorRolesData: PromiseThunkAction = fetchDropdown(
@@ -75,6 +87,7 @@ const fetchContributorRolesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED,
     "contributorRoles.json",
     dds => dds.contributorRoles,
+    convertDropdownData,
 )
 
 const fetchAudiencesData: PromiseThunkAction = fetchDropdown(
@@ -83,6 +96,7 @@ const fetchAudiencesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED,
     "audiences.json",
     dds => dds.audiences,
+    convertDropdownData,
 )
 
 const fetchIdentifiersData: PromiseThunkAction = fetchDropdown(
@@ -91,6 +105,7 @@ const fetchIdentifiersData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
     "identifiers.json",
     dds => dds.identifiers,
+    convertDropdownData,
 )
 
 const fetchRelationsData: PromiseThunkAction = fetchDropdown(
@@ -99,6 +114,7 @@ const fetchRelationsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED,
     "relations.json",
     dds => dds.relations,
+    convertDropdownData,
 )
 
 const fetchDatesData: PromiseThunkAction = fetchDropdown(
@@ -107,6 +123,7 @@ const fetchDatesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED,
     "dates.json",
     dds => dds.dates,
+    convertDropdownData,
 )
 
 const fetchLicensesData: PromiseThunkAction = fetchDropdown(
@@ -115,6 +132,7 @@ const fetchLicensesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
     "licenses.json",
     dds => dds.licenses,
+    convertDropdownData,
 )
 
 const fetchDcmiTypesData: PromiseThunkAction = fetchDropdown(
@@ -123,6 +141,7 @@ const fetchDcmiTypesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED,
     "dcmiTypes.json",
     dds => dds.dcmiTypes,
+    convertDropdownData,
 )
 
 const fetchImtFormatsData: PromiseThunkAction = fetchDropdown(
@@ -131,6 +150,7 @@ const fetchImtFormatsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED,
     "imtFormats.json",
     dds => dds.imtFormats,
+    convertDropdownData,
 )
 
 const fetchAbrComplexSubjectsData: PromiseThunkAction = fetchDropdown(
@@ -139,6 +159,7 @@ const fetchAbrComplexSubjectsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED,
     "abrComplexSubjects.json",
     dds => dds.abrComplexSubjects,
+    convertDropdownData,
 )
 
 const fetchAbrPeriodeTemporalsData: PromiseThunkAction = fetchDropdown(
@@ -147,6 +168,7 @@ const fetchAbrPeriodeTemporalsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED,
     "abrPeriodeTemporals.json",
     dds => dds.abrPeriodeTemporals,
+    convertDropdownData,
 )
 
 const fetchSpatialCoordinatesData: PromiseThunkAction = fetchDropdown(
@@ -155,6 +177,7 @@ const fetchSpatialCoordinatesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED,
     "spatialCoordinates.json",
     dds => dds.spatialCoordinates,
+    convertSpatialCoordinatesDropdownData,
 )
 
 const fetchSpatialCoveragesIsoData: PromiseThunkAction = fetchDropdown(
@@ -163,6 +186,7 @@ const fetchSpatialCoveragesIsoData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED,
     "spatialCoveragesIso.json",
     dds => dds.spatialCoveragesIso,
+    convertDropdownData,
 )
 
 export const fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction = (depositId) => async (dispatch, getState, extraArguments) => {

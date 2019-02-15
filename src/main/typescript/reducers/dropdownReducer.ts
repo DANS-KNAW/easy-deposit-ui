@@ -19,8 +19,9 @@ import { DropdownConstants } from "../constants/dropdownConstants"
 
 function dropdownReducer(pendingAction: DropdownConstants,
                          fulfilledAction: DropdownConstants,
-                         failedAction: DropdownConstants): Reducer<DropdownList> {
-    return (state = emptyDropdownList, action) => {
+                         failedAction: DropdownConstants,
+                         emptyState: () => DropdownList): Reducer<DropdownList> {
+    return (state = emptyState(), action) => {
         switch (action.type) {
             case pendingAction:
                 return {
@@ -63,70 +64,84 @@ export const allDropdownReducers = combineReducers({
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     contributorIds: dropdownReducer(
         DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING,
         DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     contributorRoles: dropdownReducer(
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING,
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     audiences: dropdownReducer(
         DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING,
         DropdownConstants.FETCH_AUDIENCE_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     identifiers: dropdownReducer(
         DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING,
         DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     relations: dropdownReducer(
         DropdownConstants.FETCH_RELATION_DROPDOWN_PENDING,
         DropdownConstants.FETCH_RELATION_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     dates: dropdownReducer(
         DropdownConstants.FETCH_DATES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_DATES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     licenses: dropdownReducer(
         DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_LICENSES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     dcmiTypes: dropdownReducer(
         DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     imtFormats: dropdownReducer(
         DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING,
         DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     abrComplexSubjects: dropdownReducer(
         DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_PENDING,
         DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     abrPeriodeTemporals: dropdownReducer(
         DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_PENDING,
         DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     spatialCoordinates: dropdownReducer(
         DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
     spatialCoveragesIso: dropdownReducer(
         DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_PENDING,
         DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED,
+        emptyDropdownList,
     ),
 })
