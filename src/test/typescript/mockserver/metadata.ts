@@ -404,10 +404,12 @@ export const allfields: Metadata = {
         {
             qualifier: RelationQualifierValues.isReplacedBy,
             url: "http://www.google.com",
+            title: "Google",
         },
         {
             qualifier: RelationQualifierValues.relation,
             url: "https://easy.dans.knaw.nl/",
+            title: "EASY",
         },
         {
             qualifier: RelationQualifierValues.relation,
@@ -535,8 +537,8 @@ export const allfields: Metadata = {
     spatialPoints: [
         {
             scheme: SpatialSchemeValues.RD,
-            x: "12",
-            y: "34",
+            x: "100000",
+            y: "300000",
         },
         {
             scheme: SpatialSchemeValues.degrees,
@@ -547,10 +549,10 @@ export const allfields: Metadata = {
     spatialBoxes: [
         {
             scheme: SpatialSchemeValues.RD,
-            north: "1",
-            east: "2",
-            south: "3",
-            west: "4",
+            north: "300000",
+            east: "100000",
+            south: "400000",
+            west: "200000",
         },
         {
             scheme: SpatialSchemeValues.degrees,
