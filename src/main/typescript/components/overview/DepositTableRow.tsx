@@ -22,7 +22,7 @@ interface EnterableProps {
 }
 
 const Enterable = ({ title }: EnterableProps) => (
-    <><i className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</>
+    <div><i className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</div>
 )
 
 interface DepositTableRowProps {
@@ -31,28 +31,45 @@ interface DepositTableRowProps {
     editable: Boolean
 
     deleteDeposit: (e: React.MouseEvent<HTMLButtonElement>) => void
+    askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
+    cancelDeleteDeposit: (e: React.MouseEvent<HTMLButtonElement>) => void
     enterDeposit: () => void
 }
 
-const DepositTableRow = ({ deposit, deleting, deleteDeposit, editable, enterDeposit }: DepositTableRowProps) => {
+const DepositTableRow = ({ deposit, deleting, editable, deleteDeposit, askConfirmation, cancelDeleteDeposit, enterDeposit }: DepositTableRowProps) => {
     const title = <Enterable title={deposit.title}/>
     const isDeleting = deleting && deleting.deleting
+
     const deleteButton = editable &&
         <button type="button"
                 key="delete"
                 className="close icon"
                 disabled={isDeleting}
-                onClick={deleteDeposit}>
+                onClick={askConfirmation}>
             {isDeleting
                 ? <i className="fas fa-sync-alt fa-spin"/>
                 : <i className="fas fa-trash-alt"/>}
         </button>
+    const confirmButtons = isDeleting &&
+        <div className="mt-2 confirm-button">
+            <button type="button" className="btn btn-dark bg-danger mb-0 mr-1" onClick={deleteDeposit}>
+                Delete deposit
+            </button>
+            <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteDeposit}>
+                Cancel
+            </button>
+        </div>
+
+    const rowStyling = isDeleting ? "" : editable ? "editable_table_row" : "not_editable_table_row"
 
     return (
-        <tr className={["row", editable ? "editable_table_row" : "not_editable_table_row"].join(" ") + " ml-0 mr-0"}
-            onClick={enterDeposit}>
+        <tr className={["row ml-0 mr-0", rowStyling].join(" ")}
+            onClick={() => !isDeleting && enterDeposit()}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
-            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">{title}</td>
+            <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">
+                {title}
+                {confirmButtons}
+            </td>
             <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date)}</td>
             <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
             <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>

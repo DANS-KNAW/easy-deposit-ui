@@ -13,7 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DeleteState, DepositOverviewState, Deposits, empty, emptyDelete } from "../model/Deposits"
+import {
+    DeleteState,
+    DeletingStates,
+    DepositOverviewState,
+    Deposits,
+    empty,
+    emptyDelete,
+    emptyDeleteStates,
+} from "../model/Deposits"
 import { Reducer } from "redux"
 import immutable from "object-path-immutable"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
@@ -59,6 +67,28 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
             const newDeposits: Deposits = immutable.del(state.deposits, depositId)
 
             return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState }, deposits: newDeposits }
+        }
+        case DepositOverviewConstants.DELETE_DEPOSIT_CONFIRMATION: {
+            const { meta: { depositId } } = action
+
+            const deleteState: DeleteState = state.deleting[depositId]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: true }
+                : { ...emptyDelete, deleting: true }
+
+            return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState } }
+        }
+        case DepositOverviewConstants.DELETE_DEPOSIT_CANCELLED: {
+            const { meta: { depositId } } = action
+
+            const newDeleteState = Object.keys(state.deleting)
+                .filter(value => value !== depositId)
+                .reduce((obj: DeletingStates) => {
+                    obj[depositId] = state.deleting[depositId]
+                    return obj
+                }, emptyDeleteStates)
+
+            return { ...state, deleting: newDeleteState }
         }
         case DepositOverviewConstants.CREATE_NEW_DEPOSIT_PENDING: {
             return { ...state, creatingNew: { creating: true } }

@@ -23,7 +23,12 @@ import { connect } from "react-redux"
 import { AppState } from "../../../../../model/AppState"
 import { DepositId } from "../../../../../model/Deposits"
 import { FetchAction, PromiseAction } from "../../../../../lib/redux"
-import { askConfirmation, cancelDeleteFile, deleteFile, fetchFiles } from "../../../../../actions/fileOverviewActions"
+import {
+    askConfirmationToDeleteFile,
+    cancelDeleteFile,
+    deleteFile,
+    fetchFiles,
+} from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import EmptyFileTableRow from "./EmptyFileTableRow"
@@ -39,7 +44,7 @@ interface FilesOverviewProps {
 
     fetchFiles: (depositId: DepositId) => FetchAction<Files>
     deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void>
-    askConfirmation: (filePath: string) => Action
+    askConfirmationToDeleteFile: (filePath: string) => Action
     cancelDeleteFile: (filePath: string) => Action
 }
 
@@ -62,7 +67,7 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
     }
     askConfirmation = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        this.props.askConfirmation(filepath)
+        this.props.askConfirmationToDeleteFile(filepath)
     }
     cancelDeleteFile = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
@@ -114,4 +119,9 @@ const mapStateToProps = (state: AppState, ownProps: FilesOverviewInputProps) => 
     fileUploadUrl: (filePath: string) => uploadFileUrl(ownProps.depositId, filePath)(state),
 })
 
-export default connect(mapStateToProps, { fetchFiles, deleteFile, askConfirmation, cancelDeleteFile })(FilesOverview)
+export default connect(mapStateToProps, {
+    fetchFiles,
+    deleteFile,
+    askConfirmationToDeleteFile,
+    cancelDeleteFile,
+})(FilesOverview)

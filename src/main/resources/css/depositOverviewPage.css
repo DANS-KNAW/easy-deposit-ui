@@ -81,6 +81,10 @@
     border-bottom: 1px solid #dee2e6;
 }
 
+.deposit_table tbody tr td .confirm-button {
+    display: inline-flex;
+}
+
 @media (max-width: 767px) {
     .deposit_table thead {
         display: none;
@@ -101,6 +105,10 @@
 
     #enter_dataset {
         display: none;
+    }
+
+    .deposit_table tbody tr td .confirm-button {
+        margin-bottom: 0.5rem;
     }
 }
 

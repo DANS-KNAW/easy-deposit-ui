@@ -33,7 +33,7 @@ export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files
     },
 })
 
-export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>> = (depositId, filePath) => (dispatch, getState)=> dispatch({
+export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>> = (depositId, filePath) => (dispatch, getState) => dispatch({
     type: FileOverviewConstants.DELETE_FILE,
     async payload() {
         await axios.delete(deleteFileUrl(depositId, filePath)(getState()))
@@ -42,12 +42,12 @@ export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction
     meta: { filePath: filePath },
 })
 
-export const cancelDeleteFile: (filePath: string) => Action =(filePath) =>({
+export const cancelDeleteFile: (filePath: string) => Action = (filePath) =>({
     type: FileOverviewConstants.DELETE_FILE_CANCELLED,
     meta: { filePath: filePath },
 })
 
-export const askConfirmation: (filePath: string) => Action =(filePath) =>({
+export const askConfirmationToDeleteFile: (filePath: string) => Action = (filePath) =>({
     type: FileOverviewConstants.DELETE_FILE_CONFIRMATION,
     meta: { filePath: filePath },
 })
