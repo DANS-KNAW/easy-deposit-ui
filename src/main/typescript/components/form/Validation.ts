@@ -278,10 +278,10 @@ export function validateSpatialPoints(spatialCoordinateSettings: SpatialCoordina
             const entry = spatialCoordinateSettings.find(settings => settings.key === point.scheme)
 
             if (nonEmptyX && entry && !between(Number(point.x), entry.xMin, entry.xMax))
-                pointError.x = `x coordinate is out of range: [${entry.xMin}, ${entry.xMax}]`
+                pointError.x = `${entry.xLabel} is out of range: [${entry.xMin}, ${entry.xMax}]`
 
             if (nonEmptyY && entry && !between(Number(point.y), entry.yMin, entry.yMax))
-                pointError.y = `y coordinate is out of range: [${entry.yMin}, ${entry.yMax}]`
+                pointError.y = `${entry.yLabel} is out of range: [${entry.yMin}, ${entry.yMax}]`
         }
 
         return pointError
