@@ -54,6 +54,7 @@
 
 .invalid-feedback {
     margin-left: 8px;
+    overflow-wrap: break-word;
 }
 .input-element .relation .input-group-prepend ~ .invalid-feedback {
     margin-left: 52px; /* 44 + 8 */

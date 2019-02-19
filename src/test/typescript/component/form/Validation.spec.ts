@@ -647,12 +647,12 @@ describe("Validation", () => {
                     scheme: "No scheme given",
                 },
                 {
-                    x: "x coordinate is out of range: [-7000, 300000]",
-                    y: "y coordinate is out of range: [289000, 629000]",
+                    x: "X is out of range: [-7000,300000]",
+                    y: "Y is out of range: [289000,629000]",
                 },
                 {
-                    x: "x coordinate is out of range: [-7000, 300000]",
-                    y: "y coordinate is out of range: [289000, 629000]",
+                    x: "X is out of range: [-7000,300000]",
+                    y: "Y is out of range: [289000,629000]",
                 },
             ])
         })
@@ -728,16 +728,16 @@ describe("Validation", () => {
                     scheme: "No scheme given",
                 },
                 {
-                    north: "north coordinate is out of range: [289000, 629000]",
-                    east: "east coordinate is out of range: [-7000, 300000]",
-                    south: "south coordinate is out of range: [289000, 629000]",
-                    west: "west coordinate is out of range: [-7000, 300000]",
+                    north: "north coordinate is out of range: [289000,629000]",
+                    east: "east coordinate is out of range: [-7000,300000]",
+                    south: "south coordinate is out of range: [289000,629000]",
+                    west: "west coordinate is out of range: [-7000,300000]",
                 },
                 {
-                    north: "north coordinate is out of range: [289000, 629000]",
-                    east: "east coordinate is out of range: [-7000, 300000]",
-                    south: "south coordinate is out of range: [289000, 629000]",
-                    west: "west coordinate is out of range: [-7000, 300000]",
+                    north: "north coordinate is out of range: [289000,629000]",
+                    east: "east coordinate is out of range: [-7000,300000]",
+                    south: "south coordinate is out of range: [289000,629000]",
+                    west: "west coordinate is out of range: [-7000,300000]",
                 },
             ])
         })

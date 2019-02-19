@@ -278,10 +278,10 @@ export function validateSpatialPoints(spatialCoordinateSettings: SpatialCoordina
             const entry = spatialCoordinateSettings.find(settings => settings.key === point.scheme)
 
             if (nonEmptyX && entry && !between(Number(point.x), entry.xMin, entry.xMax))
-                pointError.x = `${entry.xLabel} is out of range: [${entry.xMin}, ${entry.xMax}]`
+                pointError.x = `${entry.xLabel} is out of range: [${entry.xMin},${entry.xMax}]`
 
             if (nonEmptyY && entry && !between(Number(point.y), entry.yMin, entry.yMax))
-                pointError.y = `${entry.yLabel} is out of range: [${entry.yMin}, ${entry.yMax}]`
+                pointError.y = `${entry.yLabel} is out of range: [${entry.yMin},${entry.yMax}]`
         }
 
         return pointError
@@ -316,16 +316,16 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
             const entry = spatialCoordinateSettings.find(settings => settings.key === box.scheme)
 
             if (nonEmptyNorth && entry && !between(Number(box.north), entry.yMin, entry.yMax))
-                boxError.north = `north coordinate is out of range: [${entry.yMin}, ${entry.yMax}]`
+                boxError.north = `north coordinate is out of range: [${entry.yMin},${entry.yMax}]`
 
             if (nonEmptyEast && entry && !between(Number(box.east), entry.xMin, entry.xMax))
-                boxError.east = `east coordinate is out of range: [${entry.xMin}, ${entry.xMax}]`
+                boxError.east = `east coordinate is out of range: [${entry.xMin},${entry.xMax}]`
 
             if (nonEmptySouth && entry && !between(Number(box.south), entry.yMin, entry.yMax))
-                boxError.south = `south coordinate is out of range: [${entry.yMin}, ${entry.yMax}]`
+                boxError.south = `south coordinate is out of range: [${entry.yMin},${entry.yMax}]`
 
             if (nonEmptyWest && entry && !between(Number(box.west), entry.xMin, entry.xMax))
-                boxError.west = `west coordinate is out of range: [${entry.xMin}, ${entry.xMax}]`
+                boxError.west = `west coordinate is out of range: [${entry.xMin},${entry.xMax}]`
         }
 
         return boxError
