@@ -622,7 +622,7 @@ describe("Validation", () => {
                     x: "",
                     y: "",
                 },
-            ])).to.eql([{ scheme: "No scheme given" }, { x: "No x coordinate given", y: "No y coordinate given" }])
+            ])).to.eql([{ scheme: "No scheme given" }, { x: "Coordinate incomplete", y: "Coordinate incomplete" }])
         })
 
         it("should return error objects when out-of-range SpatialPoints are given", () => {

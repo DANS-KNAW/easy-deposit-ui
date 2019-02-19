@@ -269,9 +269,9 @@ export function validateSpatialPoints(spatialCoordinateSettings: SpatialCoordina
             if (!nonEmptyScheme)
                 pointError.scheme = "No scheme given"
             if (!nonEmptyX)
-                pointError.x = "No x coordinate given"
+                pointError.x = "Coordinate incomplete"
             if (!nonEmptyY)
-                pointError.y = "No y coordinate given"
+                pointError.y = "Coordinate incomplete"
         }
 
         if (nonEmptyScheme) {
