@@ -19,12 +19,13 @@ import { DeleteState, FileInfo } from "../../../../../model/FileInfo"
 interface FilesTableRowProps {
     fileInfo: FileInfo
     deleting: DeleteState
+
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
     cancelDeleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
     deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo: {fullpath, sha1sum}, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
+const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
     const isDeleting = deleting && deleting.deleting
 
     const deleteButton =
@@ -38,12 +39,11 @@ const FilesTableRow = ({ fileInfo: {fullpath, sha1sum}, deleting, deleteFile, as
                 ? <i className="fas fa-sync-alt fa-spin"/>
                 : <i className="fas fa-trash-alt"/>}
         </button>
-    const confirmButtons = deleting && deleting.deleting
-        ? <div>
-            <button type="button" className="btn btn-dark bg-danger mb-0 mr-1" onClick={deleteFile}>Delete File</button>
+    const confirmButtons = isDeleting &&
+        <div className="mt-2 confirm-button">
+            <button type="button" className="btn btn-dark bg-danger mb-0 mr-1" onClick={deleteFile}>Delete file</button>
             <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteFile}>Cancel</button>
-          </div>
-        : ""
+        </div>
 
     return (
         <tr className="row ml-0 mr-0">
