@@ -16,40 +16,47 @@
 import * as React from "react"
 import { Field } from "redux-form"
 import { ErrorHandlingDropdownFieldInput } from "./DropDownField"
-import { DropdownListEntry } from "../../model/DropdownLists"
+import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 import LabeledTextField from "./LabeledTextField"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
+import { Point } from "../metadata/SpatialPoint"
 
-interface SchemedPointProps extends InnerComponentProps {
-    schemeValues: DropdownListEntry[]
+interface SchemedPointProps extends InnerComponentProps<Point> {
+    schemeValues: SpatialCoordinatesDropdownListEntry[]
 }
 
-const SchemedPoint = ({ names, schemeValues }: SchemedPointProps) => (
-    <div className="form-row spatialPoint">
-        <div className="col col-md-4">
-            <Field name={names[0]}
-                   label="Scheme"
-                   choices={schemeValues}
-                   withEmptyDefault
-                   component={ErrorHandlingDropdownFieldInput}/>
+const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
+    const choice = schemeValues.find(value => value.key === itemData.scheme)
+
+    return (
+        <div className="form-row spatialPoint">
+            <div className="col col-md-4">
+                <Field name={names[0]}
+                       label="Scheme"
+                       choices={schemeValues}
+                       withEmptyDefault
+                       component={ErrorHandlingDropdownFieldInput}/>
+            </div>
+            <div className="col col-md-4">
+                <Field name={names[1]}
+                       id="spatialpoint_x"
+                       label={choice ? choice.xLabel : "X"}
+                       placeholder="coordinate"
+                       type="number"
+                       labelWidth={55}
+                       component={LabeledTextField}/>
+            </div>
+            <div className="col col-md-4">
+                <Field name={names[2]}
+                       id="spatialpoint_y"
+                       label={choice ? choice.yLabel : "Y"}
+                       placeholder="coordinate"
+                       type="number"
+                       labelWidth={50}
+                       component={LabeledTextField}/>
+            </div>
         </div>
-        <div className="col col-md-4">
-            <Field name={names[1]}
-                   label="X"
-                   placeholder="coordinate"
-                   type="number"
-                   labelWidth={28}
-                   component={LabeledTextField}/>
-        </div>
-        <div className="col col-md-4">
-            <Field name={names[2]}
-                   label="Y"
-                   placeholder="coordinate"
-                   type="number"
-                   labelWidth={28}
-                   component={LabeledTextField}/>
-        </div>
-    </div>
-)
+    )
+}
 
 export default asFieldArray(SchemedPoint)

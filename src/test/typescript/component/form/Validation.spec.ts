@@ -31,6 +31,7 @@ import {
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
+import { SpatialCoordinatesDropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 
 describe("Validation", () => {
 
@@ -568,58 +569,115 @@ describe("Validation", () => {
         })
     })
 
+    const spatialCoordinatesSettings: SpatialCoordinatesDropdownListEntry[] = [
+        {
+            key: "http://www.opengis.net/def/crs/EPSG/0/28992",
+            value: "RD (in m.)",
+            displayValue: "RD (in m.)",
+            xLabel: "X",
+            yLabel: "Y",
+            xMin: -7000,
+            xMax: 300000,
+            yMin: 289000,
+            yMax: 629000,
+        },
+        {
+            key: "http://www.opengis.net/def/crs/EPSG/0/4326",
+            value: "lengte/breedte (graden)",
+            displayValue: "lengte/breedte (graden)",
+            xLabel: "Lat",
+            yLabel: "Long",
+            xMin: -90,
+            xMax: 90,
+            yMin: -180,
+            yMax: 180,
+        },
+    ]
+
     describe("validateSpatialPoints", () => {
         it("should return an empty list when no SpatialPoints are given", () => {
-            expect(validateSpatialPoints([])).to.eql([])
+            expect(validateSpatialPoints(spatialCoordinatesSettings, [])).to.eql([])
         })
 
         it("should return empty objects when valid SpatialPoints are given", () => {
-            expect(validateSpatialPoints([
+            expect(validateSpatialPoints(spatialCoordinatesSettings, [
                 {},
                 {
-                    scheme: "RD",
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
                     x: "12",
-                    y: "15",
+                    y: "289001",
                 },
             ])).to.eql([{}, {}])
         })
 
         it("should return error objects when invalid SpatialPoints are given", () => {
-            expect(validateSpatialPoints([
+            expect(validateSpatialPoints(spatialCoordinatesSettings, [
                 {
                     scheme: "",
                     x: "12",
                     y: "15",
                 },
                 {
-                    scheme: "RD",
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
                     x: "",
                     y: "",
                 },
-            ])).to.eql([{ scheme: "No scheme given" }, { x: "No x coordinate given", y: "No y coordinate given" }])
+            ])).to.eql([{ scheme: "No scheme given" }, { x: "Coordinate incomplete", y: "Coordinate incomplete" }])
+        })
+
+        it("should return error objects when out-of-range SpatialPoints are given", () => {
+            expect(validateSpatialPoints(spatialCoordinatesSettings, [
+                {
+                    scheme: "", // no scheme, so no checks on range
+                    x: "12",
+                    y: "15",
+                },
+                {
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992", // RD
+                    x: "-7001",
+                    y: "288999",
+                },
+                {
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992", // RD
+                    x: "300001",
+                    y: "629001",
+                },
+            ])).to.eql([
+                {
+                    scheme: "No scheme given",
+                },
+                {
+                    x: "X is out of range: [-7000,300000]",
+                    y: "Y is out of range: [289000,629000]",
+                },
+                {
+                    x: "X is out of range: [-7000,300000]",
+                    y: "Y is out of range: [289000,629000]",
+                },
+            ])
         })
     })
 
     describe("validateSpatialBoxes", () => {
         it("should return an empty list when no SpatialBoxes are given", () => {
-            expect(validateSpatialBoxes([])).to.eql([])
+            expect(validateSpatialBoxes(spatialCoordinatesSettings, [])).to.eql([])
         })
 
         it("should return empty objects when valid SpatialBoxes are given", () => {
-            expect(validateSpatialBoxes([
+            expect(validateSpatialBoxes(spatialCoordinatesSettings, [
                 {},
                 {
-                    scheme: "RD",
-                    north: "12",
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
+                    north: "289001",
                     east: "15",
-                    south: "26",
+                    south: "289002",
                     west: "52",
                 },
             ])).to.eql([{}, {}])
         })
 
         it("should return error objects when invalid SpatialBoxes are given", () => {
-            expect(validateSpatialBoxes([
+            expect(validateSpatialBoxes(spatialCoordinatesSettings, [
                 {
                     scheme: "",
                     north: "12",
@@ -628,7 +686,7 @@ describe("Validation", () => {
                     west: "52",
                 },
                 {
-                    scheme: "RD",
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
                     north: "",
                     east: "",
                     south: "",
@@ -640,6 +698,48 @@ describe("Validation", () => {
                 south: "No south coordinate given",
                 west: "No west coordinate given",
             }])
+        })
+
+        it("should return error objects when out-of-range SpatialBox are given", () => {
+            expect(validateSpatialBoxes(spatialCoordinatesSettings, [
+                {
+                    scheme: "", // no scheme, so no checks on range
+                    north: "12",
+                    east: "15",
+                    south: "26",
+                    west: "52",
+                },
+                {
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992", // RD
+                    north: "288999",
+                    east: "-7001",
+                    south: "288999",
+                    west: "-7001",
+                },
+                {
+                    scheme: "http://www.opengis.net/def/crs/EPSG/0/28992", // RD
+                    north: "629001",
+                    east: "300001",
+                    south: "629001",
+                    west: "300001",
+                },
+            ])).to.eql([
+                {
+                    scheme: "No scheme given",
+                },
+                {
+                    north: "north coordinate is out of range: [289000,629000]",
+                    east: "east coordinate is out of range: [-7000,300000]",
+                    south: "south coordinate is out of range: [289000,629000]",
+                    west: "west coordinate is out of range: [-7000,300000]",
+                },
+                {
+                    north: "north coordinate is out of range: [289000,629000]",
+                    east: "east coordinate is out of range: [-7000,300000]",
+                    south: "south coordinate is out of range: [289000,629000]",
+                    west: "west coordinate is out of range: [-7000,300000]",
+                },
+            ])
         })
     })
 })

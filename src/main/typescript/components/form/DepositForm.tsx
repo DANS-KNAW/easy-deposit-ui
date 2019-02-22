@@ -274,6 +274,7 @@ const mapStateToProps = (state: AppState) => ({
     fileState: state.files.loading,
     initialValues: state.depositForm.initialState.metadata,
     formValues: state.form.depositForm && state.form.depositForm.values,
+    dropDowns: state.dropDowns, // used in validation
 })
 
 const composedHOC = compose(

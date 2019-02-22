@@ -17,15 +17,20 @@ import { expect } from "chai"
 import { describe, it } from "mocha"
 import { allfields, mandatoryOnly, newMetadata } from "../../mockserver/metadata"
 import { metadataConverter, metadataDeconverter } from "../../../../main/typescript/lib/metadata/Metadata"
-import { DropdownList, DropdownLists } from "../../../../main/typescript/model/DropdownLists"
-import { convertDropdownData } from "../../../../main/typescript/lib/dropdown/dropdown"
+import { DropdownList, DropdownListEntry, DropdownLists } from "../../../../main/typescript/model/DropdownLists"
+import {
+    convertDropdownData,
+    convertSpatialCoordinatesDropdownData,
+} from "../../../../main/typescript/lib/dropdown/dropdown"
 
 describe("Metadata", () => {
 
     const fetchDropdownList: (filename: string) => any = filename => require(`../../../../main/resources/constants/${filename}`)
-    const dropdownList: (filename: string) => DropdownList = filename => {
+
+    function dropdownList<Entry extends DropdownListEntry>(filename: string,
+                                                           convertData: (data: any) => Entry[]): DropdownList<Entry> {
         return {
-            list: convertDropdownData(fetchDropdownList(filename)),
+            list: convertData(fetchDropdownList(filename)),
             state: {
                 fetchingList: false,
                 fetchedList: true,
@@ -34,20 +39,20 @@ describe("Metadata", () => {
     }
 
     const dropdownLists: DropdownLists = {
-        languages: dropdownList("languages.json"),
-        contributorIds: dropdownList("contributorIds.json"),
-        contributorRoles: dropdownList("contributorRoles.json"),
-        audiences: dropdownList("audiences.json"),
-        identifiers: dropdownList("identifiers.json"),
-        relations: dropdownList("relations.json"),
-        dates: dropdownList("dates.json"),
-        licenses: dropdownList("licenses.json"),
-        dcmiTypes: dropdownList("dcmiTypes.json"),
-        imtFormats: dropdownList("imtFormats.json"),
-        abrComplexSubjects: dropdownList("abrComplexSubjects.json"),
-        abrPeriodeTemporals: dropdownList("abrPeriodeTemporals.json"),
-        spatialCoordinates: dropdownList("spatialCoordinates.json"),
-        spatialCoveragesIso: dropdownList("spatialCoveragesIso.json"),
+        languages: dropdownList("languages.json", convertDropdownData),
+        contributorIds: dropdownList("contributorIds.json", convertDropdownData),
+        contributorRoles: dropdownList("contributorRoles.json", convertDropdownData),
+        audiences: dropdownList("audiences.json", convertDropdownData),
+        identifiers: dropdownList("identifiers.json", convertDropdownData),
+        relations: dropdownList("relations.json", convertDropdownData),
+        dates: dropdownList("dates.json", convertDropdownData),
+        licenses: dropdownList("licenses.json", convertDropdownData),
+        dcmiTypes: dropdownList("dcmiTypes.json", convertDropdownData),
+        imtFormats: dropdownList("imtFormats.json", convertDropdownData),
+        abrComplexSubjects: dropdownList("abrComplexSubjects.json", convertDropdownData),
+        abrPeriodeTemporals: dropdownList("abrPeriodeTemporals.json", convertDropdownData),
+        spatialCoordinates: dropdownList("spatialCoordinates.json", convertSpatialCoordinatesDropdownData),
+        spatialCoveragesIso: dropdownList("spatialCoveragesIso.json", convertDropdownData),
     }
 
     it("should return the same object when doing a convert and deconvert consecutively for allfields example", () => {

@@ -22,9 +22,10 @@ import RemoveButton from "./RemoveButton"
 import HelpButton from "./HelpButton"
 import HelpText from "./HelpText"
 
-export interface InnerComponentProps {
+export interface InnerComponentProps<T = any> {
     className: string
     names: string[]
+    itemData: T
 }
 
 const isFirstIndex: (index: number) => boolean = index => index === 0
@@ -33,8 +34,8 @@ const isLastIndex: <T>(arr: T[], index: number) => boolean = (arr, index) => ind
 
 const extractNameFromFirstIndex: (string: string) => string = string => string.slice(0, -3)
 
-const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
-    function <T>(props: FieldArrayProps<T> & any) {
+function asFieldArray<T>(InnerComponent: ComponentType<InnerComponentProps<T>>) {
+    return function (props: FieldArrayProps<T> & any) {
         const { fields, fieldNames, empty, label, mandatory, helpText, meta } = props
         const changed = (meta as any).changed
         const hasError = meta.error && (changed || meta.submitFailed)
@@ -60,7 +61,8 @@ const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
                         {firstIndex && helpText && <HelpText textFor={fieldName}/>}
                         <InnerComponent {...props}
                                         className={hasError ? "is-invalid" : ""}
-                                        names={fieldNames.map((f: (name: string) => string) => f(name))}/>
+                                        names={fieldNames.map((f: (name: string) => string) => f(name))}
+                                        itemData={fields.get(index)}/>
                         {lastIndex && hasError && <span className="invalid-feedback">{meta.error}</span>}
                     </div>
 
@@ -74,6 +76,6 @@ const asFieldArray = (InnerComponent: ComponentType<InnerComponentProps>) => (
             )
         })
     }
-)
+}
 
 export default asFieldArray

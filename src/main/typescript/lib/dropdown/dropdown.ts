@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DropdownListEntry } from "../../model/DropdownLists"
+import { DropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 
 export const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
     return Object.keys(data)
@@ -24,6 +24,25 @@ export const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
                 key: key,
                 value: obj.title,
                 displayValue: obj.viewName,
+            }
+        })
+}
+
+export const convertSpatialCoordinatesDropdownData: (data: any) => SpatialCoordinatesDropdownListEntry[] = data => {
+    return Object.keys(data)
+        .map(key => {
+            const obj = data[key]
+
+            return {
+                key: key,
+                value: obj.title,
+                displayValue: obj.viewName,
+                xLabel: obj["x-label"],
+                yLabel: obj["y-label"],
+                xMin: obj["x-min"],
+                xMax: obj["x-max"],
+                yMin: obj["y-min"],
+                yMax: obj["y-max"],
             }
         })
 }

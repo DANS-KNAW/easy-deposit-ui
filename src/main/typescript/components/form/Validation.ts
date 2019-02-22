@@ -23,6 +23,7 @@ import { Relation } from "../../lib/metadata/Relation"
 import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
+import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -251,7 +252,12 @@ export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<strin
     }
 }
 
-export const validateSpatialPoints: (spatialPoints: Point[]) => Point[] = spatialPoints => {
+function between(x: number, min: number, max: number): boolean {
+    return x >= min && x <= max
+}
+
+export function validateSpatialPoints(spatialCoordinateSettings: SpatialCoordinatesDropdownListEntry[],
+                                      spatialPoints: Point[]): Point[] {
     return spatialPoints.map(point => {
         const nonEmptyScheme = checkNonEmpty(point.scheme)
         const nonEmptyX = checkNonEmpty(point.x)
@@ -263,18 +269,27 @@ export const validateSpatialPoints: (spatialPoints: Point[]) => Point[] = spatia
             if (!nonEmptyScheme)
                 pointError.scheme = "No scheme given"
             if (!nonEmptyX)
-                pointError.x = "No x coordinate given"
+                pointError.x = "Coordinate incomplete"
             if (!nonEmptyY)
-                pointError.y = "No y coordinate given"
+                pointError.y = "Coordinate incomplete"
         }
 
-        // TODO validate coordinate w.r.t. the scheme
+        if (nonEmptyScheme) {
+            const entry = spatialCoordinateSettings.find(settings => settings.key === point.scheme)
+
+            if (nonEmptyX && entry && !between(Number(point.x), entry.xMin, entry.xMax))
+                pointError.x = `${entry.xLabel} is out of range: [${entry.xMin},${entry.xMax}]`
+
+            if (nonEmptyY && entry && !between(Number(point.y), entry.yMin, entry.yMax))
+                pointError.y = `${entry.yLabel} is out of range: [${entry.yMin},${entry.yMax}]`
+        }
 
         return pointError
     })
 }
 
-export const validateSpatialBoxes: (spatialBoxes: Box[]) => Box[] = spatialBoxes => {
+export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinatesDropdownListEntry[],
+                                     spatialBoxes: Box[]): Box[] {
     return spatialBoxes.map(box => {
         const nonEmptyScheme = checkNonEmpty(box.scheme)
         const nonEmptyNorth = checkNonEmpty(box.north)
@@ -297,13 +312,31 @@ export const validateSpatialBoxes: (spatialBoxes: Box[]) => Box[] = spatialBoxes
                 boxError.west = "No west coordinate given"
         }
 
-        // TODO validate coordinates w.r.t. the scheme
+        if (nonEmptyScheme) {
+            const entry = spatialCoordinateSettings.find(settings => settings.key === box.scheme)
+
+            if (nonEmptyNorth && entry && !between(Number(box.north), entry.yMin, entry.yMax))
+                boxError.north = `north coordinate is out of range: [${entry.yMin},${entry.yMax}]`
+
+            if (nonEmptyEast && entry && !between(Number(box.east), entry.xMin, entry.xMax))
+                boxError.east = `east coordinate is out of range: [${entry.xMin},${entry.xMax}]`
+
+            if (nonEmptySouth && entry && !between(Number(box.south), entry.yMin, entry.yMax))
+                boxError.south = `south coordinate is out of range: [${entry.yMin},${entry.yMax}]`
+
+            if (nonEmptyWest && entry && !between(Number(box.west), entry.xMin, entry.xMax))
+                boxError.west = `west coordinate is out of range: [${entry.xMin},${entry.xMax}]`
+        }
 
         return boxError
     })
 }
 
-export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFormMetadata> = values => {
+export const formValidate: (values: DepositFormMetadata, props: any) => FormErrors<DepositFormMetadata> = (values, props) => {
+    const spatialCoordinateSettings = props.dropDowns.spatialCoordinates.state.fetchedList
+        ? props.dropDowns.spatialCoordinates.list
+        : []
+
     const errors: any = {}
 
     // basic information form
@@ -337,8 +370,8 @@ export const formValidate: (values: DepositFormMetadata) => FormErrors<DepositFo
     errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)
 
     // temporal and spatial coverage form
-    errors.spatialPoints = validateSpatialPoints(values.spatialPoints || [])
-    errors.spatialBoxes = validateSpatialBoxes(values.spatialBoxes || [])
+    errors.spatialPoints = validateSpatialPoints(spatialCoordinateSettings, values.spatialPoints || [])
+    errors.spatialBoxes = validateSpatialBoxes(spatialCoordinateSettings, values.spatialBoxes || [])
 
     // privacy sensitive data form
     errors.privacySensitiveDataPresent = mandatoryPrivacySensitiveDataValidator(values.privacySensitiveDataPresent)
