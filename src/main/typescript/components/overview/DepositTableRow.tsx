@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { FC } from "react"
+import { Link, LinkProps } from "react-router-dom"
 import { dateFormat } from "../../lib/metadata/Date"
 import { DeleteState, Deposit } from "../../model/Deposits"
 
@@ -25,25 +27,35 @@ const Enterable = ({ title }: EnterableProps) => (
     <div><i className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</div>
 )
 
+interface LinkableProps {
+    enabled: boolean
+}
+
+const Linkable: FC<LinkableProps & LinkProps> = ({to, enabled, children}) => {
+    return enabled
+        ? <Link to={to}>{children}</Link>
+        : <>{children}</>
+}
+
 interface DepositTableRowProps {
     deposit: Deposit
     deleting?: DeleteState
-    editable: Boolean
+    editable: boolean
+    depositLink: string
 
     deleteDeposit: (e: React.MouseEvent<HTMLButtonElement>) => void
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
     cancelDeleteDeposit: (e: React.MouseEvent<HTMLButtonElement>) => void
-    enterDeposit: () => void
 }
 
-const DepositTableRow = ({ deposit, deleting, editable, deleteDeposit, askConfirmation, cancelDeleteDeposit, enterDeposit }: DepositTableRowProps) => {
+const DepositTableRow = ({ deposit, deleting, editable, depositLink, deleteDeposit, askConfirmation, cancelDeleteDeposit }: DepositTableRowProps) => {
     const title = <Enterable title={deposit.title}/>
     const isDeleting = deleting && deleting.deleting
 
     const deleteButton = editable &&
         <button type="button"
                 key="delete"
-                className="close icon"
+                className="close"
                 disabled={isDeleting}
                 onClick={askConfirmation}>
             {isDeleting
@@ -64,17 +76,25 @@ const DepositTableRow = ({ deposit, deleting, editable, deleteDeposit, askConfir
 
     return (
         <tr className={["row ml-0 mr-0", rowStyling].join(" ")}
-            onClick={() => !isDeleting && enterDeposit()}>
+            /*onClick={() => !isDeleting && enterDeposit()}*/>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">
-                {title}
+                <Linkable enabled={!isDeleting && editable} to={depositLink}>{title}</Linkable>
                 {confirmButtons}
             </td>
-            <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">{dateFormat(deposit.date)}</td>
-            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">{deposit.state}</td>
-            <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">{deposit.stateDescription}</td>
-            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5"
-                id="actions_cell">{deleteButton}</td>
+            <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">
+                <Linkable enabled={!isDeleting && editable} to={depositLink}>{dateFormat(deposit.date)}</Linkable>
+            </td>
+            <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">
+                <Linkable enabled={!isDeleting && editable} to={depositLink}>{deposit.state}</Linkable>
+            </td>
+            <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">
+                <Linkable enabled={!isDeleting && editable} to={depositLink}>{deposit.stateDescription}</Linkable>
+            </td>
+            <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">
+                <Linkable enabled={!isDeleting && editable} to={depositLink}/>
+                {deleteButton}
+            </td>
         </tr>
     )
 }

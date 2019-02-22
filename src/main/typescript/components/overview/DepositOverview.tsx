@@ -15,18 +15,18 @@
  */
 import * as React from "react"
 import { useEffect } from "react"
-import { Action, compose } from "redux"
+import { Action } from "redux"
 import { connect } from "react-redux"
-import { RouteComponentProps, withRouter } from "react-router-dom"
 import { AppState } from "../../model/AppState"
 import { Deposit, DepositId, DepositOverviewState, Deposits, DepositState } from "../../model/Deposits"
 import {
-    askConfirmationToDeleteDeposit, cancelDeleteDeposit,
+    askConfirmationToDeleteDeposit,
+    cancelDeleteDeposit,
     cleanDeposits,
     deleteDeposit,
     fetchDeposits,
 } from "../../actions/depositOverviewActions"
-import { FetchAction, PromiseAction, ThunkAction } from "../../lib/redux"
+import { FetchAction, PromiseAction } from "../../lib/redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
@@ -37,12 +37,12 @@ function isEditable({ state }: Deposit): boolean {
     return state === DepositState.DRAFT || state === DepositState.REJECTED
 }
 
-interface DepositOverviewProps extends RouteComponentProps<{}> {
+interface DepositOverviewProps {
     deposits: DepositOverviewState
 
-    fetchDeposits: () => ThunkAction<FetchAction<Deposits>>
+    fetchDeposits: () => FetchAction<Deposits>
     cleanDeposits: () => Action
-    deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>>
+    deleteDeposit: (depositId: DepositId) => PromiseAction<void>
     askConfirmationToDeleteDeposit: (depositId: DepositId) => Action
     cancelDeleteDeposit: (depositId: DepositId) => Action
 }
@@ -99,7 +99,6 @@ const DepositOverview = (props: DepositOverviewProps) => {
                 <tbody>{depositIds.length == 0
                     ? <EmptyDepositTableRow/>
                     : depositIds.map(depositId => {
-                        const editable = isEditable(props.deposits.deposits[depositId])
                         return <DepositTableRow key={depositId}
                                                 deposit={props.deposits.deposits[depositId]}
                                                 deleting={props.deposits.deleting[depositId]}
@@ -115,8 +114,8 @@ const DepositOverview = (props: DepositOverviewProps) => {
                                                     e.stopPropagation()
                                                     props.cancelDeleteDeposit(depositId)
                                                 }}
-                                                editable={editable}
-                                                enterDeposit={() => editable && props.history.push(depositFormRoute(depositId))}/>
+                                                editable={isEditable(props.deposits.deposits[depositId])}
+                                                depositLink={depositFormRoute(depositId)}/>
                     })}</tbody>
             </table>
         )
@@ -135,13 +134,10 @@ const mapStateToProps = (state: AppState) => ({
     deposits: state.deposits,
 })
 
-export default compose(
-    withRouter,
-    connect(mapStateToProps, {
-        fetchDeposits,
-        cleanDeposits,
-        deleteDeposit,
-        askConfirmationToDeleteDeposit,
-        cancelDeleteDeposit,
-    }),
-)(DepositOverview)
+export default connect(mapStateToProps, {
+    fetchDeposits,
+    cleanDeposits,
+    deleteDeposit,
+    askConfirmationToDeleteDeposit,
+    cancelDeleteDeposit,
+})(DepositOverview)
