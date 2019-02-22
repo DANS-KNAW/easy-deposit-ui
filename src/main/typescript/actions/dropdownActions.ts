@@ -16,7 +16,11 @@
 import { DropdownConstants } from "../constants/dropdownConstants"
 import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from "../lib/redux"
 import axios from "axios"
-import { convertDropdownData, convertSpatialCoordinatesDropdownData } from "../lib/dropdown/dropdown"
+import {
+    convertContributorIdDropdownData,
+    convertDropdownData,
+    convertSpatialCoordinatesDropdownData,
+} from "../lib/dropdown/dropdown"
 import { DepositId } from "../model/Deposits"
 import { Action } from "redux"
 import { fetchMetadata } from "./depositFormActions"
@@ -78,7 +82,7 @@ const fetchContributorIdsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
     "contributorIds.json",
     dds => dds.contributorIds,
-    convertDropdownData,
+    convertContributorIdDropdownData,
 )
 
 const fetchContributorRolesData: PromiseThunkAction = fetchDropdown(

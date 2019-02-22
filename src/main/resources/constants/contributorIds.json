@@ -5,10 +5,12 @@
   },
   "id-type:ORCID": {
     "title": "ORCID",
-    "viewName": "ORCID"
+    "viewName": "ORCID",
+    "baseURL": "http://orcid.org/%s"
   },
   "id-type:ISNI": {
     "title": "ISNI",
-    "viewName": "ISNI"
+    "viewName": "ISNI",
+    "baseURL": "http://isni.org/isni/%s"
   }
 }
