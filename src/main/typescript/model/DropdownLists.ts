@@ -31,6 +31,7 @@ export interface DropdownListEntry {
 }
 
 export interface ContributorIdDropdownListEntry extends DropdownListEntry {
+    format: string
     baseURL?: string
 }
 

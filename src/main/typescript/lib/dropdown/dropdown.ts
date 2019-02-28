@@ -41,6 +41,7 @@ export const convertContributorIdDropdownData: (data: any) => ContributorIdDropd
                 key: key,
                 value: obj.title,
                 displayValue: obj.viewName,
+                format: obj.format,
                 baseURL: obj.baseURL,
             }
         })
