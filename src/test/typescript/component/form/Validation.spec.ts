@@ -271,14 +271,12 @@ describe("Validation", () => {
             value: "ORCID",
             displayValue: "ORCID",
             format: "(^([0-9]){15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)",
-            baseURL: "https://pub.orcid.org/v2.1/search?q=\"%s\"",
         },
         {
             key: "id-type:ISNI",
             value: "ISNI",
             displayValue: "ISNI",
             format: "^([0-9]{8,9})([0-9xX])$",
-            baseURL: "http://isni.org/isni/%s",
         },
     ]
 
