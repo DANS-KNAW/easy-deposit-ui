@@ -45,6 +45,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
         <RepeatableFieldWithDropdown name="rightsHolders"
                                      label="Rightsholders"
                                      helpText
+                                     mandatory
                                      empty={() => emptyRightsholder}
                                      fieldNames={[
                                          (name: string) => `${name}.titles`, // 0
