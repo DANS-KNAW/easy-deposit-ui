@@ -30,6 +30,10 @@ export interface DropdownListEntry {
     displayValue: string
 }
 
+export interface ContributorIdDropdownListEntry extends DropdownListEntry {
+    format: string
+}
+
 export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {
     xLabel: string
     yLabel: string
@@ -53,7 +57,7 @@ export function emptyDropdownList<Entry extends DropdownListEntry>(): DropdownLi
 
 export interface DropdownLists {
     languages: DropdownList
-    contributorIds: DropdownList
+    contributorIds: DropdownList<ContributorIdDropdownListEntry>
     contributorRoles: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
@@ -66,7 +70,6 @@ export interface DropdownLists {
     abrPeriodeTemporals: DropdownList
     spatialCoordinates: DropdownList<SpatialCoordinatesDropdownListEntry>
     spatialCoveragesIso: DropdownList
-    // TODO add others
 }
 
 export const emptyDropdownLists: DropdownLists = {

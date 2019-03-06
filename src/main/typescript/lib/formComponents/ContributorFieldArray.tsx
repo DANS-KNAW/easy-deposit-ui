@@ -18,7 +18,7 @@ import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
 import { Field } from "redux-form"
 import TextField, { ErrorHandlingTextField } from "./TextField"
 import { DropdownFieldInput, ErrorHandlingDropdownFieldInput } from "./DropDownField"
-import { DropdownListEntry } from "../../model/DropdownLists"
+import { ContributorIdDropdownListEntry, DropdownListEntry } from "../../model/DropdownLists"
 import RemoveButton from "./RemoveButton"
 import { FieldArrayProps, FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
 import { emptySchemedValue, SchemedValue } from "../metadata/Value"
@@ -26,7 +26,7 @@ import AddButton from "./AddButton"
 import Mandatory from "./Mandatory"
 import { Contributor } from "../metadata/Contributor"
 
-const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributorIds } }: FieldArrayPropsWithDropdown<SchemedValue, DropdownListEntry[]>) => (
+const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributorIds } }: FieldArrayPropsWithDropdown<SchemedValue, ContributorIdDropdownListEntry[]>) => (
     <>
         <div className="form-row">
             <div className="col form-group col-12 col-md-3 pl-0 mb-0">
@@ -61,7 +61,7 @@ const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributo
 )
 
 interface ContributorFieldProps extends InnerComponentProps, FieldArrayProps<Contributor> {
-    idValues: DropdownListEntry[]
+    idValues: ContributorIdDropdownListEntry[]
     roleValues?: DropdownListEntry[]
 }
 

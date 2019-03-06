@@ -23,7 +23,7 @@ import { Relation } from "../../lib/metadata/Relation"
 import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
-import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
+import { ContributorIdDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -111,7 +111,7 @@ export const atLeastOneCreator = (contributors?: Contributor[]) => {
     }
 }
 
-export const validateContributors: (contributors: Contributor[]) => Contributor[] = contributors => {
+export const validateContributors: (contributorIdSettings: ContributorIdDropdownListEntry[], contributors: Contributor[]) => Contributor[] = (contributorIdSettings, contributors) => {
     // validate that mandatory fields are filled in for each contributor
     return contributors.map((contributor: Contributor) => {
         const nonEmptyOrganization = checkNonEmpty(contributor.organization)
@@ -142,10 +142,34 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
             }
 
             if (contributor.ids)
-                contribError.ids = validateSchemedValue(contributor.ids)
+                contribError.ids = validateContributorIds(contributorIdSettings, contributor.ids)
         }
 
         return contribError
+    })
+}
+
+const validateContributorIds: (contributorIdSettings: ContributorIdDropdownListEntry[], schemedValues: SchemedValue[]) => SchemedValue[] = (contributorIdSettings, schemedValues) => {
+    return schemedValues.map(id => {
+        const nonEmptyScheme = checkNonEmpty(id.scheme)
+        const nonEmptyValue = checkNonEmpty(id.value)
+
+        const idError: SchemedValue = {}
+
+        if (!nonEmptyScheme && nonEmptyValue)
+            idError.scheme = "No scheme given"
+
+        if (nonEmptyScheme && !nonEmptyValue)
+            idError.value = "No identifier given"
+
+        if (nonEmptyScheme && nonEmptyValue && id.value) {
+            const entry = contributorIdSettings.find(({ key }) => key === id.scheme)
+
+            if (entry && !id.value.match(entry.format))
+                idError.value = `Invalid ${entry.displayValue} identifier`
+        }
+
+        return idError
     })
 }
 
@@ -333,6 +357,9 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
 }
 
 export const formValidate: (values: DepositFormMetadata, props: any) => FormErrors<DepositFormMetadata> = (values, props) => {
+    const contributorIdSettings = props.dropDowns.contributorIds.state.fetchedList
+        ? props.dropDowns.contributorIds.list
+        : []
     const spatialCoordinateSettings = props.dropDowns.spatialCoordinates.state.fetchedList
         ? props.dropDowns.spatialCoordinates.list
         : []
@@ -353,7 +380,7 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
         else if (oneCreator)
             errors.contributors = { _error: oneCreator }
         else
-            errors.contributors = validateContributors(values.contributors)
+            errors.contributors = validateContributors(contributorIdSettings, values.contributors)
     }
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
@@ -364,7 +391,7 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
     errors.dates = validateDates(values.dates || [])
 
     // license and access form
-    errors.rightsHolders = validateContributors(values.rightsHolders || [])
+    errors.rightsHolders = validateContributors(contributorIdSettings, values.rightsHolders || [])
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
     errors.license = mandatoryRadioButtonValidator(values.license, "license")
     errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)
