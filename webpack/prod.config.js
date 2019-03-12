@@ -48,9 +48,7 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
 
     plugins: [
         // Clear out `target/build` directory between builds
-        new CleanWebpackPlugin(['target/build'], {
-            root: process.cwd(),
-        }),
+        new CleanWebpackPlugin(),
         // Minify CSS
         new webpack.LoaderOptionsPlugin({
             minimize: true,
