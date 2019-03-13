@@ -57,8 +57,6 @@ module.exports = {
 
     plugins: [
         // Clear out `target/build` directory between builds
-        new CleanWebpackPlugin([buildPath], {
-            root: rootPath,
-        }),
+        new CleanWebpackPlugin(),
     ],
 };
