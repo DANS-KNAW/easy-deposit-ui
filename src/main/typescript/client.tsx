@@ -15,9 +15,9 @@
  */
 import * as React from "react"
 import * as ReactDOM from "react-dom"
+import * as history from "history"
 import { Provider } from "react-redux"
 import { Router } from "react-router-dom"
-import createBrowserHistory from "history/createBrowserHistory"
 import { newStore } from "./store"
 
 import Header from "./components/Header"
@@ -30,7 +30,7 @@ import "../resources/css/styling"
 const Main = () => (
     <Provider store={newStore()}>
         <ConfiguredApp>
-            <Router history={createBrowserHistory()}>
+            <Router history={history.createBrowserHistory()}>
                 <>
                     <Header/>
                     <main role="main" className="container">
