@@ -63,7 +63,7 @@ export interface Metadata {
 
     // license and access
     publishers?: string[]
-    accessRights?: AccessRight
+    accessRights?: AccessRightValues
     license?: string
 
     // Upload types
@@ -214,10 +214,6 @@ enum DateQualifierValues {
 
 enum DateSchemeValues {
     W3CDTF = "dcterms:W3CDTF"
-}
-
-interface AccessRight {
-    category: AccessRightValues
 }
 
 enum AccessRightValues {
@@ -476,9 +472,7 @@ export const allfields: Metadata = {
         "pub1",
         "pub2",
     ],
-    accessRights: {
-        category: AccessRightValues.OPEN_ACCESS,
-    },
+    accessRights: AccessRightValues.OPEN_ACCESS,
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     types: [
         {
@@ -645,9 +639,7 @@ export const mandatoryOnly: Metadata = {
             qualifier: DateQualifierValues.available,
         },
     ],
-    accessRights: {
-        category: AccessRightValues.REQUEST_PERMISSION,
-    },
+    accessRights: AccessRightValues.REQUEST_PERMISSION,
     license: "http://creativecommons.org/publicdomain/zero/1.0",
     privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
     // acceptDepositAgreement: false, // if not set, this value is false by default

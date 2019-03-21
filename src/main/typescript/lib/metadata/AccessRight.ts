@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { clean } from "./misc"
-
 export interface AccessRight {
     category?: AccessRightValue
 }
@@ -29,7 +27,7 @@ function toAccessRight(value: string): AccessRightValue | undefined {
 }
 
 export const accessRightConverter: (ar: any) => AccessRight = ar => {
-    const category = toAccessRight(ar.category)
+    const category = toAccessRight(ar)
     if (category)
         return {
             category: category,
@@ -39,7 +37,5 @@ export const accessRightConverter: (ar: any) => AccessRight = ar => {
 }
 
 export const accessRightDeconverter: (ar: AccessRight) => any = ar => {
-    return clean({
-        category: ar.category,
-    })
+    return ar.category
 }

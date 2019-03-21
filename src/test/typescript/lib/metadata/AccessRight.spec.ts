@@ -26,9 +26,7 @@ describe("AccessRight", () => {
     describe("accessRightConverter", () => {
 
         it("should convert a valid open-access", () => {
-            const input = {
-                category: "OPEN_ACCESS",
-            }
+            const input = "OPEN_ACCESS"
             const expected = {
                 category: "OPEN_ACCESS",
             }
@@ -55,12 +53,11 @@ describe("AccessRight", () => {
     describe("accessRightDeconverter", () => {
 
         it("should convert an empty AccessRight to an empty output", () => {
-            expect(accessRightDeconverter({})).to.eql({})
+            expect(accessRightDeconverter({})).to.eql(undefined)
         })
 
         it("should convert an AccessRight with only a category into the correct external model", () => {
-            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS })).to
-                .eql({ category: "OPEN_ACCESS" })
+            expect(accessRightDeconverter({ category: AccessRightValue.OPEN_ACCESS })).to.eql("OPEN_ACCESS")
         })
     })
 })
