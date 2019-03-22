@@ -24,58 +24,67 @@ interface SchemedBoxProps extends InnerComponentProps {
     schemeValues: SpatialCoordinatesDropdownListEntry[]
 }
 
-const SchemedBox = ({ names, schemeValues }: SchemedBoxProps) => (
-    <div className="spatialBox">
-        <div className="form-row">
-            <div className="col col-md-4 mb-1">
-                <Field name={names[0]}
-                       label="Scheme"
-                       choices={schemeValues}
-                       withEmptyDefault
-                       component={ErrorHandlingDropdownFieldInput}/>
-            </div>
-            <div className="col col-md-4 mb-1">
-                <Field name={names[1]}
-                       id="spatialbox_north"
-                       label="North"
-                       placeholder="upper bound"
-                       type="number"
-                       labelWidth={55}
-                       component={LabeledTextField}/>
-            </div>
-            <div className="col col-md-4 mb-1">
-                <Field name={names[2]}
-                       id="spatialbox_east"
-                       label="East"
-                       placeholder="right bound"
-                       type="number"
-                       labelWidth={50}
-                       component={LabeledTextField}/>
-            </div>
-        </div>
+const SchemedBox = ({ names, schemeValues, itemData }: SchemedBoxProps) => {
+    const choice = schemeValues.find(value => value.key === itemData.scheme)
+    const step = choice ? choice.step : "any"
 
-        <div className="form-row">
-            <div className="col col-md-4"/>
-            <div className="col col-md-4">
-                <Field name={names[3]}
-                       id="spatialbox_south"
-                       label="South"
-                       placeholder="lower bound"
-                       type="number"
-                       labelWidth={55}
-                       component={LabeledTextField}/>
+    return (
+        <div className="spatialBox">
+            <div className="form-row">
+                <div className="col col-md-4 mb-1">
+                    <Field name={names[0]}
+                           label="Scheme"
+                           choices={schemeValues}
+                           withEmptyDefault
+                           component={ErrorHandlingDropdownFieldInput}/>
+                </div>
+                <div className="col col-md-4 mb-1">
+                    <Field name={names[1]}
+                           id="spatialbox_north"
+                           label="North"
+                           placeholder="upper bound"
+                           type="number"
+                           step={step}
+                           labelWidth={55}
+                           component={LabeledTextField}/>
+                </div>
+                <div className="col col-md-4 mb-1">
+                    <Field name={names[2]}
+                           id="spatialbox_east"
+                           label="East"
+                           placeholder="right bound"
+                           type="number"
+                           step={step}
+                           labelWidth={50}
+                           component={LabeledTextField}/>
+                </div>
             </div>
-            <div className="col col-md-4">
-                <Field name={names[4]}
-                       id="spatialbox_west"
-                       label="West"
-                       placeholder="left bound"
-                       type="number"
-                       labelWidth={50}
-                       component={LabeledTextField}/>
+
+            <div className="form-row">
+                <div className="col col-md-4"/>
+                <div className="col col-md-4">
+                    <Field name={names[3]}
+                           id="spatialbox_south"
+                           label="South"
+                           placeholder="lower bound"
+                           type="number"
+                           step={step}
+                           labelWidth={55}
+                           component={LabeledTextField}/>
+                </div>
+                <div className="col col-md-4">
+                    <Field name={names[4]}
+                           id="spatialbox_west"
+                           label="West"
+                           placeholder="left bound"
+                           type="number"
+                           step={step}
+                           labelWidth={50}
+                           component={LabeledTextField}/>
+                </div>
             </div>
         </div>
-    </div>
-)
+    )
+}
 
 export default asFieldArray(SchemedBox)
