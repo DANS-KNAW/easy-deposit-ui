@@ -27,6 +27,7 @@ interface SchemedPointProps extends InnerComponentProps<Point> {
 
 const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
     const choice = schemeValues.find(value => value.key === itemData.scheme)
+    const step = choice ? choice.step : "any"
 
     return (
         <div className="form-row spatialPoint">
@@ -43,6 +44,7 @@ const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
                        label={choice ? choice.xLabel : "X"}
                        placeholder="coordinate"
                        type="number"
+                       step={step}
                        labelWidth={55}
                        component={LabeledTextField}/>
             </div>
@@ -52,6 +54,7 @@ const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
                        label={choice ? choice.yLabel : "Y"}
                        placeholder="coordinate"
                        type="number"
+                       step={step}
                        labelWidth={50}
                        component={LabeledTextField}/>
             </div>

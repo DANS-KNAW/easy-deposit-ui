@@ -15,7 +15,7 @@
  */
 import { PromiseAction, ReduxAction } from "../lib/redux"
 import { HelpTextConstants } from "../constants/helpTextConstants"
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 
 export const registerHelpText: (fieldName: string) => ReduxAction<string> = fieldName => ({
     type: HelpTextConstants.REGISTER_HELP_TEXT,
@@ -30,7 +30,8 @@ export const unregisterHelpText: (fieldName: string) => ReduxAction<string> = fi
 export const fetchHelpText: (fieldName: string) => PromiseAction<void> = fieldName => ({
     type: HelpTextConstants.FETCH_HELP_TEXT,
     async payload() {
-        const response = await axios.get(require(`../../resources/helptexts/${fieldName}.html`))
+        const requestConfig: AxiosRequestConfig = { headers: { "Cache-Control": "no-cache" } }
+        const response = await axios.get(require(`../../resources/helptexts/${fieldName}.html`), requestConfig)
         return response.data
     },
     meta: {

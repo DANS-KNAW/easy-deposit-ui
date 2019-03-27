@@ -37,6 +37,7 @@ export interface ContributorIdDropdownListEntry extends DropdownListEntry {
 export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {
     xLabel: string
     yLabel: string
+    step: string
     xMin: number
     xMax: number
     yMin: number
