@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
-import { Field } from "redux-form"
+import { Field, FieldArrayFieldsProps } from "redux-form"
 import TextField, { ErrorHandlingTextField } from "./TextField"
 import { DropdownFieldInput, ErrorHandlingDropdownFieldInput } from "./DropDownField"
 import { ContributorIdDropdownListEntry, DropdownListEntry } from "../../model/DropdownLists"
@@ -25,6 +25,22 @@ import { emptySchemedValue, SchemedValue } from "../metadata/Value"
 import AddButton from "./AddButton"
 import Mandatory from "./Mandatory"
 import { Contributor } from "../metadata/Contributor"
+
+function getPlaceholder(fields: FieldArrayFieldsProps<SchemedValue>, index: number, contributorIds: ContributorIdDropdownListEntry[]): string {
+    const contributorId = fields.get(index)
+
+    if (contributorId) {
+        const scheme = contributorId.scheme
+        if (scheme) {
+            const contributorEntry = contributorIds.find(({ key }) => key == scheme)
+            if (contributorEntry) {
+                console.log(`placeholder: ${contributorEntry.placeholder}`)
+                return contributorEntry.placeholder
+            }
+        }
+    }
+    return "ID"
+}
 
 const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributorIds } }: FieldArrayPropsWithDropdown<SchemedValue, ContributorIdDropdownListEntry[]>) => (
     <>
@@ -45,7 +61,7 @@ const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributo
 
                 <div className="col col-12 col-md-6">
                     <Field name={fieldNames[1](name)}
-                           placeholder="ID"
+                           placeholder={getPlaceholder(fields, index, contributorIds)}
                            component={ErrorHandlingTextField}/>
                 </div>
 
