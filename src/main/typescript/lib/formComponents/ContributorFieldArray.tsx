@@ -33,10 +33,8 @@ function getPlaceholder(fields: FieldArrayFieldsProps<SchemedValue>, index: numb
         const scheme = contributorId.scheme
         if (scheme) {
             const contributorEntry = contributorIds.find(({ key }) => key == scheme)
-            if (contributorEntry) {
-                console.log(`placeholder: ${contributorEntry.placeholder}`)
+            if (contributorEntry)
                 return contributorEntry.placeholder
-            }
         }
     }
     return "ID"
