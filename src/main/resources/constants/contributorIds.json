@@ -2,16 +2,16 @@
   "id-type:DAI": {
     "title": "DAI",
     "viewName": "DAI",
-    "format": "^([0-9]{4}-){3}[0-9]{3}[0-9xX]?$"
+    "format": "^[0-9]{8,9}[0-9xX]$"
   },
   "id-type:ORCID": {
     "title": "ORCID",
     "viewName": "ORCID",
-    "format": "(^([0-9]){15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)"
+    "format": "^([0-9]{4}-){3}[0-9]{3}[0-9xX]?$"
   },
   "id-type:ISNI": {
     "title": "ISNI",
     "viewName": "ISNI",
-    "format": "^([0-9]{8,9})([0-9xX])$"
+    "format": "(^[0-9]{15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)"
   }
 }
