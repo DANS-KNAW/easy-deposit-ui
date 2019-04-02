@@ -87,6 +87,26 @@
                         </configuration>
                     </execution>
 
+                    <!-- The following will ensure that the project's version as defined here in this pom.xml
+                         is also stated in package.json. This is in turn used to display the version in the footer
+                         of the UI. -->
+                    <execution>
+                        <id>npm version (initialize)</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>version</argument>
+                                <argument>--no-git-tag-version</argument>
+                                <argument>--allow-same-version</argument>
+                                <argument>${project.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
                     <!-- This following calls `npm run build` where 'build' is the script name
                          we defined in package.json -->
                     <execution>
