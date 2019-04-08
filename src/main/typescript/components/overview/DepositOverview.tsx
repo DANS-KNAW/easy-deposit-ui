@@ -80,7 +80,7 @@ const DepositOverview = (props: DepositOverviewProps) => {
 
     const renderCreateNewError = () => props.deposits.creatingNew.createError && (
         <Alert key="createNewError">
-            An error occurred: {props.deposits.creatingNew.createError}. Cannot create a new dataset. Please try again.
+            An error occurred: {props.deposits.creatingNew.createError}. Cannot create a new dataset.
         </Alert>
     )
 
