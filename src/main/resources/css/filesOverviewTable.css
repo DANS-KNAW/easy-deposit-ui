@@ -31,6 +31,21 @@
     display: inline-flex;
 }
 
+.file_table tbody tr td#actions_cell button.close {
+    font-size: 1rem;
+}
+
+.file_table tbody tr td#actions_cell button.close:not(:disabled):not(.disabled):hover {
+    color: var(--danger-hover)!important;
+    opacity: 1!important;
+    text-shadow: 1px 1px 0 var(--hover-shadow);
+}
+
+.file_table tbody tr td#actions_cell button.close:disabled,
+.file_table tbody tr td#actions_cell button.close.disabled {
+    opacity: .25;
+}
+
 @media (max-width: 767px) {
     .file_table thead {
         display: none;
