@@ -15,10 +15,10 @@
  */
 import { ComplexThunkAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
-import axios from "axios"
 import { loginUrl, logoutUrl, userUrl } from "../selectors/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import { userConverter } from "../lib/user/user"
+import fetch from "../lib/fetch"
 import LocalStorage from "../lib/LocalStorage"
 
 const authenticatePending = ({
@@ -67,7 +67,7 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
     dispatch(authenticatePending)
 
     try {
-        await axios.post(loginUrl(getState()), {}, {
+        await fetch.post(loginUrl(getState()), {}, {
             auth: {
                 password: password,
                 username: userName,
@@ -77,7 +77,7 @@ export const authenticate: (userName: string, password: string) => ComplexThunkA
         dispatch(userPending)
 
         try {
-            const userResponse = await axios.get(userUrl(getState()))
+            const userResponse = await fetch.get(userUrl(getState()))
 
             dispatch(userFulfilled(userResponse.data))
             dispatch(authenticateFulfilled)
@@ -101,7 +101,7 @@ export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, 
     type: AuthenticationConstants.AUTH_LOGOUT,
     async payload() {
         try {
-            await axios.post(logoutUrl(getState()))
+            await fetch.post(logoutUrl(getState()))
             LocalStorage.setLogout()
         }
         catch (logoutResponse) {
@@ -130,7 +130,7 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
     dispatch(userPending)
 
     try {
-        const response = await axios.get(userUrl(getState()))
+        const response = await fetch.get(userUrl(getState()))
         dispatch(userFulfilled(response.data))
     }
     catch (response) {

@@ -69,7 +69,7 @@ interface SaveDraftErrorProps {
 const SaveDraftError = ({ saveError }: SaveDraftErrorProps) => (
     saveError
         ? <Alert key="saveDraftError">
-            An error occurred: {saveError}. Cannot save the draft of this deposit. Please try again.
+            An error occurred: {saveError}. Cannot save the draft of this deposit.
         </Alert>
         : null
 )
@@ -81,7 +81,7 @@ interface SubmitErrorProps {
 const SubmitError = ({ submitError }: SubmitErrorProps) => (
     submitError
         ? <Alert key="submitError">
-            An error occurred: {submitError}. Cannot submit this deposit. Please try again.
+            An error occurred: {submitError}. Cannot submit this deposit.
         </Alert>
         : null
 )

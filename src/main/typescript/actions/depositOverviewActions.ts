@@ -16,16 +16,16 @@
 import * as H from "history"
 import { FetchAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
-import axios from "axios"
 import { DepositId, Deposits } from "../model/Deposits"
 import { Action } from "redux"
 import { depositsConverter, newDepositConverter } from "../lib/deposits/deposits"
+import fetch from "../lib/fetch"
 import { deleteDepositUrl, listDepositUrl, newDepositUrl } from "../selectors/serverRoutes"
 
 export const fetchDeposits: () => ThunkAction<FetchAction<Deposits>> = () => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.FETCH_DEPOSITS,
     async payload() {
-        const response = await axios.get(listDepositUrl(getState()))
+        const response = await fetch.get(listDepositUrl(getState()))
         return response.data
     },
     meta: {
@@ -40,7 +40,7 @@ export const cleanDeposits: () => Action = () => ({
 export const deleteDeposit: (depositId: DepositId) => ThunkAction<PromiseAction<void>> = depositId => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.DELETE_DEPOSIT,
     async payload() {
-        await axios.delete(deleteDepositUrl(depositId)(getState()))
+        await fetch.delete(deleteDepositUrl(depositId)(getState()))
     },
     meta: { depositId: depositId },
 })
@@ -58,7 +58,7 @@ export const askConfirmationToDeleteDeposit: (depositId: DepositId) => Action = 
 export const createNewDeposit: (history: H.History) => ThunkAction<FetchAction<DepositId>> = history => (dispatch, getState) => dispatch({
     type: DepositOverviewConstants.CREATE_NEW_DEPOSIT,
     async payload() {
-        const response = await axios.post(newDepositUrl(getState()))
+        const response = await fetch.post(newDepositUrl(getState()))
         return response.data
     },
     meta: {

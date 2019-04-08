@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 import { PromiseAction, ReduxAction } from "../lib/redux"
+import fetch from "../lib/fetch"
 import { HelpTextConstants } from "../constants/helpTextConstants"
-import axios, { AxiosRequestConfig } from "axios"
+import { AxiosRequestConfig } from "axios"
 
 export const registerHelpText: (fieldName: string) => ReduxAction<string> = fieldName => ({
     type: HelpTextConstants.REGISTER_HELP_TEXT,
@@ -31,7 +32,7 @@ export const fetchHelpText: (fieldName: string) => PromiseAction<void> = fieldNa
     type: HelpTextConstants.FETCH_HELP_TEXT,
     async payload() {
         const requestConfig: AxiosRequestConfig = { headers: { "Cache-Control": "no-cache" } }
-        const response = await axios.get(require(`../../resources/helptexts/${fieldName}.html`), requestConfig)
+        const response = await fetch.get(require(`../../resources/helptexts/${fieldName}.html`), requestConfig)
         return response.data
     },
     meta: {
