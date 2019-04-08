@@ -18,11 +18,11 @@ import { DepositFormMetadata } from "../components/form/parts"
 import { FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
-import axios from "axios"
 import { Action } from "redux"
 import { AppState } from "../model/AppState"
 import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
 import { Doi } from "../lib/metadata/Identifier"
+import fetch from "../lib/fetch"
 import { fetchDoiUrl, fetchMetadataUrl, saveDraftUrl, submitDepositUrl } from "../selectors/serverRoutes"
 
 export const unregisterForm: () => Action = () => ({
@@ -32,7 +32,7 @@ export const unregisterForm: () => Action = () => ({
 export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
-        const response = await axios.get(fetchMetadataUrl(depositId)(getState()))
+        const response = await fetch.get(fetchMetadataUrl(depositId)(getState()))
         return response.data
     },
     meta: {
@@ -50,7 +50,7 @@ export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<De
 export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_DOI,
     async payload() {
-        const response = await axios.get(fetchDoiUrl(depositId)(getState()))
+        const response = await fetch.get(fetchDoiUrl(depositId)(getState()))
         return response.data
     },
     meta: {
@@ -68,7 +68,7 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => Thu
         return dispatch({
             type: DepositFormConstants.SAVE_DRAFT,
             async payload() {
-                const response = await axios.put(saveDraftUrl(depositId)(getState()), output)
+                const response = await fetch.put(saveDraftUrl(depositId)(getState()), output)
                 return response.data
             },
         })
@@ -100,12 +100,12 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, hi
         return dispatch({
             type: DepositFormConstants.SUBMIT_DEPOSIT,
             async payload() {
-                await axios.put(saveDraftUrl(depositId)(getState()), output)
+                await fetch.put(saveDraftUrl(depositId)(getState()), output)
                 const submitState = {
                     state: "SUBMITTED",
                     stateDescription: "Deposit is ready for post-submission processing",
                 }
-                const response = await axios.put(submitDepositUrl(depositId)(getState()), submitState)
+                const response = await fetch.put(submitDepositUrl(depositId)(getState()), submitState)
                 return response.data
             },
             meta: {

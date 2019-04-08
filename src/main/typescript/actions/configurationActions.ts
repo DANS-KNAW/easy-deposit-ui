@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import axios from "axios"
 import { FetchAction } from "../lib/redux"
 import { ConfigurationConstants } from "../constants/configurationConstants"
 import { Configuration } from "../model/Configuration"
 import { configurationConverter } from "../lib/configuration/configuration"
+import fetch from "../lib/fetch"
 
 export const fetchConfiguration: () => FetchAction<Configuration> = () => ({
     type: ConfigurationConstants.CONFIGURATION_LOADING,
     async payload() {
-        const response = await axios.get(require(`../../resources/application.json`))
+        const response = await fetch.get(require(`../../resources/application.json`))
         return response.data
     },
     meta: {

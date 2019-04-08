@@ -15,17 +15,17 @@
  */
 import { FetchAction, PromiseAction, ThunkAction } from "../lib/redux"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
-import axios from "axios"
 import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
+import fetch from "../lib/fetch"
 import { listFilesUrl, deleteFileUrl } from "../selectors/serverRoutes"
 import { Files } from "../model/FileInfo"
 
 export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>> = (depositId) => (dispatch, getState) => dispatch({
     type: FileOverviewConstants.FETCH_FILES,
     async payload() {
-        const response = await axios.get(listFilesUrl(depositId)(getState()))
+        const response = await fetch.get(listFilesUrl(depositId)(getState()))
         return response.data
     },
     meta: {
@@ -36,7 +36,7 @@ export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files
 export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>> = (depositId, filePath) => (dispatch, getState) => dispatch({
     type: FileOverviewConstants.DELETE_FILE,
     async payload() {
-        await axios.delete(deleteFileUrl(depositId, filePath)(getState()))
+        await fetch.delete(deleteFileUrl(depositId, filePath)(getState()))
         dispatch(fetchFiles(depositId))
     },
     meta: { filePath: filePath },

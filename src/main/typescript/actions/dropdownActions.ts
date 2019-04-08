@@ -15,7 +15,8 @@
  */
 import { DropdownConstants } from "../constants/dropdownConstants"
 import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from "../lib/redux"
-import axios, { AxiosRequestConfig } from "axios"
+import fetch from "../lib/fetch"
+import { AxiosRequestConfig } from "axios"
 import {
     convertContributorIdDropdownData,
     convertDropdownData,
@@ -59,9 +60,10 @@ function fetchDropdown<Entry extends DropdownListEntry>(pending: DropdownConstan
 
             try {
                 const requestConfig: AxiosRequestConfig = { headers: { "Cache-Control": "no-cache" } }
-                const response = await axios.get(require(`../../resources/constants/${filename}`), requestConfig)
+                const response = await fetch.get(require(`../../resources/constants/${filename}`), requestConfig)
                 dispatch(fetchDropdownFulfilled(fulfilled, response.data, convertData))
-            } catch (e) {
+            }
+            catch (e) {
                 dispatch(fetchDropdownRejected(rejected, e))
             }
         }
