@@ -68,7 +68,7 @@
     position: absolute;
 }
 
-.deposit_table tbody tr.editable_table_row td#actions_cell button.close {
+.deposit_table tbody tr td#actions_cell button.close {
     padding: 0.75rem;
     left: 25%;
     position: absolute;
@@ -76,14 +76,14 @@
     line-height: 0;
 }
 
-.deposit_table tbody tr.editable_table_row td#actions_cell button.close:not(:disabled):not(.disabled):hover {
+.deposit_table tbody tr td#actions_cell button.close:not(:disabled):not(.disabled):hover {
     color: var(--danger-hover)!important;
     opacity: 1!important;
     text-shadow: 1px 1px 0 var(--hover-shadow);
 }
 
-.deposit_table tbody tr.editable_table_row td#actions_cell button.close:disabled,
-.deposit_table tbody tr.editable_table_row td#actions_cell button.close.disabled {
+.deposit_table tbody tr td#actions_cell button.close:disabled,
+.deposit_table tbody tr td#actions_cell button.close.disabled {
     opacity: .25;
 }
 
