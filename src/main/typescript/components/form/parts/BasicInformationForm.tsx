@@ -150,7 +150,7 @@ const BasicInformationForm = ({ depositId, languages, contributorIds, contributo
                                      label="Audience"
                                      mandatory
                                      helpText
-                                     empty={() => emptySchemedValue}
+                                     empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ audiences: audiences }}
                                      component={AudienceFieldArray}/>
