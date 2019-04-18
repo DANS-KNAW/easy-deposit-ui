@@ -32,6 +32,7 @@ import DepositTableRow from "./DepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
 import { depositFormRoute } from "../../constants/clientRoutes"
 import EmptyDepositTableRow from "./EmptyDepositTableRow"
+import Paginationable from "../Paginationable"
 
 function isEditable({ state }: Deposit): boolean {
     return state === DepositState.DRAFT || state === DepositState.REJECTED
@@ -90,42 +91,44 @@ const DepositOverview = (props: DepositOverviewProps) => {
         renderCreateNewError(),
     ]
 
-    const renderTable = () => {
-        const depositIds = Object.keys(props.deposits.deposits)
+    const renderTable = (depositIdsToBeShown: DepositId[], depositCount: number) => (
+        <table className="table table-striped deposit_table mt-2">
+            <DepositTableHead/>
+            <tbody>{depositCount == 0
+                ? <EmptyDepositTableRow/>
+                : depositIdsToBeShown.map(depositId => {
+                    return <DepositTableRow key={depositId}
+                                            deposit={props.deposits.deposits[depositId]}
+                                            deleting={props.deposits.deleting[depositId]}
+                                            deleteDeposit={e => {
+                                                e.stopPropagation()
+                                                props.deleteDeposit(depositId)
+                                            }}
+                                            askConfirmation={e => {
+                                                e.stopPropagation()
+                                                props.askConfirmationToDeleteDeposit(depositId)
+                                            }}
+                                            cancelDeleteDeposit={e => {
+                                                e.stopPropagation()
+                                                props.cancelDeleteDeposit(depositId)
+                                            }}
+                                            editable={isEditable(props.deposits.deposits[depositId])}
+                                            depositLink={depositFormRoute(depositId)}/>
+                })}</tbody>
+        </table>
+    )
 
-        return (
-            <table className="table table-striped deposit_table">
-                <DepositTableHead/>
-                <tbody>{depositIds.length == 0
-                    ? <EmptyDepositTableRow/>
-                    : depositIds.map(depositId => {
-                        return <DepositTableRow key={depositId}
-                                                deposit={props.deposits.deposits[depositId]}
-                                                deleting={props.deposits.deleting[depositId]}
-                                                deleteDeposit={e => {
-                                                    e.stopPropagation()
-                                                    props.deleteDeposit(depositId)
-                                                }}
-                                                askConfirmation={e => {
-                                                    e.stopPropagation()
-                                                    props.askConfirmationToDeleteDeposit(depositId)
-                                                }}
-                                                cancelDeleteDeposit={e => {
-                                                    e.stopPropagation()
-                                                    props.cancelDeleteDeposit(depositId)
-                                                }}
-                                                editable={isEditable(props.deposits.deposits[depositId])}
-                                                depositLink={depositFormRoute(depositId)}/>
-                    })}</tbody>
-            </table>
-        )
-    }
+    const renderTableView = () => (
+        <Paginationable pagesShown={5}
+                        entries={props.deposits.loading.loaded ? Object.keys(props.deposits.deposits) : []}
+                        renderEntries={renderTable}/>
+    )
 
     return (
         <>
             {renderAlerts()}
             {props.deposits.loading.loading && <p>loading data...</p>}
-            {props.deposits.loading.loaded && renderTable()}
+            {props.deposits.loading.loaded && renderTableView()}
         </>
     )
 }

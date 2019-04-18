@@ -40,7 +40,7 @@
     border-top: 0;
 }
 
-.deposit_table tbody tr:last-child td {
+.deposit_table tbody tr:last-child {
     border-bottom: 1px solid #dee2e6;
 }
 
@@ -102,10 +102,11 @@
     }
 
     .deposit_table td,
+    .deposit_table td a,
     .deposit_table th {
         border: 0;
-        padding-top: unset;
-        padding-bottom: unset;
+        padding-top: unset!important;
+        padding-bottom: unset!important;
     }
 
     .deposit_table tr {

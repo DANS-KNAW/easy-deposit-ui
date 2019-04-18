@@ -49,3 +49,9 @@ export const depositData4: Deposit = {
     stateDescription: "easy-dataset:id",
     date: "2017-08-09T10:10:22Z",
 }
+export const paginationDataset: (n: number) => Deposit = n => ({
+    title: `Paginated dataset ${n}`,
+    state: "ARCHIVED",
+    stateDescription: "easy-dataset:id",
+    date: "2017-08-09T10:10:22Z",
+})
