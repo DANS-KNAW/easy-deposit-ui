@@ -16,7 +16,7 @@
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
-import RadioChoices from "../../../lib/formComponents/RadioChoices"
+import RadioChoices, { RadioChoice } from "../../../lib/formComponents/RadioChoices"
 import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
 import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
@@ -42,7 +42,7 @@ interface UploadTypeFormProps {
     imtFormats: DropdownList
 }
 
-const clarinChoices = [
+const clarinChoices: RadioChoice[] = [
     {
         name: "no CLARIN metadata",
         title: false,
