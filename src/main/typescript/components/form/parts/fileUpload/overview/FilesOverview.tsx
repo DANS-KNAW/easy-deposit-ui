@@ -33,6 +33,7 @@ import { Action } from "redux"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import EmptyFileTableRow from "./EmptyFileTableRow"
 import { CloseableWarning } from "../../../../Errors"
+import Paginationable from "../../../../Paginationable"
 
 interface FilesOverviewInputProps {
     depositId: DepositId
@@ -56,7 +57,7 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
             <>
                 {loading && <p>loading files ...</p>}
                 {this.renderDeleteError()}
-                {loaded && this.renderTable()}
+                {loaded && this.renderTableView()}
             </>
         )
     }
@@ -89,14 +90,13 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
             })
     }
 
-    private renderTable() {
+    private renderTable = (filePaths: string[], filePathsCount: number) => {
         const { files: { files, deleting }, depositId } = this.props
-        const filePaths = Object.keys(files)
 
         return (
             <table className="table table-striped file_table">
                 <FilesTableHead/>
-                <tbody>{filePaths.length == 0
+                <tbody>{filePathsCount == 0
                     ? <EmptyFileTableRow/>
                     : filePaths.map(filepath =>
                         <FilesTableRow
@@ -112,6 +112,12 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
             </table>
         )
     }
+
+    private renderTableView = () => (
+        <Paginationable pagesShown={5}
+                        entries={this.props.files.loading.loaded ? Object.keys(this.props.files.files) : []}
+                        renderEntries={this.renderTable}/>
+    )
 }
 
 const mapStateToProps = (state: AppState, ownProps: FilesOverviewInputProps) => ({
