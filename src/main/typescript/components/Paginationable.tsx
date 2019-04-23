@@ -26,18 +26,18 @@ interface PaginationableProps<T> {
 
 function Paginationable<T>({pagesShown, entries, renderEntries}: PaginationableProps<T>) {
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
-    const [depositsPerPage, setDepositsPerPage] = useState(10)
+    const [entriesPerPage, setEntriesPerPage] = useState(10)
 
-    const entriesToBeRendered = entries.slice(currentStartIndex, currentStartIndex + depositsPerPage) // end index is exclusive
+    const entriesToBeRendered = entries.slice(currentStartIndex, currentStartIndex + entriesPerPage) // end index is exclusive
     const entryCount = entries.length
-    const hasNextPage = currentStartIndex + depositsPerPage < entryCount
-    const hasPreviousPage = currentStartIndex - depositsPerPage >= 0
-    const maxPage = Math.ceil(entryCount / depositsPerPage)
-    const currentPage = currentStartIndex / depositsPerPage
+    const hasNextPage = currentStartIndex + entriesPerPage < entryCount
+    const hasPreviousPage = currentStartIndex - entriesPerPage >= 0
+    const maxPage = Math.ceil(entryCount / entriesPerPage)
+    const currentPage = currentStartIndex / entriesPerPage
 
-    const nextPage = () => hasNextPage && setCurrentStartIndex(currentStartIndex + depositsPerPage)
-    const previousPage = () => hasPreviousPage && setCurrentStartIndex(currentStartIndex - depositsPerPage)
-    const gotoPage = (n: number) => depositsPerPage * n < entryCount && setCurrentStartIndex(depositsPerPage * n)
+    const nextPage = () => hasNextPage && setCurrentStartIndex(currentStartIndex + entriesPerPage)
+    const previousPage = () => hasPreviousPage && setCurrentStartIndex(currentStartIndex - entriesPerPage)
+    const gotoPage = (n: number) => entriesPerPage * n < entryCount && setCurrentStartIndex(entriesPerPage * n)
     const showPages: () => number[] = () => {
         const halfPS = Math.floor(pagesShown / 2)
         const [start, end] = 0 <= currentPage && currentPage <= halfPS
@@ -52,7 +52,7 @@ function Paginationable<T>({pagesShown, entries, renderEntries}: PaginationableP
     const renderShowEntriesDropdown = () => (
         <label className="mb-2">
             {"Show "}
-            <select value={depositsPerPage} onChange={event => setDepositsPerPage(Number(event.target.value))}>
+            <select value={entriesPerPage} onChange={event => setEntriesPerPage(Number(event.target.value))}>
                 <option value={10}>10</option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
@@ -99,7 +99,7 @@ function Paginationable<T>({pagesShown, entries, renderEntries}: PaginationableP
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">
                 <div className="col-12 col-sm-6 col-md-5 pl-3 show_entry_count_column">
-                    {`Showing ${currentStartIndex + 1} to ${Math.min(entryCount, currentStartIndex + depositsPerPage)} of ${entryCount} deposits`}
+                    {`Showing ${currentStartIndex + 1} to ${Math.min(entryCount, currentStartIndex + entriesPerPage)} of ${entryCount} entries`}
                 </div>
                 <div className="col-12 col-sm-6 col-md-7 pl-3 pr-sm-0 pr-md-3">
                     <div className="float-sm-right">
