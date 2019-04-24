@@ -43,7 +43,7 @@ function asFieldArray<T>(InnerComponent: ComponentType<InnerComponentProps<T>>) 
         return fields.map((name: string, index: number) => {
             const firstIndex = isFirstIndex(index)
             const lastIndex = isLastIndex(fields, index)
-            const fieldName = extractNameFromFirstIndex(name)
+            const myHelpText = typeof helpText == "string" ? helpText : extractNameFromFirstIndex(name)
 
             return (
                 <div className={`row form-group input-element ${lastIndex ? "mb-4" : "mb-2"}`} key={`${name}.${index}`}>
@@ -52,13 +52,13 @@ function asFieldArray<T>(InnerComponent: ComponentType<InnerComponentProps<T>>) 
                             ? <>
                                 {label}
                                 {mandatory && <Mandatory/>}
-                                {helpText && <HelpButton textFor={typeof helpText == "string" ? helpText : extractNameFromFirstIndex(name)}/>}
+                                {helpText && <HelpButton textFor={myHelpText}/>}
                             </>
                             : ""}
                     </label>
 
                     <div className="col-12 col-md-8 pl-0 pr-2">
-                        {firstIndex && helpText && <HelpText textFor={fieldName}/>}
+                        {firstIndex && helpText && <HelpText textFor={myHelpText}/>}
                         <InnerComponent {...props}
                                         className={hasError ? "is-invalid" : ""}
                                         names={fieldNames.map((f: (name: string) => string) => f(name))}
