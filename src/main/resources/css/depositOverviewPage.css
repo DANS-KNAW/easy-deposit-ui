@@ -18,6 +18,10 @@
     margin: 10px 0 20px;
 }
 
+.icon {
+    font-size: 1rem;
+}
+
 .deposit_table thead tr {
     background-image: var(--table-header-gradient);
 }
