@@ -17,10 +17,9 @@ import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import DropdownFieldArray from "../../../../lib/formComponents/DropDownFieldArray"
-import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
 
-const LanguageFieldArray = ({ dropdowns: { languages }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+const LanguageFieldArray = ({ dropdowns: { languages }, ...props }: FieldArrayPropsWithDropdown<string, DropdownList>) => (
     <LoadDropdownData state={languages.state}>
         <DropdownFieldArray {...props} withEmptyDefault choices={languages.list}/>
     </LoadDropdownData>
