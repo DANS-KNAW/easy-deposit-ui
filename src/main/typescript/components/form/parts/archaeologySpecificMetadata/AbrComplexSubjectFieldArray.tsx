@@ -17,10 +17,9 @@ import * as React from "react"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
 import { FieldArrayPropsWithDropdown } from "../../../../lib/formComponents/ReduxFormUtils"
 import DropdownFieldArray from "../../../../lib/formComponents/DropDownFieldArray"
-import { SchemedValue } from "../../../../lib/metadata/Value"
 import { DropdownList } from "../../../../model/DropdownLists"
 
-const AbrComplexSubjectFieldArray = ({ dropdowns: { subjects }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
+const AbrComplexSubjectFieldArray = ({ dropdowns: { subjects }, ...props }: FieldArrayPropsWithDropdown<string, DropdownList>) => (
     <LoadDropdownData state={subjects.state}>
         <DropdownFieldArray {...props} withEmptyDefault choices={subjects.list}/>
     </LoadDropdownData>
