@@ -18,7 +18,7 @@
     align-items: center;
 }
 
-.paginationable_bottom .pagination .page-item:not(.active) .page-link {
+.paginationable_bottom .pagination .page-item:not(.active):not(.disabled) .page-link {
     color: var(--dans-dark-blue);
 }
 

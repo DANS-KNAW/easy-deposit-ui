@@ -24,7 +24,7 @@ interface PaginationableProps<T> {
     renderEntries: (entries: T[], entryCount: number) => any
 }
 
-function Paginationable<T>({pagesShown, entries, renderEntries}: PaginationableProps<T>) {
+function Paginationable<T>({ pagesShown, entries, renderEntries }: PaginationableProps<T>) {
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [entriesPerPage, setEntriesPerPage] = useState(10)
 
@@ -63,9 +63,16 @@ function Paginationable<T>({pagesShown, entries, renderEntries}: PaginationableP
         </label>
     )
 
+    const renderShowingCount = () => {
+        const startIndex = currentStartIndex + 1
+        const endIndex = Math.min(entryCount, currentStartIndex + entriesPerPage)
+
+        return `Showing ${startIndex} to ${endIndex} of ${entryCount} entries`
+    }
+
     const renderPagination = () => (
         <nav>
-            <ul className="pagination mb-0">
+            <ul className="pagination justify-content-end mb-0">
                 <li className={`page-item ${!hasPreviousPage && "disabled"}`.trim()}>
                     <div className="page-link" onClick={() => hasPreviousPage && previousPage()}>
                         <span>&laquo;</span>
@@ -99,12 +106,10 @@ function Paginationable<T>({pagesShown, entries, renderEntries}: PaginationableP
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">
                 <div className="col-12 col-sm-6 col-md-5 pl-3 show_entry_count_column">
-                    {`Showing ${currentStartIndex + 1} to ${Math.min(entryCount, currentStartIndex + entriesPerPage)} of ${entryCount} entries`}
+                    {renderShowingCount()}
                 </div>
                 <div className="col-12 col-sm-6 col-md-7 pl-3 pr-sm-0 pr-md-3">
-                    <div className="float-sm-right">
-                        {maxPage > 1 && renderPagination()}
-                    </div>
+                    {maxPage > 1 && renderPagination()}
                 </div>
             </div>
         </div>
