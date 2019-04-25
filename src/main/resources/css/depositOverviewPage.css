@@ -18,10 +18,6 @@
     margin: 10px 0 20px;
 }
 
-.icon {
-    font-size: 1rem;
-}
-
 .deposit_table thead tr {
     background-image: var(--table-header-gradient);
 }
@@ -131,4 +127,5 @@
 /* reset the color for '.alert-dismissible .close' when it has a '.icon' */
 .alert-dismissible .close.icon {
     color: initial;
+    font-size: 1rem;
 }
