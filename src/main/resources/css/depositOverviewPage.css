@@ -127,4 +127,5 @@
 /* reset the color for '.alert-dismissible .close' when it has a '.icon' */
 .alert-dismissible .close.icon {
     color: initial;
+    font-size: 1rem;
 }
