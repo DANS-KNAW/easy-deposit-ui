@@ -49,7 +49,7 @@ const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, 
         <tr className="row ml-0 mr-0">
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
-                {fullpath}
+                <div>{fullpath}</div>
                 {confirmButtons}
             </td>
             <td className="col col-12 col-sm-12 col-md-6">{sha1sum}</td>
