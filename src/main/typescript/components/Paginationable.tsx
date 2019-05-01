@@ -106,7 +106,7 @@ function Paginationable<T>({ pagesShown, entries, renderEntries }: Paginationabl
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">
                 <div className="col-12 col-sm-6 col-md-5 pl-3 show_entry_count_column">
-                    {renderShowingCount()}
+                    {entryCount > 0 && renderShowingCount()}
                 </div>
                 <div className="col-12 col-sm-6 col-md-7 pl-3 pr-sm-0 pr-md-3">
                     {maxPage > 1 && renderPagination()}
