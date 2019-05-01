@@ -30,6 +30,7 @@ function Paginationable<T>({ pagesShown, entries, renderEntries }: Paginationabl
 
     const entriesToBeRendered = entries.slice(currentStartIndex, currentStartIndex + entriesPerPage) // end index is exclusive
     const entryCount = entries.length
+    const currentEndIndex = Math.min(entryCount, currentStartIndex + entriesPerPage)
     const hasNextPage = currentStartIndex + entriesPerPage < entryCount
     const hasPreviousPage = currentStartIndex - entriesPerPage >= 0
     const maxPage = Math.ceil(entryCount / entriesPerPage)
@@ -65,9 +66,8 @@ function Paginationable<T>({ pagesShown, entries, renderEntries }: Paginationabl
 
     const renderShowingCount = () => {
         const startIndex = currentStartIndex + 1
-        const endIndex = Math.min(entryCount, currentStartIndex + entriesPerPage)
 
-        return `Showing ${startIndex} to ${endIndex} of ${entryCount} entries`
+        return `Showing ${startIndex} to ${currentEndIndex} of ${entryCount} entries`
     }
 
     const renderPagination = () => (
