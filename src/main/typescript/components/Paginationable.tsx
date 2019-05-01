@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { range } from "lodash"
 import "../../resources/css/paginationable.css"
 
@@ -49,6 +49,13 @@ function Paginationable<T>({ pagesShown, entries, renderEntries }: Paginationabl
 
         return range(start, end, 1)
     }
+
+    useEffect(() => {
+        if (currentStartIndex >= entryCount)
+            previousPage()
+        else if (currentStartIndex < 0)
+            nextPage()
+    })
 
     const renderShowEntriesDropdown = () => (
         <label className="mb-2">
