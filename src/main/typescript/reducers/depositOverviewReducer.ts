@@ -13,15 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-    DeleteState,
-    DeletingStates,
-    DepositOverviewState,
-    Deposits,
-    empty,
-    emptyDelete,
-    emptyDeleteStates,
-} from "../model/Deposits"
+import { DeleteState, DepositOverviewState, Deposits, empty, emptyDelete, emptyDeleteStates } from "../model/Deposits"
 import { Reducer } from "redux"
 import immutable from "object-path-immutable"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
@@ -81,12 +73,9 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
         case DepositOverviewConstants.DELETE_DEPOSIT_CANCELLED: {
             const { meta: { depositId } } = action
 
-            const newDeleteState = Object.keys(state.deleting)
-                .filter(value => value !== depositId)
-                .reduce((obj: DeletingStates) => {
-                    obj[depositId] = state.deleting[depositId]
-                    return obj
-                }, emptyDeleteStates)
+            const newDeleteState = Object.entries(state.deleting)
+                .filter(([path]) => path !== depositId)
+                .reduce((prev, [path, s]) => ({...prev, [path]: s}), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }
