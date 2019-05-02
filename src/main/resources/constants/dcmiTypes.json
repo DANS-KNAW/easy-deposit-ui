@@ -15,15 +15,15 @@
     "title": "Image",
     "viewName": "Image"
   },
-  "Interactive resource": {
+  "InteractiveResource": {
     "title": "Interactive resource",
     "viewName": "Interactive resource"
   },
-  "Moving image": {
+  "MovingImage": {
     "title": "Moving image",
     "viewName": "Moving image"
   },
-  "Physical object": {
+  "PhysicalObject": {
     "title": "Physical object",
     "viewName": "Physical object"
   },
@@ -39,7 +39,7 @@
     "title": "Sound",
     "viewName": "Sound"
   },
-  "Still image": {
+  "StillImage": {
     "title": "Still image",
     "viewName": "Still image"
   },
