@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { range } from "lodash"
 import "../../resources/css/paginationable.css"
 
@@ -31,6 +31,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
     const entriesToBeRendered = entries.slice(currentStartIndex, currentStartIndex + entriesPerPage) // end index is exclusive
     const entryCount = entries.length
+    const currentEndIndex = Math.min(entryCount, currentStartIndex + entriesPerPage)
     const hasNextPage = currentStartIndex + entriesPerPage < entryCount
     const hasPreviousPage = currentStartIndex - entriesPerPage >= 0
     const maxPage = Math.ceil(entryCount / entriesPerPage)
@@ -50,6 +51,13 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
         return range(start, end, 1)
     }
 
+    useEffect(() => {
+        if (currentStartIndex >= entryCount)
+            previousPage()
+        else if (currentStartIndex < 0)
+            nextPage()
+    })
+
     const renderShowEntriesDropdown = () => (
         <label className="mb-2">
             {"Show "}
@@ -66,9 +74,8 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
     const renderShowingCount = () => {
         const startIndex = currentStartIndex + 1
-        const endIndex = Math.min(entryCount, currentStartIndex + entriesPerPage)
 
-        return `Showing ${startIndex} to ${endIndex} of ${entryCount} ${entryDescription}`
+        return `Showing ${startIndex} to ${currentEndIndex} of ${entryCount} ${entryDescription}`
     }
 
     const renderPagination = () => (
@@ -107,7 +114,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">
                 <div className="col-12 col-sm-6 col-md-5 pl-3 show_entry_count_column">
-                    {renderShowingCount()}
+                    {entryCount > 0 && renderShowingCount()}
                 </div>
                 <div className="col-12 col-sm-6 col-md-7 pl-3 pr-sm-0 pr-md-3">
                     {maxPage > 1 && renderPagination()}
