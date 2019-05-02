@@ -14,15 +14,9 @@
  * limitations under the License.
  */
 import { Reducer } from "redux"
-import {
-    DeleteState,
-    DeletingStates,
-    empty,
-    emptyDelete,
-    emptyDeleteStates,
-    FileOverviewState,
-} from "../model/FileInfo"
+import { DeleteState, empty, emptyDelete, emptyDeleteStates, FileOverviewState } from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
+import immutable from "object-path-immutable"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
     switch (action.type) {
@@ -59,12 +53,7 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         case FileOverviewConstants.DELETE_FILE_FULFILLED: {
             const { meta: { filePath } } = action
 
-            const newDeleteState = Object.keys(state.deleting)
-                .filter(value => value !== filePath)
-                .reduce((obj: DeletingStates) => {
-                    obj[filePath] = state.deleting[filePath]
-                    return obj
-                }, emptyDeleteStates)
+            const newDeleteState = immutable.del(state.deleting, filePath)
 
             return { ...state, deleting: newDeleteState }
         }
@@ -81,12 +70,9 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         case FileOverviewConstants.DELETE_FILE_CANCELLED: {
             const { meta: { filePath } } = action
 
-            const newDeleteState = Object.keys(state.deleting)
-                .filter(value => value !== filePath)
-                .reduce((obj: DeletingStates) => {
-                    obj[filePath] = state.deleting[filePath]
-                    return obj
-                }, emptyDeleteStates)
+            const newDeleteState = Object.entries(state.deleting)
+                .filter(([path]) => path !== filePath)
+                .reduce((prev, [path, s]) => ({...prev, [path]: s}), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }
