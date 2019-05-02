@@ -119,7 +119,8 @@ const DepositOverview = (props: DepositOverviewProps) => {
     )
 
     const renderTableView = () => (
-        <Paginationable pagesShown={5}
+        <Paginationable entryDescription="deposits"
+                        pagesShown={5}
                         entries={props.deposits.loading.loaded ? Object.keys(props.deposits.deposits) : []}
                         renderEntries={renderTable}/>
     )

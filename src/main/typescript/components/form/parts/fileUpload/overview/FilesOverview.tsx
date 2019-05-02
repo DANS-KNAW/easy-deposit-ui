@@ -114,7 +114,8 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
     }
 
     private renderTableView = () => (
-        <Paginationable pagesShown={5}
+        <Paginationable entryDescription="files"
+                        pagesShown={5}
                         entries={this.props.files.loading.loaded ? Object.keys(this.props.files.files) : []}
                         renderEntries={this.renderTable}/>
     )

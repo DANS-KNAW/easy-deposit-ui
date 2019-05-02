@@ -19,12 +19,13 @@ import { range } from "lodash"
 import "../../resources/css/paginationable.css"
 
 interface PaginationableProps<T> {
+    entryDescription: string
     pagesShown: number
     entries: T[]
     renderEntries: (entries: T[], entryCount: number) => any
 }
 
-function Paginationable<T>({ pagesShown, entries, renderEntries }: PaginationableProps<T>) {
+function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntries }: PaginationableProps<T>) {
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [entriesPerPage, setEntriesPerPage] = useState(10)
 
@@ -67,14 +68,14 @@ function Paginationable<T>({ pagesShown, entries, renderEntries }: Paginationabl
                 <option value={100}>100</option>
                 <option value={200}>200</option>
             </select>
-            {" entries"}
+            {` ${entryDescription}`}
         </label>
     )
 
     const renderShowingCount = () => {
         const startIndex = currentStartIndex + 1
 
-        return `Showing ${startIndex} to ${currentEndIndex} of ${entryCount} entries`
+        return `Showing ${startIndex} to ${currentEndIndex} of ${entryCount} ${entryDescription}`
     }
 
     const renderPagination = () => (
