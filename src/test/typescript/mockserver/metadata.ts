@@ -64,7 +64,7 @@ export interface Metadata {
     // license and access
     publishers?: string[]
     accessRights?: AccessRightValues
-    license?: string
+    license?: SchemedValue
 
     // Upload types
     types?: PossiblySchemedValue<TypesSchemeValues>[]
@@ -219,6 +219,10 @@ enum DateSchemeValues {
 enum AccessRightValues {
     OPEN_ACCESS = "OPEN_ACCESS",
     REQUEST_PERMISSION = "REQUEST_PERMISSION",
+}
+
+enum LicenseSchemeValues {
+    uri = "dcterms:URI"
 }
 
 enum TypesSchemeValues {
@@ -473,7 +477,10 @@ export const allfields: Metadata = {
         "pub2",
     ],
     accessRights: AccessRightValues.OPEN_ACCESS,
-    license: "http://creativecommons.org/publicdomain/zero/1.0",
+    license: {
+        scheme: LicenseSchemeValues.uri,
+        value: "http://creativecommons.org/publicdomain/zero/1.0",
+    },
     types: [
         {
             scheme: TypesSchemeValues.dcmi,
@@ -640,7 +647,10 @@ export const mandatoryOnly: Metadata = {
         },
     ],
     accessRights: AccessRightValues.REQUEST_PERMISSION,
-    license: "http://creativecommons.org/publicdomain/zero/1.0",
+    license: {
+        scheme: LicenseSchemeValues.uri,
+        value: "http://creativecommons.org/publicdomain/zero/1.0",
+    },
     privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
     // acceptDepositAgreement: false, // if not set, this value is false by default
 }

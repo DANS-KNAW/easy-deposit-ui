@@ -36,15 +36,39 @@ describe("License", () => {
     describe("licenseConverter", () => {
 
         it("should convert a valid license object and extract the license key", () => {
-            const input = "http://creativecommons.org/publicdomain/zero/1.0"
+            const input = {
+                scheme: "dcterms:URI",
+                value: "http://creativecommons.org/publicdomain/zero/1.0",
+            }
             const expected = "http://creativecommons.org/publicdomain/zero/1.0"
             expect(licenseConverter(licenses)(input)).to.eql(expected)
         })
 
+        it("should accept the EASY license", () => {
+            const input = {
+                scheme: "dcterms:URI",
+                value: "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf",
+            }
+            const expected = "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf"
+            expect(licenseConverter(licenses)(input)).to.eql(expected)
+        })
+
         it("should fail when then license is unknown", () => {
-            const input = "invalid license"
+            const input = {
+                scheme: "dcterms:URI",
+                value: "invalid license",
+            }
             expect(() => licenseConverter(licenses)(input)).to
                 .throw("Error in metadata: no such license: 'invalid license'")
+        })
+
+        it("should fail when an unknown scheme is used", () => {
+            const input = {
+                scheme: "unknown",
+                value: "http://creativecommons.org/publicdomain/zero/1.0",
+            }
+            expect(() => licenseConverter(licenses)(input)).to
+                .throw("Error in metadata: unrecognized object: {\"scheme\":\"unknown\",\"value\":\"http://creativecommons.org/publicdomain/zero/1.0\"}")
         })
     })
 
@@ -52,7 +76,10 @@ describe("License", () => {
 
         it("should convert a license to the correct external model", () => {
             const input = "http://creativecommons.org/publicdomain/zero/1.0"
-            const expected = "http://creativecommons.org/publicdomain/zero/1.0"
+            const expected = {
+                scheme: "dcterms:URI",
+                value: "http://creativecommons.org/publicdomain/zero/1.0",
+            }
             expect(licenseDeconverter(licenses)(input)).to.eql(expected)
         })
 
