@@ -367,9 +367,18 @@ app.get("/user401", (req: Request, res: Response) => {
 
 app.post("/auth/login", (req: Request, res: Response) => {
     console.log("POST /auth/login")
-    res.status(204)
-    res.send()
-    console.log("  204")
+
+    const auth = req.header("authorization")
+    if (auth && auth.startsWith("Basic ")) {
+        res.status(204)
+        res.send()
+        console.log("  204")
+    }
+    else {
+        res.status(401)
+        res.send("login with a username and password")
+        console.log("  401")
+    }
 })
 app.post("/auth/login401", async (req: Request, res: Response) => {
     console.log("POST /auth/login")

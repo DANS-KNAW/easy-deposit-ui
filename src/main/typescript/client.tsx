@@ -26,18 +26,19 @@ import Footer from "./components/Footer"
 import ConfiguredApp from "./components/ConfiguredApp"
 
 import "../resources/css/styling"
+import CookieAuth from "./CookieAuth"
 
 const Main = () => (
     <Provider store={newStore()}>
         <ConfiguredApp>
             <Router history={history.createBrowserHistory()}>
-                <>
+                <CookieAuth>
                     <Header/>
                     <main role="main" className="container">
                         <Routes/>
                     </main>
                     <Footer/>
-                </>
+                </CookieAuth>
             </Router>
         </ConfiguredApp>
     </Provider>
