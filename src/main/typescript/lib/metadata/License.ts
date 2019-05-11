@@ -16,6 +16,14 @@
 import { DropdownListEntry } from "../../model/DropdownLists"
 import { emptyString } from "./misc"
 
+enum LicenseScheme {
+    uri = "dcterms:URI"
+}
+
+function toLicenseScheme(value: string): LicenseScheme | undefined {
+    return Object.values(LicenseScheme).find(v => v === value)
+}
+
 export const emptyLicense = emptyString
 
 export const dansLicense: DropdownListEntry = {
@@ -24,20 +32,30 @@ export const dansLicense: DropdownListEntry = {
     displayValue: "DANS LICENSE",
 }
 
-export const licenseConverter: (licenses: DropdownListEntry[]) => (l: any) => string = licenses => l => {
-    const validLicense = dansLicense.key === l || licenses.find(({ key }) => key === l)
+export const licenseConverter: (licenses: DropdownListEntry[]) => (license: any) => string = licenses => license => {
 
-    if (validLicense)
-        return l
+    const scheme = license.scheme && toLicenseScheme(license.scheme)
+
+    if (scheme && scheme === LicenseScheme.uri && license.value) {
+        const validLicense = dansLicense.key === license.value || licenses.find(({ key }) => key === license.value)
+
+        if (validLicense)
+            return license.value
+        else
+            throw `Error in metadata: no such license: '${license.value}'`
+    }
     else
-        throw `Error in metadata: no such license: '${l}'`
+        throw `Error in metadata: unrecognized object: ${JSON.stringify(license)}`
 }
 
-export const licenseDeconverter: (licenses: DropdownListEntry[]) => (l: string) => any = licenses => l => {
-    const validLicense = dansLicense.key === l || licenses.find(({ key }) => key === l)
+export const licenseDeconverter: (licenses: DropdownListEntry[]) => (licenseValue: string) => any = licenses => licenseValue => {
+    const validLicense = dansLicense.key === licenseValue || licenses.find(({ key }) => key === licenseValue)
 
     if (validLicense)
-        return l
+        return {
+            scheme: LicenseScheme.uri,
+            value: licenseValue
+        }
     else
-        throw `Error in metadata: no such license: '${l}'`
+        throw `Error in metadata: no such license: '${licenseValue}'`
 }
