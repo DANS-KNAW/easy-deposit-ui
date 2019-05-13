@@ -197,7 +197,7 @@ const FileLoader = (props: FileLoaderProps) => {
                 <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
                     <span className={statusClassName()}>{uploaded || uploadStatus === UploadStatus.PROCESSING ? uploadStatus : `${percentage}%`}</span>
                 </div>
-                {props.showCancelBtn && (!uploadStatus || uploadStatus === UploadStatus.PROCESSING) && (
+                {props.showCancelBtn && !uploadStatus && (
                     <div className='file-upload-cancel-wrapper'>
                         <button type='button' className='btn-dark' onClick={cancelUpload}>Cancel</button>
                     </div>
