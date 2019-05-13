@@ -20,6 +20,7 @@ import { Prompt } from "react-router"
 import { inDevelopmentMode } from "../../../../../lib/config"
 
 enum UploadStatus {
+    PROCESSING = "processing",
     DONE = "done",
     CANCELLED = "cancelled",
     ERROR = "error",
@@ -87,7 +88,10 @@ const FileLoader = (props: FileLoaderProps) => {
         request.addEventListener("error", handleFailedUpload, false)
 
         request.upload.addEventListener("progress", e => {
-            setPercentage(parseInt(`${(e.loaded / e.total) * 100}`, 10))
+            const percentage = parseInt(`${(e.loaded / e.total) * 100}`, 10)
+            setPercentage(percentage)
+            if (percentage === 100)
+                setUploadStatus(UploadStatus.PROCESSING)
         }, false)
 
         request.send(formData)
@@ -171,6 +175,8 @@ const FileLoader = (props: FileLoaderProps) => {
             return `${defaultClassName} show`
 
         switch (uploadStatus) {
+            case UploadStatus.PROCESSING:
+                return `${defaultClassName} show finished processing`
             case UploadStatus.DONE:
                 return `${defaultClassName} show finished success`
             case UploadStatus.FAILED:
@@ -189,9 +195,9 @@ const FileLoader = (props: FileLoaderProps) => {
 
             <div className="file-upload-progress-bar">
                 <div className="file-upload-completed-progress-bar" style={{ width: percentage + "%" }}>
-                    <span className={statusClassName()}>{uploaded ? uploadStatus : `${percentage}%`}</span>
+                    <span className={statusClassName()}>{uploaded || uploadStatus === UploadStatus.PROCESSING ? uploadStatus : `${percentage}%`}</span>
                 </div>
-                {props.showCancelBtn && !uploadStatus && (
+                {props.showCancelBtn && (!uploadStatus || uploadStatus === UploadStatus.PROCESSING) && (
                     <div className='file-upload-cancel-wrapper'>
                         <button type='button' className='btn-dark' onClick={cancelUpload}>Cancel</button>
                     </div>

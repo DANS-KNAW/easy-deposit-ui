@@ -41,7 +41,7 @@
     /* how does the box look */
     display: block;
     position: absolute;
-    width: 74px;
+    width: 81px;
     padding: 5px;
     border-radius: 4px;
     box-sizing: border-box;
@@ -82,6 +82,14 @@
 
 .file-upload-status.finished {
     transform: rotateY(0deg);
+}
+
+.file-upload-status.finished.processing {
+    background: var(--file-upload-status-BG);
+}
+
+.file-upload-status.finished.processing:after {
+    border-top-color: var(--file-upload-status-BG);
 }
 
 .file-upload-status.finished.error {
