@@ -31,7 +31,8 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
         host: '000.000.00.00',
         port: 3000,
         hot: true,
-        historyApiFallback: true
+        historyApiFallback: true,
+        openPage: 'deposit-overview',
     },
 
     module: {

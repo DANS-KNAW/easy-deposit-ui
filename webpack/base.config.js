@@ -88,6 +88,7 @@ module.exports = (env, argv) => ({
         new webpack.DefinePlugin({
             __DEVELOPMENT__: argv.mode === "development",
             __CLIENT_ROUTE__: JSON.stringify(config[argv.mode].clientRoute),
+            __HOME_ROUTE__: JSON.stringify(config[argv.mode].homeRoute),
             __VERSION__: JSON.stringify(process.env.npm_package_version),
             __BUILD_DATE__: JSON.stringify(dateFormat(new Date(), "yyyy-mm-dd HH:MM")),
         }),

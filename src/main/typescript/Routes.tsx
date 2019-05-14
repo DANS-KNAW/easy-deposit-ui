@@ -15,30 +15,33 @@
  */
 import * as React from "react"
 import { Route, Switch } from "react-router-dom"
-import HomePage from "./components/home/HomePage"
 import PrivateRoute from "./components/PrivateRoute"
 import LoginPage from "./components/login/LoginPage"
 import DepositFormPage from "./components/form/DepositFormPage"
 import DepositOverviewPage from "./components/overview/DepositOverviewPage"
 import NotFoundPage from "./components/NotFoundPage"
 import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute } from "./constants/clientRoutes"
+import { easyHome } from "./lib/config"
 
 const Routes = () => (
     <Switch>
         <Route path={homeRoute}
-               component={HomePage}
-               exact/>
+               exact
+               render={() => {
+                   window.location.replace(easyHome)
+                   return null
+               }}/>
         <Route path={loginRoute}
-               component={LoginPage}
-               exact/>
+               exact
+               component={LoginPage}/>
         <PrivateRoute
             path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.tsx/RouterParams
             redirectTo={loginRoute}
             component={DepositFormPage}/>
         <PrivateRoute path={depositOverviewRoute}
+                      exact
                       redirectTo={loginRoute}
-                      component={DepositOverviewPage}
-                      exact/>
+                      component={DepositOverviewPage}/>
         <Route component={NotFoundPage}/>
     </Switch>
 )
