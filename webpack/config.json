@@ -1,8 +1,10 @@
 {
   "development": {
-    "clientRoute": ""
+    "clientRoute": "",
+    "homeRoute": "/deposit-overview"
   },
   "production": {
-    "clientRoute": "/deposit"
+    "clientRoute": "/deposit",
+    "homeRoute": "/"
   }
 }
