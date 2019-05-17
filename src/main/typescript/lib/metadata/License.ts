@@ -27,7 +27,7 @@ function toLicenseScheme(value: string): LicenseScheme | undefined {
 export const emptyLicense = emptyString
 
 export const dansLicense: DropdownListEntry = {
-    key: "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf",//TODO DepositAgreement
+    key: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf",
     value: "DANS LICENSE",
     displayValue: "DANS LICENSE",
 }

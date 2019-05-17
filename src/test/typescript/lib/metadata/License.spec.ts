@@ -47,9 +47,9 @@ describe("License", () => {
         it("should accept the EASY license", () => {
             const input = {
                 scheme: "dcterms:URI",
-                value: "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf",
+                value: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf",
             }
-            const expected = "https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSlicenceagreementUK5.3DEF.pdf"
+            const expected = "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf"
             expect(licenseConverter(licenses)(input)).to.eql(expected)
         })
 
