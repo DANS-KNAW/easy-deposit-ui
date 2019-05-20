@@ -26,6 +26,7 @@ import { Files } from "../../../../../model/FileInfo"
 import { Alert } from "../../../../Errors"
 import { Action } from "redux"
 import { setFileUploadInProgress } from "../../../../../actions/fileUploadActions"
+import { isFileUploading } from "../../../../../selectors/fileUploadSelectors"
 
 interface FileUploaderInputProps {
     depositId: DepositId
@@ -33,6 +34,7 @@ interface FileUploaderInputProps {
 
 interface FileUploaderProps {
     fileUploadUrl: string
+    fileIsUploading: boolean
     depositIsSaving: boolean
     depositIsSubmitting: boolean
 
@@ -80,7 +82,7 @@ const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
             <input type="file"
                    onChange={uploadFile}
                    id="file-upload"
-                   disabled={!!uploadingFile || props.depositIsSaving || props.depositIsSubmitting}
+                   disabled={props.fileIsUploading || props.depositIsSaving || props.depositIsSubmitting}
                    className="input-file"/>
             <label className="btn btn-dark mb-0" htmlFor="file-upload">
                 {/* SVG taken from https://tympanus.net/Tutorials/CustomFileInputs/ */}
@@ -121,6 +123,7 @@ const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
 
 const mapStateToProps = (state: AppState, ownProps: FileUploaderInputProps) => ({
     fileUploadUrl: uploadFileUrl(ownProps.depositId, "")(state),
+    fileIsUploading: isFileUploading(state),
     depositIsSaving: state.depositForm.saveDraft.saving,
     depositIsSubmitting: state.depositForm.submit.submitting,
 })
