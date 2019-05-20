@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { empty as emptyAuthenticatedUser, Authentication } from "./Authentication"
-import { empty as emptyDeposits, DepositOverviewState } from "./Deposits"
+import { Authentication, empty as emptyAuthenticatedUser } from "./Authentication"
+import { DepositOverviewState, empty as emptyDeposits } from "./Deposits"
 import { empty as emptyFiles, FileOverviewState } from "./FileInfo"
-import { empty as emptyUser } from "./UserDetails"
-import { UserDetails } from "./UserDetails"
-import { empty as emptyDepositForm } from "./DepositForm"
-import { DepositFormState } from "./DepositForm"
+import { empty as emptyUser, UserDetails } from "./UserDetails"
+import { DepositFormState, empty as emptyDepositForm } from "./DepositForm"
 import { FormStateMap } from "redux-form/lib/reducer"
 import { DropdownLists, emptyDropdownLists } from "./DropdownLists"
-import { empty as emptyConfig, ConfigurationState } from "./Configuration"
+import { ConfigurationState, empty as emptyConfig } from "./Configuration"
 import { emptyHelpTexts, HelpTexts } from "./HelpTexts"
+import { empty as emptyFileUpload, FileUploadState } from "./FileUploadState"
 
 export interface AppState {
     configuration: ConfigurationState
@@ -31,6 +30,7 @@ export interface AppState {
     user: UserDetails
     deposits: DepositOverviewState
     files: FileOverviewState
+    fileUpload: FileUploadState,
     helpTexts: HelpTexts,
     depositForm: DepositFormState,
     form: FormStateMap
@@ -43,8 +43,9 @@ export const empty: AppState = {
     user: emptyUser,
     deposits: emptyDeposits,
     files: emptyFiles,
+    fileUpload: emptyFileUpload,
     helpTexts: emptyHelpTexts,
     depositForm: emptyDepositForm,
     form: {},
-    dropDowns: emptyDropdownLists
+    dropDowns: emptyDropdownLists,
 }
