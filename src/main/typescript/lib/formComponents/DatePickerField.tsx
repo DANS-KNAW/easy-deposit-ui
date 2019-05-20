@@ -40,6 +40,8 @@ class CustomDateTextField extends Component<CustomDatePickerProps> {
 // copied from https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
 const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf("IEMobile") !== -1)
 
+const removeTimeFromDate: (date: Date) => Date = date => new Date(new Date(date).setHours(0, 0, 0, 0))
+
 type DatePickerProps = FieldProps & ReactDatePickerProps
 
 // See https://reactdatepicker.com/ for all kinds of options to be used on the DatePicker
@@ -60,7 +62,7 @@ const DatePickerField = (props: DatePickerProps) => {
                            className="react-datepicker__input-field"
 
                            selected={value ? new Date(value) : null}
-                           onChange={date => onChange(date || "")}>
+                           onChange={date => onChange(date ? removeTimeFromDate(date) : "")}>
                 {children}
             </LibDatePicker>
         </div>
