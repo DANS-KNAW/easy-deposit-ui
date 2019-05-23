@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import "../../../../../../resources/css/fileLoader.css"
 import { Prompt } from "react-router"
 import { inDevelopmentMode } from "../../../../../lib/config"
@@ -51,9 +51,13 @@ const leaveMessage = "A file is being uploaded right now. Please don't leave the
  */
 const FileLoader = (props: FileLoaderProps) => {
     const [percentage, setPercentage] = useState(0)
-    const [request, setRequest] = useState<XMLHttpRequest | undefined>(undefined)
+    const requestRef = useRef<XMLHttpRequest>()
     const [uploaded, setUploaded] = useState(false)
     const [uploadStatus, setUploadStatus] = useState<UploadStatus | undefined>(undefined)
+
+    const setRequest = (request?: XMLHttpRequest) => {
+        requestRef.current = request
+    }
 
     const validateFile: (file: File) => boolean = ({ type }) => {
         const { validFileTypes } = props
@@ -138,7 +142,7 @@ const FileLoader = (props: FileLoaderProps) => {
     }
 
     const cancelUpload = () => {
-        request && request.abort()
+        requestRef.current && requestRef.current.abort()
 
         setRequest(undefined)
         setUploaded(true)
@@ -148,16 +152,20 @@ const FileLoader = (props: FileLoaderProps) => {
         removeBeforeUpload()
     }
 
-    const shouldBlockNavigation = () => request !== undefined
+    const shouldBlockNavigation = () => requestRef.current !== undefined
 
     useEffect(() => {
-        if (!request && props.file && validateFile(props.file)) {
+        if (!requestRef.current && props.file && validateFile(props.file)) {
             setRequest(uploadFile(props.file, props.url))
         }
 
         return function cleanup() {
-            request && request.abort()
-            setRequest(undefined)
+            if (requestRef.current) {
+                requestRef.current.abort()
+                setRequest(undefined)
+                props.onUploadCanceled && props.onUploadCanceled()
+                removeBeforeUpload()
+            }
         }
     }, [])
 
@@ -166,7 +174,7 @@ const FileLoader = (props: FileLoaderProps) => {
             window.onbeforeunload = () => true
         else
             window.onbeforeunload = null
-    }, [request])
+    }, [requestRef.current])
 
     const statusClassName = () => {
         const defaultClassName = "file-upload-status"
