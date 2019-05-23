@@ -265,6 +265,7 @@ class DepositForm extends Component<DepositFormProps> {
                     </div>
 
                     <div>
+                        {fileUploadInProgress && <p><i>Please wait until the file is uploaded</i></p>}
                         {saving && <p><i>Saving draft...</i></p>}
                         {saved && <p><i>Saved draft</i></p>}
                     </div>
