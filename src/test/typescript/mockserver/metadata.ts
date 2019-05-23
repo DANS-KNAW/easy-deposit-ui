@@ -649,7 +649,7 @@ export const mandatoryOnly: Metadata = {
     accessRights: AccessRightValues.REQUEST_PERMISSION,
     license: {
         scheme: LicenseSchemeValues.uri,
-        value: "http://creativecommons.org/publicdomain/zero/1.0",
+        value: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf",
     },
     privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
     // acceptDepositAgreement: false, // if not set, this value is false by default
