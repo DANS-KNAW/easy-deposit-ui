@@ -25,6 +25,7 @@ import { depositFormReducer } from "./depositFormReducer"
 import { allDropdownReducers } from "./dropdownReducer"
 import configurationReducer from "./configurationReducer"
 import { helpTextReducer } from "./helpTextReducer"
+import { fileUploadReducer } from "./fileUploadReducer"
 
 function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
@@ -33,8 +34,9 @@ function changeReducer(state: FormState, action: AnyAction) {
             const newState = immutable.set(state.fields, fieldName, true)
 
             return { ...state, fields: newState }
+        default:
+            return state
     }
-    return state
 }
 
 export default combineReducers({
@@ -47,6 +49,7 @@ export default combineReducers({
     }),
     deposits: depositOverviewReducer,
     files: fileOverviewReducer,
+    fileUpload: fileUploadReducer,
     helpTexts: helpTextReducer,
     depositForm: depositFormReducer,
     dropDowns: allDropdownReducers,

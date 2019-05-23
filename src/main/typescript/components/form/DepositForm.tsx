@@ -47,6 +47,7 @@ import { Files, LoadingState as FileOverviewLoadingState } from "../../model/Fil
 import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
+import { isFileUploading } from "../../selectors/fileUploadSelectors"
 
 interface FetchDataErrorProps {
     fetchError?: string
@@ -107,6 +108,7 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
 interface DepositFormStoreArguments {
     formState: DepositFormState
     fileState: FileOverviewLoadingState
+    fileUploadInProgress: boolean
     formValues?: DepositFormMetadata
 
     fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
@@ -176,6 +178,9 @@ class DepositForm extends Component<DepositFormProps> {
         const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = this.props.fileState
         const { saving, saved, saveError } = this.props.formState.saveDraft
         const { submitting, submitError } = this.props.formState.submit
+        const fileUploadInProgress = this.props.fileUploadInProgress
+
+        const buttonDisabled = fetchedMetadataError != undefined || fetchingMetadata || saving || submitting || fileUploadInProgress
 
         return (
             <>
@@ -248,18 +253,19 @@ class DepositForm extends Component<DepositFormProps> {
                         <button type="button"
                                 className="btn btn-dark margin-top-bottom"
                                 onClick={this.save}
-                                disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
+                                disabled={buttonDisabled}>
                             Save draft
                         </button>
                         <button type="button"
                                 className="btn btn-dark margin-top-bottom"
                                 onClick={this.props.handleSubmit(this.submit)}
-                                disabled={fetchedMetadataError != undefined || fetchingMetadata || saving || submitting}>
+                                disabled={buttonDisabled}>
                             Submit deposit
                         </button>
                     </div>
 
                     <div>
+                        {fileUploadInProgress && <p><i>Please wait until the file is uploaded</i></p>}
                         {saving && <p><i>Saving draft...</i></p>}
                         {saved && <p><i>Saved draft</i></p>}
                     </div>
@@ -272,6 +278,7 @@ class DepositForm extends Component<DepositFormProps> {
 const mapStateToProps = (state: AppState) => ({
     formState: state.depositForm,
     fileState: state.files.loading,
+    fileUploadInProgress: isFileUploading(state),
     initialValues: state.depositForm.initialState.metadata,
     formValues: state.form.depositForm && state.form.depositForm.values,
     dropDowns: state.dropDowns, // used in validation

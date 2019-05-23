@@ -24,6 +24,9 @@ import { DepositId } from "../../../../../model/Deposits"
 import { FetchAction } from "../../../../../lib/redux"
 import { Files } from "../../../../../model/FileInfo"
 import { Alert } from "../../../../Errors"
+import { Action } from "redux"
+import { setFileUploadInProgress } from "../../../../../actions/fileUploadActions"
+import { isFileUploading } from "../../../../../selectors/fileUploadSelectors"
 
 interface FileUploaderInputProps {
     depositId: DepositId
@@ -31,8 +34,12 @@ interface FileUploaderInputProps {
 
 interface FileUploaderProps {
     fileUploadUrl: string
+    fileIsUploading: boolean
+    depositIsSaving: boolean
+    depositIsSubmitting: boolean
 
     fetchFiles: (depositId: DepositId) => FetchAction<Files>
+    setFileUploadInProgress: (isUploading: boolean) => Action
 }
 
 const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
@@ -40,6 +47,7 @@ const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
     const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+        props.setFileUploadInProgress(true)
         const file = e.target.files && e.target.files[0]
         setUploadingFile(file || undefined)
         setErrorMessage(undefined)
@@ -49,15 +57,18 @@ const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
     const uploadFinished = () => {
         setUploadingFile(undefined)
         props.fetchFiles(props.depositId)
+        props.setFileUploadInProgress(false)
     }
 
     const uploadCanceled = () => {
         setUploadingFile(undefined)
+        props.setFileUploadInProgress(false)
     }
 
     const uploadFailed = (file: File) => (msg?: string) => {
         setUploadingFile(undefined)
         setErrorMessage(`An error occurred while uploading ${file.name}${msg ? `: ${msg}` : ""}`)
+        props.setFileUploadInProgress(false)
     }
 
     const renderUploadError = () => (
@@ -71,7 +82,7 @@ const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
             <input type="file"
                    onChange={uploadFile}
                    id="file-upload"
-                   disabled={!!uploadingFile}
+                   disabled={props.fileIsUploading || props.depositIsSaving || props.depositIsSubmitting}
                    className="input-file"/>
             <label className="btn btn-dark mb-0" htmlFor="file-upload">
                 {/* SVG taken from https://tympanus.net/Tutorials/CustomFileInputs/ */}
@@ -112,6 +123,9 @@ const FileUploader = (props: FileUploaderProps & FileUploaderInputProps) => {
 
 const mapStateToProps = (state: AppState, ownProps: FileUploaderInputProps) => ({
     fileUploadUrl: uploadFileUrl(ownProps.depositId, "")(state),
+    fileIsUploading: isFileUploading(state),
+    depositIsSaving: state.depositForm.saveDraft.saving,
+    depositIsSubmitting: state.depositForm.submit.submitting,
 })
 
-export default connect(mapStateToProps, { fetchFiles })(FileUploader)
+export default connect(mapStateToProps, { fetchFiles, setFileUploadInProgress })(FileUploader)
