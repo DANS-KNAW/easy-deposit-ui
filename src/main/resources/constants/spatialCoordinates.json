@@ -16,9 +16,9 @@
     "x-label": "Lat",
     "y-label": "Long",
     "step": "0.000001",
-    "x-min": -90,
-    "x-max": 90,
-    "y-min": -180,
-    "y-max": 180
+    "x-min": -180,
+    "x-max": 180,
+    "y-min": -90,
+    "y-max": 90
   }
 }
