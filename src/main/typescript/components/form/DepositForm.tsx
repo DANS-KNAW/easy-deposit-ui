@@ -133,6 +133,10 @@ class DepositForm extends Component<DepositFormProps> {
             window.onbeforeunload = null
     }
 
+    componentWillUnmount() {
+        window.onbeforeunload = null
+    }
+
     render() {
         const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
         const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = this.props.fileState
