@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { range } from "lodash"
 import "../../resources/css/paginationable.css"
 
@@ -50,6 +50,11 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
         return range(start, end, 1)
     }
+    const onSelectEntriesPerPage: (e: ChangeEvent<HTMLSelectElement>) => void = event => {
+        const newEntriesPerPage = Number(event.target.value)
+        setEntriesPerPage(newEntriesPerPage)
+        setCurrentStartIndex(Math.floor(currentStartIndex / newEntriesPerPage) * newEntriesPerPage)
+    }
 
     useEffect(() => {
         if (currentStartIndex >= entryCount)
@@ -61,7 +66,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
     const renderShowEntriesDropdown = () => (
         <label className="mb-2">
             {"Show "}
-            <select value={entriesPerPage} onChange={event => setEntriesPerPage(Number(event.target.value))}>
+            <select value={entriesPerPage} onChange={onSelectEntriesPerPage}>
                 <option value={10}>10</option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
