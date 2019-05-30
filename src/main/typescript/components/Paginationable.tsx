@@ -63,12 +63,6 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
             nextPage()
     })
 
-    const renderShowingCount = () => {
-        const startIndex = currentStartIndex + 1
-
-        return `Showing ${startIndex} to ${currentEndIndex} of ${entryCount} ${entryDescription}`
-    }
-
     const renderPagination = () => (
         <nav>
             <ul className="pagination justify-content-end mb-0">
@@ -115,7 +109,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">
                 <div className="col-12 col-sm-6 col-md-5 pl-3 show_entry_count_column">
-                    {entryCount > 0 && renderShowingCount()}
+                    {entryCount > 0 && `Showing ${currentStartIndex + 1} to ${currentEndIndex} of ${entryCount} ${entryDescription}`}
                 </div>
                 <div className="col-12 col-sm-6 col-md-7 pl-3 pr-sm-0 pr-md-3">
                     {maxPage > 1 && renderPagination()}
