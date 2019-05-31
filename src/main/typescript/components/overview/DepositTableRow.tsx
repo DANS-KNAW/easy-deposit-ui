@@ -75,8 +75,7 @@ const DepositTableRow = ({ deposit, deleting, editable, depositLink, deleteDepos
     const rowStyling = isDeleting ? "" : editable ? "editable_table_row" : "not_editable_table_row"
 
     return (
-        <tr className={["row ml-0 mr-0", rowStyling].join(" ")}
-            /*onClick={() => !isDeleting && enterDeposit()}*/>
+        <tr className={["row ml-0 mr-0", rowStyling].join(" ")}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">
                 <Linkable enabled={!isDeleting && editable} to={depositLink}>{title}</Linkable>
