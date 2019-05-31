@@ -87,7 +87,7 @@ const DepositTableRow = ({ deposit, deleting, editable, depositLink, deleteDepos
             <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">
                 <Linkable enabled={!isDeleting && editable} to={depositLink}>{deposit.state}</Linkable>
             </td>
-            <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4">
+            <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4 newline-wrapping">
                 <Linkable enabled={!isDeleting && editable} to={depositLink}>{deposit.stateDescription}</Linkable>
             </td>
             <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">

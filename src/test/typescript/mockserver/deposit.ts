@@ -40,7 +40,11 @@ export const depositData2: Deposit = {
 export const depositData3: Deposit = {
     title: "First Dataset",
     state: "IN_PROGRESS",
-    stateDescription: "",
+    stateDescription: "Update request for solr4files index service failed: 2 exceptions occurred: \n" +
+        "--- START OF EXCEPTION LIST ---\n" +
+        "(0) Server refused connection at: http://localhost:8983/solr/fileitems\n" +
+        "(1) solr update of file 1bebc9ef-bb5b-4fc5-943c-396a4e1ae7af/data/xxx/yyy/zzz.pdf failed with Server refused connection at: http://localhost:8983/solr/fileitems\n" +
+        "--- END OF EXCEPTION LIST ---.",
     date: "2017-12-01T11:10:22Z",
 }
 export const depositData4: Deposit = {

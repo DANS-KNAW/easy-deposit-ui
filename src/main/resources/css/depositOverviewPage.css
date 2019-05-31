@@ -96,6 +96,10 @@
     visibility: hidden;
 }
 
+.deposit_table tbody tr td.newline-wrapping {
+    white-space: pre-wrap;
+}
+
 @media (max-width: 767px) {
     .deposit_table thead {
         display: none;
