@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { range } from "lodash"
 import "../../resources/css/paginationable.css"
 
@@ -31,7 +31,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
     const entriesToBeRendered = entries.slice(currentStartIndex, currentStartIndex + entriesPerPage) // end index is exclusive
     const entryCount = entries.length
-    const currentEndIndex = Math.min(entryCount, currentStartIndex + entriesPerPage)
+    const currentEndIndex = Math.min(entryCount, currentStartIndex + entriesPerPage) - 1
     const hasNextPage = currentStartIndex + entriesPerPage < entryCount
     const hasPreviousPage = currentStartIndex - entriesPerPage >= 0
     const maxPage = Math.ceil(entryCount / entriesPerPage)
@@ -50,6 +50,11 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
         return range(start, end, 1)
     }
+    const onSelectEntriesPerPage: (e: ChangeEvent<HTMLSelectElement>) => void = event => {
+        const newEntriesPerPage = Number(event.target.value)
+        setEntriesPerPage(newEntriesPerPage)
+        setCurrentStartIndex(Math.floor(currentStartIndex / newEntriesPerPage) * newEntriesPerPage)
+    }
 
     useEffect(() => {
         if (currentStartIndex >= entryCount)
@@ -57,26 +62,6 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
         else if (currentStartIndex < 0)
             nextPage()
     })
-
-    const renderShowEntriesDropdown = () => (
-        <label className="mb-2">
-            {"Show "}
-            <select value={entriesPerPage} onChange={event => setEntriesPerPage(Number(event.target.value))}>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-                <option value={200}>200</option>
-            </select>
-            {` ${entryDescription}`}
-        </label>
-    )
-
-    const renderShowingCount = () => {
-        const startIndex = currentStartIndex + 1
-
-        return `Showing ${startIndex} to ${currentEndIndex} of ${entryCount} ${entryDescription}`
-    }
 
     const renderPagination = () => (
         <nav>
@@ -110,11 +95,21 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
     return (
         <div>
-            {renderShowEntriesDropdown()}
+            <label className="mb-2">
+                {"Show "}
+                <select value={entriesPerPage} onChange={onSelectEntriesPerPage}>
+                    <option value={10}>10</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={200}>200</option>
+                </select>
+                {` ${entryDescription}`}
+            </label>
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">
                 <div className="col-12 col-sm-6 col-md-5 pl-3 show_entry_count_column">
-                    {entryCount > 0 && renderShowingCount()}
+                    {entryCount > 0 && `Showing ${currentStartIndex + 1} to ${currentEndIndex + 1} of ${entryCount} ${entryDescription}`}
                 </div>
                 <div className="col-12 col-sm-6 col-md-7 pl-3 pr-sm-0 pr-md-3">
                     {maxPage > 1 && renderPagination()}
