@@ -156,7 +156,11 @@ class DepositForm extends Component<DepositFormProps> {
                 {fetchedMetadataError && <Alert>An error occurred: {fetchedMetadataError}. Cannot load metadata from the server.</Alert>}
                 {/*@formatter:on*/}
 
-                <form>
+                {/*
+                  * EASY-2086: the solution to disable native browser validation is to add 'noValidate' to the <form/> element
+                  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate
+                  */}
+                <form noValidate>
                     <Card title="Upload your data" defaultOpened>
                         <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
                             <FileUpload depositId={this.props.match.params.depositId}/>
