@@ -31,7 +31,7 @@ import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkActio
 import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositFormState } from "../../model/DepositForm"
-import { Alert, ReloadAlert } from "../Errors"
+import { Alert } from "../Errors"
 import DepositLicenseForm from "./parts/DepositLicenseForm"
 import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
 import MessageForDataManagerForm from "./parts/MessageForDataManagerForm"
@@ -48,46 +48,6 @@ import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
 import { isFileUploading } from "../../selectors/fileUploadSelectors"
-
-interface FetchDataErrorProps {
-    fetchError?: string
-
-    reload: () => any
-}
-
-const FetchDataError = ({ fetchError, reload }: FetchDataErrorProps) => (
-    fetchError
-        ? <ReloadAlert key="fetchMetadataError" reload={reload}>
-            An error occurred: {fetchError}. Cannot load metadata from the server.
-        </ReloadAlert>
-        : null
-)
-
-interface SaveDraftErrorProps {
-    saveError?: string
-}
-
-const SaveDraftError = ({ saveError }: SaveDraftErrorProps) => (
-    saveError
-        ? <Alert key="saveDraftError">
-            An error occurred: {saveError}. Cannot save the draft of this deposit.
-        </Alert>
-        : null
-)
-
-interface SubmitErrorProps {
-    submitError?: string
-}
-
-const SubmitError = ({ submitError }: SubmitErrorProps) => (
-    submitError
-        ? <Alert key="submitError">
-            An error occurred: {submitError}. Cannot submit this deposit.
-        </Alert>
-        : null
-)
-
-const ValidationError = () => <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>
 
 interface LoadedProps {
     loading: boolean
@@ -173,6 +133,10 @@ class DepositForm extends Component<DepositFormProps> {
             window.onbeforeunload = null
     }
 
+    componentWillUnmount() {
+        window.onbeforeunload = null
+    }
+
     render() {
         const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
         const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = this.props.fileState
@@ -187,8 +151,10 @@ class DepositForm extends Component<DepositFormProps> {
                 <Prompt when={this.shouldBlockNavigation()}
                         message={DepositForm.leaveMessage}/>
 
-                <FetchDataError fetchError={fetchedFilesError} reload={this.fetchFiles}/>
-                <FetchDataError fetchError={fetchedMetadataError} reload={this.fetchMetadata}/>
+                {/*@formatter:off*/}
+                {fetchedFilesError && <Alert>An error occurred: {fetchedFilesError}. Cannot load files from the server.</Alert>}
+                {fetchedMetadataError && <Alert>An error occurred: {fetchedMetadataError}. Cannot load metadata from the server.</Alert>}
+                {/*@formatter:on*/}
 
                 <form>
                     <Card title="Upload your data" defaultOpened>
@@ -245,9 +211,12 @@ class DepositForm extends Component<DepositFormProps> {
                         </Loaded>
                     </Card>
 
-                    <SaveDraftError saveError={saveError}/>
-                    <SubmitError submitError={submitError}/>
-                    {this.props.submitFailed && this.props.invalid && <ValidationError/>}
+                    {/*@formatter:off*/}
+                    {saveError && <Alert>An error occurred: {saveError}. Cannot save the draft of this deposit.</Alert>}
+                    {submitError && <Alert>An error occurred: {submitError}. Cannot submit this deposit.</Alert>}
+                    {this.props.submitFailed && this.props.invalid &&
+                    <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>}
+                    {/*@formatter:on*/}
 
                     <div className="buttons">
                         <button type="button"

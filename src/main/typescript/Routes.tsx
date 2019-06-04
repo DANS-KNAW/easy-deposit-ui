@@ -20,7 +20,8 @@ import LoginPage from "./components/login/LoginPage"
 import DepositFormPage from "./components/form/DepositFormPage"
 import DepositOverviewPage from "./components/overview/DepositOverviewPage"
 import NotFoundPage from "./components/NotFoundPage"
-import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute } from "./constants/clientRoutes"
+import SignoutPage from "./components/SignoutPage"
+import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute, signoutRoute } from "./constants/clientRoutes"
 import { easyHome } from "./lib/config"
 
 const Routes = () => (
@@ -34,6 +35,9 @@ const Routes = () => (
         <Route path={loginRoute}
                exact
                component={LoginPage}/>
+        <Route path={signoutRoute}
+               exact
+               component={SignoutPage}/>
         <PrivateRoute
             path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.tsx/RouterParams
             redirectTo={loginRoute}

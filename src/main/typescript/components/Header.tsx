@@ -18,10 +18,10 @@ import { FC, ImgHTMLAttributes, useEffect } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
 import { AppState } from "../model/AppState"
 import { connect } from "react-redux"
-import { getUser, signout } from "../actions/authenticationActions"
+import { getUser } from "../actions/authenticationActions"
 import "../../resources/css/header"
-import { ComplexThunkAction, PromiseAction } from "../lib/redux"
-import { depositOverviewRoute, homeRoute, loginRoute } from "../constants/clientRoutes"
+import { ComplexThunkAction } from "../lib/redux"
+import { depositOverviewRoute, homeRoute, loginRoute, signoutRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -83,11 +83,10 @@ interface HeaderProps {
     isLoggedIn: boolean
     loginName: string
 
-    signout: () => PromiseAction<void>
     getUser: () => ComplexThunkAction
 }
 
-const Header = ({ isLoggedIn, loginName, signout, getUser }: HeaderProps) => {
+const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
     useEffect(() => {
         if (isLoggedIn && !loginName)
             getUser()
@@ -97,11 +96,10 @@ const Header = ({ isLoggedIn, loginName, signout, getUser }: HeaderProps) => {
         ? [
             <span key="loginName" className="navbar-text">{loginName}</span>,
             <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-            <Link onClick={signout}
-                  className="nav-link logoff"
-                  key="log out"
-                  to={homeRoute}
-                  title="Log out">Log out</Link>,
+            <NavBarLink className="logoff"
+                        key="log out"
+                        to={signoutRoute}
+                        title="Log out">Log out</NavBarLink>,
         ]
         : [
             <NavBarLink key="login" to={loginRoute} title="Login to EASY">Log in</NavBarLink>,
@@ -138,4 +136,4 @@ const mapStateToProps = (state: AppState) => {
     })
 }
 
-export default connect(mapStateToProps, { signout, getUser })(Header)
+export default connect(mapStateToProps, { getUser })(Header)
