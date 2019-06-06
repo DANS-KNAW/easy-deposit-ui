@@ -24,7 +24,7 @@
     "last 10 versions"
   ],
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.19.0",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
     "object-path-immutable": "^3.0.2",
