@@ -21,7 +21,7 @@ import { connect } from "react-redux"
 import { getUser } from "../actions/authenticationActions"
 import "../../resources/css/header"
 import { ComplexThunkAction } from "../lib/redux"
-import { depositOverviewRoute, homeRoute, loginRoute, signoutRoute } from "../constants/clientRoutes"
+import { depositOverviewRoute, homeRoute, loginRoute, logoutRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -98,7 +98,7 @@ const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
             <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
             <NavBarLink className="logoff"
                         key="log out"
-                        to={signoutRoute}
+                        to={logoutRoute}
                         title="Log out">Log out</NavBarLink>,
         ]
         : [

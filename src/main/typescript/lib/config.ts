@@ -16,11 +16,15 @@
 declare const __DEVELOPMENT__: boolean
 declare const __CLIENT_ROUTE__: string
 declare const __HOME_ROUTE__: string
+declare const __LOGIN_ROUTE__: string
+declare const __LOGOUT_ROUTE__: string
 declare const __VERSION__: string
 declare const __BUILD_DATE__: string
 
 export const inDevelopmentMode: boolean = __DEVELOPMENT__
 export const contextRoot = __CLIENT_ROUTE__
 export const easyHome = __HOME_ROUTE__
+export const easyLogin = __LOGIN_ROUTE__
+export const easyLogout = __LOGOUT_ROUTE__
 export const projectVersion = __VERSION__
 export const buildDate = __BUILD_DATE__

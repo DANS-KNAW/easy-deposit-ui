@@ -1,10 +1,14 @@
 {
   "development": {
     "clientRoute": "",
+    "loginRoute": "deasy.dans.knaw.nl/ui/login",
+    "logoutRoute": "deasy.dans.knaw.nl/ui/logout",
     "homeRoute": "/deposit-overview"
   },
   "production": {
     "clientRoute": "/deposit",
-    "homeRoute": "/"
+    "homeRoute": "/ui",
+    "loginRoute": "/ui/login",
+    "logoutRoute": "/ui/logout"
   }
 }
