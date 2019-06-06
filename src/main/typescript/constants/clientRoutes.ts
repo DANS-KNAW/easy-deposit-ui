@@ -17,7 +17,7 @@ import { DepositId } from "../model/Deposits"
 import { contextRoot } from "../lib/config"
 
 export const homeRoute = contextRoot === "" ? "/" : contextRoot
-export const loginRoute = `${contextRoot}/login`
-export const signoutRoute = `${contextRoot}/signout`
+export const loginRoute = `${contextRoot}/../ui/login`
+export const signoutRoute = `${contextRoot}/../ui/logout`
 export const depositFormRoute = (id: DepositId) => `${contextRoot}/deposit-form/${id}`
 export const depositOverviewRoute = `${contextRoot}/deposit-overview`

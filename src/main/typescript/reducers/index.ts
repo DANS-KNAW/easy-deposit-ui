@@ -16,7 +16,6 @@
 import { AnyAction, combineReducers } from "redux"
 import { depositOverviewReducer } from "./depositOverviewReducer"
 import { fileOverviewReducer } from "./fileOverviewReducer"
-import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
 import immutable from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
@@ -41,7 +40,6 @@ function changeReducer(state: FormState, action: AnyAction) {
 
 export default combineReducers({
     configuration: configurationReducer,
-    authenticatedUser: authenticationReducer,
     user: userReducer,
     form: formReducer.plugin({
         depositForm: changeReducer,

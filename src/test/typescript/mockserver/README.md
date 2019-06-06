@@ -44,10 +44,3 @@ Currently the following paths are currently implemented:
 
     GET    /user
     GET    /user401
-    
-    POST   /auth/login
-    POST   /auth/login401
-    POST   /auth/login500
-
-    POST   /auth/logout
-    POST   /auth/logout401
