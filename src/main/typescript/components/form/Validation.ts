@@ -256,7 +256,7 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
     }
 }
 
-export function validateDates<T>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
+export function validateDates<T extends {toString: () => string}>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
     switch (dates.length) {
         case 0:
             return []
