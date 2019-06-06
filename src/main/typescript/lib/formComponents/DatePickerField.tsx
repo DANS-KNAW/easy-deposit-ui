@@ -47,7 +47,7 @@ type DatePickerProps = FieldProps & ReactDatePickerProps
 // See https://reactdatepicker.com/ for all kinds of options to be used on the DatePicker
 const DatePickerField = (props: DatePickerProps) => {
     const { className, input: { value, onChange }, children } = props
-    const dateFormat = "dd-MM-YYYY"
+    const dateFormat = "dd-MM-yyyy"
 
     return (
         <div className={`date-picker ${className || ""}`}>
