@@ -7,7 +7,7 @@
   },
   "production": {
     "clientRoute": "/deposit",
-    "homeRoute": "/ui",
+    "homeRoute": "/ui/",
     "loginRoute": "/ui/login",
     "logoutRoute": "/ui/logout"
   }
