@@ -23,7 +23,7 @@ import { ComplexThunkAction } from "./lib/redux"
 interface CookieAuthProps {
     isAuthenticated: boolean
 
-    cookieAuthenticate: () => ComplexThunkAction
+    cookieAuthenticate: () => void
 }
 
 const CookieAuth: FC<CookieAuthProps> = ({ isAuthenticated, cookieAuthenticate, children }) => {
