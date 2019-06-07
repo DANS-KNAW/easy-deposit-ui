@@ -92,8 +92,7 @@ const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
             getUser()
     })
 
-    const loginNavBar = isLoggedIn && loginName
-        ? [
+    const logoutNavBar = [
             <span key="loginName" className="navbar-text">{loginName}</span>,
             <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
             <NavBarLink className="logoff"
@@ -101,15 +100,12 @@ const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
                         to={logoutRoute}
                         title="Log out">Log out</NavBarLink>,
         ]
-        : [
-            <NavBarLink key="login" to={loginRoute} title="Login to EASY">Log in</NavBarLink>,
-        ]
 
     return (
         <header className="container-fluid">
             <NavBar>
                 <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                {...loginNavBar}
+                {...logoutNavBar}
             </NavBar>
 
             <LogosHeaders>
