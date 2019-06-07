@@ -21,8 +21,22 @@ import { userConverter } from "../lib/user/user"
 import fetch from "../lib/fetch"
 import LocalStorage from "../lib/LocalStorage"
 
+const authenticatePending = ({
+    type: AuthenticationConstants.AUTH_LOGIN_PENDING,
+})
+
 const authenticateFulfilled = ({
     type: AuthenticationConstants.AUTH_LOGIN_FULFILLED,
+})
+
+const authenticateRejected = (message: string) => ({
+    type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
+    payload: message, // when network error occurs (no internet?) or user data could not be fetched
+})
+
+const cookieAuthenticateRejected = ({
+    type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
+    payload: undefined,
 })
 
 const userPending = ({
@@ -39,16 +53,23 @@ const userFulfilled = (data: any) => ({
 
 export const cookieAuthenticate: () => ComplexThunkAction = () => async (dispatch, getState) => {
     /*
-     *   dispatch fetchUserOnLogin
+     * dispatch AUTH_LOGIN_PENDING
+     * call server with 'auth/login' without credentials
+     *   - success:
+     *       dispatch fetchUserOnLogin
      *   - failure:
      *       local storage --> remove 'logged-in'
      *       dispatch AUTH_LOGIN_REJECTED
      */
+    dispatch(authenticatePending)
+
     try {
         dispatch(fetchUserOnLogin())
     }
     catch (loginResponse) {
         LocalStorage.setLogout()
+
+        dispatch(cookieAuthenticateRejected)
     }
 }
 

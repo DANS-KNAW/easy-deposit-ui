@@ -18,7 +18,6 @@ import { FC, useEffect } from "react"
 import { connect } from "react-redux"
 import { cookieAuthenticate } from "./actions/authenticationActions"
 import { AppState } from "./model/AppState"
-import { ComplexThunkAction } from "./lib/redux"
 
 interface CookieAuthProps {
     isAuthenticated: boolean
@@ -32,7 +31,9 @@ const CookieAuth: FC<CookieAuthProps> = ({ isAuthenticated, cookieAuthenticate, 
             cookieAuthenticate()
     }, [])
 
-    return (<>{children}</>)
+    return (
+        isAuthenticated ? <>{children}</> : <p>Your session is expired or invalid</p>
+    )
 }
 
 const mapStateToProps = (state: AppState) => ({
