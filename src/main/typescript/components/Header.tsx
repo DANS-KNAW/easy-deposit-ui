@@ -95,10 +95,7 @@ const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
     const logoutNavBar = [
             <span key="loginName" className="navbar-text">{loginName}</span>,
             <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-            <NavBarLink className="logoff"
-                        key="log out"
-                        to={logoutRoute}
-                        title="Log out">Log out</NavBarLink>,
+            <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>,
         ]
 
     return (

@@ -19,8 +19,8 @@ import PrivateRoute from "./components/PrivateRoute"
 import DepositFormPage from "./components/form/DepositFormPage"
 import DepositOverviewPage from "./components/overview/DepositOverviewPage"
 import NotFoundPage from "./components/NotFoundPage"
-import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute } from "./constants/clientRoutes"
-import { easyHome } from "./lib/config"
+import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute, logoutRoute } from "./constants/clientRoutes"
+import { easyHome, inDevelopmentMode } from "./lib/config"
 
 const Routes = () => (
     <Switch>
@@ -28,6 +28,12 @@ const Routes = () => (
                exact
                render={() => {
                    window.location.replace(easyHome)
+                   return null
+               }}/>
+        <Route path={logoutRoute}
+               exact
+               render={() => {
+                   if (!inDevelopmentMode) window.location.replace(logoutRoute)
                    return null
                }}/>
         <PrivateRoute
