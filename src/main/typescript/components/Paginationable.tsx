@@ -67,8 +67,13 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
         <nav>
             <ul className="pagination justify-content-end mb-0">
                 <li className={`page-item ${!hasPreviousPage && "disabled"}`.trim()}>
-                    <div className="page-link" onClick={() => hasPreviousPage && previousPage()}>
+                    <div className="page-link" onClick={() => hasPreviousPage && gotoPage(0)}>
                         <span>&laquo;</span>
+                    </div>
+                </li>
+                <li className={`page-item ${!hasPreviousPage && "disabled"}`.trim()}>
+                    <div className="page-link" onClick={() => hasPreviousPage && previousPage()}>
+                        <span>{'<'}</span>
                     </div>
                 </li>
                 {
@@ -86,6 +91,11 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
                 }
                 <li className={`page-item ${!hasNextPage && "disabled"}`.trim()}>
                     <div className="page-link" onClick={() => hasNextPage && nextPage()}>
+                        <span>{'>'}</span>
+                    </div>
+                </li>
+                <li className={`page-item ${!hasNextPage && "disabled"}`.trim()}>
+                    <div className="page-link" onClick={() => hasNextPage && gotoPage(maxPage - 1)}>
                         <span>&raquo;</span>
                     </div>
                 </li>
