@@ -16,11 +16,10 @@
 import * as React from "react"
 import { FC, ImgHTMLAttributes, useEffect } from "react"
 import { Link, NavLinkProps } from "react-router-dom"
-import { AppState } from "../model/AppState"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 import { getUser } from "../actions/authenticationActions"
 import "../../resources/css/header"
-import { ComplexThunkAction } from "../lib/redux"
+import { useSelector } from "../lib/redux"
 import { depositOverviewRoute, homeRoute, loginRoute, signoutRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
@@ -79,17 +78,14 @@ const NavBar: FC = ({ children }) => (
     </div>
 )
 
-interface HeaderProps {
-    isLoggedIn: boolean
-    loginName: string
+const Header = () => {
+    const isLoggedIn = useSelector(state => state.authenticatedUser.isAuthenticated)
+    const loginName = useSelector(state => state.user.displayName)
+    const dispatch = useDispatch()
 
-    getUser: () => ComplexThunkAction
-}
-
-const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
     useEffect(() => {
         if (isLoggedIn && !loginName)
-            getUser()
+            dispatch(getUser())
     })
 
     const loginNavBar = isLoggedIn && loginName
@@ -129,11 +125,4 @@ const Header = ({ isLoggedIn, loginName, getUser }: HeaderProps) => {
     )
 }
 
-const mapStateToProps = (state: AppState) => {
-    return ({
-        isLoggedIn: state.authenticatedUser.isAuthenticated,
-        loginName: state.user.displayName,
-    })
-}
-
-export default connect(mapStateToProps, { getUser })(Header)
+export default Header

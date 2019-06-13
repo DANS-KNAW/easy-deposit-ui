@@ -15,28 +15,21 @@
  */
 import * as React from "react"
 import { FC, useEffect } from "react"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { cookieAuthenticate } from "./actions/authenticationActions"
 import { AppState } from "./model/AppState"
-import { ComplexThunkAction } from "./lib/redux"
+import { ComplexThunkAction, useSelector } from "./lib/redux"
 
-interface CookieAuthProps {
-    isAuthenticated: boolean
+const CookieAuth: FC = ({ children }) => {
+    const isAuthenticated = useSelector(state => state.authenticatedUser.isAuthenticated)
+    const dispatch = useDispatch()
 
-    cookieAuthenticate: () => void
-}
-
-const CookieAuth: FC<CookieAuthProps> = ({ isAuthenticated, cookieAuthenticate, children }) => {
     useEffect(() => {
         if (!isAuthenticated)
-            cookieAuthenticate()
+            dispatch(cookieAuthenticate())
     }, [])
 
     return (<>{children}</>)
 }
 
-const mapStateToProps = (state: AppState) => ({
-    isAuthenticated: state.authenticatedUser.isAuthenticated,
-})
-
-export default connect(mapStateToProps, { cookieAuthenticate })(CookieAuth)
+export default CookieAuth

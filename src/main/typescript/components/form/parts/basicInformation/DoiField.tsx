@@ -14,36 +14,25 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FetchDoiState } from "../../../../model/DepositForm"
 import { ReloadAlert } from "../../../Errors"
-import { FetchAction } from "../../../../lib/redux"
-import { DepositId } from "../../../../model/Deposits"
-import { connect } from "react-redux"
-import { AppState } from "../../../../model/AppState"
+import { useSelector } from "../../../../lib/redux"
+import { useDispatch } from "react-redux"
 import { fetchDoi } from "../../../../actions/depositFormActions"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
-import { Doi } from "../../../../lib/metadata/Identifier"
 import Mandatory from "../../../../lib/formComponents/Mandatory"
 import HelpButton from "../../../../lib/formComponents/HelpButton"
 import HelpText from "../../../../lib/formComponents/HelpText"
 
-interface DoiFieldInputArguments {
+interface DoiFieldProps extends FieldProps {
     depositId: string
 }
 
-interface DoiFieldStoreArguments {
-    fetchDoiState: FetchDoiState
-}
-
-interface DoiFieldStoreFunctions {
-    fetchDoi: (depositId: DepositId) => FetchAction<Doi>
-}
-
-type DoiFieldProps = FieldProps & DoiFieldInputArguments & DoiFieldStoreArguments & DoiFieldStoreFunctions
-
-const DoiField = ({ input, meta, label, depositId, fetchDoi, mandatory, helpText, fetchDoiState: { fetchingDoi, fetchDoiError } }: DoiFieldProps) => {
+const DoiField = ({ input, meta, label, depositId, mandatory, helpText }: DoiFieldProps) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
+    const { fetchingDoi, fetchDoiError } = useSelector(state => state.depositForm.fetchDoi)
+    const dispatch = useDispatch()
+    const doFetchDoi = (depositId: string) => dispatch(fetchDoi(depositId))
 
     return (
         <div className="row form-group input-element mb-4">
@@ -58,12 +47,12 @@ const DoiField = ({ input, meta, label, depositId, fetchDoi, mandatory, helpText
                     ? <label className={`value-label ${hasError ? "is-invalid" : ""}`.trim()}
                              id={input.name}>{input.value}</label>
                     : fetchDoiError
-                        ? <ReloadAlert key="fetchMetadataError" reload={() => fetchDoi(depositId)}>
+                        ? <ReloadAlert key="fetchMetadataError" reload={() => doFetchDoi(depositId)}>
                             An error occurred: {fetchDoiError}. Cannot create a new DOI.
                         </ReloadAlert>
                         : <button type="button"
                                   className={`btn value-button ${hasError ? "btn-danger is-invalid" : "btn-dark"}`.trim()}
-                                  onClick={() => fetchDoi(depositId)}
+                                  onClick={() => doFetchDoi(depositId)}
                                   disabled={fetchingDoi}>Reserve DOI</button>
                 }
                 {hasError && <span className="invalid-feedback">{meta.error}</span>}
@@ -72,14 +61,4 @@ const DoiField = ({ input, meta, label, depositId, fetchDoi, mandatory, helpText
     )
 }
 
-const mapStateToProps = (state: AppState) => ({
-    fetchDoiState: state.depositForm.fetchDoi,
-})
-
-const ConnectedDoiField = connect(mapStateToProps, { fetchDoi })(DoiField)
-
-const DoiFieldWrapper = ({ depositId, ...rest }: FieldProps & DoiFieldInputArguments) => (
-    <ConnectedDoiField depositId={depositId} {...rest}/>
-)
-
-export default DoiFieldWrapper
+export default DoiField
