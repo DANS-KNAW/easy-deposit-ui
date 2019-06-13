@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 import { Dispatch, Middleware } from "redux"
+import { logout } from "../actions/authenticationActions"
 
-const newRejectedMiddleware: Middleware = () => (next: Dispatch) => action => {
+const newRejectedMiddleware: Middleware = ({ dispatch }) => (next: Dispatch) => action => {
     if (action.type && action.type.endsWith("_REJECTED") && action.payload) {
         const { payload } = action
 
-        if (!!payload.response || !!payload.message) {
+        if (payload.response && payload.response.status === 401) {
+            dispatch(logout)
+            next({ ...action, payload: payload.response.data })
+        } else if (!!payload.response || !!payload.message) {
             const errorMessage = payload.response
                 ? payload.response.data
                 : payload.message
 
             next({ ...action, payload: errorMessage })
-        }
-        else
+        } else
             next(action)
-    }
-    else
+    } else
         next(action)
 }
 

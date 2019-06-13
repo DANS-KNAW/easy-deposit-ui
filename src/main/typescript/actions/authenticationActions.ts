@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComplexThunkAction, PromiseAction, ThunkAction } from "../lib/redux"
+import { ComplexThunkAction } from "../lib/redux"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
 import { userUrl } from "../selectors/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
@@ -51,7 +51,7 @@ const userFulfilled = (data: any) => ({
     },
 })
 
-export const cookieAuthenticate: () => ComplexThunkAction = () => async (dispatch, getState) => {
+export const cookieAuthenticate: () => ComplexThunkAction = () => async dispatch => {
     /*
      * dispatch AUTH_LOGIN_PENDING
      * call server with 'auth/login' without credentials
@@ -97,6 +97,7 @@ const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getSta
     }
     catch (userResponse) {
         LocalStorage.setLogout()
+        dispatch(authenticateRejected(""))
     }
 }
 
@@ -125,3 +126,7 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
         LocalStorage.setLogout()
     }
 }
+
+export const logout = ({
+    type: AuthenticationConstants.AUTH_LOGOUT,
+})
