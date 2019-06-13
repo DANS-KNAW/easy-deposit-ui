@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FC, useEffect } from "react"
+import { FC, useEffect, useRef } from "react"
 import { connect } from "react-redux"
 import { cookieAuthenticate } from "./actions/authenticationActions"
 import { AppState } from "./model/AppState"
+import { loginRoute } from "./constants/clientRoutes"
 
 interface CookieAuthProps {
     isAuthenticated: boolean
@@ -26,14 +27,22 @@ interface CookieAuthProps {
 }
 
 const CookieAuth: FC<CookieAuthProps> = ({ isAuthenticated, cookieAuthenticate, children }) => {
+    const hasTriedCookieAuthenticate = useRef(false)
     useEffect(() => {
-        if (!isAuthenticated)
+        if (!isAuthenticated) {
             cookieAuthenticate()
+            hasTriedCookieAuthenticate.current = true
+        }
     }, [])
 
-    return (
-        isAuthenticated ? <>{children}</> : <p>Your session is expired or invalid</p>
-    )
+    if (hasTriedCookieAuthenticate) {
+        if (isAuthenticated) return <>{children}</>
+        else {
+            window.location.replace(loginRoute)
+            return null
+        }
+    }
+    else return <p>need to try to authenticate</p>
 }
 
 const mapStateToProps = (state: AppState) => ({
