@@ -229,7 +229,8 @@ describe("Date", () => {
         it("should convert a QualifiedDate into the correct external model", () => {
             const input: QualifiedDate<Date> = {
                 qualifier: "dcterms:issued",
-                value: new Date("2018-03-14"),
+                // month 2 == March
+                value: new Date(new Date(2018, 2, 14).toUTCString()),
             }
             const result = qualifiedDateDeconverter(dateChoices)(input)
             expect(Object.keys(result)).to.eql(["qualifier", "scheme", "value"])
