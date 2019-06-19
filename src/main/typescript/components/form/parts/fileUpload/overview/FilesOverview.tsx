@@ -17,61 +17,47 @@ import * as React from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { FileOverviewState, Files } from "../../../../../model/FileInfo"
-import { connect } from "react-redux"
-import { AppState } from "../../../../../model/AppState"
+import { useDispatch } from "react-redux"
 import { DepositId } from "../../../../../model/Deposits"
-import { FetchAction, PromiseAction } from "../../../../../lib/redux"
-import {
-    askConfirmationToDeleteFile,
-    cancelDeleteFile,
-    deleteFile,
-    fetchFiles,
-} from "../../../../../actions/fileOverviewActions"
-import { Action } from "redux"
+import { useSelector } from "../../../../../lib/redux"
+import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/fileOverviewActions"
 import EmptyFileTableRow from "./EmptyFileTableRow"
 import { CloseableWarning } from "../../../../Errors"
 import Paginationable from "../../../../Paginationable"
 
-interface FilesOverviewInputProps {
+interface FilesOverviewProps {
     depositId: DepositId
 }
 
-interface FilesOverviewProps extends FilesOverviewInputProps {
-    files: FileOverviewState
+const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
+    const files = useSelector(state => state.files)
+    const dispatch = useDispatch()
 
-    fetchFiles: (depositId: DepositId) => FetchAction<Files>
-    deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void>
-    askConfirmationToDeleteFile: (filePath: string) => Action
-    cancelDeleteFile: (filePath: string) => Action
-}
-
-const FilesOverview = (props: (FilesOverviewProps)) => {
-    function deleteFile(depositId: DepositId, filepath: string) {
+    function doDeleteFile(depositId: DepositId, filepath: string) {
         return function (e: React.MouseEvent<HTMLButtonElement>) {
             e.stopPropagation()
-            props.deleteFile(depositId, filepath)
+            dispatch(deleteFile(depositId, filepath))
         }
     }
-    function askConfirmation(filepath: string) {
-        return function(e: React.MouseEvent<HTMLButtonElement>) {
+
+    function doAskConfirmation(filepath: string) {
+        return function (e: React.MouseEvent<HTMLButtonElement>) {
             e.stopPropagation()
-            props.askConfirmationToDeleteFile(filepath)
+            dispatch(askConfirmationToDeleteFile(filepath))
         }
     }
-    function cancelDeleteFile(filepath: string) {
-        return function(e: React.MouseEvent<HTMLButtonElement>) {
+
+    function doCancelDeleteFile(filepath: string) {
+        return function (e: React.MouseEvent<HTMLButtonElement>) {
             e.stopPropagation()
-            props.cancelDeleteFile(filepath)
+            dispatch(cancelDeleteFile(filepath))
         }
     }
 
     function renderDeleteError() {
-        const { files: { deleting } } = props
-
-        return Object.keys(deleting)
+        return Object.keys(files.deleting)
             .map(fileId => {
-                const { deleteError } = deleting[fileId]
+                const { deleteError } = files.deleting[fileId]
 
                 if (deleteError) {
                     const errorText = `Cannot delete file '${fileId}'. An error occurred: ${deleteError}.`
@@ -80,9 +66,8 @@ const FilesOverview = (props: (FilesOverviewProps)) => {
                 }
             })
     }
-    function renderTable(filePaths: string[], filePathsCount: number) {
-        const { files: { files, deleting }, depositId } = props
 
+    function renderTable(filePaths: string[], filePathsCount: number) {
         return (
             <table className="table table-striped file_table">
                 <FilesTableHead/>
@@ -91,44 +76,34 @@ const FilesOverview = (props: (FilesOverviewProps)) => {
                     : filePaths.map(filepath =>
                         <FilesTableRow
                             key={filepath}
-                            deleting={deleting[filepath]}
-                            deleteFile={deleteFile(depositId, filepath)}
-                            fileInfo={files[filepath]}
-                            askConfirmation={askConfirmation(filepath)}
-                            cancelDeleteFile={cancelDeleteFile(filepath)}
+                            deleting={files.deleting[filepath]}
+                            deleteFile={doDeleteFile(depositId, filepath)}
+                            fileInfo={files.files[filepath]}
+                            askConfirmation={doAskConfirmation(filepath)}
+                            cancelDeleteFile={doCancelDeleteFile(filepath)}
                         />,
                     )
                 }</tbody>
             </table>
         )
     }
+
     function renderTableView() {
         return (
             <Paginationable entryDescription="files"
                             pagesShown={5}
-                            entries={props.files.loading.loaded ? Object.keys(props.files.files) : []}
+                            entries={files.loading.loaded ? Object.keys(files.files) : []}
                             renderEntries={renderTable}/>
         )
     }
 
-    const { files: { loading: { loading, loaded } } } = props
-
     return (
         <>
-            {loading && <p>loading files ...</p>}
+            {files.loading.loading && <p>loading files ...</p>}
             {renderDeleteError()}
-            {loaded && renderTableView()}
+            {files.loading.loaded && renderTableView()}
         </>
     )
 }
 
-const mapStateToProps = (state: AppState) => ({
-    files: state.files,
-})
-
-export default connect(mapStateToProps, {
-    fetchFiles,
-    deleteFile,
-    askConfirmationToDeleteFile,
-    cancelDeleteFile,
-})(FilesOverview)
+export default FilesOverview
