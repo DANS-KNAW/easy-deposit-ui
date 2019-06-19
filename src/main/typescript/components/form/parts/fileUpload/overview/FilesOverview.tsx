@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
@@ -30,7 +29,6 @@ import {
     fetchFiles,
 } from "../../../../../actions/fileOverviewActions"
 import { Action } from "redux"
-import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import EmptyFileTableRow from "./EmptyFileTableRow"
 import { CloseableWarning } from "../../../../Errors"
 import Paginationable from "../../../../Paginationable"
@@ -39,9 +37,8 @@ interface FilesOverviewInputProps {
     depositId: DepositId
 }
 
-interface FilesOverviewProps {
+interface FilesOverviewProps extends FilesOverviewInputProps {
     files: FileOverviewState
-    fileUploadUrl: (filePath: string) => string
 
     fetchFiles: (depositId: DepositId) => FetchAction<Files>
     deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void>
@@ -49,34 +46,28 @@ interface FilesOverviewProps {
     cancelDeleteFile: (filePath: string) => Action
 }
 
-class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputProps> {
-    render() {
-        const { files: { loading: { loading, loaded } } } = this.props
-
-        return (
-            <>
-                {loading && <p>loading files ...</p>}
-                {this.renderDeleteError()}
-                {loaded && this.renderTableView()}
-            </>
-        )
+const FilesOverview = (props: (FilesOverviewProps)) => {
+    function deleteFile(depositId: DepositId, filepath: string) {
+        return function (e: React.MouseEvent<HTMLButtonElement>) {
+            e.stopPropagation()
+            props.deleteFile(depositId, filepath)
+        }
+    }
+    function askConfirmation(filepath: string) {
+        return function(e: React.MouseEvent<HTMLButtonElement>) {
+            e.stopPropagation()
+            props.askConfirmationToDeleteFile(filepath)
+        }
+    }
+    function cancelDeleteFile(filepath: string) {
+        return function(e: React.MouseEvent<HTMLButtonElement>) {
+            e.stopPropagation()
+            props.cancelDeleteFile(filepath)
+        }
     }
 
-    deleteFile = (depositId: DepositId, filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.deleteFile(depositId, filepath)
-    }
-    askConfirmation = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.askConfirmationToDeleteFile(filepath)
-    }
-    cancelDeleteFile = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.cancelDeleteFile(filepath)
-    }
-
-    private renderDeleteError() {
-        const { files: { deleting } } = this.props
+    function renderDeleteError() {
+        const { files: { deleting } } = props
 
         return Object.keys(deleting)
             .map(fileId => {
@@ -89,9 +80,8 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
                 }
             })
     }
-
-    private renderTable = (filePaths: string[], filePathsCount: number) => {
-        const { files: { files, deleting }, depositId } = this.props
+    function renderTable(filePaths: string[], filePathsCount: number) {
+        const { files: { files, deleting }, depositId } = props
 
         return (
             <table className="table table-striped file_table">
@@ -102,28 +92,38 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
                         <FilesTableRow
                             key={filepath}
                             deleting={deleting[filepath]}
-                            deleteFile={this.deleteFile(depositId, filepath)}
+                            deleteFile={deleteFile(depositId, filepath)}
                             fileInfo={files[filepath]}
-                            askConfirmation={this.askConfirmation(filepath)}
-                            cancelDeleteFile={this.cancelDeleteFile(filepath)}
+                            askConfirmation={askConfirmation(filepath)}
+                            cancelDeleteFile={cancelDeleteFile(filepath)}
                         />,
                     )
                 }</tbody>
             </table>
         )
     }
+    function renderTableView() {
+        return (
+            <Paginationable entryDescription="files"
+                            pagesShown={5}
+                            entries={props.files.loading.loaded ? Object.keys(props.files.files) : []}
+                            renderEntries={renderTable}/>
+        )
+    }
 
-    private renderTableView = () => (
-        <Paginationable entryDescription="files"
-                        pagesShown={5}
-                        entries={this.props.files.loading.loaded ? Object.keys(this.props.files.files) : []}
-                        renderEntries={this.renderTable}/>
+    const { files: { loading: { loading, loaded } } } = props
+
+    return (
+        <>
+            {loading && <p>loading files ...</p>}
+            {renderDeleteError()}
+            {loaded && renderTableView()}
+        </>
     )
 }
 
-const mapStateToProps = (state: AppState, ownProps: FilesOverviewInputProps) => ({
+const mapStateToProps = (state: AppState) => ({
     files: state.files,
-    fileUploadUrl: (filePath: string) => uploadFileUrl(ownProps.depositId, filePath)(state),
 })
 
 export default connect(mapStateToProps, {
