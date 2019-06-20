@@ -229,6 +229,7 @@ const DepositForm = (props: DepositFormProps) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
+    initialValues: state.depositForm.initialState.metadata, // initial values
     dropDowns: state.dropDowns, // used in validation
 })
 
