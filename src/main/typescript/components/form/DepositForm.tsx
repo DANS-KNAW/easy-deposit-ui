@@ -228,14 +228,12 @@ const DepositForm = (props: DepositFormProps) => {
     )
 }
 
-const mapStateToProps = (state: AppState) => ({
-    initialValues: state.depositForm.initialState.metadata, // initial values
-    dropDowns: state.dropDowns, // used in validation
-})
-
 const composedHOC = compose(
     withRouter,
-    connect(mapStateToProps),
+    connect((state: AppState) => ({
+        initialValues: state.depositForm.initialState.metadata, // initial values for deposit form
+        dropDowns: state.dropDowns, // used in form validation
+    })),
     reduxForm({
         form: depositFormName,
         enableReinitialize: true,
