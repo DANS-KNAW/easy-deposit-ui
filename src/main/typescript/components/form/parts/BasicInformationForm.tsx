@@ -195,7 +195,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
 
             <RepeatableFieldWithDropdown name="languagesOfFilesIso639"
                                          label="Language of files"
-                                         helpText
+                                         helpText="languagesOfFiles"
                                          empty={() => emptyString}
                                          fieldNames={[(name: string) => name]}
                                          dropdowns={{ languages: languages }}
@@ -204,14 +204,13 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
             <RepeatableField name="languagesOfFiles"
                              label="Language of files"
                              showNoLabel
-                             helpText
                              empty={() => emptyString}
                              fieldNames={[(name: string) => name]}
                              component={TextFieldArray}/>
 
             <RepeatableFieldWithDropdown name="datesIso8601"
                                          label="Date"
-                                         helpText
+                                         helpText="dates"
                                          empty={() => emptyQualifiedDate(dates.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.qualifier`,
@@ -223,7 +222,6 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
             <RepeatableFieldWithDropdown name="dates"
                                          label="Date"
                                          showNoLabel
-                                         helpText
                                          empty={() => emptyQualifiedStringDate(dates.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.qualifier`,

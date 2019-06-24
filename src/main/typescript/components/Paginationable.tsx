@@ -17,15 +17,18 @@ import * as React from "react"
 import { ChangeEvent, useEffect, useState } from "react"
 import { range } from "lodash"
 import "../../resources/css/paginationable.css"
+import HelpButton from "../lib/formComponents/HelpButton"
+import HelpText from "../lib/formComponents/HelpText"
 
 interface PaginationableProps<T> {
+    helpText?: string
     entryDescription: string
     pagesShown: number
     entries: T[]
     renderEntries: (entries: T[], entryCount: number) => any
 }
 
-function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntries }: PaginationableProps<T>) {
+function Paginationable<T>({ helpText, entryDescription, pagesShown, entries, renderEntries }: PaginationableProps<T>) {
     const [currentStartIndex, setCurrentStartIndex] = useState(0)
     const [entriesPerPage, setEntriesPerPage] = useState(10)
 
@@ -95,6 +98,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
 
     return (
         <div>
+            {helpText && <HelpText textFor={helpText}/>}
             <label className="mb-2">
                 {"Show "}
                 <select value={entriesPerPage} onChange={onSelectEntriesPerPage}>
@@ -105,6 +109,7 @@ function Paginationable<T>({ entryDescription, pagesShown, entries, renderEntrie
                     <option value={200}>200</option>
                 </select>
                 {` ${entryDescription}`}
+                {helpText && <HelpButton textFor={helpText}/>}
             </label>
             {renderEntries(entriesToBeRendered, entryCount)}
             <div className="row ml-0 mr-0 paginationable_bottom">

@@ -51,7 +51,7 @@ const UploadTypeForm = () => (
     <>
         <RepeatableFieldWithDropdown name="typesDCMI"
                                      label="Content type"
-                                     helpText
+                                     helpText="types"
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ types: useSelector(state => state.dropDowns.dcmiTypes) }}
@@ -60,14 +60,13 @@ const UploadTypeForm = () => (
         <RepeatableField name="types"
                          label="Types"
                          showNoLabel
-                         helpText
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="formatsMediaType"
                                      label="Format (media type)"
-                                     helpText
+                                     helpText="formats"
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ formats: useSelector(state => state.dropDowns.imtFormats) }}
@@ -76,7 +75,6 @@ const UploadTypeForm = () => (
         <RepeatableField name="formats"
                          label="Format"
                          showNoLabel
-                         helpText
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
