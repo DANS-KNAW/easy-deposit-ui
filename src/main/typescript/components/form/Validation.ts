@@ -134,7 +134,7 @@ export const validateContributors: (contributorIdSettings: ContributorIdDropdown
         if (nonEmptyContributor) {
             if (!nonEmptyOrganization && (!nonEmptyInitials || !nonEmptySurname)) {
                 if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
-                    contribError.organization = "No organization given"
+                    contribError.organization = "No organisation given"
                 if (!nonEmptyInitials)
                     contribError.initials = "No initials given"
                 if (!nonEmptySurname)

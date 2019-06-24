@@ -154,19 +154,19 @@ const DepositForm = (props: DepositFormProps) => {
                     </Loaded>
                 </Card>
 
-                <Card title="License and access" required defaultOpened>
+                <Card title="Access and licence" required defaultOpened>
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <LicenseAndAccessForm/>
                     </Loaded>
                 </Card>
 
-                <Card title="Upload type">
+                <Card title="Content type and file format">
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <UploadTypeForm/>
                     </Loaded>
                 </Card>
 
-                <Card title="Archaeology specific metadata">
+                <Card title="Archaeology-specific metadata">
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <ArchaeologySpecificMetadataForm/>
                     </Loaded>
@@ -184,7 +184,7 @@ const DepositForm = (props: DepositFormProps) => {
                     </Loaded>
                 </Card>
 
-                <Card title="Privacy sensitive data" required defaultOpened>
+                <Card title="Personal data" required defaultOpened>
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <PrivacySensitiveDataForm/>
                     </Loaded>

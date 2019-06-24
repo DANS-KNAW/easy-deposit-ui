@@ -112,7 +112,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                    component={TextArea}/>
 
             <RepeatableFieldWithDropdown name="contributors"
-                                         label="People & organizations"
+                                         label="People & organisations"
                                          helpText
                                          mandatory
                                          empty={() => emptyContributor}
@@ -129,7 +129,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={ContributorFields}/>
 
             <Field name="dateCreated"
-                   label="Date created"
+                   label="Dataset created"
                    mandatory
                    helpText
                    todayButton="Today"
@@ -182,7 +182,8 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={RelatedIdentifierFieldArray}/>
 
             <RepeatableFieldWithDropdown name="relations"
-                                         label=""
+                                         label="Relations"
+                                         showNoLabel
                                          empty={() => emptyRelation(relations.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.qualifier`,
@@ -193,7 +194,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={RelationFieldArray}/>
 
             <RepeatableFieldWithDropdown name="languagesOfFilesIso639"
-                                         label="Language of files (ISO 639)"
+                                         label="Language of files"
                                          helpText
                                          empty={() => emptyString}
                                          fieldNames={[(name: string) => name]}
@@ -202,13 +203,14 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
 
             <RepeatableField name="languagesOfFiles"
                              label="Language of files"
+                             showNoLabel
                              helpText
                              empty={() => emptyString}
                              fieldNames={[(name: string) => name]}
                              component={TextFieldArray}/>
 
             <RepeatableFieldWithDropdown name="datesIso8601"
-                                         label="Date (ISO 8601)"
+                                         label="Date"
                                          helpText
                                          empty={() => emptyQualifiedDate(dates.list)}
                                          fieldNames={[
@@ -220,6 +222,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
 
             <RepeatableFieldWithDropdown name="dates"
                                          label="Date"
+                                         showNoLabel
                                          helpText
                                          empty={() => emptyQualifiedStringDate(dates.list)}
                                          fieldNames={[

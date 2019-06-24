@@ -36,7 +36,7 @@ const extractNameFromFirstIndex: (string: string) => string = string => string.s
 
 function asFieldArray<T>(InnerComponent: ComponentType<InnerComponentProps<T>>) {
     return function (props: FieldArrayProps<T> & any) {
-        const { fields, fieldNames, empty, label, mandatory, helpText, meta } = props
+        const { fields, fieldNames, empty, label, showNoLabel, mandatory, helpText, meta } = props
         const changed = (meta as any).changed
         const hasError = meta.error && (changed || meta.submitFailed)
 
@@ -48,7 +48,7 @@ function asFieldArray<T>(InnerComponent: ComponentType<InnerComponentProps<T>>) 
             return (
                 <div className={`row form-group input-element ${lastIndex ? "mb-4" : "mb-2"}`} key={`${name}.${index}`}>
                     <label className="col-12 col-md-3 pl-0 pr-0 title-label">
-                        {firstIndex && label
+                        {firstIndex && label && !showNoLabel
                             ? <>
                                 {label}
                                 {mandatory && <Mandatory/>}

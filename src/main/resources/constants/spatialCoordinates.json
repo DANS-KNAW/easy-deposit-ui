@@ -11,8 +11,8 @@
     "y-max": 629000
   },
   "http://www.opengis.net/def/crs/EPSG/0/4326": {
-    "title": "lengte/breedte (graden)",
-    "viewName": "lengte/breedte (graden)",
+    "title": "latitude/longitude (degrees)",
+    "viewName": "latitude/longitude (degrees)",
     "x-label": "Lat",
     "y-label": "Long",
     "step": "0.000001",

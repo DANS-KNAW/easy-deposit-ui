@@ -36,7 +36,7 @@ export interface LicenseAndAccessFormData {
 const LicenseAndAccessForm = () => (
     <>
         <RepeatableFieldWithDropdown name="rightsHolders"
-                                     label="Rightsholders"
+                                     label="Rightsholder"
                                      helpText
                                      mandatory
                                      empty={() => emptyRightsholder}
@@ -53,7 +53,7 @@ const LicenseAndAccessForm = () => (
                                      component={RightsholderFields}/>
 
         <RepeatableField name="publishers"
-                         label="Publishers"
+                         label="Publisher"
                          helpText
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
