@@ -80,14 +80,6 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                    depositId={depositId}
                    component={DoiField}/>
 
-            <Field name="languageOfDescription"
-                   label="Language of description"
-                   mandatory
-                   helpText
-                   withEmptyDefault
-                   dropdown={languages}
-                   component={LanguageField}/>
-
             <RepeatableField name="titles"
                              label="Title"
                              mandatory
@@ -110,6 +102,13 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                    rows={5}
                    maxRows={15}
                    component={TextArea}/>
+
+            <Field name="languageOfDescription"
+                   label="Language of description"
+                   mandatory
+                   withEmptyDefault
+                   dropdown={languages}
+                   component={LanguageField}/>
 
             <RepeatableFieldWithDropdown name="contributors"
                                          label="People & organisations"
