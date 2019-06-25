@@ -14,35 +14,24 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 import { toggleHelpText } from "../../actions/helpTextActions"
-import { ReduxAction } from "../redux"
-import { AppState } from "../../model/AppState"
+import { useSelector } from "../redux"
 import { isHelpTextDisplayable, isHelpTextVisible } from "../../selectors/helpTexts"
 
-interface HelpButtonInputProps {
-    textFor: string
-}
-
 interface HelpButtonProps {
-    toggled: boolean
-    displayable: boolean
-
-    toggleHelpText: (fieldName: string) => ReduxAction<string>
+    textFor: any
 }
 
-class HelpButton extends React.Component<HelpButtonProps & HelpButtonInputProps> {
-    toggleHelpText = () => this.props.toggleHelpText(this.props.textFor)
+const HelpButton = (props: HelpButtonProps) => {
+    const toggled = useSelector(isHelpTextVisible(props.textFor))
+    const displayable = useSelector(isHelpTextDisplayable(props.textFor))
+    const dispatch = useDispatch()
 
-    render() {
-        const className = "fas fa-info-circle help" + (this.props.toggled ? " toggled" : "")
-        return this.props.displayable && <i className={className} onClick={this.toggleHelpText}/>
-    }
+    const doToggleHelpText = () => dispatch(toggleHelpText(props.textFor))
+
+    const className = "fas fa-info-circle help" + (toggled ? " toggled" : "")
+    return displayable ? <i className={className} onClick={doToggleHelpText}/> : null
 }
 
-const mapStateToProps = (state: AppState, props: HelpButtonInputProps) => ({
-    toggled: isHelpTextVisible(props.textFor)(state),
-    displayable: isHelpTextDisplayable(props.textFor)(state)
-})
-
-export default connect(mapStateToProps, { toggleHelpText })(HelpButton)
+export default HelpButton

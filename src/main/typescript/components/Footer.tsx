@@ -16,9 +16,8 @@
 import * as React from "react"
 import { buildDate, inDevelopmentMode, projectVersion } from "../lib/config"
 import "../../resources/css/footer"
-import { connect } from "react-redux"
-import { AppState } from "../model/AppState"
 import { getApiUrl } from "../selectors/configuration"
+import { useSelector } from "../lib/redux"
 
 const cts = require("../../resources/img/footer/logo_CTS.png")
 const knaw = require("../../resources/img/footer/logo_KNAW.png")
@@ -178,20 +177,12 @@ const BuildInfoRow = ({ apiUrl }: FooterBuildInfoProps) => (
     </div>
 )
 
-interface FooterProps {
-    apiUrl: string
-}
-
-const Footer = (props: FooterProps) => (
+const Footer = () => (
     <footer className="container-fluid">
         <TitleRow/>
         <ContentRow/>
-        <BuildInfoRow apiUrl={props.apiUrl}/>
+        <BuildInfoRow apiUrl={useSelector(getApiUrl)}/>
     </footer>
 )
 
-const mapStateToProps = (state: AppState) => ({
-    apiUrl: getApiUrl(state),
-})
-
-export default connect(mapStateToProps)(Footer)
+export default Footer

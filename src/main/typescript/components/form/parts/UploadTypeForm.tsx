@@ -21,9 +21,7 @@ import { Field } from "redux-form"
 import { emptyString } from "../../../lib/metadata/misc"
 import DcmiTypesFieldArray from "./uploadType/DcmiTypesFieldArray"
 import ImtFormatsFieldArray from "./uploadType/ImtFormatsFieldArray"
-import { AppState } from "../../../model/AppState"
-import { connect } from "react-redux"
-import { DropdownList } from "../../../model/DropdownLists"
+import { useSelector } from "../../../lib/redux"
 
 export interface UploadTypeFormData {
     typesDCMI?: string[]
@@ -35,11 +33,6 @@ export interface UploadTypeFormData {
 
 // validation rules
 const oneSelected = (value?: any) => value !== undefined ? undefined : "you need to select one of these choices"
-
-interface UploadTypeFormProps {
-    dcmiTypes: DropdownList
-    imtFormats: DropdownList
-}
 
 const clarinChoices: RadioChoice[] = [
     {
@@ -54,14 +47,14 @@ const clarinChoices: RadioChoice[] = [
     },
 ]
 
-const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
+const UploadTypeForm = () => (
     <>
         <RepeatableFieldWithDropdown name="typesDCMI"
                                      label="Type (DCMI resource type)"
                                      helpText
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ types: dcmiTypes }}
+                                     dropdowns={{ types: useSelector(state => state.dropDowns.dcmiTypes) }}
                                      component={DcmiTypesFieldArray}/>
 
         <RepeatableField name="types"
@@ -76,7 +69,7 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
                                      helpText
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ formats: imtFormats }}
+                                     dropdowns={{ formats: useSelector(state => state.dropDowns.imtFormats) }}
                                      component={ImtFormatsFieldArray}/>
 
         <RepeatableField name="formats"
@@ -95,9 +88,4 @@ const UploadTypeForm = ({ dcmiTypes, imtFormats }: UploadTypeFormProps) => (
     </>
 )
 
-const mapStateToProps = (state: AppState) => ({
-    dcmiTypes: state.dropDowns.dcmiTypes,
-    imtFormats: state.dropDowns.imtFormats,
-})
-
-export default connect(mapStateToProps)(UploadTypeForm)
+export default UploadTypeForm

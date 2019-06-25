@@ -14,41 +14,31 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
+import { Component, FC } from "react"
 import { compose } from "redux"
 import { RouteComponentProps, withRouter } from "react-router-dom"
 import * as H from "history"
 import { AppState } from "../../model/AppState"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
-import { FetchAction, ThunkAction } from "../../lib/redux"
+import { FetchAction, ThunkAction, useSelector } from "../../lib/redux"
 import { DepositId } from "../../model/Deposits"
 
 interface NewDepositButtonProps extends RouteComponentProps<{}> {
-    creatingNew: boolean
-
-    createNewDeposit: (history: H.History) => ThunkAction<FetchAction<DepositId>>
 }
 
-class NewDepositButton extends Component<NewDepositButtonProps> {
-    createNewDeposit = () => this.props.createNewDeposit(this.props.history)
+const NewDepositButton: FC<NewDepositButtonProps> = ({ history, children }) => {
+    const creatingNew = useSelector(state => state.deposits.creatingNew.creating)
+    const dispatch = useDispatch()
+    const doCreateNewDeposit = () => dispatch(createNewDeposit(history))
 
-    render() {
-        return (
-            <button type="button"
-                    className="btn btn-dark margin-top-bottom"
-                    disabled={this.props.creatingNew}
-                    title="Create new deposit..."
-                    onClick={this.createNewDeposit}>{this.props.children}</button>
-        )
-    }
+    return (
+        <button type="button"
+                className="btn btn-dark margin-top-bottom"
+                disabled={creatingNew}
+                title="Create new deposit..."
+                onClick={doCreateNewDeposit}>{children}</button>
+    )
 }
 
-const mapStateToProps = (state: AppState) => ({
-    creatingNew: state.deposits.creatingNew.creating,
-})
-
-export default compose(
-    withRouter,
-    connect(mapStateToProps, { createNewDeposit })
-)(NewDepositButton)
+export default withRouter(NewDepositButton)

@@ -15,22 +15,19 @@
  */
 import * as React from "react"
 import { FC, useEffect, useRef } from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 import { cookieAuthenticate } from "./actions/authenticationActions"
-import { AppState } from "./model/AppState"
 import { loginRoute } from "./constants/clientRoutes"
+import { useSelector } from "./lib/redux"
 
-interface CookieAuthProps {
-    isAuthenticated: boolean
-
-    cookieAuthenticate: () => void
-}
-
-const CookieAuth: FC<CookieAuthProps> = ({ isAuthenticated, cookieAuthenticate, children }) => {
+const CookieAuth: FC = ({ children }) => {
     const hasTriedCookieAuthenticate = useRef(false)
+    const isAuthenticated = useSelector(state => state.authenticatedUser.isAuthenticated)
+    const dispatch = useDispatch()
+
     useEffect(() => {
         if (!isAuthenticated) {
-            cookieAuthenticate()
+            dispatch(cookieAuthenticate())
             hasTriedCookieAuthenticate.current = true
         }
     }, [])
@@ -45,8 +42,4 @@ const CookieAuth: FC<CookieAuthProps> = ({ isAuthenticated, cookieAuthenticate, 
     else return <p>need to try to authenticate</p>
 }
 
-const mapStateToProps = (state: AppState) => ({
-    isAuthenticated: state.authenticatedUser.isAuthenticated,
-})
-
-export default connect(mapStateToProps, { cookieAuthenticate })(CookieAuth)
+export default CookieAuth
