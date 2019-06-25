@@ -18,10 +18,8 @@ import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptyString } from "../../../lib/metadata/misc"
 import AbrComplexSubjectFieldArray from "./archaeologySpecificMetadata/AbrComplexSubjectFieldArray"
-import { DropdownList } from "../../../model/DropdownLists"
-import { AppState } from "../../../model/AppState"
-import { connect } from "react-redux"
 import AbrPeriodeTemporalsFieldArray from "./archaeologySpecificMetadata/AbrPeriodeTemporalsFieldArray"
+import { useSelector } from "../../../lib/redux"
 
 export interface ArchaeologySpecificMetadataFormData {
     archisNrs?: string[]
@@ -29,12 +27,7 @@ export interface ArchaeologySpecificMetadataFormData {
     temporalCoveragesAbr?: string[]
 }
 
-interface ArchaeologySpecificMetadataFormProps {
-    abrComplexSubjects: DropdownList
-    abrPeriodeTemporals: DropdownList
-}
-
-const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTemporals }: ArchaeologySpecificMetadataFormProps) => (
+const ArchaeologySpecificMetadataForm = () => (
     <>
         <RepeatableField name="archisNrs"
                          label="Archis zaakidentificatie"
@@ -48,7 +41,7 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
                                      helpText
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ subjects: abrComplexSubjects }}
+                                     dropdowns={{ subjects: useSelector(state => state.dropDowns.abrComplexSubjects) }}
                                      component={AbrComplexSubjectFieldArray}/>
 
         <RepeatableFieldWithDropdown name="temporalCoveragesAbr"
@@ -56,14 +49,9 @@ const ArchaeologySpecificMetadataForm = ({ abrComplexSubjects, abrPeriodeTempora
                                      helpText
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ periods: abrPeriodeTemporals }}
+                                     dropdowns={{ periods: useSelector(state => state.dropDowns.abrPeriodeTemporals) }}
                                      component={AbrPeriodeTemporalsFieldArray}/>
     </>
 )
 
-const mapStateToProps = (state: AppState) => ({
-    abrComplexSubjects: state.dropDowns.abrComplexSubjects,
-    abrPeriodeTemporals: state.dropDowns.abrPeriodeTemporals,
-})
-
-export default connect(mapStateToProps)(ArchaeologySpecificMetadataForm)
+export default ArchaeologySpecificMetadataForm

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { SelectHTMLAttributes, useEffect, useState } from "react"
 import { DropdownList, DropdownListEntry } from "../../../../model/DropdownLists"
 import LoadDropdownData from "../../../../lib/formComponents/LoadDropdownData"
-import { Component, SelectHTMLAttributes, useEffect, useState } from "react"
 import asField from "../../../../lib/formComponents/FieldHOC"
 import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"

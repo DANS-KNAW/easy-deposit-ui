@@ -16,6 +16,7 @@
 import { Action, AnyAction } from "redux"
 import { ThunkAction as LibThunkAction } from "redux-thunk"
 import { AppState } from "../model/AppState"
+import { useSelector as LibUseSelector } from "react-redux"
 
 export interface ReduxAction<T> extends Action {
     payload: T
@@ -36,3 +37,7 @@ export type ThunkAction<A extends Action, S = AppState> = LibThunkAction<A, S, {
 export type PromiseThunkAction<ExtraArgs = any> = LibThunkAction<Promise<void>, AppState, ExtraArgs, AnyAction>
 
 export type ComplexThunkAction<ExtraArgs = any> = LibThunkAction<void, AppState, ExtraArgs, AnyAction>
+
+export function useSelector<TSelected>(selector: (state: AppState) => TSelected, equalityFn?: (left: TSelected, right: TSelected) => boolean): TSelected {
+    return LibUseSelector(selector, equalityFn)
+}

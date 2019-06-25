@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, useEffect } from "react"
+import { useEffect } from "react"
 import DepositForm from "./DepositForm"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 import { unregisterForm } from "../../actions/depositFormActions"
-import { Action } from "redux"
 import { cleanFiles } from "../../actions/fileOverviewActions"
 
-interface DepositFormPageProps {
-    unregisterForm: () => Action
-    cleanFiles: () => Action
-}
-
-const DepositFormPage = ({unregisterForm, cleanFiles}: DepositFormPageProps) => {
+const DepositFormPage = () => {
+    const dispatch = useDispatch()
     useEffect(() => {
         return function cleanup() {
-            unregisterForm()
-            cleanFiles()
+            dispatch(unregisterForm())
+            dispatch(cleanFiles())
         }
     })
 
@@ -51,4 +46,4 @@ const DepositFormPage = ({unregisterForm, cleanFiles}: DepositFormPageProps) => 
     )
 }
 
-export default connect(null, { unregisterForm, cleanFiles })(DepositFormPage)
+export default DepositFormPage

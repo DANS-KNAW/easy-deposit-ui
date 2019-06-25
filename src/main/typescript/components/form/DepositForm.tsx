@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, FC } from "react"
-import * as H from "history"
+import { FC, useEffect } from "react"
 import { compose } from "redux"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import { Prompt, RouteComponentProps, withRouter } from "react-router-dom"
 import Card from "./FoldableCard"
@@ -27,10 +26,9 @@ import "../../../resources/css/helptext.css"
 import "react-datepicker/dist/react-datepicker.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId } from "../../model/Deposits"
-import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../../lib/redux"
+import { useSelector } from "../../lib/redux"
 import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
-import { DepositFormState } from "../../model/DepositForm"
 import { Alert } from "../Errors"
 import DepositLicenseForm from "./parts/DepositLicenseForm"
 import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
@@ -43,7 +41,6 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
-import { Files, LoadingState as FileOverviewLoadingState } from "../../model/FileInfo"
 import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
@@ -65,45 +62,34 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     )
 }
 
-interface DepositFormStoreArguments {
-    formState: DepositFormState
-    fileState: FileOverviewLoadingState
-    fileUploadInProgress: boolean
-    formValues?: DepositFormMetadata
-
-    fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction
-    fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>>
-    saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
-    submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History) => ThunkAction<PromiseAction<void> | ReduxAction<string>>
-    setUndirty: (data: any) => void
-}
-
 interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
 }
 
 type DepositFormProps =
-    & DepositFormStoreArguments
-    & InjectedFormProps<DepositFormMetadata, DepositFormStoreArguments>
+    & InjectedFormProps<DepositFormMetadata>
     & RouteComponentProps<RouterParams>
 
-class DepositForm extends Component<DepositFormProps> {
-    fetchMetadata = () => this.props.fetchAllDropdownsAndMetadata(this.props.match.params.depositId)
+const leaveMessage = "You did not save your work before leaving this page.\nAre you sure you want to go without saving?"
 
-    fetchFiles = () => this.props.fetchFiles(this.props.match.params.depositId)
+const DepositForm = (props: DepositFormProps) => {
+    const { depositId } = props.match.params
 
-    save = () => {
-        const { formValues, saveDraft } = this.props
+    const formState = useSelector(state => state.depositForm)
+    const fileState = useSelector(state => state.files.loading)
+    const fileUploadInProgress = useSelector(isFileUploading)
+    const formValues = useSelector(state => state.form.depositForm && state.form.depositForm.values)
+    const dispatch = useDispatch()
+
+    const doFetchMetadata = () => dispatch(fetchAllDropdownsAndMetadata(depositId))
+    const doFetchFiles = () => dispatch(fetchFiles(depositId))
+    const doSave = () => {
         // TODO remove this log once the form is fully implemented.
-        console.log(`saving draft for ${this.props.match.params.depositId}`, formValues)
+        console.log(`saving draft for ${depositId}`, formValues)
 
-        formValues && saveDraft(this.props.match.params.depositId, formValues)
+        formValues && dispatch(saveDraft(depositId, formValues))
     }
-
-    submit = (data: DepositFormMetadata) => {
-        this.props.submitDeposit(this.props.match.params.depositId, data, this.props.history)
-    }
-
+    const doSubmit: (data: DepositFormMetadata) => void = data => dispatch(submitDeposit(depositId, data, props.history))
     /*
      * TODO this is not entirely correct, but I don't know how to fix this;
      *   the following sequence should show a bug in this logic:
@@ -115,158 +101,139 @@ class DepositForm extends Component<DepositFormProps> {
      *   6. while the form was saved and nothing was editted afterwards,
      *      it still shows a warning saying the user did not save all changes
      */
-    shouldBlockNavigation = () => this.props.dirty && this.props.anyTouched && !this.props.submitSucceeded
+    const shouldBlockNavigation = () => props.dirty && props.anyTouched && !props.submitSucceeded
 
-    static leaveMessage = "You did not save your work before leaving this page.\n" +
-        "Are you sure you want to go without saving?"
+    useEffect(() => {
+        doFetchMetadata()
+        doFetchFiles()
 
-    componentDidMount() {
-        this.fetchMetadata()
-        this.fetchFiles()
-    }
+        return function cleanup() {
+            window.onbeforeunload = null
+        }
+    }, [])
 
-    componentDidUpdate() {
+    useEffect(() => {
         // https://stackoverflow.com/questions/32841757/detecting-user-leaving-page-with-react-router
-        if (!inDevelopmentMode && this.shouldBlockNavigation())
+        if (!inDevelopmentMode && shouldBlockNavigation())
             window.onbeforeunload = () => true
         else
             window.onbeforeunload = null
-    }
+    })
 
-    componentWillUnmount() {
-        window.onbeforeunload = null
-    }
+    const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = formState.fetchMetadata
+    const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = fileState
+    const { saving, saved, saveError } = formState.saveDraft
+    const { submitting, submitError } = formState.submit
 
-    render() {
-        const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = this.props.formState.fetchMetadata
-        const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = this.props.fileState
-        const { saving, saved, saveError } = this.props.formState.saveDraft
-        const { submitting, submitError } = this.props.formState.submit
-        const fileUploadInProgress = this.props.fileUploadInProgress
+    const buttonDisabled = fetchedMetadataError != undefined || fetchingMetadata || saving || submitting || fileUploadInProgress
 
-        const buttonDisabled = fetchedMetadataError != undefined || fetchingMetadata || saving || submitting || fileUploadInProgress
+    return (
+        <>
+            <Prompt when={shouldBlockNavigation()}
+                    message={leaveMessage}/>
 
-        return (
-            <>
-                <Prompt when={this.shouldBlockNavigation()}
-                        message={DepositForm.leaveMessage}/>
+            {/*@formatter:off*/}
+            {fetchedFilesError && <Alert>An error occurred: {fetchedFilesError}. Cannot load files from the server.</Alert>}
+            {fetchedMetadataError && <Alert>An error occurred: {fetchedMetadataError}. Cannot load metadata from the server.</Alert>}
+            {/*@formatter:on*/}
+
+            {/*
+              * EASY-2086: the solution to disable native browser validation is to add 'noValidate' to the <form/> element
+              * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate
+              */}
+            <form noValidate>
+                <Card title="Upload your data" defaultOpened>
+                    <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
+                        <FileUpload depositId={depositId}/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Basic information" required defaultOpened>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <BasicInformationForm depositId={depositId}/>
+                    </Loaded>
+                </Card>
+
+                <Card title="License and access" required defaultOpened>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <LicenseAndAccessForm/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Upload type">
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <UploadTypeForm/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Archaeology specific metadata">
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <ArchaeologySpecificMetadataForm/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Temporal and spatial coverage">
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <TemporalAndSpatialCoverageForm/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Message for the data manager">
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <MessageForDataManagerForm/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Privacy sensitive data" required defaultOpened>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <PrivacySensitiveDataForm/>
+                    </Loaded>
+                </Card>
+
+                <Card title="Deposit agreement" required defaultOpened>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <DepositLicenseForm/>
+                    </Loaded>
+                </Card>
 
                 {/*@formatter:off*/}
-                {fetchedFilesError && <Alert>An error occurred: {fetchedFilesError}. Cannot load files from the server.</Alert>}
-                {fetchedMetadataError && <Alert>An error occurred: {fetchedMetadataError}. Cannot load metadata from the server.</Alert>}
+                {saveError && <Alert>An error occurred: {saveError}. Cannot save the draft of this deposit.</Alert>}
+                {submitError && <Alert>An error occurred: {submitError}. Cannot submit this deposit.</Alert>}
+                {props.submitFailed && props.invalid &&
+                <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>}
                 {/*@formatter:on*/}
 
-                {/*
-                  * EASY-2086: the solution to disable native browser validation is to add 'noValidate' to the <form/> element
-                  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate
-                  */}
-                <form noValidate>
-                    <Card title="Upload your data" defaultOpened>
-                        <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
-                            <FileUpload depositId={this.props.match.params.depositId}/>
-                        </Loaded>
-                    </Card>
+                <div className="buttons">
+                    <button type="button"
+                            className="btn btn-dark margin-top-bottom"
+                            onClick={doSave}
+                            disabled={buttonDisabled}>
+                        Save draft
+                    </button>
+                    <button type="button"
+                            className="btn btn-dark margin-top-bottom"
+                            onClick={props.handleSubmit(doSubmit)}
+                            disabled={buttonDisabled}>
+                        Submit deposit
+                    </button>
+                </div>
 
-                    <Card title="Basic information" required defaultOpened>
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <BasicInformationForm depositId={this.props.match.params.depositId}/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="License and access" required defaultOpened>
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <LicenseAndAccessForm/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Upload type">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <UploadTypeForm/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Archaeology specific metadata">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <ArchaeologySpecificMetadataForm/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Temporal and spatial coverage">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <TemporalAndSpatialCoverageForm/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Message for the data manager">
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <MessageForDataManagerForm/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Privacy sensitive data" required defaultOpened>
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <PrivacySensitiveDataForm/>
-                        </Loaded>
-                    </Card>
-
-                    <Card title="Deposit agreement" required defaultOpened>
-                        <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                            <DepositLicenseForm/>
-                        </Loaded>
-                    </Card>
-
-                    {/*@formatter:off*/}
-                    {saveError && <Alert>An error occurred: {saveError}. Cannot save the draft of this deposit.</Alert>}
-                    {submitError && <Alert>An error occurred: {submitError}. Cannot submit this deposit.</Alert>}
-                    {this.props.submitFailed && this.props.invalid &&
-                    <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>}
-                    {/*@formatter:on*/}
-
-                    <div className="buttons">
-                        <button type="button"
-                                className="btn btn-dark margin-top-bottom"
-                                onClick={this.save}
-                                disabled={buttonDisabled}>
-                            Save draft
-                        </button>
-                        <button type="button"
-                                className="btn btn-dark margin-top-bottom"
-                                onClick={this.props.handleSubmit(this.submit)}
-                                disabled={buttonDisabled}>
-                            Submit deposit
-                        </button>
-                    </div>
-
-                    <div>
-                        {fileUploadInProgress && <p><i>Please wait until the file is uploaded</i></p>}
-                        {saving && <p><i>Saving draft...</i></p>}
-                        {saved && <p><i>Saved draft</i></p>}
-                    </div>
-                </form>
-            </>
-        )
-    }
+                <div>
+                    {fileUploadInProgress && <p><i>Please wait until the file is uploaded</i></p>}
+                    {saving && <p><i>Saving draft...</i></p>}
+                    {saved && <p><i>Saved draft</i></p>}
+                </div>
+            </form>
+        </>
+    )
 }
-
-const mapStateToProps = (state: AppState) => ({
-    formState: state.depositForm,
-    fileState: state.files.loading,
-    fileUploadInProgress: isFileUploading(state),
-    initialValues: state.depositForm.initialState.metadata,
-    formValues: state.form.depositForm && state.form.depositForm.values,
-    dropDowns: state.dropDowns, // used in validation
-})
 
 const composedHOC = compose(
     withRouter,
-    connect(
-        mapStateToProps,
-        {
-            fetchAllDropdownsAndMetadata,
-            fetchFiles,
-            saveDraft,
-            submitDeposit,
-        }),
+    connect((state: AppState) => ({
+        initialValues: state.depositForm.initialState.metadata, // initial values for deposit form
+        dropDowns: state.dropDowns, // used in form validation
+    })),
     reduxForm({
         form: depositFormName,
         enableReinitialize: true,

@@ -14,73 +14,50 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component } from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { FileOverviewState, Files } from "../../../../../model/FileInfo"
-import { connect } from "react-redux"
-import { AppState } from "../../../../../model/AppState"
+import { useDispatch } from "react-redux"
 import { DepositId } from "../../../../../model/Deposits"
-import { FetchAction, PromiseAction } from "../../../../../lib/redux"
-import {
-    askConfirmationToDeleteFile,
-    cancelDeleteFile,
-    deleteFile,
-    fetchFiles,
-} from "../../../../../actions/fileOverviewActions"
-import { Action } from "redux"
-import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
+import { useSelector } from "../../../../../lib/redux"
+import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/fileOverviewActions"
 import EmptyFileTableRow from "./EmptyFileTableRow"
 import { CloseableWarning } from "../../../../Errors"
 import Paginationable from "../../../../Paginationable"
 
-interface FilesOverviewInputProps {
+interface FilesOverviewProps {
     depositId: DepositId
 }
 
-interface FilesOverviewProps {
-    files: FileOverviewState
-    fileUploadUrl: (filePath: string) => string
+const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
+    const files = useSelector(state => state.files)
+    const dispatch = useDispatch()
 
-    fetchFiles: (depositId: DepositId) => FetchAction<Files>
-    deleteFile: (depositId: DepositId, filePath: string) => PromiseAction<void>
-    askConfirmationToDeleteFile: (filePath: string) => Action
-    cancelDeleteFile: (filePath: string) => Action
-}
-
-class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputProps> {
-    render() {
-        const { files: { loading: { loading, loaded } } } = this.props
-
-        return (
-            <>
-                {loading && <p>loading files ...</p>}
-                {this.renderDeleteError()}
-                {loaded && this.renderTableView()}
-            </>
-        )
+    function doDeleteFile(depositId: DepositId, filepath: string) {
+        return function (e: React.MouseEvent<HTMLButtonElement>) {
+            e.stopPropagation()
+            dispatch(deleteFile(depositId, filepath))
+        }
     }
 
-    deleteFile = (depositId: DepositId, filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.deleteFile(depositId, filepath)
-    }
-    askConfirmation = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.askConfirmationToDeleteFile(filepath)
-    }
-    cancelDeleteFile = (filepath: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        this.props.cancelDeleteFile(filepath)
+    function doAskConfirmation(filepath: string) {
+        return function (e: React.MouseEvent<HTMLButtonElement>) {
+            e.stopPropagation()
+            dispatch(askConfirmationToDeleteFile(filepath))
+        }
     }
 
-    private renderDeleteError() {
-        const { files: { deleting } } = this.props
+    function doCancelDeleteFile(filepath: string) {
+        return function (e: React.MouseEvent<HTMLButtonElement>) {
+            e.stopPropagation()
+            dispatch(cancelDeleteFile(filepath))
+        }
+    }
 
-        return Object.keys(deleting)
+    function renderDeleteError() {
+        return Object.keys(files.deleting)
             .map(fileId => {
-                const { deleteError } = deleting[fileId]
+                const { deleteError } = files.deleting[fileId]
 
                 if (deleteError) {
                     const errorText = `Cannot delete file '${fileId}'. An error occurred: ${deleteError}.`
@@ -90,9 +67,7 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
             })
     }
 
-    private renderTable = (filePaths: string[], filePathsCount: number) => {
-        const { files: { files, deleting }, depositId } = this.props
-
+    function renderTable(filePaths: string[], filePathsCount: number) {
         return (
             <table className="table table-striped file_table">
                 <FilesTableHead/>
@@ -101,11 +76,11 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
                     : filePaths.map(filepath =>
                         <FilesTableRow
                             key={filepath}
-                            deleting={deleting[filepath]}
-                            deleteFile={this.deleteFile(depositId, filepath)}
-                            fileInfo={files[filepath]}
-                            askConfirmation={this.askConfirmation(filepath)}
-                            cancelDeleteFile={this.cancelDeleteFile(filepath)}
+                            deleting={files.deleting[filepath]}
+                            deleteFile={doDeleteFile(depositId, filepath)}
+                            fileInfo={files.files[filepath]}
+                            askConfirmation={doAskConfirmation(filepath)}
+                            cancelDeleteFile={doCancelDeleteFile(filepath)}
                         />,
                     )
                 }</tbody>
@@ -113,22 +88,22 @@ class FilesOverview extends Component<FilesOverviewProps & FilesOverviewInputPro
         )
     }
 
-    private renderTableView = () => (
-        <Paginationable entryDescription="files"
-                        pagesShown={5}
-                        entries={this.props.files.loading.loaded ? Object.keys(this.props.files.files) : []}
-                        renderEntries={this.renderTable}/>
+    function renderTableView() {
+        return (
+            <Paginationable entryDescription="files"
+                            pagesShown={5}
+                            entries={files.loading.loaded ? Object.keys(files.files) : []}
+                            renderEntries={renderTable}/>
+        )
+    }
+
+    return (
+        <>
+            {files.loading.loading && <p>loading files ...</p>}
+            {renderDeleteError()}
+            {files.loading.loaded && renderTableView()}
+        </>
     )
 }
 
-const mapStateToProps = (state: AppState, ownProps: FilesOverviewInputProps) => ({
-    files: state.files,
-    fileUploadUrl: (filePath: string) => uploadFileUrl(ownProps.depositId, filePath)(state),
-})
-
-export default connect(mapStateToProps, {
-    fetchFiles,
-    deleteFile,
-    askConfirmationToDeleteFile,
-    cancelDeleteFile,
-})(FilesOverview)
+export default FilesOverview

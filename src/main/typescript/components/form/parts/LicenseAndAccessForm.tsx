@@ -17,15 +17,13 @@ import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field, Fields } from "redux-form"
-import { Contributor, emptyContributor, emptyRightsholder } from "../../../lib/metadata/Contributor"
+import { Contributor, emptyRightsholder } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
-import { AppState } from "../../../model/AppState"
-import { connect } from "react-redux"
-import { DropdownList } from "../../../model/DropdownLists"
 import RightsholderFields from "./licenseAndAccess/RightsholderFields"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import AccessRightsAndLicenseFields from "./licenseAndAccess/AccessRightsAndLicenseFields"
+import { useSelector } from "../../../lib/redux"
 
 export interface LicenseAndAccessFormData {
     rightsHolders?: Contributor[]
@@ -35,12 +33,7 @@ export interface LicenseAndAccessFormData {
     dateAvailable?: Date
 }
 
-interface LicenseAndAccessFormProps {
-    contributorIds: DropdownList
-    licenses: DropdownList
-}
-
-const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessFormProps) => (
+const LicenseAndAccessForm = () => (
     <>
         <RepeatableFieldWithDropdown name="rightsHolders"
                                      label="Rightsholders"
@@ -56,7 +49,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                                          (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
                                          (name: string) => `${name}.organization`, // 6
                                      ]}
-                                     dropdowns={{ ids: contributorIds }}
+                                     dropdowns={{ ids: useSelector(state => state.dropDowns.contributorIds) }}
                                      component={RightsholderFields}/>
 
         <RepeatableField name="publishers"
@@ -67,7 +60,7 @@ const LicenseAndAccessForm = ({ licenses, contributorIds }: LicenseAndAccessForm
                          component={TextFieldArray}/>
 
         <Fields names={["accessRights", "license"]}
-                dropDown={{ licenses: licenses }}
+                dropDown={{ licenses: useSelector(state => state.dropDowns.licenses) }}
                 component={AccessRightsAndLicenseFields}/>
 
         <Field name="dateAvailable"
@@ -85,9 +78,4 @@ const twoYearsFromNow = () => {
     return new Date(now.getFullYear() + 2, now.getMonth(), now.getDate())
 }
 
-const mapStateToProps = (state: AppState) => ({
-    contributorIds: state.dropDowns.contributorIds,
-    licenses: state.dropDowns.licenses,
-})
-
-export default connect(mapStateToProps)(LicenseAndAccessForm)
+export default LicenseAndAccessForm
