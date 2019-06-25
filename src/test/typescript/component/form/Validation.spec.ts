@@ -353,7 +353,7 @@ describe("Validation", () => {
 
         it("should return an error object with all of 'initials', 'surname' and 'organization' when only an insertion is given", () => {
             expect(validateContributors(contributorIdSettings, [{ insertions: "van" }])).to.eql([{
-                organization: "No organization given",
+                organization: "No organisation given",
                 initials: "No initials given",
                 surname: "No surname given",
             }])
