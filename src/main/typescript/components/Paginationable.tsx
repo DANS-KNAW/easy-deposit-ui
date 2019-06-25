@@ -51,7 +51,11 @@ function Paginationable<T>({ helpText, entryDescription, pagesShown, entries, re
                 ? [maxPage - pagesShown, maxPage]
                 : [currentPage - halfPS, currentPage + halfPS + 1]
 
-        return range(start, end, 1)
+        return [
+            ...(start == 1 ? [0] : start > 0 ? [0, Number.MIN_VALUE] : []),
+            ...range(start, end, 1),
+            ...(end == maxPage - 1 ? [maxPage - 1] : end < maxPage ? [Number.MAX_VALUE, maxPage - 1] : []),
+        ]
     }
     const onSelectEntriesPerPage: (e: ChangeEvent<HTMLSelectElement>) => void = event => {
         const newEntriesPerPage = Number(event.target.value)
@@ -76,15 +80,23 @@ function Paginationable<T>({ helpText, entryDescription, pagesShown, entries, re
                 </li>
                 {
                     showPages().map(index => {
-                        const isCurrentPage = currentPage === index
-                        return (
-                            <li className={`page-item ${isCurrentPage && "active"}`.trim()}
-                                key={`pagination_page_${index + 1}`}>
-                                <div className="page-link" onClick={() => gotoPage(index)}>
-                                    {index + 1}
-                                </div>
-                            </li>
-                        )
+                        if (index === Number.MIN_VALUE || index === Number.MAX_VALUE)
+                            return (
+                                <li className="page-item disabled" key={`pagination_dots_${index}`}>
+                                    <div className="page-link">
+                                        <span>&hellip;</span>
+                                    </div>
+                                </li>
+                            )
+                        else
+                            return (
+                                <li className={`page-item ${currentPage === index && "active"}`.trim()}
+                                    key={`pagination_page_${index + 1}`}>
+                                    <div className="page-link" onClick={() => gotoPage(index)}>
+                                        {index + 1}
+                                    </div>
+                                </li>
+                            )
                     })
                 }
                 <li className={`page-item ${!hasNextPage && "disabled"}`.trim()}>
