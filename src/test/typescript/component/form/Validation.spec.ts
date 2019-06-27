@@ -265,21 +265,21 @@ describe("Validation", () => {
             value: "DAI",
             displayValue: "DAI",
             format: "^(info:eu-repo/dai/nl/)?[0-9]{8,9}[0-9xX]$",
-            placeholder: "DAI (info:eu-repo/dai/nl/358163587)",
+            placeholder: "(info:eu-repo/dai/nl/358163587)",
         },
         {
             key: "id-type:ORCID",
             value: "ORCID",
             displayValue: "ORCID",
             format: "^(https://orcid.org/)?([0-9]{4}-){3}[0-9]{3}[0-9xX]?$",
-            placeholder: "ORCID (0000-0002-1825-0097)"
+            placeholder: "(0000-0002-1825-0097)"
         },
         {
             key: "id-type:ISNI",
             value: "ISNI",
             displayValue: "ISNI",
             format: "(^(http://isni.org/isni/|ISNI:)[0-9]{15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)",
-            placeholder: "ISNI (ISNI:000000012281955X)"
+            placeholder: "(ISNI:000000012281955X)"
         },
     ]
 
@@ -370,7 +370,7 @@ describe("Validation", () => {
                         scheme: "No scheme given",
                     },
                     {
-                        value: "Invalid ORCID identifier",
+                        value: "Invalid ORCID identifier (0000-0002-1825-0097)",
                     },
                 ],
             }])
