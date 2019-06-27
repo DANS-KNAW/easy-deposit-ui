@@ -17,6 +17,7 @@ import { FieldArray, GenericFieldArray, WrappedFieldArrayProps, WrappedFieldProp
 
 export interface CustomFieldProps {
     label?: string
+    showNoLabel?: boolean
     mandatory?: boolean
     helpText?: boolean | string
 }

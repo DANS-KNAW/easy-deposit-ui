@@ -13,6 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+.help-text {
+    background: var(--help-box-background);
+    box-shadow: 1px 1px 5px grey;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0.25rem;
+    border-color: black;
+    padding: 5px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
 .help-text h1 {
     font-size: 25px;
 }
@@ -23,4 +35,18 @@
 
 .help-text p {
     font-weight: normal;
+}
+
+.help-text a {
+    color: var(--primary);
+}
+
+.help-text table thead tr th,
+.help-text table tbody tr td {
+    padding-right: 10px;
+}
+
+.help-text p:last-child,
+.help-text ul:last-child {
+    margin: unset;
 }

@@ -72,7 +72,7 @@ class AccessRightsAndLicenseFields extends React.Component<AccessRightsAndLicens
                                    {...accessRights}/>
 
                 <LicenseField name={licenseName}
-                              label="License"
+                              label="Licence"
                               mandatory
                               helpText
                               withEmptyDefault

@@ -50,8 +50,8 @@ const clarinChoices: RadioChoice[] = [
 const UploadTypeForm = () => (
     <>
         <RepeatableFieldWithDropdown name="typesDCMI"
-                                     label="Type (DCMI resource type)"
-                                     helpText
+                                     label="Content type"
+                                     helpText="types"
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ types: useSelector(state => state.dropDowns.dcmiTypes) }}
@@ -59,22 +59,22 @@ const UploadTypeForm = () => (
 
         <RepeatableField name="types"
                          label="Types"
-                         helpText
+                         showNoLabel
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
         <RepeatableFieldWithDropdown name="formatsMediaType"
-                                     label=" Format (internet media type)"
-                                     helpText
+                                     label="Format (media type)"
+                                     helpText="formats"
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
                                      dropdowns={{ formats: useSelector(state => state.dropDowns.imtFormats) }}
                                      component={ImtFormatsFieldArray}/>
 
         <RepeatableField name="formats"
-                         label="Formats"
-                         helpText
+                         label="Format"
+                         showNoLabel
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>

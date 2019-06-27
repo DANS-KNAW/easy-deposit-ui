@@ -19,6 +19,8 @@ import { RadioChoicesInput, RadioProps } from "../../../lib/formComponents/Radio
 import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
 import Mandatory from "../../../lib/formComponents/Mandatory"
 import { FieldProps } from "../../../lib/formComponents/ReduxFormUtils"
+import HelpText from "../../../lib/formComponents/HelpText"
+import HelpButton from "../../../lib/formComponents/HelpButton"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
@@ -41,10 +43,11 @@ const PrivacySensitiveRadioChoices = (props: FieldProps & RadioProps) => {
 
 const PrivacySensitiveDataForm = () => (
     <>
+        <HelpText textFor="privacySensitiveDataPresent"/>
         <div className="row form-group input-element">
             <Mandatory style={{ paddingLeft: "unset", paddingRight: "5px" }}/>
-            {/* TODO provide a proper text */}
-            Hier een tekst met uitleg over de privacy sensitive data en waarom men hier verplicht een keuze moet maken.
+            <HelpButton textFor="privacySensitiveDataPresent"/>
+            <span style={{ paddingLeft: "10px" }}>Does your data or metadata contain personal data? Yes/No</span>
         </div>
 
         <Field name="privacySensitiveDataPresent"

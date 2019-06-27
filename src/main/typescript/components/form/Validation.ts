@@ -134,7 +134,7 @@ export const validateContributors: (contributorIdSettings: ContributorIdDropdown
         if (nonEmptyContributor) {
             if (!nonEmptyOrganization && (!nonEmptyInitials || !nonEmptySurname)) {
                 if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
-                    contribError.organization = "No organization given"
+                    contribError.organization = "No organisation given"
                 if (!nonEmptyInitials)
                     contribError.initials = "No initials given"
                 if (!nonEmptySurname)
@@ -166,7 +166,7 @@ const validateContributorIds: (contributorIdSettings: ContributorIdDropdownListE
             const entry = contributorIdSettings.find(({ key }) => key === id.scheme)
 
             if (entry && !id.value.match(entry.format))
-                idError.value = `Invalid ${entry.displayValue} identifier`
+                idError.value = `Invalid ${entry.displayValue} identifier ${entry.placeholder}`
         }
 
         return idError
