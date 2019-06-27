@@ -28,8 +28,8 @@ describe("SpatialPoint", () => {
         },
         {
             key: "http://www.opengis.net/def/crs/EPSG/0/4326",
-            value: "lengte/breedte (graden)",
-            displayValue: "lengte/breedte (graden)",
+            value: "latitude/longitude (degrees)",
+            displayValue: "latitude/longitude (degrees)",
         },
     ]
 

@@ -71,8 +71,8 @@ const TemporalAndSpatialCoverageForm = () => {
                                          component={SpatialBoxFieldArray}/>
 
             <RepeatableFieldWithDropdown name="spatialCoverageIso3166"
-                                         label="Spatial coverage (ISO 3166)"
-                                         helpText
+                                         label="Spatial coverage"
+                                         helpText="spatialCoverages"
                                          empty={() => emptySchemedValue}
                                          fieldNames={[
                                              (name: string) => name,
@@ -86,7 +86,7 @@ const TemporalAndSpatialCoverageForm = () => {
 
             <RepeatableField name="spatialCoverages"
                              label="Spatial coverage"
-                             helpText
+                             showNoLabel
                              empty={() => emptyString}
                              fieldNames={[(name: string) => name]}
                              component={TextFieldArray}/>

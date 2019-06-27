@@ -58,6 +58,7 @@
     --form-text: #444;
     --form-field-border: #ddd;
     --mandatory-star: var(--danger-hover);
+    --help-box-background: var(--dans-light-gray);
     --help-button: var(--dans-blue);
     --help-button-hover: var(--dans-red);
     --help-button-toggled: var(--primary-hover);

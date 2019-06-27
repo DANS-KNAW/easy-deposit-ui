@@ -92,6 +92,7 @@ const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
         return (
             <Paginationable entryDescription="files"
                             pagesShown={5}
+                            helpText="uploadFiles"
                             entries={files.loading.loaded ? Object.keys(files.files) : []}
                             renderEntries={renderTable}/>
         )

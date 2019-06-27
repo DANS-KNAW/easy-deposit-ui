@@ -91,9 +91,9 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
 
         <div className="form-row">
             <div className="col form-group col-md-6 mb-1">
-                <label>Organization</label>
+                <label>Organisation</label>
                 <Field name={names[6]}
-                       placeholder="organization"
+                       placeholder="organisation"
                        component={ErrorHandlingTextField}/>
             </div>
             {/* TODO these fields need to be added later. they do not yet occur in the UI model, nor in the API */}
@@ -115,7 +115,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
 
         <div className="form-row">
             <div className="col form-group col-md-3 mb-1">
-                <label>Titles</label>
+                <label>(academic) title(s)</label>
                 <Field name={names[0]}
                        placeholder="(acadamic) title(s)"
                        component={TextField}/>
@@ -123,19 +123,19 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             <div className="col form-group col-md-3 mb-1">
                 <label>Initials<Mandatory/></label>
                 <Field name={names[1]}
-                       placeholder="initials"
+                       placeholder="R.J."
                        component={ErrorHandlingTextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Prefix</label>
                 <Field name={names[2]}
-                       placeholder="prefix"
+                       placeholder="van den"
                        component={TextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Surname<Mandatory/></label>
                 <Field name={names[3]}
-                       placeholder="surname"
+                       placeholder="Berg"
                        component={ErrorHandlingTextField}/>
             </div>
         </div>
