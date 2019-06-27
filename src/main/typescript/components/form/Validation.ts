@@ -166,7 +166,7 @@ const validateContributorIds: (contributorIdSettings: ContributorIdDropdownListE
             const entry = contributorIdSettings.find(({ key }) => key === id.scheme)
 
             if (entry && !id.value.match(entry.format))
-                idError.value = `Invalid ${entry.displayValue} identifier`
+                idError.value = `Invalid ${entry.displayValue} identifier ${entry.placeholder}`
         }
 
         return idError

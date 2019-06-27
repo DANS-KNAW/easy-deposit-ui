@@ -166,7 +166,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={AlternativeIdentifierFieldArray}/>
 
             <RepeatableFieldWithDropdown name="relatedIdentifiers"
-                                         label="Relations"
+                                         label="Related identifier"
                                          helpText
                                          empty={() => emptyQualifiedSchemedValue(relations.list)}
                                          fieldNames={[
