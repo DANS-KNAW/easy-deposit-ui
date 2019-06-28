@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { loginRoute } from "./constants/clientRoutes"
 import { useSelector } from "./lib/redux"
+import { useDispatch } from "react-redux"
+import { cookieAuthenticate } from "./actions/authenticationActions"
 
 const CookieAuth: FC = ({ children }) => {
     const { isAuthenticating, isAuthenticated } = useSelector(state => state.authenticatedUser)
+    const dispatch = useDispatch()
     console.log("isAuthenticating ",isAuthenticating)
     console.log("isAuthenticated ",isAuthenticated)
+
+    useEffect(() => {
+        if (!isAuthenticating && !isAuthenticated)
+            dispatch(cookieAuthenticate())
+    }, [])
+
     if (isAuthenticating)
         return <p>need to try to authenticate</p>
     else if (isAuthenticated)
