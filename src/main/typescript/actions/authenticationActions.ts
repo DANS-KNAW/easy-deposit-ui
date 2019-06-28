@@ -61,12 +61,15 @@ export const cookieAuthenticate: () => ComplexThunkAction = () => async dispatch
      *       local storage --> remove 'logged-in'
      *       dispatch AUTH_LOGIN_REJECTED
      */
+    console.log("authenticate pending")
     dispatch(authenticatePending)
 
     try {
+        console.log("fetchUserOnLogin")
         dispatch(fetchUserOnLogin())
     }
     catch (loginResponse) {
+        console.log("login failed ", loginResponse)
         LocalStorage.setLogout()
 
         dispatch(cookieAuthenticateRejected)
@@ -89,6 +92,7 @@ const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getSta
 
     try {
         const userResponse = await fetch.get(userUrl(getState()))
+        console.log("userResponse ", userResponse)
 
         dispatch(userFulfilled(userResponse.data))
         dispatch(authenticateFulfilled)
@@ -96,6 +100,7 @@ const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getSta
         LocalStorage.setLogin()
     }
     catch (userResponse) {
+        console.log("user fetch failed ", userResponse)
         LocalStorage.setLogout()
         dispatch(authenticateRejected(""))
     }

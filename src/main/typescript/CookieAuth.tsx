@@ -20,7 +20,8 @@ import { useSelector } from "./lib/redux"
 
 const CookieAuth: FC = ({ children }) => {
     const { isAuthenticating, isAuthenticated } = useSelector(state => state.authenticatedUser)
-
+    console.log("isAuthenticating ",isAuthenticating)
+    console.log("isAuthenticated ",isAuthenticated)
     if (isAuthenticating)
         return <p>need to try to authenticate</p>
     else if (isAuthenticated)
