@@ -14,32 +14,21 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FC, useEffect, useRef } from "react"
-import { useDispatch } from "react-redux"
-import { cookieAuthenticate } from "./actions/authenticationActions"
+import { FC } from "react"
 import { loginRoute } from "./constants/clientRoutes"
 import { useSelector } from "./lib/redux"
 
 const CookieAuth: FC = ({ children }) => {
-    const hasTriedCookieAuthenticate = useRef(false)
-    const isAuthenticated = useSelector(state => state.authenticatedUser.isAuthenticated)
-    const dispatch = useDispatch()
+    const { isAuthenticating, isAuthenticated } = useSelector(state => state.authenticatedUser)
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            dispatch(cookieAuthenticate())
-            hasTriedCookieAuthenticate.current = true
-        }
-    }, [])
-
-    if (hasTriedCookieAuthenticate) {
-        if (isAuthenticated) return <>{children}</>
-        else {
-            window.location.replace(loginRoute)
-            return null
-        }
+    if (isAuthenticating)
+        return <p>need to try to authenticate</p>
+    else if (isAuthenticated)
+        return <>{children}</>
+    else {
+        window.location.replace(loginRoute)
+        return null
     }
-    else return <p>need to try to authenticate</p>
 }
 
 export default CookieAuth

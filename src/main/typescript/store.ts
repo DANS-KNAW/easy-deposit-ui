@@ -20,6 +20,8 @@ import reducers from "./reducers/index"
 import customMiddleware from "./middleware"
 import { inDevelopmentMode } from "./lib/config"
 import { fetchConfiguration } from "./actions/configurationActions"
+import { cookieAuthenticate } from "./actions/authenticationActions"
+import { empty as emptyAppState } from "./model/AppState"
 
 ///
 // import {Action} from 'redux'
@@ -37,6 +39,7 @@ export const newStore = () => {
     const store = makeStore()
 
     store.dispatch(fetchConfiguration())
+    cookieAuthenticate()(store.dispatch, () => emptyAppState, {})
 
     return store
 }
