@@ -23,28 +23,20 @@ import { cookieAuthenticate } from "./actions/authenticationActions"
 const CookieAuth: FC = ({ children }) => {
     const { isAuthenticating, isAuthenticated, authenticationError } = useSelector(state => state.authenticatedUser)
     const dispatch = useDispatch()
-    console.log("isAuthenticating ",isAuthenticating)
-    console.log("isAuthenticated ",isAuthenticated)
-    console.log("authenticationError ",authenticationError)
 
     useEffect(() => {
         if (!isAuthenticating && !isAuthenticated)
             dispatch(cookieAuthenticate())
     }, [])
 
-    if (isAuthenticated) {
-        console.log("CookieAuth first branch")
+    if (isAuthenticated)
         return <>{children}</>
-    }
     else if (authenticationError) {
-        console.log("CookieAuth second branch")
         window.location.replace(loginRoute)
         return null
     }
-    else {
-        console.log("CookieAuth third branch")
+    else
         return <p>need to try to authenticate</p>
-    }
 }
 
 export default CookieAuth
