@@ -201,7 +201,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={LanguageFieldArray}/>
 
             <RepeatableField name="languagesOfFiles"
-                             label="Language of files"
+                             label="Only if you can’t use the dropdown field above"
                              showNoLabel
                              empty={() => emptyString}
                              fieldNames={[(name: string) => name]}
@@ -219,7 +219,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={IsoDateFieldArray}/>
 
             <RepeatableFieldWithDropdown name="dates"
-                                         label="Date"
+                                         label="Only if you can’t use the dropdown field above"
                                          showNoLabel
                                          empty={() => emptyQualifiedStringDate(dates.list)}
                                          fieldNames={[

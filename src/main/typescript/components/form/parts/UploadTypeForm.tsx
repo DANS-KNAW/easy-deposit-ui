@@ -58,7 +58,7 @@ const UploadTypeForm = () => (
                                      component={DcmiTypesFieldArray}/>
 
         <RepeatableField name="types"
-                         label="Types"
+                         label="Only if you can’t use the dropdown field above"
                          showNoLabel
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
@@ -73,7 +73,7 @@ const UploadTypeForm = () => (
                                      component={ImtFormatsFieldArray}/>
 
         <RepeatableField name="formats"
-                         label="Format"
+                         label="Only if you can’t use the dropdown field above"
                          showNoLabel
                          empty={() => emptyString}
                          fieldNames={[(name: string) => name]}
