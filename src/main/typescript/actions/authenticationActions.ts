@@ -19,7 +19,6 @@ import { userUrl } from "../selectors/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import { userConverter } from "../lib/user/user"
 import fetch from "../lib/fetch"
-import LocalStorage from "../lib/LocalStorage"
 
 const authenticatePending = ({
     type: AuthenticationConstants.AUTH_LOGIN_PENDING,
@@ -32,11 +31,6 @@ const authenticateFulfilled = ({
 const authenticateRejected = (message: string) => ({
     type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
     payload: message, // when network error occurs (no internet?) or user data could not be fetched
-})
-
-const cookieAuthenticateRejected = ({
-    type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
-    payload: undefined,
 })
 
 const userPending = ({
@@ -64,16 +58,8 @@ export const cookieAuthenticate: () => ComplexThunkAction = () => async dispatch
     console.log("authenticate pending")
     dispatch(authenticatePending)
 
-    try {
-        console.log("fetchUserOnLogin")
-        dispatch(fetchUserOnLogin())
-    }
-    catch (loginResponse) {
-        console.log("login failed ", loginResponse)
-        LocalStorage.setLogout()
-
-        dispatch(cookieAuthenticateRejected)
-    }
+    console.log("fetchUserOnLogin")
+    dispatch(fetchUserOnLogin())
 }
 
 const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getState) => {
@@ -96,13 +82,9 @@ const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getSta
 
         dispatch(userFulfilled(userResponse.data))
         dispatch(authenticateFulfilled)
-
-        LocalStorage.setLogin()
-    }
-    catch (userResponse) {
-        console.log("user fetch failed ", userResponse)
-        LocalStorage.setLogout()
-        dispatch(authenticateRejected(""))
+    } catch (error) {
+        console.log("user fetch failed ", error)
+        dispatch(authenticateRejected(error))
     }
 }
 
@@ -126,9 +108,9 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
     try {
         const response = await fetch.get(userUrl(getState()))
         dispatch(userFulfilled(response.data))
-    }
-    catch (response) {
-        LocalStorage.setLogout()
+    } catch (error) {
+        console.log("user fetch failed ", error)
+        dispatch(authenticateRejected(error))
     }
 }
 
