@@ -42,8 +42,8 @@ export const depositData3: Deposit = {
     state: "IN_PROGRESS",
     stateDescription: "Update request for solr4files index service failed: 2 exceptions occurred: \n" +
         "--- START OF EXCEPTION LIST ---\n" +
-        "(0) Server refused connection at: http://localhost:8983/solr/fileitems\n" +
-        "(1) solr update of file 1bebc9ef-bb5b-4fc5-943c-396a4e1ae7af/data/xxx/yyy/zzz.pdf failed with Server refused connection at: http://localhost:8983/solr/fileitems\n" +
+        "(0) Server refused connection at: <a href='http://localhost:8983/solr/fileitems' target='_blank'>http://localhost:8983/solr/fileitems</a>\n" +
+        "(1) solr update of file 1bebc9ef-bb5b-4fc5-943c-396a4e1ae7af/data/xxx/yyy/zzz.pdf failed with Server refused connection at: <a href='http://localhost:8983/solr/fileitems' target='_blank'>http://localhost:8983/solr/fileitems</a>\n" +
         "--- END OF EXCEPTION LIST ---.",
     date: "2017-12-01T11:10:22Z",
 }

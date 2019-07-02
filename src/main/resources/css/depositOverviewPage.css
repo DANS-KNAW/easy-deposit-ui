@@ -92,6 +92,11 @@
     cursor: not-allowed;
 }
 
+.deposit_table tbody tr.not_editable_table_row a {
+    color: var(--table-row-disabled);
+    cursor: pointer;
+}
+
 .deposit_table tbody tr.not_editable_table_row #enter_dataset {
     visibility: hidden;
 }
