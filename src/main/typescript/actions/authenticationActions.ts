@@ -52,7 +52,6 @@ export const cookieAuthenticate: () => ComplexThunkAction = () => async dispatch
      *   - success:
      *       dispatch fetchUserOnLogin
      *   - failure:
-     *       local storage --> remove 'logged-in'
      *       dispatch AUTH_LOGIN_REJECTED
      */
     dispatch(authenticatePending)
@@ -69,7 +68,6 @@ const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getSta
      *       dispatch AUTH_LOGIN_FULFILLED
      *       local storage --> set 'logged-in: true'
      *   - failure:
-     *       local storage --> remove 'logged-in'
      *       dispatch AUTH_LOGIN_REJECTED
      */
     dispatch(userPending)
@@ -96,7 +94,7 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
      *   - success:
      *       dispatch FETCH_USER_FULFILLED
      *   - failure:
-     *       local storage --> remove 'logged-in'
+     *       dispatch authenticateRejected
      */
 
     dispatch(userPending)

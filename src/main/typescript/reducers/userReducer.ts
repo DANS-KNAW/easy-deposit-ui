@@ -21,7 +21,8 @@ import { AuthenticationConstants } from "../constants/authenticationConstants"
 export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
     switch (action.type) {
         case UserConstants.FETCH_USER_SUCCESS: {
-            return { ...state,
+            return {
+                ...state,
                 displayName: action.payload.displayName,
                 firstName: action.payload.firstName,
                 lastName: action.payload.lastName,
