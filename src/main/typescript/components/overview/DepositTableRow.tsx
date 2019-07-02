@@ -31,7 +31,7 @@ interface LinkableProps {
     enabled: boolean
 }
 
-const Linkable: FC<LinkableProps & LinkProps> = ({to, enabled, children}) => {
+const Linkable: FC<LinkableProps & LinkProps> = ({ to, enabled, children }) => {
     return enabled
         ? <Link to={to}>{children}</Link>
         : <>{children}</>
@@ -90,7 +90,7 @@ const DepositTableRow = ({ deposit, deleting, editable, depositLink, deleteDepos
             </td>
             <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4 newline-wrapping">
                 <Linkable enabled={enabled} to={depositLink}>
-                    <span dangerouslySetInnerHTML={{__html: deposit.stateDescription}}/>
+                    <span dangerouslySetInnerHTML={{ __html: deposit.stateDescription }}/>
                 </Linkable>
             </td>
             <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">
