@@ -45,31 +45,17 @@ const userFulfilled = (data: any) => ({
     },
 })
 
-export const cookieAuthenticate: () => ComplexThunkAction = () => async dispatch => {
+export const cookieAuthenticate: () => ComplexThunkAction = () => async (dispatch, getState) => {
     /*
      * dispatch AUTH_LOGIN_PENDING
      * call server with 'auth/login' without credentials
      *   - success:
-     *       dispatch fetchUserOnLogin
+     *       dispatch FETCH_USER_FULFILLED
+     *       dispatch AUTH_LOGIN_FULFILLED
      *   - failure:
      *       dispatch AUTH_LOGIN_REJECTED
      */
     dispatch(authenticatePending)
-
-    dispatch(fetchUserOnLogin())
-}
-
-const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getState) => {
-    /*
-     * dispatch FETCH_USER_PENDING
-     * call server with 'user'
-     *   - success:
-     *       dispatch FETCH_USER_FULFILLED
-     *       dispatch AUTH_LOGIN_FULFILLED
-     *       local storage --> set 'logged-in: true'
-     *   - failure:
-     *       dispatch AUTH_LOGIN_REJECTED
-     */
     dispatch(userPending)
 
     try {
@@ -103,7 +89,6 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
         const response = await fetch.get(userUrl(getState()))
         dispatch(userFulfilled(response.data))
     } catch (error) {
-        console.log("user fetch failed ", error)
         dispatch(authenticateRejected(error))
     }
 }

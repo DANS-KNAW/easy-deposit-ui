@@ -88,17 +88,13 @@ const Header = () => {
             dispatch(getUser())
     })
 
-    const logoutNavBar = [
-        <span key="loginName" className="navbar-text">{loginName}</span>,
-        <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-        <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>,
-    ]
-
     return (
         <header className="container-fluid">
             <NavBar>
                 <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                {...logoutNavBar}
+                <span key="loginName" className="navbar-text">{loginName}</span>
+                <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>
+                <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>
             </NavBar>
 
             <LogosHeaders>
