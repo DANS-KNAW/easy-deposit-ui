@@ -4,18 +4,6 @@ Validation rules in `easy-deposit-ui`
 This document describes the various validation rules that are applied to the forms in `easy-deposit-ui`.
 The errors caught in the validation process are accumulated and presented to the user on screen.
 
-
-Login form
-----------
-
-* **username**
-  * mandatory field
-    * _error text:_ "no username was provided"
-* **password**
-  * mandatory field
-    * _error text:_ "no password was provided"
-
-
 Deposit form
 ------------
 

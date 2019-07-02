@@ -15,21 +15,28 @@
  */
 import * as React from "react"
 import { FC, useEffect } from "react"
-import { connect, useDispatch } from "react-redux"
+import { loginRoute } from "./constants/clientRoutes"
+import { useSelector } from "./lib/redux"
+import { useDispatch } from "react-redux"
 import { cookieAuthenticate } from "./actions/authenticationActions"
-import { AppState } from "./model/AppState"
-import { ComplexThunkAction, useSelector } from "./lib/redux"
 
 const CookieAuth: FC = ({ children }) => {
-    const isAuthenticated = useSelector(state => state.authenticatedUser.isAuthenticated)
+    const { isAuthenticating, isAuthenticated, authenticationError } = useSelector(state => state.authenticatedUser)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (!isAuthenticated)
+        if (!isAuthenticating && !isAuthenticated)
             dispatch(cookieAuthenticate())
     }, [])
 
-    return (<>{children}</>)
+    if (isAuthenticated)
+        return <>{children}</>
+    else if (authenticationError) {
+        window.location.replace(loginRoute)
+        return null
+    }
+    else
+        return <p>need to try to authenticate</p>
 }
 
 export default CookieAuth

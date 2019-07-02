@@ -23,9 +23,6 @@ const createUrl: (path: string) => (state: AppState) => string = path => state =
     return apiUrl.endsWith("/") ? `${apiUrl}${path}` : `${apiUrl}/${path}`
 }
 
-export const loginUrl = createUrl("auth/login")
-export const logoutUrl = createUrl("auth/logout")
-
 export const userUrl = createUrl("user")
 
 export const listDepositUrl = createUrl("deposit")

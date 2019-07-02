@@ -1,10 +1,14 @@
 {
   "development": {
     "clientRoute": "",
-    "homeRoute": "/deposit-overview"
+    "homeRoute": "/deposit-overview",
+    "loginRoute": "/login",
+    "logoutRoute": "/logout"
   },
   "production": {
     "clientRoute": "/deposit",
-    "homeRoute": "/"
+    "homeRoute": "/ui/",
+    "loginRoute": "/ui/deposit",
+    "logoutRoute": "/ui/logout"
   }
 }

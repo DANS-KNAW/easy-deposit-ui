@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux"
 import { getUser } from "../actions/authenticationActions"
 import "../../resources/css/header"
 import { useSelector } from "../lib/redux"
-import { depositOverviewRoute, homeRoute, loginRoute, signoutRoute } from "../constants/clientRoutes"
+import { depositOverviewRoute, homeRoute, logoutRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -88,24 +88,13 @@ const Header = () => {
             dispatch(getUser())
     })
 
-    const loginNavBar = isLoggedIn && loginName
-        ? [
-            <span key="loginName" className="navbar-text">{loginName}</span>,
-            <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>,
-            <NavBarLink className="logoff"
-                        key="log out"
-                        to={signoutRoute}
-                        title="Log out">Log out</NavBarLink>,
-        ]
-        : [
-            <NavBarLink key="login" to={loginRoute} title="Login to EASY">Log in</NavBarLink>,
-        ]
-
     return (
         <header className="container-fluid">
             <NavBar>
                 <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                {...loginNavBar}
+                <span key="loginName" className="navbar-text">{loginName}</span>
+                <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>
+                <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>
             </NavBar>
 
             <LogosHeaders>

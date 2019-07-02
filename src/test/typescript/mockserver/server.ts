@@ -365,48 +365,4 @@ app.get("/user401", (req: Request, res: Response) => {
     console.log("  401")
 })
 
-app.post("/auth/login", (req: Request, res: Response) => {
-    console.log("POST /auth/login")
-
-    const auth = req.header("authorization")
-    if (auth && auth.startsWith("Basic ")) {
-        res.status(204)
-        res.send()
-        console.log("  204")
-    }
-    else {
-        res.status(401)
-        res.send("login with a username and password")
-        console.log("  401")
-    }
-})
-app.post("/auth/login401", async (req: Request, res: Response) => {
-    console.log("POST /auth/login")
-
-    await new Promise(resolve => setTimeout(resolve, 3000))
-
-    res.status(401)
-    res.send("A message identifying the reason for not being allowed to login")
-    console.log("  401")
-})
-app.post("/auth/login500", (req: Request, res: Response) => {
-    console.log("POST /auth/login")
-    res.status(500)
-    res.send("Internal Server Error")
-    console.log("  500")
-})
-
-app.post("/auth/logout", (req: Request, res: Response) => {
-    console.log("POST /auth/logout")
-    res.status(204)
-    res.send()
-    console.log("  204")
-})
-app.post("/auth/logout401", (req: Request, res: Response) => {
-    console.log("POST /auth/logout")
-    res.status(401)
-    res.send("you are not authorized")
-    console.log("  401")
-})
-
 app.listen(3004, () => console.log("Running on localhost:3004"))

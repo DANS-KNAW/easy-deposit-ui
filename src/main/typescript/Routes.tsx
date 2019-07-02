@@ -16,13 +16,11 @@
 import * as React from "react"
 import { Route, Switch } from "react-router-dom"
 import PrivateRoute from "./components/PrivateRoute"
-import LoginPage from "./components/login/LoginPage"
 import DepositFormPage from "./components/form/DepositFormPage"
 import DepositOverviewPage from "./components/overview/DepositOverviewPage"
 import NotFoundPage from "./components/NotFoundPage"
-import SignoutPage from "./components/SignoutPage"
-import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute, signoutRoute } from "./constants/clientRoutes"
-import { easyHome } from "./lib/config"
+import { depositFormRoute, depositOverviewRoute, homeRoute, loginRoute, logoutRoute } from "./constants/clientRoutes"
+import { easyHome, inDevelopmentMode } from "./lib/config"
 
 const Routes = () => (
     <Switch>
@@ -32,12 +30,12 @@ const Routes = () => (
                    window.location.replace(easyHome)
                    return null
                }}/>
-        <Route path={loginRoute}
+        <Route path={logoutRoute}
                exact
-               component={LoginPage}/>
-        <Route path={signoutRoute}
-               exact
-               component={SignoutPage}/>
+               render={() => {
+                   if (!inDevelopmentMode) window.location.replace(logoutRoute)
+                   return null
+               }}/>
         <PrivateRoute
             path={depositFormRoute(":depositId")} // this name matches the property in DepositFormPage.tsx/RouterParams
             redirectTo={loginRoute}

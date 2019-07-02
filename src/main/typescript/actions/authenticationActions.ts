@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComplexThunkAction, PromiseAction, ThunkAction } from "../lib/redux"
+import { ComplexThunkAction } from "../lib/redux"
 import { AuthenticationConstants } from "../constants/authenticationConstants"
-import { loginUrl, logoutUrl, userUrl } from "../selectors/serverRoutes"
+import { userUrl } from "../selectors/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import { userConverter } from "../lib/user/user"
 import fetch from "../lib/fetch"
-import LocalStorage from "../lib/LocalStorage"
 
 const authenticatePending = ({
     type: AuthenticationConstants.AUTH_LOGIN_PENDING,
@@ -32,11 +31,6 @@ const authenticateFulfilled = ({
 const authenticateRejected = (message: string) => ({
     type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
     payload: message, // when network error occurs (no internet?) or user data could not be fetched
-})
-
-const cookieAuthenticateRejected = ({
-    type: AuthenticationConstants.AUTH_LOGIN_REJECTED,
-    payload: undefined,
 })
 
 const userPending = ({
@@ -56,66 +50,12 @@ export const cookieAuthenticate: () => ComplexThunkAction = () => async (dispatc
      * dispatch AUTH_LOGIN_PENDING
      * call server with 'auth/login' without credentials
      *   - success:
-     *       dispatch fetchUserOnLogin
-     *   - failure:
-     *       local storage --> remove 'logged-in'
-     *       dispatch AUTH_LOGIN_REJECTED
-     */
-    dispatch(authenticatePending)
-
-    try {
-        await fetch.post(loginUrl(getState()))
-
-        dispatch(fetchUserOnLogin())
-    }
-    catch (loginResponse) {
-        LocalStorage.setLogout()
-
-        dispatch(cookieAuthenticateRejected)
-    }
-}
-
-export const authenticate: (userName: string, password: string) => ComplexThunkAction = (userName, password) => async (dispatch, getState) => {
-    /*
-     * dispatch AUTH_LOGIN_PENDING
-     * call server with 'auth/login'
-     *   - success:
-     *       dispatch fetchUserOnLogin
-     *   - failure:
-     *       local storage --> remove 'logged-in'
-     *       dispatch AUTH_LOGIN_REJECTED
-     */
-    dispatch(authenticatePending)
-
-    try {
-        await fetch.post(loginUrl(getState()), {}, {
-            auth: {
-                password: password,
-                username: userName,
-            },
-        })
-
-        dispatch(fetchUserOnLogin())
-    }
-    catch (loginResponse) {
-        LocalStorage.setLogout()
-
-        dispatch(authenticateRejected(`Not able to login: ${loginResponse.response.data}`))
-    }
-}
-
-const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getState) => {
-    /*
-     * dispatch FETCH_USER_PENDING
-     * call server with 'user'
-     *   - success:
      *       dispatch FETCH_USER_FULFILLED
      *       dispatch AUTH_LOGIN_FULFILLED
-     *       local storage --> set 'logged-in: true'
      *   - failure:
-     *       local storage --> remove 'logged-in'
      *       dispatch AUTH_LOGIN_REJECTED
      */
+    dispatch(authenticatePending)
     dispatch(userPending)
 
     try {
@@ -123,44 +63,24 @@ const fetchUserOnLogin: () => ComplexThunkAction = () => async (dispatch, getSta
 
         dispatch(userFulfilled(userResponse.data))
         dispatch(authenticateFulfilled)
-
-        LocalStorage.setLogin()
-    }
-    catch (userResponse) {
-        LocalStorage.setLogout()
-
-        dispatch(authenticateRejected(`Not able to fetch user details: ${userResponse.response.data}`))
+    } catch (error) {
+        dispatch(authenticateRejected(error))
     }
 }
-
-export const signout: () => ThunkAction<PromiseAction<void>> = () => (dispatch, getState) => dispatch({
-    type: AuthenticationConstants.AUTH_LOGOUT,
-    async payload() {
-        try {
-            await fetch.post(logoutUrl(getState()))
-            LocalStorage.setLogout()
-        }
-        catch (logoutResponse) {
-            LocalStorage.setLogout()
-            throw logoutResponse
-        }
-    },
-})
 
 export const getUser: () => ComplexThunkAction = () => async (dispatch, getState) => {
     /*
      * this action is called when localStorage says the user is logged in
      * if that is the case, we fetch the user data
      * else if the user isn't logged in (a.k.a. cookie isn't present or is expired)
-     *     we correct the state and let the user login again
+     *     we correct the state to let the user login again
      *
      * dispatch FETCH_USER_PENDING
      * call server with 'user'
      *   - success:
      *       dispatch FETCH_USER_FULFILLED
      *   - failure:
-     *       local storage --> remove 'logged-in'
-     *       dispatch signout()
+     *       dispatch authenticateRejected
      */
 
     dispatch(userPending)
@@ -168,10 +88,11 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
     try {
         const response = await fetch.get(userUrl(getState()))
         dispatch(userFulfilled(response.data))
-    }
-    catch (response) {
-        LocalStorage.setLogout()
-
-        dispatch(signout())
+    } catch (error) {
+        dispatch(authenticateRejected(error))
     }
 }
+
+export const logout = ({
+    type: AuthenticationConstants.AUTH_LOGOUT,
+})
