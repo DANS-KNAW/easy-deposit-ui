@@ -77,6 +77,6 @@ describe("Metadata", () => {
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
-        expect(deconverted).to.eql(input)
+        expect(deconverted).to.eql({ accessRights: "OPEN_ACCESS", ...newMetadata() })
     })
 })
