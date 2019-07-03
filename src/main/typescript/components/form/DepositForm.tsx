@@ -148,6 +148,12 @@ const DepositForm = (props: DepositFormProps) => {
                     </Loaded>
                 </Card>
 
+                <Card title="Personal data" required defaultOpened>
+                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
+                        <PrivacySensitiveDataForm/>
+                    </Loaded>
+                </Card>
+
                 <Card title="Basic information" required defaultOpened>
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <BasicInformationForm depositId={depositId}/>
@@ -181,12 +187,6 @@ const DepositForm = (props: DepositFormProps) => {
                 <Card title="Message for the data manager">
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
                         <MessageForDataManagerForm/>
-                    </Loaded>
-                </Card>
-
-                <Card title="Personal data" required defaultOpened>
-                    <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <PrivacySensitiveDataForm/>
                     </Loaded>
                 </Card>
 
