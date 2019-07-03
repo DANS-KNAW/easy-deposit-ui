@@ -31,7 +31,7 @@ interface LinkableProps {
     enabled: boolean
 }
 
-const Linkable: FC<LinkableProps & LinkProps> = ({to, enabled, children}) => {
+const Linkable: FC<LinkableProps & LinkProps> = ({ to, enabled, children }) => {
     return enabled
         ? <Link to={to}>{children}</Link>
         : <>{children}</>
@@ -72,26 +72,29 @@ const DepositTableRow = ({ deposit, deleting, editable, depositLink, deleteDepos
             </button>
         </div>
 
+    const enabled = !isDeleting && editable
     const rowStyling = isDeleting ? "" : editable ? "editable_table_row" : "not_editable_table_row"
 
     return (
         <tr className={["row ml-0 mr-0", rowStyling].join(" ")}>
             {/* these column sizes need to match with the sizes in DepositTableHead */}
             <td className="col col-10 order-1 col-sm-11 order-sm-1 col-md-3 order-md-1" scope="row">
-                <Linkable enabled={!isDeleting && editable} to={depositLink}>{title}</Linkable>
+                <Linkable enabled={enabled} to={depositLink}>{title}</Linkable>
                 {confirmButtons}
             </td>
             <td className="col col-12 order-3 col-sm-12 order-sm-3 col-md-2 order-md-2">
-                <Linkable enabled={!isDeleting && editable} to={depositLink}>{dateFormat(deposit.date)}</Linkable>
+                <Linkable enabled={enabled} to={depositLink}>{dateFormat(deposit.date)}</Linkable>
             </td>
             <td className="col col-12 order-4 col-sm-12 order-sm-4 col-md-2 order-md-3">
-                <Linkable enabled={!isDeleting && editable} to={depositLink}>{deposit.state}</Linkable>
+                <Linkable enabled={enabled} to={depositLink}>{deposit.state}</Linkable>
             </td>
             <td className="col col-12 order-5 col-sm-12 order-sm-5 col-md-4 order-md-4 newline-wrapping">
-                <Linkable enabled={!isDeleting && editable} to={depositLink}>{deposit.stateDescription}</Linkable>
+                <Linkable enabled={enabled} to={depositLink}>
+                    <span dangerouslySetInnerHTML={{ __html: deposit.stateDescription }}/>
+                </Linkable>
             </td>
             <td className="col col-2  order-2 col-sm-1  order-sm-2 col-md-1 order-md-5" id="actions_cell">
-                <Linkable enabled={!isDeleting && editable} to={depositLink}/>
+                <Linkable enabled={enabled} to={depositLink}/>
                 {deleteButton}
             </td>
         </tr>
