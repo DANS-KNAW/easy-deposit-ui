@@ -16,7 +16,7 @@
 import * as React from "react"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
-import { Field, Fields } from "redux-form"
+import { Field } from "redux-form"
 import { Contributor, emptyRightsholder } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -59,9 +59,7 @@ const LicenseAndAccessForm = () => (
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <Fields names={["accessRights", "license"]}
-                dropDown={{ licenses: useSelector(state => state.dropDowns.licenses) }}
-                component={AccessRightsAndLicenseFields}/>
+        <AccessRightsAndLicenseFields licenseDropdown={useSelector(state => state.dropDowns.licenses)}/>
 
         <Field name="dateAvailable"
                label="Date available"

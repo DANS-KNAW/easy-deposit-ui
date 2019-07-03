@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { change } from "redux-form"
+import { change, Fields } from "redux-form"
 import LicenseField from "./LicenseField"
 import AccessRightsField from "./AccessRightsField"
-import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
-import { InnerComponentProps } from "../../../../lib/formComponents/FieldHOC"
-import { DropdownList } from "../../../../model/DropdownLists"
-import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
 import { depositFormName } from "../../../../constants/depositFormConstants"
-import { Dispatch } from "redux"
+import { InnerComponentProps } from "../../../../lib/formComponents/FieldHOC"
+import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
+import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
 import { dansLicense, emptyLicense } from "../../../../lib/metadata/License"
+import { PrivacySensitiveDataValue } from "../../../../lib/metadata/PrivacySensitiveData"
+import { DropdownList } from "../../../../model/DropdownLists"
 
 const dansLicenseDropdownList: DropdownList = {
     list: [dansLicense],
@@ -43,44 +43,69 @@ const noLicenses: DropdownList = {
 
 interface AccessRightsAndLicenseFieldsProps {
     names: string[]
+    privacySensitiveDataPresent: FieldProps & InnerComponentProps
     accessRights: FieldProps & InnerComponentProps
     license: FieldProps & InnerComponentProps
-    dropDown: { licenses: DropdownList }
+    licenseDropdown: DropdownList
 }
 
-class AccessRightsAndLicenseFields extends React.Component<AccessRightsAndLicenseFieldsProps> {
-    onAccessRightChange = (dispatch: Dispatch<any>, license: string, licenseName: string) => () => {
-        license !== emptyLicense && dispatch(change(depositFormName, licenseName, emptyLicense))
+const AccessRightsAndLicenseFields = ({ names, privacySensitiveDataPresent, accessRights, license, licenseDropdown }: AccessRightsAndLicenseFieldsProps) => {
+    const [, accessRightName, licenseName] = names
+    const accessRightsCategory = accessRights.input.value.category
+    const licenseChoices = accessRightsCategory == AccessRightValue.OPEN_ACCESS
+        ? licenseDropdown
+        : accessRightsCategory == AccessRightValue.REQUEST_PERMISSION
+            ? dansLicenseDropdownList
+            : noLicenses
+
+    const choices = [
+        {
+            title: AccessRightValue.OPEN_ACCESS,
+            value: "Open Access",
+            disabled: () => privacySensitiveDataPresent.input.value === PrivacySensitiveDataValue.YES,
+        },
+        {
+            title: AccessRightValue.REQUEST_PERMISSION,
+            value: "Restricted Access",
+        },
+    ]
+
+    const onAccessRightChange = (e: any) => {
+        switch (e.target.value) {
+            case AccessRightValue.OPEN_ACCESS: {
+                license.input.value !== emptyLicense && license.meta.dispatch(change(depositFormName, licenseName, emptyLicense))
+                break
+            }
+            case AccessRightValue.REQUEST_PERMISSION: {
+                license.meta.dispatch(change(depositFormName, licenseName, dansLicense.key))
+                break
+            }
+        }
     }
 
-    render() {
-        const { names: [accessRightName, licenseName], accessRights, license, dropDown: { licenses: licensesDropdowns } } = this.props
-        const accessRightsCategory = accessRights.input.value.category
-        const licenseChoices = accessRightsCategory == AccessRightValue.OPEN_ACCESS
-            ? licensesDropdowns
-            : accessRightsCategory == AccessRightValue.REQUEST_PERMISSION
-                ? dansLicenseDropdownList
-                : noLicenses
+    return (
+        <div>
+            <AccessRightsField name={accessRightName}
+                               label="Access rights"
+                               mandatory
+                               helpText
+                               choices={choices}
+                               onAccessRightChange={onAccessRightChange}
+                               {...accessRights}/>
 
-        return (
-            <div>
-                <AccessRightsField name={accessRightName}
-                                   label="Access rights"
-                                   mandatory
-                                   helpText
-                                   onAccessRightChange={this.onAccessRightChange(accessRights.meta.dispatch, license.input.value, licenseName)}
-                                   {...accessRights}/>
-
-                <LicenseField name={licenseName}
-                              label="Licence"
-                              mandatory
-                              helpText
-                              withEmptyDefault
-                              dropdown={licenseChoices}
-                              {...license}/>
-            </div>
-        )
-    }
+            <LicenseField name={licenseName}
+                          label="Licence"
+                          mandatory
+                          helpText
+                          withEmptyDefault
+                          dropdown={licenseChoices}
+                          {...license}/>
+        </div>
+    )
 }
 
-export default AccessRightsAndLicenseFields
+export default (props: {licenseDropdown: DropdownList}) => (
+    <Fields names={["privacySensitiveDataPresent", "accessRights", "license"]}
+            licenseDropdown={props.licenseDropdown}
+            component={AccessRightsAndLicenseFields}/>
+)
