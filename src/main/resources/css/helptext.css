@@ -46,6 +46,10 @@
     padding-right: 10px;
 }
 
+.help-text p {
+    margin-bottom: .5rem;
+}
+
 .help-text p:last-child,
 .help-text ul:last-child {
     margin: unset;
