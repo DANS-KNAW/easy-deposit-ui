@@ -22,7 +22,7 @@ import {
     languageOfFilesIsoDeconverter,
     languagesOfFilesConverter,
 } from "./Language"
-import { accessRightConverter, accessRightDeconverter } from "./AccessRight"
+import { accessRightConverter, accessRightDeconverter, AccessRightValue } from "./AccessRight"
 import {
     availableQualifier,
     createdQualifier,
@@ -103,7 +103,7 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
     const instructionsForReuse = input.instructionsForReuse && input.instructionsForReuse.join("\n\n")
     const accessRights = input.accessRights
         ? accessRightConverter(input.accessRights)
-        : { category: undefined }
+        : { category: AccessRightValue.OPEN_ACCESS }
     const license = input.license
         ? licenseConverter(dropDowns.licenses.list)(input.license)
         : emptyLicense
