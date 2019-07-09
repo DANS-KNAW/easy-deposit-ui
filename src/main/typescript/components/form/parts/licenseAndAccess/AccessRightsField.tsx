@@ -16,40 +16,27 @@
 import * as React from "react"
 import { ChangeEvent } from "react"
 import { EventWithDataHandler, Field } from "redux-form"
-import { AccessRightValue } from "../../../../lib/metadata/AccessRight"
 import asField, { InnerComponentProps } from "../../../../lib/formComponents/FieldHOC"
-import { RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
+import { RadioChoice, RadioChoicesInput } from "../../../../lib/formComponents/RadioChoices"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 
 interface AccessRightsFieldOwnProps {
+    choices: RadioChoice[]
     onAccessRightChange: EventWithDataHandler<ChangeEvent<any>>
 }
 
 type AccessRightsFieldProps = FieldProps & InnerComponentProps & AccessRightsFieldOwnProps
 
-const AccessRightsField = ({ input, className, onAccessRightChange }: AccessRightsFieldProps) => {
-    const choices = [
-        {
-            title: AccessRightValue.OPEN_ACCESS,
-            value: "Open Access",
-        },
-        {
-            title: AccessRightValue.REQUEST_PERMISSION,
-            value: "Restricted Access",
-        },
-    ]
-
-    return (
-        <div className={`form-row accessrights-field ${className || ""}`}>
-            <div className="col col-md-4 category-field">
-                <Field name={`${input.name}.category`}
-                       divClassName="radio-button"
-                       choices={choices}
-                       onChange={onAccessRightChange}
-                       component={RadioChoicesInput}/>
-            </div>
+const AccessRightsField = ({ input, className, choices, onAccessRightChange }: AccessRightsFieldProps) => (
+    <div className={`form-row accessrights-field ${className || ""}`}>
+        <div className="col col-md-4 category-field">
+            <Field name={`${input.name}.category`}
+                   divClassName="radio-button"
+                   choices={choices}
+                   onChange={onAccessRightChange}
+                   component={RadioChoicesInput}/>
         </div>
-    )
-}
+    </div>
+)
 
 export default asField(AccessRightsField)

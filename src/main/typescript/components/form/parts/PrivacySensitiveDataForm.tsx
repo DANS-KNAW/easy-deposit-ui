@@ -14,55 +14,82 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Field } from "redux-form"
-import { RadioChoicesInput, RadioProps } from "../../../lib/formComponents/RadioChoices"
-import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
-import Mandatory from "../../../lib/formComponents/Mandatory"
-import { FieldProps } from "../../../lib/formComponents/ReduxFormUtils"
-import HelpText from "../../../lib/formComponents/HelpText"
+import { change, Field, Fields } from "redux-form"
+import { depositFormName } from "../../../constants/depositFormConstants"
+import { InnerComponentProps } from "../../../lib/formComponents/FieldHOC"
 import HelpButton from "../../../lib/formComponents/HelpButton"
+import HelpText from "../../../lib/formComponents/HelpText"
+import Mandatory from "../../../lib/formComponents/Mandatory"
+import { RadioChoicesInput } from "../../../lib/formComponents/RadioChoices"
+import { FieldProps } from "../../../lib/formComponents/ReduxFormUtils"
+import { AccessRightValue } from "../../../lib/metadata/AccessRight"
+import { PrivacySensitiveDataValue } from "../../../lib/metadata/PrivacySensitiveData"
+import { dansLicense } from "../../../lib/metadata/License"
 
 export interface PrivacySensitiveDataFormData {
     privacySensitiveDataPresent?: PrivacySensitiveDataValue
 }
 
-const PrivacySensitiveRadioChoices = (props: FieldProps & RadioProps) => {
-    const { meta } = props
-    const changed = (meta as any).changed
-    const hasError = meta.error && (changed || meta.submitFailed)
+interface PrivacySensitiveDataFormProps {
+    names: string[]
+    privacySensitiveDataPresent: FieldProps & InnerComponentProps
+    accessRights: FieldProps & InnerComponentProps
+    license: FieldProps & InnerComponentProps
+}
+
+const PrivacySensitiveDataForm = ({ names, privacySensitiveDataPresent, accessRights, license }: PrivacySensitiveDataFormProps) => {
+    const [privacySensitiveDataPresentName, accessRightsName, licenseName] = names
+
+    const { meta: psdpMeta } = privacySensitiveDataPresent
+    const psdpChanged = (psdpMeta as any).changed
+    const psdpHasError = psdpMeta.error && (psdpChanged || psdpMeta.submitFailed)
+
+    const choices = [
+        {
+            title: PrivacySensitiveDataValue.YES,
+            value: "YES, this dataset does contain personal data (please contact DANS)",
+        },
+        {
+            title: PrivacySensitiveDataValue.NO,
+            value: "NO, this dataset does not contain personal data",
+        },
+    ]
+
+    const onPrivacySensitiveChoiceChange = (e: any) => {
+        switch (e.target.value) {
+            case PrivacySensitiveDataValue.YES: {
+                accessRights.meta.dispatch(change(depositFormName, accessRightsName, { category: AccessRightValue.REQUEST_PERMISSION }))
+                license.meta.dispatch(change(depositFormName, licenseName, dansLicense.key))
+                break
+            }
+            case PrivacySensitiveDataValue.NO: {
+                accessRights.meta.dispatch(change(depositFormName, accessRightsName, { category: AccessRightValue.OPEN_ACCESS }))
+                break
+            }
+        }
+    }
 
     return (
         <>
-            <div className={`privacy-sensitive-data-field ${hasError ? "is-invalid" : ""}`}>
-                <RadioChoicesInput choices={props.choices} {...props}/>
+            <HelpText textFor={privacySensitiveDataPresentName}/>
+            <div className="row form-group input-element">
+                <Mandatory style={{ paddingLeft: "unset", paddingRight: "5px" }}/>
+                <HelpButton textFor={privacySensitiveDataPresentName}/>
+                <span style={{ paddingLeft: "10px" }}>Does your data or metadata contain personal data? Yes/No</span>
             </div>
-            {hasError && <span className="invalid-feedback">{meta.error}</span>}
+
+            <div className={`privacy-sensitive-data-field ${psdpHasError ? "is-invalid" : ""}`}>
+                <Field name={privacySensitiveDataPresentName}
+                       choices={choices}
+                       onChange={onPrivacySensitiveChoiceChange}
+                       component={RadioChoicesInput}/>
+            </div>
+            {psdpHasError && <span className="invalid-feedback">{psdpMeta.error}</span>}
         </>
     )
 }
 
-const PrivacySensitiveDataForm = () => (
-    <>
-        <HelpText textFor="privacySensitiveDataPresent"/>
-        <div className="row form-group input-element">
-            <Mandatory style={{ paddingLeft: "unset", paddingRight: "5px" }}/>
-            <HelpButton textFor="privacySensitiveDataPresent"/>
-            <span style={{ paddingLeft: "10px" }}>Does your data or metadata contain personal data? Yes/No</span>
-        </div>
-
-        <Field name="privacySensitiveDataPresent"
-               choices={[
-                   {
-                       title: PrivacySensitiveDataValue.YES,
-                       value: "YES, this dataset does contain personal data (please contact DANS)",
-                   },
-                   {
-                       title: PrivacySensitiveDataValue.NO,
-                       value: "NO, this dataset does not contain personal data",
-                   },
-               ]}
-               component={PrivacySensitiveRadioChoices}/>
-    </>
+export default () => (
+    <Fields names={["privacySensitiveDataPresent", "accessRights", "license"]}
+            component={PrivacySensitiveDataForm}/>
 )
-
-export default PrivacySensitiveDataForm

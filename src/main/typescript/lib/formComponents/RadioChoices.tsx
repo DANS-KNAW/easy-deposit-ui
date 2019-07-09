@@ -21,6 +21,7 @@ export interface RadioChoice {
     name?: string
     title: any
     value: string | JSX.Element
+    disabled?: () => boolean
 }
 
 export interface RadioProps {
@@ -30,7 +31,7 @@ export interface RadioProps {
 
 const RadioChoices = ({ input, choices, divClassName }: FieldProps & RadioProps) => (
     <>
-        {choices.map(({ name, title, value }) =>
+        {choices.map(({ name, title, value, disabled }) =>
             <div className={`form-check col-12 ${divClassName || ""}`}
                  key={name || title.toString()}>
                 {/*
@@ -38,7 +39,8 @@ const RadioChoices = ({ input, choices, divClassName }: FieldProps & RadioProps)
                   * {...input} must come before value={title} and neither of them may be omitted.
                   */}
                 <input className="form-check-input" id={name || title.toString()} type="radio"
-                       {...input} value={title} checked={input.value === title.toString()}/>
+                       {...input} value={title} checked={input.value === title.toString()}
+                       disabled={disabled && disabled()}/>
                 <label className="form-check-label" htmlFor={name || title.toString()}>{value}</label>
             </div>,
         )}
