@@ -85,7 +85,7 @@ const TemporalAndSpatialCoverageForm = () => {
                                          component={SpatialCoverageIso3166FieldArray}/>
 
             <RepeatableField name="spatialCoverages"
-                             label="Spatial coverage"
+                             label="Only if you can’t use the dropdown field above"
                              showNoLabel
                              empty={() => emptyString}
                              fieldNames={[(name: string) => name]}
