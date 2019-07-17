@@ -56,7 +56,7 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
             {loading && <p>Loading data...</p>}
-            {error && <p><i>Cannot load data from the server.</i></p>}
+            {error && <p><i>You cannot load data from the server.</i></p>}
             {loaded && children}
         </>
     )
@@ -133,8 +133,8 @@ const DepositForm = (props: DepositFormProps) => {
                     message={leaveMessage}/>
 
             {/*@formatter:off*/}
-            {fetchedFilesError && <Alert>An error occurred: {fetchedFilesError}. Cannot load files from the server.</Alert>}
-            {fetchedMetadataError && <Alert>An error occurred: {fetchedMetadataError}. Cannot load metadata from the server.</Alert>}
+            {fetchedFilesError && <Alert>An error occurred: {fetchedFilesError}. You cannot load files from the server.</Alert>}
+            {fetchedMetadataError && <Alert>An error occurred: {fetchedMetadataError}. You cannot load metadata from the server.</Alert>}
             {/*@formatter:on*/}
 
             {/*
@@ -197,10 +197,10 @@ const DepositForm = (props: DepositFormProps) => {
                 </Card>
 
                 {/*@formatter:off*/}
-                {saveError && <Alert>An error occurred: {saveError}. Cannot save the draft of this deposit.</Alert>}
-                {submitError && <Alert>An error occurred: {submitError}. Cannot submit this deposit.</Alert>}
+                {saveError && <Alert>An error occurred: {saveError}. You cannot save the draft of this deposit.</Alert>}
+                {submitError && <Alert>An error occurred: {submitError}. You cannot submit this deposit.</Alert>}
                 {props.submitFailed && props.invalid &&
-                <Alert key="submitError">Cannot submit this deposit. Some fields are not filled in correctly.</Alert>}
+                <Alert key="submitError">You cannot submit this deposit. Some fields are not filled in correctly.</Alert>}
                 {/*@formatter:on*/}
 
                 <div className="buttons">
