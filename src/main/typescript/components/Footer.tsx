@@ -55,7 +55,7 @@ const SocialMedia = ({ href, iconClass, name }: SocialMediaProps) => (
 
 const SocialColumn = () => (
     <ul className="social">
-        <SocialMedia href="http://dans.knaw.nl/en/@@dans_mailchimp_subscribe"
+        <SocialMedia href="http://eepurl.com/dvnr8D"
                      iconClass="fas fa-envelope-square"
                      name="Newsletter"/>
         <SocialMedia href="https://twitter.com/DANSKNAW"
