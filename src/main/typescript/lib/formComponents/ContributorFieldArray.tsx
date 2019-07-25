@@ -93,7 +93,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             <div className="col form-group col-md-6 mb-1">
                 <label>Organisation</label>
                 <Field name={names[6]}
-                       placeholder="organisation"
+                       placeholder="Organisation"
                        component={ErrorHandlingTextField}/>
             </div>
             {/* TODO these fields need to be added later. they do not yet occur in the UI model, nor in the API */}
@@ -123,19 +123,19 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             <div className="col form-group col-md-3 mb-1">
                 <label>Initials<Mandatory/></label>
                 <Field name={names[1]}
-                       placeholder="R.J."
+                       placeholder="Initials"
                        component={ErrorHandlingTextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Prefix</label>
                 <Field name={names[2]}
-                       placeholder="van den"
+                       placeholder="Prefix"
                        component={TextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Surname<Mandatory/></label>
                 <Field name={names[3]}
-                       placeholder="Berg"
+                       placeholder="Surname"
                        component={ErrorHandlingTextField}/>
             </div>
         </div>
