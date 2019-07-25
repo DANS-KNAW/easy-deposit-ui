@@ -108,7 +108,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             <div className="col form-group col-md-3 mb-1">
                 <label/>
                 <Field name={"abc"}
-                       placeholder="identifier"
+                       placeholder="Identifier"
                        component={TextField}/>
             </div>*/}
         </div>
@@ -117,7 +117,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             <div className="col form-group col-md-3 mb-1">
                 <label>(academic) title(s)</label>
                 <Field name={names[0]}
-                       placeholder="(acadamic) title(s)"
+                       placeholder="(Academic) title(s)"
                        component={TextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
