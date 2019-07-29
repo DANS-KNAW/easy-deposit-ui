@@ -123,19 +123,19 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             <div className="col form-group col-md-3 mb-1">
                 <label>Initials<Mandatory/></label>
                 <Field name={names[1]}
-                       placeholder="Initials"
+                       placeholder="R.J."
                        component={ErrorHandlingTextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Prefix</label>
                 <Field name={names[2]}
-                       placeholder="Prefix"
+                       placeholder="van den"
                        component={TextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
                 <label>Surname<Mandatory/></label>
                 <Field name={names[3]}
-                       placeholder="Surname"
+                       placeholder="Berg"
                        component={ErrorHandlingTextField}/>
             </div>
         </div>
