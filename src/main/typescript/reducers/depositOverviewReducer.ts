@@ -13,9 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DeleteState, DepositOverviewState, Deposits, empty, emptyDelete, emptyDeleteStates } from "../model/Deposits"
+import {
+    DeleteState,
+    DepositOverviewState,
+    Deposits,
+    empty,
+    emptyDelete,
+    emptyDeleteStates,
+    emptyDeposits,
+} from "../model/Deposits"
 import { Reducer } from "redux"
-import immutable from "object-path-immutable"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 
 export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = empty, action) => {
@@ -56,7 +63,10 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
 
             // just create a new delete object; discard any error if it was there
             const newDeleteState: DeleteState = { deleting: false, deleted: true }
-            const newDeposits: Deposits = immutable.del(state.deposits, depositId)
+            const newDeposits: Deposits = Object.keys(state.deposits)
+                .reduce((object, key) => {
+                    return key === depositId ? object : { ...object, [key]: state.deposits[key] }
+                }, emptyDeposits)
 
             return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState }, deposits: newDeposits }
         }
@@ -75,7 +85,7 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
 
             const newDeleteState = Object.entries(state.deleting)
                 .filter(([path]) => path !== depositId)
-                .reduce((prev, [path, s]) => ({...prev, [path]: s}), emptyDeleteStates)
+                .reduce((prev, [path, s]) => ({ ...prev, [path]: s }), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }

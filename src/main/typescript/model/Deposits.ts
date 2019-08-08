@@ -35,6 +35,8 @@ export function toDepositState(value: string): DepositState | undefined {
 
 export type Deposits = { [depositId: string]: Deposit }
 
+export const emptyDeposits: Deposits = {}
+
 export interface Deposit {
     title: string
     state: DepositState

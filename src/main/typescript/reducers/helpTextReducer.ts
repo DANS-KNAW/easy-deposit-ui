@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 import { Reducer } from "redux"
-import { HelpTexts } from "../model/HelpTexts"
+import { emptyHelpTexts, HelpTexts } from "../model/HelpTexts"
 import { HelpTextConstants } from "../constants/helpTextConstants"
-import immutable from "object-path-immutable"
 
 export const helpTextReducer: Reducer<HelpTexts> = (state = {}, action) => {
     switch (action.type) {
@@ -34,7 +33,12 @@ export const helpTextReducer: Reducer<HelpTexts> = (state = {}, action) => {
             }
         }
         case HelpTextConstants.UNREGISTER_HELP_TEXT: {
-            return immutable.del(state, action.payload)
+            const helpTextId = action.payload
+
+            return Object.keys(state)
+                .reduce((object, key) => {
+                    return key === helpTextId ? object : { ...object, [key]: state[key] }
+                }, emptyHelpTexts)
         }
         case HelpTextConstants.TOGGLE_HELP_TEXT: {
             const fieldName = action.payload

@@ -23,4 +23,4 @@ export interface HelpTextState {
 
 export type HelpTexts = { [fieldName: string]: HelpTextState }
 
-export const emptyHelpTexts = {}
+export const emptyHelpTexts: HelpTexts = {}
