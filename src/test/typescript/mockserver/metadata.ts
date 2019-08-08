@@ -280,10 +280,7 @@ export const allfields: Metadata = {
     },
     titles: ["title 1", "title2"],
     alternativeTitles: ["alternative title 1", "alternative title2"],
-    descriptions: [
-        "description1",
-        "description2",
-    ],
+    descriptions: ["description1\n\ndescription2"],
     creators: [
         {
             titles: "Drs.",
@@ -464,14 +461,8 @@ export const allfields: Metadata = {
             qualifier: DateQualifierValues.issued,
         },
     ],
-    sources: [
-        "source1",
-        "source2",
-    ],
-    instructionsForReuse: [
-        "remark1",
-        "remark2",
-    ],
+    sources: ["source1\n\nsource2"],
+    instructionsForReuse: ["remark1\n\nremark2"],
     publishers: [
         "pub1",
         "pub2",
@@ -612,10 +603,7 @@ export const mandatoryOnly: Metadata = {
     titles: [
         "title1",
     ],
-    descriptions: [
-        "description1",
-        "description2",
-    ],
+    descriptions: ["description1\n\ndescription2"],
     creators: [
         {
             initials: "A.S.",
