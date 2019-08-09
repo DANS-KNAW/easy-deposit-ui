@@ -194,7 +194,7 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
         languageOfDescription: data.languageOfDescription && languageOfDescriptionDeconverter(dropDowns.languages.list)(data.languageOfDescription),
         titles: data.titles && data.titles.filter(t => !isEmptyString(t)),
         alternativeTitles: data.alternativeTitles && data.alternativeTitles.filter(at => !isEmptyString(at)),
-        descriptions: data.description && data.description.split("\n\n"),
+        descriptions: data.description && [data.description],
         creators: creators.map(creatorDeconverter).filter(nonEmptyObject),
         contributors: [
             ...(contributors ? contributors.map(contributorDeconverter(dropDowns.contributorRoles.list)) : []),
@@ -238,8 +238,8 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
             ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter(dropDowns.dates.list)) : []),
             ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter(dropDowns.dates.list)) : []),
         ].filter(nonEmptyObject),
-        sources: data.source && data.source.split("\n\n"),
-        instructionsForReuse: data.instructionsForReuse && data.instructionsForReuse.split("\n\n"),
+        sources: data.source && [data.source],
+        instructionsForReuse: data.instructionsForReuse && [data.instructionsForReuse],
 
         // license and access
         publishers: data.publishers && data.publishers.filter(p => !isEmptyString(p)),
