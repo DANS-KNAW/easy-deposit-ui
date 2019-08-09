@@ -13,9 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DeleteState, DepositOverviewState, Deposits, empty, emptyDelete, emptyDeleteStates } from "../model/Deposits"
+import {
+    DeleteState,
+    DeletingStates,
+    DepositOverviewState,
+    Deposits,
+    empty,
+    emptyDelete,
+    emptyDeleteStates,
+    emptyDeposits,
+} from "../model/Deposits"
 import { Reducer } from "redux"
-import immutable from "object-path-immutable"
 import { DepositOverviewConstants } from "../constants/depositOverviewConstants"
 
 export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = empty, action) => {
@@ -54,11 +62,15 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
         case DepositOverviewConstants.DELETE_DEPOSIT_FULFILLED: {
             const { meta: { depositId } } = action
 
-            // just create a new delete object; discard any error if it was there
-            const newDeleteState: DeleteState = { deleting: false, deleted: true }
-            const newDeposits: Deposits = immutable.del(state.deposits, depositId)
+            const newDeposits: Deposits = Object.entries(state.deposits)
+                .filter(([key]) => key !== depositId)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeposits)
 
-            return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState }, deposits: newDeposits }
+            const newDeleting: DeletingStates = Object.entries(state.deleting)
+                .filter(([key]) => key !== depositId)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeleteStates)
+
+            return { ...state, deleting: newDeleting, deposits: newDeposits }
         }
         case DepositOverviewConstants.DELETE_DEPOSIT_CONFIRMATION: {
             const { meta: { depositId } } = action
@@ -75,7 +87,7 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
 
             const newDeleteState = Object.entries(state.deleting)
                 .filter(([path]) => path !== depositId)
-                .reduce((prev, [path, s]) => ({...prev, [path]: s}), emptyDeleteStates)
+                .reduce((prev, [path, s]) => ({ ...prev, [path]: s }), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }

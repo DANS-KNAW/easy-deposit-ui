@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 import { Reducer } from "redux"
-import { DeleteState, empty, emptyDelete, emptyDeleteStates, FileOverviewState } from "../model/FileInfo"
+import {
+    DeleteState,
+    DeletingStates,
+    empty,
+    emptyDelete,
+    emptyDeleteStates,
+    FileOverviewState,
+} from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
-import immutable from "object-path-immutable"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
     switch (action.type) {
@@ -53,7 +59,9 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         case FileOverviewConstants.DELETE_FILE_FULFILLED: {
             const { meta: { filePath } } = action
 
-            const newDeleteState = immutable.del(state.deleting, filePath)
+            const newDeleteState: DeletingStates = Object.entries(state.deleting)
+                .filter(([key]) => key !== filePath)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }
@@ -72,7 +80,7 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
 
             const newDeleteState = Object.entries(state.deleting)
                 .filter(([path]) => path !== filePath)
-                .reduce((prev, [path, s]) => ({...prev, [path]: s}), emptyDeleteStates)
+                .reduce((prev, [path, s]) => ({ ...prev, [path]: s }), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }
