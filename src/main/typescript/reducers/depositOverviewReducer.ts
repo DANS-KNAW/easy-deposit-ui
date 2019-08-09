@@ -15,6 +15,7 @@
  */
 import {
     DeleteState,
+    DeletingStates,
     DepositOverviewState,
     Deposits,
     empty,
@@ -61,14 +62,15 @@ export const depositOverviewReducer: Reducer<DepositOverviewState> = (state = em
         case DepositOverviewConstants.DELETE_DEPOSIT_FULFILLED: {
             const { meta: { depositId } } = action
 
-            // just create a new delete object; discard any error if it was there
-            const newDeleteState: DeleteState = { deleting: false, deleted: true }
-            const newDeposits: Deposits = Object.keys(state.deposits)
-                .reduce((object, key) => {
-                    return key === depositId ? object : { ...object, [key]: state.deposits[key] }
-                }, emptyDeposits)
+            const newDeposits: Deposits = Object.entries(state.deposits)
+                .filter(([key]) => key !== depositId)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeposits)
 
-            return { ...state, deleting: { ...state.deleting, [depositId]: newDeleteState }, deposits: newDeposits }
+            const newDeleting: DeletingStates = Object.entries(state.deleting)
+                .filter(([key]) => key !== depositId)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeleteStates)
+
+            return { ...state, deleting: newDeleting, deposits: newDeposits }
         }
         case DepositOverviewConstants.DELETE_DEPOSIT_CONFIRMATION: {
             const { meta: { depositId } } = action

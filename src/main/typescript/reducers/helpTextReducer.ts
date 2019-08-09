@@ -35,10 +35,9 @@ export const helpTextReducer: Reducer<HelpTexts> = (state = {}, action) => {
         case HelpTextConstants.UNREGISTER_HELP_TEXT: {
             const helpTextId = action.payload
 
-            return Object.keys(state)
-                .reduce((object, key) => {
-                    return key === helpTextId ? object : { ...object, [key]: state[key] }
-                }, emptyHelpTexts)
+            return Object.entries(state)
+                .filter(([key]) => key !== helpTextId)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyHelpTexts)
         }
         case HelpTextConstants.TOGGLE_HELP_TEXT: {
             const fieldName = action.payload

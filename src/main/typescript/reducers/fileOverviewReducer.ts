@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 import { Reducer } from "redux"
-import { DeleteState, empty, emptyDelete, emptyDeleteStates, FileOverviewState } from "../model/FileInfo"
+import {
+    DeleteState,
+    DeletingStates,
+    empty,
+    emptyDelete,
+    emptyDeleteStates,
+    FileOverviewState,
+} from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
 export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
@@ -52,10 +59,9 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
         case FileOverviewConstants.DELETE_FILE_FULFILLED: {
             const { meta: { filePath } } = action
 
-            const newDeleteState = Object.keys(state.deleting)
-                .reduce((object, key) => {
-                    return key === filePath ? object : { ...object, [key]: state.deleting[key] }
-                }, emptyDeleteStates)
+            const newDeleteState: DeletingStates = Object.entries(state.deleting)
+                .filter(([key]) => key !== filePath)
+                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeleteStates)
 
             return { ...state, deleting: newDeleteState }
         }
