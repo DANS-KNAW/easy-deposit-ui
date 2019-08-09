@@ -17,7 +17,10 @@ import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { depositOverviewRoute } from "../constants/clientRoutes"
 import { saveDraftResetAction } from "../actions/depositFormActions"
-import { change, initialize } from "redux-form"
+import { actionTypes, change, getFormValues, initialize } from "redux-form"
+import { get } from "lodash"
+import { AppState } from "../model/AppState"
+import { DropdownListEntry } from "../model/DropdownLists"
 
 const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
     next(action)
@@ -55,7 +58,50 @@ const submitReroute: Middleware = () => (next: Dispatch) => action => {
         action.meta.history.push(depositOverviewRoute)
 }
 
+const replaceContributorIdFieldValue: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
+    if (action.type === actionTypes.CHANGE
+        && action.meta
+        && action.meta.field
+        && action.payload) {
+        const state: AppState = getState()
+        const formData = getFormValues(depositFormName)(state)
+        if (action.meta.field.match(/^contributors\[\d+].ids\[\d+].scheme$/)) {
+            next(action)
+
+            const value = get(formData, action.meta.field.replace(".scheme", ".value"))
+            if (value) {
+                const scheme = action.payload
+                const contributorEntry = state.dropDowns.contributorIds.list.find(({ key }: DropdownListEntry) => key === scheme)
+                if (contributorEntry && contributorEntry.replace)
+                    // replacement of the value itself happens on the pass-through of this new action through this method
+                    dispatch(change(depositFormName, action.meta.field.replace(".scheme", ".value"), value))
+            }
+        }
+        else if (action.meta.field.match(/^contributors\[\d+].ids\[\d+].value$/)) {
+            const scheme = get(formData, action.meta.field.replace(".value", ".scheme"))
+
+            if (scheme) {
+                const contributorEntry = state.dropDowns.contributorIds.list.find(({ key }: DropdownListEntry) => key === scheme)
+                if (contributorEntry && contributorEntry.replace)
+                    next({
+                        ...action,
+                        payload: contributorEntry.replace.reduce((v, cfg) => v.replace(cfg.from, cfg.to), action.payload),
+                    })
+                else
+                    next(action)
+            }
+            else
+                next(action)
+        }
+        else
+            next(action)
+    }
+    else
+        next(action)
+}
+
 export const depositFormMiddleware: Middleware[] = [
+    replaceContributorIdFieldValue,
     fetchDoiProcessor,
     saveTimer,
     initializeFormAfterSaveDraft,
