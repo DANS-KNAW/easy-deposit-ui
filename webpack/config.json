@@ -3,12 +3,14 @@
     "clientRoute": "",
     "homeRoute": "/deposit-overview",
     "loginRoute": "/login",
-    "logoutRoute": "/logout"
+    "logoutRoute": "/logout",
+    "datasetsRoute": "/deposit-overview"
   },
   "production": {
     "clientRoute": "/deposit",
     "homeRoute": "/ui/",
     "loginRoute": "/ui/deposit",
-    "logoutRoute": "/ui/logout"
+    "logoutRoute": "/ui/logout",
+    "datasetsRoute": "/ui/mydatasets"
   }
 }

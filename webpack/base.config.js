@@ -89,6 +89,7 @@ module.exports = (env, argv) => ({
             __DEVELOPMENT__: argv.mode === "development",
             __CLIENT_ROUTE__: JSON.stringify(config[argv.mode].clientRoute),
             __HOME_ROUTE__: JSON.stringify(config[argv.mode].homeRoute),
+            __DATASETS_ROUTE__: JSON.stringify(config[argv.mode].datasetsRoute),
             __LOGIN_ROUTE__: JSON.stringify(config[argv.mode].loginRoute),
             __LOGOUT_ROUTE__: JSON.stringify(config[argv.mode].logoutRoute),
             __VERSION__: JSON.stringify(process.env.npm_package_version),

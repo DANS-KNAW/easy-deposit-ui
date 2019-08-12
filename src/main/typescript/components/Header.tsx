@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux"
 import { getUser } from "../actions/authenticationActions"
 import "../../resources/css/header"
 import { useSelector } from "../lib/redux"
-import { depositOverviewRoute, homeRoute, logoutRoute } from "../constants/clientRoutes"
+import { datasetsRoute, depositOverviewRoute, homeRoute, logoutRoute } from "../constants/clientRoutes"
 
 const logo_dans = require("../../resources/img/header/logo_dans.png")
 const logo_easy = require("../../resources/img/header/logo_easy.png")
@@ -93,7 +93,8 @@ const Header = () => {
             <NavBar>
                 <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
                 <span key="loginName" className="navbar-text">{loginName}</span>
-                <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>
+                <NavBarLink key="my deposits" to={depositOverviewRoute}>My Deposits</NavBarLink>
+                <NavBarLink to={datasetsRoute} title="My Datasets">My Datasets</NavBarLink>
                 <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>
             </NavBar>
 
