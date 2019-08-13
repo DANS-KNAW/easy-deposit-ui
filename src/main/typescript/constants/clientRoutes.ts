@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 import { DepositId } from "../model/Deposits"
-import { contextRoot, easyLogin, easyLogout, easyDatasets } from "../lib/config"
+import { contextRoot, easyLogin, easyLogout } from "../lib/config"
 
 export const homeRoute = contextRoot === "" ? "/" : contextRoot
-export const datasetsRoute = easyDatasets
 export const loginRoute = easyLogin
 export const logoutRoute = easyLogout
 export const depositFormRoute = (id: DepositId) => `${contextRoot}/deposit-form/${id}`
