@@ -93,7 +93,7 @@ const Header = () => {
             <NavBar>
                 <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
                 <span key="loginName" className="navbar-text">{loginName}</span>
-                <NavBarLink key="my datasets" to={depositOverviewRoute}>My Datasets</NavBarLink>
+                <NavBarLink key="my deposits" to={depositOverviewRoute}>My Deposits</NavBarLink>
                 <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>
             </NavBar>
 
