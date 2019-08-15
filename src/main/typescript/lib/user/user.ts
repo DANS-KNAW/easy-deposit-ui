@@ -19,13 +19,14 @@ export const userConverter: (input: any) => UserDetails = input => {
     const firstName = input.firstName ? `${input.firstName} ` : ""
     const prefix = input.prefix ? `${input.prefix} ` : ""
     const lastName = input.lastName || ""
-    const displayName = `${firstName}${prefix}${lastName}`
+    const displayName = input.displayName || ""
+    const easyDisplayName = input.displayName || ""
 
     return {
         username: input.username || "",
         firstName: input.firstName || "",
         prefix: input.prefix || "",
         lastName: input.lastName || "",
-        displayName: displayName,
+        displayName: input.easyDisplayName || "",
     }
 }
