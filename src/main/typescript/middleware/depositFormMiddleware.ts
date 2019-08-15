@@ -62,6 +62,7 @@ const replaceContributorIdFieldValue: Middleware = ({ dispatch, getState }: Midd
     if (action.type === actionTypes.CHANGE && action.meta && action.meta.field && action.payload) {
         const state: AppState = getState()
         const formData = getFormValues(depositFormName)(state)
+
         if (action.meta.field.match(/^contributors\[\d+].ids\[\d+].scheme$/)) {
             next(action)
 
@@ -75,7 +76,8 @@ const replaceContributorIdFieldValue: Middleware = ({ dispatch, getState }: Midd
             }
             return
         }
-        else if (action.meta.field.match(/^contributors\[\d+].ids\[\d+].value$/)) {
+
+        if (action.meta.field.match(/^contributors\[\d+].ids\[\d+].value$/)) {
             const scheme = get(formData, action.meta.field.replace(".value", ".scheme"))
             if (scheme) {
                 const contributorEntry = state.dropDowns.contributorIds.list.find(({ key }: DropdownListEntry) => key === scheme)
