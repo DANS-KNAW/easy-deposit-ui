@@ -16,11 +16,6 @@
 import { UserDetails } from "../../model/UserDetails"
 
 export const userConverter: (input: any) => UserDetails = input => {
-    const firstName = input.firstName ? `${input.firstName} ` : ""
-    const prefix = input.prefix ? `${input.prefix} ` : ""
-    const lastName = input.lastName || ""
-    const displayName = input.displayName || ""
-
     return {
         username: input.username || "",
         firstName: input.firstName || "",
