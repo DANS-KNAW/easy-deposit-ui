@@ -28,13 +28,14 @@ describe("user", () => {
                 firstName: "First",
                 prefix: "the",
                 lastName: "Name",
+                displayName: "First a Name",
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "First",
                 prefix: "the",
                 lastName: "Name",
-                displayName: "First the Name",
+                displayName: "First a Name",
             }
 
             expect(userConverter(input)).to.eql(expected)
@@ -64,13 +65,14 @@ describe("user", () => {
                 firstName: "",
                 prefix: "the",
                 lastName: "Name",
+                displayName: "a Name",
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "",
                 prefix: "the",
                 lastName: "Name",
-                displayName: "the Name",
+                displayName: "a Name",
             }
 
             expect(userConverter(input)).to.eql(expected)
@@ -82,6 +84,7 @@ describe("user", () => {
                 firstName: "First",
                 prefix: undefined,
                 lastName: "Name",
+                displayName: "First Name",
             }
             const expected: UserDetails = {
                 username: "user001",
@@ -100,13 +103,14 @@ describe("user", () => {
                 firstName: "First",
                 prefix: "the",
                 lastName: undefined,
+                displayName: "a First",
             }
             const expected: UserDetails = {
                 username: "user001",
                 firstName: "First",
                 prefix: "the",
                 lastName: "",
-                displayName: "First the ",
+                displayName: "a First",
             }
 
             expect(userConverter(input)).to.eql(expected)

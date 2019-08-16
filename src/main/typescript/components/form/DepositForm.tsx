@@ -96,9 +96,9 @@ const DepositForm = (props: DepositFormProps) => {
      *   1. create a new deposit
      *   2. edit 1 field
      *   3. save the draft
-     *   4. tough a field (NO editting!)
+     *   4. touch a field (NO editing!)
      *   5. on top of the page, click on 'my datasets' to leave the page
-     *   6. while the form was saved and nothing was editted afterwards,
+     *   6. while the form was saved and nothing was edited afterwards,
      *      it still shows a warning saying the user did not save all changes
      */
     const shouldBlockNavigation = () => props.dirty && props.anyTouched && !props.submitSucceeded

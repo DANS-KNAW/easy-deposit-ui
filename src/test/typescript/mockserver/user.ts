@@ -18,6 +18,7 @@ export interface User {
     firstName: string
     prefix?: string
     lastName: string
+    displayName: string
 }
 
 export const User001: User = {
@@ -25,4 +26,5 @@ export const User001: User = {
     firstName: "First",
     prefix: undefined,
     lastName: "Namen",
+    displayName: "Namen",
 }
