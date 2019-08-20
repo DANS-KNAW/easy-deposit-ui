@@ -20,7 +20,7 @@
 
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-deposit-ui</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-rc-14</version>
     <packaging>pom</packaging>
 
     <name>EASY Deposit UI</name>
@@ -30,7 +30,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/easy-deposit-ui</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.0-rc-14</tag>
     </scm>
 
     <properties>
