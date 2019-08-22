@@ -14,17 +14,7 @@
  * limitations under the License.
  */
 import { DepositFormMetadata } from "../components/form/parts"
-
-export interface FetchState {
-    fetching: boolean
-    fetched: boolean
-    fetchError?: string
-}
-
-const emptyFetchState: FetchState = {
-    fetching: false,
-    fetched: false,
-}
+import FetchState, { empty as emptyFetchState } from "./FetchState"
 
 export interface InitialState {
     metadata: DepositFormMetadata
@@ -43,6 +33,7 @@ export interface SubmitState {
 }
 
 export interface DepositFormState {
+    fetchDepositState: FetchState
     fetchMetadata: FetchState
     initialState: InitialState
     fetchDoi: FetchState
@@ -51,6 +42,7 @@ export interface DepositFormState {
 }
 
 export const empty: DepositFormState = {
+    fetchDepositState: emptyFetchState,
     fetchMetadata: emptyFetchState,
     initialState: {
         metadata: {},
