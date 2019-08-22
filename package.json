@@ -85,7 +85,6 @@
     "react-hot-loader": "^4.12.10",
     "redux-devtools-extension": "^2.13.8",
     "source-map-loader": "^0.2.4",
-    "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.4.1",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3",
