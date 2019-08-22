@@ -15,9 +15,11 @@
  */
 import { DepositFormMetadata } from "../components/form/parts"
 import FetchState, { empty as emptyFetchState } from "./FetchState"
+import { DepositState } from "./DepositState"
 
 export interface InitialState {
     metadata: DepositFormMetadata
+    depositState?: DepositState
 }
 
 export interface SaveDraftState {
@@ -33,7 +35,7 @@ export interface SubmitState {
 }
 
 export interface DepositFormState {
-    fetchDepositState: FetchState
+    fetchDepositState: FetchState & { stateNotFound: boolean }
     fetchMetadata: FetchState
     initialState: InitialState
     fetchDoi: FetchState
@@ -42,10 +44,11 @@ export interface DepositFormState {
 }
 
 export const empty: DepositFormState = {
-    fetchDepositState: emptyFetchState,
+    fetchDepositState: { ...emptyFetchState, stateNotFound: false },
     fetchMetadata: emptyFetchState,
     initialState: {
         metadata: {},
+        depositState: undefined,
     },
     fetchDoi: emptyFetchState,
     saveDraft: {

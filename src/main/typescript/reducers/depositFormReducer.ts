@@ -22,6 +22,54 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
         case DepositFormConstants.UNREGISTER_FORM: {
             return empty
         }
+        case DepositFormConstants.FETCH_STATE_PENDING: {
+            return {
+                ...state,
+                fetchDepositState: {
+                    ...state.fetchDepositState,
+                    fetching: true,
+                    fetchError: undefined,
+                    stateNotFound: false,
+                },
+            }
+        }
+        case DepositFormConstants.FETCH_STATE_REJECTED: {
+            return {
+                ...state,
+                fetchDepositState: {
+                    ...state.fetchDepositState,
+                    fetching: false,
+                    fetched: false,
+                    fetchError: action.payload,
+                    stateNotFound: false,
+                },
+            }
+        }
+        case DepositFormConstants.FETCH_STATE_SUCCESS: {
+            return {
+                ...state,
+                initialState: {
+                    ...state.initialState,
+                    depositState: action.payload,
+                },
+                fetchDepositState: {
+                    ...state.fetchDepositState,
+                    fetching: false,
+                    fetched: true,
+                },
+            }
+        }
+        case DepositFormConstants.FETCH_STATE_NOT_FOUND: {
+            return {
+                ...state,
+                fetchDepositState: {
+                    ...state.fetchDepositState,
+                    fetching: false,
+                    fetched: false,
+                    stateNotFound: true,
+                }
+            }
+        }
         case DepositFormConstants.FETCH_METADATA_PENDING: {
             return { ...state, fetchMetadata: { ...state.fetchMetadata, fetching: true, fetchError: undefined } }
         }

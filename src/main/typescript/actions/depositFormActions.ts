@@ -23,10 +23,33 @@ import { AppState } from "../model/AppState"
 import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
 import { Doi } from "../lib/metadata/Identifier"
 import fetch from "../lib/fetch"
-import { fetchDoiUrl, fetchMetadataUrl, saveDraftUrl, submitDepositUrl } from "../selectors/serverRoutes"
+import {
+    fetchDepositStateUrl,
+    fetchDoiUrl,
+    fetchMetadataUrl,
+    saveDraftUrl,
+    submitDepositUrl,
+} from "../selectors/serverRoutes"
+import { DepositState } from "../model/DepositState"
+import { depositStateConverter } from "../lib/depositState/depositState"
 
 export const unregisterForm: () => Action = () => ({
     type: DepositFormConstants.UNREGISTER_FORM,
+})
+
+export const fetchDepositState: (depositId: DepositId) => ThunkAction<FetchAction<DepositState>> = depositId => (dispatch, getState) => dispatch({
+    type: DepositFormConstants.FETCH_STATE,
+    async payload() {
+        const response = await fetch.get(fetchDepositStateUrl(depositId)(getState()))
+        return response.data
+    },
+    meta: {
+        transform: (input: any) => depositStateConverter(input),
+    },
+})
+
+export const depositStateNotFound: () => Action = () => ({
+    type: DepositFormConstants.FETCH_STATE_NOT_FOUND,
 })
 
 export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>> = depositId => (dispatch, getState) => dispatch({
@@ -109,8 +132,8 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, hi
                 return response.data
             },
             meta: {
-                history: history
-            }
+                history: history,
+            },
         })
     }
     catch (errorMessage) {
