@@ -163,7 +163,7 @@ export const getDeposit: (id: DepositId) => Deposit & { id: DepositId } | undefi
 const newDeposit: () => Deposit = () => ({
     title: "",
     state: "DRAFT",
-    stateDescription: "",
+    stateDescription: "This deposit is a draft...",
     date: new Date().toISOString(),
 })
 export const createDeposit: () => Deposit & { id: DepositId } = () => {
