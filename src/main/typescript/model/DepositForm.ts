@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DepositId } from "./Deposits"
 import { DepositFormMetadata } from "../components/form/parts"
 
-export interface FetchMetadataState {
+export interface FetchState {
     fetching: boolean
     fetched: boolean
     fetchError?: string
 }
 
-export interface InitialState {
-    metadata: DepositFormMetadata
+const emptyFetchState: FetchState = {
+    fetching: false,
+    fetched: false,
 }
 
-export interface FetchDoiState {
-    fetchingDoi: boolean
-    fetchedDoi: boolean
-    fetchDoiError?: string
+export interface InitialState {
+    metadata: DepositFormMetadata
 }
 
 export interface SaveDraftState {
@@ -45,25 +43,19 @@ export interface SubmitState {
 }
 
 export interface DepositFormState {
-    fetchMetadata: FetchMetadataState
+    fetchMetadata: FetchState
     initialState: InitialState
-    fetchDoi: FetchDoiState
+    fetchDoi: FetchState
     saveDraft: SaveDraftState
     submit: SubmitState
 }
 
 export const empty: DepositFormState = {
-    fetchMetadata: {
-        fetching: false,
-        fetched: false,
-    },
+    fetchMetadata: emptyFetchState,
     initialState: {
         metadata: {},
     },
-    fetchDoi: {
-        fetchingDoi: false,
-        fetchedDoi: false,
-    },
+    fetchDoi: emptyFetchState,
     saveDraft: {
         saving: false,
         saved: false,
