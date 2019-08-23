@@ -1,6 +1,8 @@
 import * as React from "react"
 import { DepositState } from "../../model/DepositState"
 import { DepositStateLabel } from "../../model/Deposits"
+import { Link } from "react-router-dom"
+import { depositOverviewRoute } from "../../constants/clientRoutes"
 
 function introLine(label: DepositStateLabel) {
     switch (label) {
@@ -19,12 +21,12 @@ interface DepositUnavailableProps {
     depositState: DepositState
 }
 
-const DepositUnavailable = ({ depositState }: DepositUnavailableProps) => (
+const DepositNotAccessible = ({ depositState }: DepositUnavailableProps) => (
     <>
         <p>{introLine(depositState.label)}</p>
-        <p dangerouslySetInnerHTML={{ __html: depositState.description }}/>
-        {/* TODO button to go back to the deposit overview */}
+        {depositState.description && <p style={{whiteSpace: "pre-wrap"}} dangerouslySetInnerHTML={{ __html: depositState.description }}/>}
+        <p>Please find your deposits <Link to={depositOverviewRoute}>here</Link>.</p>
     </>
 )
 
-export default DepositUnavailable
+export default DepositNotAccessible

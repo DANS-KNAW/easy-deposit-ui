@@ -22,7 +22,7 @@ import { cleanFiles } from "../../actions/fileOverviewActions"
 import { DepositId } from "../../model/Deposits"
 import { RouteComponentProps, withRouter } from "react-router"
 import DepositStateLoader from "./DepositStateLoader"
-import DepositUnavailable from "./DepositUnavailable"
+import DepositNotAccessible from "./DepositNotAccessible"
 import DepositNotFound from "./DepositNotFound"
 
 interface RouterParams {
@@ -57,7 +57,7 @@ const DepositFormPage = ({ history, match: { params: { depositId } } }: DepositF
                                 renderForm={depositState => <DepositForm depositId={depositId}
                                                                          depositState={depositState}
                                                                          history={history}/>}
-                                renderSubmitted={depositState => <DepositUnavailable depositState={depositState}/>}
+                                renderSubmitted={depositState => <DepositNotAccessible depositState={depositState}/>}
                                 renderNotFound={() => <DepositNotFound/>}
             />
         </>

@@ -50,7 +50,7 @@ export const depositData3: Deposit = {
 export const depositData4: Deposit = {
     title: "Old Dataset",
     state: "ARCHIVED",
-    stateDescription: "easy-dataset:id",
+    stateDescription: "The dataset is published at <a href='https://deasy.dans.knaw.nl/ui/datasets/id/easy-dataset:11' target='_blank'>https://deasy.dans.knaw.nl/ui/datasets/id/easy-dataset:11</a>",
     date: "2017-08-09T10:10:22Z",
 }
 export const paginationDataset: (n: number) => Deposit = n => ({

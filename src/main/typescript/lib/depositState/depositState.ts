@@ -3,7 +3,7 @@ import { toDepositStateLabel } from "../../model/Deposits"
 
 export function depositStateConverter(input: any): DepositState {
     const label = input.state && toDepositStateLabel(input.state)
-    const description = input.description
+    const description = input.stateDescription
 
     if (label)
         return ({
