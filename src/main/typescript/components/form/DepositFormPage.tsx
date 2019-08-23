@@ -22,6 +22,8 @@ import { cleanFiles } from "../../actions/fileOverviewActions"
 import { DepositId } from "../../model/Deposits"
 import { RouteComponentProps, withRouter } from "react-router"
 import DepositStateLoader from "./DepositStateLoader"
+import DepositUnavailable from "./DepositUnavailable"
+import DepositNotFound from "./DepositNotFound"
 
 interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
@@ -29,8 +31,7 @@ interface RouterParams {
 
 type DepositFormPageProps = RouteComponentProps<RouterParams>
 
-const DepositFormPage = (props: DepositFormPageProps) => {
-    const { depositId } = props.match.params
+const DepositFormPage = ({ history, match: { params: { depositId } } }: DepositFormPageProps) => {
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -38,34 +39,29 @@ const DepositFormPage = (props: DepositFormPageProps) => {
             dispatch(unregisterForm())
             dispatch(cleanFiles())
         }
-    })
+    }, [])
 
-    return <>
-        <h1>Deposit your data</h1>
-        <p>
-            Read the instructions
-            (<a href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
-                target="_blank"
-                className="text-primary">English</a>)
-            (<a href="https://dans.knaw.nl/nl/deponeren/toelichting-data-deponeren"
-                target="_blank"
-                className="text-primary">Nederlands</a>)
-        </p>
-        <DepositStateLoader depositId={depositId}
-                            renderForm={depositState => {
-                                // TODO provide the depositState to the DepositForm (types don't align yet)
-                                return <DepositForm/>
-                            }}
-                            renderSubmitted={depositState => {
-                                // TODO render a Component that displays an alternative message
-                                return <p>deposit {depositId} was already submitted</p>
-                            }}
-                            renderNotFound={() => {
-                                // TODO render a Component that displays the error message
-                                return <p>deposit {depositId} was not found</p>
-                            }}
-        />
-    </>
+    return (
+        <>
+            <h1>Deposit your data</h1>
+            <p>
+                Read the instructions
+                (<a href="https://dans.knaw.nl/en/deposit/information-about-depositing-data"
+                    target="_blank"
+                    className="text-primary">English</a>)
+                (<a href="https://dans.knaw.nl/nl/deponeren/toelichting-data-deponeren"
+                    target="_blank"
+                    className="text-primary">Nederlands</a>)
+            </p>
+            <DepositStateLoader depositId={depositId}
+                                renderForm={depositState => <DepositForm depositId={depositId}
+                                                                         depositState={depositState}
+                                                                         history={history}/>}
+                                renderSubmitted={depositState => <DepositUnavailable depositState={depositState}/>}
+                                renderNotFound={() => <DepositNotFound/>}
+            />
+        </>
+    )
 }
 
 export default withRouter(DepositFormPage)

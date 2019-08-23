@@ -15,10 +15,11 @@
  */
 import * as React from "react"
 import { FC, useEffect } from "react"
+import * as H from "history"
 import { compose } from "redux"
 import { connect, useDispatch } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
-import { Prompt, RouteComponentProps, withRouter } from "react-router-dom"
+import { Prompt } from "react-router-dom"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
@@ -29,6 +30,7 @@ import { DepositId } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
 import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
+import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
 import DepositLicenseForm from "./parts/DepositLicenseForm"
 import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
@@ -62,34 +64,34 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     )
 }
 
-interface RouterParams {
-    depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
+export interface DepositFormOwnProps {
+    depositId: DepositId
+    history: H.History
+    depositState: DepositState
 }
 
 type DepositFormProps =
     & InjectedFormProps<DepositFormMetadata>
-    & RouteComponentProps<RouterParams>
+    & DepositFormOwnProps
 
 const leaveMessage = "You did not save your work before leaving this page.\nAre you sure you want to go without saving?"
 
 const DepositForm = (props: DepositFormProps) => {
-    const { depositId } = props.match.params
-
     const formState = useSelector(state => state.depositForm)
     const fileState = useSelector(state => state.files.loading)
     const fileUploadInProgress = useSelector(isFileUploading)
     const formValues = useSelector(state => state.form.depositForm && state.form.depositForm.values)
     const dispatch = useDispatch()
 
-    const doFetchMetadata = () => dispatch(fetchAllDropdownsAndMetadata(depositId))
-    const doFetchFiles = () => dispatch(fetchFiles(depositId))
+    const doFetchMetadata = () => dispatch(fetchAllDropdownsAndMetadata(props.depositId))
+    const doFetchFiles = () => dispatch(fetchFiles(props.depositId))
     const doSave = () => {
         // TODO remove this log once the form is fully implemented.
-        console.log(`saving draft for ${depositId}`, formValues)
+        console.log(`saving draft for ${props.depositId}`, formValues)
 
-        formValues && dispatch(saveDraft(depositId, formValues))
+        formValues && dispatch(saveDraft(props.depositId, formValues))
     }
-    const doSubmit: (data: DepositFormMetadata) => void = data => dispatch(submitDeposit(depositId, data, props.history))
+    const doSubmit: (data: DepositFormMetadata) => void = data => dispatch(submitDeposit(props.depositId, data, props.history))
     /*
      * TODO this is not entirely correct, but I don't know how to fix this;
      *   the following sequence should show a bug in this logic:
@@ -144,7 +146,7 @@ const DepositForm = (props: DepositFormProps) => {
             <form noValidate>
                 <Card title="Upload your data" defaultOpened>
                     <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
-                        <FileUpload depositId={depositId}/>
+                        <FileUpload depositId={props.depositId}/>
                     </Loaded>
                 </Card>
 
@@ -156,7 +158,7 @@ const DepositForm = (props: DepositFormProps) => {
 
                 <Card title="Basic information" required defaultOpened>
                     <Loaded loading={fetchingMetadata} loaded={fetchedMetadata} error={fetchedMetadataError}>
-                        <BasicInformationForm depositId={depositId}/>
+                        <BasicInformationForm depositId={props.depositId}/>
                     </Loaded>
                 </Card>
 
@@ -229,8 +231,8 @@ const DepositForm = (props: DepositFormProps) => {
 }
 
 const composedHOC = compose(
-    withRouter,
-    connect((state: AppState) => ({
+    connect((state: AppState, props: DepositFormOwnProps) => ({
+        ...props,
         initialValues: state.depositForm.initialState.metadata, // initial values for deposit form
         dropDowns: state.dropDowns, // used in form validation
     })),
