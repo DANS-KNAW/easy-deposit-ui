@@ -26,7 +26,7 @@ import "../../../resources/css/form.css"
 import "../../../resources/css/helptext.css"
 import "react-datepicker/dist/react-datepicker.css"
 import { DepositFormMetadata } from "./parts"
-import { DepositId } from "../../model/Deposits"
+import { DepositId, DepositStateLabel } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
 import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
@@ -42,7 +42,6 @@ import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
 import FileUpload from "./parts/FileUpload"
 import { depositFormName } from "../../constants/depositFormConstants"
-import { fetchAllDropdownsAndMetadata } from "../../actions/dropdownActions"
 import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
@@ -68,6 +67,7 @@ export interface DepositFormOwnProps {
     depositId: DepositId
     history: H.History
     depositState: DepositState
+    metadata: DepositFormMetadata
 }
 
 type DepositFormProps =
@@ -83,17 +83,22 @@ const DepositForm = (props: DepositFormProps) => {
     const formValues = useSelector(state => state.form.depositForm && state.form.depositForm.values)
     const dispatch = useDispatch()
 
-    const doFetchMetadata = () => dispatch(fetchAllDropdownsAndMetadata(props.depositId))
-    const doFetchFiles = () => dispatch(fetchFiles(props.depositId))
     const doSave = () => {
         // TODO remove this log once the form is fully implemented.
         console.log(`saving draft for ${props.depositId}`, formValues)
 
-        formValues && dispatch(saveDraft(props.depositId, formValues))
+        const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
+        formValues && dispatch(saveDraft(props.depositId, formValues, shouldSetToDraft))
     }
-    const doSubmit: (data: DepositFormMetadata) => void = data => dispatch(submitDeposit(props.depositId, data, props.history))
+    const doSubmit: (data: DepositFormMetadata) => void = data => {
+        // TODO remove this log once the form is fully implemented.
+        console.log(`submitting deposit ${props.depositId}`, data)
+
+        const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
+        dispatch(submitDeposit(props.depositId, data, props.history, shouldSetToDraft))
+    }
     /*
-     * TODO this is not entirely correct, but I don't know how to fix this;
+     * FIXME this is not entirely correct, but I don't know how to fix this;
      *   the following sequence should show a bug in this logic:
      *   1. create a new deposit
      *   2. edit 1 field
@@ -106,8 +111,7 @@ const DepositForm = (props: DepositFormProps) => {
     const shouldBlockNavigation = () => props.dirty && props.anyTouched && !props.submitSucceeded
 
     useEffect(() => {
-        doFetchMetadata()
-        doFetchFiles()
+        dispatch(fetchFiles(props.depositId))
 
         return function cleanup() {
             window.onbeforeunload = null
@@ -233,7 +237,7 @@ const DepositForm = (props: DepositFormProps) => {
 const composedHOC = compose(
     connect((state: AppState, props: DepositFormOwnProps) => ({
         ...props,
-        initialValues: state.depositForm.initialState.metadata, // initial values for deposit form
+        initialValues: props.metadata, // initial values for deposit form
         dropDowns: state.dropDowns, // used in form validation
     })),
     reduxForm({

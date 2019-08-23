@@ -16,7 +16,7 @@
 import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 import { DepositFormConstants, depositFormName, saveDraftResetTimeout } from "../constants/depositFormConstants"
 import { depositOverviewRoute } from "../constants/clientRoutes"
-import { depositStateNotFound, saveDraftResetAction } from "../actions/depositFormActions"
+import { depositStateNotFound, fetchDepositState, saveDraftResetAction } from "../actions/depositFormActions"
 import { actionTypes, change, getFormValues, initialize } from "redux-form"
 import { get } from "lodash"
 import { AppState } from "../model/AppState"
@@ -40,6 +40,16 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
 
     if (action.type === DepositFormConstants.FETCH_DOI_SUCCESS)
         dispatch(change(depositFormName, "doi", action.payload))
+}
+
+const fetchStateAfterSetFromRejectedToDraft: Middleware = ({ dispatch }: MiddlewareAPI<Dispatch<any>>) => (next: Dispatch) => action => {
+    next(action)
+
+    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED
+        && action.meta
+        && action.meta.setStateToDraft
+        && action.meta.depositId)
+        dispatch(fetchDepositState(action.meta.depositId))
 }
 
 const saveTimer: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
@@ -111,6 +121,7 @@ export const depositFormMiddleware: Middleware[] = [
     depositStateNotFoundMiddleware,
     replaceContributorIdFieldValue,
     fetchDoiProcessor,
+    fetchStateAfterSetFromRejectedToDraft,
     saveTimer,
     initializeFormAfterSaveDraft,
     submitReroute,
