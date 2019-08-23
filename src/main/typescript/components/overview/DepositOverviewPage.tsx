@@ -20,7 +20,7 @@ import "../../../resources/css/depositOverviewPage"
 
 const DepositOverviewPage = () => (
     <>
-        <h1>Deposit Overview Page</h1>
+        <h1>My Deposits</h1>
         <NewDepositButton>New deposit</NewDepositButton>
         <DepositOverview/>
     </>
