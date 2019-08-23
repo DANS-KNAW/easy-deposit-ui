@@ -18,18 +18,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>nl.knaw.dans.shared</groupId>
+        <artifactId>dans-mvn-plugin-defaults</artifactId>
+        <version>4.0.0</version>
+    </parent>
+
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-deposit-ui</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <name>EASY Deposit UI</name>
-    <url>https://github.com/DANS-KNAW/easy-deposit-ui</url>
+    <url>https://github.com/DANS-KNAW/${project.artifactId}</url>
     <description>Self-deposit user web-interface.</description>
     <inceptionYear>2018</inceptionYear>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/DANS-KNAW/easy-deposit-ui</developerConnection>
+        <developerConnection>scm:git:https://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -37,10 +42,8 @@
         <rpm-release /><!-- Only declared here, override on the command line if you need a custom release for the RPM -->
         <dans-provider-name>dans.knaw.nl</dans-provider-name>
         <context-root>deposit</context-root>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipTests>false</skipTests>
         <output.directory>target/build</output.directory>
-        <dans-build-resources.version>2.4.0</dans-build-resources.version>
     </properties>
 
     <repositories>
@@ -56,19 +59,12 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                    <pushChanges>false</pushChanges>
-                </configuration>
+                <!-- Generates stubs for missing RPM scripts -->
+                <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.3.2</version>
                 <executions>
 
                     <!-- The following will ensure `npm install` is called before anything
@@ -145,47 +141,11 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>nl.knaw.dans.shared</groupId>
-                                    <artifactId>dans-build-resources</artifactId>
-                                    <version>${dans-build-resources.version}</version>
-                                    <outputDirectory>${project.build.directory}/dans-build-resources</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>2.11</version>
-                <configuration>
-                    <header>${project.build.directory}/dans-build-resources/license/apache2.txt</header>
-                    <properties>
-                        <owner>DANS - Data Archiving and Networked Services</owner>
-                        <email>info@dans.knaw.nl</email>
-                    </properties>
+                <configuration combine.children="append">
                     <excludes>
-                        <exclude>LICENSE</exclude>
-                        <exclude>**/README</exclude>
-                        <exclude>.vagrant/</exclude>
                         <exclude>node_modules/</exclude>
-                        <exclude>Vagrantfile</exclude>
-                        <exclude>src/main/ansible/ansible.cfg</exclude>
-                        <exclude>**/*.txt</exclude>
                         <exclude>src/main/resources/helptexts/</exclude>
                     </excludes>
                     <includes>
@@ -200,16 +160,8 @@
                         <tsx>SLASHSTAR_STYLE</tsx>
                     </mapping>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-        </plugins>
+       </plugins>
     </build>
 
     <profiles>
@@ -226,27 +178,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>rpm-maven-plugin</artifactId>
-                        <version>2.1.5</version>
-                        <executions>
-                            <execution>
-                                <id>attach-rpm</id>
-                                <goals>
-                                    <goal>attached-rpm</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <group>Applications/Archiving</group>
-                            <release>${rpm-release}</release>
-                            <vendor>${dans-provider-name}</vendor>
-                            <packager>${dans-provider-name}</packager>
-                            <name>${dans-provider-name}-${project.artifactId}</name>
-                            <license>Apache 2.0</license>
-                            <targetOS>Linux</targetOS>
-                            <defaultUsername>root</defaultUsername>
-                            <defaultGroupname>root</defaultGroupname>
-                            <defaultFilemode>744</defaultFilemode>
-                            <defaultDirmode>755</defaultDirmode>
+                        <configuration combine.children="append">
                             <group>Applications/Archiving</group>
                             <mappings>
                                 <mapping>
