@@ -179,12 +179,10 @@
                         <email>info@dans.knaw.nl</email>
                     </properties>
                     <excludes>
+                        <exclude>.github/**</exclude>
                         <exclude>LICENSE</exclude>
                         <exclude>**/README</exclude>
-                        <exclude>.vagrant/</exclude>
                         <exclude>node_modules/</exclude>
-                        <exclude>Vagrantfile</exclude>
-                        <exclude>src/main/ansible/ansible.cfg</exclude>
                         <exclude>**/*.txt</exclude>
                         <exclude>src/main/resources/helptexts/</exclude>
                     </excludes>
