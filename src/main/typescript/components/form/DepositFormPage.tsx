@@ -24,6 +24,7 @@ import { RouteComponentProps, withRouter } from "react-router"
 import DepositStateLoader from "./DepositStateLoader"
 import DepositNotAccessible from "./DepositNotAccessible"
 import DepositNotFound from "./DepositNotFound"
+import DepositHolder from "./DepositHolder"
 
 interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
@@ -54,10 +55,9 @@ const DepositFormPage = ({ history, match: { params: { depositId } } }: DepositF
                     className="text-primary">Nederlands</a>)
             </p>
             <DepositStateLoader depositId={depositId}
-                                renderForm={depositState => <DepositForm depositId={depositId}
-                                                                         depositState={depositState}
-                                                                         history={history}/>}
-                                renderSubmitted={depositState => <DepositNotAccessible depositState={depositState}/>}
+                                renderForm={depositState => <DepositHolder depositId={depositId}
+                                                                           depositState={depositState}
+                                                                           history={history}/>}
                                 renderNotFound={() => <DepositNotFound/>}
             />
         </>
