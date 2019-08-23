@@ -49,8 +49,9 @@ const DepositOverview = () => {
 
     const renderLoadingError = () => deposits.loading.loadingError && (
         <ReloadAlert key="loadingError"
-                     reload={dispatch(fetchDeposits)}>
-            An error occurred: {deposits.loading.loadingError}. Cannot load data from the server.
+                     reload={() => dispatch(fetchDeposits())}>
+            An error occurred: {deposits.loading.loadingError}. Cannot load your deposits right now.
+            If this error persists, please <a href="mailto:info@dans.knaw.nl" target="_blank">contact us</a>.
         </ReloadAlert>
     )
 

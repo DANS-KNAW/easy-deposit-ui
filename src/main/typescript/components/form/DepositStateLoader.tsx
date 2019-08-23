@@ -20,6 +20,7 @@ import { fetchDepositState } from "../../actions/depositFormActions"
 import { DepositId } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
 import { DepositState } from "../../model/DepositState"
+import { ReloadAlert } from "../Errors"
 
 interface DepositStateLoaderProps {
     depositId: DepositId
@@ -38,11 +39,19 @@ const DepositStateLoader: FC<DepositStateLoaderProps> = ({ depositId, renderForm
     }, [])
 
     if (fetching && !depositState)
-        return (<p>State is being fetched...</p>)
+        return (
+            <p>State is being fetched...</p>
+        )
     else if (stateNotFound)
         return <>{renderNotFound()}</>
     else if (fetchError)
-        return (<p>State could not be fetched: {fetchError}</p>)
+        return (
+            <ReloadAlert key="loadingError"
+                         reload={() => dispatch(fetchDepositState(depositId))}>
+                An error occurred: {fetchError}. Cannot load this deposit right now.
+                If this persists, please <a href="mailto:info@dans.knaw.nl" target="_blank">contact us</a>.
+            </ReloadAlert>
+        )
     // if the depositState is fetched and present
     // or the depositState is being fetched right now, but is also already present (rerender)
     else if ((fetched && depositState) || (fetching && depositState))
