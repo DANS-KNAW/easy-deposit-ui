@@ -42,6 +42,7 @@ export const convertContributorIdDropdownData: (data: any) => ContributorIdDropd
                 value: obj.title,
                 displayValue: obj.viewName,
                 format: obj.format,
+                replace: obj.replace && obj.replace.map((repl: any) => ({ from: new RegExp(repl.from), to: repl.to })),
                 placeholder: obj.placeholder,
             }
         })

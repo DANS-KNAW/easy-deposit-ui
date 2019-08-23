@@ -146,6 +146,7 @@
                 <configuration combine.children="append">
                     <excludes>
                         <exclude>node_modules/</exclude>
+                        <exclude>**/*.txt</exclude>
                         <exclude>src/main/resources/helptexts/</exclude>
                     </excludes>
                     <includes>

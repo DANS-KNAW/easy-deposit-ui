@@ -30,8 +30,14 @@ export interface DropdownListEntry {
     displayValue: string
 }
 
+export interface ReplaceConfig {
+    from: RegExp
+    to: string
+}
+
 export interface ContributorIdDropdownListEntry extends DropdownListEntry {
     format: string
+    replace?: ReplaceConfig[]
     placeholder: string
 }
 

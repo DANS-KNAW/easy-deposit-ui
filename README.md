@@ -37,24 +37,6 @@ BUILDING FROM SOURCE
     * the output can be found in `./target/build`
     * the RPM can be found in `./target/rpm`
 
-Running on a test VM
---------------------
-
-**Prerequisites:**
-
-* VirtualBox 5.2.6
-* Vagrant 2.0.1
-* Ansible 2.4.2.0
-
-**Installing the test VM:**
-
-    vagrant up
-
-The project will be available in the browser at [http://192.168.33.32/] (or a url matching this ip address as specified in `/etc/hosts`)
-
-[http://localhost:3000]: http://localhost:3000
-[http://192.168.33.32/]: http://192.168.33.32/
-
 Update dependencies
 -------------------
 
@@ -66,4 +48,3 @@ Tested using BrowserStack
 -------------------------
 
 <a href="https://www.browserstack.com/"><img src="browserstack-logo-600x315.png" width="25%" height="25%" /></a>
-
