@@ -15,7 +15,7 @@
  */
 export type DepositId = string
 
-export enum DepositState {
+export enum DepositStateLabel {
     DRAFT = "DRAFT",
     REJECTED = "REJECTED",
     IN_PROGRESS = "IN_PROGRESS",
@@ -24,13 +24,13 @@ export enum DepositState {
 }
 
 /**
- * Transforms a string to a DepositState if the string matches one of its values. Otherwise it returns undefined.
+ * Transforms a string to a DepositStateLabel if the string matches one of its values. Otherwise it returns undefined.
  *
  * @param {string} value the value to be matched on
- * @returns {DepositState} the value represented by the input string
+ * @returns {DepositStateLabel} the value represented by the input string
  */
-export function toDepositState(value: string): DepositState | undefined {
-    return Object.values(DepositState).find(v => v === value)
+export function toDepositStateLabel(value: string): DepositStateLabel | undefined {
+    return Object.values(DepositStateLabel).find(v => v === value)
 }
 
 export type Deposits = { [depositId: string]: Deposit }
@@ -39,7 +39,7 @@ export const emptyDeposits: Deposits = {}
 
 export interface Deposit {
     title: string
-    state: DepositState
+    state: DepositStateLabel
     stateDescription: string
     date: Date
 }

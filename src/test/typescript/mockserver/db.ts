@@ -41,9 +41,11 @@ let data: Data = {
     },
     "a145a1be-5463-4b10-a621-a9e511ff7f20": {
         deposit: depositData3,
+        metadata: mandatoryOnly,
     },
     "5befec97-1e57-4210-b7b6-57a604aaef47": {
         deposit: depositData4,
+        metadata: mandatoryOnly,
     },
     // these deposits are here to show pagination
     // they all point to a archived datasets, so they're not clickable
@@ -163,7 +165,7 @@ export const getDeposit: (id: DepositId) => Deposit & { id: DepositId } | undefi
 const newDeposit: () => Deposit = () => ({
     title: "",
     state: "DRAFT",
-    stateDescription: "",
+    stateDescription: "This deposit is a draft...",
     date: new Date().toISOString(),
 })
 export const createDeposit: () => Deposit & { id: DepositId } = () => {

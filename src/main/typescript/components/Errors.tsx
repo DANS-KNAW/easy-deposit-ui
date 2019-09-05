@@ -43,3 +43,5 @@ export const CloseableWarning: FC = ({ children }) => (
         </button>
     </div>
 )
+
+export const Info: FC = ({children}) => <div className="alert alert-primary" role="alert">{children}</div>
