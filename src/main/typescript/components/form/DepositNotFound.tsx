@@ -16,12 +16,13 @@
 import * as React from "react"
 import { Link } from "react-router-dom"
 import { depositOverviewRoute } from "../../constants/clientRoutes"
+import { Alert } from "../Errors"
 
 const DepositNotFound = () => (
-    <p>
+    <Alert>
         This deposit could not be found.
         Please find your deposits <Link to={depositOverviewRoute}>here</Link>.
-    </p>
+    </Alert>
 )
 
 export default DepositNotFound
