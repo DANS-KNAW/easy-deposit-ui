@@ -37,7 +37,7 @@ const DepositNotAccessible = ({ depositState, metadata }: DepositUnavailableProp
         case DepositStateLabel.SUBMITTED:
             return <Info>{start} has been submitted. {end}</Info>
         case DepositStateLabel.ARCHIVED:
-            return <Info>{start} has already been published. {end}</Info>
+            return <Info>{start} has already been archived. {end}</Info>
         case DepositStateLabel.IN_PROGRESS:
         default:
             return <Info>{start} is in review. {end}</Info>
