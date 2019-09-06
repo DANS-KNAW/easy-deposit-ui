@@ -30,6 +30,7 @@ export const deleteDepositUrl = (id: DepositId) => createUrl(`deposit/${id}`)
 
 export const newDepositUrl = createUrl("deposit")
 
+export const fetchDepositStateUrl = (id: DepositId) => createUrl(`deposit/${id}/state`)
 export const fetchMetadataUrl = (id: DepositId) => createUrl(`deposit/${id}/metadata`)
 export const fetchDoiUrl = (id: DepositId) => createUrl(`deposit/${id}/doi`)
 export const saveDraftUrl = (id: DepositId) => createUrl(`deposit/${id}/metadata`)

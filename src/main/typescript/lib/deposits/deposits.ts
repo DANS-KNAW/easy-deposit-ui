@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Deposit, DepositId, Deposits, toDepositState } from "../../model/Deposits"
+import { Deposit, DepositId, Deposits, toDepositStateLabel } from "../../model/Deposits"
 
 type DepositWithId = Deposit & { depositId: string }
 
@@ -32,7 +32,7 @@ export const depositsConverter: (input: any) => Deposits = input => {
 }
 
 const depositConverter: (input: any) => DepositWithId = input => {
-    const state = toDepositState(input.state)
+    const state = toDepositStateLabel(input.state)
     if (state)
         return {
             depositId: input.id,
@@ -49,7 +49,7 @@ const depositConverter: (input: any) => DepositWithId = input => {
 }
 
 export const newDepositConverter: (input: any) => DepositId = ({ id, state }) => {
-    if (toDepositState(state))
+    if (toDepositStateLabel(state))
         return id
     else
         throw `Error in deposit ${id}: no such value: '${state}'`

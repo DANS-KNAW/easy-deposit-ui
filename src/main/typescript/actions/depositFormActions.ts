@@ -15,7 +15,7 @@
  */
 import * as H from "history"
 import { DepositFormMetadata } from "../components/form/parts"
-import { FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../lib/redux"
+import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import { DepositId } from "../model/Deposits"
 import { Action } from "redux"
@@ -23,10 +23,34 @@ import { AppState } from "../model/AppState"
 import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
 import { Doi } from "../lib/metadata/Identifier"
 import fetch from "../lib/fetch"
-import { fetchDoiUrl, fetchMetadataUrl, saveDraftUrl, submitDepositUrl } from "../selectors/serverRoutes"
+import {
+    fetchDepositStateUrl,
+    fetchDoiUrl,
+    fetchMetadataUrl,
+    saveDraftUrl,
+    submitDepositUrl,
+} from "../selectors/serverRoutes"
+import { DepositState } from "../model/DepositState"
+import { depositStateConverter } from "../lib/depositState/depositState"
+import { AxiosResponse } from "axios"
 
 export const unregisterForm: () => Action = () => ({
     type: DepositFormConstants.UNREGISTER_FORM,
+})
+
+export const fetchDepositState: (depositId: DepositId) => ThunkAction<FetchAction<DepositState>> = depositId => (dispatch, getState) => dispatch({
+    type: DepositFormConstants.FETCH_STATE,
+    async payload() {
+        const response = await fetch.get(fetchDepositStateUrl(depositId)(getState()))
+        return response.data
+    },
+    meta: {
+        transform: (input: any) => depositStateConverter(input),
+    },
+})
+
+export const depositStateNotFound: () => Action = () => ({
+    type: DepositFormConstants.FETCH_STATE_NOT_FOUND,
 })
 
 export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>> = depositId => (dispatch, getState) => dispatch({
@@ -58,18 +82,45 @@ export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> =
     },
 })
 
-export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data) => (dispatch, getState) => {
+const setStateToDraft: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse<any>> = async (depositId, getState) => {
+    const draftState = {
+        state: "DRAFT",
+        stateDescription: "Deposit is open for changes again",
+    }
+    return await fetch.put(submitDepositUrl(depositId)(getState()), draftState)
+}
+
+const setStateToSubmitted: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse<any>> = async (depositId, getState) => {
+    const submitState = {
+        state: "SUBMITTED",
+        stateDescription: "Deposit is ready for post-submission processing",
+    }
+    return await fetch.put(submitDepositUrl(depositId)(getState()), submitState)
+}
+
+const doSaveDraft: (depositId: DepositId, getState: () => AppState, output: any) => Promise<AxiosResponse<any>> = async (depositId, getState, output) => {
+    return await fetch.put(saveDraftUrl(depositId)(getState()), output)
+}
+
+export const saveDraft: (depositId: DepositId, data: DepositFormMetadata, setToDraft: boolean) => ComplexThunkAction = (depositId, data, setToDraft) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, false)
 
         // TODO remove this log once the form is fully implemented.
         console.log(`saving draft for ${depositId}`, output)
 
-        return dispatch({
+        dispatch({
             type: DepositFormConstants.SAVE_DRAFT,
             async payload() {
-                const response = await fetch.put(saveDraftUrl(depositId)(getState()), output)
+                if (setToDraft)
+                    await setStateToDraft(depositId, getState)
+
+                const response = await doSaveDraft(depositId, getState, output)
                 return response.data
+            },
+            meta: {
+                depositId: depositId,
+                setStateToDraft: setToDraft,
             },
         })
     }
@@ -77,7 +128,7 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata) => Thu
         // TODO remove this log once the form is fully implemented.
         console.log({ depositId, data })
 
-        return dispatch(saveDraftRejectedAction(errorMessage))
+        dispatch(saveDraftRejectedAction(errorMessage))
     }
 }
 
@@ -90,7 +141,7 @@ export const saveDraftResetAction: () => Action = () => ({
     type: DepositFormConstants.SAVE_DRAFT_RESET,
 })
 
-export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data, history) => (dispatch, getState) => {
+export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History, setToDraft: boolean) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data, history, setToDraft) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, true)
 
@@ -100,17 +151,17 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, hi
         return dispatch({
             type: DepositFormConstants.SUBMIT_DEPOSIT,
             async payload() {
-                await fetch.put(saveDraftUrl(depositId)(getState()), output)
-                const submitState = {
-                    state: "SUBMITTED",
-                    stateDescription: "Deposit is ready for post-submission processing",
-                }
-                const response = await fetch.put(submitDepositUrl(depositId)(getState()), submitState)
+                if (setToDraft)
+                    await setStateToDraft(depositId, getState)
+
+                await doSaveDraft(depositId, getState, output)
+
+                const response = await setStateToSubmitted(depositId, getState)
                 return response.data
             },
             meta: {
-                history: history
-            }
+                history: history,
+            },
         })
     }
     catch (errorMessage) {

@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+import { Link } from "react-router-dom"
+import { depositOverviewRoute } from "../../constants/clientRoutes"
+import { Alert } from "../Errors"
 
-const DepositOverviewPage = () => (
-    <>
-        <h1>My Deposits</h1>
-        <NewDepositButton>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
+const DepositNotFound = () => (
+    <Alert>
+        This deposit could not be found.
+        Please find your deposits <Link to={depositOverviewRoute}>here</Link>.
+    </Alert>
 )
 
-export default DepositOverviewPage
+export default DepositNotFound

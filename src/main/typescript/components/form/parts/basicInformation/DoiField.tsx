@@ -30,7 +30,7 @@ interface DoiFieldProps extends FieldProps {
 const DoiField = ({ input, meta, label, depositId, mandatory, helpText }: DoiFieldProps) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
-    const { fetchingDoi, fetchDoiError } = useSelector(state => state.depositForm.fetchDoi)
+    const { fetching, fetchError } = useSelector(state => state.depositForm.fetchDoi)
     const dispatch = useDispatch()
     const doFetchDoi = (depositId: string) => dispatch(fetchDoi(depositId))
 
@@ -46,14 +46,14 @@ const DoiField = ({ input, meta, label, depositId, mandatory, helpText }: DoiFie
                 {input.value
                     ? <label className={`value-label ${hasError ? "is-invalid" : ""}`.trim()}
                              id={input.name}>{input.value}</label>
-                    : fetchDoiError
+                    : fetchError
                         ? <ReloadAlert key="fetchMetadataError" reload={() => doFetchDoi(depositId)}>
-                            An error occurred: {fetchDoiError}. Cannot create a new DOI.
+                            An error occurred: {fetchError}. Cannot create a new DOI.
                         </ReloadAlert>
                         : <button type="button"
                                   className={`btn value-button ${hasError ? "btn-danger is-invalid" : "btn-dark"}`.trim()}
                                   onClick={() => doFetchDoi(depositId)}
-                                  disabled={fetchingDoi}>Reserve DOI</button>
+                                  disabled={fetching}>Reserve DOI</button>
                 }
                 {hasError && <span className="invalid-feedback">{meta.error}</span>}
             </div>

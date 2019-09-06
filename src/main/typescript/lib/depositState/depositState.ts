@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react"
-import DepositOverview from "./DepositOverview"
-import NewDepositButton from "./NewDepositButton"
-import "../../../resources/css/depositOverviewPage"
+import { DepositState } from "../../model/DepositState"
+import { toDepositStateLabel } from "../../model/Deposits"
 
-const DepositOverviewPage = () => (
-    <>
-        <h1>My Deposits</h1>
-        <NewDepositButton>New deposit</NewDepositButton>
-        <DepositOverview/>
-    </>
-)
+export function depositStateConverter(input: any): DepositState {
+    const label = input.state && toDepositStateLabel(input.state)
+    const description = input.stateDescription
 
-export default DepositOverviewPage
+    if (label)
+        return ({
+            label: label,
+            description: description || "",
+        })
+    else
+        throw `Error in deposit state: no such deposit state: '${input.state}'`
+}
