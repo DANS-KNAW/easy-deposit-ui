@@ -94,6 +94,7 @@
 
 .deposit_table tbody tr.not_editable_table_row a {
     color: var(--table-row-disabled);
+    text-decoration: underline;
     cursor: pointer;
 }
 
