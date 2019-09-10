@@ -27,11 +27,23 @@ import {
 describe("Metadata", () => {
 
     const fetchDropdownList: (filename: string) => any = filename => require(`../../../../main/resources/constants/${filename}`)
+    const fetchLicenses: (filename: string) => any = filename => require(`../../../../../target/easy-licenses/licenses/${filename}`)
 
     function dropdownList<Entry extends DropdownListEntry>(filename: string,
                                                            convertData: (data: any) => Entry[]): DropdownList<Entry> {
         return {
             list: convertData(fetchDropdownList(filename)),
+            state: {
+                fetchingList: false,
+                fetchedList: true,
+            },
+        }
+    }
+
+    function licensesDropdownList<Entry extends DropdownListEntry>(filename: string,
+                                                                   convertData: (data: any) => Entry[]): DropdownList<Entry> {
+        return {
+            list: convertData(fetchLicenses(filename)),
             state: {
                 fetchingList: false,
                 fetchedList: true,
@@ -47,7 +59,7 @@ describe("Metadata", () => {
         identifiers: dropdownList("identifiers.json", convertDropdownData),
         relations: dropdownList("relations.json", convertDropdownData),
         dates: dropdownList("dates.json", convertDropdownData),
-        licenses: dropdownList("licenses.json", convertDropdownData),
+        licenses: licensesDropdownList("licenses.json", convertDropdownData),
         dcmiTypes: dropdownList("dcmiTypes.json", convertDropdownData),
         imtFormats: dropdownList("imtFormats.json", convertDropdownData),
         abrComplexSubjects: dropdownList("abrComplexSubjects.json", convertDropdownData),
