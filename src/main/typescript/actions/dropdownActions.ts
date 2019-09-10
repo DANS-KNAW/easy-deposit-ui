@@ -27,9 +27,6 @@ import { Action } from "redux"
 import { fetchMetadata } from "./depositFormActions"
 import { DropdownList, DropdownListEntry, DropdownLists } from "../model/DropdownLists"
 
-const licensesJson = require(`../../../../target/easy-licenses/licenses/licenses.json`)
-console.log(licensesJson)
-
 const fetchDropdownPending: (type: DropdownConstants) => Action<DropdownConstants> = type => ({
     type: type,
 })
