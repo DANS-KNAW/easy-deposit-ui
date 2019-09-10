@@ -27,6 +27,7 @@ import {
 import { useSelector } from "../../lib/redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
+import LoadingDepositTableRow from "./LoadingDepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
 import { depositFormRoute } from "../../constants/clientRoutes"
 import EmptyDepositTableRow from "./EmptyDepositTableRow"
@@ -77,51 +78,50 @@ const DepositOverview = () => {
         </Alert>
     )
 
-    const renderAlerts = () => [
-        renderLoadingError(),
-        renderDeleteError(),
-        renderCreateNewError(),
-    ]
+    const renderTableBody = (depositIdsToBeShown: DepositId[], depositCount: number) => {
+        if (deposits.loading.loading)
+            return <LoadingDepositTableRow/>
+
+        if (depositCount === 0)
+            return <EmptyDepositTableRow/>
+
+        return depositIdsToBeShown.map(depositId => (
+            <DepositTableRow key={depositId}
+                             deposit={deposits.deposits[depositId]}
+                             deleting={deposits.deleting[depositId]}
+                             deleteDeposit={e => {
+                                 e.stopPropagation()
+                                 dispatch(deleteDeposit(depositId))
+                             }}
+                             askConfirmation={e => {
+                                 e.stopPropagation()
+                                 dispatch(askConfirmationToDeleteDeposit(depositId))
+                             }}
+                             cancelDeleteDeposit={e => {
+                                 e.stopPropagation()
+                                 dispatch(cancelDeleteDeposit(depositId))
+                             }}
+                             editable={isEditable(deposits.deposits[depositId])}
+                             depositLink={depositFormRoute(depositId)}/>
+        ))
+    }
 
     const renderTable = (depositIdsToBeShown: DepositId[], depositCount: number) => (
         <table className="table table-striped deposit_table mt-2">
             <DepositTableHead/>
-            <tbody>{depositCount == 0
-                ? <EmptyDepositTableRow/>
-                : depositIdsToBeShown.map(depositId => {
-                    return <DepositTableRow key={depositId}
-                                            deposit={deposits.deposits[depositId]}
-                                            deleting={deposits.deleting[depositId]}
-                                            deleteDeposit={e => {
-                                                e.stopPropagation()
-                                                dispatch(deleteDeposit(depositId))
-                                            }}
-                                            askConfirmation={e => {
-                                                e.stopPropagation()
-                                                dispatch(askConfirmationToDeleteDeposit(depositId))
-                                            }}
-                                            cancelDeleteDeposit={e => {
-                                                e.stopPropagation()
-                                                dispatch(cancelDeleteDeposit(depositId))
-                                            }}
-                                            editable={isEditable(deposits.deposits[depositId])}
-                                            depositLink={depositFormRoute(depositId)}/>
-                })}</tbody>
+            <tbody>{renderTableBody(depositIdsToBeShown, depositCount)}</tbody>
         </table>
-    )
-
-    const renderTableView = () => (
-        <Paginationable entryDescription="deposits"
-                        pagesShown={5}
-                        entries={deposits.loading.loaded ? Object.keys(deposits.deposits) : []}
-                        renderEntries={renderTable}/>
     )
 
     return (
         <>
-            {renderAlerts()}
-            {deposits.loading.loading && <p>loading data...</p>}
-            {deposits.loading.loaded && renderTableView()}
+            {renderLoadingError()}
+            {renderDeleteError()}
+            {renderCreateNewError()}
+            <Paginationable entryDescription="deposits"
+                            pagesShown={5}
+                            entries={deposits.loading.loaded ? Object.keys(deposits.deposits) : []}
+                            renderEntries={renderTable}/>
         </>
     )
 }
