@@ -32,6 +32,7 @@ import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
+import Loading from "../Loading"
 import DepositLicenseForm from "./parts/DepositLicenseForm"
 import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
 import MessageForDataManagerForm from "./parts/MessageForDataManagerForm"
@@ -56,7 +57,7 @@ interface LoadedProps {
 const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
-            {loading && <p>Loading data...</p>}
+            {loading && <Loading/>}
             {error && <p><i>You cannot load data from the server.</i></p>}
             {loaded && children}
         </>
