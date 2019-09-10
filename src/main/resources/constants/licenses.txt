@@ -1,0 +1,2 @@
+The licenses can be found in easy-licenses.
+To import them into this project, please build with Maven.

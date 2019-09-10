@@ -183,7 +183,7 @@
                 <executions>
                     <execution>
                         <id>resources</id>
-                        <phase>generate-resources</phase>ƒ
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -227,15 +227,6 @@
                                     <sources>
                                         <source>
                                             <location>target/build</location>
-                                        </source>
-                                    </sources>
-                                </mapping>
-                                <mapping>
-                                    <directory>/var/www/html/${context-root}/lic</directory>
-                                    <filemode>755</filemode>
-                                    <sources>
-                                        <source>
-                                            <location>target/easy-licenses/licenses</location>
                                         </source>
                                     </sources>
                                 </mapping>
