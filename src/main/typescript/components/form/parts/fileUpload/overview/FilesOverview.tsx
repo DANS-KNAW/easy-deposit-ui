@@ -23,6 +23,7 @@ import { useSelector } from "../../../../../lib/redux"
 import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/fileOverviewActions"
 import EmptyFileTableRow from "./EmptyFileTableRow"
 import { CloseableWarning } from "../../../../Errors"
+import Loading from "../../../../Loading"
 import Paginationable from "../../../../Paginationable"
 
 interface FilesOverviewProps {
@@ -100,7 +101,7 @@ const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
 
     return (
         <>
-            {files.loading.loading && <p>loading files ...</p>}
+            {files.loading.loading && <Loading/>}
             {renderDeleteError()}
             {files.loading.loaded && renderTableView()}
         </>

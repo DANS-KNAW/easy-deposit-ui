@@ -15,6 +15,7 @@
  */
 import * as React from "react"
 import { connect } from "react-redux"
+import Loading from "../../components/Loading"
 import { AppState } from "../../model/AppState"
 import { PromiseAction, ReduxAction } from "../redux"
 import { fetchHelpText, registerHelpText, unregisterHelpText } from "../../actions/helpTextActions"
@@ -51,7 +52,7 @@ class HelpText extends React.Component<HelpTextProps & HelpTextInputProps> {
     }
 
     render() {
-        const loading = <i>Loading help text...</i>
+        const loading = <Loading/>
         const helpText = <div className="help-text" dangerouslySetInnerHTML={{ __html: this.props.helpText }}/>
         const error = <i style={{ color: "red" }}>{this.props.helpTextFetchError}</i>
 

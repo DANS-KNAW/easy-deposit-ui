@@ -15,6 +15,7 @@
  */
 import * as React from "react"
 import { FC } from "react"
+import Loading from "../../components/Loading"
 import { DropdownListState } from "../../model/DropdownLists"
 
 interface LoadDropdownDataProperties {
@@ -23,7 +24,7 @@ interface LoadDropdownDataProperties {
 
 const LoadDropdownData: FC<LoadDropdownDataProperties> = ({ children, state: { fetchingList, fetchedList, fetchListError } }) => (
     <>
-        {fetchingList && <p>fetching data for dropdown list...</p>}
+        {fetchingList && <Loading/>}
         {fetchListError && <p>failed to fetch data for dropdown list</p>}
         {fetchedList && children}
     </>
