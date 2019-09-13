@@ -27,11 +27,10 @@ import {
 import { useSelector } from "../../lib/redux"
 import DepositTableHead from "./DepositTableHead"
 import DepositTableRow from "./DepositTableRow"
-import LoadingDepositTableRow from "./LoadingDepositTableRow"
 import { Alert, CloseableWarning, ReloadAlert } from "../Errors"
 import { depositFormRoute } from "../../constants/clientRoutes"
-import EmptyDepositTableRow from "./EmptyDepositTableRow"
 import Paginationable from "../Paginationable"
+import Loading from "../Loading"
 
 function isEditable({ state }: Deposit): boolean {
     return state === DepositStateLabel.DRAFT || state === DepositStateLabel.REJECTED
@@ -95,10 +94,18 @@ const DepositOverview = () => {
 
     const renderTableBody = (depositIdsToBeShown: DepositId[], depositCount: number) => {
         if (deposits.loading.loading)
-            return <LoadingDepositTableRow/>
+            return (
+                <tr className="row ml-0 mr-0">
+                    <td className="col col-12 text-center" scope="row" colSpan={5}><Loading/></td>
+                </tr>
+            )
 
         if (depositCount === 0)
-            return <EmptyDepositTableRow/>
+            return (
+                <tr className="row ml-0 mr-0">
+                    <td className="col col-12" scope="row" colSpan={5}>No deposits yet</td>
+                </tr>
+            )
 
         return depositIdsToBeShown.map(depositId => (
             <DepositTableRow key={depositId}
