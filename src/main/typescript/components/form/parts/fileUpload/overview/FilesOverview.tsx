@@ -21,7 +21,6 @@ import { useDispatch } from "react-redux"
 import { DepositId } from "../../../../../model/Deposits"
 import { useSelector } from "../../../../../lib/redux"
 import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/fileOverviewActions"
-import EmptyFileTableRow from "./EmptyFileTableRow"
 import { CloseableWarning } from "../../../../Errors"
 import Loading from "../../../../Loading"
 import Paginationable from "../../../../Paginationable"
@@ -68,42 +67,49 @@ const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
             })
     }
 
+    function renderTableBody(filePaths: string[], filePathsCount: number) {
+        if (files.loading.loading)
+            return (
+                <tr className="row ml-0 mr-0">
+                    <td className="col col-12 text-center" scope="row" colSpan={5}><Loading/></td>
+                </tr>
+            )
+
+        if (filePathsCount === 0)
+            return (
+                <tr className="row ml-0 mr-0">
+                    <td className="col col-12" scope="row" colSpan={3}>No files uploaded</td>
+                </tr>
+            )
+
+        return filePaths.map(filepath => (
+            <FilesTableRow
+                key={filepath}
+                deleting={files.deleting[filepath]}
+                deleteFile={doDeleteFile(depositId, filepath)}
+                fileInfo={files.files[filepath]}
+                askConfirmation={doAskConfirmation(filepath)}
+                cancelDeleteFile={doCancelDeleteFile(filepath)}/>
+        ))
+    }
+
     function renderTable(filePaths: string[], filePathsCount: number) {
         return (
             <table className="table table-striped file_table">
                 <FilesTableHead/>
-                <tbody>{filePathsCount == 0
-                    ? <EmptyFileTableRow/>
-                    : filePaths.map(filepath =>
-                        <FilesTableRow
-                            key={filepath}
-                            deleting={files.deleting[filepath]}
-                            deleteFile={doDeleteFile(depositId, filepath)}
-                            fileInfo={files.files[filepath]}
-                            askConfirmation={doAskConfirmation(filepath)}
-                            cancelDeleteFile={doCancelDeleteFile(filepath)}
-                        />,
-                    )
-                }</tbody>
+                <tbody>{renderTableBody(filePaths, filePathsCount)}</tbody>
             </table>
-        )
-    }
-
-    function renderTableView() {
-        return (
-            <Paginationable entryDescription="files"
-                            pagesShown={5}
-                            helpText="uploadFiles"
-                            entries={files.loading.loaded ? Object.keys(files.files) : []}
-                            renderEntries={renderTable}/>
         )
     }
 
     return (
         <>
-            {files.loading.loading && <Loading/>}
             {renderDeleteError()}
-            {files.loading.loaded && renderTableView()}
+            <Paginationable entryDescription="files"
+                            pagesShown={5}
+                            helpText="uploadFiles"
+                            entries={files.loading.loaded ? Object.keys(files.files) : []}
+                            renderEntries={renderTable}/>
         </>
     )
 }
