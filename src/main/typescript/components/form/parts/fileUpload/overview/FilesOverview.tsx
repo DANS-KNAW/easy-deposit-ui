@@ -68,7 +68,7 @@ const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
     }
 
     function renderTableBody(filePaths: string[], filePathsCount: number) {
-        if (files.loading.loading)
+        if (files.loading.loading && filePathsCount === 0)
             return (
                 <tr className="row ml-0 mr-0">
                     <td className="col col-12 text-center" scope="row" colSpan={5}><Loading/></td>
