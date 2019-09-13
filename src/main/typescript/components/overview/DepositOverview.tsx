@@ -48,6 +48,21 @@ const DepositOverview = () => {
         }
     }, [])
 
+    const doDeleteDeposit = (depositId: DepositId) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        dispatch(deleteDeposit(depositId))
+    }
+
+    const doAskConfirmation = (depositId: DepositId) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        dispatch(askConfirmationToDeleteDeposit(depositId))
+    }
+
+    const doCancelDeleteFile = (depositId: DepositId) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        dispatch(cancelDeleteDeposit(depositId))
+    }
+
     const renderLoadingError = () => deposits.loading.loadingError && (
         <ReloadAlert key="loadingError"
                      reload={() => dispatch(fetchDeposits())}>
@@ -89,18 +104,9 @@ const DepositOverview = () => {
             <DepositTableRow key={depositId}
                              deposit={deposits.deposits[depositId]}
                              deleting={deposits.deleting[depositId]}
-                             deleteDeposit={e => {
-                                 e.stopPropagation()
-                                 dispatch(deleteDeposit(depositId))
-                             }}
-                             askConfirmation={e => {
-                                 e.stopPropagation()
-                                 dispatch(askConfirmationToDeleteDeposit(depositId))
-                             }}
-                             cancelDeleteDeposit={e => {
-                                 e.stopPropagation()
-                                 dispatch(cancelDeleteDeposit(depositId))
-                             }}
+                             deleteDeposit={doDeleteDeposit(depositId)}
+                             askConfirmation={doAskConfirmation(depositId)}
+                             cancelDeleteDeposit={doCancelDeleteFile(depositId)}
                              editable={isEditable(deposits.deposits[depositId])}
                              depositLink={depositFormRoute(depositId)}/>
         ))
