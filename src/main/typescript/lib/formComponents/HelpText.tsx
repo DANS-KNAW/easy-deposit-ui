@@ -62,7 +62,7 @@ class HelpText extends React.Component<HelpTextProps & HelpTextInputProps> {
                 {this.props.helpTextFetched && helpText}
                 {this.props.helpTextFetchError && error}
             </>
-            : <div/>
+            : null
     }
 }
 
