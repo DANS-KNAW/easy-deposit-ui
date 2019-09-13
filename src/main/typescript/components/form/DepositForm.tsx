@@ -58,7 +58,7 @@ interface LoadedProps {
 const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
-            {loading && <Loading/>}
+            {loading && <div className="text-center"><Loading/></div>}
             {error && <p><i>You cannot load data from the server.</i></p>}
             {loaded && children}
         </>

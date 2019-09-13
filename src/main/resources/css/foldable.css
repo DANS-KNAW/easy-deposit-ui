@@ -47,8 +47,3 @@
     background-color: var(--form-card-background);
     border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
 }
-
-.card .card-body .loading-ring {
-    padding-left: calc(50% - 21px);
-    margin: 0 auto;
-}
