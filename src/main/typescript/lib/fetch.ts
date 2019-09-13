@@ -16,7 +16,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
 function change503Response(e: any): void {
-    console.log(e.response)
     if (e.response && e.response.status === 503)
         e.response.data = "The server is temporarily unavailable"
 }

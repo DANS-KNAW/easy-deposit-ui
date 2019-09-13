@@ -40,9 +40,6 @@ const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => a
             })
         }
         catch (errorMessage) {
-            // TODO remove this log once everything is fully implemented.
-            console.log("conversion failed, original payload:", action.payload)
-
             dispatch({
                 type: actionType + failedPostfix,
                 payload: errorMessage,
