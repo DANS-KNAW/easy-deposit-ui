@@ -55,5 +55,3 @@ export const askConfirmationToDeleteFile: (filePath: string) => Action = (filePa
 export const cleanFiles: () => Action = () => ({
     type: FileOverviewConstants.CLEAN_FILES,
 })
-
-// TODO update not yet used (think upload)

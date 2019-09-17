@@ -24,8 +24,6 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
         publicPath: "/"
     },
 
-    // TODO devServer with proxies
-    // https://github.com/Dans-labs/dariah/blob/master/client/webpack.dev.js#L63-L73
     devServer: {
         inline: true,
         host: '000.000.00.00',

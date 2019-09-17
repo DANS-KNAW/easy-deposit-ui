@@ -243,7 +243,7 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
 
         // license and access
         publishers: data.publishers && data.publishers.filter(p => !isEmptyString(p)),
-        accessRights: data.accessRights && accessRightDeconverter(data.accessRights), // TODO not sure if this is correct
+        accessRights: data.accessRights && accessRightDeconverter(data.accessRights),
         license: data.license && licenseDeconverter(dropDowns.licenses.list)(data.license),
 
         // upload type
