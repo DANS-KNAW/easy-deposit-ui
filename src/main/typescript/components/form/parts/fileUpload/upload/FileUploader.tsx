@@ -33,6 +33,7 @@ const FileUploader = ({depositId}: FileUploaderProps) => {
     const [uploadingFile, setUploadingFile] = useState<File>()
     const [errorMessage, setErrorMessage] = useState<string>()
     const fileUploadUrl = useSelector(uploadFileUrl(depositId, ""))
+    const filesOverviewLoading = useSelector(state => state.files.loading.loading)
     const fileIsUploading = useSelector(isFileUploading)
     const depositIsSaving = useSelector(state => state.depositForm.saveDraft.saving)
     const depositIsSubmitting = useSelector(state => state.depositForm.submit.submitting)
@@ -74,7 +75,7 @@ const FileUploader = ({depositId}: FileUploaderProps) => {
             <input type="file"
                    onChange={uploadFile}
                    id="file-upload"
-                   disabled={fileIsUploading || depositIsSaving || depositIsSubmitting}
+                   disabled={fileIsUploading || depositIsSaving || depositIsSubmitting || filesOverviewLoading}
                    className="input-file"/>
             <label className="btn btn-dark mb-0" htmlFor="file-upload">
                 {/* SVG taken from https://tympanus.net/Tutorials/CustomFileInputs/ */}

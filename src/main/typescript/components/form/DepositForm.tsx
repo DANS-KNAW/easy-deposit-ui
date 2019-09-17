@@ -32,6 +32,7 @@ import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
+import Loading from "../Loading"
 import DepositLicenseForm from "./parts/DepositLicenseForm"
 import PrivacySensitiveDataForm from "./parts/PrivacySensitiveDataForm"
 import MessageForDataManagerForm from "./parts/MessageForDataManagerForm"
@@ -40,7 +41,8 @@ import ArchaeologySpecificMetadataForm from "./parts/ArchaeologySpecificMetadata
 import UploadTypeForm from "./parts/UploadTypeForm"
 import LicenseAndAccessForm from "./parts/LicenseAndAccessForm"
 import BasicInformationForm from "./parts/BasicInformationForm"
-import FileUpload from "./parts/FileUpload"
+import FilesOverview from "./parts/fileUpload/overview/FilesOverview"
+import FileUploader from "./parts/fileUpload/upload/FileUploader"
 import { depositFormName } from "../../constants/depositFormConstants"
 import { fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
@@ -56,7 +58,7 @@ interface LoadedProps {
 const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
     return (
         <>
-            {loading && <p>Loading data...</p>}
+            {loading && <div className="text-center"><Loading/></div>}
             {error && <p><i>You cannot load data from the server.</i></p>}
             {loaded && children}
         </>
@@ -121,7 +123,7 @@ const DepositForm = (props: DepositFormProps) => {
     })
 
     const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = formState.fetchMetadata
-    const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = fileState
+    const { loadingError: fetchedFilesError } = fileState
     const { saving, saved, saveError } = formState.saveDraft
     const { submitting, submitError } = formState.submit
 
@@ -143,9 +145,8 @@ const DepositForm = (props: DepositFormProps) => {
               */}
             <form noValidate>
                 <Card title="Upload your data" defaultOpened>
-                    <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
-                        <FileUpload depositId={props.depositId}/>
-                    </Loaded>
+                    <FilesOverview depositId={props.depositId}/>
+                    <FileUploader depositId={props.depositId}/>
                 </Card>
 
                 <Card title="Personal data" required defaultOpened>

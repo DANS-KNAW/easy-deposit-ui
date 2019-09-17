@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
+import "../../resources/css/loading.css"
 
-const EmptyFileTableRow = () => (
-    <tr className="row ml-0 mr-0">
-        <td className="col col-12" scope="row" colSpan={3}>No files uploaded</td>
-    </tr>
+const Loading = () => (
+    <div className="loading-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 )
 
-export default EmptyFileTableRow
+export default Loading

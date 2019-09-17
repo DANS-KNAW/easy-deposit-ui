@@ -21,6 +21,7 @@ import { DepositId } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
 import { DepositState } from "../../model/DepositState"
 import { ReloadAlert } from "../Errors"
+import Loading from "../Loading"
 
 interface DepositStateLoaderProps {
     depositId: DepositId
@@ -40,7 +41,7 @@ const DepositStateLoader: FC<DepositStateLoaderProps> = ({ depositId, renderForm
 
     if (fetching && !depositState)
         return (
-            <p>State is being fetched...</p>
+            <Loading/>
         )
     else if (stateNotFound)
         return <>{renderNotFound()}</>
