@@ -22,16 +22,13 @@ export interface MessageForDataManagerFormData {
 }
 
 const MessageForDataManagerForm = () => (
-    <>
-        {/* TODO this field must be wider */}
-        <Field name="messageForDataManager"
-               rows={10}
-               helpText
-               maxRows={20}
-               maxHeight={500}
-               label="Message for the data manager"
-               component={TextArea}/>
-    </>
+    <Field name="messageForDataManager"
+           rows={10}
+           helpText
+           maxRows={20}
+           maxHeight={500}
+           label="Message for the data manager"
+           component={TextArea}/>
 )
 
 export default MessageForDataManagerForm
