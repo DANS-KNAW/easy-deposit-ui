@@ -108,7 +108,6 @@ const Header = () => {
                            src={logo_easy}
                            alt="EASY"/>
             </LogosHeaders>
-            {/* TODO not sure if this <hr/> will stay, but I think it is useful during development */}
             <hr/>
         </header>
     )
