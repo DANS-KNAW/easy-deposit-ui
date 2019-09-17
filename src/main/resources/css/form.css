@@ -104,11 +104,6 @@
     margin-top: 0.2rem; /* officially 0.3rem, but I think that's too much */
 }
 
-.input-element > .validation-error {
-    /* TODO more layout */
-    color: var(--danger);
-}
-
 .input-element .form-row {
     margin-left: 0;
     margin-right: 0;
