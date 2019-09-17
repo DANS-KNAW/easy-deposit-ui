@@ -60,14 +60,7 @@ export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<De
         return response.data
     },
     meta: {
-        transform: (input: any, getState: () => AppState) => {
-            const data = metadataConverter(input, getState().dropDowns)
-
-            // TODO remove this log once the form is fully implemented.
-            console.log(data)
-
-            return data
-        },
+        transform: (input: any, getState: () => AppState) => metadataConverter(input, getState().dropDowns),
     },
 })
 
@@ -106,9 +99,6 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata, setToD
     try {
         const output = metadataDeconverter(data, getState().dropDowns, false)
 
-        // TODO remove this log once the form is fully implemented.
-        console.log(`saving draft for ${depositId}`, output)
-
         dispatch({
             type: DepositFormConstants.SAVE_DRAFT,
             async payload() {
@@ -125,9 +115,6 @@ export const saveDraft: (depositId: DepositId, data: DepositFormMetadata, setToD
         })
     }
     catch (errorMessage) {
-        // TODO remove this log once the form is fully implemented.
-        console.log({ depositId, data })
-
         dispatch(saveDraftRejectedAction(errorMessage))
     }
 }
@@ -144,9 +131,6 @@ export const saveDraftResetAction: () => Action = () => ({
 export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History, setToDraft: boolean) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data, history, setToDraft) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, true)
-
-        // TODO remove this log once the form is fully implemented.
-        console.log(`submitting deposit for ${depositId}`, output)
 
         return dispatch({
             type: DepositFormConstants.SUBMIT_DEPOSIT,
@@ -165,9 +149,6 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, hi
         })
     }
     catch (errorMessage) {
-        // TODO remove this log once the form is fully implemented.
-        console.log({ depositId, data })
-
         return dispatch(submitDepositRejectedAction(errorMessage))
     }
 }

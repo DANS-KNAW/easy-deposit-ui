@@ -84,16 +84,10 @@ const DepositForm = (props: DepositFormProps) => {
     const dispatch = useDispatch()
 
     const doSave = () => {
-        // TODO remove this log once the form is fully implemented.
-        console.log(`saving draft for ${props.depositId}`, formValues)
-
         const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
         formValues && dispatch(saveDraft(props.depositId, formValues, shouldSetToDraft))
     }
     const doSubmit: (data: DepositFormMetadata) => void = data => {
-        // TODO remove this log once the form is fully implemented.
-        console.log(`submitting deposit ${props.depositId}`, data)
-
         const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
         dispatch(submitDeposit(props.depositId, data, props.history, shouldSetToDraft))
     }
