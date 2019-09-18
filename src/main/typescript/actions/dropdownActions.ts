@@ -51,7 +51,7 @@ const fetchDropdownRejected: <T>(type: DropdownConstants, error: T) => ReduxActi
 function fetchDropdown<Entry extends DropdownListEntry>(pending: DropdownConstants,
                                                         fulfilled: DropdownConstants,
                                                         rejected: DropdownConstants,
-                                                        filename: string,
+                                                        requiredPath: string,
                                                         storeLocation: (dropDowns: DropdownLists) => DropdownList,
                                                         convertData: (data: any) => Entry[]): PromiseThunkAction {
     return async (dispatch, getState) => {
@@ -60,7 +60,7 @@ function fetchDropdown<Entry extends DropdownListEntry>(pending: DropdownConstan
 
             try {
                 const requestConfig: AxiosRequestConfig = { headers: { "Cache-Control": "no-cache" } }
-                const response = await fetch.get(require(`../../resources/constants/${filename}`), requestConfig)
+                const response = await fetch.get(requiredPath, requestConfig)
                 dispatch(fetchDropdownFulfilled(fulfilled, response.data, convertData))
             }
             catch (e) {
@@ -70,11 +70,19 @@ function fetchDropdown<Entry extends DropdownListEntry>(pending: DropdownConstan
     }
 }
 
+function constants(filename: string): string {
+    return require(`../../resources/constants/${filename}`)
+}
+
+function licenses(): string {
+    return require(`../../../../target/easy-licenses/licenses/licenses.json`)
+}
+
 const fetchLanguagesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_LANGUAGES_DROPDOWN_PENDING,
     DropdownConstants.FETCH_LANGUAGES_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
-    "languages.json",
+    constants("languages.json"),
     dds => dds.languages,
     convertDropdownData,
 )
@@ -83,7 +91,7 @@ const fetchContributorIdsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING,
     DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
-    "contributorIds.json",
+    constants("contributorIds.json"),
     dds => dds.contributorIds,
     convertContributorIdDropdownData,
 )
@@ -92,7 +100,7 @@ const fetchContributorRolesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING,
     DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED,
-    "contributorRoles.json",
+    constants("contributorRoles.json"),
     dds => dds.contributorRoles,
     convertDropdownData,
 )
@@ -101,7 +109,7 @@ const fetchAudiencesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING,
     DropdownConstants.FETCH_AUDIENCE_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED,
-    "audiences.json",
+    constants("audiences.json"),
     dds => dds.audiences,
     convertDropdownData,
 )
@@ -110,7 +118,7 @@ const fetchIdentifiersData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING,
     DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
-    "identifiers.json",
+    constants("identifiers.json"),
     dds => dds.identifiers,
     convertDropdownData,
 )
@@ -119,7 +127,7 @@ const fetchRelationsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_RELATION_DROPDOWN_PENDING,
     DropdownConstants.FETCH_RELATION_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED,
-    "relations.json",
+    constants("relations.json"),
     dds => dds.relations,
     convertDropdownData,
 )
@@ -128,7 +136,7 @@ const fetchDatesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_DATES_DROPDOWN_PENDING,
     DropdownConstants.FETCH_DATES_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED,
-    "dates.json",
+    constants("dates.json"),
     dds => dds.dates,
     convertDropdownData,
 )
@@ -137,7 +145,7 @@ const fetchLicensesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING,
     DropdownConstants.FETCH_LICENSES_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
-    "licenses.json",
+    licenses(),
     dds => dds.licenses,
     convertDropdownData,
 )
@@ -146,7 +154,7 @@ const fetchDcmiTypesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_PENDING,
     DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED,
-    "dcmiTypes.json",
+    constants("dcmiTypes.json"),
     dds => dds.dcmiTypes,
     convertDropdownData,
 )
@@ -155,7 +163,7 @@ const fetchImtFormatsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING,
     DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED,
-    "imtFormats.json",
+    constants("imtFormats.json"),
     dds => dds.imtFormats,
     convertDropdownData,
 )
@@ -164,7 +172,7 @@ const fetchAbrComplexSubjectsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_PENDING,
     DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED,
-    "abrComplexSubjects.json",
+    constants("abrComplexSubjects.json"),
     dds => dds.abrComplexSubjects,
     convertDropdownData,
 )
@@ -173,7 +181,7 @@ const fetchAbrPeriodeTemporalsData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_PENDING,
     DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED,
-    "abrPeriodeTemporals.json",
+    constants("abrPeriodeTemporals.json"),
     dds => dds.abrPeriodeTemporals,
     convertDropdownData,
 )
@@ -182,7 +190,7 @@ const fetchSpatialCoordinatesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING,
     DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED,
-    "spatialCoordinates.json",
+    constants("spatialCoordinates.json"),
     dds => dds.spatialCoordinates,
     convertSpatialCoordinatesDropdownData,
 )
@@ -191,7 +199,7 @@ const fetchSpatialCoveragesIsoData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_PENDING,
     DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_FULFILLED,
     DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED,
-    "spatialCoveragesIso.json",
+    constants("spatialCoveragesIso.json"),
     dds => dds.spatialCoveragesIso,
     convertDropdownData,
 )

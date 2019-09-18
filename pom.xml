@@ -44,6 +44,7 @@
         <context-root>deposit</context-root>
         <skipTests>false</skipTests>
         <output.directory>target/build</output.directory>
+        <easy-licenses.version>1.0.1</easy-licenses.version>
     </properties>
 
     <repositories>
@@ -175,7 +176,30 @@
                     </mapping>
                 </configuration>
             </plugin>
-       </plugins>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>nl.knaw.dans.easy</groupId>
+                                    <artifactId>easy-licenses</artifactId>
+                                    <version>${easy-licenses.version}</version>
+                                    <outputDirectory>${project.build.directory}/easy-licenses</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
