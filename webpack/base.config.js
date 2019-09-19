@@ -61,6 +61,7 @@ module.exports = (env, argv) => ({
                 type: "javascript/auto",
                 test: /\.(json)$/i,
                 include: [
+                    path.resolve(process.cwd(), 'src/main/resources/application.json'),
                     path.resolve(process.cwd(), 'src/main/resources/constants/'),
                     path.resolve(process.cwd(), 'target/easy-licenses/licenses/licenses.json'),
                 ],
