@@ -29,8 +29,8 @@ import { inDevelopmentMode } from "./lib/config"
 // import { AppState } from "./model/AppState"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
-const predicate = () => true // if you want to see all actions
-// const predicate = () => false // if you want to see no actions
+// const predicate = () => true // if you want to see all actions
+const predicate = () => false // if you want to see no actions
 
 export const newStore = () => {
     if (inDevelopmentMode) {
@@ -49,20 +49,13 @@ export const newStore = () => {
             ),
         )
     }
-    else {
-        const { createLogger } = require("redux-logger")
-        const { composeWithDevTools } = require("redux-devtools-extension")
-        const composeEnhancers = composeWithDevTools({ predicate })
+    else
         return createStore(
             reducers,
-            composeEnhancers(
-                applyMiddleware(
-                    ...customMiddleware,
-                    thunkMiddleware,
-                    promiseMiddleware,
-                    createLogger({ predicate }),
-                ),
+            applyMiddleware(
+                ...customMiddleware,
+                thunkMiddleware,
+                promiseMiddleware,
             ),
         )
-    }
 }
