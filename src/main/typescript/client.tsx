@@ -18,29 +18,27 @@ import * as ReactDOM from "react-dom"
 import * as history from "history"
 import { Provider } from "react-redux"
 import { Router } from "react-router-dom"
-import { newStore } from "./store"
-
-import Header from "./components/Header"
-import Routes from "./Routes"
-import Footer from "./components/Footer"
-import ConfiguredApp from "./components/ConfiguredApp"
-
 import "../resources/css/styling"
-import CookieAuth from "./CookieAuth"
+import Routes from "./Routes"
+import { newStore } from "./store"
+import ConfiguredApp from "./components/ConfiguredApp"
+import CookieAuth from "./components/CookieAuth"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
 
 const Main = () => (
     <Provider store={newStore()}>
-        <ConfiguredApp>
-            <Router history={history.createBrowserHistory()}>
-                <CookieAuth>
-                    <Header/>
-                    <main role="main" className="container">
+        <Router history={history.createBrowserHistory()}>
+            <Header/>
+            <main role="main" className="container">
+                <ConfiguredApp>
+                    <CookieAuth>
                         <Routes/>
-                    </main>
-                    <Footer/>
-                </CookieAuth>
-            </Router>
-        </ConfiguredApp>
+                    </CookieAuth>
+                </ConfiguredApp>
+            </main>
+            <Footer/>
+        </Router>
     </Provider>
 )
 

@@ -20,8 +20,4 @@ export enum AuthenticationConstants {
     AUTH_LOGIN_FULFILLED = "AUTH_LOGIN_FULFILLED",
 
     AUTH_LOGOUT = "AUTH_LOGOUT",
-    AUTH_LOGOUT_FULFILLED = "AUTH_LOGOUT_FULFILLED",
-    AUTH_LOGOUT_REJECTED = "AUTH_LOGOUT_REJECTED",
 }
-
-export const loginFormName = "easyLogin"

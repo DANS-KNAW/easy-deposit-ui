@@ -15,8 +15,7 @@
  */
 import { UserConstants } from "../constants/userConstants"
 import { Reducer } from "redux"
-import { UserDetails, empty } from "../model/UserDetails"
-import { AuthenticationConstants } from "../constants/authenticationConstants"
+import { empty, UserDetails } from "../model/UserDetails"
 
 export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
     switch (action.type) {
@@ -32,10 +31,6 @@ export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
         }
         case UserConstants.FETCH_USER_PENDING: {
             return { ...state, displayName: "" }
-        }
-        case AuthenticationConstants.AUTH_LOGIN_REJECTED:
-        case AuthenticationConstants.AUTH_LOGOUT_FULFILLED: {
-            return empty
         }
         default:
             return state

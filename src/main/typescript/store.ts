@@ -19,7 +19,6 @@ import promiseMiddleware from "redux-promise-middleware"
 import reducers from "./reducers/index"
 import customMiddleware from "./middleware"
 import { inDevelopmentMode } from "./lib/config"
-import { fetchConfiguration } from "./actions/configurationActions"
 
 ///
 // import {Action} from 'redux'
@@ -30,18 +29,10 @@ import { fetchConfiguration } from "./actions/configurationActions"
 // import { AppState } from "./model/AppState"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
-// const predicate = () => true // if you want to see all actions
-const predicate = () => false // if you want to see no actions
+const predicate = () => true // if you want to see all actions
+// const predicate = () => false // if you want to see no actions
 
 export const newStore = () => {
-    const store = makeStore()
-
-    store.dispatch(fetchConfiguration())
-
-    return store
-}
-
-const makeStore = () => {
     if (inDevelopmentMode) {
         const { createLogger } = require("redux-logger")
         const { composeWithDevTools } = require("redux-devtools-extension")
@@ -58,13 +49,20 @@ const makeStore = () => {
             ),
         )
     }
-    else
+    else {
+        const { createLogger } = require("redux-logger")
+        const { composeWithDevTools } = require("redux-devtools-extension")
+        const composeEnhancers = composeWithDevTools({ predicate })
         return createStore(
             reducers,
-            applyMiddleware(
-                ...customMiddleware,
-                thunkMiddleware,
-                promiseMiddleware,
+            composeEnhancers(
+                applyMiddleware(
+                    ...customMiddleware,
+                    thunkMiddleware,
+                    promiseMiddleware,
+                    createLogger({ predicate }),
+                ),
             ),
         )
+    }
 }

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { RouteComponentProps, withRouter } from "react-router"
 
-const NotFoundPage = () => (
-    <h1>Page not found</h1>
+const NotFoundPage = (props: RouteComponentProps) => (
+    <h1>Page '{props.location.pathname}' not found</h1>
 )
 
-export default NotFoundPage
+export default withRouter(NotFoundPage)

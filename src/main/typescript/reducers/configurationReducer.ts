@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { combineReducers, Reducer } from "redux"
-import { Configuration } from "../model/Configuration"
+import { Configuration, emptyConfiguration } from "../model/Configuration"
 import { ConfigurationConstants } from "../constants/configurationConstants"
 import FetchState, { empty as emptyFetchState } from "../model/FetchState"
 
@@ -25,13 +25,13 @@ const fetchStateReducer: Reducer<FetchState> = (state = emptyFetchState, action)
         case ConfigurationConstants.CONFIGURATION_LOADING_SUCCESS:
             return { fetching: false, fetched: true, fetchError: undefined }
         case ConfigurationConstants.CONFIGURATION_LOADING_REJECTED:
-            return { fetching: false, fetched: false, fetchError: action.payload.error }
+            return { fetching: false, fetched: false, fetchError: action.payload }
         default:
             return state
     }
 }
 
-const configurationReducer: Reducer<Configuration> = (state = {}, action) => {
+const configurationReducer: Reducer<Configuration> = (state = emptyConfiguration, action) => {
     switch (action.type) {
         case ConfigurationConstants.CONFIGURATION_LOADING_SUCCESS:
             return action.payload

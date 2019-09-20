@@ -177,12 +177,16 @@ const BuildInfoRow = ({ apiUrl }: FooterBuildInfoProps) => (
     </div>
 )
 
-const Footer = () => (
-    <footer className="container-fluid">
-        <TitleRow/>
-        <ContentRow/>
-        <BuildInfoRow apiUrl={useSelector(getApiUrl)}/>
-    </footer>
-)
+const Footer = () => {
+    const apiUrl = useSelector(getApiUrl)
+
+    return (
+        <footer className="container-fluid">
+            <TitleRow/>
+            <ContentRow/>
+            <BuildInfoRow apiUrl={apiUrl || "unknown"}/>
+        </footer>
+    )
+}
 
 export default Footer
