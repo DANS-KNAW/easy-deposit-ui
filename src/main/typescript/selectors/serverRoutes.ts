@@ -18,7 +18,8 @@ import { getApiUrl } from "./configuration"
 import { DepositId } from "../model/Deposits"
 
 const createUrl: (path: string) => (state: AppState) => string = path => state => {
-    const apiUrl = getApiUrl(state)! // FIXME no '!' here
+    // '!' is safe here, as this function is only used after the configuration has been loaded
+    const apiUrl = getApiUrl(state)!
 
     return apiUrl.endsWith("/") ? `${apiUrl}${path}` : `${apiUrl}/${path}`
 }
