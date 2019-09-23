@@ -21,8 +21,9 @@ const newRejectedMiddleware: Middleware = ({ dispatch }) => (next: Dispatch) => 
         const { payload } = action
 
         if (payload.response && payload.response.status === 401) {
-            dispatch(logout)
-            next({ ...action, payload: payload.response.data })
+            const errorMessage = payload.response.data
+            dispatch(logout(errorMessage))
+            next({ ...action, payload: errorMessage })
         }
         else if (!!payload.response || !!payload.message) {
             const errorMessage = payload.response

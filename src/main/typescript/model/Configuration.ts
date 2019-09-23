@@ -16,7 +16,11 @@
 import FetchState, { empty as emptyFetchState } from "./FetchState"
 
 export interface Configuration {
-    apiUrl?: string
+    apiUrl: string
+}
+
+export const emptyConfiguration: Configuration = {
+    apiUrl: "",
 }
 
 export interface ConfigurationState {
@@ -26,5 +30,5 @@ export interface ConfigurationState {
 
 export const empty: ConfigurationState = {
     fetchState: emptyFetchState,
-    configuration: {},
+    configuration: emptyConfiguration,
 }

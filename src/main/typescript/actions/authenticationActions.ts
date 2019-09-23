@@ -19,6 +19,7 @@ import { userUrl } from "../selectors/serverRoutes"
 import { UserConstants } from "../constants/userConstants"
 import { userConverter } from "../lib/user/user"
 import fetch from "../lib/fetch"
+import { Action } from "redux"
 
 const authenticatePending = ({
     type: AuthenticationConstants.AUTH_LOGIN_PENDING,
@@ -93,6 +94,7 @@ export const getUser: () => ComplexThunkAction = () => async (dispatch, getState
     }
 }
 
-export const logout = ({
+export const logout: (msg: string) => Action = msg => ({
     type: AuthenticationConstants.AUTH_LOGOUT,
+    payload: msg,
 })

@@ -86,15 +86,15 @@ const Header = () => {
     useEffect(() => {
         if (isLoggedIn && !loginName)
             dispatch(getUser())
-    })
+    }, [isLoggedIn])
 
     return (
         <header className="container-fluid">
             <NavBar>
                 <NavBarLink to={homeRoute} title="Home">Home</NavBarLink>
-                <span key="loginName" className="navbar-text">{loginName}</span>
+                {loginName && <span key="loginName" className="navbar-text">{loginName}</span>}
                 <NavBarLink key="my deposits" to={depositOverviewRoute}>My Deposits</NavBarLink>
-                <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>
+                {isLoggedIn && <NavBarLink to={logoutRoute} title="Log out">Log out</NavBarLink>}
             </NavBar>
 
             <LogosHeaders>

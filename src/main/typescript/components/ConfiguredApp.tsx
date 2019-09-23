@@ -17,18 +17,32 @@ import * as React from "react"
 import { FC } from "react"
 import { getConfigurationFetchState } from "../selectors/configuration"
 import { useSelector } from "../lib/redux"
+import { useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { fetchConfiguration } from "../actions/configurationActions"
+import { ReloadAlert } from "./Errors"
+import Loading from "./Loading"
 
 const ConfiguredApp: FC = ({ children }) => {
-    const {fetching, fetched, fetchError} = useSelector(getConfigurationFetchState)
+    const { fetching, fetched, fetchError } = useSelector(state => state.configuration.fetchState)
+    const dispatch = useDispatch()
 
-    return (
-        <>
-            {/* TODO we need something better here than a loading text */}
-            {fetching && <p>Loading configuration...</p>}
-            {fetched && children}
-            {fetchError && <p>Application configuration could not be loaded: {fetchError}</p>}
-        </>
-    )
+    useEffect(() => {
+        dispatch(fetchConfiguration())
+    }, [])
+
+    if (fetchError)
+        return (
+            <ReloadAlert key="loadingError"
+                         reload={() => dispatch(fetchConfiguration())}>
+                An error occurred due to which you cannot access your deposits.
+                If this persists, please <a href="mailto:info@dans.knaw.nl" target="_blank">contact us</a>.
+            </ReloadAlert>
+        )
+    else if (fetching || !fetched) // currently fetching or fetching has not started
+        return <div className="text-center"><Loading/></div>
+    else
+        return <>{children}</>
 }
 
 export default ConfiguredApp

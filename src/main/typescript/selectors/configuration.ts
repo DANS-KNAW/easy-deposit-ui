@@ -17,4 +17,8 @@ import { AppState } from "../model/AppState"
 
 export const getConfigurationFetchState = (state: AppState) => state.configuration.fetchState
 
-export const getApiUrl = (state: AppState) => state.configuration.configuration.apiUrl!
+export const getApiUrl: (state: AppState) => string | undefined = (state: AppState) => {
+    return state.configuration.fetchState.fetched
+        ? state.configuration.configuration.apiUrl
+        : undefined
+}
