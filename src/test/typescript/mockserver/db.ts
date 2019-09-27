@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as uuid from "uuid/v4"
-import immutable from "object-path-immutable"
+import {del} from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, paginationDataset, State } from "./deposit"
 import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
@@ -179,7 +179,7 @@ export const createDeposit: () => Deposit & { id: DepositId } = () => {
 
 export const deleteDeposit: (id: DepositId) => boolean = id => {
     if (data[id]) {
-        data = immutable.del(data, id)
+        data = del(data, id)
         return true
     }
     else {
