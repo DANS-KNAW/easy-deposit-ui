@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { Component, FC } from "react"
-import { compose } from "redux"
-import { RouteComponentProps, withRouter } from "react-router-dom"
-import * as H from "history"
-import { AppState } from "../../model/AppState"
-import { connect, useDispatch } from "react-redux"
+import { FC } from "react"
+import { useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux"
 import { createNewDeposit } from "../../actions/depositOverviewActions"
-import { FetchAction, ThunkAction, useSelector } from "../../lib/redux"
-import { DepositId } from "../../model/Deposits"
+import { useSelector } from "../../lib/redux"
 
-interface NewDepositButtonProps extends RouteComponentProps<{}> {
-}
-
-const NewDepositButton: FC<NewDepositButtonProps> = ({ history, children }) => {
+const NewDepositButton: FC = ({ children }) => {
+    const history = useHistory()
     const creatingNew = useSelector(state => state.deposits.creatingNew.creating)
     const dispatch = useDispatch()
     const doCreateNewDeposit = () => dispatch(createNewDeposit(history))
@@ -41,4 +35,4 @@ const NewDepositButton: FC<NewDepositButtonProps> = ({ history, children }) => {
     )
 }
 
-export default withRouter(NewDepositButton)
+export default NewDepositButton

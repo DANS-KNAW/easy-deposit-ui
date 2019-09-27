@@ -15,11 +15,10 @@
  */
 import * as React from "react"
 import { FC, useEffect } from "react"
-import * as H from "history"
 import { compose } from "redux"
 import { connect, useDispatch } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
-import { Prompt } from "react-router-dom"
+import { Prompt, useHistory } from "react-router-dom"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
@@ -67,7 +66,6 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
 
 export interface DepositFormOwnProps {
     depositId: DepositId
-    history: H.History
     depositState: DepositState
     metadata: DepositFormMetadata
 }
@@ -79,6 +77,7 @@ type DepositFormProps =
 const leaveMessage = "You did not save your work before leaving this page.\nAre you sure you want to go without saving?"
 
 const DepositForm = (props: DepositFormProps) => {
+    const history = useHistory()
     const formState = useSelector(state => state.depositForm)
     const fileState = useSelector(state => state.files.loading)
     const fileUploadInProgress = useSelector(isFileUploading)
@@ -91,7 +90,7 @@ const DepositForm = (props: DepositFormProps) => {
     }
     const doSubmit: (data: DepositFormMetadata) => void = data => {
         const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
-        dispatch(submitDeposit(props.depositId, data, props.history, shouldSetToDraft))
+        dispatch(submitDeposit(props.depositId, data, history, shouldSetToDraft))
     }
     /*
      * FIXME this is not entirely correct, but I don't know how to fix this;
