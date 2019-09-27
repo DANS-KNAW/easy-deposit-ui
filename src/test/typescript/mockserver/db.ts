@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import * as uuid from "uuid/v4"
-import {del} from "object-path-immutable"
-import { Deposit, depositData1, depositData2, depositData3, depositData4, paginationDataset, State } from "./deposit"
-import { allfields, Doi, DansIdentifierSchemeValues, mandatoryOnly, Metadata, newMetadata } from "./metadata"
+import { del } from "object-path-immutable"
+import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
+import { allfields, DansIdentifierSchemeValues, Doi, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
 import { directory1, FileInfo, newFileInfos } from "./fileinfo"
 
