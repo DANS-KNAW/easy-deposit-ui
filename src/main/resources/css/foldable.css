@@ -20,14 +20,14 @@
 
 .card .card-header {
     background-image: var(--table-header-gradient);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
 }
 
 .card .card-header > .required {
     text-align: right;
     align-self: flex-start;
-    font-size: 11px;
+    font-size: 0.7rem;
 }
 
 .card .card-header > .arrow {
