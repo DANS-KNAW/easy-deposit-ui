@@ -30,7 +30,7 @@ const FoldableCard: FC<FoldableCardInputProps> = ({ title, required, defaultOpen
         <div className={`${open ? "" : "closed"} card mb-3`.trim()}>
             <h6 className="card-header row ml-0 mr-0 bg-primary text-white"
                 onClick={() => setOpen(currentOpenState => !currentOpenState)}>
-                <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0 font-weight-bold">{title}</div>
+                <div className="col-11 order-1 col-md-9 order-md-1 pl-0 pr-0">{title}</div>
                 {required
                     ? <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0 font-italic required">Required</div>
                     : <div className="col-12 order-3 col-md-2 order-md-2 pl-0 pr-0"/>}
