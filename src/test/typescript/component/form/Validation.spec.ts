@@ -332,7 +332,7 @@ describe("Validation", () => {
                 },
                 {
                     scheme: "id-type:DAI",
-                    value: "012345678X",
+                    value: "123456789",
                 },
                 {
                     // no scheme
