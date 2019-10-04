@@ -111,7 +111,6 @@
     background: var(--dark) var(--dark-gradient);
     border-color: var(--dark);
     color: var(--dans-button-text);
-    font-weight: bold;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 1px;
