@@ -78,7 +78,7 @@ const PrivacySensitiveDataForm = ({ names, privacySensitiveDataPresent, accessRi
                 <HelpButton textFor={privacySensitiveDataPresentName}/>
             </div>
 
-            <div className={`privacy-sensitive-data-field ${psdpHasError ? "is-invalid" : ""}`}>
+            <div className={`privacy-sensitive-data-field input-element ${psdpHasError ? "is-invalid" : ""}`}>
                 <Field name={privacySensitiveDataPresentName}
                        choices={choices}
                        onChange={onPrivacySensitiveChoiceChange}
