@@ -165,12 +165,56 @@ const validateContributorIds: (contributorIdSettings: ContributorIdDropdownListE
         if (nonEmptyScheme && nonEmptyValue && id.value) {
             const entry = contributorIdSettings.find(({ key }) => key === id.scheme)
 
-            if (entry && !id.value.match(entry.format))
+            if (entry && (!id.value.match(entry.format) || (id.scheme === "id-type:DAI" && !isDaiValid(id.value))))
                 idError.value = `Invalid ${entry.displayValue} identifier ${entry.placeholder}`
         }
 
         return idError
     })
+}
+
+export function isDaiValid(daiInput: string): boolean {
+    const dai = daiInput.replace(/^(info:eu-repo\/dai\/nl\/)/, "")
+
+    function digest(msg: string, modeMax: number): string {
+        const FACTOR_START = 2
+
+        let f = FACTOR_START
+        let w = 0
+
+        msg.split("")
+            .reverse()
+            .forEach(cx => {
+                w += f * (cx.charCodeAt(0) - 48)
+                f++
+                if (f > modeMax)
+                    f = FACTOR_START
+            })
+
+        const mod = w % 11
+        if (mod === 0)
+            return "0"
+
+        const c = 11 - mod
+
+        if (c === 10)
+            return "X"
+        else
+            return String.fromCharCode(c + 48)
+    }
+
+    const daiLength = dai.length
+    if (daiLength > 10 || daiLength < 9)
+        return false
+
+    const daiComponent1 = dai.slice(0, -1)
+    const daiComponent2 = dai.slice(daiLength - 1)
+
+    if (/^\d+$/.test(daiComponent1)) {
+        const checksum = digest(daiComponent1, 9)
+        return daiComponent2.toLowerCase() === checksum.toLowerCase()
+    }
+    return false
 }
 
 export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedValue[] = schemedValues => {
