@@ -15,14 +15,12 @@
  */
 import * as React from "react"
 import { useEffect } from "react"
-import DepositForm from "./DepositForm"
 import { useDispatch } from "react-redux"
 import { unregisterForm } from "../../actions/depositFormActions"
 import { cleanFiles } from "../../actions/fileOverviewActions"
 import { DepositId } from "../../model/Deposits"
-import { RouteComponentProps, withRouter } from "react-router"
+import { useParams } from "react-router"
 import DepositStateLoader from "./DepositStateLoader"
-import DepositNotAccessible from "./DepositNotAccessible"
 import DepositNotFound from "./DepositNotFound"
 import DepositHolder from "./DepositHolder"
 
@@ -30,10 +28,9 @@ interface RouterParams {
     depositId: DepositId // name is declared in client.tsx, in the path to the 'DepositFormPage'
 }
 
-type DepositFormPageProps = RouteComponentProps<RouterParams>
+const DepositFormPage = () => {
 
-const DepositFormPage = ({ history, match: { params: { depositId } } }: DepositFormPageProps) => {
-
+    const { depositId } = useParams<RouterParams>()
     const dispatch = useDispatch()
     useEffect(() => {
         return function cleanup() {
@@ -56,12 +53,11 @@ const DepositFormPage = ({ history, match: { params: { depositId } } }: DepositF
             </p>
             <DepositStateLoader depositId={depositId}
                                 renderForm={depositState => <DepositHolder depositId={depositId}
-                                                                           depositState={depositState}
-                                                                           history={history}/>}
+                                                                           depositState={depositState}/>}
                                 renderNotFound={() => <DepositNotFound/>}
             />
         </>
     )
 }
 
-export default withRouter(DepositFormPage)
+export default DepositFormPage
