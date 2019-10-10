@@ -18,7 +18,7 @@ import { depositOverviewReducer } from "./depositOverviewReducer"
 import { fileOverviewReducer } from "./fileOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
-import immutable from "object-path-immutable"
+import { set } from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
 import { toPath } from "lodash"
 import { depositFormReducer } from "./depositFormReducer"
@@ -31,7 +31,7 @@ function changeReducer(state: FormState, action: AnyAction) {
     switch (action.type) {
         case "@@redux-form/CHANGE":
             const fieldName = toPath(action.meta.field + ".changed")
-            const newState = immutable.set(state.fields, fieldName, true)
+            const newState = set(state.fields, fieldName, true)
 
             return { ...state, fields: newState }
         default:
