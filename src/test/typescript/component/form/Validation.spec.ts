@@ -27,7 +27,7 @@ import {
     validateContributors, validateDates,
     validateQualifiedSchemedValues,
     validateRelations,
-    validateSchemedValue, validateSpatialBoxes, validateSpatialPoints,
+    validateSchemedValue, validateSpatialBoxes, validateSpatialPoints, isDaiValid,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
@@ -283,6 +283,36 @@ describe("Validation", () => {
         },
     ]
 
+    describe("isDaiValid", () => {
+        it("should test whether DAIs are valid", () => {
+            expect(isDaiValid("123456780")).to.be.false
+            expect(isDaiValid("123456781")).to.be.false
+            expect(isDaiValid("123456782")).to.be.false
+            expect(isDaiValid("123456783")).to.be.false
+            expect(isDaiValid("123456784")).to.be.false
+            expect(isDaiValid("123456785")).to.be.false
+            expect(isDaiValid("123456786")).to.be.false
+            expect(isDaiValid("123456787")).to.be.false
+            expect(isDaiValid("123456788")).to.be.false
+            expect(isDaiValid("123456789")).to.be.true
+            expect(isDaiValid("12345678x")).to.be.false
+        })
+
+        it("should test whether DAIs are valid with prefix", () => {
+            expect(isDaiValid("info:eu-repo/dai/nl/123456780")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456781")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456782")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456783")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456784")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456785")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456786")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456787")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456788")).to.be.false
+            expect(isDaiValid("info:eu-repo/dai/nl/123456789")).to.be.true
+            expect(isDaiValid("info:eu-repo/dai/nl/12345678x")).to.be.false
+        })
+    })
+
     describe("validateContributors", () => {
         const contributor1: Contributor = {
             initials: "D.A.",
@@ -302,7 +332,7 @@ describe("Validation", () => {
                 },
                 {
                     scheme: "id-type:DAI",
-                    value: "012345678X",
+                    value: "123456789",
                 },
                 {
                     // no scheme
