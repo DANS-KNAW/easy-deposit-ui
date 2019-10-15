@@ -48,7 +48,6 @@
 }
 
 .input-element .remove-and-add-buttons {
-    padding-top: 2px;
     align-self: flex-start;
 }
 
@@ -92,16 +91,16 @@
     /*       tb  lr*/
     padding: 5px 8px;
     border: 1px solid var(--form-field-border);
-    border-radius: 2px;
-    font-size: 14px;
+    border-radius: 5px;
+    font-size: 12px;
 }
 
 .input-element select {
-    height: 33px!important; /* 33px = 1px border-top + 5xp padding-top + 21px + 5px padding-bottom + 1px border-bottom */
+    height: 30px!important; /* 30px = same height as text-field = 1px border-top + 5xp padding-top + 18px + 5px padding-bottom + 1px border-bottom */
 }
 
 .input-element .form-check-input {
-    margin-top: 0.2rem; /* officially 0.3rem, but I think that's too much */
+    margin-top: 0.1rem; /* officially 0.3rem, but I think that's too much */
 }
 
 .input-element .form-row {
@@ -155,6 +154,7 @@
  */
 .input-group > .form-control.date-picker-field {
     padding: 0;
+    border-color: var(--form-field-border);
 }
 
 .input-group > .form-control.date-picker-field .react-datepicker-wrapper {
@@ -168,6 +168,7 @@
 .input-group > .form-control.date-picker-field input.react-datepicker__input-field {
     border: 0;
     width: 100%;
+    height: 100%;
 }
 
 .date-picker.is-invalid .react-datepicker__input-field {
@@ -180,7 +181,11 @@
 
 .react-datepicker__close-icon:after {
     background-color: var(--dark)!important;
-    font-size: 13px!important;
+    font-size: 12px!important;
+    height: 14px!important;
+    width: 14px!important;
+    top: 2px!important;
+    right: 2px!important;
 }
 
 .react-datepicker__close-icon:hover:after {

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @import "dansColors.css";
+@import "fonts/fonts.css";
 
 body {
     background: var(--page-background);
@@ -55,9 +56,13 @@ body {
 main.container {
     /*       top  side bottom*/
     padding: 10px 15px 60px;
-    font-size: 14px;
 }
 
-main h1 {
-    font-size: 25px;
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Glegoo", Georgia, Times New Roman, serif;
+    line-height: 1.56em;
+    letter-spacing: 2px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    font-weight: 600;
 }
