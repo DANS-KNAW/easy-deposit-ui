@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 export enum HelpTextConstants {
-    REGISTER_HELP_TEXT = "REGISTER_HELP_TEXT",
     UNREGISTER_HELP_TEXT = "UNREGISTER_HELP_TEXT",
     TOGGLE_HELP_TEXT = "TOGGLE_HELP_TEXT",
 

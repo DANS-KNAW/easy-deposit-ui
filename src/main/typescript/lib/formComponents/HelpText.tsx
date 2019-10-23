@@ -14,72 +14,36 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { connect } from "react-redux"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 import Loading from "../../components/Loading"
-import { AppState } from "../../model/AppState"
-import { PromiseAction, ReduxAction } from "../redux"
-import { fetchHelpText, registerHelpText, unregisterHelpText } from "../../actions/helpTextActions"
+import { useSelector } from "../redux"
+import { fetchHelpText, unregisterHelpText } from "../../actions/helpTextActions"
 import { getHelpTextState } from "../../selectors/helpTexts"
 
-interface HelpTextInputProps {
+interface HelpTextProps {
     textFor: string
 }
 
-interface HelpTextProps {
-    helpTextVisible: boolean
-    helpTextFetching: boolean,
-    helpTextFetched: boolean,
-    helpText: string,
-    helpTextFetchError?: string
+const HelpText = ({ textFor }: HelpTextProps) => {
+    const { visible, fetching, fetched, text, fetchError } = useSelector(getHelpTextState(textFor))
+    const dispatch = useDispatch()
 
-    registerHelpText: (fieldName: string) => ReduxAction<string>
-    unregisterHelpText: (fieldName: string) => ReduxAction<string>
-    fetchHelpText: (fieldName: string) => PromiseAction<void>
+    useEffect(() => {
+        dispatch(fetchHelpText(textFor))
+
+        return function cleanUp() {
+            dispatch(unregisterHelpText(textFor))
+        }
+    }, [])
+
+    return visible
+        ? <>
+            {fetching && <Loading/>}
+            {fetched && <div className="help-text" dangerouslySetInnerHTML={{ __html: text }}/>}
+            {fetchError && <i style={{ color: "red" }}>{fetchError}</i>}
+        </>
+        : null
 }
 
-class HelpText extends React.Component<HelpTextProps & HelpTextInputProps> {
-    constructor(props: HelpTextProps & HelpTextInputProps) {
-        super(props)
-        this.props.registerHelpText(this.props.textFor)
-    }
-
-    async componentDidMount() {
-        this.props.fetchHelpText(this.props.textFor)
-    }
-
-    componentWillUnmount() {
-        this.props.unregisterHelpText(this.props.textFor)
-    }
-
-    render() {
-        const loading = <Loading/>
-        const helpText = <div className="help-text" dangerouslySetInnerHTML={{ __html: this.props.helpText }}/>
-        const error = <i style={{ color: "red" }}>{this.props.helpTextFetchError}</i>
-
-        return this.props.helpTextVisible
-            ? <>
-                {this.props.helpTextFetching && loading}
-                {this.props.helpTextFetched && helpText}
-                {this.props.helpTextFetchError && error}
-            </>
-            : null
-    }
-}
-
-const mapStateToProps = (state: AppState, props: HelpTextInputProps) => {
-    const { visible, fetching, fetched, text, fetchError } = getHelpTextState(props.textFor)(state)
-
-    return {
-        helpTextVisible: visible,
-        helpTextFetching: fetching,
-        helpTextFetched: fetched,
-        helpText: text,
-        helpTextFetchError: fetchError,
-    }
-}
-
-export default connect(mapStateToProps, {
-    registerHelpText,
-    unregisterHelpText,
-    fetchHelpText,
-})(HelpText)
+export default HelpText

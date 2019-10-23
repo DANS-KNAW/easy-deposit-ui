@@ -19,19 +19,6 @@ import { HelpTextConstants } from "../constants/helpTextConstants"
 
 export const helpTextReducer: Reducer<HelpTexts> = (state = {}, action) => {
     switch (action.type) {
-        case HelpTextConstants.REGISTER_HELP_TEXT: {
-            const fieldName = action.payload
-            return {
-                ...state,
-                [fieldName]: {
-                    ...state[fieldName],
-                    visible: false,
-                    fetching: false,
-                    fetched: false,
-                    text: "",
-                },
-            }
-        }
         case HelpTextConstants.UNREGISTER_HELP_TEXT: {
             const helpTextId = action.payload
 
