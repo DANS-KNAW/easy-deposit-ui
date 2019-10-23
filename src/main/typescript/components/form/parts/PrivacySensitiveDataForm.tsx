@@ -73,9 +73,11 @@ const PrivacySensitiveDataForm = ({ names, privacySensitiveDataPresent, accessRi
         <>
             <HelpText textFor={privacySensitiveDataPresentName}/>
             <div className="row form-group input-element">
-                <span>Does your data or metadata contain personal data? Yes/No</span>
-                <Mandatory/>
-                <HelpButton textFor={privacySensitiveDataPresentName}/>
+                <label className="title-label">
+                    Does your data or metadata contain personal data? Yes/No
+                    <Mandatory/>
+                    <HelpButton textFor={privacySensitiveDataPresentName}/>
+                </label>
             </div>
 
             <div className={`privacy-sensitive-data-field input-element ${psdpHasError ? "is-invalid" : ""}`}>
