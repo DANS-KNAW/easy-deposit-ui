@@ -18,11 +18,6 @@ import fetch from "../lib/fetch"
 import { HelpTextConstants } from "../constants/helpTextConstants"
 import { AxiosRequestConfig } from "axios"
 
-export const registerHelpText: (fieldName: string) => ReduxAction<string> = fieldName => ({
-    type: HelpTextConstants.REGISTER_HELP_TEXT,
-    payload: fieldName,
-})
-
 export const unregisterHelpText: (fieldName: string) => ReduxAction<string> = fieldName => ({
     type: HelpTextConstants.UNREGISTER_HELP_TEXT,
     payload: fieldName,
