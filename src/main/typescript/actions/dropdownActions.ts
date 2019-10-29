@@ -26,6 +26,7 @@ import { DepositId } from "../model/Deposits"
 import { Action } from "redux"
 import { fetchMetadata } from "./depositFormActions"
 import { DropdownList, DropdownListEntry, DropdownLists } from "../model/DropdownLists"
+import { dansLicense } from "../lib/metadata/License"
 
 const fetchDropdownPending: (type: DropdownConstants) => Action<DropdownConstants> = type => ({
     type: type,
@@ -147,7 +148,7 @@ const fetchLicensesData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
     licenses(),
     dds => dds.licenses,
-    convertDropdownData,
+    data => convertDropdownData(data).filter(entry => entry.key !== dansLicense.key),
 )
 
 const fetchDcmiTypesData: PromiseThunkAction = fetchDropdown(
