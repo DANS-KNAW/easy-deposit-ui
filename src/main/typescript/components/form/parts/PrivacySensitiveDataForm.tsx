@@ -47,7 +47,7 @@ const PrivacySensitiveDataForm = ({ names, privacySensitiveDataPresent, accessRi
     const choices = [
         {
             title: PrivacySensitiveDataValue.YES,
-            value: "YES, this dataset does contain personal data (please contact DANS)",
+            value: "YES, this dataset does contain personal data (DANS will contact you)",
         },
         {
             title: PrivacySensitiveDataValue.NO,
@@ -74,7 +74,7 @@ const PrivacySensitiveDataForm = ({ names, privacySensitiveDataPresent, accessRi
             <HelpText textFor={privacySensitiveDataPresentName}/>
             <div className="row form-group input-element">
                 <label className="title-label">
-                    Does your data or metadata contain personal data? Yes/No
+                    Does your dataset contain personal data? Yes/No
                     <Mandatory/>
                     <HelpButton textFor={privacySensitiveDataPresentName}/>
                 </label>
