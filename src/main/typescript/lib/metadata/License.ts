@@ -28,8 +28,8 @@ export const emptyLicense = emptyString
 
 export const dansLicense: DropdownListEntry = {
     key: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf",
-    value: "DANS LICENSE",
-    displayValue: "DANS LICENSE",
+    value: "DANS LICENCE",
+    displayValue: "DANS LICENCE",
 }
 
 export const licenseConverter: (licenses: DropdownListEntry[]) => (license: any) => string = licenses => license => {
