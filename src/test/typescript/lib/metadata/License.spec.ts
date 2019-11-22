@@ -44,12 +44,21 @@ describe("License", () => {
             expect(licenseConverter(licenses)(input)).to.eql(expected)
         })
 
-        it("should accept the EASY license", () => {
+        it("should NOT accept the old EASY license", () => {
             const input = {
                 scheme: "dcterms:URI",
                 value: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf",
             }
-            const expected = "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf"
+            expect(() => licenseConverter(licenses)(input)).to
+                .throw("Error in metadata: no such license: 'http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf'")
+        })
+
+        it("should accept the EASY license", () => {
+            const input = {
+                scheme: "dcterms:URI",
+                value: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/dans-licence.pdf",
+            }
+            const expected = "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/dans-licence.pdf"
             expect(licenseConverter(licenses)(input)).to.eql(expected)
         })
 

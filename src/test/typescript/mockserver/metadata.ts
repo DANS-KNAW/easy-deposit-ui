@@ -637,7 +637,7 @@ export const mandatoryOnly: Metadata = {
     accessRights: AccessRightValues.REQUEST_PERMISSION,
     license: {
         scheme: LicenseSchemeValues.uri,
-        value: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSGeneralconditionsofuseUKDEF.pdf",
+        value: "http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/dans-licence.pdf",
     },
     privacySensitiveDataPresent: PrivacySensitiveDataValues.YES,
     // acceptDepositAgreement: false, // if not set, this value is false by default
