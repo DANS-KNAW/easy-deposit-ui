@@ -228,6 +228,9 @@
                                     </sources>
                                 </mapping>
                             </mappings>
+                            <defineStatements>
+                                <defineStatement>_invalid_encoding_terminates_build 0</defineStatement>
+                            </defineStatements>
                         </configuration>
                     </plugin>
                 </plugins>
