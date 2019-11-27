@@ -1,11 +1,22 @@
-language: node_js
-node_js:
-  - "8"
-cache:
-  directories:
-    - "node_modules"
-    - "$HOME/.m2/repository"
-    - "$HOME/apache-maven-3.5.0"
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "8"
+      cache:
+        directories:
+          - "node_modules"
+          - "$HOME/.m2/repository"
+          - "$HOME/apache-maven-3.5.0"
+    - language: python
+      if: branch = master AND NOT type = pull_request
+      python: 3.7.1
+      cache:
+        directories:
+          - "$HOME/.cache"
+          - "$HOME/virtualenv"
+      script:
+        - "./.travis.sh"
 
 # Maven integration: https://gist.github.com/ppatierno/a50396b19c83554fe5f43a71c12c70c6
 before_install:
