@@ -28,7 +28,7 @@ const DepositLicenseForm = () => (
             <p>
                 {/* TODO fill in the correct href in the <a> */}
                 In order to deposit a dataset, you must accept and understand
-                the <a href="http://dans.knaw.nl/en/about/organisation-and-policy/legal-information/deposit-agreement.pdf" target="_blank" className="text-primary">DANS Deposit agreement</a> (PDF).
+                the <a href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/deposit-agreement.pdf" target="_blank" className="text-primary">Deposit agreement</a> (PDF).
             </p>
         </div>
 
@@ -52,9 +52,7 @@ const DepositLicenseForm = () => (
 
         <div className="row form-group input-element mb-0">
             <p>
-                In case you have chosen <b>Creative Commons Zero Waiver</b>, please note additionally that this
-                agreement, in accordance with the 'access' conditions of the Creative Commons Zero Waiver,
-                includes that:
+                In case you have chosen <b>CC0-1.0</b>, please note that this includes that:
             </p>
         </div>
 
@@ -67,7 +65,7 @@ const DepositLicenseForm = () => (
         <div className="row form-group input-element">
             <Field name="acceptDepositAgreement"
                    component={Checkbox}>
-                Yes, I accept and understand the terms of the Deposit agreement<Mandatory/>
+                Yes, I accept and understand the <a href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/deposit-agreement.pdf" target="_blank" className="text-primary">Deposit agreement</a><Mandatory/>
             </Field>
         </div>
     </>
