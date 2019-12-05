@@ -27,7 +27,7 @@ interface RelationValidateButtonProps {
 }
 
 const RelationValidateButton = ({ value }: RelationValidateButtonProps) => (
-    value && validUrl.isUri(value)
+    value && validUrl.isWebUri(value)
         ? <a className="btn btn-dark value-button relation-validate-button"
              href={value}
              target="_blank">
