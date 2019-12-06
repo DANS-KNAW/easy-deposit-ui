@@ -553,6 +553,22 @@ describe("Validation", () => {
             }])).to.eql([{ url: "No valid url given" }])
         })
 
+        it("should return an error object when one Relation is given with a 'javascript url'", () => {
+            expect(validateRelations([{
+                qualifier: "q",
+                title: "t",
+                url: "javascript:alert('XSS')",
+            }])).to.eql([{ url: "No valid url given" }])
+        })
+
+        it("should return an error object when one Relation is given with a 'ftp url'", () => {
+            expect(validateRelations([{
+                qualifier: "q",
+                title: "t",
+                url: "ftp://ftp.funet.fi/pub/standards/RFC/rfc959.txt",
+            }])).to.eql([{ url: "No valid url given" }])
+        })
+
         it("should return error objects when multiple (some incomplete) Relations are given", () => {
             expect(validateRelations([
                 {
