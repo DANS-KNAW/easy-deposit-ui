@@ -55,8 +55,7 @@ Deposit form
   * if it has one element, only validate iff either `title` or `url` is filled in;
     validate always when multiple elements are given
   * only a qualifier is selected
-    * _error text:_ "no title given"
-    * _error text:_ "no url given"
+    * no validation on this is performed
   * only a url and qualifier are given
     * _error text:_ "no title given"
   * only a valid URL is allowed
@@ -97,8 +96,7 @@ Deposit form
 * **spatialPoints**
   * all fields of an entry must be filled in
     * _error text:_ "no scheme given"
-    * _error text:_ "no x coordinate given"
-    * _error text:_ "no y coordinate given"
+    * _error text:_ "coordinate incomplete"
 * **spatialBoxes**
   * all fields of an entry must be filled in
     * _error text:_ "no scheme given"
