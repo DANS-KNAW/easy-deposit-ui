@@ -244,7 +244,7 @@ export const validateQualifiedSchemedValues: (qsvs: QualifiedSchemedValue[]) => 
         if (!nonEmptyScheme)
             relatedIdentifierError.scheme = "No scheme given"
         if (!nonEmptyValue)
-            relatedIdentifierError.value = "No value given"
+            relatedIdentifierError.value = "No identifier given"
 
         return relatedIdentifierError
     }

@@ -471,7 +471,7 @@ describe("Validation", () => {
                 qualifier: "q",
                 scheme: "s",
                 // no value
-            }])).to.eql([{ value: "No value given" }])
+            }])).to.eql([{ value: "No identifier given" }])
         })
 
         it("should return error objects when multiple (some incomplete) QualifiedSchemedValues are given", () => {
@@ -502,11 +502,11 @@ describe("Validation", () => {
                     scheme: "No scheme given",
                 },
                 {
-                    value: "No value given",
+                    value: "No identifier given",
                 },
                 {
                     scheme: "No scheme given",
-                    value: "No value given",
+                    value: "No identifier given",
                 },
             ])
         })
