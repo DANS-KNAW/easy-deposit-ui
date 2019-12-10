@@ -47,18 +47,9 @@ const DepositLicenseForm = () => (
                 <li>You declare that you are the holder of rights to the dataset and/or entitled to act in
                     the present matter with the permission of other parties that hold rights.
                 </li>
-            </ul>
-        </div>
-
-        <div className="row form-group input-element mb-0">
-            <p>
-                In case you have chosen <b>CC0-1.0</b>, please note that this includes that:
-            </p>
-        </div>
-
-        <div className="row form-group input-element mb-0">
-            <ul>
-                <li><b>You renounce all possible rights relating to the dataset.</b></li>
+                <li>
+                    In case you have chosen <b>CC0-1.0</b>: <b>you renounce all possible rights relating to the dataset.</b>
+                </li>
             </ul>
         </div>
 
