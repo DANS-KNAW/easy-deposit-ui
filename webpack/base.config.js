@@ -52,7 +52,8 @@ module.exports = (env, argv) => ({
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: 'app/fonts/'
+                        outputPath: 'app/fonts/',
+                        esModule: false,
                     },
                 }
             },
@@ -63,6 +64,7 @@ module.exports = (env, argv) => ({
                         loader: 'file-loader',
                         options: {
                             name: 'app/images/[name].[ext]',
+                            esModule: false,
                         }
                     },
                 ],
@@ -80,6 +82,7 @@ module.exports = (env, argv) => ({
                         loader: 'file-loader',
                         options: {
                             name: 'app/[name].[ext]',
+                            esModule: false,
                         }
                     }
                 ]
@@ -92,6 +95,7 @@ module.exports = (env, argv) => ({
                         loader: 'file-loader',
                         options: {
                             name: 'app/helptexts/[name].[ext]',
+                            esModule: false,
                         }
                     }
                 ]

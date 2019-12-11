@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Deposit, DepositId, Deposits, toDepositStateLabel } from "../../model/Deposits"
 
 type DepositWithId = Deposit & { depositId: string }
@@ -36,7 +35,7 @@ const depositConverter: (input: any) => DepositWithId = input => {
     if (state)
         return {
             depositId: input.id,
-            title: input.title ? input.title : "Untitled deposit",
+            title: input.title || "Untitled deposit",
             state: state,
             stateDescription: input.stateDescription,
             date: new Date(input.date),
