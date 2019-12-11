@@ -63,6 +63,7 @@ module.exports = (env, argv) => ({
                         loader: 'file-loader',
                         options: {
                             name: 'app/images/[name].[ext]',
+                            esModule: false,
                         }
                     },
                 ],
@@ -80,6 +81,7 @@ module.exports = (env, argv) => ({
                         loader: 'file-loader',
                         options: {
                             name: 'app/[name].[ext]',
+                            esModule: false,
                         }
                     }
                 ]
