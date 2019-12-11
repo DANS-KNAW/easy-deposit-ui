@@ -24,6 +24,7 @@
     "last 10 versions"
   ],
   "dependencies": {
+    "@types/node": "^12.12.17",
     "axios": "^0.19.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
@@ -87,7 +88,7 @@
     "source-map-loader": "^0.2.4",
     "terser-webpack-plugin": "^2.2.2",
     "ts-node": "^8.5.4",
-    "typescript": "^3.5.3",
+    "typescript": "^3.7.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",

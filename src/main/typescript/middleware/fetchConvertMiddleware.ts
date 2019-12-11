@@ -26,8 +26,7 @@ const fetchConvertMiddleware: Middleware = ({ dispatch, getState }) => next => a
     if (typeof action === "object" &&
         action.type &&
         action.type.endsWith(triggerPostfix) &&
-        action.meta &&
-        action.meta.transform &&
+        action.meta?.transform &&
         typeof action.meta.transform === "function") {
 
         const actionType = action.type.slice(0, action.type.length - triggerPostfixLength)

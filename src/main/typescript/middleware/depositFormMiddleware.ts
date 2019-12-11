@@ -46,9 +46,8 @@ const fetchStateAfterSetFromRejectedToDraft: Middleware = ({ dispatch }: Middlew
     next(action)
 
     if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED
-        && action.meta
-        && action.meta.setStateToDraft
-        && action.meta.depositId)
+        && action.meta?.setStateToDraft
+        && action.meta?.depositId)
         dispatch(fetchDepositState(action.meta.depositId))
 }
 
@@ -82,7 +81,7 @@ const submitReroute: Middleware = () => (next: Dispatch) => action => {
 }
 
 const replaceContributorIdFieldValue: Middleware = ({ dispatch, getState }: MiddlewareAPI) => (next: Dispatch) => action => {
-    if (action.type === actionTypes.CHANGE && action.meta && action.meta.field && action.payload) {
+    if (action.type === actionTypes.CHANGE && action.meta?.field && action.payload) {
         const state: AppState = getState()
         const formData = getFormValues(depositFormName)(state)
 
@@ -93,7 +92,7 @@ const replaceContributorIdFieldValue: Middleware = ({ dispatch, getState }: Midd
             if (value) {
                 const scheme = action.payload
                 const contributorEntry = state.dropDowns.contributorIds.list.find(({ key }: DropdownListEntry) => key === scheme)
-                if (contributorEntry && contributorEntry.replace)
+                if (contributorEntry?.replace)
                     // replacement of the value itself happens on the pass-through of this new action through this method
                     dispatch(change(depositFormName, action.meta.field.replace(".scheme", ".value"), value))
             }
@@ -104,7 +103,7 @@ const replaceContributorIdFieldValue: Middleware = ({ dispatch, getState }: Midd
             const scheme = get(formData, action.meta.field.replace(".value", ".scheme"))
             if (scheme) {
                 const contributorEntry = state.dropDowns.contributorIds.list.find(({ key }: DropdownListEntry) => key === scheme)
-                if (contributorEntry && contributorEntry.replace) {
+                if (contributorEntry?.replace) {
                     next({
                         ...action,
                         payload: contributorEntry.replace.reduce((v, cfg) => v.replace(cfg.from, cfg.to), action.payload),
