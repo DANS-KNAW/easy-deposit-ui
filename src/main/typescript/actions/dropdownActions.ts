@@ -18,7 +18,6 @@ import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from
 import fetch from "../lib/fetch"
 import { AxiosRequestConfig } from "axios"
 import {
-    convertContributorIdDropdownData,
     convertDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../lib/dropdown/dropdown"
@@ -86,15 +85,6 @@ const fetchLanguagesData: PromiseThunkAction = fetchDropdown(
     constants("languages.json"),
     dds => dds.languages,
     convertDropdownData,
-)
-
-const fetchContributorIdsData: PromiseThunkAction = fetchDropdown(
-    DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING,
-    DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_FULFILLED,
-    DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
-    constants("contributorIds.json"),
-    dds => dds.contributorIds,
-    convertContributorIdDropdownData,
 )
 
 const fetchContributorRolesData: PromiseThunkAction = fetchDropdown(
@@ -209,7 +199,6 @@ export const fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThun
     await Promise.all(
         [
             fetchLanguagesData,
-            fetchContributorIdsData,
             fetchContributorRolesData,
             fetchAudiencesData,
             fetchIdentifiersData,

@@ -16,25 +16,26 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
-    atLeastOnePersonOrOrganization,
     atLeastOneCreator,
+    atLeastOnePersonOrOrganization,
     checkboxMustBeChecked,
     dateAvailableMustBeAfterDateCreated,
+    isDaiValid,
     mandatoryFieldArrayValidator,
     mandatoryFieldValidator,
     mandatoryPrivacySensitiveDataValidator,
     mandatoryRadioButtonValidator,
-    validateContributors, validateDates,
+    validateContributors,
+    validateDates,
     validateQualifiedSchemedValues,
     validateRelations,
-    validateSchemedValue, validateSpatialBoxes, validateSpatialPoints, isDaiValid,
+    validateSchemedValue,
+    validateSpatialBoxes,
+    validateSpatialPoints,
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
-import {
-    ContributorIdDropdownListEntry,
-    SpatialCoordinatesDropdownListEntry,
-} from "../../../../main/typescript/model/DropdownLists"
+import { SpatialCoordinatesDropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
 
 describe("Validation", () => {
 
@@ -178,17 +179,7 @@ describe("Validation", () => {
         const contributor1: Contributor = {
             initials: "D.A.",
             surname: "N.S.",
-            ids: [
-                {
-                    scheme: "test",
-                    value: "foobar",
-                },
-                {
-                    scheme: "",
-                    value: "",
-                },
-                {},
-            ],
+            isni: "000000012281955X",
         }
         const contributor2: Contributor = {
             organization: "K.N.A.W.",
@@ -217,17 +208,7 @@ describe("Validation", () => {
         const contributor1: Contributor = {
             initials: "D.A.",
             surname: "N.S.",
-            ids: [
-                {
-                    scheme: "test",
-                    value: "foobar",
-                },
-                {
-                    scheme: "",
-                    value: "",
-                },
-                {},
-            ],
+            orcid: "0000-0002-1825-0097",
         }
         const contributor2: Contributor = {
             organization: "K.N.A.W.",
@@ -258,30 +239,6 @@ describe("Validation", () => {
                 .to.eql("At least one creator is required")
         })
     })
-
-    const contributorIdSettings: ContributorIdDropdownListEntry[] = [
-        {
-            key: "id-type:DAI",
-            value: "DAI",
-            displayValue: "DAI",
-            format: "^(info:eu-repo/dai/nl/)?[0-9]{8,9}[0-9xX]$",
-            placeholder: "(info:eu-repo/dai/nl/358163587)",
-        },
-        {
-            key: "id-type:ORCID",
-            value: "ORCID",
-            displayValue: "ORCID",
-            format: "^(https://orcid.org/)?([0-9]{4}-){3}[0-9]{3}[0-9xX]?$",
-            placeholder: "(0000-0002-1825-0097)"
-        },
-        {
-            key: "id-type:ISNI",
-            value: "ISNI",
-            displayValue: "ISNI",
-            format: "(^(http://isni.org/isni/|ISNI:)[0-9]{15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)",
-            placeholder: "(ISNI:000000012281955X)"
-        },
-    ]
 
     describe("isDaiValid", () => {
         it("should test whether DAIs are valid", () => {
@@ -325,64 +282,48 @@ describe("Validation", () => {
         const contributor4: Contributor = {}
         const contributor5: Contributor = {
             ...contributor1,
-            ids: [
-                {
-                    scheme: "id-type:ORCID",
-                    // no value
-                },
-                {
-                    scheme: "id-type:DAI",
-                    value: "123456789",
-                },
-                {
-                    // no scheme
-                    value: "def",
-                },
-                {
-                    scheme: "id-type:ORCID",
-                    value: "invalid-orcid",
-                },
-            ],
+            orcid: "invalid-orcid",
+            dai: "123456789",
         }
 
         it("should return an empty array when an empty list is provided", () => {
-            expect(validateContributors(contributorIdSettings, [])).to.eql([])
+            expect(validateContributors([])).to.eql([])
         })
 
         it("should return empty objects when for each Contributor at least 'initials' and 'surname' are provided", () => {
-            expect(validateContributors(contributorIdSettings, [contributor1, contributor1])).to.eql([{}, {}])
+            expect(validateContributors([contributor1, contributor1])).to.eql([{}, {}])
         })
 
         it("should return empty objects when for each Contributor at least the 'organization' is provided", () => {
-            expect(validateContributors(contributorIdSettings, [contributor2, contributor2])).to.eql([{}, {}])
+            expect(validateContributors([contributor2, contributor2])).to.eql([{}, {}])
         })
 
         it("should return empty objects when for each Contributor at least either 'initials' and 'surname' or 'organization' are/is provided", () => {
-            expect(validateContributors(contributorIdSettings, [contributor1, contributor2])).to.eql([{}, {}])
+            expect(validateContributors([contributor1, contributor2])).to.eql([{}, {}])
         })
 
         it("should return an empty object when the contributor is completely empty", () => {
-            expect(validateContributors(contributorIdSettings, [contributor3])).to.eql([{}])
+            expect(validateContributors([contributor3])).to.eql([{}])
         })
 
         it("should return an empty object when an empty object is given", () => {
-            expect(validateContributors(contributorIdSettings, [contributor4])).to.eql([{}])
+            expect(validateContributors([contributor4])).to.eql([{}])
         })
 
         it("should return an error object with only field 'surname' when only 'initials' is provided", () => {
-            expect(validateContributors(contributorIdSettings, [{ initials: "D.A." }])).to.eql([{
+            expect(validateContributors([{ initials: "D.A." }])).to.eql([{
                 surname: "No surname given",
             }])
         })
 
         it("should return an error object with only field 'initials' when only 'surname' is provided", () => {
-            expect(validateContributors(contributorIdSettings, [{ surname: "N.S." }])).to.eql([{
+            expect(validateContributors([{ surname: "N.S." }])).to.eql([{
                 initials: "No initials given",
             }])
         })
 
         it("should return an error object with all of 'initials', 'surname' and 'organization' when only an insertion is given", () => {
-            expect(validateContributors(contributorIdSettings, [{ insertions: "van" }])).to.eql([{
+            expect(validateContributors([{ insertions: "van" }])).to.eql([{
                 organization: "No organisation given",
                 initials: "No initials given",
                 surname: "No surname given",
@@ -390,19 +331,8 @@ describe("Validation", () => {
         })
 
         it("should return an error object when for any id, only the scheme or value is given", () => {
-            expect(validateContributors(contributorIdSettings, [contributor5])).to.eql([{
-                ids: [
-                    {
-                        value: "No identifier given",
-                    },
-                    {},
-                    {
-                        scheme: "No scheme given",
-                    },
-                    {
-                        value: "Invalid ORCID identifier (0000-0002-1825-0097)",
-                    },
-                ],
+            expect(validateContributors([contributor5])).to.eql([{
+                orcid: "Invalid ORCID identifier (e.g.: 0000-0002-1825-0097)",
             }])
         })
     })

@@ -17,13 +17,13 @@ import * as validUrl from "valid-url"
 import { FormErrors } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
-import { Contributor, creatorRole } from "../../lib/metadata/Contributor"
+import { Contributor, creatorRole, DAI, ISNI, ORCID } from "../../lib/metadata/Contributor"
 import { QualifiedDate } from "../../lib/metadata/Date"
 import { Relation } from "../../lib/metadata/Relation"
 import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
-import { ContributorIdDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
+import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -77,17 +77,12 @@ export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => 
             const nonEmptyInitials = checkNonEmpty(contributor.initials)
             const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
             const nonEmptySurname = checkNonEmpty(contributor.surname)
-            const nonEmptyIdentifiers = contributor.ids
-                ? contributor.ids.map(id => {
-                    const nonEmptyIdScheme = checkNonEmpty(id.scheme)
-                    const nonEmptyIdValue = checkNonEmpty(id.value)
-
-                    return nonEmptyIdScheme || nonEmptyIdValue
-                }).reduce((prev, curr) => prev || curr, false)
-                : false
+            const nonEmptyDai = checkNonEmpty(contributor.dai)
+            const nonEmptyIsni = checkNonEmpty(contributor.isni)
+            const nonEmptyOrcid = checkNonEmpty(contributor.orcid)
             // note that 'role' is not part of this validation, as it defaults to 'Creator'
 
-            return nonEmptyOrganization || nonEmptyTitles || nonEmptyInitials || nonEmptyInsertions || nonEmptySurname || nonEmptyIdentifiers
+            return nonEmptyOrganization || nonEmptyTitles || nonEmptyInitials || nonEmptyInsertions || nonEmptySurname || nonEmptyDai || nonEmptyIsni || nonEmptyOrcid
         }).reduce((prev, curr) => prev || curr, false)
 
         if (!nonEmptyContributors)
@@ -111,7 +106,7 @@ export const atLeastOneCreator = (contributors?: Contributor[]) => {
     }
 }
 
-export const validateContributors: (contributorIdSettings: ContributorIdDropdownListEntry[], contributors: Contributor[]) => Contributor[] = (contributorIdSettings, contributors) => {
+export const validateContributors: (contributors: Contributor[]) => Contributor[] = (contributors) => {
     // validate that mandatory fields are filled in for each contributor
     return contributors.map((contributor: Contributor) => {
         const nonEmptyOrganization = checkNonEmpty(contributor.organization)
@@ -119,14 +114,18 @@ export const validateContributors: (contributorIdSettings: ContributorIdDropdown
         const nonEmptyInitials = checkNonEmpty(contributor.initials)
         const nonEmptyInsertions = checkNonEmpty(contributor.insertions)
         const nonEmptySurname = checkNonEmpty(contributor.surname)
-        const nonEmptyIdentifiers = (contributor.ids || []).reduce(((p, id) => p || checkNonEmpty(id.scheme) || checkNonEmpty(id.value)), false)
+        const nonEmptyDai = checkNonEmpty(contributor.dai)
+        const nonEmptyIsni = checkNonEmpty(contributor.isni)
+        const nonEmptyOrcid = checkNonEmpty(contributor.orcid)
         const nonEmptyRole = checkNonEmpty(contributor.role)
         const nonEmptyContributor = nonEmptyOrganization
             || nonEmptyTitles
             || nonEmptyInitials
             || nonEmptyInsertions
             || nonEmptySurname
-            || nonEmptyIdentifiers
+            || nonEmptyDai
+            || nonEmptyIsni
+            || nonEmptyOrcid
             || nonEmptyRole
 
         const contribError: Contributor = {}
@@ -141,35 +140,17 @@ export const validateContributors: (contributorIdSettings: ContributorIdDropdown
                     contribError.surname = "No surname given"
             }
 
-            if (contributor.ids)
-                contribError.ids = validateContributorIds(contributorIdSettings, contributor.ids)
+            if (contributor.dai && (!contributor.dai.match(DAI.format) || !isDaiValid(contributor.dai)))
+                contribError.dai = `Invalid ${DAI.displayValue} identifier ${DAI.placeholder}`
+
+            if (contributor.isni && !contributor.isni.match(ISNI.format))
+                contribError.isni = `Invalid ${ISNI.displayValue} identifier ${ISNI.placeholder}`
+
+            if (contributor.orcid && !contributor.orcid.match(ORCID.format))
+                contribError.orcid = `Invalid ${ORCID.displayValue} identifier ${ORCID.placeholder}`
         }
 
         return contribError
-    })
-}
-
-const validateContributorIds: (contributorIdSettings: ContributorIdDropdownListEntry[], schemedValues: SchemedValue[]) => SchemedValue[] = (contributorIdSettings, schemedValues) => {
-    return schemedValues.map(id => {
-        const nonEmptyScheme = checkNonEmpty(id.scheme)
-        const nonEmptyValue = checkNonEmpty(id.value)
-
-        const idError: SchemedValue = {}
-
-        if (!nonEmptyScheme && nonEmptyValue)
-            idError.scheme = "No scheme given"
-
-        if (nonEmptyScheme && !nonEmptyValue)
-            idError.value = "No identifier given"
-
-        if (nonEmptyScheme && nonEmptyValue && id.value) {
-            const entry = contributorIdSettings.find(({ key }) => key === id.scheme)
-
-            if (entry && (!id.value.match(entry.format) || (id.scheme === "id-type:DAI" && !isDaiValid(id.value))))
-                idError.value = `Invalid ${entry.displayValue} identifier ${entry.placeholder}`
-        }
-
-        return idError
     })
 }
 
@@ -401,9 +382,6 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
 }
 
 export const formValidate: (values: DepositFormMetadata, props: any) => FormErrors<DepositFormMetadata> = (values, props) => {
-    const contributorIdSettings = props.dropDowns.contributorIds.state.fetchedList
-        ? props.dropDowns.contributorIds.list
-        : []
     const spatialCoordinateSettings = props.dropDowns.spatialCoordinates.state.fetchedList
         ? props.dropDowns.spatialCoordinates.list
         : []
@@ -424,7 +402,7 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
         else if (oneCreator)
             errors.contributors = { _error: oneCreator }
         else
-            errors.contributors = validateContributors(contributorIdSettings, values.contributors)
+            errors.contributors = validateContributors(values.contributors)
     }
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
@@ -435,7 +413,7 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
     errors.dates = validateDates(values.dates || [])
 
     // license and access form
-    errors.rightsHolders = validateContributors(contributorIdSettings, values.rightsHolders || [])
+    errors.rightsHolders = validateContributors(values.rightsHolders || [])
     errors.accessRights = mandatoryRadioButtonValidator(values.accessRights, "access right")
     errors.license = mandatoryRadioButtonValidator(values.license, "license")
     errors.dateAvailable = dateAvailableMustBeAfterDateCreated(values.dateCreated, values.dateAvailable)

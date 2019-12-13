@@ -20,7 +20,7 @@ import { Field } from "redux-form"
 import { Contributor, emptyRightsholder } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
 import { emptyString } from "../../../lib/metadata/misc"
-import RightsholderFields from "./licenseAndAccess/RightsholderFields"
+import ContributorFieldArray from "../../../lib/formComponents/ContributorFieldArray"
 import DatePickerField from "../../../lib/formComponents/DatePickerField"
 import AccessRightsAndLicenseFields from "./licenseAndAccess/AccessRightsAndLicenseFields"
 import { useSelector } from "../../../lib/redux"
@@ -35,22 +35,23 @@ export interface LicenseAndAccessFormData {
 
 const LicenseAndAccessForm = () => (
     <>
-        <RepeatableFieldWithDropdown name="rightsHolders"
-                                     label="Rightsholder"
-                                     helpText
-                                     mandatory
-                                     empty={() => emptyRightsholder}
-                                     fieldNames={[
-                                         (name: string) => `${name}.titles`, // 0
-                                         (name: string) => `${name}.initials`, // 1
-                                         (name: string) => `${name}.insertions`, // 2
-                                         (name: string) => `${name}.surname`, // 3
-                                         (name: string) => `${name}.ids`, // 4
-                                         (name: string) => `${name}.role`, // 5 - NOTE: not used in this instance, but still necessary for a correct implementation
-                                         (name: string) => `${name}.organization`, // 6
-                                     ]}
-                                     dropdowns={{ ids: useSelector(state => state.dropDowns.contributorIds) }}
-                                     component={RightsholderFields}/>
+        <RepeatableField name="rightsHolders"
+                         label="Rightsholder"
+                         helpText
+                         mandatory
+                         empty={() => emptyRightsholder}
+                         fieldNames={[
+                             (name: string) => `${name}.titles`, // 0
+                             (name: string) => `${name}.initials`, // 1
+                             (name: string) => `${name}.insertions`, // 2
+                             (name: string) => `${name}.surname`, // 3
+                             (name: string) => `${name}.orcid`, // 4
+                             (name: string) => `${name}.isni`, // 5
+                             (name: string) => `${name}.dai`, // 6
+                             (name: string) => `${name}.role`, // 7 - NOTE: not used in this instance, but still necessary for a correct implementation
+                             (name: string) => `${name}.organization`, // 8
+                         ]}
+                         component={ContributorFieldArray}/>
 
         <RepeatableField name="publishers"
                          label="Publisher"

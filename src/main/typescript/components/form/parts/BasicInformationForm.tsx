@@ -69,7 +69,7 @@ interface BasicInformationFormProps {
 }
 
 const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
-    const {languages, contributorIds, contributorRoles, audiences, identifiers, relations, dates} = useSelector(state => state.dropDowns)
+    const {languages, contributorRoles, audiences, identifiers, relations, dates} = useSelector(state => state.dropDowns)
 
     return (
         <>
@@ -120,11 +120,13 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                              (name: string) => `${name}.initials`, // 1
                                              (name: string) => `${name}.insertions`, // 2
                                              (name: string) => `${name}.surname`, // 3
-                                             (name: string) => `${name}.ids`, // 4
-                                             (name: string) => `${name}.role`, // 5
-                                             (name: string) => `${name}.organization`, // 6
+                                             (name: string) => `${name}.orcid`, // 4
+                                             (name: string) => `${name}.isni`, // 5
+                                             (name: string) => `${name}.dai`, // 6
+                                             (name: string) => `${name}.role`, // 7
+                                             (name: string) => `${name}.organization`, // 8
                                          ]}
-                                         dropdowns={{ ids: contributorIds, roles: contributorRoles }}
+                                         dropdowns={{ roles: contributorRoles }}
                                          component={ContributorFields}/>
 
             <Field name="dateCreated"

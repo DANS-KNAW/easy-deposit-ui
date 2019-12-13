@@ -22,11 +22,9 @@ import ContributorFieldArray from "../../../../lib/formComponents/ContributorFie
 
 type ContributorFieldsProps = FieldArrayPropsWithDropdown<Contributor, DropdownList<ContributorIdDropdownListEntry>>
 
-const ContributorFields = ({dropdowns: {ids, roles}, ...props}: ContributorFieldsProps) => (
-    <LoadDropdownData state={ids.state}>
-        <LoadDropdownData state={roles.state}>
-            <ContributorFieldArray {...props} idValues={ids.list} roleValues={roles.list}/>
-        </LoadDropdownData>
+const ContributorFields = ({ dropdowns: { roles }, ...props }: ContributorFieldsProps) => (
+    <LoadDropdownData state={roles.state}>
+        <ContributorFieldArray {...props} roleValues={roles.list}/>
     </LoadDropdownData>
 )
 
