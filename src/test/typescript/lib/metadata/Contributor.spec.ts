@@ -26,19 +26,6 @@ import { DropdownListEntry } from "../../../../main/typescript/model/DropdownLis
 
 describe("Contributor", () => {
 
-    const idChoices: DropdownListEntry[] = [
-        {
-            key: "id-type:DAI",
-            value: "DAI",
-            displayValue: "DAI",
-        },
-        {
-            key: "id-type:ISNI",
-            value: "ISNI",
-            displayValue: "ISNI",
-        },
-    ]
-
     const roleChoices: DropdownListEntry[] = [
         {
             key: "DataCurator",
@@ -117,20 +104,13 @@ describe("Contributor", () => {
                 initials: "D.A.",
                 insertions: "",
                 surname: "NS",
-                ids: [
-                    {
-                        scheme: "id-type:DAI",
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: "abcdef",
-                    },
-                ],
+                dai: "123456",
+                isni: "abcdef",
+                orcid: "",
                 role: "DataCurator",
                 organization: "KNAW",
             }
-            expect(contributorConverter(idChoices, roleChoices)(input)).to.eql(expected)
+            expect(contributorConverter(roleChoices)(input)).to.eql(expected)
         })
 
         it("should convert an empty input to an internal representation with empty strings", () => {
@@ -140,23 +120,21 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [{ scheme: "", value: "" }],
+                dai: "",
+                isni: "",
+                orcid: "",
                 role: "",
                 organization: "",
             }
-            expect(contributorConverter(idChoices, roleChoices)(input)).to.eql(expected)
+            expect(contributorConverter(roleChoices)(input)).to.eql(expected)
         })
 
         it("should convert a partial contributor", () => {
             const input = {
                 ids: [
                     {
-                        // no scheme
-                        value: "123456",
-                    },
-                    {
                         scheme: "id-type:ISNI",
-                        // no value
+                        value: "123456",
                     },
                 ],
             }
@@ -165,20 +143,13 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [
-                    {
-                        scheme: undefined,
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: undefined,
-                    },
-                ],
+                dai: "",
+                isni: "123456",
+                orcid: "",
                 role: "",
                 organization: "",
             }
-            expect(contributorConverter(idChoices, roleChoices)(input)).to.eql(expected)
+            expect(contributorConverter(roleChoices)(input)).to.eql(expected)
         })
 
         it("should fail when using an invalid contributor scheme id", () => {
@@ -190,7 +161,7 @@ describe("Contributor", () => {
                     },
                 ],
             }
-            expect(() => contributorConverter(idChoices, roleChoices)(input)).to
+            expect(() => contributorConverter(roleChoices)(input)).to
                 .throw("Error in metadata: no such creator/contributor id scheme: 'id-type:invalid'")
         })
 
@@ -202,7 +173,7 @@ describe("Contributor", () => {
                     value: "Researcher",
                 },
             }
-            expect(() => contributorConverter(idChoices, roleChoices)(input)).to
+            expect(() => contributorConverter(roleChoices)(input)).to
                 .throw("Error in metadata: no such creator/contributor role scheme: 'datacite:invalid'")
         })
 
@@ -214,7 +185,7 @@ describe("Contributor", () => {
                     value: "invalid",
                 },
             }
-            expect(() => contributorConverter(idChoices, roleChoices)(input)).to
+            expect(() => contributorConverter(roleChoices)(input)).to
                 .throw("Error in metadata: no such creator/contributor role: 'invalid'")
         })
     })
@@ -257,16 +228,9 @@ describe("Contributor", () => {
                 initials: "D.A.",
                 insertions: "",
                 surname: "NS",
-                ids: [
-                    {
-                        scheme: "id-type:DAI",
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: "abcdef",
-                    },
-                ],
+                dai: "123456",
+                isni: "abcdef",
+                orcid: "",
                 role: "Researcher",
                 organization: "KNAW",
             }
@@ -275,11 +239,13 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [{ scheme: "", value: "" }],
+                dai: "",
+                isni: "",
+                orcid: "",
                 role: "RightsHolder",
                 organization: "rightsHolder1",
             }
-            expect(contributorsConverter(idChoices, roleChoices)([input1, input2])).to.eql([[expected2], [expected1]])
+            expect(contributorsConverter(roleChoices)([input1, input2])).to.eql([[expected2], [expected1]])
         })
     })
 
@@ -291,7 +257,6 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [{ scheme: "", value: "" }],
                 role: "",
                 organization: "",
             }
@@ -305,16 +270,8 @@ describe("Contributor", () => {
                 initials: "D.A.",
                 insertions: "van",
                 surname: "NS",
-                ids: [
-                    {
-                        scheme: "id-type:DAI",
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: "abcdef",
-                    },
-                ],
+                dai: "123456",
+                isni: "abcdef",
                 role: "DataCurator",
                 organization: "KNAW",
             }
@@ -377,20 +334,13 @@ describe("Contributor", () => {
                 initials: "D.A.",
                 insertions: "",
                 surname: "NS",
-                ids: [
-                    {
-                        scheme: "id-type:DAI",
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: "abcdef",
-                    },
-                ],
+                dai: "123456",
+                isni: "abcdef",
+                orcid: "",
                 role: "Creator",
                 organization: "KNAW",
             }
-            expect(creatorConverter(idChoices)(input)).to.eql(expected)
+            expect(creatorConverter(input)).to.eql(expected)
         })
 
         it("should convert an empty input to an internal representation with empty strings", () => {
@@ -400,23 +350,21 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [{ scheme: "", value: "" }],
+                dai: "",
+                isni: "",
+                orcid: "",
                 role: "Creator",
                 organization: "",
             }
-            expect(creatorConverter(idChoices)(input)).to.eql(expected)
+            expect(creatorConverter(input)).to.eql(expected)
         })
 
         it("should convert a partial creator", () => {
             const input = {
                 ids: [
                     {
-                        // no scheme
-                        value: "123456",
-                    },
-                    {
                         scheme: "id-type:ISNI",
-                        // no value
+                        value: "123456",
                     },
                 ],
             }
@@ -425,20 +373,13 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [
-                    {
-                        scheme: undefined,
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: undefined,
-                    },
-                ],
+                dai: "",
+                isni: "123456",
+                orcid: "",
                 role: "Creator",
                 organization: "",
             }
-            expect(creatorConverter(idChoices)(input)).to.eql(expected)
+            expect(creatorConverter(input)).to.eql(expected)
         })
 
         it("should fail when using an invalid creator scheme id", () => {
@@ -450,7 +391,7 @@ describe("Contributor", () => {
                     },
                 ],
             }
-            expect(() => creatorConverter(idChoices)(input)).to
+            expect(() => creatorConverter(input)).to
                 .throw("Error in metadata: no such creator/contributor id scheme: 'id-type:invalid'")
         })
     })
@@ -463,7 +404,6 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [{ scheme: "", value: "" }],
                 role: "",
                 organization: "",
             }
@@ -477,16 +417,8 @@ describe("Contributor", () => {
                 initials: "D.A.",
                 insertions: "van",
                 surname: "NS",
-                ids: [
-                    {
-                        scheme: "id-type:DAI",
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: "abcdef",
-                    },
-                ],
+                dai: "123456",
+                isni: "abcdef",
                 role: "Creator",
                 organization: "KNAW",
             }
@@ -527,7 +459,6 @@ describe("Contributor", () => {
                 initials: "",
                 insertions: "",
                 surname: "",
-                ids: [{ scheme: "", value: "" }],
                 role: "",
                 organization: "",
             }
@@ -541,16 +472,8 @@ describe("Contributor", () => {
                 initials: "D.A.",
                 insertions: "van",
                 surname: "NS",
-                ids: [
-                    {
-                        scheme: "id-type:DAI",
-                        value: "123456",
-                    },
-                    {
-                        scheme: "id-type:ISNI",
-                        value: "abcdef",
-                    },
-                ],
+                dai: "123456",
+                isni: "abcdef",
                 role: "RightsHolder",
                 organization: "KNAW",
             }

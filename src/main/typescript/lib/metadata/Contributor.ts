@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
+import { SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
 import { partition } from "lodash"
 import { clean, emptyString, nonEmptyObject } from "./misc"
-import { DropdownListEntry } from "../../model/DropdownLists"
+import { ContributorIdDropdownListEntry, DropdownListEntry } from "../../model/DropdownLists"
 
 enum ContributorRoleScheme {
     DATACITE_CONTRIBUTOR = "datacite:contributorType",
@@ -35,7 +35,9 @@ export interface Contributor {
     initials?: string
     insertions?: string
     surname?: string
-    ids?: SchemedValue[]
+    orcid?: string
+    isni?: string
+    dai?: string
     role?: string
     organization?: string
 }
@@ -45,7 +47,9 @@ export const emptyContributor: Contributor = {
     initials: emptyString,
     insertions: emptyString,
     surname: emptyString,
-    ids: [emptySchemedValue],
+    orcid: emptyString,
+    isni: emptyString,
+    dai: emptyString,
     role: emptyString,
     organization: emptyString,
 }
@@ -60,8 +64,44 @@ export const emptyRightsholder: Contributor = {
     role: rightsholderRole,
 }
 
-const contributorSchemeIdConverter: (ids: DropdownListEntry[]) => (cs: any) => SchemedValue = ids => cs => {
-    const scheme = cs.scheme && ids.find(({ key }) => key === cs.scheme)
+export const DAI: ContributorIdDropdownListEntry = {
+    key: "id-type:DAI",
+    value: "DAI",
+    displayValue: "DAI",
+    format: "^(info:eu-repo/dai/nl/)?[0-9]{8,9}[0-9xX]$",
+    placeholder: "(e.g.: info:eu-repo/dai/nl/358163587)",
+}
+
+export const ISNI: ContributorIdDropdownListEntry = {
+    key: "id-type:ISNI",
+    value: "ISNI",
+    displayValue: "ISNI",
+    format: "(^(http://isni.org/isni/|ISNI:)[0-9]{15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)",
+    placeholder: "(e.g.: 000000012281955X)",
+    replace: [
+        {
+            from: /^http:\/\/www.isni.org\/(.*)$/,
+            to: "http://isni.org/$1",
+        },
+    ],
+}
+
+export const ORCID: ContributorIdDropdownListEntry = {
+    key: "id-type:ORCID",
+    value: "ORCID",
+    displayValue: "ORCID",
+    format: "^(https://orcid.org/)?([0-9]{4}-){3}[0-9]{3}[0-9xX]?$",
+    placeholder: "(e.g.: 0000-0002-1825-0097)",
+    replace: [
+        {
+            from: /^http:\/\/orcid.org\/(.*)$/,
+            to: "https://orcid.org/$1",
+        },
+    ],
+}
+
+const contributorSchemeIdConverter: (cs: any) => SchemedValue = cs => {
+    const scheme = cs.scheme && [DAI, ISNI, ORCID].find(value => value.key === cs.scheme)
 
     if (scheme || !cs.scheme)
         return schemedValueConverter(cs.scheme, cs.value)
@@ -69,7 +109,17 @@ const contributorSchemeIdConverter: (ids: DropdownListEntry[]) => (cs: any) => S
         throw `Error in metadata: no such creator/contributor id scheme: '${cs.scheme}'`
 }
 
-const contributorSchemeIdDeconverter: (sv: SchemedValue) => any = schemedValueDeconverter
+const contributorSchemeIdDeconverter: (scheme: ContributorIdDropdownListEntry, value?: string) => any = (scheme, value) => {
+    return schemedValueDeconverter({ scheme: scheme.key, value: value })
+}
+
+const contributorIdentifierDeconverter: (c: Contributor) => any = c => {
+    return [
+        c.dai ? (contributorSchemeIdDeconverter(DAI, c.dai)) : undefined,
+        c.isni ? (contributorSchemeIdDeconverter(ISNI, c.isni)) : undefined,
+        c.orcid ? (contributorSchemeIdDeconverter(ORCID, c.orcid)) : undefined,
+    ].filter(nonEmptyObject)
+}
 
 const contributorRoleConverter: (roles: DropdownListEntry[]) => (cr: any) => string = roles => cr => {
     const scheme = toContributorRoleScheme(cr.scheme)
@@ -105,13 +155,16 @@ const rightsHolderRoleDeconverter: (r: string) => any = r => clean({
 
 export const splitCreatorsAndContributors: (cs: Contributor[]) => [Contributor[], Contributor[]] = cs => partition(cs, { role: creatorRole })
 
-export const contributorConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (c: any) => Contributor = (ids, roles) => c => {
+export const contributorConverter: (roles: DropdownListEntry[]) => (c: any) => Contributor = roles => c => {
+    const contributorIds: SchemedValue[] = c.ids ? c.ids.map(contributorSchemeIdConverter) : []
     return ({
         titles: c.titles || emptyString,
         initials: c.initials || emptyString,
         insertions: c.insertions || emptyString,
         surname: c.surname || emptyString,
-        ids: c.ids ? c.ids.map(contributorSchemeIdConverter(ids)) : [emptySchemedValue],
+        orcid: contributorIds.find(({ scheme }) => scheme === ORCID.key)?.value || emptyString,
+        isni: contributorIds.find(({ scheme }) => scheme === ISNI.key)?.value || emptyString,
+        dai: contributorIds.find(({ scheme }) => scheme === DAI.key)?.value || emptyString,
         role: c.role ? contributorRoleConverter(roles)(c.role) : emptyString,
         organization: c.organization || emptyString,
     })
@@ -122,18 +175,21 @@ export const contributorDeconverter: (roles: DropdownListEntry[]) => (c: Contrib
     initials: c.initials,
     insertions: c.insertions,
     surname: c.surname,
-    ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
+    ids: contributorIdentifierDeconverter(c),
     role: c.role && contributorRoleDeconverter(roles)(c.role),
     organization: c.organization,
 })
 
-export const creatorConverter: (ids: DropdownListEntry[]) => (c: any) => Contributor = ids => c => {
+export const creatorConverter: (c: any) => Contributor = c => {
+    const contributorIds: SchemedValue[] = c.ids ? c.ids.map(contributorSchemeIdConverter) : []
     return ({
         titles: c.titles || emptyString,
         initials: c.initials || emptyString,
         insertions: c.insertions || emptyString,
         surname: c.surname || emptyString,
-        ids: c.ids ? c.ids.map(contributorSchemeIdConverter(ids)) : [emptySchemedValue],
+        orcid: contributorIds.find(({ scheme }) => scheme === ORCID.key)?.value || emptyString,
+        isni: contributorIds.find(({ scheme }) => scheme === ISNI.key)?.value || emptyString,
+        dai: contributorIds.find(({ scheme }) => scheme === DAI.key)?.value || emptyString,
         role: creatorRole,
         organization: c.organization || emptyString,
     })
@@ -144,7 +200,7 @@ export const creatorDeconverter: (c: Contributor) => any = c => clean({
     initials: c.initials,
     insertions: c.insertions,
     surname: c.surname,
-    ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
+    ids: contributorIdentifierDeconverter(c),
     organization: c.organization,
 })
 
@@ -154,7 +210,7 @@ export const rightsHolderDeconverter: (c: Contributor) => any = c => {
         initials: c.initials,
         insertions: c.insertions,
         surname: c.surname,
-        ids: c.ids && c.ids.map(contributorSchemeIdDeconverter).filter(nonEmptyObject),
+        ids: contributorIdentifierDeconverter(c),
         organization: c.organization,
     })
 
@@ -163,7 +219,7 @@ export const rightsHolderDeconverter: (c: Contributor) => any = c => {
         : rh
 }
 
-export const contributorsConverter: (ids: DropdownListEntry[], roles: DropdownListEntry[]) => (cs: any) => [Contributor[], Contributor[]] = (ids, roles) => cs => {
-    const contributors: Contributor[] = cs.map(contributorConverter(ids, roles))
+export const contributorsConverter: (roles: DropdownListEntry[]) => (cs: any) => [Contributor[], Contributor[]] = roles => cs => {
+    const contributors: Contributor[] = cs.map(contributorConverter(roles))
     return partition(contributors, { role: "RightsHolder" })
 }

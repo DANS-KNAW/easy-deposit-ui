@@ -65,7 +65,6 @@ export function emptyDropdownList<Entry extends DropdownListEntry>(): DropdownLi
 
 export interface DropdownLists {
     languages: DropdownList
-    contributorIds: DropdownList<ContributorIdDropdownListEntry>
     contributorRoles: DropdownList
     audiences: DropdownList
     identifiers: DropdownList
@@ -82,7 +81,6 @@ export interface DropdownLists {
 
 export const emptyDropdownLists: DropdownLists = {
     languages: emptyDropdownList(),
-    contributorIds: emptyDropdownList(),
     contributorRoles: emptyDropdownList(),
     audiences: emptyDropdownList(),
     identifiers: emptyDropdownList(),

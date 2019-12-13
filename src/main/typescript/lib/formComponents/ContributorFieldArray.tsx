@@ -15,75 +15,23 @@
  */
 import * as React from "react"
 import asFieldArray, { InnerComponentProps } from "./FieldArrayHOC"
-import { Field, FieldArrayFieldsProps } from "redux-form"
+import { Field } from "redux-form"
 import TextField, { ErrorHandlingTextField } from "./TextField"
-import { DropdownFieldInput, ErrorHandlingDropdownFieldInput } from "./DropDownField"
-import { ContributorIdDropdownListEntry, DropdownListEntry } from "../../model/DropdownLists"
-import RemoveButton from "./RemoveButton"
-import { FieldArrayProps, FieldArrayPropsWithDropdown, RepeatableFieldWithDropdown } from "./ReduxFormUtils"
-import { emptySchemedValue, SchemedValue } from "../metadata/Value"
-import AddButton from "./AddButton"
+import { DropdownFieldInput } from "./DropDownField"
+import { DropdownListEntry } from "../../model/DropdownLists"
+import { FieldArrayProps } from "./ReduxFormUtils"
 import Mandatory from "./Mandatory"
-import { Contributor } from "../metadata/Contributor"
-
-function getPlaceholder(fields: FieldArrayFieldsProps<SchemedValue>, index: number, contributorIds: ContributorIdDropdownListEntry[]): string {
-    const contributorId = fields.get(index)
-
-    if (contributorId) {
-        const scheme = contributorId.scheme
-        if (scheme) {
-            const contributorEntry = contributorIds.find(({ key }) => key == scheme)
-            if (contributorEntry)
-                return contributorEntry.placeholder
-        }
-    }
-    return "ID"
-}
-
-const ContributorIdArray = ({ fields, fieldNames, empty, dropdowns: { contributorIds } }: FieldArrayPropsWithDropdown<SchemedValue, ContributorIdDropdownListEntry[]>) => (
-    <>
-        <div className="form-row">
-            <div className="col form-group col-12 col-md-3 pl-0 mb-0">
-                <label>Identifier</label>
-            </div>
-        </div>
-
-        {fields.map((name, index) => (
-            <div className="form-row mb-2" key={`${name}.${index}`}>
-                <div className="col col-12 col-md-3 pl-0">
-                    <Field name={fieldNames[0](name)}
-                           choices={contributorIds}
-                           withEmptyDefault
-                           component={ErrorHandlingDropdownFieldInput}/>
-                </div>
-
-                <div className="col col-12 col-md-6">
-                    <Field name={fieldNames[1](name)}
-                           placeholder={getPlaceholder(fields, index, contributorIds)}
-                           component={ErrorHandlingTextField}/>
-                </div>
-
-                <div className="col col-2 remove-and-add-buttons">
-                    <RemoveButton onClick={() => fields.remove(index)}
-                                  className="mr-2"
-                                  disabled={fields.length <= 1}/>
-                    {index === fields.length - 1 && <AddButton onClick={() => fields.push(empty())}/>}
-                </div>
-            </div>
-        ))}
-    </>
-)
+import { Contributor, DAI, ISNI, ORCID } from "../metadata/Contributor"
 
 interface ContributorFieldProps extends InnerComponentProps, FieldArrayProps<Contributor> {
-    idValues: ContributorIdDropdownListEntry[]
     roleValues?: DropdownListEntry[]
 }
 
-const ContributorField = ({ names, idValues, roleValues, className }: ContributorFieldProps) => (
-    <div className={`border rounded contributor pt-2 pl-2 pr-2 pb-0 ${className || ""}`}>
+const ContributorField = ({ names, roleValues, className }: ContributorFieldProps) => (
+    <div className={`border rounded contributor p-2 ${className || ""}`}>
         {roleValues && <div className="form-row">
             <div className="col form-group col-md-6 mb-1">
-                <Field name={names[5]}
+                <Field name={names[7]}
                        choices={roleValues || []}
                        component={DropdownFieldInput}/>
             </div>
@@ -92,7 +40,7 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
         <div className="form-row">
             <div className="col form-group col-md-6 mb-1">
                 <label>Organisation</label>
-                <Field name={names[6]}
+                <Field name={names[8]}
                        placeholder="Organisation"
                        component={ErrorHandlingTextField}/>
             </div>
@@ -140,15 +88,32 @@ const ContributorField = ({ names, idValues, roleValues, className }: Contributo
             </div>
         </div>
 
-        <RepeatableFieldWithDropdown name={names[4]}
-                                     label="Contributor Ids"
-                                     empty={() => emptySchemedValue}
-                                     fieldNames={[
-                                         (name: string) => `${name}.scheme`,
-                                         (name: string) => `${name}.value`,
-                                     ]}
-                                     dropdowns={{ contributorIds: idValues }}
-                                     component={ContributorIdArray}/>
+        <div className="form-row">
+            <div className="col form-group col-md-6 mb-1">
+                <label>ORCID</label>
+                <Field name={names[4]}
+                       placeholder={ORCID.placeholder}
+                       component={TextField}/>
+            </div>
+        </div>
+
+        <div className="form-row">
+            <div className="col form-group col-md-6 mb-1">
+                <label>ISNI</label>
+                <Field name={names[5]}
+                       placeholder={ISNI.placeholder}
+                       component={TextField}/>
+            </div>
+        </div>
+
+        <div className="form-row">
+            <div className="col form-group col-md-6 mb-1">
+                <label>DAI</label>
+                <Field name={names[6]}
+                       placeholder={DAI.placeholder}
+                       component={TextField}/>
+            </div>
+        </div>
     </div>
 )
 

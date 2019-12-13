@@ -79,9 +79,9 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
     const languageOfDescription = input.languageOfDescription
         ? languageOfDescriptionConverter(dropDowns.languages.list)(input.languageOfDescription)
         : emptyString
-    const creators = input.creators && input.creators.map(creatorConverter(dropDowns.contributorIds.list))
+    const creators = input.creators && input.creators.map(creatorConverter)
     const [rightsHolders, normalContributors] = input.contributors
-        ? contributorsConverter(dropDowns.contributorIds.list, dropDowns.contributorRoles.list)(input.contributors)
+        ? contributorsConverter(dropDowns.contributorRoles.list)(input.contributors)
         : [[], []]
     const { dateCreated, dateAvailable, dates, textDates } = input.dates
         ? qualifiedDatesConverter(dropDowns.dates.list)(input.dates)

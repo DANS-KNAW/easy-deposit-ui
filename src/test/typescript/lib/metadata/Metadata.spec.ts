@@ -53,7 +53,6 @@ describe("Metadata", () => {
 
     const dropdownLists: DropdownLists = {
         languages: dropdownList("languages.json", convertDropdownData),
-        contributorIds: dropdownList("contributorIds.json", convertContributorIdDropdownData),
         contributorRoles: dropdownList("contributorRoles.json", convertDropdownData),
         audiences: dropdownList("audiences.json", convertDropdownData),
         identifiers: dropdownList("identifiers.json", convertDropdownData),
