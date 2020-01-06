@@ -17,19 +17,22 @@ import * as React from "react"
 import { ChangeEvent, useState } from "react"
 import FileLoader from "./FileLoader"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
-import { useDispatch } from "react-redux"
+import { useDispatch, useStore } from "react-redux"
 import { fetchFiles } from "../../../../../actions/fileOverviewActions"
-import { DepositId } from "../../../../../model/Deposits"
+import { DepositId, DepositStateLabel } from "../../../../../model/Deposits"
 import { useSelector } from "../../../../../lib/redux"
 import { Alert } from "../../../../Errors"
 import { setFileUploadInProgress } from "../../../../../actions/fileUploadActions"
 import { isFileUploading } from "../../../../../selectors/fileUploadSelectors"
+import { DepositState } from "../../../../../model/DepositState"
+import { fetchDepositState, setStateToDraft } from "../../../../../actions/depositFormActions"
 
 interface FileUploaderProps {
     depositId: DepositId
+    depositState: DepositState
 }
 
-const FileUploader = ({depositId}: FileUploaderProps) => {
+const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     const [uploadingFile, setUploadingFile] = useState<File>()
     const [errorMessage, setErrorMessage] = useState<string>()
     const fileUploadUrl = useSelector(uploadFileUrl(depositId, ""))
@@ -38,6 +41,7 @@ const FileUploader = ({depositId}: FileUploaderProps) => {
     const depositIsSaving = useSelector(state => state.depositForm.saveDraft.saving)
     const depositIsSubmitting = useSelector(state => state.depositForm.submit.submitting)
     const dispatch = useDispatch()
+    const store = useStore()
 
     const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setFileUploadInProgress(true))
@@ -45,6 +49,14 @@ const FileUploader = ({depositId}: FileUploaderProps) => {
         setUploadingFile(file || undefined)
         setErrorMessage(undefined)
         e.target.value = ""
+    }
+
+    const setDraftState = async () => {
+        const shouldSetToDraft = depositState.label === DepositStateLabel.REJECTED
+        if (shouldSetToDraft) {
+            await setStateToDraft(depositId, store.getState)
+            dispatch(fetchDepositState(depositId))
+        }
     }
 
     const uploadFinished = () => {
@@ -95,6 +107,7 @@ const FileUploader = ({depositId}: FileUploaderProps) => {
                         url={fileUploadUrl}
                         preventReload
                         showCancelBtn
+                        doBeforeUpload={setDraftState}
                         onUploadFinished={uploadFinished}
                         onUploadCanceled={uploadCanceled}
                         onUploadFailed={uploadFailed(uploadingFile)}/>
