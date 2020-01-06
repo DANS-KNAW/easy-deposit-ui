@@ -86,7 +86,7 @@ const replaceContributorIdFieldValue: Middleware = () => (next: Dispatch) => act
             const type = idType === "orcid" ? ORCID :
                 idType === "isni" ? ISNI :
                     idType === "dai" ? DAI :
-                    undefined
+                        undefined
             const newIdValue = type?.replace?.reduce((v, cfg) => v.replace(cfg.from, cfg.to), action.payload)
             if (newIdValue) {
                 next({
