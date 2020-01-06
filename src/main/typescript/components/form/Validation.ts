@@ -217,13 +217,10 @@ export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedVal
 
 export const validateQualifiedSchemedValues: (qsvs: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = qsvs => {
     function validateQualifiedSchemedValue(qsv: QualifiedSchemedValue): QualifiedSchemedValue {
-        const nonEmptyScheme = checkNonEmpty(qsv.scheme)
         const nonEmptyValue = checkNonEmpty(qsv.value)
 
         const relatedIdentifierError: QualifiedSchemedValue = {}
 
-        if (!nonEmptyScheme)
-            relatedIdentifierError.scheme = "No scheme given"
         if (!nonEmptyValue)
             relatedIdentifierError.value = "No identifier given"
 
