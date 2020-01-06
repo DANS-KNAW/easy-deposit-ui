@@ -40,7 +40,7 @@ const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
             </div>
             <div className="col col-md-4">
                 <Field name={names[1]}
-                       id="spatialpoint_x"
+                       className="spatialpoint_x"
                        label={choice ? choice.xLabel : "X"}
                        placeholder="coordinate"
                        type="number"
@@ -50,7 +50,7 @@ const SchemedPoint = ({ names, schemeValues, itemData }: SchemedPointProps) => {
             </div>
             <div className="col col-md-4">
                 <Field name={names[2]}
-                       id="spatialpoint_y"
+                       className="spatialpoint_y"
                        label={choice ? choice.yLabel : "Y"}
                        placeholder="coordinate"
                        type="number"

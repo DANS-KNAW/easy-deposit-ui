@@ -40,7 +40,7 @@ const SchemedBox = ({ names, schemeValues, itemData }: SchemedBoxProps) => {
                 </div>
                 <div className="col col-md-4 mb-1">
                     <Field name={names[1]}
-                           id="spatialbox_north"
+                           className="spatialbox_north"
                            label="North"
                            placeholder="upper bound"
                            type="number"
@@ -50,7 +50,7 @@ const SchemedBox = ({ names, schemeValues, itemData }: SchemedBoxProps) => {
                 </div>
                 <div className="col col-md-4 mb-1">
                     <Field name={names[2]}
-                           id="spatialbox_east"
+                           className="spatialbox_east"
                            label="East"
                            placeholder="right bound"
                            type="number"
@@ -64,7 +64,7 @@ const SchemedBox = ({ names, schemeValues, itemData }: SchemedBoxProps) => {
                 <div className="col col-md-4"/>
                 <div className="col col-md-4">
                     <Field name={names[3]}
-                           id="spatialbox_south"
+                           className="spatialbox_south"
                            label="South"
                            placeholder="lower bound"
                            type="number"
@@ -74,7 +74,7 @@ const SchemedBox = ({ names, schemeValues, itemData }: SchemedBoxProps) => {
                 </div>
                 <div className="col col-md-4">
                     <Field name={names[4]}
-                           id="spatialbox_west"
+                           className="spatialbox_west"
                            label="West"
                            placeholder="left bound"
                            type="number"
