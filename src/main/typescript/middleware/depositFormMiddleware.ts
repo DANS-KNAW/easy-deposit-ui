@@ -19,6 +19,7 @@ import { depositOverviewRoute } from "../constants/clientRoutes"
 import { depositStateNotFound, fetchDepositState, saveDraftResetAction } from "../actions/depositFormActions"
 import { actionTypes, change, initialize } from "redux-form"
 import { DAI, ISNI, ORCID } from "../lib/metadata/Contributor"
+import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
 const depositStateNotFoundMiddleware: Middleware = ({ dispatch }) => (next: Dispatch) => action => {
     if (action.type && action.type === DepositFormConstants.FETCH_STATE_REJECTED && action.payload) {
@@ -43,7 +44,7 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
 const fetchStateAfterSetFromRejectedToDraft: Middleware = ({ dispatch }: MiddlewareAPI<Dispatch<any>>) => (next: Dispatch) => action => {
     next(action)
 
-    if (action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED
+    if ((action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED || action.type === FileOverviewConstants.DELETE_FILE_FULFILLED)
         && action.meta?.setStateToDraft
         && action.meta?.depositId)
         dispatch(fetchDepositState(action.meta.depositId))

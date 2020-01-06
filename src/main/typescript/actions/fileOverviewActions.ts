@@ -19,8 +19,9 @@ import { Action } from "redux"
 import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
 import fetch from "../lib/fetch"
-import { listFilesUrl, deleteFileUrl } from "../selectors/serverRoutes"
+import { deleteFileUrl, listFilesUrl } from "../selectors/serverRoutes"
 import { Files } from "../model/FileInfo"
+import { setStateToDraft } from "./depositFormActions"
 
 export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>> = (depositId) => (dispatch, getState) => dispatch({
     type: FileOverviewConstants.FETCH_FILES,
@@ -33,13 +34,20 @@ export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files
     },
 })
 
-export const deleteFile: (depositId: DepositId, filePath: string) => ThunkAction<PromiseAction<void>> = (depositId, filePath) => (dispatch, getState) => dispatch({
+export const deleteFile: (depositId: DepositId, filePath: string, setToDraft: boolean) => ThunkAction<PromiseAction<void>> = (depositId, filePath, setToDraft) => (dispatch, getState) => dispatch({
     type: FileOverviewConstants.DELETE_FILE,
     async payload() {
+        if (setToDraft)
+            await setStateToDraft(depositId, getState)
+
         await fetch.delete(deleteFileUrl(depositId, filePath)(getState()))
         dispatch(fetchFiles(depositId))
     },
-    meta: { filePath: filePath },
+    meta: {
+        filePath: filePath,
+        depositId: depositId,
+        setStateToDraft: setToDraft,
+    },
 })
 
 export const cancelDeleteFile: (filePath: string) => Action = (filePath) =>({

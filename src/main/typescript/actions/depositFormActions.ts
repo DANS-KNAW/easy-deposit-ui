@@ -75,7 +75,7 @@ export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> =
     },
 })
 
-const setStateToDraft: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse<any>> = async (depositId, getState) => {
+export const setStateToDraft: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse<any>> = async (depositId, getState) => {
     const draftState = {
         state: "DRAFT",
         stateDescription: "Deposit is open for changes again",
