@@ -25,8 +25,7 @@ const TextField = ({ input, className, type, ...rest }: TextFieldProps) => (
 
 export const ErrorHandlingTextField = (props: TextFieldProps) => {
     const { meta } = props
-    const changed = (meta as any).changed
-    const hasError = meta.error && (changed || meta.submitFailed)
+    const hasError = meta.error && meta.submitFailed
 
     return (
         <>

@@ -93,7 +93,7 @@ const ContributorField = ({ names, roleValues, className }: ContributorFieldProp
                 <label>ORCID</label>
                 <Field name={names[4]}
                        placeholder={ORCID.placeholder}
-                       component={TextField}/>
+                       component={ErrorHandlingTextField}/>
             </div>
         </div>
 
@@ -102,7 +102,7 @@ const ContributorField = ({ names, roleValues, className }: ContributorFieldProp
                 <label>ISNI</label>
                 <Field name={names[5]}
                        placeholder={ISNI.placeholder}
-                       component={TextField}/>
+                       component={ErrorHandlingTextField}/>
             </div>
         </div>
 
@@ -111,7 +111,7 @@ const ContributorField = ({ names, roleValues, className }: ContributorFieldProp
                 <label>DAI</label>
                 <Field name={names[6]}
                        placeholder={DAI.placeholder}
-                       component={TextField}/>
+                       component={ErrorHandlingTextField}/>
             </div>
         </div>
     </div>
