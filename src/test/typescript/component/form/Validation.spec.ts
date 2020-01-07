@@ -388,7 +388,7 @@ describe("Validation", () => {
             expect(validateQualifiedSchemedValues([{ qualifier: "q", scheme: "s", value: "v" }])).to.eql([{}])
         })
 
-        it("should return an emty object when one QualifiedSchemedValue is given with 'scheme' missing", () => {
+        it("should return an empty object when one QualifiedSchemedValue is given with 'scheme' missing", () => {
             expect(validateQualifiedSchemedValues([{
                 qualifier: "q",
                 // no scheme
@@ -433,7 +433,6 @@ describe("Validation", () => {
                     value: "No identifier given",
                 },
                 {
-                    // scheme: "No scheme given",
                     value: "No identifier given",
                 },
             ])
