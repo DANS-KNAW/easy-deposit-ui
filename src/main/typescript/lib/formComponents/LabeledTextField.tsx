@@ -26,7 +26,7 @@ interface LabeledTextFieldProps {
 /**
  * Creates a TextField with a prepended label
  */
-const LabeledTextField = ({ label, labelWidth, appendElem, ...rest }: LabeledTextFieldProps & TextFieldProps) => {
+const LabeledTextField = ({ label, labelWidth, appendElem, className, ...rest }: LabeledTextFieldProps & TextFieldProps) => {
     const { meta } = rest
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
@@ -39,7 +39,7 @@ const LabeledTextField = ({ label, labelWidth, appendElem, ...rest }: LabeledTex
                     {label}
                 </span>
             </div>
-            <TextField className={hasError ? "is-invalid" : ""} {...rest}/>
+            <TextField className={[hasError ? "is-invalid" : undefined, className].filter(s => s !== undefined).join(" ")} {...rest}/>
             {appendElem && <div className="input-group-append">{appendElem(rest)}</div>}
             {hasError && <span className="invalid-feedback">{meta.error}</span>}
         </div>

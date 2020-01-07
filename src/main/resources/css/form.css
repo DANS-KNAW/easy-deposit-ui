@@ -58,14 +58,14 @@
 .input-element .relation .input-group-prepend ~ .invalid-feedback {
     margin-left: 52px; /* 44 + 8 */
 }
-.input-element .spatialPoint #spatialpoint_x ~ .invalid-feedback,
-.input-element .spatialBox #spatialbox_north ~ .invalid-feedback,
-.input-element .spatialBox #spatialbox_south ~ .invalid-feedback {
+.input-element .spatialPoint .spatialpoint_x ~ .invalid-feedback,
+.input-element .spatialBox .spatialbox_north ~ .invalid-feedback,
+.input-element .spatialBox .spatialbox_south ~ .invalid-feedback {
     margin-left: 63px; /* 55 + 8 */
 }
-.input-element .spatialPoint #spatialpoint_y ~ .invalid-feedback,
-.input-element .spatialBox #spatialbox_east ~ .invalid-feedback,
-.input-element .spatialBox #spatialbox_west ~ .invalid-feedback {
+.input-element .spatialPoint .spatialpoint_y ~ .invalid-feedback,
+.input-element .spatialBox .spatialbox_east ~ .invalid-feedback,
+.input-element .spatialBox .spatialbox_west ~ .invalid-feedback {
     margin-left: 58px; /* 50 + 8 */
 }
 
