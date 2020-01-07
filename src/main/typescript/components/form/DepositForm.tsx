@@ -144,8 +144,8 @@ const DepositForm = (props: DepositFormProps) => {
               */}
             <form noValidate>
                 <Card title="Upload your data" defaultOpened>
-                    <FilesOverview depositId={props.depositId}/>
-                    <FileUploader depositId={props.depositId}/>
+                    <FilesOverview depositId={props.depositId} depositState={props.depositState}/>
+                    <FileUploader depositId={props.depositId} depositState={props.depositState}/>
                 </Card>
 
                 <Card title="Personal data" required defaultOpened>

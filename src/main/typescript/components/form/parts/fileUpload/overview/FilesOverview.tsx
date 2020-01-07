@@ -18,7 +18,8 @@ import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
 import { useDispatch } from "react-redux"
-import { DepositId } from "../../../../../model/Deposits"
+import { DepositId, DepositStateLabel } from "../../../../../model/Deposits"
+import { DepositState } from "../../../../../model/DepositState"
 import { useSelector } from "../../../../../lib/redux"
 import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/fileOverviewActions"
 import { CloseableWarning } from "../../../../Errors"
@@ -27,16 +28,18 @@ import Paginationable from "../../../../Paginationable"
 
 interface FilesOverviewProps {
     depositId: DepositId
+    depositState: DepositState
 }
 
-const FilesOverview = ({ depositId }: (FilesOverviewProps)) => {
+const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
     const files = useSelector(state => state.files)
     const dispatch = useDispatch()
 
     function doDeleteFile(depositId: DepositId, filepath: string) {
         return function (e: React.MouseEvent<HTMLButtonElement>) {
             e.stopPropagation()
-            dispatch(deleteFile(depositId, filepath))
+            const setToDraft = depositState.label === DepositStateLabel.REJECTED
+            dispatch(deleteFile(depositId, filepath, setToDraft))
         }
     }
 

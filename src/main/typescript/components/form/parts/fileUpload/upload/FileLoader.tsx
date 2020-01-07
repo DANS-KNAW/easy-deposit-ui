@@ -37,6 +37,7 @@ interface FileLoaderProps {
         blacklist?: string[],
         errorMessage: string,
     }
+    doBeforeUpload?: () => Promise<void>
     onUploadFinished?: () => void
     onUploadCanceled?: () => void
     onUploadFailed?: (msg?: string) => void
@@ -156,7 +157,10 @@ const FileLoader = (props: FileLoaderProps) => {
 
     useEffect(() => {
         if (!requestRef.current && props.file && validateFile(props.file)) {
-            setRequest(uploadFile(props.file, props.url))
+            (async function() {
+                props.doBeforeUpload && await props.doBeforeUpload()
+                setRequest(uploadFile(props.file, props.url))
+            })()
         }
 
         return function cleanup() {

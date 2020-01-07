@@ -75,7 +75,7 @@ export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> =
     },
 })
 
-const setStateToDraft: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse<any>> = async (depositId, getState) => {
+export const setStateToDraft: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse> = async (depositId, getState) => {
     const draftState = {
         state: "DRAFT",
         stateDescription: "Deposit is open for changes again",
@@ -83,7 +83,7 @@ const setStateToDraft: (depositId: DepositId, getState: () => AppState) => Promi
     return await fetch.put(submitDepositUrl(depositId)(getState()), draftState)
 }
 
-const setStateToSubmitted: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse<any>> = async (depositId, getState) => {
+const setStateToSubmitted: (depositId: DepositId, getState: () => AppState) => Promise<AxiosResponse> = async (depositId, getState) => {
     const submitState = {
         state: "SUBMITTED",
         stateDescription: "Deposit is ready for post-submission processing",
@@ -91,7 +91,7 @@ const setStateToSubmitted: (depositId: DepositId, getState: () => AppState) => P
     return await fetch.put(submitDepositUrl(depositId)(getState()), submitState)
 }
 
-const doSaveDraft: (depositId: DepositId, getState: () => AppState, output: any) => Promise<AxiosResponse<any>> = async (depositId, getState, output) => {
+const doSaveDraft: (depositId: DepositId, getState: () => AppState, output: any) => Promise<AxiosResponse> = async (depositId, getState, output) => {
     return await fetch.put(saveDraftUrl(depositId)(getState()), output)
 }
 
