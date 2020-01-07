@@ -388,12 +388,12 @@ describe("Validation", () => {
             expect(validateQualifiedSchemedValues([{ qualifier: "q", scheme: "s", value: "v" }])).to.eql([{}])
         })
 
-        it("should return an error object when one QualifiedSchemedValue is given with 'scheme' missing", () => {
+        it("should return an empty object when one QualifiedSchemedValue is given with 'scheme' missing", () => {
             expect(validateQualifiedSchemedValues([{
                 qualifier: "q",
                 // no scheme
                 value: "v",
-            }])).to.eql([{ scheme: "No scheme given" }])
+            }])).to.eql([{ }])
         })
 
         it("should return an error object when one QualifiedSchemedValue is given with 'value' missing", () => {
@@ -428,14 +428,11 @@ describe("Validation", () => {
                 },
             ])).to.eql([
                 {},
-                {
-                    scheme: "No scheme given",
-                },
+                {},
                 {
                     value: "No identifier given",
                 },
                 {
-                    scheme: "No scheme given",
                     value: "No identifier given",
                 },
             ])
