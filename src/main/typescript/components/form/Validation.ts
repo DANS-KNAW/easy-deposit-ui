@@ -378,10 +378,10 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
         }
 
         if (!boxError.north && nonEmptyNorth && nonEmptySouth && Number(box.north) <= Number(box.south))
-            boxError.north = `north coordinate must be larger than south coordinate`
+            boxError.north = "north coordinate must be larger than south coordinate"
 
         if (!boxError.east && nonEmptyEast && nonEmptyWest && Number(box.east) <= Number(box.west))
-            boxError.east = `east coordinate must be larger than west coordinate`
+            boxError.east = "east coordinate must be larger than west coordinate"
 
         return boxError
     })
