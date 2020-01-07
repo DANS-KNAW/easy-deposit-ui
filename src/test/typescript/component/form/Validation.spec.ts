@@ -677,10 +677,10 @@ describe("Validation", () => {
                 {},
                 {
                     scheme: "http://www.opengis.net/def/crs/EPSG/0/28992",
-                    north: "289001",
-                    east: "15",
-                    south: "289002",
-                    west: "52",
+                    north: "289002",
+                    east: "52",
+                    south: "289001",
+                    west: "15",
                 },
             ])).to.eql([{}, {}])
         })
@@ -701,22 +701,28 @@ describe("Validation", () => {
                     south: "",
                     west: "",
                 },
-            ])).to.eql([{ scheme: "No scheme given" }, {
-                north: "No north coordinate given",
-                east: "No east coordinate given",
-                south: "No south coordinate given",
-                west: "No west coordinate given",
-            }])
+            ])).to.eql([
+                {
+                    scheme: "No scheme given",
+                    "east": "east coordinate must be larger than west coordinate",
+                    "north": "north coordinate must be larger than south coordinate",
+                },
+                {
+                    north: "No north coordinate given",
+                    east: "No east coordinate given",
+                    south: "No south coordinate given",
+                    west: "No west coordinate given",
+                }])
         })
 
         it("should return error objects when out-of-range SpatialBox are given", () => {
             expect(validateSpatialBoxes(spatialCoordinatesSettings, [
                 {
                     scheme: "", // no scheme, so no checks on range
-                    north: "12",
-                    east: "15",
-                    south: "26",
-                    west: "52",
+                    north: "26",
+                    east: "52",
+                    south: "12",
+                    west: "15",
                 },
                 {
                     scheme: "http://www.opengis.net/def/crs/EPSG/0/28992", // RD
