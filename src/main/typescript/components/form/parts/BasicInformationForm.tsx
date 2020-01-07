@@ -238,12 +238,14 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                    maxRows={15}
                    component={TextArea}/>
 
-            <Field name="instructionsForReuse"
+            {/* TODO this field must be removed from the UI.
+                 To avoid making things more complicated before the release, it is just 'hidden' for now. */}
+            {/*<Field name="instructionsForReuse"
                    label="Instructions for reuse"
                    helpText
                    rows={5}
                    maxRows={15}
-                   component={TextArea}/>
+                   component={TextArea}/>*/}
         </>
     )
 }
