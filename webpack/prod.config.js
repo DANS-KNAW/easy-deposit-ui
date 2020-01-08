@@ -20,11 +20,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const baseConfig = require('./base.config.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = (env, argv) => merge(baseConfig(env, argv), {
     output: {
         path: path.join(process.cwd(), 'target/build'),
-        filename: '[name].bundle.[chunkhash].js',
+        filename: '[name].bundle.[contenthash].js',
     },
 
     module: {
@@ -68,7 +69,8 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
                     mangle: true,
                 },
                 extractComments: true,
-            })
+            }),
+            new OptimizeCssAssetsPlugin({}),
         ],
         splitChunks: {
             chunks: 'all',
