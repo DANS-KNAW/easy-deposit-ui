@@ -22,6 +22,8 @@ const dateFormat = require('dateformat');
 
 module.exports = (env, argv) => ({
     entry: [
+        './node_modules/react-app-polyfill/ie11',
+        './node_modules/react-app-polyfill/stable',
         'react-hot-loader/patch',
         './src/main/typescript/client.tsx',
     ],
