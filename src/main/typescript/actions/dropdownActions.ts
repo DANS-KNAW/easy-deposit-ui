@@ -21,9 +21,7 @@ import {
     convertDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../lib/dropdown/dropdown"
-import { DepositId } from "../model/Deposits"
 import { Action } from "redux"
-import { fetchMetadata } from "./depositFormActions"
 import { DropdownList, DropdownListEntry, DropdownLists } from "../model/DropdownLists"
 import { dansLicense } from "../lib/metadata/License"
 
@@ -195,7 +193,7 @@ const fetchSpatialCoveragesIsoData: PromiseThunkAction = fetchDropdown(
     convertDropdownData,
 )
 
-export const fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThunkAction = (depositId) => async (dispatch, getState, extraArguments) => {
+export const fetchAllDropdowns: ComplexThunkAction = async (dispatch, getState, extraArguments) => {
     await Promise.all(
         [
             fetchLanguagesData,
@@ -213,6 +211,4 @@ export const fetchAllDropdownsAndMetadata: (depositId: DepositId) => ComplexThun
             fetchSpatialCoveragesIsoData,
         ].map(f => f(dispatch, getState, extraArguments)),
     )
-
-    dispatch(fetchMetadata(depositId))
 }

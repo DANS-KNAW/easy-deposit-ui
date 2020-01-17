@@ -66,12 +66,6 @@ export const allDropdownReducers = combineReducers({
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
         emptyDropdownList,
     ),
-    contributorIds: dropdownReducer(
-        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_PENDING,
-        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_SUCCESS,
-        DropdownConstants.FETCH_CONTRIBUTOR_ID_DROPDOWN_REJECTED,
-        emptyDropdownList,
-    ),
     contributorRoles: dropdownReducer(
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING,
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_SUCCESS,
