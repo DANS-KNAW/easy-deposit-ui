@@ -128,6 +128,27 @@ export const saveDraftResetAction: () => Action = () => ({
     type: DepositFormConstants.SAVE_DRAFT_RESET,
 })
 
+export const autoSaveDraft: (depositId: DepositId, data: DepositFormMetadata) => ComplexThunkAction = (depositId, data) => (dispatch, getState) => {
+    try {
+        const output = metadataDeconverter(data, getState().dropDowns, false)
+
+        dispatch({
+            type: DepositFormConstants.SAVE_DRAFT,
+            async payload() {
+                const response = await doSaveDraft(depositId, getState, output)
+                return response.data
+            },
+            meta: {
+                depositId: depositId,
+            },
+        })
+    }
+    catch (errorMessage) {
+        console.error(errorMessage)
+        dispatch(saveDraftRejectedAction(errorMessage))
+    }
+}
+
 export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, history: H.History, setToDraft: boolean) => ThunkAction<PromiseAction<void> | ReduxAction<string>> = (depositId, data, history, setToDraft) => (dispatch, getState) => {
     try {
         const output = metadataDeconverter(data, getState().dropDowns, true)

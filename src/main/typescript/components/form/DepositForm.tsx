@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FC, useEffect } from "react"
+import { FC, useEffect, useRef } from "react"
 import { compose } from "redux"
 import { connect, useDispatch } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import { Prompt, useHistory } from "react-router-dom"
+import { isEqual } from "lodash"
+import { useDebounce } from "use-lodash-debounce/dist"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
 import "../../../resources/css/form.css"
@@ -27,7 +29,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId, DepositStateLabel } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
-import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { autoSaveDraft, fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
@@ -87,10 +89,34 @@ const DepositForm = (props: DepositFormProps) => {
         const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
         formValues && dispatch(saveDraft(props.depositId, formValues, shouldSetToDraft))
     }
+    const doAutoSave = () => {
+        // TODO what about REJECTED deposits?
+        //  Should they be set to DRAFT as well on autosave?
+        //  Or should autosave not happen as long as they're in REJECTED state?
+        if (props.depositState.label !== DepositStateLabel.REJECTED && formValues)
+            dispatch(autoSaveDraft(props.depositId, formValues))
+    }
     const doSubmit: (data: DepositFormMetadata) => void = data => {
         const shouldSetToDraft = props.depositState.label === DepositStateLabel.REJECTED
         dispatch(submitDeposit(props.depositId, data, history, shouldSetToDraft))
     }
+
+    const cachedFormValues = useRef(formValues)
+    useEffect(() => {
+        cachedFormValues.current = formValues
+    }, [(formValues && Object.keys(formValues).length !== 0)])
+    const autoSaveAfterMS = inDevelopmentMode
+        ? 10000 // 10 seconds in development mode
+        : 300000 // 5 minutes in production mode
+    const debouncedFormValues = useDebounce(formValues, autoSaveAfterMS)
+    useEffect(() => {
+        if (!isEqual(cachedFormValues.current, formValues)) {
+            console.log("auto save triggered")
+            cachedFormValues.current = formValues
+            doAutoSave()
+        }
+    }, [debouncedFormValues])
+
     /*
      * FIXME this is not entirely correct, but I don't know how to fix this;
      *   the following sequence should show a bug in this logic:
