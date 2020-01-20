@@ -15,6 +15,26 @@
  */
 import * as React from "react"
 import { DeleteState, FileInfo } from "../../../../../model/FileInfo"
+import { isEmptyFile, isLargeFile } from "../../../Validation"
+
+function formatSize(bytes: number): string {
+    const KB = 1024
+    const MB = 1024 * KB
+    const GB = 1024 * MB
+    const TB = 1024 * GB
+
+    function formatSize(unitSize: number, unit: string): string {
+        return `${parseFloat(`${bytes / unitSize}`).toFixed(1)} ${unit}`
+    }
+
+    parseFloat(`${bytes / TB}`).toPrecision(1)
+
+    if (bytes > 1.1 * TB) return formatSize(TB, "TB")
+    else if (bytes > 1.1 * GB) return formatSize(GB, "GB")
+    else if (bytes > 1.1 * MB) return formatSize(MB, "MB")
+    else if (bytes > 1.1 * KB) return formatSize(KB, "KB")
+    else return formatSize(1, "B")
+}
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
@@ -25,8 +45,9 @@ interface FilesTableRowProps {
     deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
+const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
     const isDeleting = deleting && deleting.deleting
+    const { fullpath, sha1sum, size } = fileInfo
 
     const deleteButton =
         <button type="button"
@@ -45,14 +66,22 @@ const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, 
             <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteFile}>Cancel</button>
         </div>
 
+    const error = isEmptyFile(fileInfo)
+        ? "file is empty"
+        : isLargeFile(fileInfo)
+            ? "file is too large"
+            : undefined
+
     return (
-        <tr className="row ml-0 mr-0">
+        <tr className={[error ? "file-row-error" : "", "row ml-0 mr-0"].join(" ").trim()}>
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 <div>{fullpath}</div>
                 {confirmButtons}
+                {error && <span className="invalid-feedback">{error}</span>}
             </td>
-            <td className="col col-12 col-sm-12 col-md-6">{sha1sum}</td>
+            <td className="col col-12 col-sm-12 col-md-5">{sha1sum}</td>
+            <td className="col col-12 col-sm-12 col-md-1">{formatSize(size)}</td>
             <td className="col col-2 col-sm-1 col-md-1" id="actions_cell">{deleteButton}</td>
         </tr>
     )

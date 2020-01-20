@@ -233,6 +233,7 @@ const composedHOC = compose(
         ...props,
         initialValues: props.metadata, // initial values for deposit form
         dropDowns: state.dropDowns, // used in form validation
+        files: state.files.files, // used in form validation
     })),
     reduxForm({
         form: depositFormName,

@@ -24,6 +24,7 @@ import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
 import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
+import { FileInfo } from "../../model/FileInfo"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -384,6 +385,21 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
     })
 }
 
+export function validateFiles(files: FileInfo[]): string[] {
+    return files.map(fileInfo => {
+        if (isEmptyFile(fileInfo))
+            return "file is empty"
+        else if (isLargeFile(fileInfo))
+            return "file is too large"
+        else
+            return ""
+    })
+}
+
+export const isEmptyFile: (input: FileInfo) => boolean = input => input.size === 0
+
+export const isLargeFile: (input: FileInfo) => boolean = input => input.size > 2147483648
+
 export const formValidate: (values: DepositFormMetadata, props: any) => FormErrors<DepositFormMetadata> = (values, props) => {
     const spatialCoordinateSettings = props.dropDowns.spatialCoordinates.state.fetchedList
         ? props.dropDowns.spatialCoordinates.list
@@ -430,6 +446,12 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
 
     // accept deposit agreement
     errors.acceptDepositAgreement = checkboxMustBeChecked(values.acceptDepositAgreement, "Accept the deposit agreement before submitting this dataset")
+
+    // extra validation, officially not part of the metadata form
+    // empty and too large files
+    errors.files = validateFiles(Object.values(props.files || {}))
+
+    console.log(errors)
 
     return errors
 }

@@ -15,6 +15,7 @@
  */
 import * as uuid from "uuid/v4"
 import { del } from "object-path-immutable"
+import * as fs from "fs"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, DansIdentifierSchemeValues, Doi, mandatoryOnly, Metadata, newMetadata } from "./metadata"
 import { User, User001 } from "./user"
@@ -305,6 +306,7 @@ export const addFile: (id: DepositId, dirPath: string, filename: string) => bool
                 filename: filename,
                 dirpath: dirPath,
                 sha1sum: "unknown",
+                size: fs.statSync(`./target/build-mockserver/${filename}`)["size"],
             }
             data = { ...data, [id]: { ...deposit, files: [...files, newFile] } }
             return true
