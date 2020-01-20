@@ -46,6 +46,8 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
     "@types/chai": "^4.2.7",
     "@types/cors": "^2.8.6",
     "@types/dateformat": "^3.0.1",
@@ -69,8 +71,6 @@
     "ajv": "^6.10.2",
     "autoprefixer": "^9.7.3",
     "awesome-typescript-loader": "^5.2.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "cors": "^2.8.5",

@@ -22,8 +22,8 @@ const dateFormat = require('dateformat');
 
 module.exports = (env, argv) => ({
     entry: [
-        './node_modules/react-app-polyfill/ie11',
-        './node_modules/react-app-polyfill/stable',
+        'react-app-polyfill/ie11',
+        'react-app-polyfill/stable',
         'react-hot-loader/patch',
         './src/main/typescript/client.tsx',
     ],
@@ -43,10 +43,18 @@ module.exports = (env, argv) => ({
                 test: /\.[j|t]sx?$/,
                 exclude: /node_modules/,
                 loader: 'awesome-typescript-loader',
-                query: {
+                options: {
                     presets: ['react', 'es2015'],
-                    plugins: ['transform-class-properties', 'transform-object-rest-spread', 'react-hot-loader/webpack'],
-                },
+                    plugins: ['react-hot-loader/webpack'],
+                    useBabel: true,
+                    babelCore: '@babel/core',
+                    babelOptions: {
+                        babelrc: false,
+                        presets: [
+                            ["@babel/preset-env", {"modules": false }]
+                        ]
+                    }
+                }
             },
             {
                 test: /\.(eot|svg|ttf|woff)$/,

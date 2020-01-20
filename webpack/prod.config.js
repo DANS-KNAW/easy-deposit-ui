@@ -64,7 +64,7 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
                 sourceMap: true,
                 parallel: true,
                 terserOptions: {
-                    ecma: 6,
+                    ecma: 5,
                     compress: true,
                     mangle: true,
                 },
