@@ -27,8 +27,6 @@ function formatSize(bytes: number): string {
         return `${parseFloat(`${bytes / unitSize}`).toFixed(1)} ${unit}`
     }
 
-    parseFloat(`${bytes / TB}`).toPrecision(1)
-
     if (bytes > 1.1 * TB) return formatSize(TB, "TB")
     else if (bytes > 1.1 * GB) return formatSize(GB, "GB")
     else if (bytes > 1.1 * MB) return formatSize(MB, "MB")
