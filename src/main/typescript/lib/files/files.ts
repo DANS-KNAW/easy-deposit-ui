@@ -22,6 +22,8 @@ export const filesConverter: (input: any) => Files = input => {
     const [specialFiles, nonEmptyFiles] = partition(files, fileInfo => isEmptyFile(fileInfo) || isLargeFile(fileInfo))
     const [emptyFiles, largeFiles] = partition(specialFiles, fileInfo => isEmptyFile(fileInfo))
 
+    // note: files are ordered as follows: empty files, followed by large files and finally all other files
+    // this is so to make sure that validation errors appear at the top of the file listing
     return [...emptyFiles, ...largeFiles, ...nonEmptyFiles]
         .reduce((obj: Files, item: FileInfo) => {
             obj[item.fullpath] = item
