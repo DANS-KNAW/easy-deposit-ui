@@ -38,19 +38,13 @@ const file3: FileInfo = {
     filename: "teun.txt",
     dirpath: "/leesplankje/secondrow",
     sha1sum: "ef4bb1666042b9e891a0bf5c14ba6206fec1a02f",
-    size: 2147483649,
+    size: 123456789,
 }
 
 export const directory1: FileInfo[] = [
     file1,
     file2,
     file3,
-    {
-        filename: "empty.txt",
-        dirpath: "/leesplankje/secondrow",
-        sha1sum: "ef4bb1666042b9e891a0bf5c14ba6206fec1a02f",
-        size: 0,
-    },
 ]
 
 export const newFileInfos: () => FileInfo[] = () => []
