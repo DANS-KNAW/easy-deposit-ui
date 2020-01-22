@@ -20,8 +20,7 @@
   },
   "homepage": "https://github.com/DANS-KNAW/easy-deposit-ui",
   "browserslist": [
-    "> 1%",
-    "last 10 versions"
+    "defaults and >0.2%"
   ],
   "dependencies": {
     "@types/node": "^12.12.17",
