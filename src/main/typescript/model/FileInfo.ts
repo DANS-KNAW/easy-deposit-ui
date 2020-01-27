@@ -13,16 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type Files = { [filepath: string]: FileInfo }
-
-export interface FileInfo {
-    filename: string
-    dirpath: string
-    fullpath: string
-    size: number
-    sha1sum: string
-}
-
 export interface LoadingState {
     loading: boolean
     loaded: boolean
@@ -53,7 +43,6 @@ export interface FileOverviewState {
     loading: LoadingState
     deleting: DeletingStates
     creatingNew: NewFileState
-    files: Files
 }
 
 export const empty: FileOverviewState = {
@@ -65,5 +54,4 @@ export const empty: FileOverviewState = {
     creatingNew: {
         creating: false,
     },
-    files: {},
 }

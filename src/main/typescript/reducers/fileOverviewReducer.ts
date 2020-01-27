@@ -33,7 +33,7 @@ export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, a
             return { ...state, loading: { ...state.loading, loading: false, loadingError: action.payload } }
         }
         case FileOverviewConstants.FETCH_FILES_SUCCESS: {
-            return { ...state, loading: { loading: false, loaded: true }, files: action.payload }
+            return { ...state, loading: { loading: false, loaded: true } }
         }
         case FileOverviewConstants.CLEAN_FILES: {
             return empty

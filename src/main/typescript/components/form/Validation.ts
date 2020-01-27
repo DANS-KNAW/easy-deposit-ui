@@ -24,7 +24,7 @@ import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
 import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
-import { FileInfo } from "../../model/FileInfo"
+import { FileInfo, Files } from "../../model/DepositForm"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -279,7 +279,7 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
     }
 }
 
-export function validateDates<T extends {toString: () => string}>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
+export function validateDates<T extends { toString: () => string }>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
     switch (dates.length) {
         case 0:
             return []
@@ -385,15 +385,18 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
     })
 }
 
-export function validateFiles(files: FileInfo[]): string[] {
-    return files.map(fileInfo => {
-        if (isEmptyFile(fileInfo))
-            return "file is empty"
-        else if (isLargeFile(fileInfo))
-            return "file is too large"
-        else
-            return ""
-    })
+export function validateFiles(files: Files): { [filepath in keyof Files]: string | undefined } {
+    return Object.entries(files)
+        .map(([filename, fileInfo]) => {
+            return isEmptyFile(fileInfo)
+                ? { [filename]: "file is empty" }
+                : isLargeFile(fileInfo)
+                    ? { [filename]: "file is too large" }
+                    : { [filename]: undefined }
+        })
+        .reduce((obj, err) => {
+            return { ...obj, ...err }
+        }, {})
 }
 
 export const isEmptyFile: (input: FileInfo) => boolean = input => input.size === 0
@@ -449,9 +452,9 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
 
     // extra validation, officially not part of the metadata form
     // empty and too large files
-    errors.files = validateFiles(Object.values(props.files || {}))
+    errors.files = validateFiles(values.files || {})
 
-    console.log(errors)
+    // console.log("validation errors", errors)
 
     return errors
 }

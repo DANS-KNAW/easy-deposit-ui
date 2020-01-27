@@ -15,16 +15,14 @@
  */
 import { partition } from "lodash"
 import { isEmptyFile, isLargeFile } from "../../components/form/Validation"
-import { FileInfo, Files } from "../../model/FileInfo"
+import { FileInfo, Files } from "../../model/DepositForm"
 
 export const filesConverter: (input: any) => Files = input => {
     const files: FileInfo[] = input.map(fileConverter)
     const [specialFiles, nonEmptyFiles] = partition(files, fileInfo => isEmptyFile(fileInfo) || isLargeFile(fileInfo))
-    const [emptyFiles, largeFiles] = partition(specialFiles, fileInfo => isEmptyFile(fileInfo))
 
-    // note: files are ordered as follows: empty files, followed by large files and finally all other files
-    // this is so to make sure that validation errors appear at the top of the file listing
-    return [...emptyFiles, ...largeFiles, ...nonEmptyFiles]
+    // note: special files are placed first to make sure validation errors appear at the top of the file listing
+    return [...specialFiles, ...nonEmptyFiles]
         .reduce((obj: Files, item: FileInfo) => {
             obj[item.fullpath] = item
             return obj

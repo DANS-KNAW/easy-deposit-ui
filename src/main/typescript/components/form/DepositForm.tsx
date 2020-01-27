@@ -17,7 +17,7 @@ import * as React from "react"
 import { FC, useEffect } from "react"
 import { compose } from "redux"
 import { connect, useDispatch } from "react-redux"
-import { InjectedFormProps, reduxForm } from "redux-form"
+import { Field, InjectedFormProps, reduxForm } from "redux-form"
 import { Prompt, useHistory } from "react-router-dom"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
@@ -27,7 +27,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId, DepositStateLabel } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
-import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { fetchMetadata, saveDraft, submitDeposit, unregisterForm } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
@@ -43,7 +43,7 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FilesOverview from "./parts/fileUpload/overview/FilesOverview"
 import FileUploader from "./parts/fileUpload/upload/FileUploader"
 import { depositFormName } from "../../constants/depositFormConstants"
-import { fetchFiles } from "../../actions/fileOverviewActions"
+import { cleanFiles, fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
 import { isFileUploading } from "../../selectors/fileUploadSelectors"
@@ -106,10 +106,12 @@ const DepositForm = (props: DepositFormProps) => {
 
     useEffect(() => {
         dispatch(fetchMetadata(props.depositId))
-        dispatch(fetchFiles(props.depositId))
+        dispatch(fetchFiles(props.depositId, true))
 
         return function cleanup() {
             window.onbeforeunload = null
+            dispatch(unregisterForm())
+            dispatch(cleanFiles())
         }
     }, [])
 
@@ -144,7 +146,10 @@ const DepositForm = (props: DepositFormProps) => {
               */}
             <form noValidate>
                 <Card title="Upload your data" defaultOpened>
-                    <FilesOverview depositId={props.depositId} depositState={props.depositState}/>
+                    <Field name="files"
+                           depositId={props.depositId}
+                           depositState={props.depositState}
+                           component={FilesOverview}/>
                     <FileUploader depositId={props.depositId} depositState={props.depositState}/>
                 </Card>
 
@@ -231,9 +236,8 @@ const DepositForm = (props: DepositFormProps) => {
 const composedHOC = compose(
     connect((state: AppState, props: DepositFormOwnProps) => ({
         ...props,
-        initialValues: state.depositForm.initialState.metadata, // initial values for deposit form
+        initialValues: {...state.depositForm.initialState.metadata, files: state.depositForm.initialState.files }, // initial values for deposit form
         dropDowns: state.dropDowns, // used in form validation
-        files: state.files.files, // used in form validation
     })),
     reduxForm({
         form: depositFormName,

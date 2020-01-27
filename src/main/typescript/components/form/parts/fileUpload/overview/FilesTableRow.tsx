@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { DeleteState, FileInfo } from "../../../../../model/FileInfo"
-import { isEmptyFile, isLargeFile } from "../../../Validation"
+import { FileInfo } from "../../../../../model/DepositForm"
+import { DeleteState } from "../../../../../model/FileInfo"
 
 function formatSize(bytes: number): string {
     const KB = 1024
@@ -36,6 +36,7 @@ function formatSize(bytes: number): string {
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
+    errorMsg: string
     deleting: DeleteState
 
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
@@ -43,9 +44,8 @@ interface FilesTableRowProps {
     deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
+const FilesTableRow = ({ fileInfo: { fullpath, sha1sum, size }, errorMsg, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
     const isDeleting = deleting && deleting.deleting
-    const { fullpath, sha1sum, size } = fileInfo
 
     const deleteButton =
         <button type="button"
@@ -64,19 +64,13 @@ const FilesTableRow = ({ fileInfo, deleting, deleteFile, askConfirmation, cancel
             <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteFile}>Cancel</button>
         </div>
 
-    const error = isEmptyFile(fileInfo)
-        ? "file is empty"
-        : isLargeFile(fileInfo)
-            ? "file is too large"
-            : undefined
-
     return (
-        <tr className={[error ? "file-row-error" : "", "row ml-0 mr-0"].join(" ").trim()}>
+        <tr className={[errorMsg ? "file-row-error" : "", "row ml-0 mr-0"].join(" ").trim()}>
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 <div>{fullpath}</div>
                 {confirmButtons}
-                {error && <span className="invalid-feedback">{error}</span>}
+                {errorMsg && <span className="invalid-feedback">{errorMsg}</span>}
             </td>
             <td className="col col-12 col-sm-12 col-md-5">{sha1sum}</td>
             <td className="col col-12 col-sm-12 col-md-1">{formatSize(size)}</td>

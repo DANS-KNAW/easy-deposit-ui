@@ -20,10 +20,10 @@ import { DepositId } from "../model/Deposits"
 import { filesConverter } from "../lib/files/files"
 import fetch from "../lib/fetch"
 import { deleteFileUrl, listFilesUrl } from "../selectors/serverRoutes"
-import { Files } from "../model/FileInfo"
+import { Files } from "../model/DepositForm"
 import { setStateToDraft } from "./depositFormActions"
 
-export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>> = (depositId) => (dispatch, getState) => dispatch({
+export const fetchFiles: (depositId: DepositId, initialFetch: boolean) => ThunkAction<FetchAction<Files>> = (depositId, initialFetch) => (dispatch, getState) => dispatch({
     type: FileOverviewConstants.FETCH_FILES,
     async payload() {
         const response = await fetch.get(listFilesUrl(depositId)(getState()))
@@ -31,6 +31,7 @@ export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files
     },
     meta: {
         transform: filesConverter,
+        initialFetch: initialFetch,
     },
 })
 
@@ -41,7 +42,7 @@ export const deleteFile: (depositId: DepositId, filePath: string, setToDraft: bo
             await setStateToDraft(depositId, getState)
 
         await fetch.delete(deleteFileUrl(depositId, filePath)(getState()))
-        dispatch(fetchFiles(depositId))
+        dispatch(fetchFiles(depositId, false))
     },
     meta: {
         filePath: filePath,

@@ -61,7 +61,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
 
     const uploadFinished = () => {
         setUploadingFile(undefined)
-        dispatch(fetchFiles(depositId))
+        dispatch(fetchFiles(depositId, false))
         dispatch(setFileUploadInProgress(false))
     }
 

@@ -16,7 +16,7 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import { filesConverter } from "../../../../main/typescript/lib/files/files"
-import { Files } from "../../../../main/typescript/model/FileInfo"
+import { Files } from "../../../../main/typescript/model/DepositForm"
 
 describe("files", () => {
     describe("filesConverter", () => {

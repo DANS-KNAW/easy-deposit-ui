@@ -41,6 +41,13 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
         dispatch(change(depositFormName, "doi", action.payload))
 }
 
+const fetchFilesProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
+    if (action.type === FileOverviewConstants.FETCH_FILES_SUCCESS)
+        dispatch(change(depositFormName, "files", action.payload))
+
+    next(action)
+}
+
 const fetchStateAfterSetFromRejectedToDraft: Middleware = ({ dispatch }: MiddlewareAPI<Dispatch<any>>) => (next: Dispatch) => action => {
     next(action)
 
@@ -103,6 +110,7 @@ const replaceContributorIdFieldValue: Middleware = () => (next: Dispatch) => act
 export const depositFormMiddleware: Middleware[] = [
     depositStateNotFoundMiddleware,
     replaceContributorIdFieldValue,
+    fetchFilesProcessor,
     fetchDoiProcessor,
     fetchStateAfterSetFromRejectedToDraft,
     saveTimer,

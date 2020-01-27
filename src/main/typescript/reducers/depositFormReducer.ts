@@ -13,127 +13,245 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DepositFormState, empty } from "../model/DepositForm"
-import { Reducer } from "redux"
+import {
+    emptyFetchDepositState,
+    emptyInitialState,
+    emptySaveDraftState,
+    emptySubmitState,
+    FetchDepositState,
+    InitialState,
+    SaveDraftState,
+    SubmitState,
+} from "../model/DepositForm"
+import { combineReducers, Reducer } from "redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
+import FetchState, { empty as emptyFetchState } from "../model/FetchState"
+import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
-export const depositFormReducer: Reducer<DepositFormState> = (state = empty, action) => {
+const fetchDepositStateReducer: Reducer<FetchDepositState> = (state = emptyFetchDepositState, action) => {
     switch (action.type) {
-        case DepositFormConstants.UNREGISTER_FORM: {
-            return empty
-        }
         case DepositFormConstants.FETCH_STATE_PENDING: {
             return {
                 ...state,
-                fetchDepositState: {
-                    ...state.fetchDepositState,
-                    fetching: true,
-                    fetchError: undefined,
-                    stateNotFound: false,
-                },
+                fetching: true,
+                fetchError: undefined,
+                stateNotFound: false,
             }
         }
         case DepositFormConstants.FETCH_STATE_REJECTED: {
             return {
                 ...state,
-                fetchDepositState: {
-                    ...state.fetchDepositState,
-                    fetching: false,
-                    fetched: false,
-                    fetchError: action.payload,
-                    stateNotFound: false,
-                },
+                fetching: false,
+                fetched: false,
+                fetchError: action.payload,
+                stateNotFound: false,
             }
         }
         case DepositFormConstants.FETCH_STATE_SUCCESS: {
             return {
                 ...state,
-                initialState: {
-                    ...state.initialState,
-                    depositState: action.payload,
-                },
-                fetchDepositState: {
-                    ...state.fetchDepositState,
-                    fetching: false,
-                    fetched: true,
-                },
+                fetching: false,
+                fetched: true,
             }
         }
         case DepositFormConstants.FETCH_STATE_NOT_FOUND: {
             return {
                 ...state,
-                fetchDepositState: {
-                    ...state.fetchDepositState,
-                    fetching: false,
-                    fetched: false,
-                    stateNotFound: true,
-                }
+                fetching: false,
+                fetched: false,
+                stateNotFound: true,
             }
         }
-        case DepositFormConstants.FETCH_METADATA_PENDING: {
-            return { ...state, fetchMetadata: { ...state.fetchMetadata, fetching: true, fetchError: undefined } }
-        }
-        case DepositFormConstants.FETCH_METADATA_REJECTED: {
-            return {
-                ...state,
-                fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: false, fetchError: action.payload },
-            }
-        }
-        case DepositFormConstants.FETCH_METADATA_SUCCESS: {
-            return {
-                ...state,
-                initialState: { ...state.initialState, metadata: action.payload },
-                fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: true },
-            }
-        }
-        case DepositFormConstants.FETCH_DOI_PENDING: {
-            return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: true, fetchDoiError: undefined } }
-        }
-        case DepositFormConstants.FETCH_DOI_SUCCESS: {
-            return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: true } }
-        }
-        case DepositFormConstants.FETCH_DOI_REJECTED: {
-            return {
-                ...state,
-                fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: false, fetchDoiError: action.payload },
-            }
-        }
-        case DepositFormConstants.SAVE_DRAFT_PENDING: {
-            return {
-                ...state,
-                saveDraft: { ...state.saveDraft, saving: true, saveError: undefined },
-                submit: { ...state.submit, submitError: undefined },
-            }
-        }
-        case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
-            return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true } }
-        }
-        case DepositFormConstants.SAVE_DRAFT_REJECTED: {
-            return {
-                ...state,
-                saveDraft: { ...state.saveDraft, saving: false, saved: false, saveError: action.payload },
-            }
-        }
-        case DepositFormConstants.SAVE_DRAFT_RESET: {
-            return { ...state, saveDraft: { ...state.saveDraft, saved: false } }
-        }
-        case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
-            return {
-                ...state,
-                submit: { ...state.submit, submitting: true, submitError: undefined },
-                saveDraft: { ...state.saveDraft, saveError: undefined },
-            }
-        }
-        case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
-            return { ...state, submit: { ...state.submit, submitting: false, submitted: true } }
-        }
-        case DepositFormConstants.SUBMIT_DEPOSIT_REJECTED: {
-            return {
-                ...state,
-                submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },
-            }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return emptyFetchDepositState
         }
         default:
             return state
     }
 }
+
+const fetchMetadataReducer: Reducer<FetchState> = (state = emptyFetchState, action) => {
+    switch (action.type) {
+        case DepositFormConstants.FETCH_METADATA_PENDING: {
+            return {
+                ...state,
+                fetching: true,
+                fetchError: undefined,
+            }
+        }
+        case DepositFormConstants.FETCH_METADATA_REJECTED: {
+            return {
+                ...state,
+                fetching: false,
+                fetched: false,
+                fetchError: action.payload,
+            }
+        }
+        case DepositFormConstants.FETCH_METADATA_SUCCESS: {
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+            }
+        }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return emptyFetchState
+        }
+        default:
+            return state
+    }
+}
+
+const initialStateReducer: Reducer<InitialState> = (state = emptyInitialState, action) => {
+    switch (action.type) {
+        case DepositFormConstants.FETCH_STATE_SUCCESS: {
+            return {
+                ...state,
+                depositState: action.payload,
+            }
+        }
+        case DepositFormConstants.FETCH_METADATA_SUCCESS: {
+            return {
+                ...state,
+                metadata: action.payload,
+            }
+        }
+        case FileOverviewConstants.FETCH_FILES_SUCCESS: {
+            if (action.meta.initialFetch)
+                return {
+                    ...state,
+                    files: action.payload,
+                }
+            else
+                return state
+        }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return emptyInitialState
+        }
+        default:
+            return state
+    }
+}
+
+const fetchDoiReducer: Reducer<FetchState> = (state = emptyFetchState, action) => {
+    switch (action.type) {
+        case DepositFormConstants.FETCH_DOI_PENDING: {
+            return {
+                ...state,
+                fetchingDoi: true,
+                fetchDoiError: undefined,
+            }
+        }
+        case DepositFormConstants.FETCH_DOI_SUCCESS: {
+            return {
+                ...state,
+                fetchingDoi: false,
+                fetchedDoi: true,
+            }
+        }
+        case DepositFormConstants.FETCH_DOI_REJECTED: {
+            return {
+                ...state,
+                fetchingDoi: false,
+                fetchedDoi: false,
+                fetchDoiError: action.payload,
+            }
+        }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return emptyFetchState
+        }
+        default:
+            return state
+    }
+}
+
+const saveDraftReducer: Reducer<SaveDraftState> = (state = emptySaveDraftState, action) => {
+    switch (action.type) {
+        case DepositFormConstants.SAVE_DRAFT_PENDING: {
+            return {
+                ...state,
+                saving: true,
+                saveError: undefined,
+            }
+        }
+        case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
+            return {
+                ...state,
+                saving: false,
+                saved: true,
+            }
+        }
+        case DepositFormConstants.SAVE_DRAFT_REJECTED: {
+            return {
+                ...state,
+                saving: false,
+                saved: false,
+                saveError: action.payload,
+            }
+        }
+        case DepositFormConstants.SAVE_DRAFT_RESET: {
+            return {
+                ...state,
+                saved: false,
+            }
+        }
+        case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
+            return {
+                ...state,
+                saveError: undefined,
+            }
+        }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return emptySaveDraftState
+        }
+        default:
+            return state
+    }
+}
+
+const submitReducer: Reducer<SubmitState> = (state = emptySubmitState, action) => {
+    switch (action.type) {
+        case DepositFormConstants.SAVE_DRAFT_PENDING: {
+            return {
+                ...state,
+                submitError: undefined,
+            }
+        }
+        case DepositFormConstants.SUBMIT_DEPOSIT_PENDING: {
+            return {
+                ...state,
+                submitting: true,
+                submitError: undefined,
+            }
+        }
+        case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
+            return {
+                ...state,
+                submitting: false,
+                submitted: true,
+            }
+        }
+        case DepositFormConstants.SUBMIT_DEPOSIT_REJECTED: {
+            return {
+                ...state,
+                submitting: false,
+                submitted: true,
+                submitError: action.payload,
+            }
+        }
+        case DepositFormConstants.UNREGISTER_FORM: {
+            return emptySubmitState
+        }
+        default:
+            return state
+    }
+}
+
+export default combineReducers({
+    fetchDepositState: fetchDepositStateReducer,
+    fetchMetadata: fetchMetadataReducer,
+    initialState: initialStateReducer,
+    fetchDoi: fetchDoiReducer,
+    saveDraft: saveDraftReducer,
+    submit: submitReducer,
+})

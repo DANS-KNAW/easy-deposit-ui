@@ -21,16 +21,26 @@ import customMiddleware from "./middleware"
 import { inDevelopmentMode } from "./lib/config"
 
 ///
-// import {Action} from 'redux'
-// import { AppState } from "./model/AppState"
-// const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
+import { Action } from "redux"
+import { AppState } from "./model/AppState"
+import { HelpTextConstants } from "./constants/helpTextConstants"
+
+const predicate = (state: AppState, action: Action) => {
+    return !action.type.startsWith("@@redux-form")
+        && !action.type.startsWith("FETCH_HELP_TEXT_")
+        && action.type !== HelpTextConstants.UNREGISTER_HELP_TEXT
+        && !action.type.includes("_DROPDOWN_")
+        && !action.type.startsWith("CONFIGURATION_LOADING_")
+        && !action.type.startsWith("FETCH_USER_")
+        && !action.type.startsWith("AUTH_LOGIN_")
+}
 
 // import {Action} from 'redux'
 // import { AppState } from "./model/AppState"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form/CHANGE')
 
 // const predicate = () => true // if you want to see all actions
-const predicate = () => false // if you want to see no actions
+// const predicate = () => false // if you want to see no actions
 
 export const newStore = () => {
     if (inDevelopmentMode) {
