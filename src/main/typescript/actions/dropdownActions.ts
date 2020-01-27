@@ -18,7 +18,8 @@ import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from
 import fetch from "../lib/fetch"
 import { AxiosRequestConfig } from "axios"
 import {
-    convertDropdownData, convertIdentifiersDropdownData,
+    convertDropdownData,
+    convertIdentifiersDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../lib/dropdown/dropdown"
 import { DepositId } from "../model/Deposits"
