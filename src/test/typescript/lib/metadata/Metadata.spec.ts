@@ -19,7 +19,6 @@ import { allfields, mandatoryOnly, newMetadata } from "../../mockserver/metadata
 import { metadataConverter, metadataDeconverter } from "../../../../main/typescript/lib/metadata/Metadata"
 import { DropdownList, DropdownListEntry, DropdownLists } from "../../../../main/typescript/model/DropdownLists"
 import {
-    convertContributorIdDropdownData,
     convertDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../../../../main/typescript/lib/dropdown/dropdown"

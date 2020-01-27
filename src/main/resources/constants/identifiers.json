@@ -1,11 +1,13 @@
 {
   "id-type:DOI": {
     "title": "doi",
-    "viewName": "doi"
+    "viewName": "doi",
+    "baseUrl": "https://doi.org/"
   },
   "id-type:URN": {
     "title": "urn",
-    "viewName": "urn"
+    "viewName": "urn",
+    "baseUrl": "http://persistent-identifier.nl/"
   },
   "id-type:ISBN": {
     "title": "ISBN",

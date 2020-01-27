@@ -23,7 +23,7 @@ import { Relation } from "../../lib/metadata/Relation"
 import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
-import { SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
+import { IdentifiersDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -215,7 +215,7 @@ export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedVal
     })
 }
 
-export const validateQualifiedSchemedValues: (qsvs: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = qsvs => {
+export const validateRelatedIdentifiers: (identifierSettings: IdentifiersDropdownListEntry[], qsvs: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = (identifierSettings, qsvs) => {
     function validateQualifiedSchemedValue(qsv: QualifiedSchemedValue): QualifiedSchemedValue {
         const nonEmptyValue = checkNonEmpty(qsv.value)
 
@@ -223,6 +223,11 @@ export const validateQualifiedSchemedValues: (qsvs: QualifiedSchemedValue[]) => 
 
         if (!nonEmptyValue)
             relatedIdentifierError.value = "No identifier given"
+        else {
+            const identifierSetting = identifierSettings.find(({ key }) => key === qsv.scheme)
+            if (identifierSetting && identifierSetting.baseUrl && !validUrl.isWebUri(identifierSetting.baseUrl + qsv.value))
+                relatedIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
+        }
 
         return relatedIdentifierError
     }
@@ -278,7 +283,7 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
     }
 }
 
-export function validateDates<T extends {toString: () => string}>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
+export function validateDates<T extends { toString: () => string }>(dates: QualifiedDate<T>[]): QualifiedDate<string>[] {
     switch (dates.length) {
         case 0:
             return []
@@ -388,6 +393,9 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
     const spatialCoordinateSettings = props.dropDowns.spatialCoordinates.state.fetchedList
         ? props.dropDowns.spatialCoordinates.list
         : []
+    const identifiersSettings = props.dropDowns.identifiers.state.fetchedList
+        ? props.dropDowns.identifiers.list
+        : []
 
     const errors: any = {}
 
@@ -410,7 +418,7 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
     errors.alternativeIdentifiers = validateSchemedValue(values.alternativeIdentifiers || [])
-    errors.relatedIdentifiers = validateQualifiedSchemedValues(values.relatedIdentifiers || [])
+    errors.relatedIdentifiers = validateRelatedIdentifiers(identifiersSettings, values.relatedIdentifiers || [])
     errors.relations = validateRelations(values.relations || [])
     errors.datesIso8601 = validateDates(values.datesIso8601 || [])
     errors.dates = validateDates(values.dates || [])

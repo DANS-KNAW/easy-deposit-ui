@@ -18,7 +18,7 @@ import { ComplexThunkAction, FetchAction, PromiseThunkAction, ReduxAction } from
 import fetch from "../lib/fetch"
 import { AxiosRequestConfig } from "axios"
 import {
-    convertDropdownData,
+    convertDropdownData, convertIdentifiersDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../lib/dropdown/dropdown"
 import { DepositId } from "../model/Deposits"
@@ -111,7 +111,7 @@ const fetchIdentifiersData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
     constants("identifiers.json"),
     dds => dds.identifiers,
-    convertDropdownData,
+    convertIdentifiersDropdownData,
 )
 
 const fetchRelationsData: PromiseThunkAction = fetchDropdown(
