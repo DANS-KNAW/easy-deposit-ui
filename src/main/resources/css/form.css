@@ -144,6 +144,11 @@
     margin-left: 0.25rem;
 }
 
+.input-group > .form-control {
+    border-top-right-radius: 0.25rem!important;
+    border-bottom-right-radius: 0.25rem!important;
+}
+
 /*
  * These 4 '.date-picker-field' rules make sure that the SchemedDatePickerArray is displayed correctly
  * Since this is a component not managed by us, we have to change some of this predefined rules
@@ -154,6 +159,9 @@
  */
 .input-group > .form-control.date-picker-field {
     padding: 0;
+}
+
+.input-group > .form-control.date-picker-field:not(.is-invalid) {
     border-color: var(--form-field-border);
 }
 
