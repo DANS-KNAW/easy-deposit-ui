@@ -268,7 +268,7 @@ describe("Relation", () => {
 
     describe("relationDeconverter", () => {
 
-        it("should convert a whole Relation into the correct external model", () => {
+        it("should convert a whole Relation into the correct external model when submitting", () => {
             const input = {
                 qualifier: "dcterms:relation",
                 url: "http://bit.ly/react-deposit-ui",
@@ -279,37 +279,75 @@ describe("Relation", () => {
                 url: "http://bit.ly/react-deposit-ui",
                 title: "title1",
             }
-            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
+            expect(relationDeconverter(qualifiers, true)(input)).to.eql(expected)
         })
 
-        it("should convert an object with only a qualifier into the correct external model", () => {
+        it("should convert an object with only a qualifier into the correct external model when submitting", () => {
             const input = {
-                qualifier: "dcterms:relation",
+                qualifier: "dcterms:hasFormat",
                 url: "",
                 title: "",
             }
             const expected = {}
-            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
+            expect(relationDeconverter(qualifiers, true)(input)).to.eql(expected)
         })
 
-        it("should convert empty fields in object into an empty object", () => {
+        it("should convert empty fields in object into an empty object when submitting", () => {
             const input = {
                 qualifier: "",
                 url: "",
                 title: "",
             }
             const expected = {}
-            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
+            expect(relationDeconverter(qualifiers, true)(input)).to.eql(expected)
         })
 
-        it("should convert an object with only a dcterms:relation qualifier into an empty object", () => {
+        it("should convert a whole Relation into the correct external model when saving", () => {
+            const input = {
+                qualifier: "dcterms:hasFormat",
+                url: "http://bit.ly/react-deposit-ui",
+                title: "title1",
+            }
+            const expected = {
+                qualifier: "dcterms:hasFormat",
+                url: "http://bit.ly/react-deposit-ui",
+                title: "title1",
+            }
+            expect(relationDeconverter(qualifiers, false)(input)).to.eql(expected)
+        })
+
+        it("should convert an object with only a qualifier into the correct external model when saving", () => {
+            const input = {
+                qualifier: "dcterms:hasFormat",
+                url: "",
+                title: "",
+            }
+            const expected = {
+                qualifier: "dcterms:hasFormat",
+            }
+            expect(relationDeconverter(qualifiers, false)(input)).to.eql(expected)
+        })
+
+        it("should convert empty fields in object into an empty object when saving", () => {
+            const input = {
+                qualifier: "",
+                url: "",
+                title: "",
+            }
+            const expected = {}
+            expect(relationDeconverter(qualifiers, false)(input)).to.eql(expected)
+        })
+
+        it("should convert an object with only a dcterms:relation qualifier into an empty object when saving", () => {
             const input = {
                 qualifier: "dcterms:relation",
                 url: "",
                 title: "",
             }
-            const expected = {}
-            expect(relationDeconverter(qualifiers)(input)).to.eql(expected)
+            const expected = {
+                // qualifier: "dcterms:relation",
+            }
+            expect(relationDeconverter(qualifiers, false)(input)).to.eql(expected)
         })
     })
 

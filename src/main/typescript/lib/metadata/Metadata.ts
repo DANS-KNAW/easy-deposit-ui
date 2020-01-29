@@ -213,7 +213,7 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
         ].filter(nonEmptyObject),
         relations: [
             ...(data.relatedIdentifiers ? data.relatedIdentifiers.map(relatedIdentifierDeconverter) : []),
-            ...(data.relations ? data.relations.map(relationDeconverter(dropDowns.relations.list)) : []),
+            ...(data.relations ? data.relations.map(relationDeconverter(dropDowns.relations.list, isSubmitting)) : []),
         ].filter(nonEmptyObject),
         languagesOfFiles: [
             ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter(dropDowns.languages.list)) : []),

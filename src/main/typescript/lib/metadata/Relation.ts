@@ -70,8 +70,14 @@ export const relationsConverter: (relationQualifiers: DropdownListEntry[], ident
     }, [[], []])
 }
 
-export const relationDeconverter: (relationQualifiers: DropdownListEntry[]) => (r: Relation) => any = relationQualifiers => r => {
-    if (r.qualifier !== relationQualifiers[0].key || r.url || r.title)
+export const relationDeconverter: (relationQualifiers: DropdownListEntry[], isSubmitting: boolean) => (r: Relation) => any = (relationQualifiers, isSubmitting) => r => {
+    if (isSubmitting && r.qualifier && (r.url || r.title))
+        return clean({
+            qualifier: r.qualifier,
+            url: r.url,
+            title: r.title,
+        })
+    else if (!isSubmitting && (r.qualifier !== relationQualifiers[0].key || r.url || r.title))
         return clean({
             qualifier: r.qualifier,
             url: r.url,
