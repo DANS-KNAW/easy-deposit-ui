@@ -220,23 +220,23 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
             ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : []),
         ].filter(nonEmptyObject),
         dates: [
-            (data.dateCreated && qualifiedDateDeconverter(dropDowns.dates.list)({
+            (data.dateCreated && qualifiedDateDeconverter(dropDowns.dates.list, isSubmitting)({
                 qualifier: createdQualifier,
                 value: data.dateCreated,
             })),
             (data.dateAvailable
-                ? qualifiedDateDeconverter(dropDowns.dates.list)({
+                ? qualifiedDateDeconverter(dropDowns.dates.list, isSubmitting)({
                     qualifier: availableQualifier,
                     value: data.dateAvailable,
                 })
                 : isSubmitting
-                    ? qualifiedDateDeconverter(dropDowns.dates.list)({
+                    ? qualifiedDateDeconverter(dropDowns.dates.list, isSubmitting)({
                         qualifier: availableQualifier,
                         value: new Date(),
                     })
                     : {}),
-            ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter(dropDowns.dates.list)) : []),
-            ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter(dropDowns.dates.list)) : []),
+            ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter(dropDowns.dates.list, isSubmitting)) : []),
+            ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter(dropDowns.dates.list, isSubmitting)) : []),
         ].filter(nonEmptyObject),
         sources: data.source && [data.source],
         instructionsForReuse: data.instructionsForReuse && [data.instructionsForReuse],

@@ -178,21 +178,35 @@ export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any)
     }, empty)
 }
 
-export const qualifiedDateDeconverter: (dates: DropdownListEntry[]) => (d: QualifiedDate<Date>) => any = dates => d => {
-    if ((d.qualifier && d.qualifier !== dates[0].key) || d.value)
+export const qualifiedDateDeconverter: (dates: DropdownListEntry[], isSubmitting: boolean) => (d: QualifiedDate<Date>) => any = (dates, isSubmitting) => d => {
+    if (isSubmitting && d.qualifier && d.value) {
+        return {
+            qualifier: d.qualifier,
+            scheme: DateScheme.W3CDTF,
+            value: isoDateTimeFormat(d.value),
+        }
+    }
+    else if (!isSubmitting && ((d.qualifier && d.qualifier !== dates[0].key) || d.value))
         return {
             qualifier: d.qualifier,
             scheme: DateScheme.W3CDTF,
             value: d.value ? isoDateTimeFormat(d.value) : "",
         }
-    return {}
+    else
+        return {}
 }
 
-export const qualifiedDateStringDeconverter: (dates: DropdownListEntry[]) => (d: QualifiedDate<string>) => any = dates => d => {
-    if ((d.qualifier && d.qualifier !== dates[0].key) || d.value)
+export const qualifiedDateStringDeconverter: (dates: DropdownListEntry[], isSubmitting: boolean) => (d: QualifiedDate<string>) => any = (dates, isSubmitting) => d => {
+    if (isSubmitting && d.qualifier && d.value)
+        return {
+            qualifier: d.qualifier,
+            value: d.value,
+        }
+    else if (!isSubmitting && ((d.qualifier && d.qualifier !== dates[0].key) || d.value))
         return clean({
             qualifier: d.qualifier,
             value: d.value,
         })
-    return {}
+    else
+        return {}
 }
