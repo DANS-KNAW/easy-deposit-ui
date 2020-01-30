@@ -345,7 +345,7 @@ describe("Relation", () => {
                 title: "",
             }
             const expected = {
-                // qualifier: "dcterms:relation",
+                qualifier: "dcterms:relation",
             }
             expect(relationDeconverter(qualifiers, false)(input)).to.eql(expected)
         })

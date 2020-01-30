@@ -77,7 +77,7 @@ export const relationDeconverter: (relationQualifiers: DropdownListEntry[], isSu
             url: r.url,
             title: r.title,
         })
-    else if (!isSubmitting && (r.qualifier !== relationQualifiers[0].key || r.url || r.title))
+    else if (!isSubmitting && (r.qualifier || r.url || r.title))
         return clean({
             qualifier: r.qualifier,
             url: r.url,
