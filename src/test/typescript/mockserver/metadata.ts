@@ -15,7 +15,7 @@
  */
 
 // copied from lib/metadata/Date.ts, since dependencies don't work over main/test here
-const isoDateTimeFormat = (date: Date) => {
+export const isoDateTimeFormat = (date: Date) => {
     const pad = (input: number, length?: number) => {
         let val = String(input)
         const len = length || 2

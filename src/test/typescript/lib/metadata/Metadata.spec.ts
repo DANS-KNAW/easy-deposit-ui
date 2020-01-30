@@ -15,7 +15,7 @@
  */
 import { expect } from "chai"
 import { describe, it } from "mocha"
-import { allfields, mandatoryOnly, newMetadata } from "../../mockserver/metadata"
+import { allfields, isoDateTimeFormat, mandatoryOnly, newMetadata } from "../../mockserver/metadata"
 import { metadataConverter, metadataDeconverter } from "../../../../main/typescript/lib/metadata/Metadata"
 import { DropdownList, DropdownListEntry, DropdownLists } from "../../../../main/typescript/model/DropdownLists"
 import {
@@ -86,7 +86,7 @@ describe("Metadata", () => {
         const dateAvailable = {
             qualifier: "dcterms:available",
             scheme: "dcterms:W3CDTF",
-            value: "2020-01-30T09:09:53+01:00",
+            value: isoDateTimeFormat(new Date(Date.now())),
         }
         const input = {
             dates: [ // added this object, because otherwise a current timestamp is added
