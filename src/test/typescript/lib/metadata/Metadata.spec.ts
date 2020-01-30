@@ -79,7 +79,7 @@ describe("Metadata", () => {
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, true)
 
-        expect(deconverted).to.eql(input)
+        expect(deconverted).to.eql({ relations: [{ qualifier: "dcterms:relation" }], ...input })
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on submit", () => {
@@ -97,7 +97,12 @@ describe("Metadata", () => {
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, true)
 
-        expect(deconverted).to.eql({ accessRights: "OPEN_ACCESS", dates: [dateAvailable], ...input })
+        expect(deconverted).to.eql({
+            accessRights: "OPEN_ACCESS",
+            dates: [dateAvailable],
+            relations: [{ qualifier: "dcterms:relation" }],
+            ...input,
+        })
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for allfields example on save", () => {
