@@ -79,7 +79,20 @@ describe("Metadata", () => {
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, true)
 
-        expect(deconverted).to.eql({ relations: [{ qualifier: "dcterms:relation" }], ...input })
+        expect(deconverted).to.eql({
+            ...input,
+            relations: [{ qualifier: "dcterms:relation" }],
+            dates: [
+                ...input.dates || [],
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+        })
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on submit", () => {
@@ -98,10 +111,19 @@ describe("Metadata", () => {
         const deconverted = metadataDeconverter(converted, dropdownLists, true)
 
         expect(deconverted).to.eql({
-            accessRights: "OPEN_ACCESS",
-            dates: [dateAvailable],
-            relations: [{ qualifier: "dcterms:relation" }],
             ...input,
+            accessRights: "OPEN_ACCESS",
+            dates: [
+                dateAvailable,
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+            relations: [{ qualifier: "dcterms:relation" }],
         })
     })
 
@@ -118,7 +140,20 @@ describe("Metadata", () => {
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
-        expect(deconverted).to.eql({ relations: [{ qualifier: "dcterms:relation" }], ...input })
+        expect(deconverted).to.eql({
+            ...input,
+            relations: [{ qualifier: "dcterms:relation" }],
+            dates: [
+                ...input.dates || [],
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+        })
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on save", () => {
@@ -128,6 +163,15 @@ describe("Metadata", () => {
 
         expect(deconverted).to.eql({
             relations: [{ qualifier: "dcterms:relation" }],
+            dates: [
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
             accessRights: "OPEN_ACCESS",
             ...input,
         })
