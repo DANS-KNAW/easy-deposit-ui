@@ -2,12 +2,14 @@
   "id-type:DOI": {
     "title": "doi",
     "viewName": "doi",
-    "baseUrl": "https://doi.org/"
+    "baseUrl": "https://doi.org/",
+    "format": "^10.(\\d)+(\\.(\\d)+)*/.*$"
   },
   "id-type:URN": {
     "title": "urn",
-    "viewName": "urn",
-    "baseUrl": "http://persistent-identifier.nl/"
+    "viewName": "urn:nbn:nl",
+    "baseUrl": "http://persistent-identifier.nl/",
+    "format": "^urn:nbn:nl:ui:.*$"
   },
   "id-type:ISBN": {
     "title": "ISBN",

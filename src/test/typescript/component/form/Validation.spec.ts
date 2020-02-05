@@ -379,13 +379,14 @@ describe("Validation", () => {
             key: "id-type:DOI",
             value: "doi",
             displayValue: "doi",
-            baseUrl: "https://doi.org/"
+            baseUrl: "https://doi.org/",
         },
         {
             key: "id-type:URN",
             value: "urn",
             displayValue: "urn",
-            baseUrl: "http://persistent-identifier.nl/"
+            baseUrl: "http://persistent-identifier.nl/",
+            format: /^urn:nbn:nl:ui:.*$/,
         },
         {
             key: "id-type:ISBN",
@@ -443,12 +444,20 @@ describe("Validation", () => {
             }])).to.eql([{ value: "No identifier given" }])
         })
 
-        it("should return an error object when one related identifier is given with an invalid 'value'", () => {
+        it("should return an error object when one related identifier is given with a value that does not form a valid URL", () => {
             expect(validateRelatedIdentifiers(identifierSettings, [{
                 qualifier: "q",
-                scheme: "id-type:DOI",
-                value: "hello world"
-            }])).to.eql([{ value: "Invalid doi" }])
+                scheme: "id-type:URN",
+                value: "hello world",
+            }])).to.eql([{ value: "Invalid urn" }])
+        })
+
+        it("should return an error object when one related identifier is given with a value that does not match the given format", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
+                qualifier: "q",
+                scheme: "id-type:URN",
+                value: "hello_world",
+            }])).to.eql([{ value: "Invalid urn" }])
         })
 
         it("should return error objects when multiple (some incomplete) related identifiers are given", () => {

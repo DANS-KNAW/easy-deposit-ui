@@ -42,6 +42,7 @@ export const convertIdentifiersDropdownData: (data: any) => IdentifiersDropdownL
                 value: obj.title,
                 displayValue: obj.viewName,
                 baseUrl: obj.baseUrl,
+                format: obj.format,
             }
         })
 }

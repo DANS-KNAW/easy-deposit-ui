@@ -43,6 +43,7 @@ export interface ContributorIdDropdownListEntry extends DropdownListEntry {
 
 export interface IdentifiersDropdownListEntry extends DropdownListEntry {
     baseUrl?: string
+    format?: RegExp
 }
 
 export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {

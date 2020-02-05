@@ -227,6 +227,8 @@ export const validateRelatedIdentifiers: (identifierSettings: IdentifiersDropdow
             const identifierSetting = identifierSettings.find(({ key }) => key === qsv.scheme)
             if (identifierSetting && identifierSetting.baseUrl && !validUrl.isWebUri(identifierSetting.baseUrl + qsv.value))
                 relatedIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
+            else if (identifierSetting && identifierSetting.format && !qsv.value.match(identifierSetting.format))
+                relatedIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
         }
 
         return relatedIdentifierError
