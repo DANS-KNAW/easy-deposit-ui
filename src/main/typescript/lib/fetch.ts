@@ -15,6 +15,7 @@
  */
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
+// Older version of the 'Cache-Control' header necessary for ie11
 axios.defaults.headers = { "Pragma": "no-cache" }
 
 function change503Response(e: any): void {

@@ -64,6 +64,7 @@ module.exports = (env, argv) => merge(baseConfig(env, argv), {
                 sourceMap: true,
                 parallel: true,
                 terserOptions: {
+                    // using ecma 5 for ie11 support
                     ecma: 5,
                     compress: true,
                     mangle: true,
