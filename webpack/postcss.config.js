@@ -18,7 +18,7 @@ module.exports = {
         require('autoprefixer')(),
         require('postcss-custom-properties')({
             importFrom: 'src/main/resources/css/dansColors.css',
-            preserve: 'false'
+            preserve: false
         })
     ]
 };
