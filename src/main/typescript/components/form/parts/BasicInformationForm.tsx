@@ -221,7 +221,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={IsoDateFieldArray}/>
 
             <RepeatableFieldWithDropdown name="dates"
-                                         label="Only if you can’t use the dropdown field above"
+                                         label="Only if you can’t use the date selector above"
                                          showNoLabel
                                          empty={() => emptyQualifiedStringDate(dates.list)}
                                          fieldNames={[
