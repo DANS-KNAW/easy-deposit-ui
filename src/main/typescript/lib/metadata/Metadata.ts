@@ -213,30 +213,30 @@ export const metadataDeconverter: (data: DepositFormMetadata, dropDowns: Dropdow
         ].filter(nonEmptyObject),
         relations: [
             ...(data.relatedIdentifiers ? data.relatedIdentifiers.map(relatedIdentifierDeconverter) : []),
-            ...(data.relations ? data.relations.map(relationDeconverter(dropDowns.relations.list)) : []),
+            ...(data.relations ? data.relations.map(relationDeconverter) : []),
         ].filter(nonEmptyObject),
         languagesOfFiles: [
             ...(data.languagesOfFilesIso639 ? data.languagesOfFilesIso639.map(languageOfFilesIsoDeconverter(dropDowns.languages.list)) : []),
             ...(data.languagesOfFiles ? data.languagesOfFiles.map(languageOfFilesDeconverter) : []),
         ].filter(nonEmptyObject),
         dates: [
-            (data.dateCreated && qualifiedDateDeconverter(dropDowns.dates.list)({
+            (data.dateCreated && qualifiedDateDeconverter({
                 qualifier: createdQualifier,
                 value: data.dateCreated,
             })),
             (data.dateAvailable
-                ? qualifiedDateDeconverter(dropDowns.dates.list)({
+                ? qualifiedDateDeconverter({
                     qualifier: availableQualifier,
                     value: data.dateAvailable,
                 })
                 : isSubmitting
-                    ? qualifiedDateDeconverter(dropDowns.dates.list)({
+                    ? qualifiedDateDeconverter({
                         qualifier: availableQualifier,
                         value: new Date(),
                     })
                     : {}),
-            ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter(dropDowns.dates.list)) : []),
-            ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter(dropDowns.dates.list)) : []),
+            ...(data.datesIso8601 ? data.datesIso8601.map(qualifiedDateDeconverter) : []),
+            ...(data.dates ? data.dates.map(qualifiedDateStringDeconverter) : []),
         ].filter(nonEmptyObject),
         sources: data.source && [data.source],
         instructionsForReuse: data.instructionsForReuse && [data.instructionsForReuse],
