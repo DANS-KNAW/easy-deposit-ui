@@ -46,7 +46,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setFileUploadInProgress(true))
         const file = e.target.files && e.target.files[0]
-        setUploadingFile(file || undefined)
+        if (file !== null) setUploadingFile(file) // this syntax is used in order to support ie11 
         setErrorMessage(undefined)
         e.target.value = ""
     }

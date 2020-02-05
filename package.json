@@ -20,8 +20,7 @@
   },
   "homepage": "https://github.com/DANS-KNAW/easy-deposit-ui",
   "browserslist": [
-    "> 1%",
-    "last 10 versions"
+    "defaults and >0.2%"
   ],
   "dependencies": {
     "@types/node": "^13.7.0",
@@ -44,6 +43,8 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
     "@types/chai": "^4.2.8",
     "@types/cors": "^2.8.6",
     "@types/dateformat": "^3.0.1",
@@ -67,10 +68,9 @@
     "ajv": "^6.11.0",
     "autoprefixer": "^9.7.4",
     "awesome-typescript-loader": "^5.2.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.6.4",
     "cors": "^2.8.5",
     "css-hot-loader": "^1.4.4",
     "css-loader": "^3.4.2",
@@ -83,7 +83,9 @@
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-custom-properties": "^9.0.2",
     "postcss-loader": "^3.0.0",
+    "react-app-polyfill": "^1.0.6",
     "react-hot-loader": "^4.12.19",
     "redux-devtools-extension": "^2.13.8",
     "source-map-loader": "^0.2.4",

@@ -25,3 +25,8 @@
     margin-left: 5px;
     margin-right: 5px;
 }
+
+/* Necessary for ie11 support */
+table, table * {
+    display: block;
+}
