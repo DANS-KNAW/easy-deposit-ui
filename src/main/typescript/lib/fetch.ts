@@ -15,6 +15,8 @@
  */
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
+axios.defaults.headers = { "Pragma": "no-cache" }
+
 function change503Response(e: any): void {
     if (e.response && e.response.status === 503)
         e.response.data = "The server is temporarily unavailable"
