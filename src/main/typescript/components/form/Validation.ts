@@ -65,7 +65,9 @@ export const dateAvailableMustBeAfterDateCreated = (dateCreated?: Date, dateAvai
         : undefined
 }
 
-const checkNonEmpty: (s: string | undefined) => boolean = s => s ? s.trim() !== "" : false
+function checkNonEmpty(s: string | undefined): s is string {
+    return s ? s.trim() !== "" : false
+}
 
 export const atLeastOnePersonOrOrganization = (contributors?: Contributor[]) => {
     if (!contributors)
@@ -217,11 +219,9 @@ export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedVal
 
 export const validateRelatedIdentifiers: (identifierSettings: IdentifiersDropdownListEntry[], qsvs: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = (identifierSettings, qsvs) => {
     function validateQualifiedSchemedValue(qsv: QualifiedSchemedValue): QualifiedSchemedValue {
-        const nonEmptyValue = checkNonEmpty(qsv.value)
-
         const relatedIdentifierError: QualifiedSchemedValue = {}
 
-        if (!nonEmptyValue)
+        if (!checkNonEmpty(qsv.value))
             relatedIdentifierError.value = "No identifier given"
         else {
             const identifierSetting = identifierSettings.find(({ key }) => key === qsv.scheme)
@@ -291,7 +291,7 @@ export function validateDates<T extends { toString: () => string }>(dates: Quali
             return [{}]
         default:
             return dates.map(date => {
-                const nonEmptyValue = checkNonEmpty(date.value && date.value.toString())
+                const nonEmptyValue = checkNonEmpty(date.value?.toString())
 
                 const dateError: QualifiedDate<string> = {}
 
