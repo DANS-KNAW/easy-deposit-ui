@@ -27,7 +27,7 @@ import {
     mandatoryRadioButtonValidator,
     validateContributors,
     validateDates,
-    validateQualifiedSchemedValues,
+    validateRelatedIdentifiers,
     validateRelations,
     validateSchemedValue,
     validateSpatialBoxes,
@@ -35,7 +35,10 @@ import {
 } from "../../../../main/typescript/components/form/Validation"
 import { PrivacySensitiveDataValue } from "../../../../main/typescript/lib/metadata/PrivacySensitiveData"
 import { Contributor, creatorRole, emptyContributor } from "../../../../main/typescript/lib/metadata/Contributor"
-import { SpatialCoordinatesDropdownListEntry } from "../../../../main/typescript/model/DropdownLists"
+import {
+    IdentifiersDropdownListEntry,
+    SpatialCoordinatesDropdownListEntry,
+} from "../../../../main/typescript/model/DropdownLists"
 
 describe("Validation", () => {
 
@@ -371,41 +374,94 @@ describe("Validation", () => {
         })
     })
 
-    describe("validateQualifiedSchemedValue", () => {
-        it("should return an empty list when no QualifiedSchemedValues are given", () => {
-            expect(validateQualifiedSchemedValues([])).to.eql([])
+    const identifierSettings: IdentifiersDropdownListEntry[] = [
+        {
+            key: "id-type:DOI",
+            value: "doi",
+            displayValue: "doi",
+            baseUrl: "https://doi.org/",
+        },
+        {
+            key: "id-type:URN",
+            value: "urn",
+            displayValue: "urn",
+            baseUrl: "http://persistent-identifier.nl/",
+            format: /^urn:nbn:nl:ui:.*$/,
+        },
+        {
+            key: "id-type:ISBN",
+            value: "ISBN",
+            displayValue: "ISBN",
+        },
+        {
+            key: "id-type:ISSN",
+            value: "ISSN",
+            displayValue: "ISSN",
+        },
+        {
+            key: "id-type:NWO-PROJECTNR",
+            value: "NWO project no.",
+            displayValue: "NWO project no.",
+        },
+    ]
+
+    describe("validateRelatedIdentifiers", () => {
+        it("should return an empty list when no related identifier are given", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [])).to.eql([])
         })
 
-        it("should return an empty object when one empty QualifiedSchemedValue is given", () => {
-            expect(validateQualifiedSchemedValues([{}])).to.eql([{}])
+        it("should return an empty object when one empty related identifier is given", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{}])).to.eql([{}])
         })
 
-        it("should return an empty object when one QualifiedSchemedValue is given with only a qualifier", () => {
-            expect(validateQualifiedSchemedValues([{ qualifier: "q" }])).to.eql([{}])
+        it("should return an empty object when one related identifier is given with only a qualifier", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
+                qualifier: "q",
+            }])).to.eql([{}])
         })
 
-        it("should return an empty object when one QualifiedSchemedValue is given with all fields filled in", () => {
-            expect(validateQualifiedSchemedValues([{ qualifier: "q", scheme: "s", value: "v" }])).to.eql([{}])
+        it("should return an empty object when one related identifier is given with all fields filled in", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
+                qualifier: "q",
+                scheme: "s",
+                value: "v",
+            }])).to.eql([{}])
         })
 
-        it("should return an empty object when one QualifiedSchemedValue is given with 'scheme' missing", () => {
-            expect(validateQualifiedSchemedValues([{
+        it("should return an empty object when one related identifier is given with 'scheme' missing", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
                 qualifier: "q",
                 // no scheme
                 value: "v",
-            }])).to.eql([{ }])
+            }])).to.eql([{}])
         })
 
-        it("should return an error object when one QualifiedSchemedValue is given with 'value' missing", () => {
-            expect(validateQualifiedSchemedValues([{
+        it("should return an error object when one related identifier is given with 'value' missing", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
                 qualifier: "q",
                 scheme: "s",
                 // no value
             }])).to.eql([{ value: "No identifier given" }])
         })
 
-        it("should return error objects when multiple (some incomplete) QualifiedSchemedValues are given", () => {
-            expect(validateQualifiedSchemedValues([
+        it("should return an error object when one related identifier is given with a value that does not form a valid URL", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
+                qualifier: "q",
+                scheme: "id-type:URN",
+                value: "hello world",
+            }])).to.eql([{ value: "Invalid urn" }])
+        })
+
+        it("should return an error object when one related identifier is given with a value that does not match the given format", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [{
+                qualifier: "q",
+                scheme: "id-type:URN",
+                value: "hello_world",
+            }])).to.eql([{ value: "Invalid urn" }])
+        })
+
+        it("should return error objects when multiple (some incomplete) related identifiers are given", () => {
+            expect(validateRelatedIdentifiers(identifierSettings, [
                 {
                     qualifier: "q",
                     scheme: "s",
@@ -425,6 +481,26 @@ describe("Validation", () => {
                     qualifier: "q",
                     // no scheme
                     // no value
+                },
+                {
+                    qualifier: "q",
+                    scheme: "id-type:DOI",
+                    value: "10.17026/dans-z52-ybfe",
+                },
+                {
+                    qualifier: "q",
+                    scheme: "id-type:URN",
+                    value: "urn:nbn:nl:ui:13-79-7q2b",
+                },
+                {
+                    qualifier: "q",
+                    scheme: "id-type:DOI",
+                    value: "hello world",
+                },
+                {
+                    qualifier: "q",
+                    scheme: "id-type:URN",
+                    value: "hello world",
                 },
             ])).to.eql([
                 {},
@@ -434,6 +510,14 @@ describe("Validation", () => {
                 },
                 {
                     value: "No identifier given",
+                },
+                {},
+                {},
+                {
+                    value: "Invalid doi",
+                },
+                {
+                    value: "Invalid urn",
                 },
             ])
         })

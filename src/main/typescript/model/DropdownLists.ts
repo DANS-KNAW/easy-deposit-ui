@@ -41,6 +41,11 @@ export interface ContributorIdDropdownListEntry extends DropdownListEntry {
     placeholder: string
 }
 
+export interface IdentifiersDropdownListEntry extends DropdownListEntry {
+    baseUrl?: string
+    format?: RegExp
+}
+
 export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {
     xLabel: string
     yLabel: string
@@ -67,7 +72,7 @@ export interface DropdownLists {
     languages: DropdownList
     contributorRoles: DropdownList
     audiences: DropdownList
-    identifiers: DropdownList
+    identifiers: DropdownList<IdentifiersDropdownListEntry>
     relations: DropdownList
     dates: DropdownList
     licenses: DropdownList

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import {
-    ContributorIdDropdownListEntry,
     DropdownListEntry,
+    IdentifiersDropdownListEntry,
     SpatialCoordinatesDropdownListEntry,
 } from "../../model/DropdownLists"
 
@@ -32,7 +32,7 @@ export const convertDropdownData: (data: any) => DropdownListEntry[] = data => {
         })
 }
 
-export const convertContributorIdDropdownData: (data: any) => ContributorIdDropdownListEntry[] = data => {
+export const convertIdentifiersDropdownData: (data: any) => IdentifiersDropdownListEntry[] = data => {
     return Object.keys(data)
         .map(key => {
             const obj = data[key]
@@ -41,9 +41,8 @@ export const convertContributorIdDropdownData: (data: any) => ContributorIdDropd
                 key: key,
                 value: obj.title,
                 displayValue: obj.viewName,
+                baseUrl: obj.baseUrl,
                 format: obj.format,
-                replace: obj.replace && obj.replace.map((repl: any) => ({ from: new RegExp(repl.from), to: repl.to })),
-                placeholder: obj.placeholder,
             }
         })
 }
