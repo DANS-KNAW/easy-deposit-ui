@@ -135,7 +135,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                    helpText
                    todayButton="Today"
                    showYearDropdown
-                   yearDropdownItemNumber={10}
+                   yearDropdownItemNumber={100}
                    scrollableYearDropdown
                    maxDate={new Date()}
                    component={DatePickerField}/>

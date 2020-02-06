@@ -19,23 +19,6 @@ import asField from "./FieldHOC"
 import LibDatePicker, { ReactDatePickerProps } from "react-datepicker"
 import { FieldProps } from "./ReduxFormUtils"
 
-interface CustomDatePickerProps {
-    value?: string
-    placeholder?: string
-
-    onClick?: (event: any) => void
-}
-
-class CustomDateTextField extends Component<CustomDatePickerProps> {
-    render() {
-        return (
-            <input {...this.props}
-                   type="text"
-                   readOnly/>
-        )
-    }
-}
-
 // detects if the website is displayed on a mobile device
 // copied from https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
 const isMobileDevice = () => (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf("IEMobile") !== -1)
@@ -54,7 +37,6 @@ const DatePickerField = (props: DatePickerProps) => {
             <LibDatePicker {...props}
                            dateFormat={dateFormat}
 
-                           customInput={<CustomDateTextField/>}
                            isClearable={true}
                            withPortal={isMobileDevice()}
                            placeholderText="Choose a date..."
