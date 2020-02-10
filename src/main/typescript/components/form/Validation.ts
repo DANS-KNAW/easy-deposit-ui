@@ -221,6 +221,8 @@ export const validateRelatedIdentifiers: (identifierSettings: IdentifiersDropdow
     function validateQualifiedSchemedValue(qsv: QualifiedSchemedValue): QualifiedSchemedValue {
         const relatedIdentifierError: QualifiedSchemedValue = {}
 
+        if (!checkNonEmpty(qsv.scheme))
+            relatedIdentifierError.scheme = "No scheme given"
         if (!checkNonEmpty(qsv.value))
             relatedIdentifierError.value = "No identifier given"
         else {

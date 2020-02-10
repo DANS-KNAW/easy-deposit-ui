@@ -428,12 +428,12 @@ describe("Validation", () => {
             }])).to.eql([{}])
         })
 
-        it("should return an empty object when one related identifier is given with 'scheme' missing", () => {
+        it("should return an error object when one related identifier is given with 'scheme' missing", () => {
             expect(validateRelatedIdentifiers(identifierSettings, [{
                 qualifier: "q",
                 // no scheme
                 value: "v",
-            }])).to.eql([{}])
+            }])).to.eql([{ scheme: "No scheme given" }])
         })
 
         it("should return an error object when one related identifier is given with 'value' missing", () => {
@@ -504,11 +504,14 @@ describe("Validation", () => {
                 },
             ])).to.eql([
                 {},
-                {},
+                {
+                    scheme: "No scheme given",
+                },
                 {
                     value: "No identifier given",
                 },
                 {
+                    scheme: "No scheme given",
                     value: "No identifier given",
                 },
                 {},
