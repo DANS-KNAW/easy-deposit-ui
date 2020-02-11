@@ -39,7 +39,7 @@ import {
     alternativeIdentifierDeconverter,
     archisIdentifierDeconverter,
     doiConverter,
-    doiDeconverter,
+    doiDeconverter, emptyAlternativeIdentifier,
     identifiersConverter,
 } from "./Identifier"
 import { dcmiTypeDeconverter, typeDeconverter, typesConverter } from "./Type"
@@ -50,7 +50,13 @@ import {
 } from "./PrivacySensitiveData"
 import { emptyQualifiedSchemedValue, emptySchemedValue } from "./Value"
 import { emptyLicense, licenseConverter, licenseDeconverter } from "./License"
-import { emptyRelation, relatedIdentifierDeconverter, relationDeconverter, relationsConverter } from "./Relation"
+import {
+    emptyRelatedIdentifier,
+    emptyRelation,
+    relatedIdentifierDeconverter,
+    relationDeconverter,
+    relationsConverter,
+} from "./Relation"
 import { clean, emptyString, isEmptyString, nonEmptyObject, normalizeEmpty } from "./misc"
 import { cmdiFormatDeconverter, formatDeconverter, formatsConverter, imtFormatDeconverter } from "./Format"
 import {
@@ -136,8 +142,8 @@ export const metadataConverter: (input: any, dropDowns: DropdownLists) => Deposi
         dateCreated: dateCreated && dateCreated.value,
         audiences: normalizeEmpty(audiences, () => emptyString),
         subjects: normalizeEmpty(subjects, () => emptyString),
-        alternativeIdentifiers: normalizeEmpty(alternativeIdentifiers, () => emptySchemedValue),
-        relatedIdentifiers: normalizeEmpty(relatedIdentifiers, () => emptyQualifiedSchemedValue(dropDowns.relations.list)),
+        alternativeIdentifiers: normalizeEmpty(alternativeIdentifiers, () => emptyAlternativeIdentifier(dropDowns.identifiers.list)),
+        relatedIdentifiers: normalizeEmpty(relatedIdentifiers, () => emptyRelatedIdentifier(dropDowns.relations.list, dropDowns.identifiers.list)),
         relations: normalizeEmpty(relations, () => emptyRelation(dropDowns.relations.list)),
         languagesOfFilesIso639: normalizeEmpty(isoLanguageOfFiles, () => emptyString),
         languagesOfFiles: normalizeEmpty(languageOfFiles, () => emptyString),

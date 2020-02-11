@@ -20,7 +20,7 @@ import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formC
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
-import { Doi } from "../../../lib/metadata/Identifier"
+import { Doi, emptyAlternativeIdentifier } from "../../../lib/metadata/Identifier"
 import {
     emptyQualifiedSchemedValue,
     emptySchemedValue,
@@ -29,7 +29,7 @@ import {
 } from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
-import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
+import { emptyRelatedIdentifier, emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
 import AlternativeIdentifierFieldArray from "./basicInformation/AlternativeIdentifierFieldArray"
@@ -159,7 +159,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
             <RepeatableFieldWithDropdown name="alternativeIdentifiers"
                                          label="Alternative identifier"
                                          helpText
-                                         empty={() => emptySchemedValue}
+                                         empty={() => emptyAlternativeIdentifier(identifiers.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.scheme`,
                                              (name: string) => `${name}.value`,
@@ -170,7 +170,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
             <RepeatableFieldWithDropdown name="relatedIdentifiers"
                                          label="Related identifier"
                                          helpText
-                                         empty={() => emptyQualifiedSchemedValue(relations.list)}
+                                         empty={() => emptyRelatedIdentifier(relations.list, identifiers.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.qualifier`,
                                              (name: string) => `${name}.scheme`,

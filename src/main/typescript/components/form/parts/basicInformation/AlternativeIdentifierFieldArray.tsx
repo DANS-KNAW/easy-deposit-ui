@@ -22,7 +22,7 @@ import { DropdownList } from "../../../../model/DropdownLists"
 
 const AlternativeIdentifierFieldArray = ({ dropdowns: { schemes }, ...props }: FieldArrayPropsWithDropdown<SchemedValue, DropdownList>) => (
     <LoadDropdownData state={schemes.state}>
-        <SchemedTextFieldArray {...props} withEmptyDefault schemeValues={schemes.list}/>
+        <SchemedTextFieldArray {...props} schemeValues={schemes.list}/>
     </LoadDropdownData>
 )
 

@@ -29,7 +29,7 @@ import {
     validateDates,
     validateRelatedIdentifiers,
     validateRelations,
-    validateSchemedValue,
+    validateAlternativeIdentifiers,
     validateSpatialBoxes,
     validateSpatialPoints,
 } from "../../../../main/typescript/components/form/Validation"
@@ -340,40 +340,6 @@ describe("Validation", () => {
         })
     })
 
-    describe("validateSchemedValue", () => {
-        it("should return empty objects when all SchemedValues are valid", () => {
-            expect(validateSchemedValue([
-                {
-                    scheme: "foo",
-                    value: "bar",
-                },
-                {
-                    scheme: "abc",
-                    value: "def",
-                }])).to.eql([{}, {}])
-        })
-
-        it("should return empty objects when the SchemedValues are empty", () => {
-            expect(validateSchemedValue([{ scheme: "", value: "" }, {}])).to.eql([{}, {}])
-        })
-
-        it("should return an empty list when no SchemedValues are given", () => {
-            expect(validateSchemedValue([])).to.eql([])
-        })
-
-        it("should return an error object when only the scheme is given", () => {
-            expect(validateSchemedValue([{ scheme: "foo" }])).to.eql([{
-                value: "No identifier given",
-            }])
-        })
-
-        it("should return an error object when only the value is given", () => {
-            expect(validateSchemedValue([{ value: "bar" }])).to.eql([{
-                scheme: "No scheme given",
-            }])
-        })
-    })
-
     const identifierSettings: IdentifiersDropdownListEntry[] = [
         {
             key: "id-type:DOI",
@@ -404,6 +370,66 @@ describe("Validation", () => {
             displayValue: "NWO project no.",
         },
     ]
+
+    describe("validateAlternativeIdentifiers", () => {
+        it("should return empty objects when all AlternativeIdentifiers are valid", () => {
+            expect(validateAlternativeIdentifiers(identifierSettings, [
+                {
+                    scheme: "foo",
+                    value: "bar",
+                },
+                {
+                    scheme: "abc",
+                    value: "def",
+                }])).to.eql([{}, {}])
+        })
+
+        it("should return empty objects when the AlternativeIdentifiers are empty", () => {
+            expect(validateAlternativeIdentifiers(identifierSettings, [{ scheme: "", value: "" }, {}])).to.eql([{}, {}])
+        })
+
+        it("should return an empty list when no AlternativeIdentifiers are given", () => {
+            expect(validateAlternativeIdentifiers(identifierSettings, [])).to.eql([])
+        })
+
+        it("should return an empty object when only the scheme is given", () => {
+            expect(validateAlternativeIdentifiers(identifierSettings, [{ scheme: "foo" }])).to.eql([{}])
+        })
+
+        it("should return an empty object when only the value is given", () => {
+            expect(validateAlternativeIdentifiers(identifierSettings, [{ value: "bar" }])).to.eql([{}])
+        })
+
+        it("should return error objects when AlternativeIdentifier values don't match the selected schema", () => {
+            expect(validateAlternativeIdentifiers(identifierSettings, [
+                {
+                    scheme: "id-type:DOI",
+                    value: "10.17026/dans-z52-ybfe",
+                },
+                {
+                    scheme: "id-type:URN",
+                    value: "urn:nbn:nl:ui:13-79-7q2b",
+                },
+                {
+                    scheme: "id-type:DOI",
+                    value: "hello world",
+                },
+                {
+                    scheme: "id-type:URN",
+                    value: "hello world",
+                },
+            ])).to.eql([
+                {},
+                {},
+                {
+                    value: "Invalid doi",
+                },
+                {
+                    value: "Invalid urn",
+                },
+            ])
+        })
+    })
 
     describe("validateRelatedIdentifiers", () => {
         it("should return an empty list when no related identifier are given", () => {
@@ -436,12 +462,12 @@ describe("Validation", () => {
             }])).to.eql([{}])
         })
 
-        it("should return an error object when one related identifier is given with 'value' missing", () => {
+        it("should return an empty object when one related identifier is given with 'value' missing", () => {
             expect(validateRelatedIdentifiers(identifierSettings, [{
                 qualifier: "q",
                 scheme: "s",
                 // no value
-            }])).to.eql([{ value: "No identifier given" }])
+            }])).to.eql([{}])
         })
 
         it("should return an error object when one related identifier is given with a value that does not form a valid URL", () => {
@@ -505,12 +531,8 @@ describe("Validation", () => {
             ])).to.eql([
                 {},
                 {},
-                {
-                    value: "No identifier given",
-                },
-                {
-                    value: "No identifier given",
-                },
+                {},
+                {},
                 {},
                 {},
                 {
