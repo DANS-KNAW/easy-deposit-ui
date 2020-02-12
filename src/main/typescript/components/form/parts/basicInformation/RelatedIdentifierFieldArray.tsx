@@ -25,8 +25,7 @@ const RelatedIdentifierFieldArray = ({ dropdowns: { qualifiers, schemes }, ...pr
         <LoadDropdownData state={schemes.state}>
             <QualifiedSchemedTextFieldArray {...props}
                                             qualifierValues={qualifiers.list}
-                                            schemeValues={schemes.list}
-                                            withEmptySchemeDefault/>
+                                            schemeValues={schemes.list}/>
         </LoadDropdownData>
     </LoadDropdownData>
 )

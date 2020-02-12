@@ -200,53 +200,25 @@ export function isDaiValid(daiInput: string): boolean {
     return false
 }
 
-export const validateSchemedValue: (schemedValues: SchemedValue[]) => SchemedValue[] = schemedValues => {
-    return schemedValues.map(id => {
-        const nonEmptyScheme = checkNonEmpty(id.scheme)
-        const nonEmptyValue = checkNonEmpty(id.value)
+function validateIdentifier(identifierSettings: IdentifiersDropdownListEntry[], schemedValue: SchemedValue): SchemedValue {
+    console.log("validate identifier", schemedValue)
+    const alternativeIdentifierError: SchemedValue = {}
+    if (checkNonEmpty(schemedValue.value)) {
+        const identifierSetting = identifierSettings.find(({ key }) => key === schemedValue.scheme)
+        if (identifierSetting && identifierSetting.baseUrl && !validUrl.isWebUri(identifierSetting.baseUrl + schemedValue.value))
+            alternativeIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
+        else if (identifierSetting && identifierSetting.format && !schemedValue.value.match(identifierSetting.format))
+            alternativeIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
+    }
+    return alternativeIdentifierError
+}
 
-        const idError: SchemedValue = {}
-
-        if (!nonEmptyScheme && nonEmptyValue)
-            idError.scheme = "No scheme given"
-
-        if (nonEmptyScheme && !nonEmptyValue)
-            idError.value = "No identifier given"
-
-        return idError
-    })
+export const validateAlternativeIdentifiers: (identifierSettings: IdentifiersDropdownListEntry[], schemedValues: SchemedValue[]) => SchemedValue[] = (identifierSettings, schemedValues) => {
+    return schemedValues.map(sv => validateIdentifier(identifierSettings, sv))
 }
 
 export const validateRelatedIdentifiers: (identifierSettings: IdentifiersDropdownListEntry[], qsvs: QualifiedSchemedValue[]) => QualifiedSchemedValue[] = (identifierSettings, qsvs) => {
-    function validateQualifiedSchemedValue(qsv: QualifiedSchemedValue): QualifiedSchemedValue {
-        const relatedIdentifierError: QualifiedSchemedValue = {}
-
-        if (!checkNonEmpty(qsv.value))
-            relatedIdentifierError.value = "No identifier given"
-        else {
-            const identifierSetting = identifierSettings.find(({ key }) => key === qsv.scheme)
-            if (identifierSetting && identifierSetting.baseUrl && !validUrl.isWebUri(identifierSetting.baseUrl + qsv.value))
-                relatedIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
-            else if (identifierSetting && identifierSetting.format && !qsv.value.match(identifierSetting.format))
-                relatedIdentifierError.value = `Invalid ${identifierSetting.displayValue}`
-        }
-
-        return relatedIdentifierError
-    }
-
-    switch (qsvs.length) {
-        case 0:
-            return []
-        case 1:
-            const qsv = qsvs[0]
-
-            if (checkNonEmpty(qsv.scheme) || checkNonEmpty(qsv.value))
-                return [validateQualifiedSchemedValue(qsv)]
-            else
-                return [{}]
-        default:
-            return qsvs.map(validateQualifiedSchemedValue)
-    }
+    return qsvs.map(qsv => validateIdentifier(identifierSettings, qsv))
 }
 
 export const validateRelations: (relations: Relation[]) => Relation[] = relations => {
@@ -419,7 +391,7 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
     }
     errors.dateCreated = mandatoryFieldValidator(values.dateCreated, "date created")
     errors.audiences = { _error: mandatoryFieldArrayValidator(values.audiences, "audiences") }
-    errors.alternativeIdentifiers = validateSchemedValue(values.alternativeIdentifiers || [])
+    errors.alternativeIdentifiers = validateAlternativeIdentifiers(identifiersSettings, values.alternativeIdentifiers || [])
     errors.relatedIdentifiers = validateRelatedIdentifiers(identifiersSettings, values.relatedIdentifiers || [])
     errors.relations = validateRelations(values.relations || [])
     errors.datesIso8601 = validateDates(values.datesIso8601 || [])

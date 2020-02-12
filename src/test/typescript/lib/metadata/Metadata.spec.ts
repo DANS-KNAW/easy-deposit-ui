@@ -72,6 +72,7 @@ describe("Metadata", () => {
         const deconverted = metadataDeconverter(converted, dropdownLists, true)
 
         expect(deconverted).to.eql(input)
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, true)).to.eql(deconverted)
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for mandatoryOnly example on submit", () => {
@@ -81,7 +82,11 @@ describe("Metadata", () => {
 
         expect(deconverted).to.eql({
             ...input,
-            relations: [{ qualifier: "dcterms:relation" }],
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
             dates: [
                 ...input.dates || [],
                 {
@@ -93,6 +98,7 @@ describe("Metadata", () => {
                 },
             ],
         })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, true)).to.eql(deconverted)
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on submit", () => {
@@ -123,8 +129,13 @@ describe("Metadata", () => {
                     qualifier: "dcterms:date",
                 },
             ],
-            relations: [{ qualifier: "dcterms:relation" }],
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
         })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, true)).to.eql(deconverted)
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for allfields example on save", () => {
@@ -133,6 +144,7 @@ describe("Metadata", () => {
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
         expect(deconverted).to.eql(input)
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, false)).to.eql(deconverted)
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for mandatoryOnly example on save", () => {
@@ -142,7 +154,11 @@ describe("Metadata", () => {
 
         expect(deconverted).to.eql({
             ...input,
-            relations: [{ qualifier: "dcterms:relation" }],
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
             dates: [
                 ...input.dates || [],
                 {
@@ -154,6 +170,7 @@ describe("Metadata", () => {
                 },
             ],
         })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, false)).to.eql(deconverted)
     })
 
     it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on save", () => {
@@ -162,7 +179,11 @@ describe("Metadata", () => {
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
         expect(deconverted).to.eql({
-            relations: [{ qualifier: "dcterms:relation" }],
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
             dates: [
                 {
                     qualifier: "dcterms:date",
@@ -175,5 +196,6 @@ describe("Metadata", () => {
             accessRights: "OPEN_ACCESS",
             ...input,
         })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, false)).to.eql(deconverted)
     })
 })
