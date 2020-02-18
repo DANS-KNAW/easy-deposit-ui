@@ -1,6 +1,6 @@
 {
   "name": "easy-deposit-ui",
-  "version": "1.0.3-SNAPSHOT",
+  "version": "1.0.4",
   "description": "Self-deposit user web-interface",
   "main": "src/main/typescript/client.tsx",
   "scripts": {
