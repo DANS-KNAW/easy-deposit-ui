@@ -18,6 +18,11 @@
     width: 100%;
 }
 
+/* Necessary for ie11 support */
+.file_table, .file_table *:not(.row) {
+    display: block;
+}
+
 .file_table thead tr th {
     border-bottom: 0;
     color: var(--dans-gray);
