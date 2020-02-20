@@ -18,6 +18,11 @@
     margin: 10px 0 20px;
 }
 
+/* Necessary for ie11 support */
+.deposit_table, .deposit_table *:not(.row) {
+    display: block;
+}
+
 .deposit_table thead tr {
     background-image: var(--table-header-gradient);
 }
@@ -138,9 +143,4 @@
 .alert-dismissible .close.icon {
     color: initial;
     font-size: 1rem;
-}
-
-/* Necessary for ie11 support */
-table, table * {
-    display: block;
 }
