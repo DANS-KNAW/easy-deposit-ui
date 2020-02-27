@@ -201,7 +201,6 @@ export function isDaiValid(daiInput: string): boolean {
 }
 
 function validateIdentifier(identifierSettings: IdentifiersDropdownListEntry[], schemedValue: SchemedValue): SchemedValue {
-    console.log("validate identifier", schemedValue)
     const alternativeIdentifierError: SchemedValue = {}
     if (checkNonEmpty(schemedValue.value)) {
         const identifierSetting = identifierSettings.find(({ key }) => key === schemedValue.scheme)
