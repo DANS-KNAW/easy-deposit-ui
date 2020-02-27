@@ -16,7 +16,7 @@
 import * as React from "react"
 import { FC, useEffect } from "react"
 import { compose } from "redux"
-import { connect, useDispatch } from "react-redux"
+import { connect, shallowEqual, useDispatch } from "react-redux"
 import { InjectedFormProps, reduxForm } from "redux-form"
 import { Prompt, useHistory } from "react-router-dom"
 import Card from "./FoldableCard"
@@ -27,7 +27,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId, DepositStateLabel } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
-import { saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
@@ -67,7 +67,6 @@ const Loaded: FC<LoadedProps> = ({ loading, loaded, error, children }) => {
 export interface DepositFormOwnProps {
     depositId: DepositId
     depositState: DepositState
-    metadata: DepositFormMetadata
 }
 
 type DepositFormProps =
@@ -78,10 +77,10 @@ const leaveMessage = "You did not save your work before leaving this page.\nAre 
 
 const DepositForm = (props: DepositFormProps) => {
     const history = useHistory()
-    const formState = useSelector(state => state.depositForm)
-    const fileState = useSelector(state => state.files.loading)
+    const formState = useSelector(state => state.depositForm, shallowEqual)
+    const fileState = useSelector(state => state.files.loading, shallowEqual)
     const fileUploadInProgress = useSelector(isFileUploading)
-    const formValues = useSelector(state => state.form.depositForm && state.form.depositForm.values)
+    const formValues = useSelector(state => state.form.depositForm?.values, shallowEqual)
     const dispatch = useDispatch()
 
     const doSave = () => {
@@ -106,6 +105,7 @@ const DepositForm = (props: DepositFormProps) => {
     const shouldBlockNavigation = () => props.dirty && props.anyTouched && !props.submitSucceeded
 
     useEffect(() => {
+        dispatch(fetchMetadata(props.depositId))
         dispatch(fetchFiles(props.depositId))
 
         return function cleanup() {
@@ -231,7 +231,7 @@ const DepositForm = (props: DepositFormProps) => {
 const composedHOC = compose(
     connect((state: AppState, props: DepositFormOwnProps) => ({
         ...props,
-        initialValues: props.metadata, // initial values for deposit form
+        initialValues: state.depositForm.initialState.metadata, // initial values for deposit form
         dropDowns: state.dropDowns, // used in form validation
     })),
     reduxForm({

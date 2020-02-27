@@ -15,50 +15,55 @@
  */
 import * as React from "react"
 import { FC, ReactNode, useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import { fetchDepositState } from "../../actions/depositFormActions"
 import { DepositId } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
 import { DepositState } from "../../model/DepositState"
 import { ReloadAlert } from "../Errors"
 import Loading from "../Loading"
+import { fetchAllDropdowns } from "../../actions/dropdownActions"
+import { dropDownFetchState } from "../../selectors/dropdown"
 
-interface DepositStateLoaderProps {
+interface DepositResourceLoaderProps {
     depositId: DepositId
 
     renderForm: (depositState: DepositState) => ReactNode
     renderNotFound: () => ReactNode
 }
 
-const DepositStateLoader: FC<DepositStateLoaderProps> = ({ depositId, renderForm, renderNotFound }) => {
-    const { fetching, fetched, fetchError, stateNotFound } = useSelector(state => state.depositForm.fetchDepositState)
-    const { depositState } = useSelector(state => state.depositForm.initialState)
+const DepositResourceLoader: FC<DepositResourceLoaderProps> = ({ depositId, renderForm, renderNotFound }) => {
+    const depositStateFetchState = useSelector(state => state.depositForm.fetchDepositState, shallowEqual)
+    const dropdownsFetchState = useSelector(dropDownFetchState, shallowEqual)
+    const depositState = useSelector(state => state.depositForm.initialState.depositState, shallowEqual)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(fetchDepositState(depositId))
+        dispatch(fetchAllDropdowns)
     }, [])
 
-    if (fetching && !depositState)
+    if (depositStateFetchState.fetching || dropdownsFetchState.fetching)
         return (
             <Loading/>
         )
-    else if (stateNotFound)
+    else if (depositStateFetchState.stateNotFound)
         return <>{renderNotFound()}</>
-    else if (fetchError)
+    else if (depositStateFetchState.fetchError || dropdownsFetchState.fetchError) {
+        const errorMsg = (depositStateFetchState.fetchError ? depositStateFetchState.fetchError + "\n" : "") +
+            (dropdownsFetchState.fetchError || "")
         return (
             <ReloadAlert key="loadingError"
                          reload={() => dispatch(fetchDepositState(depositId))}>
-                An error occurred: {fetchError}. Cannot load this deposit right now.
+                An error occurred: {errorMsg}. Cannot load this deposit right now.
                 If this persists, please <a href="mailto:info@dans.knaw.nl" target="_blank">contact us</a>.
             </ReloadAlert>
         )
-    // if the depositState is fetched and present
-    // or the depositState is being fetched right now, but is also already present (rerender)
-    else if ((fetched && depositState) || (fetching && depositState))
+    }
+    else if (depositStateFetchState.fetched && dropdownsFetchState.fetched && depositState)
         return <>{renderForm(depositState)}</>
     else
         return null
 }
 
-export default DepositStateLoader
+export default DepositResourceLoader
