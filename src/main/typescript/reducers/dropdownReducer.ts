@@ -14,44 +14,47 @@
  * limitations under the License.
  */
 import { combineReducers, Reducer } from "redux"
-import { DropdownList, emptyDropdownList } from "../model/DropdownLists"
+import { DropdownList, DropdownListEntry, DropdownListState, emptyDropdownLists } from "../model/DropdownLists"
 import { DropdownConstants } from "../constants/dropdownConstants"
 
-function dropdownReducer(pendingAction: DropdownConstants,
-                         fulfilledAction: DropdownConstants,
-                         failedAction: DropdownConstants,
-                         emptyState: () => DropdownList): Reducer<DropdownList> {
-    return (state = emptyState(), action) => {
+function dropdownListReducer<Entry extends DropdownListEntry>(fulfilledAction: DropdownConstants,
+                                                              failedAction: DropdownConstants,
+                                                              emptyState: Entry[]): Reducer<Entry[]> {
+    return (state = emptyState, action) => {
+        switch (action.type) {
+            case fulfilledAction:
+                return action.payload
+            case failedAction:
+                return []
+            default:
+                return state
+        }
+    }
+}
+
+function dropdownStateReducer(pendingAction: DropdownConstants,
+                              fulfilledAction: DropdownConstants,
+                              failedAction: DropdownConstants,
+                              emptyState: DropdownListState): Reducer<DropdownListState> {
+    return (state = emptyState, action) => {
         switch (action.type) {
             case pendingAction:
                 return {
-                    ...state,
-                    state: {
-                        ...state.state,
-                        fetchingList: true,
-                        fetchListError: undefined,
-                    },
+                    fetchingList: true,
+                    fetchedList: false,
+                    fetchListError: undefined,
                 }
             case fulfilledAction:
                 return {
-                    ...state,
-                    list: action.payload,
-                    state: {
-                        ...state.state,
-                        fetchingList: false,
-                        fetchedList: true,
-                    },
+                    fetchingList: false,
+                    fetchedList: true,
+                    fetchListError: undefined,
                 }
             case failedAction:
                 return {
-                    ...state,
-                    list: [],
-                    state: {
-                        ...state.state,
-                        fetchingList: false,
-                        fetchedList: true,
-                        fetchListError: action.payload,
-                    },
+                    fetchingList: false,
+                    fetchedList: false,
+                    fetchListError: action.payload,
                 }
             default:
                 return state
@@ -59,83 +62,102 @@ function dropdownReducer(pendingAction: DropdownConstants,
     }
 }
 
+function dropdownReducer<Entry extends DropdownListEntry>(pendingAction: DropdownConstants,
+                                                          fulfilledAction: DropdownConstants,
+                                                          failedAction: DropdownConstants,
+                                                          emptyState: DropdownList<Entry>): Reducer<DropdownList<Entry>> {
+    return combineReducers({
+        list: dropdownListReducer(
+            fulfilledAction,
+            failedAction,
+            emptyState.list,
+        ),
+        state: dropdownStateReducer(
+            pendingAction,
+            fulfilledAction,
+            failedAction,
+            emptyState.state,
+        ),
+    })
+}
+
 export const allDropdownReducers = combineReducers({
     languages: dropdownReducer(
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_LANGUAGES_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.languages,
     ),
     contributorRoles: dropdownReducer(
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_PENDING,
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_CONTRIBUTOR_ROLE_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.contributorRoles,
     ),
     audiences: dropdownReducer(
         DropdownConstants.FETCH_AUDIENCE_DROPDOWN_PENDING,
         DropdownConstants.FETCH_AUDIENCE_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_AUDIENCE_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.audiences,
     ),
     identifiers: dropdownReducer(
         DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_PENDING,
         DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.identifiers,
     ),
     relations: dropdownReducer(
         DropdownConstants.FETCH_RELATION_DROPDOWN_PENDING,
         DropdownConstants.FETCH_RELATION_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_RELATION_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.relations,
     ),
     dates: dropdownReducer(
         DropdownConstants.FETCH_DATES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_DATES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_DATES_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.dates,
     ),
     licenses: dropdownReducer(
         DropdownConstants.FETCH_LICENSES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_LICENSES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_LICENSES_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.licenses,
     ),
     dcmiTypes: dropdownReducer(
         DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_DCMI_TYPES_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.dcmiTypes,
     ),
     imtFormats: dropdownReducer(
         DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_PENDING,
         DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_IMT_FORMATS_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.imtFormats,
     ),
     abrComplexSubjects: dropdownReducer(
         DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_PENDING,
         DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_ABR_COMPLEX_SUBJECTS_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.abrComplexSubjects,
     ),
     abrPeriodeTemporals: dropdownReducer(
         DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_PENDING,
         DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_ABR_PERIODE_TEMPORALS_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.abrPeriodeTemporals,
     ),
     spatialCoordinates: dropdownReducer(
         DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_PENDING,
         DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_SPATIAL_COORDINATES_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.spatialCoordinates,
     ),
     spatialCoveragesIso: dropdownReducer(
         DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_PENDING,
         DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_SUCCESS,
         DropdownConstants.FETCH_SPATIAL_COVERAGES_ISO_DROPDOWN_REJECTED,
-        emptyDropdownList,
+        emptyDropdownLists.spatialCoveragesIso,
     ),
 })
