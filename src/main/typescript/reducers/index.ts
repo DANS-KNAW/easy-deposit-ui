@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { AnyAction, combineReducers } from "redux"
-import { depositOverviewReducer } from "./depositOverviewReducer"
+import depositOverviewReducer from "./depositOverviewReducer"
 import { fileOverviewReducer } from "./fileOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
