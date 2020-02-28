@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { shallowEqual } from "react-redux"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import RadioChoices, { RadioChoice } from "../../../lib/formComponents/RadioChoices"
@@ -54,7 +55,7 @@ const UploadTypeForm = () => (
                                      helpText="types"
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ types: useSelector(state => state.dropDowns.dcmiTypes) }}
+                                     dropdowns={{ types: useSelector(state => state.dropDowns.dcmiTypes, shallowEqual) }}
                                      component={DcmiTypesFieldArray}/>
 
         <RepeatableField name="types"
@@ -69,7 +70,7 @@ const UploadTypeForm = () => (
                                      helpText="formats"
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ formats: useSelector(state => state.dropDowns.imtFormats) }}
+                                     dropdowns={{ formats: useSelector(state => state.dropDowns.imtFormats, shallowEqual) }}
                                      component={ImtFormatsFieldArray}/>
 
         <RepeatableField name="formats"

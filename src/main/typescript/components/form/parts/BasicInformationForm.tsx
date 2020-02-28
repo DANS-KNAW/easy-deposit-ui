@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { shallowEqual } from "react-redux"
 import { Field } from "redux-form"
 import DoiField from "./basicInformation/DoiField"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
@@ -21,12 +22,7 @@ import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
 import { Doi, emptyAlternativeIdentifier } from "../../../lib/metadata/Identifier"
-import {
-    emptyQualifiedSchemedValue,
-    emptySchemedValue,
-    QualifiedSchemedValue,
-    SchemedValue,
-} from "../../../lib/metadata/Value"
+import { QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
 import { emptyRelatedIdentifier, emptyRelation, Relation } from "../../../lib/metadata/Relation"
@@ -69,7 +65,12 @@ interface BasicInformationFormProps {
 }
 
 const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
-    const {languages, contributorRoles, audiences, identifiers, relations, dates} = useSelector(state => state.dropDowns)
+    const languages = useSelector(state => state.dropDowns.languages, shallowEqual)
+    const contributorRoles = useSelector(state => state.dropDowns.contributorRoles, shallowEqual)
+    const audiences = useSelector(state => state.dropDowns.audiences, shallowEqual)
+    const identifiers = useSelector(state => state.dropDowns.identifiers, shallowEqual)
+    const relations = useSelector(state => state.dropDowns.relations, shallowEqual)
+    const dates = useSelector(state => state.dropDowns.dates, shallowEqual)
 
     return (
         <>

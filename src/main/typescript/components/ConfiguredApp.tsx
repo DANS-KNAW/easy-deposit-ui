@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { FC } from "react"
-import { getConfigurationFetchState } from "../selectors/configuration"
+import { FC, useEffect } from "react"
 import { useSelector } from "../lib/redux"
-import { useDispatch } from "react-redux"
-import { useEffect } from "react"
+import { shallowEqual, useDispatch } from "react-redux"
 import { fetchConfiguration } from "../actions/configurationActions"
 import { ReloadAlert } from "./Errors"
 import Loading from "./Loading"
 
 const ConfiguredApp: FC = ({ children }) => {
-    const { fetching, fetched, fetchError } = useSelector(state => state.configuration.fetchState)
+    const { fetching, fetched, fetchError } = useSelector(state => state.configuration.fetchState, shallowEqual)
     const dispatch = useDispatch()
 
     useEffect(() => {

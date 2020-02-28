@@ -17,7 +17,7 @@ import * as React from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import { DepositId, DepositStateLabel } from "../../../../../model/Deposits"
 import { DepositState } from "../../../../../model/DepositState"
 import { useSelector } from "../../../../../lib/redux"
@@ -32,7 +32,7 @@ interface FilesOverviewProps {
 }
 
 const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
-    const files = useSelector(state => state.files)
+    const files = useSelector(state => state.files, shallowEqual)
     const dispatch = useDispatch()
 
     function doDeleteFile(depositId: DepositId, filepath: string) {
