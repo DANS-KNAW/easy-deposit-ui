@@ -28,7 +28,7 @@ export interface SaveDraftState {
     saveError?: string
 }
 
-const emptySaveDraftState = {
+export const emptySaveDraftState = {
     saving: false,
     saved: false,
     saveError: undefined,
@@ -40,14 +40,22 @@ export interface SubmitState {
     submitError?: string
 }
 
-const emptySubmitState = {
+export const emptySubmitState = {
     submitting: false,
     submitted: false,
     submitError: undefined,
 }
 
+export type FetchDepositState = FetchState & { stateNotFound: boolean }
+export const emptyFetchDepositState = { ...emptyFetchState, stateNotFound: false }
+
+export const emptyInitialState = {
+    metadata: {},
+    depositState: undefined,
+}
+
 export interface DepositFormState {
-    fetchDepositState: FetchState & { stateNotFound: boolean }
+    fetchDepositState: FetchDepositState
     fetchMetadata: FetchState
     initialState: InitialState
     fetchDoi: FetchState
@@ -56,12 +64,9 @@ export interface DepositFormState {
 }
 
 export const empty: DepositFormState = {
-    fetchDepositState: { ...emptyFetchState, stateNotFound: false },
+    fetchDepositState: emptyFetchDepositState,
     fetchMetadata: emptyFetchState,
-    initialState: {
-        metadata: {},
-        depositState: undefined,
-    },
+    initialState: emptyInitialState,
     fetchDoi: emptyFetchState,
     saveDraft: emptySaveDraftState,
     submit: emptySubmitState,

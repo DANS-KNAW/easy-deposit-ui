@@ -18,7 +18,7 @@ import { describe, it } from "mocha"
 import { DepositFormState, empty } from "../../../main/typescript/model/DepositForm"
 import { AnyAction } from "redux"
 import { DepositFormConstants } from "../../../main/typescript/constants/depositFormConstants"
-import { depositFormReducer } from "../../../main/typescript/reducers/depositFormReducer"
+import depositFormReducer from "../../../main/typescript/reducers/depositFormReducer"
 import { DepositStateLabel } from "../../../main/typescript/model/Deposits"
 import { depositStateNotFound, unregisterForm } from "../../../main/typescript/actions/depositFormActions"
 
