@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { unregisterForm } from "../../actions/depositFormActions"
-import { cleanFiles } from "../../actions/fileOverviewActions"
 import { DepositId } from "../../model/Deposits"
 import { useParams } from "react-router"
 import DepositResourceLoader from "./DepositResourceLoader"
@@ -30,13 +26,6 @@ interface RouterParams {
 
 const DepositFormPage = () => {
     const { depositId } = useParams<RouterParams>()
-    const dispatch = useDispatch()
-    useEffect(() => {
-        return function cleanup() {
-            dispatch(unregisterForm())
-            dispatch(cleanFiles())
-        }
-    }, [])
 
     return (
         <>

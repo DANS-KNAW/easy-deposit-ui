@@ -27,7 +27,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { DepositFormMetadata } from "./parts"
 import { DepositId, DepositStateLabel } from "../../model/Deposits"
 import { useSelector } from "../../lib/redux"
-import { fetchMetadata, saveDraft, submitDeposit } from "../../actions/depositFormActions"
+import { fetchMetadata, saveDraft, submitDeposit, unregisterForm } from "../../actions/depositFormActions"
 import { AppState } from "../../model/AppState"
 import { DepositState } from "../../model/DepositState"
 import { Alert } from "../Errors"
@@ -43,7 +43,7 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FilesOverview from "./parts/fileUpload/overview/FilesOverview"
 import FileUploader from "./parts/fileUpload/upload/FileUploader"
 import { depositFormName } from "../../constants/depositFormConstants"
-import { fetchFiles } from "../../actions/fileOverviewActions"
+import { cleanFiles, fetchFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
 import { isFileUploading } from "../../selectors/fileUploadSelectors"
@@ -110,6 +110,8 @@ const DepositForm = (props: DepositFormProps) => {
 
         return function cleanup() {
             window.onbeforeunload = null
+            dispatch(unregisterForm())
+            dispatch(cleanFiles())
         }
     }, [])
 
