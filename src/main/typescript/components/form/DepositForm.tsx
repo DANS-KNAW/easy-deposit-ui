@@ -17,7 +17,7 @@ import * as React from "react"
 import { FC, useEffect } from "react"
 import { compose } from "redux"
 import { connect, shallowEqual, useDispatch } from "react-redux"
-import { InjectedFormProps, reduxForm } from "redux-form"
+import {Field, InjectedFormProps, reduxForm } from "redux-form"
 import { Prompt, useHistory } from "react-router-dom"
 import Card from "./FoldableCard"
 import "../../../resources/css/depositForm.css"
@@ -78,7 +78,7 @@ const leaveMessage = "You did not save your work before leaving this page.\nAre 
 const DepositForm = (props: DepositFormProps) => {
     const history = useHistory()
     const formState = useSelector(state => state.depositForm, shallowEqual)
-    const fetchedFilesError = useSelector(state => state.files.loading.loadingError)
+    const fetchedFilesState = useSelector(state => state.files.loading, shallowEqual)
     const fileUploadInProgress = useSelector(isFileUploading)
     const formValues = useSelector(state => state.form.depositForm?.values, shallowEqual)
     const dispatch = useDispatch()
@@ -124,6 +124,7 @@ const DepositForm = (props: DepositFormProps) => {
     })
 
     const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = formState.fetchMetadata
+    const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = fetchedFilesState
     const { saving, saved, saveError } = formState.saveDraft
     const { submitting, submitError } = formState.submit
 
@@ -145,8 +146,13 @@ const DepositForm = (props: DepositFormProps) => {
               */}
             <form noValidate>
                 <Card title="Upload your data" defaultOpened>
-                    <FilesOverview depositId={props.depositId} depositState={props.depositState}/>
-                    <FileUploader depositId={props.depositId} depositState={props.depositState}/>
+                    <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
+                        <Field name="files"
+                               depositId={props.depositId}
+                               depositState={props.depositState}
+                               component={FilesOverview}/>
+                        <FileUploader depositId={props.depositId} depositState={props.depositState}/>
+                    </Loaded>
                 </Card>
 
                 <Card title="Personal data" required defaultOpened>

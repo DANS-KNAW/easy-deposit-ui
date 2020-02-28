@@ -52,11 +52,9 @@ export const emptyDelete: DeleteState = ({
 export interface FileOverviewState {
     loading: LoadingState
     deleting: DeletingStates
-    files: Files
 }
 
 export const empty: FileOverviewState = {
     loading: emptyLoadingState,
     deleting: emptyDeleteStates,
-    files: emptyFiles,
 }

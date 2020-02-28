@@ -19,9 +19,7 @@ import {
     DeletingStates,
     emptyDelete,
     emptyDeleteStates,
-    emptyFiles,
     emptyLoadingState,
-    Files,
     LoadingState,
 } from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
@@ -103,19 +101,7 @@ const deletingReducer: Reducer<DeletingStates> = (state = emptyDeleteStates, act
     }
 }
 
-const filesReducer: Reducer<Files> = (state = emptyFiles, action) => {
-    switch (action.type) {
-        case FileOverviewConstants.FETCH_FILES_SUCCESS:
-            return action.payload
-        case FileOverviewConstants.CLEAN_FILES:
-            return emptyFiles
-        default:
-            return state
-    }
-}
-
 export default combineReducers({
     loading: loadingReducer,
     deleting: deletingReducer,
-    files: filesReducer,
 })
