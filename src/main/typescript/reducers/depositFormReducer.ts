@@ -56,6 +56,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                     ...state.fetchDepositState,
                     fetching: false,
                     fetched: true,
+                    fetchError: undefined,
                 },
             }
         }
@@ -67,7 +68,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
                     fetching: false,
                     fetched: false,
                     stateNotFound: true,
-                }
+                },
             }
         }
         case DepositFormConstants.FETCH_METADATA_PENDING: {
@@ -83,19 +84,19 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             return {
                 ...state,
                 initialState: { ...state.initialState, metadata: action.payload },
-                fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: true },
+                fetchMetadata: { ...state.fetchMetadata, fetching: false, fetched: true, fetchError: undefined },
             }
         }
         case DepositFormConstants.FETCH_DOI_PENDING: {
-            return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: true, fetchDoiError: undefined } }
+            return { ...state, fetchDoi: { ...state.fetchDoi, fetching: true, fetchError: undefined } }
         }
         case DepositFormConstants.FETCH_DOI_SUCCESS: {
-            return { ...state, fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: true } }
+            return { ...state, fetchDoi: { ...state.fetchDoi, fetching: false, fetched: true, fetchError: undefined } }
         }
         case DepositFormConstants.FETCH_DOI_REJECTED: {
             return {
                 ...state,
-                fetchDoi: { ...state.fetchDoi, fetchingDoi: false, fetchedDoi: false, fetchDoiError: action.payload },
+                fetchDoi: { ...state.fetchDoi, fetching: false, fetched: false, fetchError: action.payload },
             }
         }
         case DepositFormConstants.SAVE_DRAFT_PENDING: {
@@ -106,7 +107,7 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             }
         }
         case DepositFormConstants.SAVE_DRAFT_FULFILLED: {
-            return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true } }
+            return { ...state, saveDraft: { ...state.saveDraft, saving: false, saved: true, saveError: undefined } }
         }
         case DepositFormConstants.SAVE_DRAFT_REJECTED: {
             return {
@@ -125,12 +126,12 @@ export const depositFormReducer: Reducer<DepositFormState> = (state = empty, act
             }
         }
         case DepositFormConstants.SUBMIT_DEPOSIT_FULFILLED: {
-            return { ...state, submit: { ...state.submit, submitting: false, submitted: true } }
+            return { ...state, submit: { ...state.submit, submitting: false, submitted: true, submitError: undefined } }
         }
         case DepositFormConstants.SUBMIT_DEPOSIT_REJECTED: {
             return {
                 ...state,
-                submit: { ...state.submit, submitting: false, submitted: true, submitError: action.payload },
+                submit: { ...state.submit, submitting: false, submitted: false, submitError: action.payload },
             }
         }
         default:

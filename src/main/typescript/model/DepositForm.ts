@@ -28,10 +28,22 @@ export interface SaveDraftState {
     saveError?: string
 }
 
+const emptySaveDraftState = {
+    saving: false,
+    saved: false,
+    saveError: undefined,
+}
+
 export interface SubmitState {
     submitting: boolean
     submitted: boolean
     submitError?: string
+}
+
+const emptySubmitState = {
+    submitting: false,
+    submitted: false,
+    submitError: undefined,
 }
 
 export interface DepositFormState {
@@ -51,12 +63,6 @@ export const empty: DepositFormState = {
         depositState: undefined,
     },
     fetchDoi: emptyFetchState,
-    saveDraft: {
-        saving: false,
-        saved: false,
-    },
-    submit: {
-        submitting: false,
-        submitted: false,
-    },
+    saveDraft: emptySaveDraftState,
+    submit: emptySubmitState,
 }

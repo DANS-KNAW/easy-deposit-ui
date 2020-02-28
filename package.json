@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --open --config webpack/dev.config.js",
     "build": "webpack --mode production --config webpack/prod.config.js",
-    "test": "mocha -r ts-node/register src/test/typescript/**/*.spec.ts",
+    "test": "mocha -r ts-node/register src/test/**/*.spec.ts",
     "mockserver": "webpack --mode development --config webpack/mockserver.config.js && node target/build-mockserver/server.js"
   },
   "repository": {
