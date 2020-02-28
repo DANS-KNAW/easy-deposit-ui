@@ -19,9 +19,8 @@ import { FileUploadConstants } from "../constants/fileUploadConstants"
 
 export const fileUploadReducer: Reducer<FileUploadState> = (state = empty, action) => {
     switch (action.type) {
-        case FileUploadConstants.FILE_UPLOAD_IN_PROGRESS: {
+        case FileUploadConstants.FILE_UPLOAD_IN_PROGRESS:
             return { ...state, uploadInProgress: action.payload.isUploading }
-        }
         default:
             return state
     }
