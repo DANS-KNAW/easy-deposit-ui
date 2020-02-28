@@ -13,78 +13,109 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Reducer } from "redux"
+import { combineReducers, Reducer } from "redux"
 import {
     DeleteState,
     DeletingStates,
-    empty,
     emptyDelete,
     emptyDeleteStates,
-    FileOverviewState,
+    emptyFiles,
+    emptyLoadingState,
+    Files,
+    LoadingState,
 } from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
-export const fileOverviewReducer: Reducer<FileOverviewState> = (state = empty, action) => {
+const loadingReducer: Reducer<LoadingState> = (state = emptyLoadingState, action) => {
     switch (action.type) {
-        case FileOverviewConstants.FETCH_FILES_PENDING: {
-            return { ...state, loading: { ...state.loading, loading: true, loadingError: undefined } }
-        }
-        case FileOverviewConstants.FETCH_FILES_REJECTED: {
-            return { ...state, loading: { ...state.loading, loading: false, loadingError: action.payload } }
-        }
-        case FileOverviewConstants.FETCH_FILES_SUCCESS: {
-            return { ...state, loading: { loading: false, loaded: true }, files: action.payload }
-        }
-        case FileOverviewConstants.CLEAN_FILES: {
-            return empty
-        }
-        case FileOverviewConstants.DELETE_FILE_PENDING : {
-            const { meta: { filePath } } = action
-
-            const deleteState: DeleteState = state.deleting[filePath]
-            const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: true }
-                : { ...emptyDelete, deleting: true }
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState } }
-        }
-        case FileOverviewConstants.DELETE_FILE_REJECTED: {
-            const { meta: { filePath }, payload: errorMessage } = action
-
-            const deleteState: DeleteState = state.deleting[filePath]
-            const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: false, deleteError: errorMessage }
-                : { ...emptyDelete, deleteError: errorMessage }
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState } }
-        }
-        case FileOverviewConstants.DELETE_FILE_FULFILLED: {
-            const { meta: { filePath } } = action
-
-            const newDeleteState: DeletingStates = Object.entries(state.deleting)
-                .filter(([key]) => key !== filePath)
-                .reduce((object, [key, value]) => ({ ...object, [key]: value }), emptyDeleteStates)
-
-            return { ...state, deleting: newDeleteState }
-        }
-        case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
-            const { meta: { filePath } } = action
-
-            const deleteState: DeleteState = state.deleting[filePath]
-            const newDeleteState: DeleteState = deleteState
-                ? { ...deleteState, deleting: true }
-                : { ...emptyDelete, deleting: true }
-
-            return { ...state, deleting: { ...state.deleting, [filePath]: newDeleteState } }
-        }
-        case FileOverviewConstants.DELETE_FILE_CANCELLED: {
-            const { meta: { filePath } } = action
-
-            const newDeleteState = Object.entries(state.deleting)
-                .filter(([path]) => path !== filePath)
-                .reduce((prev, [path, s]) => ({ ...prev, [path]: s }), emptyDeleteStates)
-
-            return { ...state, deleting: newDeleteState }
-        }
+        case FileOverviewConstants.FETCH_FILES_PENDING:
+            return {
+                loading: true,
+                loaded: false,
+                loadingError: undefined,
+            }
+        case FileOverviewConstants.FETCH_FILES_REJECTED:
+            return {
+                loading: false,
+                loaded: false,
+                loadingError: action.payload,
+            }
+        case FileOverviewConstants.FETCH_FILES_SUCCESS:
+            return {
+                loading: false,
+                loaded: true,
+                loadingError: undefined,
+            }
+        case FileOverviewConstants.CLEAN_FILES:
+            return emptyLoadingState
         default:
             return state
     }
 }
+
+const deletingReducer: Reducer<DeletingStates> = (state = emptyDeleteStates, action) => {
+    switch (action.type) {
+        case FileOverviewConstants.DELETE_FILE_PENDING: {
+            const { meta: { filePath } } = action
+
+            const deleteState: DeleteState = state[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: true }
+                : { ...emptyDelete, deleting: true }
+            return { ...state, [filePath]: newDeleteState }
+        }
+        case FileOverviewConstants.DELETE_FILE_REJECTED: {
+            const { meta: { filePath }, payload: errorMessage } = action
+
+            const deleteState: DeleteState = state[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: false, deleteError: errorMessage }
+                : { ...emptyDelete, deleteError: errorMessage }
+            return { ...state, [filePath]: newDeleteState }
+        }
+        case FileOverviewConstants.DELETE_FILE_FULFILLED: {
+            const { meta: { filePath } } = action
+
+            return Object.entries(state)
+                .filter(([path]) => path !== filePath)
+                .reduce((prev, [path, ds]) => ({ ...prev, [path]: ds }), emptyDeleteStates)
+        }
+        case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
+            const { meta: { filePath } } = action
+
+            const deleteState: DeleteState = state[filePath]
+            const newDeleteState: DeleteState = deleteState
+                ? { ...deleteState, deleting: true }
+                : { ...emptyDelete, deleting: true }
+            return { ...state, [filePath]: newDeleteState }
+        }
+        case FileOverviewConstants.DELETE_FILE_CANCELLED: {
+            const { meta: { filePath } } = action
+
+            return Object.entries(state)
+                .filter(([path]) => path !== filePath)
+                .reduce((prev, [path, ds]) => ({ ...prev, [path]: ds }), emptyDeleteStates)
+        }
+        case FileOverviewConstants.CLEAN_FILES:
+            return emptyDeleteStates
+        default:
+            return state
+    }
+}
+
+const filesReducer: Reducer<Files> = (state = emptyFiles, action) => {
+    switch (action.type) {
+        case FileOverviewConstants.FETCH_FILES_SUCCESS:
+            return action.payload
+        case FileOverviewConstants.CLEAN_FILES:
+            return emptyFiles
+        default:
+            return state
+    }
+}
+
+export default combineReducers({
+    loading: loadingReducer,
+    deleting: deletingReducer,
+    files: filesReducer,
+})

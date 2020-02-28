@@ -22,47 +22,41 @@ export interface FileInfo {
     sha1sum: string
 }
 
+export const emptyFiles: Files = {}
+
 export interface LoadingState {
     loading: boolean
     loaded: boolean
     loadingError?: string
 }
 
-export interface DeleteState {
-    deleting: boolean
-    deleted: boolean
-    deleteError?: string
+export const emptyLoadingState: LoadingState = {
+    loading: false,
+    loaded: false,
+    loadingError: undefined,
 }
 
 export type DeletingStates = { [filePath: string]: DeleteState }
 
-export const emptyDelete: DeleteState = ({
-    deleting: false,
-    deleted: false,
-})
+export interface DeleteState {
+    deleting: boolean
+    deleteError?: string
+}
 
 export const emptyDeleteStates: DeletingStates = {}
 
-export interface NewFileState {
-    creating: boolean
-    createError?: string
-}
+export const emptyDelete: DeleteState = ({
+    deleting: false,
+})
 
 export interface FileOverviewState {
     loading: LoadingState
     deleting: DeletingStates
-    creatingNew: NewFileState
     files: Files
 }
 
 export const empty: FileOverviewState = {
-    loading: {
-        loading: false,
-        loaded: false,
-    },
-    deleting: {},
-    creatingNew: {
-        creating: false,
-    },
-    files: {},
+    loading: emptyLoadingState,
+    deleting: emptyDeleteStates,
+    files: emptyFiles,
 }

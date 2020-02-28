@@ -15,7 +15,7 @@
  */
 import { AnyAction, combineReducers } from "redux"
 import depositOverviewReducer from "./depositOverviewReducer"
-import { fileOverviewReducer } from "./fileOverviewReducer"
+import fileOverviewReducer from "./fileOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
 import { set } from "object-path-immutable"
