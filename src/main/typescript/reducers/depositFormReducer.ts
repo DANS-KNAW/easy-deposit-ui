@@ -122,7 +122,7 @@ const fetchFilesReducer: Reducer<FetchState> = (state = emptyFetchState, action)
                 fetched: true,
                 fetchError: undefined,
             }
-        case FileOverviewConstants.CLEAN_FILES:
+        case DepositFormConstants.UNREGISTER_FORM:
             return emptyFetchState
         default:
             return state
@@ -293,7 +293,7 @@ const deleteFilesReducer: Reducer<FilesDeletingState> = (state = emptyFilesDelet
                 .filter(([path]) => path !== filePath)
                 .reduce((prev, [path, ds]) => ({ ...prev, [path]: ds }), emptyFilesDeletingState)
         }
-        case FileOverviewConstants.CLEAN_FILES:
+        case DepositFormConstants.UNREGISTER_FORM:
             return emptyFilesDeletingState
         default:
             return state

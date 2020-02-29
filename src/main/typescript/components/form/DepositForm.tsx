@@ -43,7 +43,6 @@ import BasicInformationForm from "./parts/BasicInformationForm"
 import FilesOverview from "./parts/fileUpload/overview/FilesOverview"
 import FileUploader from "./parts/fileUpload/upload/FileUploader"
 import { depositFormName } from "../../constants/depositFormConstants"
-import { cleanFiles } from "../../actions/fileOverviewActions"
 import { formValidate } from "./Validation"
 import { inDevelopmentMode } from "../../lib/config"
 import { isFileUploading } from "../../selectors/fileUploadSelectors"
@@ -109,7 +108,6 @@ const DepositForm = (props: DepositFormProps) => {
         return function cleanup() {
             window.onbeforeunload = null
             dispatch(unregisterForm())
-            dispatch(cleanFiles())
         }
     }, [])
 

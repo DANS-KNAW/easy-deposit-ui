@@ -59,7 +59,3 @@ export const askConfirmationToDeleteFile: (filePath: string) => Action = (filePa
     type: FileOverviewConstants.DELETE_FILE_CONFIRMATION,
     meta: { filePath: filePath },
 })
-
-export const cleanFiles: () => Action = () => ({
-    type: FileOverviewConstants.CLEAN_FILES,
-})
