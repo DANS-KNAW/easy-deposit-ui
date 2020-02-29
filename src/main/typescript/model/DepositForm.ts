@@ -75,7 +75,7 @@ export interface DepositFormState {
     fetchDoi: FetchState
     saveDraft: SaveDraftState
     submit: SubmitState
-    deleteFiles: FilesDeletingState
+    deletingFiles: FilesDeletingState
 }
 
 export const empty: DepositFormState = {
@@ -86,5 +86,5 @@ export const empty: DepositFormState = {
     fetchDoi: emptyFetchState,
     saveDraft: emptySaveDraftState,
     submit: emptySubmitState,
-    deleteFiles: emptyFilesDeletingState,
+    deletingFiles: emptyFilesDeletingState,
 }
