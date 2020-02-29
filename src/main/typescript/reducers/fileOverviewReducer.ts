@@ -38,6 +38,12 @@ const loadingReducer: Reducer<LoadingState> = (state = emptyLoadingState, action
                 loaded: false,
                 loadingError: action.payload,
             }
+        case FileOverviewConstants.FETCH_FILES_FULFILLED:
+            return {
+                loading: false,
+                loaded: true,
+                loadingError: undefined,
+            }
         case FileOverviewConstants.FETCH_FILES_SUCCESS:
             return {
                 loading: false,

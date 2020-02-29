@@ -17,16 +17,19 @@ import * as H from "history"
 import { DepositFormMetadata } from "../components/form/parts"
 import { ComplexThunkAction, FetchAction, PromiseAction, ReduxAction, ThunkAction } from "../lib/redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
+import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 import { DepositId } from "../model/Deposits"
 import { Action } from "redux"
 import { AppState } from "../model/AppState"
 import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
 import { Doi } from "../lib/metadata/Identifier"
+import { filesConverter } from "../lib/files/files"
 import fetch from "../lib/fetch"
 import {
     fetchDepositStateUrl,
     fetchDoiUrl,
     fetchMetadataUrl,
+    listFilesUrl,
     saveDraftUrl,
     submitDepositUrl,
 } from "../selectors/serverRoutes"
@@ -63,6 +66,48 @@ export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<De
         transform: (input: any, getState: () => AppState) => metadataConverter(input, getState().dropDowns),
     },
 })
+
+export const fetchMetadataAndFiles: (depositId: DepositId) => ComplexThunkAction = depositId => async (dispatch, getState) => {
+    const filePromise = fetch.get(listFilesUrl(depositId)(getState()))
+    const metadataPromise = fetch.get(fetchMetadataUrl(depositId)(getState()))
+
+    dispatch({
+        type: FileOverviewConstants.FETCH_FILES_PENDING,
+    })
+    dispatch({
+        type: DepositFormConstants.FETCH_METADATA_PENDING,
+    })
+
+    try {
+        const metadataResponse = await metadataPromise
+        try {
+            const fileResponse = await filePromise
+
+            dispatch({
+                type: FileOverviewConstants.FETCH_FILES_FULFILLED,
+            })
+            dispatch({
+                type: DepositFormConstants.FETCH_METADATA_SUCCESS,
+                payload: {
+                    ...(metadataConverter(metadataResponse.data, getState().dropDowns)),
+                    files: filesConverter(fileResponse.data),
+                }
+            })
+        }
+        catch (fileError) {
+            dispatch({
+                type: FileOverviewConstants.FETCH_FILES_REJECTED,
+                payload: fileError
+            })
+        }
+    }
+    catch (metadataError) {
+        dispatch({
+            type: DepositFormConstants.FETCH_METADATA_REJECTED,
+            payload: metadataError,
+        })
+    }
+}
 
 export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_DOI,
