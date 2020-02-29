@@ -76,7 +76,10 @@ const leaveMessage = "You did not save your work before leaving this page.\nAre 
 
 const DepositForm = (props: DepositFormProps) => {
     const history = useHistory()
-    const formState = useSelector(state => state.depositForm, shallowEqual)
+    const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = useSelector(state => state.depositForm.fetchMetadata, shallowEqual)
+    const fetchedFilesError = useSelector(state => state.depositForm.fetchFiles.fetchError)
+    const { saving, saved, saveError } = useSelector(state => state.depositForm.saveDraft, shallowEqual)
+    const { submitting, submitError } = useSelector(state => state.depositForm.submit, shallowEqual)
     const fileUploadInProgress = useSelector(isFileUploading)
     const formValues = useSelector(state => state.form.depositForm?.values, shallowEqual)
     const dispatch = useDispatch()
@@ -119,11 +122,6 @@ const DepositForm = (props: DepositFormProps) => {
             window.onbeforeunload = null
     })
 
-    const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = formState.fetchMetadata
-    const { fetching: fetchingFiles, fetched: fetchedFiles, fetchError: fetchedFilesError } = formState.fetchFiles
-    const { saving, saved, saveError } = formState.saveDraft
-    const { submitting, submitError } = formState.submit
-
     const buttonDisabled = fetchedMetadataError != undefined || fetchingMetadata || saving || submitting || fileUploadInProgress
 
     return (
@@ -142,13 +140,11 @@ const DepositForm = (props: DepositFormProps) => {
               */}
             <form noValidate>
                 <Card title="Upload your data" defaultOpened>
-                    <Loaded loading={fetchingFiles} loaded={fetchedFiles} error={fetchedFilesError}>
-                        <Field name="files"
-                               depositId={props.depositId}
-                               depositState={props.depositState}
-                               component={FilesOverview}/>
-                        <FileUploader depositId={props.depositId} depositState={props.depositState}/>
-                    </Loaded>
+                    <Field name="files"
+                           depositId={props.depositId}
+                           depositState={props.depositState}
+                           component={FilesOverview}/>
+                    <FileUploader depositId={props.depositId} depositState={props.depositState}/>
                 </Card>
 
                 <Card title="Personal data" required defaultOpened>
