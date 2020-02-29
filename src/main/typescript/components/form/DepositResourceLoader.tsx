@@ -64,6 +64,8 @@ const DepositResourceLoader: FC<DepositResourceLoaderProps> = ({ depositId, rend
             </ReloadAlert>
         )
     }
+    // if the depositState is fetched and present
+    // or the depositState is being fetched right now, but is also already present (rerender)
     else if ((isFetched || isFetched) && depositState)
         return <>{renderForm(depositState)}</>
     else
