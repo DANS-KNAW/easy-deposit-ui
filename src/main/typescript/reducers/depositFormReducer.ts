@@ -26,6 +26,7 @@ import {
 import { combineReducers, Reducer } from "redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import FetchState, { empty as emptyFetchState } from "../model/FetchState"
+import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
 const fetchDepositStateReducer: Reducer<FetchDepositState> = (state = emptyFetchDepositState, action) => {
     switch (action.type) {
@@ -88,6 +89,39 @@ const fetchMetadataReducer: Reducer<FetchState> = (state = emptyFetchState, acti
                 fetchError: undefined,
             }
         case DepositFormConstants.UNREGISTER_FORM:
+            return emptyFetchState
+        default:
+            return state
+    }
+}
+
+const fetchFilesReducer: Reducer<FetchState> = (state = emptyFetchState, action) => {
+    switch (action.type) {
+        case FileOverviewConstants.FETCH_FILES_PENDING:
+            return {
+                fetching: true,
+                fetched: false,
+                fetchError: undefined,
+            }
+        case FileOverviewConstants.FETCH_FILES_REJECTED:
+            return {
+                fetching: false,
+                fetched: false,
+                fetchError: action.payload,
+            }
+        case FileOverviewConstants.FETCH_FILES_FULFILLED:
+            return {
+                fetching: false,
+                fetched: true,
+                fetchError: undefined,
+            }
+        case FileOverviewConstants.FETCH_FILES_SUCCESS:
+            return {
+                fetching: false,
+                fetched: true,
+                fetchError: undefined,
+            }
+        case FileOverviewConstants.CLEAN_FILES:
             return emptyFetchState
         default:
             return state
@@ -218,6 +252,7 @@ const submitReducer: Reducer<SubmitState> = (state = emptySubmitState, action) =
 export default combineReducers({
     fetchDepositState: fetchDepositStateReducer,
     fetchMetadata: fetchMetadataReducer,
+    fetchFiles: fetchFilesReducer,
     initialState: initialStateReducer,
     fetchDoi: fetchDoiReducer,
     saveDraft: saveDraftReducer,

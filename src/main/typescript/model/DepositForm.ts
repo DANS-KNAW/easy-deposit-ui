@@ -57,6 +57,7 @@ export const emptyInitialState = {
 export interface DepositFormState {
     fetchDepositState: FetchDepositState
     fetchMetadata: FetchState
+    fetchFiles: FetchState
     initialState: InitialState
     fetchDoi: FetchState
     saveDraft: SaveDraftState
@@ -66,6 +67,7 @@ export interface DepositFormState {
 export const empty: DepositFormState = {
     fetchDepositState: emptyFetchDepositState,
     fetchMetadata: emptyFetchState,
+    fetchFiles: emptyFetchState,
     initialState: emptyInitialState,
     fetchDoi: emptyFetchState,
     saveDraft: emptySaveDraftState,

@@ -24,18 +24,6 @@ export interface FileInfo {
 
 export const emptyFiles: Files = {}
 
-export interface LoadingState {
-    loading: boolean
-    loaded: boolean
-    loadingError?: string
-}
-
-export const emptyLoadingState: LoadingState = {
-    loading: false,
-    loaded: false,
-    loadingError: undefined,
-}
-
 export type DeletingStates = { [filePath: string]: DeleteState }
 
 export interface DeleteState {
@@ -50,11 +38,9 @@ export const emptyDelete: DeleteState = ({
 })
 
 export interface FileOverviewState {
-    loading: LoadingState
     deleting: DeletingStates
 }
 
 export const empty: FileOverviewState = {
-    loading: emptyLoadingState,
     deleting: emptyDeleteStates,
 }

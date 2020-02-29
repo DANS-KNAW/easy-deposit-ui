@@ -36,7 +36,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     const [uploadingFile, setUploadingFile] = useState<File>()
     const [errorMessage, setErrorMessage] = useState<string>()
     const fileUploadUrl = useSelector(uploadFileUrl(depositId, ""))
-    const filesOverviewLoading = useSelector(state => state.files.loading.loading)
+    const filesOverviewLoading = useSelector(state => state.depositForm.fetchFiles.fetching)
     const fileIsUploading = useSelector(isFileUploading)
     const depositIsSaving = useSelector(state => state.depositForm.saveDraft.saving)
     const depositIsSubmitting = useSelector(state => state.depositForm.submit.submitting)

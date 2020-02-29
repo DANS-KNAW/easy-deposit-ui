@@ -78,7 +78,6 @@ const leaveMessage = "You did not save your work before leaving this page.\nAre 
 const DepositForm = (props: DepositFormProps) => {
     const history = useHistory()
     const formState = useSelector(state => state.depositForm, shallowEqual)
-    const fetchedFilesState = useSelector(state => state.files.loading, shallowEqual)
     const fileUploadInProgress = useSelector(isFileUploading)
     const formValues = useSelector(state => state.form.depositForm?.values, shallowEqual)
     const dispatch = useDispatch()
@@ -123,7 +122,7 @@ const DepositForm = (props: DepositFormProps) => {
     })
 
     const { fetching: fetchingMetadata, fetched: fetchedMetadata, fetchError: fetchedMetadataError } = formState.fetchMetadata
-    const { loading: fetchingFiles, loaded: fetchedFiles, loadingError: fetchedFilesError } = fetchedFilesState
+    const { fetching: fetchingFiles, fetched: fetchedFiles, fetchError: fetchedFilesError } = formState.fetchFiles
     const { saving, saved, saveError } = formState.saveDraft
     const { submitting, submitError } = formState.submit
 

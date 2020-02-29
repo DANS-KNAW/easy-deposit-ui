@@ -14,48 +14,8 @@
  * limitations under the License.
  */
 import { combineReducers, Reducer } from "redux"
-import {
-    DeleteState,
-    DeletingStates,
-    emptyDelete,
-    emptyDeleteStates,
-    emptyLoadingState,
-    LoadingState,
-} from "../model/FileInfo"
+import { DeleteState, DeletingStates, emptyDelete, emptyDeleteStates } from "../model/FileInfo"
 import { FileOverviewConstants } from "../constants/fileOverviewConstants"
-
-const loadingReducer: Reducer<LoadingState> = (state = emptyLoadingState, action) => {
-    switch (action.type) {
-        case FileOverviewConstants.FETCH_FILES_PENDING:
-            return {
-                loading: true,
-                loaded: false,
-                loadingError: undefined,
-            }
-        case FileOverviewConstants.FETCH_FILES_REJECTED:
-            return {
-                loading: false,
-                loaded: false,
-                loadingError: action.payload,
-            }
-        case FileOverviewConstants.FETCH_FILES_FULFILLED:
-            return {
-                loading: false,
-                loaded: true,
-                loadingError: undefined,
-            }
-        case FileOverviewConstants.FETCH_FILES_SUCCESS:
-            return {
-                loading: false,
-                loaded: true,
-                loadingError: undefined,
-            }
-        case FileOverviewConstants.CLEAN_FILES:
-            return emptyLoadingState
-        default:
-            return state
-    }
-}
 
 const deletingReducer: Reducer<DeletingStates> = (state = emptyDeleteStates, action) => {
     switch (action.type) {
@@ -108,6 +68,5 @@ const deletingReducer: Reducer<DeletingStates> = (state = emptyDeleteStates, act
 }
 
 export default combineReducers({
-    loading: loadingReducer,
     deleting: deletingReducer,
 })
