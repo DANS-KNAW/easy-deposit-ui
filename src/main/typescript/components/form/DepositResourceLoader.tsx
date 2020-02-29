@@ -43,13 +43,17 @@ const DepositResourceLoader: FC<DepositResourceLoaderProps> = ({ depositId, rend
         dispatch(fetchAllDropdowns)
     }, [])
 
-    if (depositStateFetchState.fetching || dropdownsFetchState.fetching)
+    const isFetching = depositStateFetchState.fetching || dropdownsFetchState.fetching
+    const isFetched = depositStateFetchState.fetched && dropdownsFetchState.fetched
+    const hasFetchError = depositStateFetchState.fetchError || dropdownsFetchState.fetchError
+
+    if (isFetching && !depositState)
         return (
             <Loading/>
         )
     else if (depositStateFetchState.stateNotFound)
         return <>{renderNotFound()}</>
-    else if (depositStateFetchState.fetchError || dropdownsFetchState.fetchError) {
+    else if (hasFetchError) {
         const errorMsg = (depositStateFetchState.fetchError ? depositStateFetchState.fetchError + "\n" : "") +
             (dropdownsFetchState.fetchError || "")
         return (
@@ -60,7 +64,7 @@ const DepositResourceLoader: FC<DepositResourceLoaderProps> = ({ depositId, rend
             </ReloadAlert>
         )
     }
-    else if (depositStateFetchState.fetched && dropdownsFetchState.fetched && depositState)
+    else if ((isFetched || isFetched) && depositState)
         return <>{renderForm(depositState)}</>
     else
         return null
