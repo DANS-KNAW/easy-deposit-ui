@@ -27,7 +27,6 @@ import {
 import { combineReducers, Reducer } from "redux"
 import { DepositFormConstants } from "../constants/depositFormConstants"
 import FetchState, { empty as emptyFetchState } from "../model/FetchState"
-import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
 const fetchDepositStateReducer: Reducer<FetchDepositState> = (state = emptyFetchDepositState, action) => {
     switch (action.type) {
@@ -98,25 +97,25 @@ const fetchMetadataReducer: Reducer<FetchState> = (state = emptyFetchState, acti
 
 const fetchFilesReducer: Reducer<FetchState> = (state = emptyFetchState, action) => {
     switch (action.type) {
-        case FileOverviewConstants.FETCH_FILES_PENDING:
+        case DepositFormConstants.FETCH_FILES_PENDING:
             return {
                 fetching: true,
                 fetched: false,
                 fetchError: undefined,
             }
-        case FileOverviewConstants.FETCH_FILES_REJECTED:
+        case DepositFormConstants.FETCH_FILES_REJECTED:
             return {
                 fetching: false,
                 fetched: false,
                 fetchError: action.payload,
             }
-        case FileOverviewConstants.FETCH_FILES_FULFILLED:
+        case DepositFormConstants.FETCH_FILES_FULFILLED:
             return {
                 fetching: false,
                 fetched: true,
                 fetchError: undefined,
             }
-        case FileOverviewConstants.FETCH_FILES_SUCCESS:
+        case DepositFormConstants.FETCH_FILES_SUCCESS:
             return {
                 fetching: false,
                 fetched: true,
@@ -252,7 +251,7 @@ const submitReducer: Reducer<SubmitState> = (state = emptySubmitState, action) =
 
 const deleteFilesReducer: Reducer<FilesDeletingState> = (state = emptyFilesDeletingState, action) => {
     switch (action.type) {
-        case FileOverviewConstants.DELETE_FILE_PENDING: {
+        case DepositFormConstants.DELETE_FILE_PENDING: {
             const { meta: { filePath } } = action
 
             const deleteState: FileDeletingState = state[filePath]
@@ -261,7 +260,7 @@ const deleteFilesReducer: Reducer<FilesDeletingState> = (state = emptyFilesDelet
                 : { ...emptyFileDeletingState, deleting: true }
             return { ...state, [filePath]: newDeleteState }
         }
-        case FileOverviewConstants.DELETE_FILE_REJECTED: {
+        case DepositFormConstants.DELETE_FILE_REJECTED: {
             const { meta: { filePath }, payload: errorMessage } = action
 
             const deleteState: FileDeletingState = state[filePath]
@@ -270,14 +269,14 @@ const deleteFilesReducer: Reducer<FilesDeletingState> = (state = emptyFilesDelet
                 : { ...emptyFileDeletingState, deleteError: errorMessage }
             return { ...state, [filePath]: newDeleteState }
         }
-        case FileOverviewConstants.DELETE_FILE_FULFILLED: {
+        case DepositFormConstants.DELETE_FILE_FULFILLED: {
             const { meta: { filePath } } = action
 
             return Object.entries(state)
                 .filter(([path]) => path !== filePath)
                 .reduce((prev, [path, ds]) => ({ ...prev, [path]: ds }), emptyFilesDeletingState)
         }
-        case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
+        case DepositFormConstants.DELETE_FILE_CONFIRMATION: {
             const { meta: { filePath } } = action
 
             const deleteState: FileDeletingState = state[filePath]
@@ -286,7 +285,7 @@ const deleteFilesReducer: Reducer<FilesDeletingState> = (state = emptyFilesDelet
                 : { ...emptyFileDeletingState, deleting: true }
             return { ...state, [filePath]: newDeleteState }
         }
-        case FileOverviewConstants.DELETE_FILE_CANCELLED: {
+        case DepositFormConstants.DELETE_FILE_CANCELLED: {
             const { meta: { filePath } } = action
 
             return Object.entries(state)

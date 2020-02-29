@@ -18,14 +18,13 @@ import { ChangeEvent, useState } from "react"
 import FileLoader from "./FileLoader"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import { useDispatch, useStore } from "react-redux"
-import { fetchFiles } from "../../../../../actions/fileOverviewActions"
+import { fetchDepositState, fetchFiles, setStateToDraft } from "../../../../../actions/depositFormActions"
 import { DepositId, DepositStateLabel } from "../../../../../model/Deposits"
 import { useSelector } from "../../../../../lib/redux"
 import { Alert } from "../../../../Errors"
 import { setFileUploadInProgress } from "../../../../../actions/fileUploadActions"
 import { isFileUploading } from "../../../../../selectors/fileUploadSelectors"
 import { DepositState } from "../../../../../model/DepositState"
-import { fetchDepositState, setStateToDraft } from "../../../../../actions/depositFormActions"
 
 interface FileUploaderProps {
     depositId: DepositId
