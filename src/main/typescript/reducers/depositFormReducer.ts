@@ -308,5 +308,5 @@ export default combineReducers({
     fetchDoi: fetchDoiReducer,
     saveDraft: saveDraftReducer,
     submit: submitReducer,
-    deleteFiles: deleteFilesReducer,
+    deletingFiles: deleteFilesReducer,
 })
