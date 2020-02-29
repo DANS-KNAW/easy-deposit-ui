@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 import {
-    emptyFetchDepositState,
+    emptyFileDeletingState,
+    emptyFetchDepositState, emptyFilesDeletingState,
     emptyInitialState,
     emptySaveDraftState,
     emptySubmitState,
-    FetchDepositState,
+    FetchDepositState, FileDeletingState, FilesDeletingState,
     InitialState,
     SaveDraftState,
     SubmitState,
@@ -249,6 +250,56 @@ const submitReducer: Reducer<SubmitState> = (state = emptySubmitState, action) =
     }
 }
 
+const deleteFilesReducer: Reducer<FilesDeletingState> = (state = emptyFilesDeletingState, action) => {
+    switch (action.type) {
+        case FileOverviewConstants.DELETE_FILE_PENDING: {
+            const { meta: { filePath } } = action
+
+            const deleteState: FileDeletingState = state[filePath]
+            const newDeleteState: FileDeletingState = deleteState
+                ? { ...deleteState, deleting: true }
+                : { ...emptyFileDeletingState, deleting: true }
+            return { ...state, [filePath]: newDeleteState }
+        }
+        case FileOverviewConstants.DELETE_FILE_REJECTED: {
+            const { meta: { filePath }, payload: errorMessage } = action
+
+            const deleteState: FileDeletingState = state[filePath]
+            const newDeleteState: FileDeletingState = deleteState
+                ? { ...deleteState, deleting: false, deleteError: errorMessage }
+                : { ...emptyFileDeletingState, deleteError: errorMessage }
+            return { ...state, [filePath]: newDeleteState }
+        }
+        case FileOverviewConstants.DELETE_FILE_FULFILLED: {
+            const { meta: { filePath } } = action
+
+            return Object.entries(state)
+                .filter(([path]) => path !== filePath)
+                .reduce((prev, [path, ds]) => ({ ...prev, [path]: ds }), emptyFilesDeletingState)
+        }
+        case FileOverviewConstants.DELETE_FILE_CONFIRMATION: {
+            const { meta: { filePath } } = action
+
+            const deleteState: FileDeletingState = state[filePath]
+            const newDeleteState: FileDeletingState = deleteState
+                ? { ...deleteState, deleting: true }
+                : { ...emptyFileDeletingState, deleting: true }
+            return { ...state, [filePath]: newDeleteState }
+        }
+        case FileOverviewConstants.DELETE_FILE_CANCELLED: {
+            const { meta: { filePath } } = action
+
+            return Object.entries(state)
+                .filter(([path]) => path !== filePath)
+                .reduce((prev, [path, ds]) => ({ ...prev, [path]: ds }), emptyFilesDeletingState)
+        }
+        case FileOverviewConstants.CLEAN_FILES:
+            return emptyFilesDeletingState
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     fetchDepositState: fetchDepositStateReducer,
     fetchMetadata: fetchMetadataReducer,
@@ -257,4 +308,5 @@ export default combineReducers({
     fetchDoi: fetchDoiReducer,
     saveDraft: saveDraftReducer,
     submit: submitReducer,
+    deleteFiles: deleteFilesReducer,
 })

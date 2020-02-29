@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { DeleteState, FileInfo } from "../../../../../model/FileInfo"
+import { FileInfo } from "../../../../../model/FileInfo"
+import { FileDeletingState } from "../../../../../model/DepositForm"
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
-    deleting: DeleteState
+    deleting?: FileDeletingState
 
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
     cancelDeleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
@@ -26,7 +27,7 @@ interface FilesTableRowProps {
 }
 
 const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
-    const isDeleting = deleting && deleting.deleting
+    const isDeleting = deleting?.deleting
 
     const deleteButton =
         <button type="button"

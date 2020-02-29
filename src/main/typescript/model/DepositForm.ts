@@ -54,6 +54,19 @@ export const emptyInitialState = {
     depositState: undefined,
 }
 
+export type FilesDeletingState = { [filePath: string]: FileDeletingState }
+
+export interface FileDeletingState {
+    deleting: boolean
+    deleteError?: string
+}
+
+export const emptyFilesDeletingState: FilesDeletingState = {}
+
+export const emptyFileDeletingState: FileDeletingState = ({
+    deleting: false,
+})
+
 export interface DepositFormState {
     fetchDepositState: FetchDepositState
     fetchMetadata: FetchState
@@ -62,6 +75,7 @@ export interface DepositFormState {
     fetchDoi: FetchState
     saveDraft: SaveDraftState
     submit: SubmitState
+    deleteFiles: FilesDeletingState
 }
 
 export const empty: DepositFormState = {
@@ -72,4 +86,5 @@ export const empty: DepositFormState = {
     fetchDoi: emptyFetchState,
     saveDraft: emptySaveDraftState,
     submit: emptySubmitState,
+    deleteFiles: emptyFilesDeletingState,
 }

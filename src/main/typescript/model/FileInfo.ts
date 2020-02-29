@@ -23,24 +23,3 @@ export interface FileInfo {
 }
 
 export const emptyFiles: Files = {}
-
-export type DeletingStates = { [filePath: string]: DeleteState }
-
-export interface DeleteState {
-    deleting: boolean
-    deleteError?: string
-}
-
-export const emptyDeleteStates: DeletingStates = {}
-
-export const emptyDelete: DeleteState = ({
-    deleting: false,
-})
-
-export interface FileOverviewState {
-    deleting: DeletingStates
-}
-
-export const empty: FileOverviewState = {
-    deleting: emptyDeleteStates,
-}
