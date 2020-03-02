@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum FileOverviewConstants {
-    FETCH_FILES = "FETCH_FILES",
-    FETCH_FILES_PENDING = "FETCH_FILES_PENDING",
-    FETCH_FILES_REJECTED = "FETCH_FILES_REJECTED",
-    FETCH_FILES_SUCCESS = "FETCH_FILES_SUCCESS",
+import { AppState } from "../model/AppState"
+import FetchState from "../model/FetchState"
+import { DropdownList } from "../model/DropdownLists"
 
-    CLEAN_FILES = "CLEAN_FILES",
-
-    DELETE_FILE_CONFIRMATION = "DELETE_FILE_CONFIRMATION",
-    DELETE_FILE_CANCELLED = "DELETE_FILE_CANCELLED",
-    DELETE_FILE = "DELETE_FILE",
-    DELETE_FILE_PENDING = "DELETE_FILE_PENDING",
-    DELETE_FILE_FULFILLED = "DELETE_FILE_FULFILLED",
-    DELETE_FILE_REJECTED = "DELETE_FILE_REJECTED",
+export function dropDownFetchState(app: AppState): FetchState {
+    const dropDowns: DropdownList[] = Object.values(app.dropDowns)
+    return {
+        fetching: dropDowns.some(list => list.state.fetchingList),
+        fetched: dropDowns.every(list => list.state.fetchedList),
+        fetchError: dropDowns.map(list => list.state.fetchListError)
+            .filter(value => value !== undefined)
+            .map(msg => ` - ${msg}`)
+            .join("\n"),
+    }
 }

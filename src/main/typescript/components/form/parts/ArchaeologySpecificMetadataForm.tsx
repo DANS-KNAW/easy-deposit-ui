@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { shallowEqual } from "react-redux"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptyString } from "../../../lib/metadata/misc"
@@ -41,7 +42,7 @@ const ArchaeologySpecificMetadataForm = () => (
                                      helpText
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ subjects: useSelector(state => state.dropDowns.abrComplexSubjects) }}
+                                     dropdowns={{ subjects: useSelector(state => state.dropDowns.abrComplexSubjects, shallowEqual) }}
                                      component={AbrComplexSubjectFieldArray}/>
 
         <RepeatableFieldWithDropdown name="temporalCoveragesAbr"
@@ -49,7 +50,7 @@ const ArchaeologySpecificMetadataForm = () => (
                                      helpText
                                      empty={() => emptyString}
                                      fieldNames={[(name: string) => name]}
-                                     dropdowns={{ periods: useSelector(state => state.dropDowns.abrPeriodeTemporals) }}
+                                     dropdowns={{ periods: useSelector(state => state.dropDowns.abrPeriodeTemporals, shallowEqual) }}
                                      component={AbrPeriodeTemporalsFieldArray}/>
     </>
 )

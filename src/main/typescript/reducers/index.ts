@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 import { AnyAction, combineReducers } from "redux"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { fileOverviewReducer } from "./fileOverviewReducer"
+import depositOverviewReducer from "./depositOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
 import { set } from "object-path-immutable"
 import { FormState, reducer as formReducer } from "redux-form"
 import { toPath } from "lodash"
-import { depositFormReducer } from "./depositFormReducer"
+import depositFormReducer from "./depositFormReducer"
 import { allDropdownReducers } from "./dropdownReducer"
 import configurationReducer from "./configurationReducer"
 import { helpTextReducer } from "./helpTextReducer"
@@ -48,7 +47,6 @@ export default combineReducers({
         easyLogin: changeReducer,
     }),
     deposits: depositOverviewReducer,
-    files: fileOverviewReducer,
     fileUpload: fileUploadReducer,
     helpTexts: helpTextReducer,
     depositForm: depositFormReducer,

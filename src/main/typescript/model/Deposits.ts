@@ -50,9 +50,14 @@ export interface LoadingState {
     loadingError?: string
 }
 
+export const emptyLoadingState: LoadingState = {
+    loading: false,
+    loaded: false,
+    loadingError: undefined,
+}
+
 export interface DeleteState {
     deleting: boolean
-    deleted: boolean
     deleteError?: string
 }
 
@@ -60,7 +65,6 @@ export type DeletingStates = { [depositId: string]: DeleteState }
 
 export const emptyDelete: DeleteState = ({
     deleting: false,
-    deleted: false,
 })
 
 export const emptyDeleteStates: DeletingStates = {}
@@ -68,6 +72,11 @@ export const emptyDeleteStates: DeletingStates = {}
 export interface NewDepositState {
     creating: boolean
     createError?: string
+}
+
+export const emptyNewDepositState = {
+    creating: false,
+    createError: undefined,
 }
 
 export interface DepositOverviewState {
@@ -78,13 +87,8 @@ export interface DepositOverviewState {
 }
 
 export const empty: DepositOverviewState = {
-    loading: {
-        loading: false,
-        loaded: false,
-    },
-    deleting: {},
-    creatingNew: {
-        creating: false,
-    },
-    deposits: {},
+    loading: emptyLoadingState,
+    deleting: emptyDeleteStates,
+    creatingNew: emptyNewDepositState,
+    deposits: emptyDeposits,
 }

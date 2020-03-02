@@ -22,15 +22,19 @@ import { Action } from "redux"
 import { AppState } from "../model/AppState"
 import { metadataConverter, metadataDeconverter } from "../lib/metadata/Metadata"
 import { Doi } from "../lib/metadata/Identifier"
+import { filesConverter } from "../lib/files/files"
 import fetch from "../lib/fetch"
 import {
+    deleteFileUrl,
     fetchDepositStateUrl,
     fetchDoiUrl,
     fetchMetadataUrl,
+    listFilesUrl,
     saveDraftUrl,
     submitDepositUrl,
 } from "../selectors/serverRoutes"
 import { DepositState } from "../model/DepositState"
+import { Files } from "../model/FileInfo"
 import { depositStateConverter } from "../lib/depositState/depositState"
 import { AxiosResponse } from "axios"
 
@@ -53,6 +57,17 @@ export const depositStateNotFound: () => Action = () => ({
     type: DepositFormConstants.FETCH_STATE_NOT_FOUND,
 })
 
+export const fetchFiles: (depositId: DepositId) => ThunkAction<FetchAction<Files>> = (depositId) => (dispatch, getState) => dispatch({
+    type: DepositFormConstants.FETCH_FILES,
+    async payload() {
+        const response = await fetch.get(listFilesUrl(depositId)(getState()))
+        return response.data
+    },
+    meta: {
+        transform: filesConverter,
+    },
+})
+
 export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<DepositFormMetadata, AppState>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_METADATA,
     async payload() {
@@ -63,6 +78,48 @@ export const fetchMetadata: (depositId: DepositId) => ThunkAction<FetchAction<De
         transform: (input: any, getState: () => AppState) => metadataConverter(input, getState().dropDowns),
     },
 })
+
+export const fetchMetadataAndFiles: (depositId: DepositId) => ComplexThunkAction = depositId => async (dispatch, getState) => {
+    const filePromise = fetch.get(listFilesUrl(depositId)(getState()))
+    const metadataPromise = fetch.get(fetchMetadataUrl(depositId)(getState()))
+
+    dispatch({
+        type: DepositFormConstants.FETCH_FILES_PENDING,
+    })
+    dispatch({
+        type: DepositFormConstants.FETCH_METADATA_PENDING,
+    })
+
+    try {
+        const metadataResponse = await metadataPromise
+        try {
+            const fileResponse = await filePromise
+
+            dispatch({
+                type: DepositFormConstants.FETCH_FILES_FULFILLED,
+            })
+            dispatch({
+                type: DepositFormConstants.FETCH_METADATA_SUCCESS,
+                payload: {
+                    ...(metadataConverter(metadataResponse.data, getState().dropDowns)),
+                    files: filesConverter(fileResponse.data),
+                },
+            })
+        }
+        catch (fileError) {
+            dispatch({
+                type: DepositFormConstants.FETCH_FILES_REJECTED,
+                payload: fileError,
+            })
+        }
+    }
+    catch (metadataError) {
+        dispatch({
+            type: DepositFormConstants.FETCH_METADATA_REJECTED,
+            payload: metadataError,
+        })
+    }
+}
 
 export const fetchDoi: (depositId: DepositId) => ThunkAction<FetchAction<Doi>> = depositId => (dispatch, getState) => dispatch({
     type: DepositFormConstants.FETCH_DOI,
@@ -156,4 +213,30 @@ export const submitDeposit: (depositId: DepositId, data: DepositFormMetadata, hi
 export const submitDepositRejectedAction: (errorMessage: string) => ReduxAction<string> = errorMessage => ({
     type: DepositFormConstants.SUBMIT_DEPOSIT_REJECTED,
     payload: errorMessage,
+})
+
+export const deleteFile: (depositId: DepositId, filePath: string, setToDraft: boolean) => ThunkAction<PromiseAction<void>> = (depositId, filePath, setToDraft) => (dispatch, getState) => dispatch({
+    type: DepositFormConstants.DELETE_FILE,
+    async payload() {
+        if (setToDraft)
+            await setStateToDraft(depositId, getState)
+
+        await fetch.delete(deleteFileUrl(depositId, filePath)(getState()))
+        dispatch(fetchFiles(depositId))
+    },
+    meta: {
+        filePath: filePath,
+        depositId: depositId,
+        setStateToDraft: setToDraft,
+    },
+})
+
+export const cancelDeleteFile: (filePath: string) => Action = (filePath) => ({
+    type: DepositFormConstants.DELETE_FILE_CANCELLED,
+    meta: { filePath: filePath },
+})
+
+export const askConfirmationToDeleteFile: (filePath: string) => Action = (filePath) => ({
+    type: DepositFormConstants.DELETE_FILE_CONFIRMATION,
+    meta: { filePath: filePath },
 })

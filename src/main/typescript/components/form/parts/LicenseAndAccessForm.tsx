@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { shallowEqual } from "react-redux"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
-import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
+import { RepeatableField } from "../../../lib/formComponents/ReduxFormUtils"
 import { Field } from "redux-form"
 import { Contributor, emptyRightsholder } from "../../../lib/metadata/Contributor"
 import { AccessRight } from "../../../lib/metadata/AccessRight"
@@ -60,7 +61,7 @@ const LicenseAndAccessForm = () => (
                          fieldNames={[(name: string) => name]}
                          component={TextFieldArray}/>
 
-        <AccessRightsAndLicenseFields licenseDropdown={useSelector(state => state.dropDowns.licenses)}/>
+        <AccessRightsAndLicenseFields licenseDropdown={useSelector(state => state.dropDowns.licenses, shallowEqual)}/>
 
         <Field name="dateAvailable"
                label="Date available"

@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { unregisterForm } from "../../actions/depositFormActions"
-import { cleanFiles } from "../../actions/fileOverviewActions"
 import { DepositId } from "../../model/Deposits"
 import { useParams } from "react-router"
-import DepositStateLoader from "./DepositStateLoader"
+import DepositResourceLoader from "./DepositResourceLoader"
 import DepositNotFound from "./DepositNotFound"
 import DepositHolder from "./DepositHolder"
 
@@ -29,15 +25,7 @@ interface RouterParams {
 }
 
 const DepositFormPage = () => {
-
     const { depositId } = useParams<RouterParams>()
-    const dispatch = useDispatch()
-    useEffect(() => {
-        return function cleanup() {
-            dispatch(unregisterForm())
-            dispatch(cleanFiles())
-        }
-    }, [])
 
     return (
         <>
@@ -51,10 +39,10 @@ const DepositFormPage = () => {
                     target="_blank"
                     className="text-primary">Nederlands</a>)
             </p>
-            <DepositStateLoader depositId={depositId}
-                                renderForm={depositState => <DepositHolder depositId={depositId}
-                                                                           depositState={depositState}/>}
-                                renderNotFound={() => <DepositNotFound/>}
+            <DepositResourceLoader depositId={depositId}
+                                   renderForm={depositState => <DepositHolder depositId={depositId}
+                                                                              depositState={depositState}/>}
+                                   renderNotFound={() => <DepositNotFound/>}
             />
         </>
     )

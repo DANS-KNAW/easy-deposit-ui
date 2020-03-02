@@ -38,14 +38,17 @@ let data: Data = {
     "1d946f5b-e53b-4f71-b1f3-7481475d07db": {
         deposit: depositData2,
         metadata: mandatoryOnly,
+        files: [],
     },
     "a145a1be-5463-4b10-a621-a9e511ff7f20": {
         deposit: depositData3,
         metadata: mandatoryOnly,
+        files: [],
     },
     "5befec97-1e57-4210-b7b6-57a604aaef47": {
         deposit: depositData4,
         metadata: mandatoryOnly,
+        files: [],
     },
     // these deposits are here to show pagination
     // they all point to a archived datasets, so they're not clickable
