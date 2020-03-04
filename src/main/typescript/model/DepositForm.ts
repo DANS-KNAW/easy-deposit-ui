@@ -32,6 +32,7 @@ export interface SaveDraftState {
     saved: boolean
     saveError?: string
 }
+
 export const emptySaveDraftState: SaveDraftState = {
     saving: false,
     saved: false,
@@ -51,6 +52,7 @@ export const emptySubmitState: SubmitState = {
 }
 
 export type FetchDepositState = FetchState & { stateNotFound: boolean }
+
 export const emptyFetchDepositState: FetchDepositState = { ...emptyFetchState, stateNotFound: false }
 
 export type FilesDeletingState = { [filePath: string]: FileDeletingState }

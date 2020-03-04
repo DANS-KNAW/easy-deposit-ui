@@ -49,7 +49,6 @@ let data: Data = {
             size: 2147483649
         }],
         metadata: mandatoryOnly,
-        files: [],
     },
     "a145a1be-5463-4b10-a621-a9e511ff7f20": {
         deposit: depositData3,
