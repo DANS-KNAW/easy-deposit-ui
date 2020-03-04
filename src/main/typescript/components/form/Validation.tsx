@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as React from "react"
 import * as validUrl from "valid-url"
+import { isEmpty } from "lodash"
 import { FormErrors } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
@@ -26,7 +28,6 @@ import { Box } from "../../lib/metadata/SpatialBox"
 import { IdentifiersDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 import { emptyFiles, FileInfo, Files } from "../../model/FileInfo"
 import { ReactElement } from "react"
-import * as React from "react"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -365,18 +366,22 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
     })
 }
 
-export function validateFiles(files: Files): { [filepath in keyof Files]: ReactElement | string | undefined } {
-    return Object.entries(files)
+export function validateFiles(files: Files): { [filepath in keyof Files]: ReactElement | string | undefined } | undefined {
+    const errors = Object.entries(files)
         .map(([filename, fileInfo]) => {
             return isEmptyFile(fileInfo)
                 ? { [filename]: "Empty files are not accepted. Please remove this file from the list." }
                 : isLargeFile(fileInfo)
-                    ? { [filename]: (<span>This file is too large to be accepted in EASY. Please <a href="mailto:info@dans.knaw.nl" target="_blank">contact us</a> to find a suitable way publish your data.</span>) }
-                    : { [filename]: undefined }
+                    ? { [filename]: (<span>This file is too large to be accepted in EASY. Please <a
+                            href="mailto:info@dans.knaw.nl" target="_blank">contact us</a> to find a suitable way publish your data.</span>),
+                    }
+                    : {}
         })
         .reduce((obj, err) => {
             return { ...obj, ...err }
         }, {})
+
+    return isEmpty(errors) ? undefined : errors
 }
 
 export const isEmptyFile: (input: FileInfo) => boolean = input => input.size === 0

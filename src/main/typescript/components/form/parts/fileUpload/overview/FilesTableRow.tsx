@@ -38,7 +38,7 @@ function formatSize(bytes: number): string {
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
-    errorMsg: ReactElement | string
+    errorMsg: ReactElement | string | undefined
     deleting?: FileDeletingState
 
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
