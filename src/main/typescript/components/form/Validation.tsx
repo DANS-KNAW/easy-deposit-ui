@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { ReactElement } from "react"
 import * as validUrl from "valid-url"
 import { isEmpty } from "lodash"
 import { FormErrors } from "redux-form"
@@ -27,7 +28,6 @@ import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
 import { IdentifiersDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 import { emptyFiles, FileInfo, Files } from "../../model/FileInfo"
-import { ReactElement } from "react"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""

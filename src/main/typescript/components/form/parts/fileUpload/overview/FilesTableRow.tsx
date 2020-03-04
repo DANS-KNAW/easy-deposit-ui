@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { ReactElement } from "react"
 import { FileInfo } from "../../../../../model/FileInfo"
 import { FileDeletingState } from "../../../../../model/DepositForm"
-import { FC, ReactElement } from "react"
-import { FunctionComponent } from "react"
 
 function formatSize(bytes: number): string {
     const KB = 1024
@@ -76,7 +75,8 @@ const FilesTableRow = ({ fileInfo: { fullpath, sha1sum, size }, errorMsg, deleti
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 <div>{fullpath}</div>
                 {confirmButtons}
-                {errorMsg && <span className="invalid-feedback">{(errorMsgIsReactElement(errorMsg) && errorMsg.type === "span" ? errorMsg.props.children : errorMsg)}</span>}
+                {errorMsg && <span
+                    className="invalid-feedback">{(errorMsgIsReactElement(errorMsg) && errorMsg.type === "span" ? errorMsg.props.children : errorMsg)}</span>}
             </td>
             <td className="col col-12 col-sm-12 col-md-5">{sha1sum}</td>
             <td className="col col-12 col-sm-12 col-md-1">{formatSize(size)}</td>
