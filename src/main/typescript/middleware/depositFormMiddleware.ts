@@ -41,11 +41,10 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
 }
 
 const fetchFilesProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
-    // TODO should the dispatch and next calls be swapped?
-    next(action)
-
     if (action.type === DepositFormConstants.FETCH_FILES_SUCCESS)
         dispatch(change(depositFormName, "files", action.payload))
+
+    next(action)
 }
 
 const fetchStateAfterSetFromRejectedToDraft: Middleware = ({ dispatch }: MiddlewareAPI<Dispatch<any>>) => (next: Dispatch) => action => {
