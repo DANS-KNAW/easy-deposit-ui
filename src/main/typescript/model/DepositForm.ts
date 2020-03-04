@@ -17,24 +17,13 @@ import { DepositFormMetadata } from "../components/form/parts"
 import FetchState, { empty as emptyFetchState } from "./FetchState"
 import { DepositState } from "./DepositState"
 
-export type Files = { [filepath: string]: FileInfo }
-
-export interface FileInfo {
-    filename: string
-    dirpath: string
-    fullpath: string
-    size: number
-    sha1sum: string
-}
-
 export interface InitialState {
     metadata: DepositFormMetadata
-    files: Files
     depositState?: DepositState
 }
+
 export const emptyInitialState: InitialState = {
     metadata: {},
-    files: {},
     depositState: undefined,
 }
 
@@ -46,6 +35,7 @@ export interface SaveDraftState {
 export const emptySaveDraftState: SaveDraftState = {
     saving: false,
     saved: false,
+    saveError: undefined,
 }
 
 export interface SubmitState {
@@ -53,31 +43,47 @@ export interface SubmitState {
     submitted: boolean
     submitError?: string
 }
+
 export const emptySubmitState: SubmitState = {
     submitting: false,
     submitted: false,
+    submitError: undefined,
 }
 
 export type FetchDepositState = FetchState & { stateNotFound: boolean }
 export const emptyFetchDepositState: FetchDepositState = { ...emptyFetchState, stateNotFound: false }
 
+export type FilesDeletingState = { [filePath: string]: FileDeletingState }
+
+export interface FileDeletingState {
+    deleting: boolean
+    deleteError?: string
+}
+
+export const emptyFilesDeletingState: FilesDeletingState = {}
+
+export const emptyFileDeletingState: FileDeletingState = ({
+    deleting: false,
+})
+
 export interface DepositFormState {
     fetchDepositState: FetchDepositState
     fetchMetadata: FetchState
+    fetchFiles: FetchState
     initialState: InitialState
     fetchDoi: FetchState
     saveDraft: SaveDraftState
     submit: SubmitState
+    deletingFiles: FilesDeletingState
 }
 
 export const empty: DepositFormState = {
     fetchDepositState: emptyFetchDepositState,
     fetchMetadata: emptyFetchState,
+    fetchFiles: emptyFetchState,
     initialState: emptyInitialState,
     fetchDoi: emptyFetchState,
     saveDraft: emptySaveDraftState,
-    submit: {
-        submitting: false,
-        submitted: false,
-    },
+    submit: emptySubmitState,
+    deletingFiles: emptyFilesDeletingState,
 }

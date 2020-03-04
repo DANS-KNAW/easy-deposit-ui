@@ -16,7 +16,7 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import { filesConverter } from "../../../../main/typescript/lib/files/files"
-import { Files } from "../../../../main/typescript/model/DepositForm"
+import { Files } from "../../../../main/typescript/model/FileInfo"
 
 describe("files", () => {
     describe("filesConverter", () => {
@@ -83,7 +83,7 @@ describe("files", () => {
                     dirpath: "",
                     filename: "large file.txt",
                     sha1sum: "yyy",
-                    size: 15,
+                    size: 2147483649,
                 },
             ]
 
@@ -100,7 +100,7 @@ describe("files", () => {
                     filename: "large file.txt",
                     fullpath: "large file.txt",
                     sha1sum: "yyy",
-                    size: 15,
+                    size: 2147483649,
                 },
                 "leesplankje/firstrow/aap.txt": {
                     dirpath: "leesplankje/firstrow",

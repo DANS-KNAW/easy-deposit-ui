@@ -41,6 +41,11 @@ export interface ContributorIdDropdownListEntry extends DropdownListEntry {
     placeholder: string
 }
 
+export interface IdentifiersDropdownListEntry extends DropdownListEntry {
+    baseUrl?: string
+    format?: RegExp
+}
+
 export interface SpatialCoordinatesDropdownListEntry extends DropdownListEntry {
     xLabel: string
     yLabel: string
@@ -56,7 +61,7 @@ export interface DropdownList<Entry extends DropdownListEntry = DropdownListEntr
     state: DropdownListState
 }
 
-export function emptyDropdownList<Entry extends DropdownListEntry>(): DropdownList<Entry> {
+export function emptyDropdownList<Entry extends DropdownListEntry = DropdownListEntry>(): DropdownList<Entry> {
     return {
         list: [],
         state: emptyDropdownListState,
@@ -67,7 +72,7 @@ export interface DropdownLists {
     languages: DropdownList
     contributorRoles: DropdownList
     audiences: DropdownList
-    identifiers: DropdownList
+    identifiers: DropdownList<IdentifiersDropdownListEntry>
     relations: DropdownList
     dates: DropdownList
     licenses: DropdownList

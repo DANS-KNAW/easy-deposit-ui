@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { QualifiedSchemedValue, qualifiedSchemedValueConverter, qualifiedSchemedValueDeconverter } from "./Value"
+import {
+    emptyQualifiedSchemedValue,
+    QualifiedSchemedValue,
+    qualifiedSchemedValueConverter,
+    qualifiedSchemedValueDeconverter,
+    SchemedValue,
+} from "./Value"
 import { clean } from "./misc"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
@@ -27,6 +33,11 @@ export const emptyRelation: (qualifiers: DropdownListEntry[]) => Relation = qs =
     qualifier: qs[0].key,
     url: "",
     title: "",
+})
+
+export const emptyRelatedIdentifier: (qualifiers: DropdownListEntry[], identifiers: DropdownListEntry[]) => QualifiedSchemedValue = (qualifiers, identifiers) => ({
+    ...emptyQualifiedSchemedValue(qualifiers),
+    scheme: identifiers[0].key,
 })
 
 const relatedIdentifierConverter: (qualifiers: DropdownListEntry[], identifiers: DropdownListEntry[]) => (ri: any) => QualifiedSchemedValue = (qualifiers, identifiers) => ri => {
@@ -70,8 +81,8 @@ export const relationsConverter: (relationQualifiers: DropdownListEntry[], ident
     }, [[], []])
 }
 
-export const relationDeconverter: (relationQualifiers: DropdownListEntry[]) => (r: Relation) => any = relationQualifiers => r => {
-    if (r.qualifier !== relationQualifiers[0].key || r.url || r.title)
+export const relationDeconverter: (r: Relation) => any = r => {
+    if (r.qualifier || r.url || r.title)
         return clean({
             qualifier: r.qualifier,
             url: r.url,

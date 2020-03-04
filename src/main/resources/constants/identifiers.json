@@ -1,11 +1,15 @@
 {
   "id-type:DOI": {
     "title": "doi",
-    "viewName": "doi"
+    "viewName": "doi",
+    "baseUrl": "https://doi.org/",
+    "format": "^10.(\\d)+(\\.(\\d)+)*/.*$"
   },
   "id-type:URN": {
     "title": "urn",
-    "viewName": "urn"
+    "viewName": "urn:nbn:nl",
+    "baseUrl": "http://persistent-identifier.nl/",
+    "format": "^urn:nbn:nl:ui:.*$"
   },
   "id-type:ISBN": {
     "title": "ISBN",
@@ -18,5 +22,9 @@
   "id-type:NWO-PROJECTNR": {
     "title": "NWO project no.",
     "viewName": "NWO project no."
+  },
+  "": {
+    "title": "",
+    "viewName": "other"
   }
 }

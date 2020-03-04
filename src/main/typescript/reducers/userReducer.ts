@@ -19,19 +19,10 @@ import { empty, UserDetails } from "../model/UserDetails"
 
 export const userReducer: Reducer<UserDetails> = (state = empty, action) => {
     switch (action.type) {
-        case UserConstants.FETCH_USER_SUCCESS: {
-            return {
-                ...state,
-                displayName: action.payload.displayName,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                prefix: action.payload.prefix,
-                username: action.payload.username,
-            }
-        }
-        case UserConstants.FETCH_USER_PENDING: {
+        case UserConstants.FETCH_USER_SUCCESS:
+            return action.payload
+        case UserConstants.FETCH_USER_PENDING:
             return { ...state, displayName: "" }
-        }
         default:
             return state
     }

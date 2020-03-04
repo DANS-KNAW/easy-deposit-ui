@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { shallowEqual } from "react-redux"
 import { Field } from "redux-form"
 import DoiField from "./basicInformation/DoiField"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import TextArea from "../../../lib/formComponents/TextArea"
 import { DepositId } from "../../../model/Deposits"
-import { Doi } from "../../../lib/metadata/Identifier"
-import {
-    emptyQualifiedSchemedValue,
-    emptySchemedValue,
-    QualifiedSchemedValue,
-    SchemedValue,
-} from "../../../lib/metadata/Value"
+import { Doi, emptyAlternativeIdentifier } from "../../../lib/metadata/Identifier"
+import { QualifiedSchemedValue, SchemedValue } from "../../../lib/metadata/Value"
 import { Contributor, emptyContributor } from "../../../lib/metadata/Contributor"
 import { emptyQualifiedDate, emptyQualifiedStringDate, QualifiedDate } from "../../../lib/metadata/Date"
-import { emptyRelation, Relation } from "../../../lib/metadata/Relation"
+import { emptyRelatedIdentifier, emptyRelation, Relation } from "../../../lib/metadata/Relation"
 import { emptyString } from "../../../lib/metadata/misc"
 import AudienceFieldArray from "./basicInformation/AudienceFieldArray"
 import AlternativeIdentifierFieldArray from "./basicInformation/AlternativeIdentifierFieldArray"
@@ -69,7 +65,12 @@ interface BasicInformationFormProps {
 }
 
 const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
-    const {languages, contributorRoles, audiences, identifiers, relations, dates} = useSelector(state => state.dropDowns)
+    const languages = useSelector(state => state.dropDowns.languages, shallowEqual)
+    const contributorRoles = useSelector(state => state.dropDowns.contributorRoles, shallowEqual)
+    const audiences = useSelector(state => state.dropDowns.audiences, shallowEqual)
+    const identifiers = useSelector(state => state.dropDowns.identifiers, shallowEqual)
+    const relations = useSelector(state => state.dropDowns.relations, shallowEqual)
+    const dates = useSelector(state => state.dropDowns.dates, shallowEqual)
 
     return (
         <>
@@ -135,7 +136,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                    helpText
                    todayButton="Today"
                    showYearDropdown
-                   yearDropdownItemNumber={10}
+                   yearDropdownItemNumber={100}
                    scrollableYearDropdown
                    maxDate={new Date()}
                    component={DatePickerField}/>
@@ -159,7 +160,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
             <RepeatableFieldWithDropdown name="alternativeIdentifiers"
                                          label="Alternative identifier"
                                          helpText
-                                         empty={() => emptySchemedValue}
+                                         empty={() => emptyAlternativeIdentifier(identifiers.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.scheme`,
                                              (name: string) => `${name}.value`,
@@ -170,7 +171,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
             <RepeatableFieldWithDropdown name="relatedIdentifiers"
                                          label="Related identifier"
                                          helpText
-                                         empty={() => emptyQualifiedSchemedValue(relations.list)}
+                                         empty={() => emptyRelatedIdentifier(relations.list, identifiers.list)}
                                          fieldNames={[
                                              (name: string) => `${name}.qualifier`,
                                              (name: string) => `${name}.scheme`,
@@ -221,7 +222,7 @@ const BasicInformationForm = ({ depositId }: BasicInformationFormProps) => {
                                          component={IsoDateFieldArray}/>
 
             <RepeatableFieldWithDropdown name="dates"
-                                         label="Only if you can’t use the dropdown field above"
+                                         label="Only if you can’t use the date selector above"
                                          showNoLabel
                                          empty={() => emptyQualifiedStringDate(dates.list)}
                                          fieldNames={[

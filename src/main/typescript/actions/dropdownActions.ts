@@ -19,6 +19,7 @@ import fetch from "../lib/fetch"
 import { AxiosRequestConfig } from "axios"
 import {
     convertDropdownData,
+    convertIdentifiersDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../lib/dropdown/dropdown"
 import { Action } from "redux"
@@ -109,7 +110,7 @@ const fetchIdentifiersData: PromiseThunkAction = fetchDropdown(
     DropdownConstants.FETCH_IDENTIFIER_DROPDOWN_REJECTED,
     constants("identifiers.json"),
     dds => dds.identifiers,
-    convertDropdownData,
+    convertIdentifiersDropdownData,
 )
 
 const fetchRelationsData: PromiseThunkAction = fetchDropdown(

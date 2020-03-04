@@ -15,7 +15,7 @@
  */
 import { partition } from "lodash"
 import { isEmptyFile, isLargeFile } from "../../components/form/Validation"
-import { FileInfo, Files } from "../../model/DepositForm"
+import { FileInfo, Files } from "../../model/FileInfo"
 
 export const filesConverter: (input: any) => Files = input => {
     const files: FileInfo[] = input.map(fileConverter)

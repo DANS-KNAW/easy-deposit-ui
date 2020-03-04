@@ -13,45 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface LoadingState {
-    loading: boolean
-    loaded: boolean
-    loadingError?: string
+export type Files = { [filepath: string]: FileInfo }
+
+export interface FileInfo {
+    filename: string
+    dirpath: string
+    fullpath: string
+    size: number
+    sha1sum: string
 }
 
-export interface DeleteState {
-    deleting: boolean
-    deleted: boolean
-    deleteError?: string
-}
-
-export type DeletingStates = { [filePath: string]: DeleteState }
-
-export const emptyDelete: DeleteState = ({
-    deleting: false,
-    deleted: false,
-})
-
-export const emptyDeleteStates: DeletingStates = {}
-
-export interface NewFileState {
-    creating: boolean
-    createError?: string
-}
-
-export interface FileOverviewState {
-    loading: LoadingState
-    deleting: DeletingStates
-    creatingNew: NewFileState
-}
-
-export const empty: FileOverviewState = {
-    loading: {
-        loading: false,
-        loaded: false,
-    },
-    deleting: {},
-    creatingNew: {
-        creating: false,
-    },
-}
+export const emptyFiles: Files = {}

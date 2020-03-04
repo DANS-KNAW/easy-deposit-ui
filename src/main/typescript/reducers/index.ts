@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 import { AnyAction, combineReducers } from "redux"
-import { depositOverviewReducer } from "./depositOverviewReducer"
-import { fileOverviewReducer } from "./fileOverviewReducer"
+import depositOverviewReducer from "./depositOverviewReducer"
 import { authenticationReducer } from "./authenticationReducer"
 import { userReducer } from "./userReducer"
 import { set } from "object-path-immutable"
@@ -47,7 +46,6 @@ export default combineReducers({
         depositForm: changeReducer,
     }),
     deposits: depositOverviewReducer,
-    files: fileOverviewReducer,
     fileUpload: fileUploadReducer,
     helpTexts: helpTextReducer,
     depositForm: depositFormReducer,

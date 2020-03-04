@@ -18,14 +18,13 @@ import { ChangeEvent, useState } from "react"
 import FileLoader from "./FileLoader"
 import { uploadFileUrl } from "../../../../../selectors/serverRoutes"
 import { useDispatch, useStore } from "react-redux"
-import { fetchFiles } from "../../../../../actions/fileOverviewActions"
+import { fetchDepositState, fetchFiles, setStateToDraft } from "../../../../../actions/depositFormActions"
 import { DepositId, DepositStateLabel } from "../../../../../model/Deposits"
 import { useSelector } from "../../../../../lib/redux"
 import { Alert } from "../../../../Errors"
 import { setFileUploadInProgress } from "../../../../../actions/fileUploadActions"
 import { isFileUploading } from "../../../../../selectors/fileUploadSelectors"
 import { DepositState } from "../../../../../model/DepositState"
-import { fetchDepositState, setStateToDraft } from "../../../../../actions/depositFormActions"
 
 interface FileUploaderProps {
     depositId: DepositId
@@ -36,7 +35,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     const [uploadingFile, setUploadingFile] = useState<File>()
     const [errorMessage, setErrorMessage] = useState<string>()
     const fileUploadUrl = useSelector(uploadFileUrl(depositId, ""))
-    const filesOverviewLoading = useSelector(state => state.files.loading.loading)
+    const filesOverviewLoading = useSelector(state => state.depositForm.fetchFiles.fetching)
     const fileIsUploading = useSelector(isFileUploading)
     const depositIsSaving = useSelector(state => state.depositForm.saveDraft.saving)
     const depositIsSubmitting = useSelector(state => state.depositForm.submit.submitting)
@@ -46,7 +45,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setFileUploadInProgress(true))
         const file = e.target.files && e.target.files[0]
-        setUploadingFile(file || undefined)
+        if (file !== null) setUploadingFile(file) // this syntax is used in order to support ie11 
         setErrorMessage(undefined)
         e.target.value = ""
     }
@@ -61,7 +60,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
 
     const uploadFinished = () => {
         setUploadingFile(undefined)
-        dispatch(fetchFiles(depositId, false))
+        dispatch(fetchFiles(depositId))
         dispatch(setFileUploadInProgress(false))
     }
 

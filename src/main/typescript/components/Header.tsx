@@ -101,6 +101,8 @@ const Header = () => {
                 <BrandLogo className="col-6 col-md-3 col-lg-2"
                            id="dans-logo"
                            src={logo_dans}
+                           height="45px"
+                           width="140px"
                            alt="DANS - Data Archiving and Networked Services"/>
                 <BrandLogo className="col-6 col-md-2 offset-md-2 col-lg-2 offset-lg-3"
                            id="easy-logo"

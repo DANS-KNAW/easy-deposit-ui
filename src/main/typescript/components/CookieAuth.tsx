@@ -17,12 +17,12 @@ import * as React from "react"
 import { FC, useEffect } from "react"
 import { loginRoute } from "../constants/clientRoutes"
 import { useSelector } from "../lib/redux"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import { cookieAuthenticate } from "../actions/authenticationActions"
 import Loading from "./Loading"
 
 const CookieAuth: FC = ({ children }) => {
-    const { isAuthenticating, isAuthenticated, authenticationError } = useSelector(state => state.authenticatedUser)
+    const { isAuthenticating, isAuthenticated, authenticationError } = useSelector(state => state.authenticatedUser, shallowEqual)
     const dispatch = useDispatch()
 
     useEffect(() => {

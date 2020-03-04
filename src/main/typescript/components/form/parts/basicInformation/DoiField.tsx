@@ -16,7 +16,7 @@
 import * as React from "react"
 import { ReloadAlert } from "../../../Errors"
 import { useSelector } from "../../../../lib/redux"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import { fetchDoi } from "../../../../actions/depositFormActions"
 import { FieldProps } from "../../../../lib/formComponents/ReduxFormUtils"
 import Mandatory from "../../../../lib/formComponents/Mandatory"
@@ -30,7 +30,7 @@ interface DoiFieldProps extends FieldProps {
 const DoiField = ({ input, meta, label, depositId, mandatory, helpText }: DoiFieldProps) => {
     const changed = (meta as any).changed
     const hasError = meta.error && (changed || meta.submitFailed)
-    const { fetching, fetchError } = useSelector(state => state.depositForm.fetchDoi)
+    const { fetching, fetchError } = useSelector(state => state.depositForm.fetchDoi, shallowEqual)
     const dispatch = useDispatch()
     const doFetchDoi = (depositId: string) => dispatch(fetchDoi(depositId))
 

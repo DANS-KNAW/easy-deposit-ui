@@ -178,21 +178,23 @@ export const qualifiedDatesConverter: (dates: DropdownListEntry[]) => (sds: any)
     }, empty)
 }
 
-export const qualifiedDateDeconverter: (dates: DropdownListEntry[]) => (d: QualifiedDate<Date>) => any = dates => d => {
-    if ((d.qualifier && d.qualifier !== dates[0].key) || d.value)
-        return {
+export const qualifiedDateDeconverter: (d: QualifiedDate<Date>) => any = d => {
+    if (d.qualifier || d.value)
+        return clean({
             qualifier: d.qualifier,
             scheme: DateScheme.W3CDTF,
             value: d.value ? isoDateTimeFormat(d.value) : "",
-        }
-    return {}
+        })
+    else
+        return {}
 }
 
-export const qualifiedDateStringDeconverter: (dates: DropdownListEntry[]) => (d: QualifiedDate<string>) => any = dates => d => {
-    if ((d.qualifier && d.qualifier !== dates[0].key) || d.value)
+export const qualifiedDateStringDeconverter: (d: QualifiedDate<string>) => any = d => {
+    if (d.qualifier || d.value)
         return clean({
             qualifier: d.qualifier,
             value: d.value,
         })
-    return {}
+    else
+        return {}
 }

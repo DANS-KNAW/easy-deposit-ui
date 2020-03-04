@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { shallowEqual } from "react-redux"
 import TextFieldArray from "../../../lib/formComponents/TextFieldArray"
 import { RepeatableField, RepeatableFieldWithDropdown } from "../../../lib/formComponents/ReduxFormUtils"
 import { emptySchemedValue } from "../../../lib/metadata/Value"
@@ -34,7 +35,7 @@ export interface TemporalAndSpatialCoverageFormData {
 }
 
 const TemporalAndSpatialCoverageForm = () => {
-    const spatialCoordinates = useSelector(state => state.dropDowns.spatialCoordinates)
+    const spatialCoordinates = useSelector(state => state.dropDowns.spatialCoordinates, shallowEqual)
     return (
         <>
             <RepeatableField name="temporalCoverages"
@@ -81,7 +82,7 @@ const TemporalAndSpatialCoverageForm = () => {
                  * values taken from https://nl.wikipedia.org/wiki/ISO_3166-1
                  * use values ISO-3166-1 alpha-3
                  */
-                                         dropdowns={{ coverages: useSelector(state => state.dropDowns.spatialCoveragesIso) }}
+                                         dropdowns={{ coverages: useSelector(state => state.dropDowns.spatialCoveragesIso, shallowEqual) }}
                                          component={SpatialCoverageIso3166FieldArray}/>
 
             <RepeatableField name="spatialCoverages"

@@ -15,11 +15,10 @@
  */
 import { expect } from "chai"
 import { describe, it } from "mocha"
-import { allfields, mandatoryOnly, newMetadata } from "../../mockserver/metadata"
+import { allfields, isoDateTimeFormat, mandatoryOnly, newMetadata } from "../../mockserver/metadata"
 import { metadataConverter, metadataDeconverter } from "../../../../main/typescript/lib/metadata/Metadata"
 import { DropdownList, DropdownListEntry, DropdownLists } from "../../../../main/typescript/model/DropdownLists"
 import {
-    convertContributorIdDropdownData,
     convertDropdownData,
     convertSpatialCoordinatesDropdownData,
 } from "../../../../main/typescript/lib/dropdown/dropdown"
@@ -67,27 +66,136 @@ describe("Metadata", () => {
         spatialCoveragesIso: dropdownList("spatialCoveragesIso.json", convertDropdownData),
     }
 
-    it("should return the same object when doing a convert and deconvert consecutively for allfields example", () => {
+    it("should return the same object when doing a convert and deconvert consecutively for allfields example on submit", () => {
+        const input = allfields
+        const converted = metadataConverter(input, dropdownLists)
+        const deconverted = metadataDeconverter(converted, dropdownLists, true)
+
+        expect(deconverted).to.eql(input)
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, true)).to.eql(deconverted)
+    })
+
+    it("should return the same object when doing a convert and deconvert consecutively for mandatoryOnly example on submit", () => {
+        const input = mandatoryOnly
+        const converted = metadataConverter(input, dropdownLists)
+        const deconverted = metadataDeconverter(converted, dropdownLists, true)
+
+        expect(deconverted).to.eql({
+            ...input,
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
+            dates: [
+                ...input.dates || [],
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+        })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, true)).to.eql(deconverted)
+    })
+
+    it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on submit", () => {
+        const dateAvailable = {
+            qualifier: "dcterms:available",
+            scheme: "dcterms:W3CDTF",
+            value: isoDateTimeFormat(new Date(Date.now())),
+        }
+        const input = {
+            dates: [ // added this object, because otherwise a current timestamp is added
+                dateAvailable,
+            ],
+            ...newMetadata(),
+        }
+        const converted = metadataConverter(input, dropdownLists)
+        const deconverted = metadataDeconverter(converted, dropdownLists, true)
+
+        expect(deconverted).to.eql({
+            ...input,
+            accessRights: "OPEN_ACCESS",
+            dates: [
+                dateAvailable,
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
+        })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, true)).to.eql(deconverted)
+    })
+
+    it("should return the same object when doing a convert and deconvert consecutively for allfields example on save", () => {
         const input = allfields
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
         expect(deconverted).to.eql(input)
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, false)).to.eql(deconverted)
     })
 
-    it("should return the same object when doing a convert and deconvert consecutively for mandatoryOnly example", () => {
+    it("should return the same object when doing a convert and deconvert consecutively for mandatoryOnly example on save", () => {
         const input = mandatoryOnly
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
-        expect(deconverted).to.eql(input)
+        expect(deconverted).to.eql({
+            ...input,
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
+            dates: [
+                ...input.dates || [],
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+        })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, false)).to.eql(deconverted)
     })
 
-    it("should return the same object when doing a convert and deconvert consecutively for newMetadata example", () => {
+    it("should return the same object when doing a convert and deconvert consecutively for newMetadata example on save", () => {
         const input = newMetadata()
         const converted = metadataConverter(input, dropdownLists)
         const deconverted = metadataDeconverter(converted, dropdownLists, false)
 
-        expect(deconverted).to.eql({ accessRights: "OPEN_ACCESS", ...newMetadata() })
+        expect(deconverted).to.eql({
+            alternativeIdentifiers: [{ "scheme": "id-type:DOI" }],
+            relations: [
+                { qualifier: "dcterms:relation", "scheme": "id-type:DOI" }, // coming from related identifier
+                { qualifier: "dcterms:relation" }, // coming from relation
+            ],
+            dates: [
+                {
+                    qualifier: "dcterms:date",
+                    scheme: "dcterms:W3CDTF",
+                },
+                {
+                    qualifier: "dcterms:date",
+                },
+            ],
+            accessRights: "OPEN_ACCESS",
+            ...input,
+        })
+        expect(metadataDeconverter(metadataConverter(deconverted, dropdownLists), dropdownLists, false)).to.eql(deconverted)
     })
 })

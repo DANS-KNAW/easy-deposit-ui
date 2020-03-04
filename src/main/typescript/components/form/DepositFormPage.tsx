@@ -26,6 +26,7 @@ interface RouterParams {
 
 const DepositFormPage = () => {
     const { depositId } = useParams<RouterParams>()
+
     return (
         <>
             <h1>Deposit your data</h1>
@@ -40,7 +41,7 @@ const DepositFormPage = () => {
             </p>
             <DepositResourceLoader depositId={depositId}
                                    renderForm={depositState => <DepositHolder depositId={depositId}
-                                                                           depositState={depositState}/>}
+                                                                              depositState={depositState}/>}
                                    renderNotFound={() => <DepositNotFound/>}
             />
         </>

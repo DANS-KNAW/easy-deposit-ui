@@ -33,10 +33,8 @@ export const schemedValueDeconverter: (sv: SchemedValue) => any = sv => clean({
     value: sv.value,
 })
 
-export interface QualifiedSchemedValue {
+export interface QualifiedSchemedValue extends SchemedValue {
     qualifier?: string
-    scheme?: string
-    value?: string
 }
 
 export const emptyQualifiedSchemedValue: (qualifiers: DropdownListEntry[]) => QualifiedSchemedValue = qs => ({

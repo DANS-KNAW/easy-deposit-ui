@@ -19,7 +19,6 @@ import { depositOverviewRoute } from "../constants/clientRoutes"
 import { depositStateNotFound, fetchDepositState, saveDraftResetAction } from "../actions/depositFormActions"
 import { actionTypes, change, initialize } from "redux-form"
 import { DAI, ISNI, ORCID } from "../lib/metadata/Contributor"
-import { FileOverviewConstants } from "../constants/fileOverviewConstants"
 
 const depositStateNotFoundMiddleware: Middleware = ({ dispatch }) => (next: Dispatch) => action => {
     if (action.type && action.type === DepositFormConstants.FETCH_STATE_REJECTED && action.payload) {
@@ -42,16 +41,17 @@ const fetchDoiProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Di
 }
 
 const fetchFilesProcessor: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => action => {
-    if (action.type === FileOverviewConstants.FETCH_FILES_SUCCESS)
-        dispatch(change(depositFormName, "files", action.payload))
-
+    // TODO should the dispatch and next calls be swapped?
     next(action)
+
+    if (action.type === DepositFormConstants.FETCH_FILES_SUCCESS)
+        dispatch(change(depositFormName, "files", action.payload))
 }
 
 const fetchStateAfterSetFromRejectedToDraft: Middleware = ({ dispatch }: MiddlewareAPI<Dispatch<any>>) => (next: Dispatch) => action => {
     next(action)
 
-    if ((action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED || action.type === FileOverviewConstants.DELETE_FILE_FULFILLED)
+    if ((action.type === DepositFormConstants.SAVE_DRAFT_FULFILLED || action.type === DepositFormConstants.DELETE_FILE_FULFILLED)
         && action.meta?.setStateToDraft
         && action.meta?.depositId)
         dispatch(fetchDepositState(action.meta.depositId))
@@ -112,6 +112,7 @@ export const depositFormMiddleware: Middleware[] = [
     replaceContributorIdFieldValue,
     fetchFilesProcessor,
     fetchDoiProcessor,
+    fetchFilesProcessor,
     fetchStateAfterSetFromRejectedToDraft,
     saveTimer,
     initializeFormAfterSaveDraft,

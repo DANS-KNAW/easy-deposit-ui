@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
-import {partition} from "lodash"
+import { emptySchemedValue, SchemedValue, schemedValueConverter, schemedValueDeconverter } from "./Value"
+import { partition } from "lodash"
 import { DropdownListEntry } from "../../model/DropdownLists"
 
 enum IdentifierScheme {
@@ -44,6 +44,11 @@ export const doiConverter: (obj: { [scheme: string]: string }) => Doi = obj => o
 export const doiDeconverter: (d: Doi) => any = d => ({
     scheme: IdentifierScheme.DOI,
     value: d,
+})
+
+export const emptyAlternativeIdentifier: (identifiers: DropdownListEntry[]) => SchemedValue = identifiers => ({
+    ...emptySchemedValue,
+    scheme: identifiers[0].key,
 })
 
 const alternativeIdentifierConverter: (identifiers: DropdownListEntry[]) => (ai: any) => SchemedValue = identifiers => ai => {
