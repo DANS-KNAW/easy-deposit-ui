@@ -25,6 +25,8 @@ import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
 import { IdentifiersDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
 import { emptyFiles, FileInfo, Files } from "../../model/FileInfo"
+import { ReactElement } from "react"
+import * as React from "react"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -363,13 +365,13 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
     })
 }
 
-export function validateFiles(files: Files): { [filepath in keyof Files]: string | undefined } {
+export function validateFiles(files: Files): { [filepath in keyof Files]: ReactElement | string | undefined } {
     return Object.entries(files)
         .map(([filename, fileInfo]) => {
             return isEmptyFile(fileInfo)
-                ? { [filename]: "file is empty" }
+                ? { [filename]: "Empty files are not accepted. Please remove this file from the list." }
                 : isLargeFile(fileInfo)
-                    ? { [filename]: "file is too large" }
+                    ? { [filename]: (<span>This file is too large to be accepted in EASY. Please <a href="mailto:info@dans.knaw.nl" target="_blank">contact us</a> to find a suitable way publish your data.</span>) }
                     : { [filename]: undefined }
         })
         .reduce((obj, err) => {

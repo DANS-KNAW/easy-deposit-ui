@@ -16,6 +16,8 @@
 import * as React from "react"
 import { FileInfo } from "../../../../../model/FileInfo"
 import { FileDeletingState } from "../../../../../model/DepositForm"
+import { FC, ReactElement } from "react"
+import { FunctionComponent } from "react"
 
 function formatSize(bytes: number): string {
     const KB = 1024
@@ -36,7 +38,7 @@ function formatSize(bytes: number): string {
 
 interface FilesTableRowProps {
     fileInfo: FileInfo
-    errorMsg: string
+    errorMsg: ReactElement | string
     deleting?: FileDeletingState
 
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
@@ -64,13 +66,17 @@ const FilesTableRow = ({ fileInfo: { fullpath, sha1sum, size }, errorMsg, deleti
             <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteFile}>Cancel</button>
         </div>
 
+    function errorMsgIsReactElement(errorMsg: ReactElement | string | undefined): errorMsg is ReactElement {
+        return errorMsg !== undefined && typeof errorMsg !== "string"
+    }
+
     return (
         <tr className={[errorMsg ? "file-row-error" : "", "row ml-0 mr-0"].join(" ").trim()}>
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 <div>{fullpath}</div>
                 {confirmButtons}
-                {errorMsg && <span className="invalid-feedback">{errorMsg}</span>}
+                {errorMsg && <span className="invalid-feedback">{(errorMsgIsReactElement(errorMsg) && errorMsg.type === "span" ? errorMsg.props.children : errorMsg)}</span>}
             </td>
             <td className="col col-12 col-sm-12 col-md-5">{sha1sum}</td>
             <td className="col col-12 col-sm-12 col-md-1">{formatSize(size)}</td>
