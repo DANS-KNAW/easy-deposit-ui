@@ -431,11 +431,8 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
     // accept deposit agreement
     errors.acceptDepositAgreement = checkboxMustBeChecked(values.acceptDepositAgreement, "Accept the deposit agreement before submitting this dataset")
 
-    // extra validation, officially not part of the metadata form
     // empty and too large files
     errors.files = validateFiles(values.files || emptyFiles)
-
-    // console.log("validation errors", errors)
 
     return errors
 }
