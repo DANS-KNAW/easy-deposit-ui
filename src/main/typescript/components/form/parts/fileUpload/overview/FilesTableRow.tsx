@@ -23,15 +23,15 @@ function formatSize(bytes: number): string {
     const GB = 1024 * MB
     const TB = 1024 * GB
 
-    function formatSize(unitSize: number, unit: string): string {
-        return `${parseFloat(`${bytes / unitSize}`).toFixed(1)} ${unit}`
+    function formatSize(unitSize: number, unit: string, fixed: number = 1): string {
+        return `${parseFloat(`${bytes / unitSize}`).toFixed(fixed)} ${unit}`
     }
 
     if (bytes > 1.1 * TB) return formatSize(TB, "TB")
     else if (bytes > 1.1 * GB) return formatSize(GB, "GB")
     else if (bytes > 1.1 * MB) return formatSize(MB, "MB")
     else if (bytes > 1.1 * KB) return formatSize(KB, "KB")
-    else return formatSize(1, "B")
+    else return formatSize(1, "B", 0)
 }
 
 interface FilesTableRowProps {
