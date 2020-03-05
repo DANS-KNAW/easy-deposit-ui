@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import Loading from "../../components/Loading"
 import { useSelector } from "../redux"
 import { fetchHelpText, unregisterHelpText } from "../../actions/helpTextActions"
@@ -26,7 +26,7 @@ interface HelpTextProps {
 }
 
 const HelpText = ({ textFor }: HelpTextProps) => {
-    const { visible, fetching, fetched, text, fetchError } = useSelector(getHelpTextState(textFor))
+    const { visible, fetching, fetched, text, fetchError } = useSelector(getHelpTextState(textFor), shallowEqual)
     const dispatch = useDispatch()
 
     useEffect(() => {

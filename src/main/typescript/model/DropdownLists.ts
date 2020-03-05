@@ -61,7 +61,7 @@ export interface DropdownList<Entry extends DropdownListEntry = DropdownListEntr
     state: DropdownListState
 }
 
-export function emptyDropdownList<Entry extends DropdownListEntry>(): DropdownList<Entry> {
+export function emptyDropdownList<Entry extends DropdownListEntry = DropdownListEntry>(): DropdownList<Entry> {
     return {
         list: [],
         state: emptyDropdownListState,

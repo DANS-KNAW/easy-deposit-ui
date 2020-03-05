@@ -24,6 +24,11 @@ import { inDevelopmentMode } from "./lib/config"
 // import {Action} from 'redux'
 // import { AppState } from "./model/AppState"
 // const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
+//     && !action.type.startsWith('FETCH_HELP_TEXT')
+//     && !action.type.startsWith('CONFIGURATION_LOADING')
+//     && !action.type.startsWith('AUTH_LOGIN')
+//     && !action.type.startsWith('FETCH_USER')
+//     && !action.type.includes('_DROPDOWN_')
 
 // import {Action} from 'redux'
 // import { AppState } from "./model/AppState"

@@ -17,22 +17,31 @@ import * as React from "react"
 import FilesTableHead from "./FilesTableHead"
 import FilesTableRow from "./FilesTableRow"
 import "../../../../../../resources/css/filesOverviewTable.css"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import { DepositId, DepositStateLabel } from "../../../../../model/Deposits"
 import { DepositState } from "../../../../../model/DepositState"
+import { emptyFiles, Files } from "../../../../../model/FileInfo"
 import { useSelector } from "../../../../../lib/redux"
-import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/fileOverviewActions"
+import { FieldProps } from "../../../../../lib/formComponents/ReduxFormUtils"
+import { askConfirmationToDeleteFile, cancelDeleteFile, deleteFile } from "../../../../../actions/depositFormActions"
 import { CloseableWarning } from "../../../../Errors"
 import Loading from "../../../../Loading"
 import Paginationable from "../../../../Paginationable"
 
-interface FilesOverviewProps {
+export interface FileFormData {
+    files?: Files
+}
+
+interface FilesOverviewProps extends FieldProps {
     depositId: DepositId
     depositState: DepositState
 }
 
-const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
-    const files = useSelector(state => state.files)
+const FilesOverview = ({ input, meta, depositId, depositState }: (FilesOverviewProps)) => {
+    const files = input.value || emptyFiles
+    const fileErrors = meta.error
+    const deletingState = useSelector(state => state.depositForm.deletingFiles, shallowEqual)
+    const fetchState = useSelector(state => state.depositForm.fetchFiles, shallowEqual)
     const dispatch = useDispatch()
 
     function doDeleteFile(depositId: DepositId, filepath: string) {
@@ -58,9 +67,9 @@ const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
     }
 
     function renderDeleteError() {
-        return Object.keys(files.deleting)
+        return Object.keys(deletingState)
             .map(fileId => {
-                const { deleteError } = files.deleting[fileId]
+                const { deleteError } = deletingState[fileId]
 
                 if (deleteError) {
                     const errorText = `Cannot delete file '${fileId}'. An error occurred: ${deleteError}.`
@@ -71,7 +80,7 @@ const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
     }
 
     function renderTableBody(filePaths: string[], filePathsCount: number) {
-        if (files.loading.loading && filePathsCount === 0)
+        if (fetchState.fetching && filePathsCount === 0)
             return (
                 <tr className="row ml-0 mr-0">
                     <td className="col col-12 text-center" scope="row" colSpan={5}><Loading/></td>
@@ -88,9 +97,9 @@ const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
         return filePaths.map(filepath => (
             <FilesTableRow
                 key={filepath}
-                deleting={files.deleting[filepath]}
+                deleting={deletingState[filepath]}
                 deleteFile={doDeleteFile(depositId, filepath)}
-                fileInfo={files.files[filepath]}
+                fileInfo={files[filepath]}
                 askConfirmation={doAskConfirmation(filepath)}
                 cancelDeleteFile={doCancelDeleteFile(filepath)}/>
         ))
@@ -111,7 +120,7 @@ const FilesOverview = ({ depositId, depositState }: (FilesOverviewProps)) => {
             <Paginationable entryDescription="files"
                             pagesShown={5}
                             helpText="uploadFiles"
-                            entries={files.loading.loaded ? Object.keys(files.files) : []}
+                            entries={fetchState.fetched ? Object.keys(files) : []}
                             renderEntries={renderTable}/>
         </>
     )

@@ -15,7 +15,7 @@
  */
 import * as React from "react"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { shallowEqual, useDispatch } from "react-redux"
 import { Deposit, DepositId, DepositStateLabel } from "../../model/Deposits"
 import {
     askConfirmationToDeleteDeposit,
@@ -37,7 +37,7 @@ function isEditable({ state }: Deposit): boolean {
 }
 
 const DepositOverview = () => {
-    const deposits = useSelector(state => state.deposits)
+    const deposits = useSelector(state => state.deposits, shallowEqual)
     const dispatch = useDispatch()
 
     useEffect(() => {

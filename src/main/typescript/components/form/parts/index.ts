@@ -21,8 +21,10 @@ import { TemporalAndSpatialCoverageFormData } from "./TemporalAndSpatialCoverage
 import { MessageForDataManagerFormData } from "./MessageForDataManagerForm"
 import { PrivacySensitiveDataFormData } from "./PrivacySensitiveDataForm"
 import { DepositLicenseFormData } from "./DepositLicenseForm"
+import { FileFormData } from "./fileUpload/overview/FilesOverview"
 
 export type DepositFormMetadata =
+    & FileFormData
     & BasicInformationFormData
     & LicenseAndAccessFormData
     & UploadTypeFormData

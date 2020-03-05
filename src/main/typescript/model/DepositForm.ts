@@ -28,35 +28,63 @@ export interface SaveDraftState {
     saveError?: string
 }
 
+export const emptySaveDraftState = {
+    saving: false,
+    saved: false,
+    saveError: undefined,
+}
+
 export interface SubmitState {
     submitting: boolean
     submitted: boolean
     submitError?: string
 }
 
+export const emptySubmitState = {
+    submitting: false,
+    submitted: false,
+    submitError: undefined,
+}
+
+export type FetchDepositState = FetchState & { stateNotFound: boolean }
+export const emptyFetchDepositState = { ...emptyFetchState, stateNotFound: false }
+
+export const emptyInitialState = {
+    metadata: {},
+    depositState: undefined,
+}
+
+export type FilesDeletingState = { [filePath: string]: FileDeletingState }
+
+export interface FileDeletingState {
+    deleting: boolean
+    deleteError?: string
+}
+
+export const emptyFilesDeletingState: FilesDeletingState = {}
+
+export const emptyFileDeletingState: FileDeletingState = ({
+    deleting: false,
+})
+
 export interface DepositFormState {
-    fetchDepositState: FetchState & { stateNotFound: boolean }
+    fetchDepositState: FetchDepositState
     fetchMetadata: FetchState
+    fetchFiles: FetchState
     initialState: InitialState
     fetchDoi: FetchState
     saveDraft: SaveDraftState
     submit: SubmitState
+    deletingFiles: FilesDeletingState
 }
 
 export const empty: DepositFormState = {
-    fetchDepositState: { ...emptyFetchState, stateNotFound: false },
+    fetchDepositState: emptyFetchDepositState,
     fetchMetadata: emptyFetchState,
-    initialState: {
-        metadata: {},
-        depositState: undefined,
-    },
+    fetchFiles: emptyFetchState,
+    initialState: emptyInitialState,
     fetchDoi: emptyFetchState,
-    saveDraft: {
-        saving: false,
-        saved: false,
-    },
-    submit: {
-        submitting: false,
-        submitted: false,
-    },
+    saveDraft: emptySaveDraftState,
+    submit: emptySubmitState,
+    deletingFiles: emptyFilesDeletingState,
 }
