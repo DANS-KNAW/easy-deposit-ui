@@ -21,14 +21,19 @@ import customMiddleware from "./middleware"
 import { inDevelopmentMode } from "./lib/config"
 
 ///
-// import {Action} from 'redux'
+// import {Action} from "redux"
 // import { AppState } from "./model/AppState"
-// const predicate = (state: AppState, action: Action) => !action.type.startsWith('@@redux-form')
-//     && !action.type.startsWith('FETCH_HELP_TEXT')
-//     && !action.type.startsWith('CONFIGURATION_LOADING')
-//     && !action.type.startsWith('AUTH_LOGIN')
-//     && !action.type.startsWith('FETCH_USER')
-//     && !action.type.includes('_DROPDOWN_')
+// import { HelpTextConstants } from "./constants/helpTextConstants"
+//
+// const predicate = (state: AppState, action: Action) => {
+//     return !action.type.startsWith("@@redux-form")
+//     && !action.type.startsWith("FETCH_HELP_TEXT_")
+//     && action.type !== HelpTextConstants.UNREGISTER_HELP_TEXT
+//     && !action.type.includes("_DROPDOWN_")
+//     && !action.type.startsWith("CONFIGURATION_LOADING_")
+//     && !action.type.startsWith("AUTH_LOGIN_")
+//     && !action.type.startsWith("FETCH_USER_")
+// }
 
 // import {Action} from 'redux'
 // import { AppState } from "./model/AppState"

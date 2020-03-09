@@ -19,6 +19,7 @@ export interface FileInfo {
     filename: string
     dirpath: string
     fullpath: string
+    size: number
     sha1sum: string
 }
 

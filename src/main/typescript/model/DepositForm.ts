@@ -22,13 +22,18 @@ export interface InitialState {
     depositState?: DepositState
 }
 
+export const emptyInitialState: InitialState = {
+    metadata: {},
+    depositState: undefined,
+}
+
 export interface SaveDraftState {
     saving: boolean
     saved: boolean
     saveError?: string
 }
 
-export const emptySaveDraftState = {
+export const emptySaveDraftState: SaveDraftState = {
     saving: false,
     saved: false,
     saveError: undefined,
@@ -40,19 +45,15 @@ export interface SubmitState {
     submitError?: string
 }
 
-export const emptySubmitState = {
+export const emptySubmitState: SubmitState = {
     submitting: false,
     submitted: false,
     submitError: undefined,
 }
 
 export type FetchDepositState = FetchState & { stateNotFound: boolean }
-export const emptyFetchDepositState = { ...emptyFetchState, stateNotFound: false }
 
-export const emptyInitialState = {
-    metadata: {},
-    depositState: undefined,
-}
+export const emptyFetchDepositState: FetchDepositState = { ...emptyFetchState, stateNotFound: false }
 
 export type FilesDeletingState = { [filePath: string]: FileDeletingState }
 

@@ -39,7 +39,7 @@ interface FilesOverviewProps extends FieldProps {
 
 const FilesOverview = ({ input, meta, depositId, depositState }: (FilesOverviewProps)) => {
     const files = input.value || emptyFiles
-    const fileErrors = meta.error
+    const fileErrors = meta.error || {}
     const deletingState = useSelector(state => state.depositForm.deletingFiles, shallowEqual)
     const fetchState = useSelector(state => state.depositForm.fetchFiles, shallowEqual)
     const dispatch = useDispatch()
@@ -100,6 +100,7 @@ const FilesOverview = ({ input, meta, depositId, depositState }: (FilesOverviewP
                 deleting={deletingState[filepath]}
                 deleteFile={doDeleteFile(depositId, filepath)}
                 fileInfo={files[filepath]}
+                errorMsg={fileErrors[filepath]}
                 askConfirmation={doAskConfirmation(filepath)}
                 cancelDeleteFile={doCancelDeleteFile(filepath)}/>
         ))
