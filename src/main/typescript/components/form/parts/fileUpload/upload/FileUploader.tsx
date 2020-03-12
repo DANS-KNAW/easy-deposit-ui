@@ -75,9 +75,11 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
         dispatch(setFileUploadInProgress(false))
     }
 
-    const renderUploadError = () => (
+    const renderUploadError = (message: string) => (
         <div className="col col-12">
-            <Alert>{errorMessage}</Alert>
+            <Alert>
+                <span dangerouslySetInnerHTML={{ __html: message }}/>
+            </Alert>
         </div>
     )
 
@@ -116,7 +118,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     return (
         <>
             <div id="upload-error-row" className="row">
-                {errorMessage && renderUploadError()}
+                {errorMessage && renderUploadError(errorMessage)}
             </div>
             <div id="upload-row" className="row">
                 {renderUploadButton()}
