@@ -71,13 +71,15 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
 
     const uploadFailed = (file: File) => (msg?: string) => {
         setUploadingFile(undefined)
-        setErrorMessage(`An error occurred while uploading ${file.name}${msg ? `: ${msg}` : ""}`)
+        setErrorMessage(`An error occurred while uploading ${file.name.replace(/</g,"&lt;").replace(/>/g,"&gt;")}${msg ? `: ${msg}` : ""}`)
         dispatch(setFileUploadInProgress(false))
     }
 
-    const renderUploadError = () => (
+    const renderUploadError = (message: string) => (
         <div className="col col-12">
-            <Alert>{errorMessage}</Alert>
+            <Alert>
+                <span dangerouslySetInnerHTML={{ __html: message }}/>
+            </Alert>
         </div>
     )
 
@@ -116,7 +118,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
     return (
         <>
             <div id="upload-error-row" className="row">
-                {errorMessage && renderUploadError()}
+                {errorMessage && renderUploadError(errorMessage)}
             </div>
             <div id="upload-row" className="row">
                 {renderUploadButton()}
