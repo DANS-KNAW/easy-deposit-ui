@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as React from "react"
+import { ReactElement } from "react"
 import * as validUrl from "valid-url"
+import { isEmpty } from "lodash"
 import { FormErrors } from "redux-form"
 import { PrivacySensitiveDataValue } from "../../lib/metadata/PrivacySensitiveData"
 import { DepositFormMetadata } from "./parts"
@@ -24,6 +27,7 @@ import { QualifiedSchemedValue, SchemedValue } from "../../lib/metadata/Value"
 import { Point } from "../../lib/metadata/SpatialPoint"
 import { Box } from "../../lib/metadata/SpatialBox"
 import { IdentifiersDropdownListEntry, SpatialCoordinatesDropdownListEntry } from "../../model/DropdownLists"
+import { emptyFiles, FileInfo, Files } from "../../model/FileInfo"
 
 export const mandatoryFieldValidator = (value: any, name: string) => {
     return !value || typeof value == "string" && value.trim() === ""
@@ -362,6 +366,28 @@ export function validateSpatialBoxes(spatialCoordinateSettings: SpatialCoordinat
     })
 }
 
+export function validateFiles(files: Files): { [filepath in keyof Files]: ReactElement | string | undefined } | undefined {
+    const errors = Object.entries(files)
+        .map(([filename, fileInfo]) => {
+            return isEmptyFile(fileInfo)
+                ? { [filename]: "Empty files are not accepted. Please remove this file from the list." }
+                : isLargeFile(fileInfo)
+                    ? { [filename]: (<span>This file is too large to be accepted in EASY. Please <a
+                            href="mailto:info@dans.knaw.nl" target="_blank">contact us</a> to find a suitable way publish your data.</span>),
+                    }
+                    : {}
+        })
+        .reduce((obj, err) => {
+            return { ...obj, ...err }
+        }, {})
+
+    return isEmpty(errors) ? undefined : errors
+}
+
+export const isEmptyFile: (input: FileInfo) => boolean = input => input.size === 0
+
+export const isLargeFile: (input: FileInfo) => boolean = input => input.size > 2147483648
+
 export const formValidate: (values: DepositFormMetadata, props: any) => FormErrors<DepositFormMetadata> = (values, props) => {
     const spatialCoordinateSettings = props.dropDowns.spatialCoordinates.state.fetchedList
         ? props.dropDowns.spatialCoordinates.list
@@ -411,6 +437,9 @@ export const formValidate: (values: DepositFormMetadata, props: any) => FormErro
 
     // accept deposit agreement
     errors.acceptDepositAgreement = checkboxMustBeChecked(values.acceptDepositAgreement, "Accept the deposit agreement before submitting this dataset")
+
+    // empty and too large files
+    errors.files = validateFiles(values.files || emptyFiles)
 
     return errors
 }

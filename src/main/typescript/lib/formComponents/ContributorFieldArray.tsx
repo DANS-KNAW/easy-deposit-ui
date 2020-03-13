@@ -69,7 +69,7 @@ const ContributorField = ({ names, roleValues, className }: ContributorFieldProp
                        component={TextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
-                <label>Initials<Mandatory/></label>
+                <label>Initials</label>
                 <Field name={names[1]}
                        placeholder="initials"
                        component={ErrorHandlingTextField}/>
@@ -81,7 +81,7 @@ const ContributorField = ({ names, roleValues, className }: ContributorFieldProp
                        component={TextField}/>
             </div>
             <div className="col form-group col-md-3 mb-1">
-                <label>Surname<Mandatory/></label>
+                <label>Surname</label>
                 <Field name={names[3]}
                        placeholder="surname"
                        component={ErrorHandlingTextField}/>

@@ -14,11 +14,30 @@
  * limitations under the License.
  */
 import * as React from "react"
+import { ReactElement } from "react"
 import { FileInfo } from "../../../../../model/FileInfo"
 import { FileDeletingState } from "../../../../../model/DepositForm"
 
+function formatSize(bytes: number): string {
+    const KB = 1024
+    const MB = 1024 * KB
+    const GB = 1024 * MB
+    const TB = 1024 * GB
+
+    function formatSize(unitSize: number, unit: string, fixed: number = 1): string {
+        return `${parseFloat(`${bytes / unitSize}`).toFixed(fixed)} ${unit}`
+    }
+
+    if (bytes > 1.1 * TB) return formatSize(TB, "TB")
+    else if (bytes > 1.1 * GB) return formatSize(GB, "GB")
+    else if (bytes > 1.1 * MB) return formatSize(MB, "MB")
+    else if (bytes > 1.1 * KB) return formatSize(KB, "KB")
+    else return formatSize(1, "B", 0)
+}
+
 interface FilesTableRowProps {
     fileInfo: FileInfo
+    errorMsg: ReactElement | string | undefined
     deleting?: FileDeletingState
 
     askConfirmation: (e: React.MouseEvent<HTMLButtonElement>) => void
@@ -26,7 +45,7 @@ interface FilesTableRowProps {
     deleteFile: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
+const FilesTableRow = ({ fileInfo: { fullpath, sha1sum, size }, errorMsg, deleting, deleteFile, askConfirmation, cancelDeleteFile }: FilesTableRowProps) => {
     const isDeleting = deleting?.deleting
 
     const deleteButton =
@@ -46,14 +65,21 @@ const FilesTableRow = ({ fileInfo: { fullpath, sha1sum }, deleting, deleteFile, 
             <button type="button" className="btn btn-dark mb-0 ml-1" onClick={cancelDeleteFile}>Cancel</button>
         </div>
 
+    function errorMsgIsReactElement(errorMsg: ReactElement | string | undefined): errorMsg is ReactElement {
+        return errorMsg !== undefined && typeof errorMsg !== "string"
+    }
+
     return (
-        <tr className="row ml-0 mr-0">
+        <tr className={[errorMsg ? "file-row-error" : "", "row ml-0 mr-0"].join(" ").trim()}>
             {/* these column sizes need to match with the sizes in FilesTableHead */}
             <td className="col col-10 col-sm-11 col-md-5" scope="row">
                 <div>{fullpath}</div>
                 {confirmButtons}
+                {errorMsg && <span
+                    className="invalid-feedback">{(errorMsgIsReactElement(errorMsg) && errorMsg.type === "span" ? errorMsg.props.children : errorMsg)}</span>}
             </td>
-            <td className="col col-12 col-sm-12 col-md-6">{sha1sum}</td>
+            <td className="col col-12 col-sm-12 col-md-5">{sha1sum}</td>
+            <td className="col col-12 col-sm-12 col-md-1">{formatSize(size)}</td>
             <td className="col col-2 col-sm-1 col-md-1" id="actions_cell">{deleteButton}</td>
         </tr>
     )

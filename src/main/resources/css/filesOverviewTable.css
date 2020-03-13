@@ -28,6 +28,27 @@
     color: var(--dans-gray);
 }
 
+.file_table tbody tr.file-row-error {
+    border-left: 1px solid var(--dans-red);
+    border-right: 1px solid var(--dans-red);
+    border-bottom: 1px solid var(--dans-red);
+    background-color: rgba(221, 41, 30, 0.2); /* --dans-red, but with opacity 0.2 */
+}
+
+.file_table tbody tr.file-row-error:first-child {
+    border-top: 1px solid var(--dans-red);
+}
+
+.file_table tbody tr.file-row-error td {
+    border-top: unset;
+}
+.file_table tbody tr.file-row-error td .invalid-feedback {
+    display: block;
+}
+.file_table tbody tr.file-row-error td .invalid-feedback a {
+    display: inline;
+}
+
 .file_table tbody tr:last-child {
     border-bottom: 1px solid var(--dans-gray);
 }

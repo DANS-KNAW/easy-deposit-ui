@@ -37,8 +37,18 @@ let data: Data = {
     },
     "1d946f5b-e53b-4f71-b1f3-7481475d07db": {
         deposit: depositData2,
+        files: [...directory1, {
+            filename: "empty.txt",
+            dirpath: "/leesplankje/secondrow",
+            sha1sum: "ef4bb1666042b9e891a0bf5c14ba6206fec1a02f",
+            size: 0,
+        }, {
+            filename: "too_large.txt",
+            dirpath: "/leesplankje/bottomrow",
+            sha1sum: "005cc2777153caf9a2b1d06d25cb73180fd2b140",
+            size: 2147483649
+        }],
         metadata: mandatoryOnly,
-        files: [],
     },
     "a145a1be-5463-4b10-a621-a9e511ff7f20": {
         deposit: depositData3,
@@ -308,6 +318,7 @@ export const addFile: (id: DepositId, dirPath: string, filename: string) => bool
                 filename: filename,
                 dirpath: dirPath,
                 sha1sum: "unknown",
+                size: 123456789,
             }
             data = { ...data, [id]: { ...deposit, files: [...files, newFile] } }
             return true

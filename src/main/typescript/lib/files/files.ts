@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { partition } from "lodash"
+import { isEmptyFile, isLargeFile } from "../../components/form/Validation"
 import { FileInfo, Files } from "../../model/FileInfo"
 
 export const filesConverter: (input: any) => Files = input => {
-    return input.map(fileConverter)
+    const files: FileInfo[] = input.map(fileConverter)
+    const [specialFiles, nonEmptyFiles] = partition(files, fileInfo => isEmptyFile(fileInfo) || isLargeFile(fileInfo))
+
+    // note: special files are placed first to make sure validation errors appear at the top of the file listing
+    return [...specialFiles, ...nonEmptyFiles]
         .reduce((obj: Files, item: FileInfo) => {
             obj[item.fullpath] = item
             return obj
@@ -28,6 +34,7 @@ const fileConverter: (input: any) => FileInfo = input => {
         filename: input.filename,
         dirpath: input.dirpath,
         sha1sum: input.sha1sum,
-        fullpath: input.dirpath && input.dirpath !== "" ? input.dirpath + "/" + input.filename : input.filename
+        size: input.size,
+        fullpath: input.dirpath && input.dirpath !== "" ? input.dirpath + "/" + input.filename : input.filename,
     }
 }

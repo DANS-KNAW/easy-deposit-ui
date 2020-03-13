@@ -76,7 +76,8 @@ export const ISNI: ContributorIdDropdownListEntry = {
     key: "id-type:ISNI",
     value: "ISNI",
     displayValue: "ISNI",
-    format: "(^(http://isni.org/isni/|ISNI:)[0-9]{15,16}X?$)|(^([0-9]{4}[ ]?){3}[0-9]{3}[0-9xX]$)",
+    // the regexp of the dcx-dai.xsd is embedded in "^()$" to make it a full match in this context
+    format: "^((http://isni.org/isni/[0-9]{15}[0-9X])|((ISNI:? ?)?([0-9]{4} ?){3}[0-9]{3}[0-9X]))$",
     placeholder: "(e.g.: 000000012281955X)",
     replace: [
         {
