@@ -71,7 +71,7 @@ const FileUploader = ({ depositId, depositState }: FileUploaderProps) => {
 
     const uploadFailed = (file: File) => (msg?: string) => {
         setUploadingFile(undefined)
-        setErrorMessage(`An error occurred while uploading ${file.name}${msg ? `: ${msg}` : ""}`)
+        setErrorMessage(`An error occurred while uploading ${file.name.replace(/</g,"&lt;").replace(/>/g,"&gt;")}${msg ? `: ${msg}` : ""}`)
         dispatch(setFileUploadInProgress(false))
     }
 
