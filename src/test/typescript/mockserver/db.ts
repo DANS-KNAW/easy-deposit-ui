@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as uuid from "uuid/v4"
+import { v4 as uuid } from "uuid"
 import { del } from "object-path-immutable"
 import { Deposit, depositData1, depositData2, depositData3, depositData4, State } from "./deposit"
 import { allfields, DansIdentifierSchemeValues, Doi, mandatoryOnly, Metadata, newMetadata } from "./metadata"
@@ -46,7 +46,7 @@ let data: Data = {
             filename: "too_large.txt",
             dirpath: "/leesplankje/bottomrow",
             sha1sum: "005cc2777153caf9a2b1d06d25cb73180fd2b140",
-            size: 2147483649
+            size: 2147483649,
         }],
         metadata: mandatoryOnly,
     },
