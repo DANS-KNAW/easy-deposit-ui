@@ -24,7 +24,7 @@ interface EnterableProps {
 }
 
 const Enterable = ({ title }: EnterableProps) => (
-    <div><i className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</div>
+    <div><i style={{ display: "inline-block" }} className="fas fa-sign-in-alt" id="enter_dataset"/> {title}</div>
 )
 
 interface LinkableProps {
@@ -55,7 +55,7 @@ const DepositTableRow = ({ deposit, deleting, editable, depositLink, deleteDepos
     const deleteButton = editable &&
         <button type="button"
                 key="delete"
-                className="close"
+                className="close delete"
                 disabled={isDeleting}
                 onClick={askConfirmation}>
             {isDeleting

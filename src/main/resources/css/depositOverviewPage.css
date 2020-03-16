@@ -53,7 +53,8 @@
     display: inline-flex;
 }
 
-.deposit_table tbody tr.editable_table_row td {
+.deposit_table tbody tr.editable_table_row td,
+.deposit_table tbody tr.not_editable_table_row td#actions_cell {
     padding: 0;
 }
 
@@ -73,22 +74,29 @@
     position: absolute;
 }
 
-.deposit_table tbody tr td#actions_cell button.close {
-    padding: 0.75rem;
-    left: 25%;
+.deposit_table tbody tr td#actions_cell button {
+    display: inline;
+    float: left;
+    margin-top: 0.75rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     position: absolute;
     font-size: 1rem;
     line-height: 0;
 }
 
-.deposit_table tbody tr td#actions_cell button.close:not(:disabled):not(.disabled):hover {
+.deposit_table tbody tr td#actions_cell button:last-child {
+    margin-bottom: 0.75rem;
+}
+
+.deposit_table tbody tr td#actions_cell button.delete:not(:disabled):not(.disabled):hover {
     color: var(--danger-hover)!important;
     opacity: 1!important;
     text-shadow: 1px 1px 0 var(--hover-shadow);
 }
 
-.deposit_table tbody tr td#actions_cell button.close:disabled,
-.deposit_table tbody tr td#actions_cell button.close.disabled {
+.deposit_table tbody tr td#actions_cell button:disabled,
+.deposit_table tbody tr td#actions_cell button.disabled {
     opacity: .25;
 }
 
