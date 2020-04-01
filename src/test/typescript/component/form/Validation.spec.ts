@@ -288,6 +288,12 @@ describe("Validation", () => {
             orcid: "invalid-orcid",
             dai: "123456789",
         }
+        const contributor6: Contributor = {
+            ...contributor1,
+            orcid: " ",
+            isni: " ",
+            dai: " ",
+        }
 
         it("should return an empty array when an empty list is provided", () => {
             expect(validateContributors([])).to.eql([])
@@ -311,6 +317,10 @@ describe("Validation", () => {
 
         it("should return an empty object when an empty object is given", () => {
             expect(validateContributors([contributor4])).to.eql([{}])
+        })
+
+        it("should return an empty object when blank identifiers are provided", () => {
+            expect(validateContributors([contributor6])).to.eql([{}])
         })
 
         it("should return an error object with only field 'surname' when only 'initials' is provided", () => {

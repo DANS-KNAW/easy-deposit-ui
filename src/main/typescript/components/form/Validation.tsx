@@ -146,13 +146,13 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
                     contribError.surname = "No surname given"
             }
 
-            if (contributor.dai && (!contributor.dai.match(DAI.format) || !isDaiValid(contributor.dai)))
+            if (nonEmptyDai && contributor.dai && (!contributor.dai.match(DAI.format) || !isDaiValid(contributor.dai)))
                 contribError.dai = `Invalid ${DAI.displayValue} identifier ${DAI.placeholder}`
 
-            if (contributor.isni && !contributor.isni.match(ISNI.format))
+            if (nonEmptyIsni && contributor.isni && !contributor.isni.match(ISNI.format))
                 contribError.isni = `Invalid ${ISNI.displayValue} identifier ${ISNI.placeholder}`
 
-            if (contributor.orcid && !contributor.orcid.match(ORCID.format))
+            if (nonEmptyOrcid && contributor.orcid && !contributor.orcid.match(ORCID.format))
                 contribError.orcid = `Invalid ${ORCID.displayValue} identifier ${ORCID.placeholder}`
         }
 
