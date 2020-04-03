@@ -274,19 +274,12 @@ describe("Validation", () => {
     })
 
     describe("validateContributors", () => {
-        const contributor1: Contributor = {
+        const mandatoryFieldsContributor: Contributor = {
             initials: "D.A.",
             surname: "N.S.",
         }
-        const contributor2: Contributor = {
+        const organizationContributor: Contributor = {
             organization: "K.N.A.W.",
-        }
-        const contributor3: Contributor = emptyContributor
-        const contributor4: Contributor = {}
-        const contributor5: Contributor = {
-            ...contributor1,
-            orcid: "invalid-orcid",
-            dai: "123456789",
         }
 
         it("should return an empty array when an empty list is provided", () => {
@@ -294,23 +287,32 @@ describe("Validation", () => {
         })
 
         it("should return empty objects when for each Contributor at least 'initials' and 'surname' are provided", () => {
-            expect(validateContributors([contributor1, contributor1])).to.eql([{}, {}])
+            expect(validateContributors([mandatoryFieldsContributor, mandatoryFieldsContributor])).to.eql([{}, {}])
         })
 
         it("should return empty objects when for each Contributor at least the 'organization' is provided", () => {
-            expect(validateContributors([contributor2, contributor2])).to.eql([{}, {}])
+            expect(validateContributors([organizationContributor, organizationContributor])).to.eql([{}, {}])
         })
 
         it("should return empty objects when for each Contributor at least either 'initials' and 'surname' or 'organization' are/is provided", () => {
-            expect(validateContributors([contributor1, contributor2])).to.eql([{}, {}])
+            expect(validateContributors([mandatoryFieldsContributor, organizationContributor])).to.eql([{}, {}])
         })
 
         it("should return an empty object when the contributor is completely empty", () => {
-            expect(validateContributors([contributor3])).to.eql([{}])
+            expect(validateContributors([emptyContributor])).to.eql([{}])
         })
 
         it("should return an empty object when an empty object is given", () => {
-            expect(validateContributors([contributor4])).to.eql([{}])
+            expect(validateContributors([{}])).to.eql([{}])
+        })
+
+        it("should return an empty object when blank identifiers are provided", () => {
+            expect(validateContributors([{
+                ...mandatoryFieldsContributor,
+                orcid: " ",
+                isni: " ",
+                dai: " ",
+            }])).to.eql([{}])
         })
 
         it("should return an error object with only field 'surname' when only 'initials' is provided", () => {
@@ -334,7 +336,11 @@ describe("Validation", () => {
         })
 
         it("should return an error object when for any id, only the scheme or value is given", () => {
-            expect(validateContributors([contributor5])).to.eql([{
+            expect(validateContributors([{
+                ...mandatoryFieldsContributor,
+                orcid: "invalid-orcid",
+                dai: "123456789",
+            }])).to.eql([{
                 orcid: "Invalid ORCID identifier (e.g.: 0000-0002-1825-0097)",
             }])
         })
