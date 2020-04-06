@@ -239,7 +239,7 @@ export const validateRelations: (relations: Relation[]) => Relation[] = relation
         else if (!nonEmptyTitle && nonEmptyUrl)
             relationError.title = "No title given"
 
-        if (nonEmptyUrl && !validUrl.isWebUri(relation.url))
+        if (nonEmptyUrl && relation.url && !validUrl.isWebUri(relation.url))
             relationError.url = "No valid url given"
 
         return relationError
