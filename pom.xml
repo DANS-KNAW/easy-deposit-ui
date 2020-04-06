@@ -44,7 +44,7 @@
         <context-root>deposit</context-root>
         <skipTests>false</skipTests>
         <output.directory>target/build</output.directory>
-        <easy.licenses.version>1.0.6</easy.licenses.version>
+        <easy.licenses.version>1.0.7</easy.licenses.version>
     </properties>
 
     <repositories>
