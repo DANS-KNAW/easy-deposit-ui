@@ -344,6 +344,34 @@ describe("Validation", () => {
                 orcid: "Invalid ORCID identifier (e.g.: 0000-0002-1825-0097)",
             }])
         })
+
+        it("should return an error object when the organization and surname are given, but initials is missing", () => {
+            expect(validateContributors([{
+                organization: "some organisation",
+                surname: "surname",
+            }])).to.eql([{
+                initials: "No initials given",
+            }])
+        })
+
+        it("should return an error object when the organization and initials are given, but surname is missing", () => {
+            expect(validateContributors([{
+                organization: "some organisation",
+                initials: "initials",
+            }])).to.eql([{
+                surname: "No surname given",
+            }])
+        })
+
+        it("should return an error object when the organization and titles are given, but initials and surname are missing", () => {
+            expect(validateContributors([{
+                organization: "some organisation",
+                titles: "titles",
+            }])).to.eql([{
+                initials: "No initials given",
+                surname: "No surname given",
+            }])
+        })
     })
 
     const identifierSettings: IdentifiersDropdownListEntry[] = [
