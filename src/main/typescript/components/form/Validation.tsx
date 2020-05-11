@@ -137,9 +137,17 @@ export const validateContributors: (contributors: Contributor[]) => Contributor[
         const contribError: Contributor = {}
 
         if (nonEmptyContributor) {
-            if (!nonEmptyOrganization && (!nonEmptyInitials || !nonEmptySurname)) {
-                if (!nonEmptyOrganization && !(nonEmptyInitials || nonEmptySurname))
-                    contribError.organization = "No organisation given"
+            if (nonEmptyInitials && !nonEmptySurname)
+                contribError.surname = "No surname given"
+            if (!nonEmptyInitials && nonEmptySurname)
+                contribError.initials = "No initials given"
+
+            if (!nonEmptyOrganization && !nonEmptyInitials && !nonEmptySurname) {
+                contribError.organization = "No organisation given"
+                contribError.initials = "No initials given"
+                contribError.surname = "No surname given"
+            }
+            else if ((nonEmptyTitles || nonEmptyInsertions) && (!nonEmptyInitials || !nonEmptySurname)) {
                 if (!nonEmptyInitials)
                     contribError.initials = "No initials given"
                 if (!nonEmptySurname)
