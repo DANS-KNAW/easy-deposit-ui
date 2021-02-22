@@ -23,7 +23,7 @@
     "defaults and >0.2%"
   ],
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "history": "^4.10.1",
     "lodash": "^4.17.20",
     "object-path-immutable": "^4.1.0",
