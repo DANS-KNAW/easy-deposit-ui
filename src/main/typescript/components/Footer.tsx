@@ -27,7 +27,7 @@ const nwo = require("../../resources/img/footer/logo_NWO.png")
 const ContactColumn = () => (
     <ul className="contact">
         <li>
-            <a href="tel:+31-703494450">+31 70 349 44 50</a>
+            <a href="tel:+31-880034666">+31 88 003 46 66</a>
         </li>
         <li>
             <a href="mailto:info@dans.knaw.nl">info@dans.knaw.nl</a>
